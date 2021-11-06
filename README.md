@@ -13,6 +13,8 @@ Ukrainian TTS (text-to-speech) using Coqui TTS.
 
 Trained on [M-AILABS Ukrainian dataset](https://www.caito.de/2019/01/the-m-ailabs-speech-dataset/).  
 
+# Support
+If you like my work, please support -> [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)
 # Example
 
 https://user-images.githubusercontent.com/5759207/139459556-35aa077b-0425-421f-a8d3-4c503315008d.mp4

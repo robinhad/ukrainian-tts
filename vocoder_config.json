@@ -1,0 +1,185 @@
+{
+    "model": "multiband_melgan",
+    "run_name": "coqui_tts",
+    "run_description": "",
+    "epochs": 2000,
+    "batch_size": 32,
+    "eval_batch_size": 16,
+    "mixed_precision": true,
+    "scheduler_after_epoch": false,
+    "run_eval": true,
+    "test_delay_epochs": 5,
+    "print_eval": false,
+    "dashboard_logger": "tensorboard",
+    "print_step": 25,
+    "plot_step": 100,
+    "model_param_stats": false,
+    "project_name": null,
+    "log_model_step": null,
+    "wandb_entity": null,
+    "save_step": 10000,
+    "checkpoint": true,
+    "keep_all_best": false,
+    "keep_after": 10000,
+    "num_loader_workers": 12,
+    "num_eval_loader_workers": 12,
+    "use_noise_augment": true,
+    "output_path": "/home/robinhad/Projects/TTS/recipes/ljspeech/multiband_melgan",
+    "distributed_backend": "nccl",
+    "distributed_url": "tcp://localhost:54321",
+    "audio": {
+        "fft_size": 1024,
+        "win_length": 1024,
+        "hop_length": 256,
+        "frame_shift_ms": null,
+        "frame_length_ms": null,
+        "stft_pad_mode": "reflect",
+        "sample_rate": 16000,
+        "resample": false,
+        "preemphasis": 0.0,
+        "ref_level_db": 20,
+        "do_sound_norm": false,
+        "log_func": "np.log10",
+        "do_trim_silence": true,
+        "trim_db": 45,
+        "power": 1.5,
+        "griffin_lim_iters": 60,
+        "num_mels": 80,
+        "mel_fmin": 0.0,
+        "mel_fmax": null,
+        "spec_gain": 20,
+        "do_amp_to_db_linear": true,
+        "do_amp_to_db_mel": true,
+        "signal_norm": true,
+        "min_level_db": -100,
+        "symmetric_norm": true,
+        "max_norm": 4.0,
+        "clip_norm": true,
+        "stats_path": null
+    },
+    "eval_split_size": 10,
+    "data_path": "../Data/uk_UK/by_book/female",
+    "feature_path": null,
+    "seq_len": 8192,
+    "pad_short": 2000,
+    "conv_pad": 0,
+    "use_cache": true,
+    "wd": 0.0,
+    "optimizer": "AdamW",
+    "optimizer_params": {
+        "betas": [
+            0.8,
+            0.99
+        ],
+        "weight_decay": 0.0
+    },
+    "use_stft_loss": true,
+    "use_subband_stft_loss": true,
+    "use_mse_gan_loss": true,
+    "use_hinge_gan_loss": false,
+    "use_feat_match_loss": false,
+    "use_l1_spec_loss": false,
+    "stft_loss_weight": 0.5,
+    "subband_stft_loss_weight": 0,
+    "mse_G_loss_weight": 2.5,
+    "hinge_G_loss_weight": 0,
+    "feat_match_loss_weight": 108,
+    "l1_spec_loss_weight": 0,
+    "stft_loss_params": {
+        "n_ffts": [
+            1024,
+            2048,
+            512
+        ],
+        "hop_lengths": [
+            120,
+            240,
+            50
+        ],
+        "win_lengths": [
+            600,
+            1200,
+            240
+        ]
+    },
+    "l1_spec_loss_params": {
+        "use_mel": true,
+        "sample_rate": 16000,
+        "n_fft": 1024,
+        "hop_length": 256,
+        "win_length": 1024,
+        "n_mels": 80,
+        "mel_fmin": 0.0,
+        "mel_fmax": null
+    },
+    "target_loss": "loss_0",
+    "grad_clip": [
+        5,
+        5
+    ],
+    "lr_gen": 0.0001,
+    "lr_disc": 0.0001,
+    "lr_scheduler_gen": "MultiStepLR",
+    "lr_scheduler_gen_params": {
+        "gamma": 0.5,
+        "milestones": [
+            100000,
+            200000,
+            300000,
+            400000,
+            500000,
+            600000
+        ]
+    },
+    "lr_scheduler_disc": "MultiStepLR",
+    "lr_scheduler_disc_params": {
+        "gamma": 0.5,
+        "milestones": [
+            100000,
+            200000,
+            300000,
+            400000,
+            500000,
+            600000
+        ]
+    },
+    "use_pqmf": true,
+    "diff_samples_for_G_and_D": false,
+    "discriminator_model": "melgan_multiscale_discriminator",
+    "discriminator_model_params": {
+        "base_channels": 16,
+        "max_channels": 512,
+        "downsample_factors": [
+            4,
+            4,
+            4
+        ]
+    },
+    "generator_model": "multiband_melgan_generator",
+    "generator_model_params": {
+        "upsample_factors": [
+            8,
+            4,
+            2
+        ],
+        "num_res_blocks": 4
+    },
+    "steps_to_start_discriminator": 200000,
+    "subband_stft_loss_params": {
+        "n_ffts": [
+            384,
+            683,
+            171
+        ],
+        "hop_lengths": [
+            30,
+            60,
+            10
+        ],
+        "win_lengths": [
+            150,
+            300,
+            60
+        ]
+    }
+}
