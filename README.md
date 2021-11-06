@@ -26,3 +26,7 @@ tts-server --model_path path/to/model.pth.tar \
 # How to train:
 1. Refer to ["Nervous beginner guide"](https://tts.readthedocs.io/en/latest/tutorial_for_nervous_beginners.html) in Coqui TTS docs.
 2. Instead of provided `config.json` use one from this repo.
+
+
+# Attribution
+Code for `app.py` taken from https://huggingface.co/spaces/julien-c/coqui
