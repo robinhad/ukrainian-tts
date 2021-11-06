@@ -1,3 +1,13 @@
+---
+title: "Ukrainian TTS"
+emoji: 🐸
+colorFrom: green
+colorTo: green
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 # Ukrainian TTS 📢🤖
 Ukrainian TTS (text-to-speech) using Coqui TTS.
 
