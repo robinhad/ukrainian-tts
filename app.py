@@ -6,6 +6,8 @@ import numpy as np
 
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
+import requests
+from os.path import exists
 
 MODEL_NAMES = [
     "uk/mai/glow-tts"
@@ -14,16 +16,31 @@ MODELS = {}
 
 manager = ModelManager()
 
+
+def download(url, file_name):
+    if not exists(file_name):
+        print(f"Downloading {file_name}")
+        r = requests.get(url, allow_redirects=True)
+        with open(file_name, 'wb') as file:
+            file.write(r.content)
+    else:
+        print(f"Found {file_name}. Skipping download...")
+
+
 for MODEL_NAME in MODEL_NAMES:
     print(f"downloading {MODEL_NAME}")
     model_path, config_path, model_item = manager.download_model(
         f"tts_models/{MODEL_NAME}")
     vocoder_name: Optional[str] = model_item["default_vocoder"]
-    vocoder_path = None
-    vocoder_config_path = None
-    if vocoder_name is not None:
-        vocoder_path, vocoder_config_path, _ = manager.download_model(
-            vocoder_name)
+    release_number = "0.0.1"
+    vocoder_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/vocoder.pth.tar"
+    vocoder_config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/vocoder_config.json"
+
+    vocoder_path = "vocoder.pth.tar"
+    vocoder_config_path = "vocoder_config.json"
+
+    download(vocoder_link, vocoder_path)
+    download(vocoder_config_link, vocoder_config_path)
 
     synthesizer = Synthesizer(
         model_path, config_path, None, vocoder_path, vocoder_config_path,
@@ -52,14 +69,14 @@ iface = gr.Interface(
             default="Привіт, як твої справи?",
         ),
         gr.inputs.Radio(
-            label="Pick a TTS Model",
+            label="Виберіть TTS модель",
             choices=MODEL_NAMES,
         ),
     ],
     outputs=gr.outputs.Audio(label="Output"),
-    title="🐸💬 - Coqui TTS",
+    title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
-    description="🐸💬 - a deep learning toolkit for Text-to-Speech, battle-tested in research and production",
-    article="more info at https://github.com/coqui-ai/TTS",
+    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS",
+    article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)",
 )
 iface.launch()
