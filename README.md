@@ -1,6 +1,6 @@
 ---
 title: "Ukrainian TTS"
-emoji: 🐸
+emoji: 🇺🇦
 colorFrom: green
 colorTo: green
 sdk: gradio
@@ -15,7 +15,7 @@ Trained on [M-AILABS Ukrainian dataset](https://www.caito.de/2019/01/the-m-ailab
 
 Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)
 # Support
-If you like my work, please support -> [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)
+If you like my work, please support -> ![mono](https://www.monobank.ua/favicon.ico) [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)
 # Example
 
 https://user-images.githubusercontent.com/5759207/140622395-9e734c95-159c-4d72-9f56-e8d1f1ac66c2.mp4

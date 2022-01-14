@@ -1,8 +1,6 @@
 import tempfile
-from typing import Optional
 
 import gradio as gr
-import numpy as np
 
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
@@ -10,7 +8,7 @@ import requests
 from os.path import exists
 
 MODEL_NAMES = [
-    "uk/mai/glow-tts"
+    "uk/mai/vits-tts"
 ]
 MODELS = {}
 
@@ -29,21 +27,18 @@ def download(url, file_name):
 
 for MODEL_NAME in MODEL_NAMES:
     print(f"downloading {MODEL_NAME}")
-    model_path, config_path, model_item = manager.download_model(
-        f"tts_models/{MODEL_NAME}")
-    vocoder_name: Optional[str] = model_item["default_vocoder"]
-    release_number = "0.0.1"
-    vocoder_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/vocoder.pth.tar"
-    vocoder_config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/vocoder_config.json"
+    release_number = "1.0.0"
+    model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/model.pth.tar"
+    config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/config.json"
 
-    vocoder_path = "vocoder.pth.tar"
-    vocoder_config_path = "vocoder_config.json"
+    model_path = "model.pth.tar"
+    config_path = "config.json"
 
-    download(vocoder_link, vocoder_path)
-    download(vocoder_config_link, vocoder_config_path)
+    download(model_link, model_path)
+    download(config_link, config_path)
 
     synthesizer = Synthesizer(
-        model_path, config_path, None, vocoder_path, vocoder_config_path,
+        model_path, config_path, None, None, None,
     )
     MODELS[MODEL_NAME] = synthesizer
 
