@@ -61,7 +61,7 @@ iface = gr.Interface(
     inputs=[
         gr.inputs.Textbox(
             label="Input",
-            default="Привіт, як твої справи?",
+            default="Введіть, будь ласка, своє речення.",
         ),
         gr.inputs.Radio(
             label="Виберіть TTS модель",
@@ -72,6 +72,7 @@ iface = gr.Interface(
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS",
-    article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)",
+    article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
+    "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
 )
 iface.launch()
