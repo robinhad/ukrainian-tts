@@ -18,7 +18,7 @@ Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](ht
 If you like my work, please support -> ![mono](https://www.monobank.ua/favicon.ico) [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)
 # Example
 
-https://user-images.githubusercontent.com/5759207/140622395-9e734c95-159c-4d72-9f56-e8d1f1ac66c2.mp4
+https://user-images.githubusercontent.com/5759207/149566245-40656002-3999-48a8-b671-e0f74c3d6e2f.mp4
 
 # How to use :
 1. `pip install -r requirements.txt`.
