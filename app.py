@@ -71,7 +71,7 @@ iface = gr.Interface(
     outputs=gr.outputs.Audio(label="Output"),
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
-    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS",
+    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для апострофа використовуйте символ у трикутних дужках: <'>)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
     "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
 )
