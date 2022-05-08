@@ -65,7 +65,7 @@ iface = gr.Interface(
     inputs=[
         gr.inputs.Textbox(
             label="Input",
-            default="Введіть, будь ласка, своє речення.",
+            default="Введіть, будь ласка, своє р+ечення.",
         ),
         gr.inputs.Radio(
             label="Виберіть TTS модель",
