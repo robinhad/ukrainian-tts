@@ -13,4 +13,43 @@ def preprocess_text(text):
     text = text.replace("8", "вісім ")
     text = text.replace("9", "дев'ять ")
     text = text.replace("0", "нуль ")
+    # speak english alphabet using brute force transliteration
+    english = {
+        "a": "а",
+        "b": "б",
+        "c": "ц",
+        "d": "д",
+        "e": "е",
+        "f": "ф",
+        "g": "ґ",
+        "h": "г",
+        "i": "і",
+        "j": "дж",
+        "k": "к",
+        "l": "л",
+        "m": "м",
+        "n": "н",
+        "o": "о",
+        "p": "п",
+        "q": "кв",
+        "r": "р",
+        "s": "с",
+        "t": "т",
+        "u": "ю",
+        "v": "в",
+        "w": "в",
+        "x": "кс",
+        "y": "й",
+        "z": "з",
+    }
+    for english_char in english.keys():
+        # uppercase
+        text = text.replace(english_char.upper(),  english[english_char].upper())
+        text = text.replace(english_char, english[english_char])
+
+    # TODO: autostress support here
     return text
+
+
+if __name__ == "__main__":
+    print(preprocess_text("Quality of life update"))
