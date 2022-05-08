@@ -6,6 +6,7 @@ from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 import requests
 from os.path import exists
+from formatter import preprocess_text
 
 MODEL_NAMES = [
     "uk/mai/vits-tts"
@@ -45,6 +46,7 @@ for MODEL_NAME in MODEL_NAMES:
 
 def tts(text: str, model_name: str):
     text = text if len(text) < 500 else text[0:500] # mitigate crashes on hf space
+    text = preprocess_text(text)
     print(text, model_name)
     synthesizer = MODELS.get(model_name, None)
     if synthesizer is None:
