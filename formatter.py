@@ -39,7 +39,7 @@ def preprocess_text(text):
         "v": "в",
         "w": "в",
         "x": "кс",
-        "y": "й",
+        "y": "і",
         "z": "з",
     }
     for english_char in english.keys():
