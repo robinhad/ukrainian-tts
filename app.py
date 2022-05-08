@@ -46,7 +46,8 @@ for MODEL_NAME in MODEL_NAMES:
 
 def tts(text: str, model_name: str):
     text = preprocess_text(text)
-    text = text if len(text) < 500 else text[0:500] # mitigate crashes on hf space
+    text_limit = 300
+    text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
     print(text, model_name)
     synthesizer = MODELS.get(model_name, None)
     if synthesizer is None:
