@@ -9,7 +9,7 @@ from os.path import exists
 from formatter import preprocess_text
 
 MODEL_NAMES = [
-    "uk/mai/vits-tts"
+    "uk/mykyta/vits-tts"
 ]
 MODELS = {}
 
@@ -28,11 +28,11 @@ def download(url, file_name):
 
 for MODEL_NAME in MODEL_NAMES:
     print(f"downloading {MODEL_NAME}")
-    release_number = "1.0.0"
-    model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/model.pth.tar"
-    config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/v{release_number}/config.json"
+    release_number = "v2.0.0-beta"
+    model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
+    config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
 
-    model_path = "model.pth.tar"
+    model_path = "model.pth"
     config_path = "config.json"
 
     download(model_link, model_path)
@@ -74,7 +74,7 @@ iface = gr.Interface(
     outputs=gr.outputs.Audio(label="Output"),
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
-    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для апострофа використовуйте символ у трикутних дужках: <'>)",
+    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
     "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
 )
