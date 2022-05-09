@@ -73,6 +73,7 @@ iface = gr.Interface(
         ),
     ],
     outputs=gr.outputs.Audio(label="Output"),
+    enable_queue=True,
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
