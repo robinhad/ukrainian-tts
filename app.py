@@ -7,6 +7,7 @@ from TTS.utils.synthesizer import Synthesizer
 import requests
 from os.path import exists
 from formatter import preprocess_text
+from datetime import utcnow
 
 MODEL_NAMES = [
     "uk/mykyta/vits-tts"
@@ -48,7 +49,7 @@ def tts(text: str, model_name: str):
     text = preprocess_text(text)
     text_limit = 300
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
-    print(text, model_name)
+    print(text, utcnow())
     synthesizer = MODELS.get(model_name, None)
     if synthesizer is None:
         raise NameError("model not found")
