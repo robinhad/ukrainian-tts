@@ -39,18 +39,18 @@ for MODEL_NAME in MODEL_NAMES:
     download(model_link, model_path)
     download(config_link, config_path)
 
+    
+    #MODELS[MODEL_NAME] = synthesizer
+
+
+def tts(text: str):
     synthesizer = Synthesizer(
         model_path, config_path, None, None, None,
     )
-    MODELS[MODEL_NAME] = synthesizer
-
-
-def tts(text: str, model_name: str):
     text = preprocess_text(text)
     text_limit = 300
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
     print(text, datetime.utcnow())
-    synthesizer = MODELS.get(model_name, None)
     if synthesizer is None:
         raise NameError("model not found")
     wavs = synthesizer.tts(text)
@@ -68,17 +68,16 @@ iface = gr.Interface(
             label="Input",
             default="Введ+іть, б+удь л+аска, сво+є р+ечення.",
         ),
-        gr.inputs.Radio(
-            label="Виберіть TTS модель",
-            choices=MODEL_NAMES,
-        ),
+        #gr.inputs.Radio(
+        #    label="Виберіть TTS модель",
+        #    choices=MODEL_NAMES,
+        #),
     ],
     outputs=gr.outputs.Audio(label="Output"),
-    enable_queue=True,
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
     "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
 )
-iface.launch()
+iface.launch(enable_queue=True)
