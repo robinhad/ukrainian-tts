@@ -48,7 +48,7 @@ def tts(text: str):
         model_path, config_path, None, None, None,
     )
     text = preprocess_text(text)
-    text_limit = 300
+    text_limit = 250
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
     print(text, datetime.utcnow())
     if synthesizer is None:
