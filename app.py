@@ -8,6 +8,12 @@ import requests
 from os.path import exists
 from formatter import preprocess_text
 from datetime import datetime
+from stress import sentence_to_stress
+from enum import Enum
+
+class StressOption(Enum):
+    ManualStress = "Наголоси вручну"
+    AutomaticStress = "Автоматичні наголоси (Beta)"
 
 MODEL_NAMES = [
     "uk/mykyta/vits-tts"
@@ -30,7 +36,7 @@ def download(url, file_name):
 for MODEL_NAME in MODEL_NAMES:
     print(f"downloading {MODEL_NAME}")
     release_number = "v2.0.0-beta"
-    model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
+    model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model-inference.pth"
     config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
 
     model_path = "model.pth"
@@ -43,13 +49,14 @@ for MODEL_NAME in MODEL_NAMES:
     #MODELS[MODEL_NAME] = synthesizer
 
 
-def tts(text: str):
+def tts(text: str, stress: str):
     synthesizer = Synthesizer(
         model_path, config_path, None, None, None,
     )
     text = preprocess_text(text)
-    text_limit = 100
+    text_limit = 150
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
+    text = sentence_to_stress(text) if stress == StressOption.AutomaticStress.value else text
     print(text, datetime.utcnow())
     if synthesizer is None:
         raise NameError("model not found")
@@ -68,10 +75,10 @@ iface = gr.Interface(
             label="Input",
             default="Введ+іть, б+удь л+аска, сво+є р+ечення.",
         ),
-        #gr.inputs.Radio(
-        #    label="Виберіть TTS модель",
-        #    choices=MODEL_NAMES,
-        #),
+        gr.inputs.Radio(
+            label="Опції",
+            choices=[option.value for option in StressOption],
+        ),
     ],
     outputs=gr.outputs.Audio(label="Output"),
     title="🐸💬🇺🇦 - Coqui TTS",
@@ -79,5 +86,9 @@ iface = gr.Interface(
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
     "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
+    examples=[
+        ["Введ+іть, б+удь л+аска, сво+є р+ечення.", StressOption.ManualStress.value],
+        ["Привіт, як тебе звати?", StressOption.AutomaticStress.value]
+    ]
 )
-iface.launch(enable_queue=True)
+iface.launch(enable_queue=True, prevent_thread_lock=True)

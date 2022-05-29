@@ -1,0 +1,3 @@
+[submodule "ukrainian-accentor"]
+	path = ukrainian-accentor
+	url = https://github.com/egorsmkv/ukrainian-accentor.git
