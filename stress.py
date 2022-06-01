@@ -14,7 +14,8 @@ replace_accents = importer.load_pickle("uk-accentor", "replace_accents")
 alphabet = "абгґдеєжзиіїйклмнопрстуфхцчшщьюя"
 
 def accent_word(word):
-    stressed_words = accentor.predict([word], mode='stress')
+    with torch.no_grad():
+        stressed_words = accentor.predict([word], mode='stress')
     plused_words = [replace_accents(x) for x in stressed_words]
     return plused_words[0]
 
