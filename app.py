@@ -10,6 +10,8 @@ from formatter import preprocess_text
 from datetime import datetime
 from stress import sentence_to_stress
 from enum import Enum
+import torch
+import gc
 
 class StressOption(Enum):
     ManualStress = "Наголоси вручну"
@@ -50,21 +52,22 @@ for MODEL_NAME in MODEL_NAMES:
 
 
 def tts(text: str, stress: str):
-    synthesizer = Synthesizer(
-        model_path, config_path, None, None, None,
-    )
     text = preprocess_text(text)
-    text_limit = 150
+    text_limit = 1200
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
     text = sentence_to_stress(text) if stress == StressOption.AutomaticStress.value else text
     print(text, datetime.utcnow())
-    if synthesizer is None:
-        raise NameError("model not found")
-    wavs = synthesizer.tts(text)
-    # output = (synthesizer.output_sample_rate, np.array(wavs))
-    # return output
+
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        synthesizer.save_wav(wavs, fp)
+        with torch.no_grad():
+            synthesizer = Synthesizer(
+                model_path, config_path, None, None, None,
+            )
+            if synthesizer is None:
+                raise NameError("model not found")
+            wavs = synthesizer.tts(text)
+            synthesizer.save_wav(wavs, fp)
+        gc.collect()
         return fp.name
 
 

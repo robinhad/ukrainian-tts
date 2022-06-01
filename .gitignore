@@ -131,3 +131,6 @@ dmypy.json
 # model files
 *.pth.tar
 *.pth
+
+# gradio
+gradio_queue.db
