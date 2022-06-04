@@ -7,7 +7,6 @@ import requests
 from os.path import exists
 from formatter import preprocess_text
 from datetime import datetime
-from stress import sentence_to_stress
 from enum import Enum
 import torch
 
@@ -46,11 +45,15 @@ if synthesizer is None:
     raise NameError("model not found")
 
 def tts(text: str, stress: str):
-    text = preprocess_text(text)
+    print("============================")
+    print("Original text:", text)
+    print("Stress:", stress)
+    print("Time:", datetime.utcnow())
+    autostress = True if stress == StressOption.AutomaticStress.value else False
+    text = preprocess_text(text, autostress)
     text_limit = 1200
     text = text if len(text) < text_limit else text[0:text_limit] # mitigate crashes on hf space
-    text = sentence_to_stress(text) if stress == StressOption.AutomaticStress.value else text
-    print(text, stress, datetime.utcnow())
+    print("Converted:", text)
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
         with torch.no_grad():
@@ -81,6 +84,7 @@ iface = gr.Interface(
         ["Введ+іть, б+удь л+аска, сво+є р+ечення.", StressOption.ManualStress.value],
         ["Введіть, будь ласка, своє речення.", StressOption.ManualStress.value],
         ["Привіт, як тебе звати?", StressOption.AutomaticStress.value],
+        ["Договір підписано 4 квітня 1949 року.", StressOption.AutomaticStress.value],
     ]
 )
 iface.launch(enable_queue=True, prevent_thread_lock=True)
