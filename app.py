@@ -36,6 +36,7 @@ config_path = "config.json"
 download(model_link, model_path)
 download(config_link, config_path)
 
+badge = "https://visitor-badge-reloaded.herokuapp.com/badge?page_id=robinhad.ukrainian-tts"
 
 synthesizer = Synthesizer(
     model_path, config_path, None, None, None,
@@ -79,7 +80,8 @@ iface = gr.Interface(
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  " +
-    "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)",
+    "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)" + 
+    f"<center><img src=\"{badge}\" alt=\"visitors badge\"/></center>",
     examples=[
         ["Введ+іть, б+удь л+аска, сво+є р+ечення.", StressOption.ManualStress.value],
         ["Введіть, будь ласка, своє речення.", StressOption.ManualStress.value],
