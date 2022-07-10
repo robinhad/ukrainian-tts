@@ -23,7 +23,7 @@ def accent_word(word):
     return plused_words[0]
 
 def sentence_to_stress(sentence):
-    words = sentence.split()
+    words = sentence.lower().split()
     words = sum([[word, " "] for word in words], start=[])
     new_list = []
     for word in words:
@@ -63,6 +63,10 @@ if __name__ == "__main__":
     sentence = "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району."
     print(sentence_to_stress(sentence))
     sentence = "Привіт, як тебе звати?"
+    print(sentence_to_stress(sentence))
+    sentence = "АННА - український панк-рок гурт"
+    print(sentence_to_stress(sentence))
+    sentence = "Не тільки в Україні таке може бути."
     print(sentence_to_stress(sentence))
     #test_words1 = ["словотворення", "архаїчний", "програма", "а-ля-фуршет"]
 
