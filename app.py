@@ -60,7 +60,7 @@ def tts(text: str, stress: str):
         with torch.no_grad():
             wavs = synthesizer.tts(text)
             synthesizer.save_wav(wavs, fp)
-        return fp.name
+        return fp.name, text
 
 
 iface = gr.Interface(
@@ -75,7 +75,7 @@ iface = gr.Interface(
             choices=[option.value for option in StressOption],
         ),
     ],
-    outputs=gr.outputs.Audio(label="Output"),
+    outputs=[gr.outputs.Audio(label="Output"), gr.outputs.Textbox(label="Наголошений текст")],
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",

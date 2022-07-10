@@ -11,7 +11,10 @@ replace_accents = importer.load_pickle("uk-accentor", "replace_accents")
 # Back to CPU
 # accentor.cpu()
 
-alphabet = "абгґдеєжзиіїйклмнопрстуфхцчшщьюя"
+vowels = "аеєиіїоуюя"
+consonants = "бвгґджзйклмнпрстфхцчшщь"
+special = "'"
+alphabet = vowels + consonants + special
 
 def accent_word(word):
     with torch.no_grad():
@@ -44,13 +47,22 @@ def sentence_to_stress(sentence):
         if not all(first_word_sep) or len(element) == 0:
             continue
         else:
-            new_list[word_index] = accent_word(new_list[word_index])
+            vowels_in_words = list(map(lambda letter: letter in vowels, new_list[word_index]))
+            if vowels_in_words.count(True) == 0:
+                continue
+            elif vowels_in_words.count(True) == 1:
+                vowel_index = vowels_in_words.index(True)
+                new_list[word_index] = new_list[word_index][0:vowel_index] + "+" + new_list[word_index][vowel_index::]
+            else:
+                new_list[word_index] = accent_word(new_list[word_index])
 
     return "".join(new_list)
 
 
 if __name__ == "__main__":
     sentence = "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району."
+    print(sentence_to_stress(sentence))
+    sentence = "Привіт, як тебе звати?"
     print(sentence_to_stress(sentence))
     #test_words1 = ["словотворення", "архаїчний", "програма", "а-ля-фуршет"]
 
