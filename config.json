@@ -1,7 +1,7 @@
 {
-    "output_path": "./model",
+    "output_path": "/home/robinhad/Projects/TTS",
     "logger_uri": null,
-    "run_name": "vits_mykyta",
+    "run_name": "vits_mykyta_woman",
     "project_name": null,
     "run_description": "\ud83d\udc38Coqui trainer run.",
     "print_step": 25,
@@ -9,7 +9,7 @@
     "model_param_stats": false,
     "wandb_entity": null,
     "dashboard_logger": "tensorboard",
-    "log_model_step": null,
+    "log_model_step": 10000,
     "save_step": 10000,
     "save_n_checkpoints": 5,
     "save_checkpoints": true,
@@ -58,22 +58,22 @@
         "frame_shift_ms": null,
         "frame_length_ms": null,
         "stft_pad_mode": "reflect",
-        "sample_rate": 48000,
+        "sample_rate": 22050,
         "resample": false,
         "preemphasis": 0.0,
-        "ref_level_db": 20,
+        "ref_level_db": 35,
         "do_sound_norm": true,
-        "log_func": "np.log10",
-        "do_trim_silence": true,
-        "trim_db": 45,
+        "log_func": "np.log",
+        "do_trim_silence": false,
+        "trim_db": 35,
         "do_rms_norm": false,
         "db_level": null,
-        "power": 1.5,
+        "power": 1.1,
         "griffin_lim_iters": 60,
         "num_mels": 80,
         "mel_fmin": 0.0,
-        "mel_fmax": null,
-        "spec_gain": 1,
+        "mel_fmax": 8000.0,
+        "spec_gain": 6,
         "do_amp_to_db_linear": true,
         "do_amp_to_db_mel": true,
         "pitch_fmax": 640.0,
@@ -81,7 +81,7 @@
         "signal_norm": true,
         "min_level_db": -100,
         "symmetric_norm": true,
-        "max_norm": 4.0,
+        "max_norm": 1.0,
         "clip_norm": true,
         "stats_path": null
     },
@@ -92,7 +92,7 @@
     "text_cleaner": "basic_cleaners",
     "enable_eos_bos_chars": false,
     "test_sentences_file": "",
-    "phoneme_cache_path": "./phoneme_cache",
+    "phoneme_cache_path": "/home/robinhad/Projects/TTS/phoneme_cache",
     "characters": {
         "characters_class": "TTS.tts.models.vits.VitsCharacters",
         "vocab_dict": null,
@@ -100,7 +100,7 @@
         "eos": "<EOS>",
         "bos": "<BOS>",
         "blank": "<BLNK>",
-        "characters": "!\"'(),-/:;?\u00ab\u00bb+\u0430\u0431\u0432\u0433\u0434\u0435\u0436\u0437\u0438\u0439\u043a\u043b\u043c\u043d\u043e\u043f\u0440\u0441\u0442\u0443\u0444\u0445\u0446\u0447\u0448\u0449\u044c\u044e\u044f\u0454\u0456\u0457\u0491\u2013\u2014\u2015\u2018\u2019\u201c\u201d\u201e\u2026 ",
+        "characters": "!\"'(),-/:;.?\u00ab\u00bb+\u0430\u0431\u0432\u0433\u0434\u0435\u0436\u0437\u0438\u0439\u043a\u043b\u043c\u043d\u043e\u043f\u0440\u0441\u0442\u0443\u0444\u0445\u0446\u0447\u0448\u0449\u044c\u044e\u044f\u0454\u0456\u0457\u0491\u2013\u2014\u2015\u2018\u2019\u201c\u201d\u201e\u2026 ",
         "punctuations": "!\"'(),-/:;?\u00ab\u00bb+\u2013\u2014\u2015\u2018\u2019\u201c\u201d\u201e\u2026 ",
         "phonemes": null,
         "is_unique": true,
@@ -109,9 +109,9 @@
     "add_blank": true,
     "batch_group_size": 0,
     "loss_masking": null,
-    "sort_by_audio_len": false,
-    "min_audio_len": 24000,
-    "max_audio_len": 624000,
+    "sort_by_audio_len": true,
+    "min_audio_len": 1,
+    "max_audio_len": 264600,
     "min_text_len": 1,
     "max_text_len": Infinity,
     "compute_f0": false,
@@ -120,10 +120,13 @@
     "start_by_longest": false,
     "datasets": [
         {
-            "name": "ljspeech",
-            "path": "./dataset",
-            "meta_file_train": "metadata.csv",
-            "ignored_speakers": null,
+            "name": "mailabs",
+            "path": "./mailabs-processed",
+            "meta_file_train": "",
+            "ignored_speakers": [
+                "female1",
+                "female2"
+            ],
             "language": "",
             "meta_file_val": "",
             "meta_file_attn_mask": ""
@@ -131,16 +134,37 @@
     ],
     "test_sentences": [
         [
+            "\u0414+\u0435\u0441\u044f\u0442\u044c \u0440\u0430\u0437+\u0456\u0432 \u0432\u0456\u0434\u043c+\u0456\u0440\u044f\u0439, +\u0430 \u0440+\u0430\u0437 - \u0432\u0456\u0434\u0440+\u0456\u0436.",
+            "female3",
+            null,
+            null
+        ],
+        [
             "\u0413\u043e\u0432\u043e\u0440+\u0438, \u043d+\u0456\u0431\u0438 \u0442+\u0438 \u0436\u0438\u0432+\u0438\u0439!"
         ],
         [
-            "\u041f\u0435\u0440\u0435\u043f\u0440+\u043e\u0448\u0443\u044e, \u0414+\u0435\u0439\u0432\u0435, \u043d+\u0430 \u0436+\u0430\u043b\u044c, +\u044f \u043d+\u0435 \u043c+\u043e\u0436\u0443 \u0437\u0440\u043e\u0431+\u0438\u0442\u0438 \u0446+\u0435."
+            "\u041f\u0435\u0440\u0435\u043f\u0440+\u043e\u0448\u0443\u044e, \u0414+\u0435\u0439\u0432\u0435, \u043d+\u0430 \u0436+\u0430\u043b\u044c, +\u044f \u043d+\u0435 \u043c+\u043e\u0436\u0443 \u0437\u0440\u043e\u0431+\u0438\u0442\u0438 \u0446+\u0435.",
+            "female3",
+            null,
+            null
         ],
         [
-            "\u0425\u0442+\u043e \u0442+\u0438 \u0442\u0430\u043a+\u0438\u0439 +\u0456 +\u044f\u043a \u0442\u0435\u0431+\u0435 \u0437\u0432+\u0430\u0442\u0438?"
+            "\u041f\u0435\u0440\u0435\u043f\u0440+\u043e\u0448\u0443\u044e, \u0414+\u0435\u0439\u0432\u0435, \u043d+\u0430 \u0436+\u0430\u043b\u044c, +\u044f \u043d+\u0435 \u043c+\u043e\u0436\u0443 \u0437\u0440\u043e\u0431+\u0438\u0442\u0438 \u0446+\u0435.",
+            "male1",
+            null,
+            null
         ],
         [
-            "\u041a+\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u0438\u0439 - \u043c+\u0456\u0441\u0442\u043e \u0432 \u0425\u043c\u0435\u043b\u044c\u043d+\u0438\u0446\u044c\u043a\u0456\u0439 +\u043e\u0431\u043b\u0430\u0441\u0442\u0456 \u0423\u043a\u0440\u0430+\u0457\u043d\u0438, \u0446+\u0435\u043d\u0442\u0440 \u041a\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0457 \u043c\u0456\u0441\u044c\u043a+\u043e\u0457 \u043e\u0431'+\u0454\u0434\u043d\u0430\u043d\u043e\u0457 \u0442\u0435\u0440\u0438\u0442\u043e\u0440\u0456+\u0430\u043b\u044c\u043d\u043e\u0457 \u0433\u0440\u043e\u043c+\u0430\u0434\u0438 +\u0456 \u041a\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e \u0440\u0430\u0439+\u043e\u043d\u0443."
+            "\u0425\u0442+\u043e \u0442+\u0438 \u0442\u0430\u043a+\u0438\u0439 +\u0456 +\u044f\u043a \u0442\u0435\u0431+\u0435 \u0437\u0432+\u0430\u0442\u0438?",
+            "male1",
+            null,
+            null
+        ],
+        [
+            "\u041a\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u0438\u0439 - \u043c+\u0456\u0441\u0442\u043e \u0432 \u0425\u043c\u0435\u043b\u044c\u043d+\u0438\u0446\u044c\u043a\u0456\u0439 +\u043e\u0431\u043b\u0430\u0441\u0442\u0456 \u0423\u043a\u0440\u0430+\u0457\u043d\u0438, \u0446+\u0435\u043d\u0442\u0440 \u041a\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0457 \u043c\u0456\u0441\u044c\u043a+\u043e\u0457 \u043e\u0431'+\u0454\u0434\u043d\u0430\u043d\u043e\u0457 \u0442\u0435\u0440\u0438\u0442\u043e\u0440\u0456+\u0430\u043b\u044c\u043d\u043e\u0457 \u0433\u0440\u043e\u043c+\u0430\u0434\u0438 +\u0456 \u041a\u0430\u043c'\u044f\u043d+\u0435\u0446\u044c-\u041f\u043e\u0434+\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e \u0440\u0430\u0439+\u043e\u043d\u0443.",
+            "female3",
+            null,
+            null
         ]
     ],
     "eval_split_max_size": null,
@@ -149,8 +173,10 @@
     "speaker_weighted_sampler_alpha": 1.0,
     "use_language_weighted_sampler": false,
     "language_weighted_sampler_alpha": 1.0,
+    "use_length_weighted_sampler": false,
+    "length_weighted_sampler_alpha": 1.0,
     "model_args": {
-        "num_chars": 83,
+        "num_chars": 84,
         "out_channels": 513,
         "spec_segment_size": 32,
         "hidden_channels": 192,
@@ -202,6 +228,13 @@
             4,
             4
         ],
+        "periods_multi_period_discriminator": [
+            2,
+            3,
+            5,
+            7,
+            11
+        ],
         "use_sdp": true,
         "noise_scale": 1.0,
         "inference_noise_scale": 0.667,
@@ -211,9 +244,9 @@
         "max_inference_len": null,
         "init_discriminator": true,
         "use_spectral_norm_disriminator": false,
-        "use_speaker_embedding": false,
-        "num_speakers": 0,
-        "speakers_file": null,
+        "use_speaker_embedding": true,
+        "num_speakers": 2,
+        "speakers_file": "./speakers.pth",
         "d_vector_file": null,
         "speaker_embedding_channels": 256,
         "use_d_vector_file": false,
@@ -231,7 +264,11 @@
         "freeze_DP": false,
         "freeze_PE": false,
         "freeze_flow_decoder": false,
-        "freeze_waveform_decoder": false
+        "freeze_waveform_decoder": false,
+        "encoder_sample_rate": null,
+        "interpolate_z": true,
+        "reinit_DP": false,
+        "reinit_text_encoder": false
     },
     "lr_gen": 0.0002,
     "lr_disc": 0.0002,
@@ -255,14 +292,12 @@
     "return_wav": true,
     "r": 1,
     "num_speakers": 0,
-    "use_speaker_embedding": false,
-    "speakers_file": null,
+    "use_speaker_embedding": true,
+    "speakers_file": "./speakers.pth",
     "speaker_embedding_channels": 256,
     "language_ids_file": null,
     "use_language_embedding": false,
     "use_d_vector_file": false,
     "d_vector_file": null,
-    "d_vector_dim": 0,
-    "restore_path": "./vits_mykyta-May-06-2022_12+17AM-c410bc58/best_model_90901.pth",
-    "github_branch": "* (HEAD detached at v0.6.2)"
+    "d_vector_dim": 0
 }
