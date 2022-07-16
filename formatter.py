@@ -15,15 +15,20 @@ def preprocess_text(text, autostress=False):
 
     def detect_num_and_convert(word):
         numbers = "0123456789,."
-        is_number = all(map(lambda x: x in numbers, word))
-        if is_number:
-            try:
-                return num2words.num2words(word, lang="uk")
-            except:
-                return word
-        else:
-            return word
+        result = []
+        parts = word.split("-") # for handling complex words
+        for part in parts:
+            is_number = all(map(lambda x: x in numbers, part))
+            if is_number:
+                try:
+                    result.append(num2words.num2words(part, lang="uk"))
+                except:
+                    result.append(part)
+            else:
+                result.append(part)
+        return "-".join(result)
 
+    #print([detect_num_and_convert(word) for word in text.split(" ")])
     text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
 
     # fallback numbers
@@ -78,7 +83,9 @@ def preprocess_text(text, autostress=False):
 
 
 if __name__ == "__main__":
-    print(preprocess_text("Quality of life update"))
-    print(preprocess_text("Він украв 20000000 $"))
-    print(preprocess_text("111 000 000 000 доларів державного боргу."))
-    print(preprocess_text("11100000001 доларів державного боргу."))
+    assert preprocess_text("Quality of life update") == "КВюаліті оф ліфе юпдате"
+    assert preprocess_text("Він украв 20000000 $") == "Він украв двадцять мільйонів долар"
+    assert preprocess_text("111 000 000 000 доларів державного боргу.") == "сто одинадцять мільярдів доларів державного боргу."
+    assert preprocess_text("11100000001 доларів державного боргу.") == "одинадцять мільярдів сто мільйонів одна доларів державного боргу."
+    assert preprocess_text("це 19-річне вино.") == "це дев'ятнадцять-річне вино."
+    assert preprocess_text("10-30-40-50-5-9-5") == "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"
