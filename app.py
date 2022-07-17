@@ -107,7 +107,10 @@ iface = gr.Interface(
     theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  "
-    + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)"
+    + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"
+    + "Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   \n"
+    + "Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   \n"
+    + "Autostress using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    \n"
     + f'<center><img src="{badge}" alt="visitors badge"/></center>',
     examples=[
         [
