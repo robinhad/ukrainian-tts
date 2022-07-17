@@ -87,11 +87,12 @@ iface = gr.Interface(
     inputs=[
         gr.inputs.Textbox(
             label="Input",
-            default="Введ+іть, б+удь л+аска, сво+є р+ечення.",
+            default="Введіть, будь ласка, своє р+ечення.",
         ),
         gr.inputs.Radio(
             label="Голос",
             choices=[option.value for option in VoiceOption],
+            default=VoiceOption.FemaleVoice.value
         ),
         gr.inputs.Radio(
             label="Наголоси",
