@@ -2,6 +2,7 @@ import num2words
 import re
 from stress import sentence_to_stress
 
+
 def preprocess_text(text, autostress=False):
     # currencies
     text = text.replace("$", "долар")
@@ -11,12 +12,12 @@ def preprocess_text(text, autostress=False):
     text = text.replace("`", "'")
     text = text.replace("ʼ", "'")
     # numbers
-    text = re.sub(r'(\d)\s+(\d)', r'\1\2', text)
+    text = re.sub(r"(\d)\s+(\d)", r"\1\2", text)
 
     def detect_num_and_convert(word):
         numbers = "0123456789,."
         result = []
-        parts = word.split("-") # for handling complex words
+        parts = word.split("-")  # for handling complex words
         for part in parts:
             is_number = all(map(lambda x: x in numbers, part))
             if is_number:
@@ -28,7 +29,7 @@ def preprocess_text(text, autostress=False):
                 result.append(part)
         return "-".join(result)
 
-    #print([detect_num_and_convert(word) for word in text.split(" ")])
+    # print([detect_num_and_convert(word) for word in text.split(" ")])
     text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
 
     # fallback numbers
@@ -73,7 +74,7 @@ def preprocess_text(text, autostress=False):
     }
     for english_char in english.keys():
         # uppercase
-        text = text.replace(english_char.upper(),  english[english_char].upper())
+        text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
     if autostress:
@@ -84,8 +85,19 @@ def preprocess_text(text, autostress=False):
 
 if __name__ == "__main__":
     assert preprocess_text("Quality of life update") == "КВюаліті оф ліфе юпдате"
-    assert preprocess_text("Він украв 20000000 $") == "Він украв двадцять мільйонів долар"
-    assert preprocess_text("111 000 000 000 доларів державного боргу.") == "сто одинадцять мільярдів доларів державного боргу."
-    assert preprocess_text("11100000001 доларів державного боргу.") == "одинадцять мільярдів сто мільйонів одна доларів державного боргу."
+    assert (
+        preprocess_text("Він украв 20000000 $") == "Він украв двадцять мільйонів долар"
+    )
+    assert (
+        preprocess_text("111 000 000 000 доларів державного боргу.")
+        == "сто одинадцять мільярдів доларів державного боргу."
+    )
+    assert (
+        preprocess_text("11100000001 доларів державного боргу.")
+        == "одинадцять мільярдів сто мільйонів одна доларів державного боргу."
+    )
     assert preprocess_text("це 19-річне вино.") == "це дев'ятнадцять-річне вино."
-    assert preprocess_text("10-30-40-50-5-9-5") == "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"
+    assert (
+        preprocess_text("10-30-40-50-5-9-5")
+        == "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"
+    )

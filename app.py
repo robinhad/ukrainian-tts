@@ -110,11 +110,31 @@ iface = gr.Interface(
     + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)"
     + f'<center><img src="{badge}" alt="visitors badge"/></center>',
     examples=[
-        ["Введ+іть, б+удь л+аска, сво+є р+ечення.", VoiceOption.FemaleVoice.value, StressOption.ManualStress.value],
-        ["Введ+іть, б+удь л+аска, сво+є р+ечення.", VoiceOption.MaleVoice.value, StressOption.ManualStress.value],
-        ["Введіть, будь ласка, своє речення.", VoiceOption.MaleVoice.value, StressOption.ManualStress.value],
-        ["Привіт, як тебе звати?", VoiceOption.FemaleVoice.value, StressOption.AutomaticStress.value],
-        ["Договір підписано 4 квітня 1949 року.", VoiceOption.FemaleVoice.value, StressOption.AutomaticStress.value],
+        [
+            "Введ+іть, б+удь л+аска, сво+є р+ечення.",
+            VoiceOption.FemaleVoice.value,
+            StressOption.ManualStress.value,
+        ],
+        [
+            "Введ+іть, б+удь л+аска, сво+є р+ечення.",
+            VoiceOption.MaleVoice.value,
+            StressOption.ManualStress.value,
+        ],
+        [
+            "Введіть, будь ласка, своє речення.",
+            VoiceOption.MaleVoice.value,
+            StressOption.ManualStress.value,
+        ],
+        [
+            "Привіт, як тебе звати?",
+            VoiceOption.FemaleVoice.value,
+            StressOption.AutomaticStress.value,
+        ],
+        [
+            "Договір підписано 4 квітня 1949 року.",
+            VoiceOption.FemaleVoice.value,
+            StressOption.AutomaticStress.value,
+        ],
     ],
 )
 iface.launch(enable_queue=True, prevent_thread_lock=True)
