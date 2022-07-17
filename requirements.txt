@@ -1,1 +1,2 @@
 TTS==0.7.1
+ukrainian-word-stress==1.0.0
