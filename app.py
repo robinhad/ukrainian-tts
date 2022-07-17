@@ -12,13 +12,12 @@ import torch
 
 
 class StressOption(Enum):
-    ManualStress = "Наголоси вручну"
-    AutomaticStress = "Автоматичні наголоси (Beta)"
+    AutomaticStress = "Автоматичні наголоси"
 
 
 class VoiceOption(Enum):
-    MaleVoice = "Микита (чоловічий)"
     FemaleVoice = "Олена (жіночий)"
+    MaleVoice = "Микита (чоловічий)"
 
 
 def download(url, file_name):
@@ -105,7 +104,7 @@ iface = gr.Interface(
     ],
     title="🐸💬🇺🇦 - Coqui TTS",
     theme="huggingface",
-    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (для наголосу використовуйте + перед голосною)",
+    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  "
     + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"
     + "Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   \n"
@@ -114,19 +113,19 @@ iface = gr.Interface(
     + f'<center><img src="{badge}" alt="visitors badge"/></center>',
     examples=[
         [
-            "Введ+іть, б+удь л+аска, сво+є р+ечення.",
+            "Введіть, будь ласка, своє речення.",
             VoiceOption.FemaleVoice.value,
-            StressOption.ManualStress.value,
-        ],
-        [
-            "Введ+іть, б+удь л+аска, сво+є р+ечення.",
-            VoiceOption.MaleVoice.value,
-            StressOption.ManualStress.value,
+            StressOption.AutomaticStress.value,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.MaleVoice.value,
-            StressOption.ManualStress.value,
+            StressOption.AutomaticStress.value,
+        ],
+        [
+            "Вв+едіть, будь ласка, св+оє реч+ення.",
+            VoiceOption.MaleVoice.value,
+            StressOption.AutomaticStress.value,
         ],
         [
             "Привіт, як тебе звати?",

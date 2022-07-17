@@ -1,13 +1,23 @@
+import numpy as np
 from ukrainian_word_stress import Stressifier, StressSymbol
 
 stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 
 
-def sentence_to_stress(sentence):
-    stressed = stressify(sentence).replace(StressSymbol.CombiningAcuteAccent, "+")
+def sentence_to_stress(sentence: str) -> str:
+    # save custom stress positions
+    all_stresses = []
+    orig_words = sentence.split(" ")
+    for i in range(0, len(orig_words)):
+        if "+" in orig_words[i]:
+            all_stresses.append(i)
+
+    # add stress before vowel
+    stressed = stressify(sentence.replace("+", "")).replace(StressSymbol.CombiningAcuteAccent, "+")
     new_stressed = ""
     start = 0
     last = 0
+
     while True:
         plus_position = stressed.find("+", start)
         if plus_position != -1:
@@ -19,6 +29,13 @@ def sentence_to_stress(sentence):
         else:
             new_stressed += stressed[last:]
             break
+    
+    # replace already stressed words
+    if len(all_stresses) > 0:
+        words = new_stressed.split(" ")
+        for stressed in all_stresses:
+            words[stressed] = orig_words[stressed]
+        return " ".join(words)
     return new_stressed
 
 
@@ -30,6 +47,10 @@ if __name__ == "__main__":
     sentence = "АННА - український панк-рок гурт"
     print(sentence_to_stress(sentence))
     sentence = "Не тільки в Україні таке може бути."
+    print(sentence_to_stress(sentence))
+    sentence = "Не тільки в +Укра+їні т+аке може бути."
+    print(sentence_to_stress(sentence))
+    sentence = "два + два"
     print(sentence_to_stress(sentence))
     sentence = "Н тльк в крн тк мж бт."
     print(sentence_to_stress(sentence))
