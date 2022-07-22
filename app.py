@@ -12,7 +12,8 @@ import torch
 
 
 class StressOption(Enum):
-    AutomaticStress = "Автоматичні наголоси"
+    AutomaticStress = "Автоматичні наголоси (за словником)"
+    AutomaticStressWithModel = "Автоматичні наголоси (за допомогою моделі)"
 
 
 class VoiceOption(Enum):
@@ -66,9 +67,9 @@ def tts(text: str, voice: str, stress: str):
     print("Voice", voice)
     print("Stress:", stress)
     print("Time:", datetime.utcnow())
-    autostress = True if stress == StressOption.AutomaticStress.value else False
+    autostress_with_model = True if stress == StressOption.AutomaticStressWithModel.value else False
     speaker_name = "male1" if voice == VoiceOption.MaleVoice.value else "female3"
-    text = preprocess_text(text, autostress)
+    text = preprocess_text(text, autostress_with_model)
     text_limit = 1200
     text = (
         text if len(text) < text_limit else text[0:text_limit]
@@ -110,7 +111,8 @@ iface = gr.Interface(
     + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"
     + "Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   \n"
     + "Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   \n"
-    + "Autostress using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    \n"
+    + "Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    \n"
+    + "Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    \n"
     + f'<center><img src="{badge}" alt="visitors badge"/></center>',
     examples=[
         [

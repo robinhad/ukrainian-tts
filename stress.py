@@ -4,15 +4,7 @@ from ukrainian_word_stress import Stressifier, StressSymbol
 stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 
 
-def sentence_to_stress(sentence: str) -> str:
-    # save custom stress positions
-    all_stresses = []
-    orig_words = sentence.split(" ")
-    for i in range(0, len(orig_words)):
-        if "+" in orig_words[i]:
-            all_stresses.append(i)
-
-    # add stress before vowel
+def stress_dict(sentence: str):
     stressed = stressify(sentence.replace("+", "")).replace(StressSymbol.CombiningAcuteAccent, "+")
     new_stressed = ""
     start = 0
@@ -29,6 +21,19 @@ def sentence_to_stress(sentence: str) -> str:
         else:
             new_stressed += stressed[last:]
             break
+    return new_stressed
+
+
+def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
+    # save custom stress positions
+    all_stresses = []
+    orig_words = sentence.split(" ")
+    for i in range(0, len(orig_words)):
+        if "+" in orig_words[i]:
+            all_stresses.append(i)
+
+    # add stress before vowel
+    new_stressed = stress_function(sentence)
     
     # replace already stressed words
     if len(all_stresses) > 0:

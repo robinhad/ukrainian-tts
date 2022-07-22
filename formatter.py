@@ -1,9 +1,10 @@
 import num2words
 import re
-from stress import sentence_to_stress
+from stress import sentence_to_stress, stress_dict
+from stress_with_model import stress_with_model
 
 
-def preprocess_text(text, autostress=False):
+def preprocess_text(text, use_autostress_model=False):
     # currencies
     text = text.replace("$", "долар")
     text = text.replace("₴", "гривня")
@@ -77,8 +78,7 @@ def preprocess_text(text, autostress=False):
         text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
-    if autostress:
-        text = sentence_to_stress(text)
+    text = sentence_to_stress(text, stress_with_model if use_autostress_model else stress_dict)
 
     return text
 
