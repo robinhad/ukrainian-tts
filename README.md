@@ -48,4 +48,8 @@ tts-server --model_path path/to/model.pth \
 
 
 # Attribution
-Code for `app.py` taken from https://huggingface.co/spaces/julien-c/coqui
+
+- Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
+- Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    
+- Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    
