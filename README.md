@@ -1,8 +1,8 @@
 ---
 title: "Ukrainian TTS"
 emoji: 🐌
-colorFrom: pink
-colorTo: pink
+colorFrom: blue
+colorTo: yellow
 sdk: gradio
 app_file: app.py
 pinned: false
