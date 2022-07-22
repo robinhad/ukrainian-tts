@@ -1,8 +1,8 @@
 ---
 title: "Ukrainian TTS"
-emoji: 🇺🇦
-colorFrom: green
-colorTo: green
+emoji: 🐌
+colorFrom: pink
+colorTo: pink
 sdk: gradio
 app_file: app.py
 pinned: false
@@ -26,7 +26,7 @@ https://user-images.githubusercontent.com/5759207/178158485-29a5d496-7eeb-4938-8
 
 https://user-images.githubusercontent.com/5759207/178158492-8504080e-2f13-43f1-83f0-489b1f9cd66b.mp4
 
-# How to use :
+# How to use:
 1. `pip install -r requirements.txt`.
 2. Download model from "Releases" tab.
 3. Launch as one-time command:  
@@ -42,12 +42,12 @@ tts-server --model_path path/to/model.pth \
     --config_path path/to/config.json
 ```
 
-# How to train:
+# How to train: 🏋️
 1. Refer to ["Nervous beginner guide"](https://tts.readthedocs.io/en/latest/tutorial_for_nervous_beginners.html) in Coqui TTS docs.
 2. Instead of provided `config.json` use one from this repo.
 
 
-# Attribution
+# Attribution 🤝
 
 - Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
 - Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   

@@ -12,13 +12,13 @@ import torch
 
 
 class StressOption(Enum):
-    AutomaticStress = "Автоматичні наголоси (за словником)"
-    AutomaticStressWithModel = "Автоматичні наголоси (за допомогою моделі)"
+    AutomaticStress = "Автоматичні наголоси (за словником) 📖"
+    AutomaticStressWithModel = "Автоматичні наголоси (за допомогою моделі) 🧮"
 
 
 class VoiceOption(Enum):
-    FemaleVoice = "Олена (жіночий)"
-    MaleVoice = "Микита (чоловічий)"
+    FemaleVoice = "Олена (жіночий) 👩"
+    MaleVoice = "Микита (чоловічий) 👨"
 
 
 def download(url, file_name):
@@ -105,7 +105,7 @@ iface = gr.Interface(
         gr.outputs.Textbox(label="Наголошений текст"),
     ],
     title="🐸💬🇺🇦 - Coqui TTS",
-    theme="huggingface",
+    #theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  "
     + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"
