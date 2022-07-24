@@ -1,8 +1,4 @@
-import torch
-
-# import
-importer = torch.package.PackageImporter("ukrainian-accentor/accentor-lite.pt")
-accentor = importer.load_pickle("uk-accentor", "model")
+import ukrainian_accentor as accentor
 
 # run
 def stress_with_model(text: str):
