@@ -3,10 +3,7 @@ import ukrainian_accentor as accentor
 # run
 def stress_with_model(text: str):
     text = text.lower()
-    try:
-        result = accentor.process(text, mode='plus')
-    except ValueError: # TODO: apply fix for cases when there are no vowels
-        return text
+    result = accentor.process(text, mode="plus")
     return result
 
 

@@ -67,7 +67,9 @@ def tts(text: str, voice: str, stress: str):
     print("Voice", voice)
     print("Stress:", stress)
     print("Time:", datetime.utcnow())
-    autostress_with_model = True if stress == StressOption.AutomaticStressWithModel.value else False
+    autostress_with_model = (
+        True if stress == StressOption.AutomaticStressWithModel.value else False
+    )
     speaker_name = "male1" if voice == VoiceOption.MaleVoice.value else "female3"
     text = preprocess_text(text, autostress_with_model)
     text_limit = 7200
@@ -93,7 +95,7 @@ iface = gr.Interface(
         gr.inputs.Radio(
             label="Голос",
             choices=[option.value for option in VoiceOption],
-            default=VoiceOption.FemaleVoice.value
+            default=VoiceOption.FemaleVoice.value,
         ),
         gr.inputs.Radio(
             label="Наголоси",
@@ -105,7 +107,6 @@ iface = gr.Interface(
         gr.outputs.Textbox(label="Наголошений текст"),
     ],
     title="🐸💬🇺🇦 - Coqui TTS",
-    #theme="huggingface",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
     article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  "
     + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"

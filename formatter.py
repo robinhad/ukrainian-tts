@@ -78,7 +78,9 @@ def preprocess_text(text, use_autostress_model=False):
         text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
-    text = sentence_to_stress(text, stress_with_model if use_autostress_model else stress_dict)
+    text = sentence_to_stress(
+        text, stress_with_model if use_autostress_model else stress_dict
+    )
 
     return text
 
