@@ -70,7 +70,7 @@ def tts(text: str, voice: str, stress: str):
     autostress_with_model = True if stress == StressOption.AutomaticStressWithModel.value else False
     speaker_name = "male1" if voice == VoiceOption.MaleVoice.value else "female3"
     text = preprocess_text(text, autostress_with_model)
-    text_limit = 1200
+    text_limit = 7200
     text = (
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
