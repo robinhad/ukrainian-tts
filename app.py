@@ -17,8 +17,9 @@ class StressOption(Enum):
 
 
 class VoiceOption(Enum):
-    FemaleVoice = "Олена (жіночий) 👩"
-    MaleVoice = "Микита (чоловічий) 👨"
+    Olena = "Олена (жіночий) 👩"
+    Mykyta = "Микита (чоловічий) 👨"
+    Lada = "Лада (жіночий) 👩"
 
 
 def download(url, file_name):
@@ -32,7 +33,7 @@ def download(url, file_name):
 
 
 print("downloading uk/mykyta/vits-tts")
-release_number = "v2.0.0"
+release_number = "v3.0.0-alpha"
 model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model-inference.pth"
 config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
 speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/speakers.pth"
@@ -70,7 +71,11 @@ def tts(text: str, voice: str, stress: str):
     autostress_with_model = (
         True if stress == StressOption.AutomaticStressWithModel.value else False
     )
-    speaker_name = "male1" if voice == VoiceOption.MaleVoice.value else "female3"
+    speaker_name = "mykyta" 
+    if voice == VoiceOption.Olena.value:
+        speaker_name = "olena"
+    elif voice == VoiceOption.Lada.value:
+        speaker_name = "lada"
     text = preprocess_text(text, autostress_with_model)
     text_limit = 7200
     text = (
@@ -85,6 +90,11 @@ def tts(text: str, voice: str, stress: str):
         return fp.name, text
 
 
+with open("README.md") as file:
+    article = file.read()
+    article = article[article.find("---\n", 4) + 5::]
+
+
 iface = gr.Interface(
     fn=tts,
     inputs=[
@@ -95,7 +105,7 @@ iface = gr.Interface(
         gr.inputs.Radio(
             label="Голос",
             choices=[option.value for option in VoiceOption],
-            default=VoiceOption.FemaleVoice.value,
+            default=VoiceOption.Olena.value,
         ),
         gr.inputs.Radio(
             label="Наголоси",
@@ -108,39 +118,33 @@ iface = gr.Interface(
     ],
     title="🐸💬🇺🇦 - Coqui TTS",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
-    article="Якщо вам подобається, підтримайте за посиланням: [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm),  "
-    + "Github: [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)   \n"
-    + "Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   \n"
-    + "Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   \n"
-    + "Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    \n"
-    + "Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    \n"
-    + f'<center><img src="{badge}" alt="visitors badge"/></center>',
+    article=article + f'\n  <center><img src="{badge}" alt="visitors badge"/></center>',
     examples=[
         [
             "Введіть, будь ласка, своє речення.",
-            VoiceOption.FemaleVoice.value,
+            VoiceOption.Olena.value,
             StressOption.AutomaticStress.value,
         ],
         [
             "Введіть, будь ласка, своє речення.",
-            VoiceOption.MaleVoice.value,
+            VoiceOption.Mykyta.value,
             StressOption.AutomaticStress.value,
         ],
         [
             "Вв+едіть, будь ласка, св+оє реч+ення.",
-            VoiceOption.MaleVoice.value,
+            VoiceOption.Mykyta.value,
             StressOption.AutomaticStress.value,
         ],
         [
             "Привіт, як тебе звати?",
-            VoiceOption.FemaleVoice.value,
+            VoiceOption.Olena.value,
             StressOption.AutomaticStress.value,
         ],
         [
             "Договір підписано 4 квітня 1949 року.",
-            VoiceOption.FemaleVoice.value,
+            VoiceOption.Lada.value,
             StressOption.AutomaticStress.value,
         ],
     ],
 )
-iface.launch(enable_queue=True, prevent_thread_lock=True)
+iface.launch(enable_queue=True)

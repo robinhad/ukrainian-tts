@@ -4,6 +4,8 @@ emoji: 🐌
 colorFrom: blue
 colorTo: yellow
 sdk: gradio
+sdk_version : 3.3
+python_version: 3.9
 app_file: app.py
 pinned: false
 ---
@@ -15,7 +17,7 @@ Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](ht
 
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
 # Support
-If you like my work, please support -> ![mono](https://www.monobank.ua/favicon.ico) [SUPPORT LINK](https://send.monobank.ua/jar/48iHq4xAXm)
+If you like my work, please support -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)
 # Example
 
 `Mykyta (male)`:
@@ -50,6 +52,6 @@ tts-server --model_path path/to/model.pth \
 # Attribution 🤝
 
 - Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
-- Mykyta and Olena dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- Mykyta, Olena and Lada dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
 - Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    
 - Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    
