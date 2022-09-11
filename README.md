@@ -54,5 +54,6 @@ tts-server --model_path path/to/model.pth \
 
 - Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
 - Mykyta, Olena and Lada dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- Silence cutting using [HMM-GMM](https://github.com/proger/uk) - [Volodymyr Kyrylov @proger](https://github.com/proger)  
 - Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    
 - Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    
