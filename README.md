@@ -18,8 +18,10 @@ Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](ht
 
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
 # Support
-If you like my work, please support -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)
-# Example
+If you like my work, please support -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)  
+For collaboration and question please contact me here: [Telegram https://t.me/robinhad](https://t.me/robinhad) [Twitter https://twitter.com/robinhad](https://twitter.com/robinhad)  
+You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
+# Examples
 
 `Mykyta (male)`:
 
@@ -53,7 +55,8 @@ tts-server --model_path path/to/model.pth \
 # Attribution 🤝
 
 - Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
-- Mykyta, Olena and Lada dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- Mykyta, Olena, Lada, Dmytro, Olha dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- Dmytro voice - [Dmytro Chaplynskyi @dchaplinsky](https://github.com/dchaplinsky)  
 - Silence cutting using [HMM-GMM](https://github.com/proger/uk) - [Volodymyr Kyrylov @proger](https://github.com/proger)  
 - Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    
 - Autostress (with model) using [ukrainian-accentor](https://github.com/egorsmkv/ukrainian-accentor) - [Bohdan Mykhailenko @NeonBohdan](https://github.com/NeonBohdan) + [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)    

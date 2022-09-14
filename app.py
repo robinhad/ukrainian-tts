@@ -20,6 +20,8 @@ class VoiceOption(Enum):
     Olena = "Олена (жіночий) 👩"
     Mykyta = "Микита (чоловічий) 👨"
     Lada = "Лада (жіночий) 👩"
+    Dmytro = "Дмитро (чоловічий) 👩"
+    Olga = "Ольга (жіночий) 👩"
 
 
 def download(url, file_name):
@@ -33,7 +35,7 @@ def download(url, file_name):
 
 
 print("downloading uk/mykyta/vits-tts")
-release_number = "v3.0.0-alpha"
+release_number = "v3.0.0"
 model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model-inference.pth"
 config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
 speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/speakers.pth"
@@ -71,11 +73,14 @@ def tts(text: str, voice: str, stress: str):
     autostress_with_model = (
         True if stress == StressOption.AutomaticStressWithModel.value else False
     )
-    speaker_name = "mykyta" 
-    if voice == VoiceOption.Olena.value:
-        speaker_name = "olena"
-    elif voice == VoiceOption.Lada.value:
-        speaker_name = "lada"
+    voice_mapping = {
+        VoiceOption.Olena.value: "olena",
+        VoiceOption.Mykyta.value: "mykyta",
+        VoiceOption.Lada.value: "lada",
+        VoiceOption.Dmytro.value: "dmytro",
+        VoiceOption.Olga.value: "olga",
+    }
+    speaker_name = voice_mapping[voice]
     text = preprocess_text(text, autostress_with_model)
     text_limit = 7200
     text = (
@@ -98,23 +103,24 @@ with open("README.md") as file:
 iface = gr.Interface(
     fn=tts,
     inputs=[
-        gr.inputs.Textbox(
+        gr.components.Textbox(
             label="Input",
-            default="Введіть, будь ласка, своє р+ечення.",
+            value="Введіть, будь ласка, своє р+ечення.",
         ),
-        gr.inputs.Radio(
+        gr.components.Radio(
             label="Голос",
             choices=[option.value for option in VoiceOption],
-            default=VoiceOption.Olena.value,
+            value=VoiceOption.Olena.value,
         ),
-        gr.inputs.Radio(
+        gr.components.Radio(
             label="Наголоси",
             choices=[option.value for option in StressOption],
+            value=StressOption.AutomaticStress.value
         ),
     ],
     outputs=[
-        gr.outputs.Audio(label="Output"),
-        gr.outputs.Textbox(label="Наголошений текст"),
+        gr.components.Audio(label="Output"),
+        gr.components.Textbox(label="Наголошений текст"),
     ],
     title="🐸💬🇺🇦 - Coqui TTS",
     description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
@@ -132,12 +138,12 @@ iface = gr.Interface(
         ],
         [
             "Вв+едіть, будь ласка, св+оє реч+ення.",
-            VoiceOption.Mykyta.value,
+            VoiceOption.Dmytro.value,
             StressOption.AutomaticStress.value,
         ],
         [
             "Привіт, як тебе звати?",
-            VoiceOption.Olena.value,
+            VoiceOption.Olga.value,
             StressOption.AutomaticStress.value,
         ],
         [
