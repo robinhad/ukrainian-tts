@@ -25,11 +25,26 @@ You're welcome to join UA Speech Recognition and Synthesis community: [Telegram 
 
 `Mykyta (male)`:
 
-https://user-images.githubusercontent.com/5759207/178158485-29a5d496-7eeb-4938-8ea7-c345bc9fed57.mp4
+https://user-images.githubusercontent.com/5759207/190852232-34956a1d-77a9-42b9-b96d-39d0091e3e34.mp4
+
 
 `Olena (female)`:
 
-https://user-images.githubusercontent.com/5759207/178158492-8504080e-2f13-43f1-83f0-489b1f9cd66b.mp4
+https://user-images.githubusercontent.com/5759207/190852238-366782c1-9472-45fc-8fea-31346242f927.mp4
+
+
+`Dmytro (male)`:
+
+https://user-images.githubusercontent.com/5759207/190852251-db105567-52ba-47b5-8ec6-5053c3baac8c.mp4
+
+`Olha (female)`:
+
+https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8286-a459c654eef1.mp4
+
+`Lada (female)`:
+
+
+https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
 
 # How to use:
 1. `pip install -r requirements.txt`.
