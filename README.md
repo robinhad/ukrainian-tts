@@ -13,7 +13,7 @@ pinned: false
 # Ukrainian TTS 📢🤖
 Ukrainian TTS (text-to-speech) using Coqui TTS.
 
-Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)
+Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)  
 Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)
 
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
