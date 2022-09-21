@@ -20,7 +20,9 @@ Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
 # Support
 If you like my work, please support -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)  
-For collaboration and question please contact me here: [Telegram https://t.me/robinhad](https://t.me/robinhad) [Twitter https://twitter.com/robinhad](https://twitter.com/robinhad)  
+For collaboration and question please contact me here:  
+[Telegram https://t.me/robinhad](https://t.me/robinhad)  
+[Twitter https://twitter.com/robinhad](https://twitter.com/robinhad)  
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
 # Examples
 
