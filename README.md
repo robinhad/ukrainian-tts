@@ -49,12 +49,13 @@ https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8
 
 # How to use:
 1. `pip install -r requirements.txt`.
-2. Download model from "Releases" tab.
+2. Download `model.pth` and `speakers.pth` from "Releases" tab.
 3. Launch as one-time command:  
 ```
 tts --text "Text for TTS" \
     --model_path path/to/model.pth \
     --config_path path/to/config.json \
+    --speaker_idx dmytro \
     --out_path folder/to/save/output.wav
 ```
 or alternatively launch web server using:
