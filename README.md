@@ -50,6 +50,7 @@ https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8
 https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
 
 # How to use:
+Caution: this won't use normalizer and autostress like a web demo.  
 1. `pip install -r requirements.txt`.
 2. Download `model.pth` and `speakers.pth` from "Releases" tab.
 3. Launch as one-time command:  
