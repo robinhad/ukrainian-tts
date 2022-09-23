@@ -3,6 +3,7 @@ import gradio as gr
 from datetime import datetime
 from enum import Enum
 from ukrainian_tts.tts import TTS
+from torch.cuda import is_available
 
 class StressOption(Enum):
     AutomaticStress = "Автоматичні наголоси (за словником) 📖"
@@ -16,6 +17,7 @@ class VoiceOption(Enum):
     Dmytro = "Дмитро (чоловічий) 👨"
     Olga = "Ольга (жіночий) 👩"
 
+print(f"CUDA available? {is_available}")
 
 badge = (
     "https://visitor-badge-reloaded.herokuapp.com/badge?page_id=robinhad.ukrainian-tts"
