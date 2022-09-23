@@ -17,13 +17,13 @@ class VoiceOption(Enum):
     Dmytro = "Дмитро (чоловічий) 👨"
     Olga = "Ольга (жіночий) 👩"
 
-print(f"CUDA available? {is_available}")
+print(f"CUDA available? {is_available()}")
 
 badge = (
     "https://visitor-badge-reloaded.herokuapp.com/badge?page_id=robinhad.ukrainian-tts"
 )
 
-ukr_tts = TTS()
+ukr_tts = TTS(use_cuda=is_available())
 
 
 def tts(text: str, voice: str, stress: str):

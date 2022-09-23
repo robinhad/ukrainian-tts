@@ -27,12 +27,12 @@ class TTS:
     """
     
     """
-    def __init__(self, cache_folder=None) -> None:
+    def __init__(self, cache_folder=None, use_cuda=False) -> None:
         """
         Class to setup a text-to-speech engine, from download to model creation.  \n
         Downloads or uses files from `cache_folder` directory.  \n
         By default stores in current directory."""
-        self.__setup_cache(cache_folder)
+        self.__setup_cache(cache_folder, use_cuda=use_cuda)
 
 
     def tts(self, text: str, voice: str, stress: str, output_fp=BytesIO()):
@@ -61,7 +61,7 @@ class TTS:
         return output_fp
 
 
-    def __setup_cache(self, cache_folder=None):
+    def __setup_cache(self, cache_folder=None, use_cuda=False):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
         print("downloading uk/mykyta/vits-tts")
         release_number = "v3.0.0"
@@ -86,6 +86,7 @@ class TTS:
             speakers_path,
             None,
             None,
+            use_cuda=use_cuda
         )
 
         if self.synthesizer is None:
