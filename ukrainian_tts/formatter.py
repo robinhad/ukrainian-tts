@@ -1,7 +1,7 @@
 import num2words
 import re
-from stress import sentence_to_stress, stress_dict
-from stress_with_model import stress_with_model
+from .stress import sentence_to_stress, stress_dict
+from .stress_with_model import stress_with_model
 
 
 def preprocess_text(text, use_autostress_model=False):

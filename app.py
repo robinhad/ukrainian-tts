@@ -5,7 +5,7 @@ import gradio as gr
 from TTS.utils.synthesizer import Synthesizer
 import requests
 from os.path import exists
-from formatter import preprocess_text
+from ukrainian_tts.formatter import preprocess_text
 from datetime import datetime
 from enum import Enum
 import torch
