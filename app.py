@@ -1,15 +1,8 @@
 import tempfile
-
 import gradio as gr
-
-from TTS.utils.synthesizer import Synthesizer
-import requests
-from os.path import exists
-from ukrainian_tts.formatter import preprocess_text
 from datetime import datetime
 from enum import Enum
-import torch
-
+from ukrainian_tts.tts import TTS
 
 class StressOption(Enum):
     AutomaticStress = "Автоматичні наголоси (за словником) 📖"
@@ -24,44 +17,11 @@ class VoiceOption(Enum):
     Olga = "Ольга (жіночий) 👩"
 
 
-def download(url, file_name):
-    if not exists(file_name):
-        print(f"Downloading {file_name}")
-        r = requests.get(url, allow_redirects=True)
-        with open(file_name, "wb") as file:
-            file.write(r.content)
-    else:
-        print(f"Found {file_name}. Skipping download...")
-
-
-print("downloading uk/mykyta/vits-tts")
-release_number = "v3.0.0"
-model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model-inference.pth"
-config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
-speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/speakers.pth"
-
-model_path = "model.pth"
-config_path = "config.json"
-speakers_path = "speakers.pth"
-
-download(model_link, model_path)
-download(config_link, config_path)
-download(speakers_link, speakers_path)
-
 badge = (
     "https://visitor-badge-reloaded.herokuapp.com/badge?page_id=robinhad.ukrainian-tts"
 )
 
-synthesizer = Synthesizer(
-    model_path,
-    config_path,
-    speakers_path,
-    None,
-    None,
-)
-
-if synthesizer is None:
-    raise NameError("model not found")
+ukr_tts = TTS()
 
 
 def tts(text: str, voice: str, stress: str):
@@ -81,17 +41,15 @@ def tts(text: str, voice: str, stress: str):
         VoiceOption.Olga.value: "olga",
     }
     speaker_name = voice_mapping[voice]
-    text = preprocess_text(text, autostress_with_model)
+
     text_limit = 7200
     text = (
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
-    print("Converted:", text)
+    
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        with torch.no_grad():
-            wavs = synthesizer.tts(text, speaker_name=speaker_name)
-            synthesizer.save_wav(wavs, fp)
+        ukr_tts.tts(text, speaker_name, autostress_with_model, fp)
         return fp.name, text
 
 
