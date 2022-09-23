@@ -50,7 +50,22 @@ https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8
 https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
 
 # How to use: 📢
-Caution: this won't use normalizer and autostress like a web demo.  
+As a package:
+1. Install using command:
+```
+pip install git+https://github.com/robinhad/ukrainian-tts.git
+```
+2. Run a code snippet:
+```python
+from ukrainian_tts.tts import TTS, Voices, StressOption
+
+tts = TTS()
+with open("test.wav", mode="wb") as file:
+    tts.tts("Привіт", Voices.Olena.value, StressOption.Model.value, file)
+```
+
+Run manually:  
+`Caution: this won't use normalizer and autostress like a web demo. ` 
 1. `pip install -r requirements.txt`.
 2. Download `model.pth` and `speakers.pth` from "Releases" tab.
 3. Launch as one-time command:  
