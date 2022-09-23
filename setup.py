@@ -7,6 +7,7 @@ setup(name='ukrainian-tts',
       author='Yurii Paniv',
       author_email='mr.robinhad@gmail.com',
       url='https://github.com/robinhad/ukrainian-tts',
+      license="GPLv3",
       packages=find_packages(),
       python_requires='>3.6.0',
       install_requires=[
