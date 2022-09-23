@@ -58,7 +58,7 @@ class TTS:
 
         output_fp.seek(0)
 
-        return output_fp
+        return output_fp, text
 
 
     def __setup_cache(self, cache_folder=None, use_cuda=False):

@@ -51,7 +51,7 @@ def tts(text: str, voice: str, stress: str):
     
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        ukr_tts.tts(text, speaker_name, autostress_with_model, fp)
+        _, text = ukr_tts.tts(text, speaker_name, autostress_with_model, fp)
         return fp.name, text
 
 
