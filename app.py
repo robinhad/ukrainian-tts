@@ -2,7 +2,7 @@ import tempfile
 import gradio as gr
 from datetime import datetime
 from enum import Enum
-from ukrainian_tts.tts import TTS
+from ukrainian_tts.tts import TTS, Stress, Voices
 from torch.cuda import is_available
 
 class StressOption(Enum):
@@ -32,18 +32,21 @@ def tts(text: str, voice: str, stress: str):
     print("Voice", voice)
     print("Stress:", stress)
     print("Time:", datetime.utcnow())
-    autostress_with_model = (
-        True if stress == StressOption.AutomaticStressWithModel.value else False
-    )
-    voice_mapping = {
-        VoiceOption.Olena.value: "olena",
-        VoiceOption.Mykyta.value: "mykyta",
-        VoiceOption.Lada.value: "lada",
-        VoiceOption.Dmytro.value: "dmytro",
-        VoiceOption.Olga.value: "olga",
-    }
-    speaker_name = voice_mapping[voice]
 
+    voice_mapping = {
+        VoiceOption.Olena.value: Voices.Olena.value,
+        VoiceOption.Mykyta.value: Voices.Mykyta.value,
+        VoiceOption.Lada.value: Voices.Lada.value,
+        VoiceOption.Dmytro.value: Voices.Dmytro.value,
+        VoiceOption.Olga.value: Voices.Olga.value,
+    }
+    stress_mapping = {
+        StressOption.AutomaticStress.value: Stress.Dictionary.value,
+        StressOption.AutomaticStressWithModel.value: Stress.Model.value
+    }
+
+    speaker_name = voice_mapping[voice]
+    stress_selected = stress_mapping[stress]
     text_limit = 7200
     text = (
         text if len(text) < text_limit else text[0:text_limit]
@@ -51,7 +54,7 @@ def tts(text: str, voice: str, stress: str):
     
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        _, text = ukr_tts.tts(text, speaker_name, autostress_with_model, fp)
+        _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp)
         return fp.name, text
 
 

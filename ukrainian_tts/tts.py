@@ -15,7 +15,7 @@ class Voices(Enum):
     Olga = "olga"
 
 
-class StressOption(Enum):
+class Stress(Enum):
     """Options how to stress sentence.
     - `dictionary` - performs lookup in dictionary, taking into account grammatical case of a word and its' neighbors
     - `model` - stress using transformer model"""
@@ -40,17 +40,21 @@ class TTS:
         Run a Text-to-Speech engine and output to `output_fp` BytesIO-like object.
         - `text` - your model input text.
         - `voice` - one of predefined voices from `Voices` enum.
-        - `stress` - stress method options, predefined in `StressOption` enum.
+        - `stress` - stress method options, predefined in `Stress` enum.
         - `output_fp` - file-like object output. Stores in RAM by default.
         """
-        autostress_with_model = (
-            True if stress == StressOption.Model.value else False
-        )
 
+        if stress not in [option.value for option in Stress]:
+            raise ValueError(f"Invalid value for stress option selected! Please use one of the following values: {', '.join([option.value for option in Stress])}.")
+
+        if stress == Stress.Model.value:
+            stress = True
+        else:
+            stress = False
         if voice not in [option.value for option in Voices]:
             raise ValueError(f"Invalid value for voice selected! Please use one of the following values: {', '.join([option.value for option in Voices])}.")
 
-        text = preprocess_text(text, autostress_with_model)
+        text = preprocess_text(text, stress)
 
         with no_grad():
             wavs = self.synthesizer.tts(text, speaker_name=voice)

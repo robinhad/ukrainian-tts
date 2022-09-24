@@ -1,6 +1,6 @@
 from typing import List
-import numpy as np
 from ukrainian_word_stress import Stressifier, StressSymbol
+import ukrainian_accentor as accentor
 
 stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 
@@ -10,10 +10,7 @@ special = "'"
 alphabet = vowels + consonants + special
 
 
-def stress_dict(sentence: str):
-    stressed = stressify(sentence.replace("+", "")).replace(
-        StressSymbol.CombiningAcuteAccent, "+"
-    )
+def _shift_stress(stressed):
     new_stressed = ""
     start = 0
     last = 0
@@ -31,6 +28,19 @@ def stress_dict(sentence: str):
             new_stressed += stressed[last:]
             break
     return new_stressed
+
+
+def stress_with_model(text: str):
+    text = text.lower()
+    result = accentor.process(text, mode="plus")
+    return result
+
+
+def stress_dict(sentence: str):
+    stressed = stressify(sentence.replace("+", "")).replace(
+        StressSymbol.CombiningAcuteAccent, "+"
+    )
+    return _shift_stress(stressed)
 
 
 def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
@@ -68,6 +78,7 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
 
 
 if __name__ == "__main__":
+    # TODO: move it to unit tests
     sentence = "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району."
     print(sentence_to_stress(sentence))
     sentence = "Привіт, як тебе звати?"
@@ -84,3 +95,20 @@ if __name__ == "__main__":
     print(sentence_to_stress(sentence))
     sentence = "Н тльк в крн тк мж бт."
     print(sentence_to_stress(sentence))
+
+    sentence = "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району."
+    print(stress_with_model(sentence))
+    sentence = "Привіт, як тебе звати?"
+    print(stress_with_model(sentence))
+    sentence = "АННА - український панк-рок гурт"
+    print(stress_with_model(sentence))
+    sentence = "Не тільки в Україні таке може бути."
+    print(stress_with_model(sentence))
+    sentence = "Не тільки в +Укра+їні т+аке може бути."
+    print(stress_with_model(sentence))
+    sentence = "два + два"
+    print(stress_with_model(sentence))
+    sentence = "Н тльк в крн тк мж бт."
+    print(stress_with_model(sentence))
+    sentence = "Н тльк в крн тк мж бт."
+    print(stress_with_model(sentence))
