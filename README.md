@@ -57,12 +57,12 @@ pip install git+https://github.com/robinhad/ukrainian-tts.git
 ```
 2. Run a code snippet:
 ```python
-from ukrainian_tts.tts import TTS, Voices, StressOption
+from ukrainian_tts.tts import TTS, Voices, Stress
 
-tts = TTS()
+tts = TTS(use_cuda=False)
 with open("test.wav", mode="wb") as file:
-    _, text = tts.tts("Привіт", Voices.Olena.value, StressOption.Dictionary.value, file)
-    print("Accented text:", text)
+    _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Model.value, file)
+print("Accented text:", text)
 ```
 
 ## Run manually:  
