@@ -14,6 +14,7 @@ pinned: false
 Ukrainian TTS (text-to-speech) using Coqui TTS.
 
 Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)  
+Note: online demo saves user input to improve user experience, by using it you give your consent to analyze this data.   
 Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)  
 Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)  
 
