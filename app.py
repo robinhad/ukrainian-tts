@@ -4,7 +4,23 @@ from datetime import datetime
 from enum import Enum
 from ukrainian_tts.tts import TTS, Stress, Voices
 from torch.cuda import is_available
-from os import environ
+from os import getenv
+from data_logger import log_data
+from threading import Thread
+from queue import Queue
+
+
+def check_thread(logging_queue: Queue):
+    logging_callback = log_data(hf_token=getenv("HF_API_TOKEN"), dataset_name="uk-tts-output", private=True)
+    while True:
+        item = logging_queue.get()
+        logging_callback(item)
+
+if getenv("HF_API_TOKEN") is not None:
+    log_queue = Queue()
+    t = Thread(target=check_thread, args=(log_queue,))
+    t.start()
+
 
 class StressOption(Enum):
     AutomaticStress = "Автоматичні наголоси (за словником) 📖"
@@ -53,17 +69,12 @@ def tts(text: str, voice: str, stress: str):
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
     
+    if getenv("HF_API_TOKEN") is not None:
+        log_queue.put([text, speaker_name, stress_selected, str(datetime.utcnow())])
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
         _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp)
         return fp.name, text
-
-if environ["HF_API_TOKEN"] is None:
-    print("Using default flagging.")
-    flagging_callback = gr.CSVLogger()
-else:
-    print("Using HuggingFace dataset saver.")
-    flagging_callback = gr.HuggingFaceDatasetSaver(hf_token=environ["HF_API_TOKEN"], dataset_name="uk-tts-output", private=True)
 
 
 with open("README.md") as file:
@@ -122,9 +133,6 @@ iface = gr.Interface(
             VoiceOption.Lada.value,
             StressOption.AutomaticStress.value,
         ],
-    ],
-    allow_flagging="auto",
-    flagging_callback=flagging_callback,
-    flagging_options=None
+    ]
 )
 iface.launch(enable_queue=True)
