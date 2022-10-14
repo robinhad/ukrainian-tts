@@ -27,8 +27,8 @@ def log_data(hf_token: str, dataset_name: str, private=True):
         with open(log_file, "a", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile)
 
-            csv_data = data
-            writer.writerow(utils.sanitize_list_for_csv(csv_data))
+            for row in data:
+                writer.writerow(utils.sanitize_list_for_csv(row))
 
         with open(log_file, "r", encoding="utf-8") as csvfile:
             line_count = len([None for row in csv.reader(csvfile)]) - 1

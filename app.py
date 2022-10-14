@@ -8,13 +8,24 @@ from os import getenv
 from data_logger import log_data
 from threading import Thread
 from queue import Queue
+from time import sleep
 
 
 def check_thread(logging_queue: Queue):
     logging_callback = log_data(hf_token=getenv("HF_API_TOKEN"), dataset_name="uk-tts-output", private=True)
     while True:
-        item = logging_queue.get()
-        logging_callback(item)
+        sleep(60)
+        batch = []
+        while not logging_queue.empty():
+            batch.append(logging_queue.get())
+
+        if len(batch) > 0:
+            try:
+                logging_callback(batch)
+            except:
+                print("Error happened while pushing data to HF. Puttting items back in queue...")
+                for item in batch:
+                    logging_queue.put(item)
 
 if getenv("HF_API_TOKEN") is not None:
     log_queue = Queue()
