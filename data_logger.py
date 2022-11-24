@@ -5,7 +5,7 @@ import huggingface_hub
 
 def log_data(hf_token: str, dataset_name: str, private=True):
     path_to_dataset_repo = huggingface_hub.create_repo(
-            name=dataset_name,
+            repo_id=dataset_name,
             token=hf_token,
             private=private,
             repo_type="dataset",
