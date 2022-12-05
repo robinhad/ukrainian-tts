@@ -69,7 +69,7 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
     # add remainder
     if previous != len(new_stressed):
         new_list.append(new_stressed[previous:])
-    
+
     # add stress to single-vowel words
     for word_index in range(0, len(new_list)):
         element = new_list[word_index]

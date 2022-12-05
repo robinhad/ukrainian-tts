@@ -12,7 +12,9 @@ from time import sleep
 
 
 def check_thread(logging_queue: Queue):
-    logging_callback = log_data(hf_token=getenv("HF_API_TOKEN"), dataset_name="uk-tts-output", private=True)
+    logging_callback = log_data(
+        hf_token=getenv("HF_API_TOKEN"), dataset_name="uk-tts-output", private=True
+    )
     while True:
         sleep(60)
         batch = []
@@ -23,9 +25,12 @@ def check_thread(logging_queue: Queue):
             try:
                 logging_callback(batch)
             except:
-                print("Error happened while pushing data to HF. Puttting items back in queue...")
+                print(
+                    "Error happened while pushing data to HF. Puttting items back in queue..."
+                )
                 for item in batch:
                     logging_queue.put(item)
+
 
 if getenv("HF_API_TOKEN") is not None:
     log_queue = Queue()
@@ -44,6 +49,7 @@ class VoiceOption(Enum):
     Lada = "Лада (жіночий) 👩"
     Dmytro = "Дмитро (чоловічий) 👨"
     Olga = "Ольга (жіночий) 👩"
+
 
 print(f"CUDA available? {is_available()}")
 
@@ -70,7 +76,7 @@ def tts(text: str, voice: str, stress: str):
     }
     stress_mapping = {
         StressOption.AutomaticStress.value: Stress.Dictionary.value,
-        StressOption.AutomaticStressWithModel.value: Stress.Model.value
+        StressOption.AutomaticStressWithModel.value: Stress.Model.value,
     }
 
     speaker_name = voice_mapping[voice]
@@ -79,7 +85,7 @@ def tts(text: str, voice: str, stress: str):
     text = (
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
-    
+
     if getenv("HF_API_TOKEN") is not None:
         log_queue.put([text, speaker_name, stress_selected, str(datetime.utcnow())])
 
@@ -90,7 +96,7 @@ def tts(text: str, voice: str, stress: str):
 
 with open("README.md") as file:
     article = file.read()
-    article = article[article.find("---\n", 4) + 5::]
+    article = article[article.find("---\n", 4) + 5 : :]
 
 
 iface = gr.Interface(
@@ -108,7 +114,7 @@ iface = gr.Interface(
         gr.components.Radio(
             label="Наголоси",
             choices=[option.value for option in StressOption],
-            value=StressOption.AutomaticStress.value
+            value=StressOption.AutomaticStress.value,
         ),
     ],
     outputs=[
@@ -144,6 +150,6 @@ iface = gr.Interface(
             VoiceOption.Lada.value,
             StressOption.AutomaticStress.value,
         ],
-    ]
+    ],
 )
 iface.launch(enable_queue=True)

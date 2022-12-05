@@ -76,5 +76,4 @@ def preprocess_text(text, use_autostress_model=False):
         text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
-
     return text
