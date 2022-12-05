@@ -46,6 +46,7 @@ def stress_dict(sentence: str):
 def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
     # save custom stress positions
     all_stresses = []
+    sentence = sentence.replace("\n", " ")
     orig_words = sentence.split(" ")
     for i in range(0, len(orig_words)):
         if "+" in orig_words[i]:
