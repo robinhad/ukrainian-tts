@@ -1,4 +1,0 @@
-# requirements for HuggingFace demo. Installs local package.
-.
-torch>=1.12.1
---extra-index-url https://download.pytorch.org/whl/cu113
