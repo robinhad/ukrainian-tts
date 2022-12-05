@@ -4,6 +4,7 @@ from os.path import exists, join
 from TTS.utils.synthesizer import Synthesizer
 from enum import Enum
 from .formatter import preprocess_text
+from .stress import sentence_to_stress, stress_dict, stress_with_model
 from torch import no_grad
 
 class Voices(Enum):
@@ -55,6 +56,7 @@ class TTS:
             raise ValueError(f"Invalid value for voice selected! Please use one of the following values: {', '.join([option.value for option in Voices])}.")
 
         text = preprocess_text(text, stress)
+        text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
 
         with no_grad():
             wavs = self.synthesizer.tts(text, speaker_name=voice)

@@ -1,6 +1,5 @@
 import num2words
 import re
-from .stress import sentence_to_stress, stress_dict, stress_with_model
 
 
 def preprocess_text(text, use_autostress_model=False):
@@ -77,28 +76,5 @@ def preprocess_text(text, use_autostress_model=False):
         text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
-    text = sentence_to_stress(
-        text, stress_with_model if use_autostress_model else stress_dict
-    )
 
     return text
-
-
-if __name__ == "__main__":
-    assert preprocess_text("Quality of life update") == "КВюаліті оф ліфе юпдате"
-    assert (
-        preprocess_text("Він украв 20000000 $") == "Він украв двадцять мільйонів долар"
-    )
-    assert (
-        preprocess_text("111 000 000 000 доларів державного боргу.")
-        == "сто одинадцять мільярдів доларів державного боргу."
-    )
-    assert (
-        preprocess_text("11100000001 доларів державного боргу.")
-        == "одинадцять мільярдів сто мільйонів одна доларів державного боргу."
-    )
-    assert preprocess_text("це 19-річне вино.") == "це дев'ятнадцять-річне вино."
-    assert (
-        preprocess_text("10-30-40-50-5-9-5")
-        == "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"
-    )
