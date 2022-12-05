@@ -6,7 +6,7 @@ stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 
 vowels = "аеєиіїоуюя"
 consonants = "бвгґджзйклмнпрстфхцчшщь"
-special = "'"
+special = "'-"
 alphabet = vowels + consonants + special
 
 
