@@ -36,6 +36,7 @@ jobs:
           pytest
   sync-to-hub:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/checkout@v2
         with:
