@@ -7,7 +7,7 @@ stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 vowels = "аеєиіїоуюя"
 consonants = "бвгґджзйклмнпрстфхцчшщь"
 special = "'-"
-alphabet = vowels + consonants + special
+alphabet = vowels + consonants + special + "+"
 
 
 def _shift_stress(stressed):
@@ -46,7 +46,6 @@ def stress_dict(sentence: str):
 def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
     # save custom stress positions
     all_stresses = []
-    sentence = sentence.replace("\n", " ")
     orig_words = sentence.split(" ")
     for i in range(0, len(orig_words)):
         if "+" in orig_words[i]:
@@ -56,7 +55,22 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
     new_stressed = stress_function(sentence)
 
     # stress single vowel words
-    new_list: List[str] = new_stressed.split(" ")
+    new_list = []
+    # if letter is not in alphabet, then consider it an end of the word
+    previous = 0
+    for i, letter in enumerate(new_stressed):
+        if letter.lower() not in alphabet:
+            if previous == i:
+                new_list.append(new_stressed[i])
+            else:
+                new_list.append(new_stressed[previous:i])
+                new_list.append(new_stressed[i])
+            previous = i + 1
+    # add remainder
+    if previous != len(new_stressed):
+        new_list.append(new_stressed[previous:])
+    
+    # add stress to single-vowel words
     for word_index in range(0, len(new_list)):
         element = new_list[word_index]
         vowels_in_words = list(map(lambda letter: letter in vowels, element.lower()))
@@ -67,7 +81,7 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
         elif vowels_in_words.count(True) == 1:
             vowel_index = vowels_in_words.index(True)
             new_list[word_index] = element[0:vowel_index] + "+" + element[vowel_index::]
-    new_stressed = " ".join(new_list)
+    new_stressed = "".join(new_list)
 
     # replace already stressed words
     if len(all_stresses) > 0:
