@@ -15,7 +15,8 @@ Ukrainian TTS (text-to-speech) using Coqui TTS.
 
 ![pytest](https://github.com/robinhad/ukrainian-tts/actions/workflows/hf-sync.yml/badge.svg)
 [![Open In HF🤗 Space ](https://img.shields.io/badge/Open%20Demo-%F0%9F%A4%97%20Space-yellow)](https://huggingface.co/spaces/robinhad/ukrainian-tts)
-[![Open Bot](https://img.shields.io/badge/Open%20Bot-🤖%20Telegram-blue)](https://t.me/uk_tts_bot)
+[![Open Bot](https://img.shields.io/badge/Open%20Bot%20🤖-Telegram-blue)](https://t.me/uk_tts_bot)
+[![chat](https://img.shields.io/badge/chat-Telegram-blue)](https://t.me/speech_recognition_uk)
 
 Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)  
 Note: online demo saves user input to improve user experience, by using it you give your consent to analyze this data.   
