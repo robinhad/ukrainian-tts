@@ -67,11 +67,12 @@ class TTS:
         text = preprocess_text(text, stress)
         text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
 
-
         # synthesis
         with no_grad():
             start = time.time()
-            wav = self.synthesizer(text, sids=np.array(voice), decode_conf={"alpha": 1/speed})["wav"]
+            wav = self.synthesizer(
+                text, sids=np.array(voice), decode_conf={"alpha": 1 / speed}
+            )["wav"]
 
         rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
         print(f"RTF = {rtf:5f}")

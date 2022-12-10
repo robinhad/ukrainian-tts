@@ -84,7 +84,9 @@ def tts(text: str, voice: str, stress: str, speed: float):
     )  # mitigate crashes on hf space
 
     if getenv("HF_API_TOKEN") is not None:
-        log_queue.put([text, speaker_name, stress_selected, speed, str(datetime.utcnow())])
+        log_queue.put(
+            [text, speaker_name, stress_selected, speed, str(datetime.utcnow())]
+        )
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
         _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp, speed)
@@ -114,12 +116,8 @@ iface = gr.Interface(
             value=StressOption.AutomaticStress.value,
         ),
         gr.components.Slider(
-            label="Швидкість",
-            minimum=0.5,
-            maximum=2,
-            value=1,
-            step=0.1 
-        )
+            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.1
+        ),
     ],
     outputs=[
         gr.components.Audio(label="Output"),
