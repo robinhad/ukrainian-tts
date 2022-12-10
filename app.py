@@ -131,44 +131,43 @@ iface = gr.Interface(
             "Вв+едіть, будь ласка, св+оє реч+ення.",
             VoiceOption.Dmytro.value,
             StressOption.AutomaticStress.value,
-            1
+            1,
         ],
         [
             "Вв+едіть, будь ласка, св+оє реч+ення.",
             VoiceOption.Dmytro.value,
             StressOption.AutomaticStress.value,
-            1.3
+            1.3,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Mykyta.value,
             StressOption.AutomaticStress.value,
-            1
+            1,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Mykyta.value,
             StressOption.AutomaticStress.value,
-            0.7
+            0.7,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Olena.value,
             StressOption.AutomaticStress.value,
-            1
+            1,
         ],
-        
         [
             "Привіт, як тебе звати?",
             VoiceOption.Olga.value,
             StressOption.AutomaticStress.value,
-            1
+            1,
         ],
         [
             "Договір підписано 4 квітня 1949 року.",
             VoiceOption.Lada.value,
             StressOption.AutomaticStress.value,
-            1
+            1,
         ],
     ],
 )
