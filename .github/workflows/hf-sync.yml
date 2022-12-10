@@ -8,6 +8,7 @@ on:
 
 jobs:
   windows:
+    name: Run pytest on Windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
