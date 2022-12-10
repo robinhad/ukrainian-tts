@@ -4,14 +4,14 @@ emoji: 🐌
 colorFrom: blue
 colorTo: yellow
 sdk: gradio
-sdk_version : 3.3
+sdk_version : 3.12
 python_version: 3.9
 app_file: app.py
 pinned: false
 ---
 
 # Ukrainian TTS 📢🤖
-Ukrainian TTS (text-to-speech) using Coqui TTS.
+Ukrainian TTS (text-to-speech) using ESPNET.
 
 ![pytest](https://github.com/robinhad/ukrainian-tts/actions/workflows/hf-sync.yml/badge.svg)
 [![Open In HF🤗 Space ](https://img.shields.io/badge/Open%20Demo-%F0%9F%A4%97%20Space-yellow)](https://huggingface.co/spaces/robinhad/ukrainian-tts)
@@ -65,33 +65,15 @@ pip install git+https://github.com/robinhad/ukrainian-tts.git
 ```python
 from ukrainian_tts.tts import TTS, Voices, Stress
 
-tts = TTS(use_cuda=False)
+tts = TTS()
 with open("test.wav", mode="wb") as file:
     _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Model.value, file)
 print("Accented text:", text)
 ```
 
-## Run manually:  
-`Caution: this won't use normalizer and autostress like a web demo. ` 
-1. `pip install -r requirements.txt`.
-2. Download `model.pth` and `speakers.pth` from "Releases" tab.
-3. Launch as one-time command:  
-```
-tts --text "Text for TTS" \
-    --model_path path/to/model.pth \
-    --config_path path/to/config.json \
-    --speaker_idx dmytro \
-    --out_path folder/to/save/output.wav
-```
-or alternatively launch web server using:
-```
-tts-server --model_path path/to/model.pth \
-    --config_path path/to/config.json
-```
 
 # How to train: 🏋️
-1. Refer to ["Nervous beginner guide"](https://tts.readthedocs.io/en/latest/tutorial_for_nervous_beginners.html) in Coqui TTS docs.
-2. Instead of provided `config.json` use one from this repo.
+TBD
 
 
 # Attribution 🤝

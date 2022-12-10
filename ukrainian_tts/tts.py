@@ -1,21 +1,24 @@
 from io import BytesIO
 import requests
 from os.path import exists, join
-from TTS.utils.synthesizer import Synthesizer
+from espnet2.bin.tts_inference import Text2Speech
 from enum import Enum
 from .formatter import preprocess_text
 from .stress import sentence_to_stress, stress_dict, stress_with_model
 from torch import no_grad
+import numpy as np
+import time
+import soundfile as sf
 
 
 class Voices(Enum):
     """List of available voices for the model."""
 
-    Olena = "olena"
-    Mykyta = "mykyta"
-    Lada = "lada"
-    Dmytro = "dmytro"
-    Olga = "olga"
+    Olena = 4
+    Mykyta = 3
+    Lada = 2
+    Dmytro = 1
+    Olga = 5
 
 
 class Stress(Enum):
@@ -30,14 +33,15 @@ class Stress(Enum):
 class TTS:
     """ """
 
-    def __init__(self, cache_folder=None, use_cuda=False) -> None:
+    def __init__(self, cache_folder=None, device="cpu") -> None:
         """
         Class to setup a text-to-speech engine, from download to model creation.  \n
         Downloads or uses files from `cache_folder` directory.  \n
         By default stores in current directory."""
-        self.__setup_cache(cache_folder, use_cuda=use_cuda)
+        self.device = device
+        self.__setup_cache(cache_folder)
 
-    def tts(self, text: str, voice: str, stress: str, output_fp=BytesIO()):
+    def tts(self, text: str, voice: int, stress: str, output_fp=BytesIO(), speed=1.0):
         """
         Run a Text-to-Speech engine and output to `output_fp` BytesIO-like object.
         - `text` - your model input text.
@@ -63,39 +67,50 @@ class TTS:
         text = preprocess_text(text, stress)
         text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
 
+        self.synthesizer = Text2Speech(
+            train_config="config.yaml",
+            model_file="model.pth",
+            device=self.device,
+            speed_control_alpha=1 / speed,
+            # Only for VITS
+            noise_scale=0.333,
+            noise_scale_dur=0.333,
+        )
+        # synthesis
         with no_grad():
-            wavs = self.synthesizer.tts(text, speaker_name=voice)
-            self.synthesizer.save_wav(wavs, output_fp)
+            start = time.time()
+            wav = self.synthesizer(text, sids=np.array(voice))["wav"]
+
+        rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
+        print(f"RTF = {rtf:5f}")
+
+        sf.write(
+            output_fp,
+            wav.view(-1).cpu().numpy(),
+            self.synthesizer.fs,
+            "PCM_16",
+            format="wav",
+        )
 
         output_fp.seek(0)
 
         return output_fp, text
 
-    def __setup_cache(self, cache_folder=None, use_cuda=False):
+    def __setup_cache(self, cache_folder=None):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
         print("downloading uk/mykyta/vits-tts")
-        release_number = "v3.0.0"
-        model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model-inference.pth"
-        config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.json"
-        speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/speakers.pth"
+        release_number = "v4.0.0"
+        model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
+        config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
 
         if cache_folder is None:
             cache_folder = "."
 
         model_path = join(cache_folder, "model.pth")
-        config_path = join(cache_folder, "config.json")
-        speakers_path = join(cache_folder, "speakers.pth")
+        config_path = join(cache_folder, "config.yaml")
 
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
-        self.__download(speakers_link, speakers_path)
-
-        self.synthesizer = Synthesizer(
-            model_path, config_path, speakers_path, None, None, use_cuda=use_cuda
-        )
-
-        if self.synthesizer is None:
-            raise NameError("Model not found")
 
     def __download(self, url, file_name):
         """Downloads file from `url` into local `file_name` file."""

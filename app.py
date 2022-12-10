@@ -53,11 +53,8 @@ class VoiceOption(Enum):
 
 print(f"CUDA available? {is_available()}")
 
-badge = (
-    "https://visitor-badge-reloaded.herokuapp.com/badge?page_id=robinhad.ukrainian-tts"
-)
 
-ukr_tts = TTS(use_cuda=is_available())
+ukr_tts = TTS()
 
 
 def tts(text: str, voice: str, stress: str):
@@ -121,9 +118,9 @@ iface = gr.Interface(
         gr.components.Audio(label="Output"),
         gr.components.Textbox(label="Наголошений текст"),
     ],
-    title="🐸💬🇺🇦 - Coqui TTS",
-    description="Україномовний🇺🇦 TTS за допомогою Coqui TTS (щоб вручну поставити наголос, використовуйте + перед голосною)",
-    article=article + f'\n  <center><img src="{badge}" alt="visitors badge"/></center>',
+    title="🤖💬🇺🇦 - ESPNET",
+    description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною)",
+    article=article,
     examples=[
         [
             "Введіть, будь ласка, своє речення.",

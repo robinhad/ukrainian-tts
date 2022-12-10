@@ -3,9 +3,9 @@ from io import BytesIO
 
 
 def test_tts():
-    tts = TTS(use_cuda=False)
+    tts = TTS()
     file = BytesIO()
     _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Dictionary.value, file)
     file.seek(0)
-    assert text == "Прив+іт"
+    assert text == "прив+іт"
     assert file.getbuffer().nbytes > 1000  # check that file was generated
