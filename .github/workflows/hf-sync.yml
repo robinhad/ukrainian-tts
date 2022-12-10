@@ -7,6 +7,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+      - name: Test windows-latest binding
+        run: |
+          python -m venv venv3
+          venv3\Scripts\Activate.ps1
+          python -m pip install .
+
   build:
     name: Run pytest and checks
     runs-on: ubuntu-latest
