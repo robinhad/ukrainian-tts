@@ -16,8 +16,8 @@ tts_conf:
     generator_type: vits_generator
     generator_params:
         hidden_channels: 192
-        spks: -1
-        global_channels: -1
+        spks: 128
+        global_channels: 256
         segment_size: 32
         text_encoder_attention_heads: 2
         text_encoder_ffn_expand: 4
@@ -159,16 +159,18 @@ generator_first: false # whether to start updating generator first
 #                OTHER TRAINING SETTING                  #
 ##########################################################
 #num_iters_per_epoch: 1000 # number of iterations per epoch
-max_epoch: 1000           # number of epochs
+max_epoch: 30           # number of epochs
 accum_grad: 1             # gradient accumulation
-batch_bins: 9000000       # batch bins (feats_type=raw)
+batch_bins: 1900000       # batch bins (feats_type=raw)
 batch_type: numel         # how to make batch
+#batch_type: sorted           # how to make batchbatch_size: 1
 grad_clip: -1             # gradient clipping norm
 grad_noise: false         # whether to use gradient noise injection
 sort_in_batch: descending # how to sort data in making batch
 sort_batch: descending    # how to sort created batches
-num_workers: 12            # number of workers of data loader
+num_workers: 1            # number of workers of data loader
 use_amp: false            # whether to use pytorch amp
+train_dtype: float32
 log_interval: 50          # log interval in iterations
 keep_nbest_models: 10     # number of models to keep
 num_att_plot: 3           # number of attention figures to be saved in every check
