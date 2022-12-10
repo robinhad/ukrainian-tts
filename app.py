@@ -84,7 +84,7 @@ def tts(text: str, voice: str, stress: str, speed: float):
     )  # mitigate crashes on hf space
 
     if getenv("HF_API_TOKEN") is not None:
-        log_queue.put([text, speaker_name, stress_selected, str(datetime.utcnow())])
+        log_queue.put([text, speaker_name, stress_selected, speed, str(datetime.utcnow())])
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
         _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp, speed)
