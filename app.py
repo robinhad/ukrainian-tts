@@ -57,7 +57,7 @@ print(f"CUDA available? {is_available()}")
 ukr_tts = TTS()
 
 
-def tts(text: str, voice: str, stress: str):
+def tts(text: str, voice: str, stress: str, speed: float):
     print("============================")
     print("Original text:", text)
     print("Voice", voice)
@@ -87,7 +87,7 @@ def tts(text: str, voice: str, stress: str):
         log_queue.put([text, speaker_name, stress_selected, str(datetime.utcnow())])
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp)
+        _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp, speed)
         return fp.name, text
 
 
@@ -113,6 +113,13 @@ iface = gr.Interface(
             choices=[option.value for option in StressOption],
             value=StressOption.AutomaticStress.value,
         ),
+        gr.components.Slider(
+            label="Швидкість",
+            minimum=0.5,
+            maximum=2,
+            value=1,
+            step=0.1 
+        )
     ],
     outputs=[
         gr.components.Audio(label="Output"),

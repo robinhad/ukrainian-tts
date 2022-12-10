@@ -67,19 +67,11 @@ class TTS:
         text = preprocess_text(text, stress)
         text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
 
-        self.synthesizer = Text2Speech(
-            train_config="config.yaml",
-            model_file="model.pth",
-            device=self.device,
-            speed_control_alpha=1 / speed,
-            # Only for VITS
-            noise_scale=0.333,
-            noise_scale_dur=0.333,
-        )
+
         # synthesis
         with no_grad():
             start = time.time()
-            wav = self.synthesizer(text, sids=np.array(voice))["wav"]
+            wav = self.synthesizer(text, sids=np.array(voice), decode_conf={"alpha": 1/speed})["wav"]
 
         rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
         print(f"RTF = {rtf:5f}")
@@ -111,6 +103,15 @@ class TTS:
 
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
+
+        self.synthesizer = Text2Speech(
+            train_config="config.yaml",
+            model_file="model.pth",
+            device=self.device,
+            # Only for VITS
+            noise_scale=0.333,
+            noise_scale_dur=0.333,
+        )
 
     def __download(self, url, file_name):
         """Downloads file from `url` into local `file_name` file."""
