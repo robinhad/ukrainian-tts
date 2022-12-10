@@ -20,7 +20,7 @@ def log_data(hf_token: str, dataset_name: str, private=True):
         use_auth_token=hf_token,
     )
     repo.git_pull(lfs=True)
-    log_file = os.path.join(dataset_dir, "data.csv")
+    log_file = os.path.join(dataset_dir, "data_speed.csv")
 
     def log_function(data):
         repo.git_pull(lfs=True)
