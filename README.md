@@ -67,7 +67,7 @@ from ukrainian_tts.tts import TTS, Voices, Stress
 
 tts = TTS()
 with open("test.wav", mode="wb") as file:
-    _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Model.value, file)
+    _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Dictionary.value, file)
 print("Accented text:", text)
 ```
 
