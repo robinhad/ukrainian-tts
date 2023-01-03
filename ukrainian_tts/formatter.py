@@ -11,18 +11,17 @@ def preprocess_text(text, use_autostress_model=False):
     text = text.replace("`", "'")
     text = text.replace("ʼ", "'")
     text = text.replace("…", "...")
-    
+
     symbols = {
-        "”": "\"",
-        "“": "\"",
-        "’": "\"",
-        "‘": "\"",
-        "«": "\"",
-        "»": "\"",
+        "”": '"',
+        "“": '"',
+        "’": '"',
+        "‘": '"',
+        "«": '"',
+        "»": '"',
         "–": "-",
         "—": "-",
         "―": "-",
-
     }
     for symbol in symbols.keys():
         text = text.replace(symbol, symbols[symbol])
