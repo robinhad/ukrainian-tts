@@ -3,7 +3,7 @@ from ukrainian_tts.formatter import preprocess_text
 
 def test_formatter():
     examples = [
-        ("Quality of life update", "квюаліті оф ліфе юпдате"),
+        ("Quality of life update", "кваліті оф ліфе юпдате"),
         ("Він украв 20000000 $", "він украв двадцять мільйонів долар"),
         (
             "111 000 000 000 доларів державного боргу.",

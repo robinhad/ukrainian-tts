@@ -2,7 +2,8 @@ import num2words
 import re
 
 
-def preprocess_text(text, use_autostress_model=False):
+def preprocess_text(text):
+    text = text.lower()
     # currencies
     text = text.replace("$", "долар")
     text = text.replace("₴", "гривня")
@@ -59,6 +60,9 @@ def preprocess_text(text, use_autostress_model=False):
     text = text.replace("0", "нуль ")
     # speak english alphabet using brute force transliteration
     english = {
+        "qu": "кв",
+        "ch": "ч",
+        "ph": "ф",
         "a": "а",
         "b": "б",
         "c": "ц",
@@ -91,5 +95,4 @@ def preprocess_text(text, use_autostress_model=False):
         text = text.replace(english_char.upper(), english[english_char].upper())
         text = text.replace(english_char, english[english_char])
 
-    text = text.lower()
     return text
