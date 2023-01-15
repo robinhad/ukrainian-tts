@@ -64,7 +64,7 @@ class TTS:
                 f"Invalid value for voice selected! Please use one of the following values: {', '.join([option.value for option in Voices])}."
             )
 
-        text = preprocess_text(text, stress)
+        text = preprocess_text(text)
         text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
 
         # synthesis
