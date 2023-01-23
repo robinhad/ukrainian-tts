@@ -15,6 +15,7 @@ Ukrainian TTS (text-to-speech) using ESPNET.
 
 ![pytest](https://github.com/robinhad/ukrainian-tts/actions/workflows/hf-sync.yml/badge.svg)
 [![Open In HF🤗 Space ](https://img.shields.io/badge/Open%20Demo-%F0%9F%A4%97%20Space-yellow)](https://huggingface.co/spaces/robinhad/ukrainian-tts)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/robinhad/ukrainian-tts/blob/main/tts_example.ipynb)
 [![Open Bot](https://img.shields.io/badge/Open%20Bot%20🤖-Telegram-blue)](https://t.me/uk_tts_bot)
 [![chat](https://img.shields.io/badge/chat-Telegram-blue)](https://t.me/speech_recognition_uk)
 
@@ -56,20 +57,8 @@ https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8
 https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
 
 # How to use: 📢
-## As a package:
-1. Install using command:
-```
-pip install git+https://github.com/robinhad/ukrainian-tts.git
-```
-2. Run a code snippet:
-```python
-from ukrainian_tts.tts import TTS, Voices, Stress
 
-tts = TTS()
-with open("test.wav", mode="wb") as file:
-    _, text = tts.tts("Привіт", Voices.Dmytro.value, Stress.Dictionary.value, file)
-print("Accented text:", text)
-```
+See example notebook: [tts_example.ipynb](./tts_example.ipynb)   
 
 
 # How to train: 🏋️
