@@ -33,15 +33,17 @@ For collaboration and question please contact me here:
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
 # Examples 🤖
 
-`Mykyta (male)`:
-
-https://user-images.githubusercontent.com/5759207/190852232-34956a1d-77a9-42b9-b96d-39d0091e3e34.mp4
-
 
 `Olena (female)`:
 
 https://user-images.githubusercontent.com/5759207/190852238-366782c1-9472-45fc-8fea-31346242f927.mp4
 
+<details>
+  <summary>More voices 📢🤖</summary>
+
+`Mykyta (male)`:
+
+https://user-images.githubusercontent.com/5759207/190852232-34956a1d-77a9-42b9-b96d-39d0091e3e34.mp4
 
 `Dmytro (male)`:
 
@@ -55,6 +57,9 @@ https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8
 
 
 https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
+
+</details>
+
 
 # How to use: 📢
 
