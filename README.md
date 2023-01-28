@@ -63,8 +63,7 @@ https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8
 
 # How to use: 📢
 
-See example notebook: [tts_example.ipynb](./tts_example.ipynb)   
-
+See example notebook: [tts_example.ipynb](./tts_example.ipynb)  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/robinhad/ukrainian-tts/blob/main/tts_example.ipynb)
 
 # How to train: 🏋️
 TBD
