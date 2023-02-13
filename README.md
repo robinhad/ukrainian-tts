@@ -25,6 +25,15 @@ Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](ht
 Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)  
 
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
+
+# Features
+- Multiple voices
+- Automatic stress with priority queue: `user-defined` > `dictionary` > `model`
+- Control speech speed
+- Python package works on Windows, Mac, Linux
+- Inference on mobile devices (inference models through `espnet_onnx` without cleaners)
+
+
 # Support ❤️
 If you like my work, please support ❤️ -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)  
 For collaboration and question please contact me here:  
