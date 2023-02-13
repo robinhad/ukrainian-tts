@@ -77,7 +77,9 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
         if "+" in element:
             if element.count("+") > 1:
                 first = element.find("+")
-                new_list[word_index] = new_list[word_index][:first + 1] + new_list[word_index][first + 1:].replace("+", "")
+                new_list[word_index] = new_list[word_index][: first + 1] + new_list[
+                    word_index
+                ][first + 1 :].replace("+", "")
             continue
         if vowels_in_words.count(True) == 0:
             continue
@@ -86,7 +88,7 @@ def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
             new_list[word_index] = element[0:vowel_index] + "+" + element[vowel_index::]
         elif vowels_in_words.count(True) > 1:
             new_list[word_index] = stress_with_model(element)
-            
+
     new_stressed = "".join(new_list)
 
     # replace already stressed words
