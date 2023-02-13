@@ -171,4 +171,5 @@ iface = gr.Interface(
         ],
     ],
 )
-iface.launch(enable_queue=True)
+iface.queue(concurrency_count=6)
+iface.launch()
