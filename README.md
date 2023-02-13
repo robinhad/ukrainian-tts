@@ -26,7 +26,7 @@ Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)
 
 Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
 
-# Features
+# Features ⚙️
 - Multiple voices
 - Automatic stress with priority queue: `user-defined` > `dictionary` > `model`
 - Control speech speed
