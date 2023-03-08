@@ -62,7 +62,9 @@ def preprocess_text(text):
     english = {
         "qu": "кв",
         "ch": "ч",
+        "sh": "ш",
         "ph": "ф",
+        "kh": "х",
         "a": "а",
         "b": "б",
         "c": "ц",
