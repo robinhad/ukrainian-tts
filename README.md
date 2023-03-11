@@ -41,30 +41,27 @@ For collaboration and questions please contact me here:
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
 # Examples 🤖
 
+`Tetiana (female)`:
 
-`Olena (female)`:
+https://user-images.githubusercontent.com/5759207/224504324-d8236cad-7302-4dfd-9696-7a42b9f05fce.mp4
 
-https://user-images.githubusercontent.com/5759207/190852238-366782c1-9472-45fc-8fea-31346242f927.mp4
 
 <details>
   <summary>More voices 📢🤖</summary>
 
-`Mykyta (male)`:
-
-https://user-images.githubusercontent.com/5759207/190852232-34956a1d-77a9-42b9-b96d-39d0091e3e34.mp4
-
 `Dmytro (male)`:
 
-https://user-images.githubusercontent.com/5759207/190852251-db105567-52ba-47b5-8ec6-5053c3baac8c.mp4
+https://user-images.githubusercontent.com/5759207/224504354-f84f74d3-fa46-497c-9604-4b63ba45989f.mp4
 
-`Olha (female)`:
-
-https://user-images.githubusercontent.com/5759207/190852259-c6746172-05c4-4918-8286-a459c654eef1.mp4
 
 `Lada (female)`:
 
+https://user-images.githubusercontent.com/5759207/224504360-ec198ac2-647c-4238-99ef-b6f074d633fd.mp4
 
-https://user-images.githubusercontent.com/5759207/190852270-7aed2db9-dc08-4a9f-8775-07b745657ca1.mp4
+
+`Mykyta (male)`:
+
+https://user-images.githubusercontent.com/5759207/224504363-0227e8bf-8c1c-49ad-8602-8cbf8feaa82b.mp4
 
 </details>
 
