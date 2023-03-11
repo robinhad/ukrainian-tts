@@ -38,46 +38,33 @@ if getenv("HF_API_TOKEN") is not None:
     t.start()
 
 
-class StressOption(Enum):
-    AutomaticStress = "Автоматичні наголоси (за словником) 📖"
-    AutomaticStressWithModel = "Автоматичні наголоси (за допомогою моделі) 🧮"
-
-
 class VoiceOption(Enum):
-    Olena = "Олена (жіночий) 👩"
+    Tetiana = "Тетяна (жіночий) 👩"
     Mykyta = "Микита (чоловічий) 👨"
     Lada = "Лада (жіночий) 👩"
     Dmytro = "Дмитро (чоловічий) 👨"
-    Olga = "Ольга (жіночий) 👩"
 
 
 print(f"CUDA available? {is_available()}")
 
 
-ukr_tts = TTS()
+ukr_tts = TTS(device="cuda" if is_available() else "cpu")
 
 
-def tts(text: str, voice: str, stress: str, speed: float):
+def tts(text: str, voice: str, speed: float):
     print("============================")
     print("Original text:", text)
     print("Voice", voice)
-    print("Stress:", stress)
     print("Time:", datetime.utcnow())
 
     voice_mapping = {
-        VoiceOption.Olena.value: Voices.Olena.value,
+        VoiceOption.Tetiana.value: Voices.Tetiana.value,
         VoiceOption.Mykyta.value: Voices.Mykyta.value,
         VoiceOption.Lada.value: Voices.Lada.value,
         VoiceOption.Dmytro.value: Voices.Dmytro.value,
-        VoiceOption.Olga.value: Voices.Olga.value,
-    }
-    stress_mapping = {
-        StressOption.AutomaticStress.value: Stress.Dictionary.value,
-        StressOption.AutomaticStressWithModel.value: Stress.Model.value,
     }
 
     speaker_name = voice_mapping[voice]
-    stress_selected = stress_mapping[stress]
     text_limit = 7200
     text = (
         text if len(text) < text_limit else text[0:text_limit]
@@ -85,11 +72,11 @@ def tts(text: str, voice: str, stress: str, speed: float):
 
     if getenv("HF_API_TOKEN") is not None:
         log_queue.put(
-            [text, speaker_name, stress_selected, speed, str(datetime.utcnow())]
+            [text, speaker_name, Stress.Dictionary.value, speed, str(datetime.utcnow())]
         )
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        _, text = ukr_tts.tts(text, speaker_name, stress_selected, fp, speed)
+        _, text = ukr_tts.tts(text, speaker_name, Stress.Dictionary.value, fp, speed)
         return fp.name, text
 
 
@@ -103,20 +90,15 @@ iface = gr.Interface(
     inputs=[
         gr.components.Textbox(
             label="Input",
-            value="Введіть, будь ласка, своє р+ечення.",
+            value="Введіть, будь ласка, своє речення.",
         ),
         gr.components.Radio(
             label="Голос",
             choices=[option.value for option in VoiceOption],
-            value=VoiceOption.Olena.value,
-        ),
-        gr.components.Radio(
-            label="Наголоси",
-            choices=[option.value for option in StressOption],
-            value=StressOption.AutomaticStress.value,
+            value=VoiceOption.Tetiana.value,
         ),
         gr.components.Slider(
-            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.1
+            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.05
         ),
     ],
     outputs=[
@@ -128,48 +110,36 @@ iface = gr.Interface(
     article=article,
     examples=[
         [
-            "Вв+едіть, будь ласка, св+оє реч+ення.",
-            VoiceOption.Dmytro.value,
-            StressOption.AutomaticStress.value,
+            "Привіт, як тебе звати?",
+            VoiceOption.Tetiana.value,
             1,
         ],
         [
-            "Вв+едіть, будь ласка, св+оє реч+ення.",
+            "Введіть, будь ласка, св+оє реч+ення.",
             VoiceOption.Dmytro.value,
-            StressOption.AutomaticStress.value,
+            1,
+        ],
+        [
+            "Введіть, будь ласка, своє речення.",
+            VoiceOption.Dmytro.value,
             1.3,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Mykyta.value,
-            StressOption.AutomaticStress.value,
             1,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Mykyta.value,
-            StressOption.AutomaticStress.value,
             0.7,
-        ],
-        [
-            "Введіть, будь ласка, своє речення.",
-            VoiceOption.Olena.value,
-            StressOption.AutomaticStress.value,
-            1,
-        ],
-        [
-            "Привіт, як тебе звати?",
-            VoiceOption.Olga.value,
-            StressOption.AutomaticStress.value,
-            1,
         ],
         [
             "Договір підписано 4 квітня 1949 року.",
             VoiceOption.Lada.value,
-            StressOption.AutomaticStress.value,
-            1,
+            0.9,
         ],
     ],
 )
-iface.queue(concurrency_count=6)
+iface.queue(concurrency_count=6)  # for HF specifically
 iface.launch()

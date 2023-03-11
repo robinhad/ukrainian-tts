@@ -9,16 +9,16 @@ from torch import no_grad
 import numpy as np
 import time
 import soundfile as sf
+from kaldiio import load_ark
 
 
 class Voices(Enum):
     """List of available voices for the model."""
 
-    Olena = 4
-    Mykyta = 3
-    Lada = 2
-    Dmytro = 1
-    Olga = 5
+    Tetiana = "tetiana"
+    Mykyta = "mykyta"
+    Lada = "lada"
+    Dmytro = "dmytro"
 
 
 class Stress(Enum):
@@ -41,7 +41,7 @@ class TTS:
         self.device = device
         self.__setup_cache(cache_folder)
 
-    def tts(self, text: str, voice: int, stress: str, output_fp=BytesIO(), speed=1.0):
+    def tts(self, text: str, voice: str, stress: str, output_fp=BytesIO(), speed=1.0):
         """
         Run a Text-to-Speech engine and output to `output_fp` BytesIO-like object.
         - `text` - your model input text.
@@ -71,7 +71,7 @@ class TTS:
         with no_grad():
             start = time.time()
             wav = self.synthesizer(
-                text, sids=np.array(voice), decode_conf={"alpha": 1 / speed}
+                text, spembs=self.xvectors[voice][0], decode_conf={"alpha": 1 / speed}
             )["wav"]
 
         rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
@@ -91,19 +91,25 @@ class TTS:
 
     def __setup_cache(self, cache_folder=None):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
-        print("downloading uk/mykyta/vits-tts")
-        release_number = "v4.0.0"
+        release_number = "v5.0.0"
+        print(
+            f"downloading https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}"
+        )
         model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
         config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
+        speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/spk_xvector.ark"
 
         if cache_folder is None:
             cache_folder = "."
 
         model_path = join(cache_folder, "model.pth")
         config_path = join(cache_folder, "config.yaml")
+        speakers_path = join(cache_folder, "spk_xvector.ark")
 
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
+        self.__download(speakers_link, speakers_path)
+        print("downloaded.")
 
         self.synthesizer = Text2Speech(
             train_config="config.yaml",
@@ -113,6 +119,7 @@ class TTS:
             noise_scale=0.333,
             noise_scale_dur=0.333,
         )
+        self.xvectors = {k: v for k, v in load_ark(speakers_path)}
 
     def __download(self, url, file_name):
         """Downloads file from `url` into local `file_name` file."""
