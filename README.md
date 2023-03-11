@@ -20,24 +20,22 @@ Ukrainian TTS (text-to-speech) using ESPNET.
 [![chat](https://img.shields.io/badge/chat-Telegram-blue)](https://t.me/speech_recognition_uk)
 
 Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)  
-Note: online demo saves user input to improve user experience, by using it you give your consent to analyze this data.   
+Note: online demo saves user input to improve user experience; by using it, you consent to analyze this data.   
 Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)  
 Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)  
-
-Code is licensed under `MIT License`, models are under `GNU GPL v3 License`. 
 
 # Features ⚙️
 - Completely offline
 - Multiple voices
 - Automatic stress with priority queue: `user-defined` > `dictionary` > `model`
 - Control speech speed
-- Python package works on Windows, Mac, Linux
+- Python package works on Windows, Mac (x86/M1), Linux(x86/ARM)
 - Inference on mobile devices (inference models through `espnet_onnx` without cleaners)
 
 
 # Support ❤️
 If you like my work, please support ❤️ -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)  
-For collaboration and question please contact me here:  
+For collaboration and questions please contact me here:  
 [Telegram https://t.me/robinhad](https://t.me/robinhad)  
 [Twitter https://twitter.com/robinhad](https://twitter.com/robinhad)  
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
@@ -82,7 +80,7 @@ Link to guide: [training/STEPS.md](training/STEPS.md)
 # Attribution 🤝
 
 - Model training - [Yurii Paniv @robinhad](https://github.com/robinhad)   
-- Mykyta, Olena, Lada, Dmytro, Olha dataset - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
+- [Open Source Ukrainian Text-to-Speech dataset](https://github.com/egorsmkv/ukrainian-tts-datasets) - [Yehor Smoliakov @egorsmkv](https://github.com/egorsmkv)   
 - Dmytro voice - [Dmytro Chaplynskyi @dchaplinsky](https://github.com/dchaplinsky)  
 - Silence cutting using [HMM-GMM](https://github.com/proger/uk) - [Volodymyr Kyrylov @proger](https://github.com/proger)  
 - Autostress (with dictionary) using [ukrainian-word-stress](https://github.com/lang-uk/ukrainian-word-stress) - [Oleksiy Syvokon @asivokon](https://github.com/asivokon)    
