@@ -3,10 +3,10 @@ print_config: false
 log_level: INFO
 dry_run: false
 iterator_type: sequence
-output_dir: /mnt/tts-storage/exp/22k/tts_train_vits_raw_char
+output_dir: exp/22k/tts_train_vits_raw_char
 ngpu: 1
 seed: 3407
-num_workers: 1
+num_workers: 4
 num_att_plot: 3
 dist_backend: nccl
 dist_init_method: env://
@@ -24,7 +24,7 @@ cudnn_benchmark: false
 cudnn_deterministic: false
 collect_stats: false
 write_collected_feats: false
-max_epoch: 300
+max_epoch: 1000
 patience: null
 val_scheduler_criterion:
 - valid
@@ -65,14 +65,14 @@ freeze_param: []
 num_iters_per_epoch: null
 batch_size: 20
 valid_batch_size: null
-batch_bins: 1900000
+batch_bins: 1500000
 valid_batch_bins: null
 train_shape_file:
-- /mnt/tts-storage/exp/22k/tts_stats_raw_linear_spectrogram_char/train/text_shape.char
-- /mnt/tts-storage/exp/22k/tts_stats_raw_linear_spectrogram_char/train/speech_shape
+- exp/22k/tts_stats_raw_linear_spectrogram_char/train/text_shape.char
+- exp/22k/tts_stats_raw_linear_spectrogram_char/train/speech_shape
 valid_shape_file:
-- /mnt/tts-storage/exp/22k/tts_stats_raw_linear_spectrogram_char/valid/text_shape.char
-- /mnt/tts-storage/exp/22k/tts_stats_raw_linear_spectrogram_char/valid/speech_shape
+- exp/22k/tts_stats_raw_linear_spectrogram_char/valid/text_shape.char
+- exp/22k/tts_stats_raw_linear_spectrogram_char/valid/speech_shape
 batch_type: numel
 valid_batch_type: null
 fold_length:
@@ -91,9 +91,9 @@ train_data_path_and_name_and_type:
 -   - dump/22k/raw/tr_no_dev/wav.scp
     - speech
     - sound
--   - dump/22k/raw/tr_no_dev/utt2sid
-    - sids
-    - text_int
+-   - dump/22k/xvector/tr_no_dev/xvector.scp
+    - spembs
+    - kaldi_ark
 valid_data_path_and_name_and_type:
 -   - dump/22k/raw/dev/text
     - text
@@ -101,13 +101,15 @@ valid_data_path_and_name_and_type:
 -   - dump/22k/raw/dev/wav.scp
     - speech
     - sound
--   - dump/22k/raw/dev/utt2sid
-    - sids
-    - text_int
+-   - dump/22k/xvector/dev/xvector.scp
+    - spembs
+    - kaldi_ark
 allow_variable_data_keys: false
 max_cache_size: 0.0
 max_cache_fd: 32
 valid_max_cache_size: null
+exclude_weight_decay: false
+exclude_weight_decay_conf: {}
 optim: adamw
 optim_conf:
     lr: 0.0002
@@ -141,51 +143,46 @@ token_list:
 - и
 - н
 - в
-- і
-- т
 - е
+- т
+- і
 - с
 - р
+- д
 - л
 - у
-- д
 - к
 - м
 - п
+- .
 - я
 - з
 - ','
 - б
 - ь
-- г
 - ч
+- г
 - й
-- х
 - ж
+- х
 - ш
 - ю
 - ц
 - щ
-- —
-- є
-- ї
 - '?'
-- .
-- ф
-- «
-- »
+- '-'
+- ї
+- є
 - '!'
 - ''''
-- ':'
-- …
-- '-'
-- ґ
-- ―
-- –
+- ф
 - '"'
-- ;
-- “
-- ”
+- ':'
+- ґ
+- (
+- )
+- „
+- /
 - <sos/eos>
 odim: null
 model_conf: {}
@@ -194,7 +191,7 @@ token_type: char
 bpemodel: null
 non_linguistic_symbols: null
 cleaner: null
-g2p: g2p_en_no_space
+g2p: g2p_en
 feats_extract: linear_spectrogram
 feats_extract_conf:
     n_fft: 1024
@@ -207,7 +204,8 @@ tts_conf:
     generator_type: vits_generator
     generator_params:
         hidden_channels: 192
-        spks: 128
+        spks: -1
+        spk_embed_dim: 192
         global_channels: 256
         segment_size: 32
         text_encoder_attention_heads: 2
@@ -269,7 +267,7 @@ tts_conf:
         stochastic_duration_predictor_dropout_rate: 0.5
         stochastic_duration_predictor_flows: 4
         stochastic_duration_predictor_dds_conv_layers: 3
-        vocabs: 55
+        vocabs: 50
         aux_channels: 513
     discriminator_type: hifigan_multi_scale_multi_period_discriminator
     discriminator_params:
@@ -367,5 +365,5 @@ energy_normalize_conf: {}
 required:
 - output_dir
 - token_list
-version: '202209'
+version: '202301'
 distributed: false
