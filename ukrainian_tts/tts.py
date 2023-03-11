@@ -11,6 +11,7 @@ import time
 import soundfile as sf
 from kaldiio import load_ark
 
+
 class Voices(Enum):
     """List of available voices for the model."""
 
@@ -96,7 +97,6 @@ class TTS:
         config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
         speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/spk_xvector.ark"
 
-
         if cache_folder is None:
             cache_folder = "."
 
@@ -104,11 +104,9 @@ class TTS:
         config_path = join(cache_folder, "config.yaml")
         speakers_path = join(cache_folder, "spk_xvector.ark")
 
-
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
         self.__download(speakers_link, speakers_path)
-
 
         self.synthesizer = Text2Speech(
             train_config="config.yaml",
@@ -119,7 +117,6 @@ class TTS:
             noise_scale_dur=0.333,
         )
         self.xvectors = {k: v for k, v in load_ark(speakers_path)}
-
 
     def __download(self, url, file_name):
         """Downloads file from `url` into local `file_name` file."""

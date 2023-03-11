@@ -108,7 +108,7 @@ iface = gr.Interface(
     title="🤖💬🇺🇦 - ESPNET",
     description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною)",
     article=article,
-    examples=[ 
+    examples=[
         [
             "Привіт, як тебе звати?",
             VoiceOption.Tetiana.value,
@@ -141,5 +141,5 @@ iface = gr.Interface(
         ],
     ],
 )
-iface.queue(concurrency_count=6) # for HF specifically
+iface.queue(concurrency_count=6)  # for HF specifically
 iface.launch()
