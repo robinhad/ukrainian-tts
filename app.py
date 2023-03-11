@@ -48,7 +48,7 @@ class VoiceOption(Enum):
 print(f"CUDA available? {is_available()}")
 
 
-ukr_tts = TTS()
+ukr_tts = TTS(device="cuda" if is_available() else "cpu")
 
 
 def tts(text: str, voice: str, speed: float):
@@ -98,7 +98,7 @@ iface = gr.Interface(
             value=VoiceOption.Tetiana.value,
         ),
         gr.components.Slider(
-            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.1
+            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.05
         ),
     ],
     outputs=[
