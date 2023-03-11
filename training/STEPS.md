@@ -1,25 +1,35 @@
-Setup env
+# Setup environment
 Link: https://espnet.github.io/espnet/installation.html
 
-0. `sudo apt-get install cmake sox libsndfile1-dev ffmpeg`
-1. `git clone --branch v.202209 https://github.com/espnet/espnet`
-2. `cd ./espnet/tools`
+```sh
+sudo apt-get install cmake sox libsndfile1-dev ffmpeg
+git clone --branch v.202301 https://github.com/espnet/espnet
+cd ./espnet/tools
 ./setup_anaconda.sh anaconda espnet 3.8
-3. `CONDA_TOOLS_DIR=$(dirname ${CONDA_EXE})/..`
-./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
-5. `make`
+. ./activate_python.sh
+make
 pip install --upgrade torch torchaudio # or setup same versions
 make
-7. `. ./activate_python.sh; python3 check_install.py`
+. ./activate_python.sh; python3 check_install.py
+```
 
-# run training
+# Run training
 
+ESPNET is a dynamic framework. For the latest guide, please refer to https://github.com/espnet/espnet/tree/master/egs2/TEMPLATE/tts1
+
+This page provides general launching steps on how training was performed for reference, and this doesn't cover data preparation.
+
+NOTE: before running the script below, copy [./train_vits.yaml](./train_vits.yaml) to your `<espnet_root>/egs2/ljspeech/tts1/conf/tuning/train_vits.yaml`
+
+
+```sh
 cd ../egs2/ljspeech/tts1
-./run.sh 
-
+pip install torchvision # to save figures
+pip install speechbrain
 ./run.sh \
     --stage 2 \
-    --use_sid true \
+    --use_xvector true \
+    --xvector_tool speechbrain \
     --fs 22050 \
     --n_fft 1024 \
     --n_shift 256 \
@@ -31,3 +41,4 @@ cd ../egs2/ljspeech/tts1
     --feats_normalize none \
     --train_config ./conf/tuning/train_vits.yaml \
     --inference_config ./conf/tuning/decode_vits.yaml
+```
