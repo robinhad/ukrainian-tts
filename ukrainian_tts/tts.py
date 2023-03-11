@@ -91,8 +91,10 @@ class TTS:
 
     def __setup_cache(self, cache_folder=None):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
-        print("downloading uk/mykyta/vits-tts")
         release_number = "v5.0.0"
+        print(
+            f"downloading https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}"
+        )
         model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
         config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
         speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/spk_xvector.ark"
@@ -107,6 +109,7 @@ class TTS:
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
         self.__download(speakers_link, speakers_path)
+        print("downloaded.")
 
         self.synthesizer = Text2Speech(
             train_config="config.yaml",
