@@ -90,7 +90,7 @@ iface = gr.Interface(
     inputs=[
         gr.components.Textbox(
             label="Input",
-            value="Введіть, будь ласка, своє р+ечення.",
+            value="Введіть, будь ласка, своє речення.",
         ),
         gr.components.Radio(
             label="Голос",
@@ -115,12 +115,12 @@ iface = gr.Interface(
             1,
         ],
         [
-            "Вв+едіть, будь ласка, св+оє р+ечення.",
+            "Введіть, будь ласка, св+оє реч+ення.",
             VoiceOption.Dmytro.value,
             1,
         ],
         [
-            "Вв+едіть, будь ласка, св+оє реч+ення.",
+            "Введіть, будь ласка, своє речення.",
             VoiceOption.Dmytro.value,
             1.3,
         ],
