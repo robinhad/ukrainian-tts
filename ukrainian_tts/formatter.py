@@ -24,8 +24,8 @@ def preprocess_text(text):
         "—": "-",
         "―": "-",
     }
-    for symbol in symbols.keys():
-        text = text.replace(symbol, symbols[symbol])
+    for symbol, value in symbols.items():
+        text = text.replace(symbol, value)
     # numbers
     text = re.sub(r"(\d)\s+(\d)", r"\1\2", text)
 
@@ -92,9 +92,9 @@ def preprocess_text(text):
         "y": "і",
         "z": "з",
     }
-    for english_char in english.keys():
+    for english_char, english_value in english.keys():
         # uppercase
-        text = text.replace(english_char.upper(), english[english_char].upper())
-        text = text.replace(english_char, english[english_char])
+        text = text.replace(english_char.upper(), english_value.upper())
+        text = text.replace(english_char, english_value)
 
     return text
