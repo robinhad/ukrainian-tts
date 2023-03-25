@@ -92,7 +92,7 @@ def preprocess_text(text):
         "y": "і",
         "z": "з",
     }
-    for english_char, english_value in english.keys():
+    for english_char, english_value in english.items():
         # uppercase
         text = text.replace(english_char.upper(), english_value.upper())
         text = text.replace(english_char, english_value)

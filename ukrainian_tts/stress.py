@@ -10,17 +10,19 @@ special = "'-"
 alphabet = vowels + consonants + special + "+"
 
 
-def _shift_stress(stressed):
+def _shift_stress(stressed, symboll_to_shift="+"):
     new_stressed = ""
     start = 0
     last = 0
 
     # shift stress symbol by one "при+віт" -> "пр+ивіт"
     while True:
-        plus_position = stressed.find("+", start)
+        plus_position = stressed.find(symboll_to_shift, start)
         if plus_position != -1:
             new_stressed += (
-                stressed[last : plus_position - 1] + "+" + stressed[plus_position - 1]
+                stressed[last : plus_position - 1]
+                + symboll_to_shift
+                + stressed[plus_position - 1]
             )
             start = plus_position + 1
             last = start
@@ -44,6 +46,10 @@ def stress_dict(sentence: str):
 
 
 def sentence_to_stress(sentence: str, stress_function=stress_dict) -> str:
+    # replace acute accent with plus
+    sentence = _shift_stress(sentence, "́")
+    sentence = sentence.replace("́", "+")
+
     # save custom stress positions
     all_stresses = []
     orig_words = sentence.split(" ")
