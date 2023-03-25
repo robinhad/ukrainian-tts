@@ -63,7 +63,7 @@ def tts(text: str, voice: str, speed: float):
         VoiceOption.Lada.value: Voices.Lada.value,
         VoiceOption.Dmytro.value: Voices.Dmytro.value,
     }
-    
+
     speaker_name = voice_mapping[voice]
     text_limit = 7200
     text = (

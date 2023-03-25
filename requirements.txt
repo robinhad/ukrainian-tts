@@ -1,8 +1,7 @@
 # requirements for HuggingFace demo. Installs local package.
 torch
 espnet>=202301
-typeguard>=2,<3
-# typeguard 3.0.0 is incompatible with espnet
+typeguard<3 # typeguard 3.0.0 is incompatible with espnet
 num2words==0.5.12
 ukrainian-word-stress==1.0.1
 git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c
