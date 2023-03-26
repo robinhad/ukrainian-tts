@@ -27,7 +27,7 @@ Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)
 # Features ⚙️
 - Completely offline
 - Multiple voices
-- Automatic stress with priority queue: `user-defined` > `dictionary` > `model`
+- Automatic stress with priority queue: `acute` -> `user-defined` > `dictionary` > `model`
 - Control speech speed
 - Python package works on Windows, Mac (x86/M1), Linux(x86/ARM)
 - Inference on mobile devices (inference models through `espnet_onnx` without cleaners)
