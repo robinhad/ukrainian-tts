@@ -1,6 +1,6 @@
 from io import BytesIO
 import requests
-from os.path import exists, join
+from os.path import exists, join, dirname
 from espnet2.bin.tts_inference import Text2Speech
 from enum import Enum
 from .formatter import preprocess_text
@@ -112,8 +112,8 @@ class TTS:
         print("downloaded.")
 
         self.synthesizer = Text2Speech(
-            train_config="config.yaml",
-            model_file="model.pth",
+            train_config=config_path,
+            model_file=model_path,
             device=self.device,
             # Only for VITS
             noise_scale=0.333,
@@ -124,6 +124,8 @@ class TTS:
     def __download(self, url, file_name):
         """Downloads file from `url` into local `file_name` file."""
         if not exists(file_name):
+            if not exists(dirname(file_name)):
+                raise ValueError(f"Directory \"{dirname(file_name)}\" doesn't exist!")
             print(f"Downloading {file_name}")
             r = requests.get(url, allow_redirects=True)
             with open(file_name, "wb") as file:
