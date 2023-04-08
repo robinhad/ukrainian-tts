@@ -125,7 +125,7 @@ class TTS:
         """Downloads file from `url` into local `file_name` file."""
         if not exists(file_name):
             if not exists(dirname(file_name)):
-                raise ValueError(f"Directory \"{dirname(file_name)}\" doesn't exist!")
+                raise ValueError(f'Directory "{dirname(file_name)}" doesn\'t exist!')
             print(f"Downloading {file_name}")
             r = requests.get(url, allow_redirects=True)
             with open(file_name, "wb") as file:
