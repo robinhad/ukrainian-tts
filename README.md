@@ -34,9 +34,7 @@ Telegram bot -> [https://t.me/uk_tts_bot](https://t.me/uk_tts_bot)
 
 
 # Support ❤️
-If you like my work, please support ❤️ -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)  
-For collaboration and questions please contact me here:  
-[Twitter https://twitter.com/robinhad](https://twitter.com/robinhad)  
+If you like my work, please support ❤️ -> [https://send.monobank.ua/jar/48iHq4xAXm](https://send.monobank.ua/jar/48iHq4xAXm)   
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
 # Examples 🤖
 
