@@ -4,7 +4,7 @@ emoji: 🐌
 colorFrom: blue
 colorTo: yellow
 sdk: gradio
-sdk_version : 3.33
+sdk_version : 3.34.0
 python_version: 3.10.3
 app_file: app.py
 pinned: false
