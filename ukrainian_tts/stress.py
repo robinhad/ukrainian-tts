@@ -2,8 +2,6 @@ from typing import List
 from ukrainian_word_stress import Stressifier, StressSymbol
 import ukrainian_accentor as accentor
 
-stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
-
 vowels = "аеєиіїоуюя"
 consonants = "бвгґджзйклмнпрстфхцчшщь"
 special = "'-"
@@ -39,6 +37,7 @@ def stress_with_model(text: str):
 
 
 def stress_dict(sentence: str):
+    stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
     stressed = stressify(sentence.replace("+", "")).replace(
         StressSymbol.CombiningAcuteAccent, "+"
     )
