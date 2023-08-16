@@ -29,6 +29,7 @@ def replace_currency_with_words(text, currency, num_form):
         text = text.replace("€", CURRENCY[currency][num_form])
     return text
 
+
 def preprocess_text(text):
     text = text.lower()
     # currencies
@@ -75,23 +76,40 @@ def preprocess_text(text):
         nonlocal num_form
         parts = word.split("-")  # for handling complex words
         for part in parts:
-            is_number = all(map(lambda x: x in numbers, part)) or (any(map(lambda x: x in numbers, part)) and any(map(lambda x: x in splits, part)))
-            is_currency = any(map(lambda x: x in currencies, part)) and any(map(lambda x: x in numbers, part)) # contains both number and currency symbol
+            is_number = all(map(lambda x: x in numbers, part)) or (
+                any(map(lambda x: x in numbers, part))
+                and any(map(lambda x: x in splits, part))
+            )
+            is_currency = any(map(lambda x: x in currencies, part)) and any(
+                map(lambda x: x in numbers, part)
+            )  # contains both number and currency symbol
             if is_number or is_currency:
                 try:
                     if is_currency:
                         cleaned_part = part
-                        
+
                         for part_currency in currencies:
-                            cleaned_part = cleaned_part.replace(part_currency, f" {part_currency} ").strip() # TODO: replace with regex
+                            cleaned_part = cleaned_part.replace(
+                                part_currency, f" {part_currency} "
+                            ).strip()  # TODO: replace with regex
 
-                        part = " ".join([detect_num_and_convert(part_word) for part_word in cleaned_part.split(" ")])
+                        part = " ".join(
+                            [
+                                detect_num_and_convert(part_word)
+                                for part_word in cleaned_part.split(" ")
+                            ]
+                        )
 
-                    ends_with_dot = part.endswith(".") # ugly
+                    ends_with_dot = part.endswith(".")  # ugly
                     ends_with_comma = part.endswith(",")
                     if ends_with_comma or ends_with_dot:
                         part = part[:-1]
-                        part = " ".join([detect_num_and_convert(part_word) for part_word in part.split(" ")]) + ("." if ends_with_dot else ",")
+                        part = " ".join(
+                            [
+                                detect_num_and_convert(part_word)
+                                for part_word in part.split(" ")
+                            ]
+                        ) + ("." if ends_with_dot else ",")
 
                     num_form = number_form(part)
                     result.append(num2words(part.strip(), lang="uk", gender=gender))
@@ -122,7 +140,7 @@ def preprocess_text(text):
         "qu": "кв",
         "ch": "ч",
         "sh": "ш",
-        "шч": "щ", # after previous cases
+        "шч": "щ",  # after previous cases
         "ph": "ф",
         "kh": "х",
         "yo": "йо",
