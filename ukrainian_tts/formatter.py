@@ -1,13 +1,37 @@
-import num2words
+from num2words import num2words
 import re
 
+def number_form(number):
+    if number[-1] == "1":
+        return 0
+    elif number[-1] in ("2", "3", "4"):
+        return 1
+    else:
+        return 2
+
+CURRENCY = {
+    'USD': ('долар', 'долари', 'доларів'),
+    'UAH': ('гривня', 'гривні', 'гривень'),
+    'EUR': ('євро', 'євро', 'євро'),
+}
 
 def preprocess_text(text):
     text = text.lower()
     # currencies
-    text = text.replace("$", "долар")
-    text = text.replace("₴", "гривня")
-    text = text.replace("€", "євро")
+    if "$" in text:
+        currency = "USD"
+        gender = 'masculine'
+    elif "₴" in text:
+        currency = "UAH"
+        gender = 'feminine'
+    elif "€" in text:
+        currency = "EUR"
+        gender = 'masculine'
+    else:
+        currency = ""
+        gender = 'masculine'
+
+    num_form = 0
     # replace apostrophe
     text = text.replace("`", "'")
     text = text.replace("ʼ", "'")
@@ -32,12 +56,15 @@ def preprocess_text(text):
     def detect_num_and_convert(word):
         numbers = "0123456789,."
         result = []
+        nonlocal num_form
         parts = word.split("-")  # for handling complex words
         for part in parts:
             is_number = all(map(lambda x: x in numbers, part))
             if is_number:
                 try:
-                    result.append(num2words.num2words(part, lang="uk"))
+                    num_form = number_form(part)
+                    print("-" + part + "-" + str(num_form))
+                    result.append(num2words(part, lang="uk", gender=gender))
                 except:
                     result.append(part)
             else:
@@ -46,6 +73,14 @@ def preprocess_text(text):
 
     # print([detect_num_and_convert(word) for word in text.split(" ")])
     text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
+    if (currency == 'USD'):
+        text = text.replace("$", CURRENCY[currency][num_form])
+    
+    if (currency == 'UAH'):
+        text = text.replace("₴", CURRENCY[currency][num_form])
+    
+    if (currency == 'EUR'):
+        text = text.replace("€", CURRENCY[currency][num_form])
 
     # fallback numbers
     text = text.replace("1", "один ")
