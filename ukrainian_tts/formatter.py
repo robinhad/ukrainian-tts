@@ -18,6 +18,17 @@ CURRENCY = {
 }
 
 
+def replace_currency_with_words(text, currency, num_form):
+    if currency == "USD":
+        text = text.replace("$", CURRENCY[currency][num_form])
+
+    if currency == "UAH":
+        text = text.replace("₴", CURRENCY[currency][num_form])
+
+    if currency == "EUR":
+        text = text.replace("€", CURRENCY[currency][num_form])
+    return text
+
 def preprocess_text(text):
     text = text.lower()
     # currencies
@@ -57,17 +68,33 @@ def preprocess_text(text):
     text = re.sub(r"(\d)\s+(\d)", r"\1\2", text)
 
     def detect_num_and_convert(word):
-        numbers = "0123456789,."
+        numbers = "0123456789"
+        splits = ",."
+        currencies = "$₴€"
         result = []
         nonlocal num_form
         parts = word.split("-")  # for handling complex words
         for part in parts:
-            is_number = all(map(lambda x: x in numbers, part))
-            if is_number:
+            is_number = all(map(lambda x: x in numbers, part)) or (any(map(lambda x: x in numbers, part)) and any(map(lambda x: x in splits, part)))
+            is_currency = any(map(lambda x: x in currencies, part)) and any(map(lambda x: x in numbers, part)) # contains both number and currency symbol
+            if is_number or is_currency:
                 try:
+                    if is_currency:
+                        cleaned_part = part
+                        
+                        for part_currency in currencies:
+                            cleaned_part = cleaned_part.replace(part_currency, f" {part_currency} ").strip() # TODO: replace with regex
+
+                        part = " ".join([detect_num_and_convert(part_word) for part_word in cleaned_part.split(" ")])
+
+                    ends_with_dot = part.endswith(".") # ugly
+                    ends_with_comma = part.endswith(",")
+                    if ends_with_comma or ends_with_dot:
+                        part = part[:-1]
+                        part = " ".join([detect_num_and_convert(part_word) for part_word in part.split(" ")]) + ("." if ends_with_dot else ",")
+
                     num_form = number_form(part)
-                    print("-" + part + "-" + str(num_form))
-                    result.append(num2words(part, lang="uk", gender=gender))
+                    result.append(num2words(part.strip(), lang="uk", gender=gender))
                 except:
                     result.append(part)
             else:
@@ -76,14 +103,8 @@ def preprocess_text(text):
 
     # print([detect_num_and_convert(word) for word in text.split(" ")])
     text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
-    if currency == "USD":
-        text = text.replace("$", CURRENCY[currency][num_form])
 
-    if currency == "UAH":
-        text = text.replace("₴", CURRENCY[currency][num_form])
-
-    if currency == "EUR":
-        text = text.replace("€", CURRENCY[currency][num_form])
+    text = replace_currency_with_words(text, currency, num_form)
 
     # fallback numbers
     text = text.replace("1", "один ")
@@ -101,8 +122,17 @@ def preprocess_text(text):
         "qu": "кв",
         "ch": "ч",
         "sh": "ш",
+        "шч": "щ", # after previous cases
         "ph": "ф",
         "kh": "х",
+        "yo": "йо",
+        "yu": "ю",
+        "ya": "я",
+        "ye": "є",
+        "yi": "ї",
+        "zh": "ж",
+        "ts": "ц",
+        "th": "т",
         "a": "а",
         "b": "б",
         "c": "ц",
