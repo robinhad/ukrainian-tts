@@ -14,7 +14,7 @@ setup(
     install_requires=[
         "espnet>=202301",
         "typeguard<3",
-        "num2words==0.5.12",
+        "num2words @ git+https://github.com/kant2002/num2words.git@kant/add-cases",
         "ukrainian-word-stress==1.0.1",
         "ukrainian_accentor @ git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c",
     ],
