@@ -1,6 +1,7 @@
 from num2words import num2words
 import re
 
+
 def number_form(number):
     if number[-1] == "1":
         return 0
@@ -9,27 +10,29 @@ def number_form(number):
     else:
         return 2
 
+
 CURRENCY = {
-    'USD': ('долар', 'долари', 'доларів'),
-    'UAH': ('гривня', 'гривні', 'гривень'),
-    'EUR': ('євро', 'євро', 'євро'),
+    "USD": ("долар", "долари", "доларів"),
+    "UAH": ("гривня", "гривні", "гривень"),
+    "EUR": ("євро", "євро", "євро"),
 }
+
 
 def preprocess_text(text):
     text = text.lower()
     # currencies
     if "$" in text:
         currency = "USD"
-        gender = 'masculine'
+        gender = "masculine"
     elif "₴" in text:
         currency = "UAH"
-        gender = 'feminine'
+        gender = "feminine"
     elif "€" in text:
         currency = "EUR"
-        gender = 'masculine'
+        gender = "masculine"
     else:
         currency = ""
-        gender = 'masculine'
+        gender = "masculine"
 
     num_form = 0
     # replace apostrophe
@@ -73,13 +76,13 @@ def preprocess_text(text):
 
     # print([detect_num_and_convert(word) for word in text.split(" ")])
     text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
-    if (currency == 'USD'):
+    if currency == "USD":
         text = text.replace("$", CURRENCY[currency][num_form])
-    
-    if (currency == 'UAH'):
+
+    if currency == "UAH":
         text = text.replace("₴", CURRENCY[currency][num_form])
-    
-    if (currency == 'EUR'):
+
+    if currency == "EUR":
         text = text.replace("€", CURRENCY[currency][num_form])
 
     # fallback numbers
