@@ -2,7 +2,7 @@
 torch
 espnet>=202301
 typeguard<3 # typeguard 3.0.0 is incompatible with espnet
-git+https://github.com/kant2002/num2words.git@kant/add-cases
+git+https://github.com/kant2002/num2words.git@kant/add-cases@6c8e66bd37f38eac3ef339963b88ebf8140b26d7
 ukrainian-word-stress==1.0.2
 git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c
 gradio # 3.34
