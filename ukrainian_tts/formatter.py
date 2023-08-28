@@ -29,6 +29,28 @@ def replace_currency_with_words(text, currency, num_form):
         text = text.replace("€", CURRENCY[currency][num_form])
     return text
 
+def find_any_char(text: str, find: str, start: int):
+    result = -1
+    for c in find:
+        index = text.find(c, start)
+        if (index >= 0) and (result > index or result == -1):
+            result = index
+
+    return result
+
+# Have to check if I can use https://github.com/lang-uk/tokenize-uk
+def simple_tokenizer(text: str):
+    start = 0
+    index = find_any_char(text, " ,", start)
+    while (index >= 0):
+        word = text[start:index]
+        yield word
+        separator = text[index]
+        yield separator
+        start = index + 1
+        index = find_any_char(text, " ,", start)
+
+    yield text[start:]
 
 def preprocess_text(text):
     text = text.lower()
@@ -89,9 +111,12 @@ def preprocess_text(text):
                         cleaned_part = part
 
                         for part_currency in currencies:
-                            cleaned_part = cleaned_part.replace(
-                                part_currency, f" {part_currency} "
-                            ).strip()  # TODO: replace with regex
+                            if cleaned_part[0] == part_currency:
+                                cleaned_part = cleaned_part[1:] + " " + part_currency
+                            else:
+                                cleaned_part = cleaned_part.replace(
+                                    part_currency, f" {part_currency} "
+                                ).strip()  # TODO: replace with regex
 
                         part = " ".join(
                             [
@@ -119,9 +144,8 @@ def preprocess_text(text):
                 result.append(part)
         return "-".join(result)
 
-    # print([detect_num_and_convert(word) for word in text.split(" ")])
-    text = " ".join([detect_num_and_convert(word) for word in text.split(" ")])
-
+    # print([detect_num_and_convert(word) for word in simple_tokenizer(text)])
+    text = "".join([detect_num_and_convert(word) for word in simple_tokenizer(text)])
     text = replace_currency_with_words(text, currency, num_form)
 
     # fallback numbers

@@ -1,7 +1,6 @@
 from ukrainian_tts.formatter import preprocess_text
 import pytest
 
-
 @pytest.mark.parametrize(
     "text,expected",
     [
@@ -21,22 +20,43 @@ import pytest
         ),
         (
             "10000$, 15000 корупціонерів",
-            "десять тисяч доларів , п'ятнадцять тисяч корупціонерів",
-        ),  # TODO: fix space before comma
+            "десять тисяч доларів, п'ятнадцять тисяч корупціонерів",
+        ),
+        (
+            "10000 $, 15000 корупціонерів",
+            "десять тисяч доларів, п'ятнадцять тисяч корупціонерів",
+        ),
         (
             "$10000, 15000 корупціонерів",
-            "доларів десять тисяч, п'ятнадцять тисяч корупціонерів",
-        ),  # fix order
+            "десять тисяч доларів, п'ятнадцять тисяч корупціонерів",
+        ),
         (
             "10000$ у еквіваленті борщових заправок",
             "десять тисяч доларів у еквіваленті борщових заправок",
+        ),
+        ("10-30-40-50-5-9-5", "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"),
+    ],
+)
+def test_formatter(text, expected):
+    assert preprocess_text(text) == expected
+
+# Purspose of these tests, to have clearly separate list of issues
+# in the conversion. Once fixed, these cases should move to test_formatter
+# We still want make sure that no changes happens there, as any regressions
+# is bad, or interesting.
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        # Should be два долара
+        (
+            "2 $, 15000 корупціонерів",
+            "два доларів, п'ятнадцять тисяч корупціонерів",
         ),
         # this is wrong case, should be "це дев'ятнадцятирічне вино."
         # Implementing this, require to have proper parsing of words into the token stream
         # which reqiure reworking of current approach.
         ("це 19-річне вино.", "це дев'ятнадцять-річне вино."),
-        ("10-30-40-50-5-9-5", "десять-тридцять-сорок-п'ятдесят-п'ять-дев'ять-п'ять"),
     ],
 )
-def test_formatter(text, expected):
+def test_planned_formatter_issues(text, expected):
     assert preprocess_text(text) == expected
