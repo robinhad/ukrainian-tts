@@ -65,7 +65,30 @@ https://user-images.githubusercontent.com/5759207/224504363-0227e8bf-8c1c-49ad-8
 
 # How to use: 📢
 
+## Quickstart
+
+Install using: 
+```bash
+!pip install git+https://github.com/robinhad/ukrainian-tts.git
+```
+Code example:
+```python
+from ukrainian_tts.tts import TTS, Voices, Stress
+import IPython.display as ipd
+
+tts = TTS(device="cpu") # can try gpu, mps
+with open("test.wav", mode="wb") as file:
+    _, output_text = tts.tts("Привіт, як у тебе справи?", Voices.Dmytro.value, Stress.Dictionary.value, file)
+print("Accented text:", output_text)
+
+ipd.Audio(filename="test.wav")
+```
+
 See example notebook: [tts_example.ipynb](./tts_example.ipynb)  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/robinhad/ukrainian-tts/blob/main/tts_example.ipynb)
+
+# How to contribute: 🙌
+
+Look into this list with current problems: https://github.com/robinhad/ukrainian-tts/issues/35
 
 # How to train: 🏋️
 Link to guide: [training/STEPS.md](training/STEPS.md)
