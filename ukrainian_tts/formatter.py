@@ -146,7 +146,6 @@ def preprocess_text(text):
 
     # print([detect_num_and_convert(word) for word in simple_tokenizer(text)])
     text = "".join([detect_num_and_convert(word) for word in simple_tokenizer(text)])
-    print(text)
     text = replace_currency_with_words(text, currency, num_form)
 
     # fallback numbers
