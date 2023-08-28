@@ -29,6 +29,7 @@ def replace_currency_with_words(text, currency, num_form):
         text = text.replace("€", CURRENCY[currency][num_form])
     return text
 
+
 def find_any_char(text: str, find: str, start: int):
     result = -1
     for c in find:
@@ -38,11 +39,12 @@ def find_any_char(text: str, find: str, start: int):
 
     return result
 
+
 # Have to check if I can use https://github.com/lang-uk/tokenize-uk
 def simple_tokenizer(text: str):
     start = 0
     index = find_any_char(text, " ,", start)
-    while (index >= 0):
+    while index >= 0:
         word = text[start:index]
         yield word
         separator = text[index]
@@ -51,6 +53,7 @@ def simple_tokenizer(text: str):
         index = find_any_char(text, " ,", start)
 
     yield text[start:]
+
 
 def preprocess_text(text):
     text = text.lower()

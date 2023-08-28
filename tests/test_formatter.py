@@ -1,6 +1,7 @@
 from ukrainian_tts.formatter import preprocess_text
 import pytest
 
+
 @pytest.mark.parametrize(
     "text,expected",
     [
@@ -39,6 +40,7 @@ import pytest
 )
 def test_formatter(text, expected):
     assert preprocess_text(text) == expected
+
 
 # Purspose of these tests, to have clearly separate list of issues
 # in the conversion. Once fixed, these cases should move to test_formatter
