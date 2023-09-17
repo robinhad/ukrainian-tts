@@ -91,7 +91,7 @@ class TTS:
 
     def __setup_cache(self, cache_folder=None):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
-        release_number = "v5.0.0"
+        release_number = "v6.0.0"
         print(
             f"downloading https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}"
         )
