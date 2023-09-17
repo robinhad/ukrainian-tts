@@ -1,6 +1,6 @@
 # requirements for HuggingFace demo. Installs local package.
 torch
-espnet>=202301
+espnet==202301
 typeguard<3 # typeguard 3.0.0 is incompatible with espnet
 git+https://github.com/savoirfairelinux/num2words.git@3e39091d052829fc9e65c18176ce7b7ff6169772
 ukrainian-word-stress==1.0.2

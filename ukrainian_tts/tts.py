@@ -19,6 +19,7 @@ class Voices(Enum):
     Mykyta = "mykyta"
     Lada = "lada"
     Dmytro = "dmytro"
+    Oleksa = "oleksa"
 
 
 class Stress(Enum):
@@ -41,7 +42,7 @@ class TTS:
         self.device = device
         self.__setup_cache(cache_folder)
 
-    def tts(self, text: str, voice: str, stress: str, output_fp=BytesIO(), speed=1.0):
+    def tts(self, text: str, voice: str, stress: str, output_fp=BytesIO()):
         """
         Run a Text-to-Speech engine and output to `output_fp` BytesIO-like object.
         - `text` - your model input text.
@@ -71,9 +72,7 @@ class TTS:
         # synthesis
         with no_grad():
             start = time.time()
-            wav = self.synthesizer(
-                text, spembs=self.xvectors[voice][0], decode_conf={"alpha": 1 / speed}
-            )["wav"]
+            wav = self.synthesizer(text, spembs=self.xvectors[voice][0])["wav"]
 
         rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
         print(f"RTF = {rtf:5f}")
@@ -99,6 +98,7 @@ class TTS:
         model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
         config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
         speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/spk_xvector.ark"
+        feat_stats_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/feat_stats.npz"
 
         if cache_folder is None:
             cache_folder = "."
@@ -106,19 +106,16 @@ class TTS:
         model_path = join(cache_folder, "model.pth")
         config_path = join(cache_folder, "config.yaml")
         speakers_path = join(cache_folder, "spk_xvector.ark")
+        feat_stats_path = join(cache_folder, "feats_stats.npz")
 
         self.__download(model_link, model_path)
         self.__download(config_link, config_path)
         self.__download(speakers_link, speakers_path)
+        self.__download(feat_stats_link, feat_stats_path)
         print("downloaded.")
 
         self.synthesizer = Text2Speech(
-            train_config=config_path,
-            model_file=model_path,
-            device=self.device,
-            # Only for VITS
-            noise_scale=0.333,
-            noise_scale_dur=0.333,
+            train_config=config_path, model_file=model_path, device=self.device
         )
         self.xvectors = {k: v for k, v in load_ark(speakers_path)}
 

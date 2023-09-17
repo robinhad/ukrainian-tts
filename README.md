@@ -38,27 +38,30 @@ If you like my work, please support ❤️ -> [https://send.monobank.ua/jar/48iH
 You're welcome to join UA Speech Recognition and Synthesis community: [Telegram https://t.me/speech_recognition_uk](https://t.me/speech_recognition_uk)
 # Examples 🤖
 
-`Tetiana (female)`:
+`Oleksa (male)`:
 
-https://user-images.githubusercontent.com/5759207/224504324-d8236cad-7302-4dfd-9696-7a42b9f05fce.mp4
+https://github.com/robinhad/ukrainian-tts/assets/5759207/ace842ef-06d0-4b1f-ad49-5fda92999dbb
 
 
 <details>
   <summary>More voices 📢🤖</summary>
 
+`Tetiana (female)`:
+
+https://github.com/robinhad/ukrainian-tts/assets/5759207/a6ecacf6-62ae-4fc5-b6d5-41e6cdd3d992
+
 `Dmytro (male)`:
 
-https://user-images.githubusercontent.com/5759207/224504354-f84f74d3-fa46-497c-9604-4b63ba45989f.mp4
-
+https://github.com/robinhad/ukrainian-tts/assets/5759207/67d3dac9-6626-40ef-98e5-ec194096bbe0
 
 `Lada (female)`:
 
-https://user-images.githubusercontent.com/5759207/224504360-ec198ac2-647c-4238-99ef-b6f074d633fd.mp4
-
+https://github.com/robinhad/ukrainian-tts/assets/5759207/fcf558b2-3ff9-4539-ad9e-8455b52223a4
 
 `Mykyta (male)`:
 
-https://user-images.githubusercontent.com/5759207/224504363-0227e8bf-8c1c-49ad-8602-8cbf8feaa82b.mp4
+https://github.com/robinhad/ukrainian-tts/assets/5759207/033f5215-3f09-4021-ba19-1f55158445ca
+
 
 </details>
 

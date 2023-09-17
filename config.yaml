@@ -1,11 +1,11 @@
-config: ./conf/tuning/train_vits.yaml
+config: ./conf/tuning/finetune_joint_tacotron2_hifigan.yaml
 print_config: false
 log_level: INFO
 dry_run: false
 iterator_type: sequence
-output_dir: exp/22k/tts_train_vits_raw_char
+output_dir: exp/22k/tts_finetune_joint_tacotron2_hifigan_raw_char
 ngpu: 1
-seed: 3407
+seed: 777
 num_workers: 4
 num_att_plot: 3
 dist_backend: nccl
@@ -24,7 +24,7 @@ cudnn_benchmark: false
 cudnn_deterministic: false
 collect_stats: false
 write_collected_feats: false
-max_epoch: 1000
+max_epoch: 140
 patience: null
 val_scheduler_criterion:
 - valid
@@ -34,10 +34,16 @@ early_stopping_criterion:
 - loss
 - min
 best_model_criterion:
+-   - valid
+    - text2mel_loss
+    - min
+-   - train
+    - text2mel_loss
+    - min
 -   - train
     - total_count
     - max
-keep_nbest_models: 10
+keep_nbest_models: 5
 nbest_averaging_interval: 0
 grad_clip: -1
 grad_clip_type: 2.0
@@ -59,20 +65,23 @@ wandb_name: null
 wandb_model_log_interval: -1
 detect_anomaly: false
 pretrain_path: null
-init_param: []
+init_param:
+- exp/22k/tts_train_tacotron2_raw_char/train.loss.ave_5best.pth:tts:tts.generator.text2mel
+- exp/22k/ljspeech_hifigan.v1/generator.pth::tts.generator.vocoder
+- exp/22k/ljspeech_hifigan.v1/discriminator.pth::tts.discriminator
 ignore_init_mismatch: false
 freeze_param: []
 num_iters_per_epoch: null
 batch_size: 20
 valid_batch_size: null
-batch_bins: 1500000
+batch_bins: 1600000
 valid_batch_bins: null
 train_shape_file:
-- exp/22k/tts_stats_raw_linear_spectrogram_char/train/text_shape.char
-- exp/22k/tts_stats_raw_linear_spectrogram_char/train/speech_shape
+- exp/22k/tts_stats_raw_char/train/text_shape.char
+- exp/22k/tts_stats_raw_char/train/speech_shape
 valid_shape_file:
-- exp/22k/tts_stats_raw_linear_spectrogram_char/valid/text_shape.char
-- exp/22k/tts_stats_raw_linear_spectrogram_char/valid/speech_shape
+- exp/22k/tts_stats_raw_char/valid/text_shape.char
+- exp/22k/tts_stats_raw_char/valid/speech_shape
 batch_type: numel
 valid_batch_type: null
 fold_length:
@@ -110,29 +119,27 @@ max_cache_fd: 32
 valid_max_cache_size: null
 exclude_weight_decay: false
 exclude_weight_decay_conf: {}
-optim: adamw
+optim: adam
 optim_conf:
-    lr: 0.0002
+    lr: 1.25e-05
     betas:
-    - 0.8
-    - 0.99
-    eps: 1.0e-09
+    - 0.5
+    - 0.9
     weight_decay: 0.0
 scheduler: exponentiallr
 scheduler_conf:
     gamma: 0.999875
-optim2: adamw
+optim2: adam
 optim2_conf:
-    lr: 0.0002
+    lr: 1.25e-05
     betas:
-    - 0.8
-    - 0.99
-    eps: 1.0e-09
+    - 0.5
+    - 0.9
     weight_decay: 0.0
 scheduler2: exponentiallr
 scheduler2_conf:
     gamma: 0.999875
-generator_first: false
+generator_first: true
 token_list:
 - <blank>
 - <unk>
@@ -154,14 +161,13 @@ token_list:
 - к
 - м
 - п
-- .
 - я
 - з
 - ','
 - б
 - ь
-- ч
 - г
+- ч
 - й
 - ж
 - х
@@ -176,13 +182,12 @@ token_list:
 - '!'
 - ''''
 - ф
+- .
 - '"'
-- ':'
 - ґ
-- (
-- )
-- „
+- ':'
 - /
+- „
 - <sos/eos>
 odim: null
 model_conf: {}
@@ -192,127 +197,97 @@ bpemodel: null
 non_linguistic_symbols: null
 cleaner: null
 g2p: g2p_en
-feats_extract: linear_spectrogram
+feats_extract: fbank
 feats_extract_conf:
     n_fft: 1024
     hop_length: 256
     win_length: null
-normalize: null
-normalize_conf: {}
-tts: vits
+    fs: 22050
+    fmin: 80
+    fmax: 7600
+    n_mels: 80
+normalize: global_mvn
+normalize_conf:
+    stats_file: feats_stats.npz
+tts: joint_text2wav
 tts_conf:
-    generator_type: vits_generator
-    generator_params:
-        hidden_channels: 192
-        spks: -1
+    text2mel_type: tacotron2
+    text2mel_params:
+        embed_dim: 512
+        elayers: 1
+        eunits: 512
+        econv_layers: 3
+        econv_chans: 512
+        econv_filts: 5
+        atype: location
+        adim: 512
+        aconv_chans: 32
+        aconv_filts: 15
+        cumulate_att_w: true
+        dlayers: 2
+        dunits: 1024
+        prenet_layers: 2
+        prenet_units: 256
+        postnet_layers: 5
+        postnet_chans: 512
+        postnet_filts: 5
+        output_activation: null
+        use_batch_norm: true
+        use_concate: true
+        use_residual: false
         spk_embed_dim: 192
-        global_channels: 256
-        segment_size: 32
-        text_encoder_attention_heads: 2
-        text_encoder_ffn_expand: 4
-        text_encoder_blocks: 6
-        text_encoder_positionwise_layer_type: conv1d
-        text_encoder_positionwise_conv_kernel_size: 3
-        text_encoder_positional_encoding_layer_type: rel_pos
-        text_encoder_self_attention_layer_type: rel_selfattn
-        text_encoder_activation_type: swish
-        text_encoder_normalize_before: true
-        text_encoder_dropout_rate: 0.1
-        text_encoder_positional_dropout_rate: 0.0
-        text_encoder_attention_dropout_rate: 0.1
-        use_macaron_style_in_text_encoder: true
-        use_conformer_conv_in_text_encoder: false
-        text_encoder_conformer_kernel_size: -1
-        decoder_kernel_size: 7
-        decoder_channels: 512
-        decoder_upsample_scales:
-        - 8
-        - 8
-        - 2
-        - 2
-        decoder_upsample_kernel_sizes:
-        - 16
-        - 16
-        - 4
-        - 4
-        decoder_resblock_kernel_sizes:
+        spk_embed_integration_type: add
+        dropout_rate: 0.5
+        zoneout_rate: 0.1
+        reduction_factor: 1
+        use_masking: true
+        bce_pos_weight: 10.0
+        use_guided_attn_loss: true
+        guided_attn_loss_sigma: 0.4
+        guided_attn_loss_lambda: 1.0
+        idim: 48
+        odim: 80
+    vocoder_type: hifigan_generator
+    vocoder_params:
+        bias: true
+        channels: 512
+        in_channels: 80
+        kernel_size: 7
+        nonlinear_activation: LeakyReLU
+        nonlinear_activation_params:
+            negative_slope: 0.1
+        out_channels: 1
+        resblock_dilations:
+        -   - 1
+            - 3
+            - 5
+        -   - 1
+            - 3
+            - 5
+        -   - 1
+            - 3
+            - 5
+        resblock_kernel_sizes:
         - 3
         - 7
         - 11
-        decoder_resblock_dilations:
-        -   - 1
-            - 3
-            - 5
-        -   - 1
-            - 3
-            - 5
-        -   - 1
-            - 3
-            - 5
-        use_weight_norm_in_decoder: true
-        posterior_encoder_kernel_size: 5
-        posterior_encoder_layers: 16
-        posterior_encoder_stacks: 1
-        posterior_encoder_base_dilation: 1
-        posterior_encoder_dropout_rate: 0.0
-        use_weight_norm_in_posterior_encoder: true
-        flow_flows: 4
-        flow_kernel_size: 5
-        flow_base_dilation: 1
-        flow_layers: 4
-        flow_dropout_rate: 0.0
-        use_weight_norm_in_flow: true
-        use_only_mean_in_flow: true
-        stochastic_duration_predictor_kernel_size: 3
-        stochastic_duration_predictor_dropout_rate: 0.5
-        stochastic_duration_predictor_flows: 4
-        stochastic_duration_predictor_dds_conv_layers: 3
-        vocabs: 50
-        aux_channels: 513
+        upsample_kernel_sizes:
+        - 16
+        - 16
+        - 4
+        - 4
+        upsample_scales:
+        - 8
+        - 8
+        - 2
+        - 2
+        use_additional_convs: true
+        use_weight_norm: true
     discriminator_type: hifigan_multi_scale_multi_period_discriminator
     discriminator_params:
-        scales: 1
-        scale_downsample_pooling: AvgPool1d
-        scale_downsample_pooling_params:
-            kernel_size: 4
-            stride: 2
-            padding: 2
-        scale_discriminator_params:
-            in_channels: 1
-            out_channels: 1
-            kernel_sizes:
-            - 15
-            - 41
-            - 5
-            - 3
-            channels: 128
-            max_downsample_channels: 1024
-            max_groups: 16
-            bias: true
-            downsample_scales:
-            - 2
-            - 2
-            - 4
-            - 4
-            - 1
-            nonlinear_activation: LeakyReLU
-            nonlinear_activation_params:
-                negative_slope: 0.1
-            use_weight_norm: true
-            use_spectral_norm: false
-        follow_official_norm: false
-        periods:
-        - 2
-        - 3
-        - 5
-        - 7
-        - 11
+        follow_official_norm: true
         period_discriminator_params:
-            in_channels: 1
-            out_channels: 1
-            kernel_sizes:
-            - 5
-            - 3
+            bias: true
             channels: 32
             downsample_scales:
             - 3
@@ -320,23 +295,62 @@ tts_conf:
             - 3
             - 3
             - 1
+            in_channels: 1
+            kernel_sizes:
+            - 5
+            - 3
             max_downsample_channels: 1024
-            bias: true
             nonlinear_activation: LeakyReLU
             nonlinear_activation_params:
                 negative_slope: 0.1
-            use_weight_norm: true
+            out_channels: 1
             use_spectral_norm: false
+            use_weight_norm: true
+        periods:
+        - 2
+        - 3
+        - 5
+        - 7
+        - 11
+        scale_discriminator_params:
+            bias: true
+            channels: 128
+            downsample_scales:
+            - 4
+            - 4
+            - 4
+            - 4
+            - 1
+            in_channels: 1
+            kernel_sizes:
+            - 15
+            - 41
+            - 5
+            - 3
+            max_downsample_channels: 1024
+            max_groups: 16
+            nonlinear_activation: LeakyReLU
+            nonlinear_activation_params:
+                negative_slope: 0.1
+            out_channels: 1
+        scale_downsample_pooling: AvgPool1d
+        scale_downsample_pooling_params:
+            kernel_size: 4
+            padding: 2
+            stride: 2
+        scales: 3
     generator_adv_loss_params:
         average_by_discriminators: false
         loss_type: mse
     discriminator_adv_loss_params:
         average_by_discriminators: false
         loss_type: mse
+    use_feat_match_loss: true
     feat_match_loss_params:
         average_by_discriminators: false
         average_by_layers: false
         include_final_outputs: true
+    use_mel_loss: true
     mel_loss_params:
         fs: 22050
         n_fft: 1024
@@ -347,12 +361,12 @@ tts_conf:
         fmin: 0
         fmax: null
         log_base: null
+    lambda_text2mel: 1.0
     lambda_adv: 1.0
     lambda_mel: 45.0
     lambda_feat_match: 2.0
-    lambda_dur: 1.0
-    lambda_kl: 1.0
     sampling_rate: 22050
+    segment_size: 32
     cache_generator_outputs: true
 pitch_extract: null
 pitch_extract_conf: {}

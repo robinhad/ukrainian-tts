@@ -43,6 +43,7 @@ class VoiceOption(Enum):
     Mykyta = "Микита (чоловічий) 👨"
     Lada = "Лада (жіночий) 👩"
     Dmytro = "Дмитро (чоловічий) 👨"
+    Oleksa = "Олекса (чоловічий) 👨"
 
 
 print(f"CUDA available? {is_available()}")
@@ -51,7 +52,7 @@ print(f"CUDA available? {is_available()}")
 ukr_tts = TTS(device="cuda" if is_available() else "cpu")
 
 
-def tts(text: str, voice: str, speed: float):
+def tts(text: str, voice: str):
     print("============================")
     print("Original text:", text)
     print("Voice", voice)
@@ -62,6 +63,7 @@ def tts(text: str, voice: str, speed: float):
         VoiceOption.Mykyta.value: Voices.Mykyta.value,
         VoiceOption.Lada.value: Voices.Lada.value,
         VoiceOption.Dmytro.value: Voices.Dmytro.value,
+        VoiceOption.Oleksa.value: Voices.Oleksa.value,
     }
 
     speaker_name = voice_mapping[voice]
@@ -72,11 +74,11 @@ def tts(text: str, voice: str, speed: float):
 
     if getenv("HF_API_TOKEN") is not None:
         log_queue.put(
-            [text, speaker_name, Stress.Dictionary.value, speed, str(datetime.utcnow())]
+            [text, speaker_name, Stress.Dictionary.value, 1, str(datetime.utcnow())]
         )
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as fp:
-        _, text = ukr_tts.tts(text, speaker_name, Stress.Dictionary.value, fp, speed)
+        _, text = ukr_tts.tts(text, speaker_name, Stress.Dictionary.value, fp)
         return fp.name, text
 
 
@@ -97,9 +99,6 @@ iface = gr.Interface(
             choices=[option.value for option in VoiceOption],
             value=VoiceOption.Tetiana.value,
         ),
-        gr.components.Slider(
-            label="Швидкість", minimum=0.5, maximum=2, value=1, step=0.05
-        ),
     ],
     outputs=[
         gr.components.Audio(label="Output"),
@@ -112,32 +111,22 @@ iface = gr.Interface(
         [
             "Привіт, як тебе звати?",
             VoiceOption.Tetiana.value,
-            1,
         ],
         [
             "Введіть, будь ласка, св+оє реч+ення.",
             VoiceOption.Dmytro.value,
-            1,
         ],
         [
             "Введіть, будь ласка, своє речення.",
-            VoiceOption.Dmytro.value,
-            1.3,
-        ],
-        [
-            "Введіть, будь ласка, своє речення.",
-            VoiceOption.Mykyta.value,
-            1,
+            VoiceOption.Oleksa.value,
         ],
         [
             "Введіть, будь ласка, своє речення.",
             VoiceOption.Mykyta.value,
-            0.7,
         ],
         [
             "Договір підписано 4 квітня 1949 року.",
             VoiceOption.Lada.value,
-            0.9,
         ],
     ],
 )
