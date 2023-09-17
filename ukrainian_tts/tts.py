@@ -98,7 +98,7 @@ class TTS:
         model_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/model.pth"
         config_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/config.yaml"
         speakers_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/spk_xvector.ark"
-        feat_stats_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/feat_stats.npz"
+        feat_stats_link = f"https://github.com/robinhad/ukrainian-tts/releases/download/{release_number}/feats_stats.npz"
 
         if cache_folder is None:
             cache_folder = "."
