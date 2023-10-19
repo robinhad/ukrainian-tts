@@ -48,9 +48,10 @@ class VoiceOption(Enum):
 
 print(f"CUDA available? {is_available()}")
 
+ukr_tts = TTS(device="cuda" if is_available() else "cpu")
+
 
 def tts(text: str, voice: str):
-    ukr_tts = TTS(device="cuda" if is_available() else "cpu")  # TODO: fix
     print("============================")
     print("Original text:", text)
     print("Voice", voice)
@@ -128,5 +129,5 @@ iface = gr.Interface(
         ],
     ],
 )
-iface.queue(concurrency_count=3)  # for HF specifically
+iface.queue(concurrency_count=1)  # for HF specifically
 iface.launch()
