@@ -19,8 +19,6 @@ Ukrainian TTS (text-to-speech) using ESPNET.
 [![Open Bot](https://img.shields.io/badge/Open%20Bot%20🤖-Telegram-blue)](https://t.me/uk_tts_bot)
 [![chat](https://img.shields.io/badge/chat-Telegram-blue)](https://t.me/speech_recognition_uk)
 
-## Озвучуйте до 4 разів швидше по посиланню: [https://brehunets.com](https://brehunets.com)
-
 Link to online demo -> [https://huggingface.co/spaces/robinhad/ukrainian-tts](https://huggingface.co/spaces/robinhad/ukrainian-tts)  
 Note: online demo saves user input to improve user experience; by using it, you consent to analyze this data.   
 Link to source code and models -> [https://github.com/robinhad/ukrainian-tts](https://github.com/robinhad/ukrainian-tts)  
