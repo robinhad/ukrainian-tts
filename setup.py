@@ -18,6 +18,6 @@ setup(
         "ukrainian-word-stress==1.1.0",
         "ukrainian_accentor @ git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c",
         "stanza==1.7",  # for ukrainian-word-stress
-        "scipy<1.12.0", # for espnet
+        "scipy<1.12.0",  # for espnet
     ],
 )
