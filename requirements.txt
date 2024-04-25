@@ -8,3 +8,4 @@ stanza==1.7 # fix for ukrainian-word-stress
 git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c
 gradio # 3.34
 huggingface_hub # ==0.11.1
+scipy<1.12.0 # fix for espnet, need to update espnet version
