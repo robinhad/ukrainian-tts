@@ -68,4 +68,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://robinhad:$HF_TOKEN@huggingface.co/spaces/robinhad/ukrainian-tts main
+        run: git push -f https://robinhad:$HF_TOKEN@huggingface.co/spaces/robinhad/ukrainian-tts main
