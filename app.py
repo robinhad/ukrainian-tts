@@ -129,5 +129,5 @@ iface = gr.Interface(
         ],
     ],
 )
-iface.queue(concurrency_count=1)  # for HF specifically
+iface.queue()  # for HF specifically
 iface.launch()
