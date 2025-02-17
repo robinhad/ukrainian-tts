@@ -66,7 +66,7 @@ def tts(text: str, voice: str):
     }
 
     speaker_name = voice_mapping[voice]
-    text_limit = 7200
+    text_limit = 2000
     text = (
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
