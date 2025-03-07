@@ -17,7 +17,6 @@ setup(
         "num2words @ git+https://github.com/savoirfairelinux/num2words.git@3e39091d052829fc9e65c18176ce7b7ff6169772",
         "ukrainian-word-stress==1.1.0",
         "ukrainian_accentor @ git+https://github.com/egorsmkv/ukrainian-accentor.git@5b7971c4e135e3ff3283336962e63fc0b1c80f4c",
-        "stanza==1.7",  # for ukrainian-word-stress
         "scipy<1.12.0",  # for espnet
     ],
 )
