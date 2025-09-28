@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ukrainian-tts"
-version = "6.0"
+version = "6.0.1"
 description = "Ukrainian TTS using ESPNET"
 authors = [
     {name = "Yurii Paniv", email = "mr.robinhad@gmail.com"}

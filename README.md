@@ -119,11 +119,98 @@ from ukrainian_tts.tts import TTS, Voices, Stress
 import IPython.display as ipd
 
 tts = TTS(device="cpu") # can try gpu, mps
+
+# Option 1: Save to file
 with open("test.wav", mode="wb") as file:
     _, output_text = tts.tts("Привіт, як у тебе справи?", Voices.Dmytro.value, Stress.Dictionary.value, file)
 print("Accented text:", output_text)
 
-ipd.Audio(filename="test.wav")
+# Option 2: Get audio as variable (numpy array)
+audio_array, sample_rate, accented_text = tts.tts_to_array("Привіт, як у тебе справи?", Voices.Dmytro.value, Stress.Dictionary.value)
+print("Audio shape:", audio_array.shape)
+print("Sample rate:", sample_rate)
+print("Accented text:", accented_text)
+
+# Option 3: Get audio as bytes
+audio_bytes, accented_text = tts.tts_to_bytes("Привіт, як у тебе справи?", Voices.Dmytro.value, Stress.Dictionary.value)
+print("Audio bytes length:", len(audio_bytes))
+print("Accented text:", accented_text)
+
+# Play audio in Jupyter
+ipd.Audio(audio_array, rate=sample_rate)
+```
+
+## Audio Output Methods 🎵
+
+The Ukrainian TTS library provides **three flexible ways** to get audio output:
+
+### 1. **File Output** (Traditional)
+```python
+# Save to file
+with open("output.wav", "wb") as file:
+    _, accented_text = tts.tts("Привіт!", Voices.Dmytro.value, Stress.Dictionary.value, file)
+```
+
+### 2. **Numpy Array** (For Processing)
+```python
+# Get raw audio data as numpy array
+audio_array, sample_rate, accented_text = tts.tts_to_array("Привіт!", Voices.Dmytro.value, Stress.Dictionary.value)
+
+# Perfect for:
+# - Audio analysis and processing
+# - Machine learning pipelines
+# - Real-time audio manipulation
+# - Jupyter notebook playback
+```
+
+### 3. **Bytes Output** (For APIs)
+```python
+# Get WAV file as bytes
+audio_bytes, accented_text = tts.tts_to_bytes("Привіт!", Voices.Dmytro.value, Stress.Dictionary.value)
+
+# Perfect for:
+# - Web APIs and HTTP responses
+# - Database storage
+# - Streaming applications
+# - Microservices
+```
+
+### 4. **Memory Buffer** (BytesIO)
+```python
+# Get file-like object in memory
+output_buffer, accented_text = tts.tts("Привіт!", Voices.Dmytro.value, Stress.Dictionary.value)
+audio_bytes = output_buffer.getvalue()  # Extract bytes when needed
+
+# Perfect for:
+# - When you need file-like interface
+# - Temporary storage
+# - Integration with other libraries
+```
+
+### Use Case Examples:
+
+**🎯 Web API:**
+```python
+@app.route('/synthesize', methods=['POST'])
+def synthesize():
+    text = request.json['text']
+    voice = request.json['voice']
+    audio_bytes, _ = tts.tts_to_bytes(text, voice, Stress.Dictionary.value)
+    return Response(audio_bytes, mimetype='audio/wav')
+```
+
+**🔬 Audio Analysis:**
+```python
+audio_array, sample_rate, _ = tts.tts_to_array("Привіт!", Voices.Dmytro.value, Stress.Dictionary.value)
+# Analyze audio features, apply filters, etc.
+```
+
+**📱 Real-time Applications:**
+```python
+# Stream audio chunks
+for chunk in audio_array.reshape(-1, 1024):  # Process in chunks
+    # Send to audio output
+    pass
 ```
 
 See example notebook: [tts_example.ipynb](./tts_example.ipynb)  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/robinhad/ukrainian-tts/blob/main/tts_example.ipynb)

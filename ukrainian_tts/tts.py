@@ -89,6 +89,65 @@ class TTS:
 
         return output_fp, text
 
+    def tts_to_array(self, text: str, voice: str, stress: str):
+        """
+        Run a Text-to-Speech engine and return audio data as numpy array.
+        - `text` - your model input text.
+        - `voice` - one of predefined voices from `Voices` enum.
+        - `stress` - stress method options, predefined in `Stress` enum.
+        
+        Returns:
+        - `audio_array` - numpy array of audio data
+        - `sample_rate` - sample rate of the audio
+        - `accented_text` - text with stress marks applied
+        """
+        if stress not in [option.value for option in Stress]:
+            raise ValueError(
+                f"Invalid value for stress option selected! Please use one of the following values: {', '.join([option.value for option in Stress])}."
+            )
+
+        if stress == Stress.Model.value:
+            stress = True
+        else:
+            stress = False
+        if voice not in [option.value for option in Voices]:
+            if voice not in self.xvectors.keys():
+                raise ValueError(
+                    f"Invalid value for voice selected! Please use one of the following values: {', '.join([option.value for option in Voices])}."
+                )
+
+        text = preprocess_text(text)
+        text = sentence_to_stress(text, stress_with_model if stress else stress_dict)
+
+        # synthesis
+        with no_grad():
+            start = time.time()
+            wav = self.synthesizer(text, spembs=self.xvectors[voice][0])["wav"]
+
+        rtf = (time.time() - start) / (len(wav) / self.synthesizer.fs)
+        print(f"RTF = {rtf:5f}")
+
+        # Convert to numpy array
+        audio_array = wav.view(-1).cpu().numpy()
+        sample_rate = self.synthesizer.fs
+
+        return audio_array, sample_rate, text
+
+    def tts_to_bytes(self, text: str, voice: str, stress: str):
+        """
+        Run a Text-to-Speech engine and return audio data as bytes.
+        - `text` - your model input text.
+        - `voice` - one of predefined voices from `Voices` enum.
+        - `stress` - stress method options, predefined in `Stress` enum.
+        
+        Returns:
+        - `audio_bytes` - WAV audio data as bytes
+        - `accented_text` - text with stress marks applied
+        """
+        output_fp = BytesIO()
+        output_fp, accented_text = self.tts(text, voice, stress, output_fp)
+        return output_fp.getvalue(), accented_text
+
     def __setup_cache(self, cache_folder=None):
         """Downloads models and stores them into `cache_folder`. By default stores in current directory."""
         release_number = "v6.0.0"
