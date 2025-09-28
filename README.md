@@ -70,9 +70,48 @@ https://github.com/robinhad/ukrainian-tts/assets/5759207/033f5215-3f09-4021-ba19
 
 ## Quickstart
 
-Install using: 
+### Installation
+
+#### Option 1: Using pip (Recommended)
 ```bash
-!pip install git+https://github.com/robinhad/ukrainian-tts.git
+pip install ukrainian-tts
+```
+
+#### Option 2: Using uv (Fast & Modern)
+```bash
+uv add ukrainian-tts
+```
+
+#### Option 3: Development Installation
+```bash
+# Using pip
+pip install ukrainian-tts[dev]
+
+# Using uv
+uv add ukrainian-tts[dev]
+```
+
+### Features Included
+- ✅ **Self-contained**: No external git dependencies required
+- ✅ **All stress methods**: Both dictionary and model-based stress
+- ✅ **Multiple voices**: 5 different Ukrainian voices
+- ✅ **Cross-platform**: Works on Windows, macOS, and Linux
+- ✅ **Fast installation**: Optimized for modern Python package managers
+
+### Alternative Installation Methods
+
+#### From Source (Development)
+```bash
+git clone https://github.com/robinhad/ukrainian-tts.git
+cd ukrainian-tts
+pip install -e .
+```
+
+#### Using uv for Development
+```bash
+git clone https://github.com/robinhad/ukrainian-tts.git
+cd ukrainian-tts
+uv pip install -e .
 ```
 Code example:
 ```python
@@ -88,6 +127,51 @@ ipd.Audio(filename="test.wav")
 ```
 
 See example notebook: [tts_example.ipynb](./tts_example.ipynb)  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/robinhad/ukrainian-tts/blob/main/tts_example.ipynb)
+
+## macOS Installation 🍎
+
+### Simple Installation (Recommended)
+
+The package is now **self-contained** and doesn't require system dependencies for basic usage:
+
+```bash
+# Using pip
+pip install ukrainian-tts
+
+# Using uv (faster)
+uv add ukrainian-tts
+```
+
+> **Note**: The package now includes all dependencies and works out-of-the-box! No system dependencies required for basic usage.
+
+### For Development/Advanced Usage
+
+If you need to build the package from source or encounter issues, you can use our automated installation script:
+
+```bash
+git clone https://github.com/robinhad/ukrainian-tts.git
+cd ukrainian-tts
+./install.sh
+```
+
+This script handles:
+- ✅ System dependencies (SentencePiece, CMake, pkg-config)
+- ✅ Python virtual environment setup
+- ✅ Package installation and testing
+
+### Troubleshooting
+
+**Flash Attention Warning:**
+```
+Failed to import Flash Attention, using ESPnet default: No module named 'flash_attn'
+```
+This warning is **normal on macOS** and can be safely ignored. Flash Attention is designed for NVIDIA GPUs and not available on macOS.
+
+**System Dependencies (if needed):**
+```bash
+brew install sentencepiece cmake pkg-config libsndfile
+export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig:$PKG_CONFIG_PATH"
+```
 
 # How to contribute: 🙌
 

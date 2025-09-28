@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ukrainian-tts"
+version = "6.0"
+description = "Ukrainian TTS using ESPNET"
+authors = [
+    {name = "Yurii Paniv", email = "mr.robinhad@gmail.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "torch>=2.8.0",
+    "torchaudio>=2.8.0",
+    "espnet==202509",
+    "typeguard>=4.4.0,<5.0",
+    "num2words>=0.5.12",
+    "ukrainian-word-stress==1.1.0",
+    "scipy>=1.16.0,<2.0.0",  # Updated for compatibility
+    "gradio>=5.47.0",
+    "huggingface_hub>=0.35.0",
+    "sentencepiece>=0.2.0",
+    "soundfile>=0.13.0",
+    "librosa>=0.11.0",
+    "kaldiio>=2.18.0",
+    "stanza>=1.10.0",
+    "numpy>=2.3.0",
+    "requests>=2.32.0",
+    "espnet-tts-frontend>=0.0.3",
+    "torch-complex>=0.4.4",
+    "torchmetrics>=1.8.0",
+    "pytorch-lightning>=2.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+]
+# model-stress functionality is now included by default
+
+[project.urls]
+Homepage = "https://github.com/robinhad/ukrainian-tts"
+Repository = "https://github.com/robinhad/ukrainian-tts"
+Issues = "https://github.com/robinhad/ukrainian-tts/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ukrainian_tts*"]
+
+[tool.setuptools.package-data]
+ukrainian_tts = ["*.yaml", "*.yml", "*.json", "*.txt", "vendor/*.pt"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

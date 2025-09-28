@@ -1,6 +1,6 @@
 from typing import List
 from ukrainian_word_stress import Stressifier, StressSymbol
-import ukrainian_accentor as accentor
+from .vendor.ukrainian_accentor import process as accentor_process
 
 stressify = Stressifier(stress_symbol=StressSymbol.CombiningAcuteAccent)
 
@@ -34,7 +34,7 @@ def _shift_stress(stressed, symboll_to_shift="+"):
 
 def stress_with_model(text: str):
     text = text.lower()
-    result = accentor.process(text, mode="plus")
+    result = accentor_process(text, mode="plus")
     return result
 
 
