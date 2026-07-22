@@ -1,0 +1,501 @@
+id	category	text
+uk001	plain	Український синтез мовлення працює офлайн.
+uk002	plain	Сонце повільно сходить над Карпатами.
+uk003	plain	Сьогодні ми перевіряємо якість нового голосу.
+uk004	plain	Дівчина читає книжку біля вікна.
+uk005	plain	Тихий вечір огортає старе місто.
+uk006	stress	Замок стоїть на високій горі.
+uk007	stress	На дверях висить старий замок.
+uk008	stress	Атлас світу лежить на столі.
+uk009	stress	Мандрівник одягнув теплий атлас.
+uk010	stress	Мука перетворюється на запашний хліб.
+uk011	apostrophe	П'ять пір'їн лежать на подвір'ї.
+uk012	apostrophe	Об’єднання з'явилося в дев'яностих роках.
+uk013	apostrophe	Камʼянець-Подільський пам'ятає давню історію.
+uk014	apostrophe	М'який об'єктив передає яскраві кольори.
+uk015	hyphen	Північно-західний вітер посилюється.
+uk016	hyphen	Науково-дослідний центр працює цілодобово.
+uk017	hyphen	Жовто-блакитний прапор майорить над площею.
+uk018	number	У залі було 125 слухачів.
+uk019	number	Температура становить -7 градусів.
+uk020	number	Квиток коштує 250,50 гривні.
+uk021	year	Конституцію ухвалили у 1996 році.
+uk022	year	Події 2022 року змінили країну.
+uk023	year	Архів містить записи за 1918–1921 роки.
+uk024	time	Зустріч розпочнеться о 09:30.
+uk025	time	Потяг прибуває о 18:05 за київським часом.
+uk026	abbreviation	ТОВ «Приклад» опублікувало звіт.
+uk027	abbreviation	НАН України проводить дослідження.
+uk028	abbreviation	Відстань дорівнює 15 км.
+uk029	name	Леся Українка народилася на Волині.
+uk030	name	Тарас Шевченко написав відомі поезії.
+uk031	name	Сергій Корольов працював над ракетами.
+uk032	toponym	Київ стоїть на берегах Дніпра.
+uk033	toponym	Маріуполь — українське місто біля моря.
+uk034	toponym	Чернівці відомі своєю архітектурою.
+uk035	latin	Python запускає цей тест автоматично.
+uk036	latin	Файл README.md містить інструкцію.
+uk037	latin	Компанія OpenAI розробляє моделі.
+uk038	mixed	Wi-Fi працює на частоті 5 GHz.
+uk039	mixed	Надішліть листа на test@example.com.
+uk040	mixed	Відкрийте сторінку https://example.org/docs.
+uk041	punctuation	Справді?! Це вже сталося…
+uk042	punctuation	Вона сказала: «Зачекай, будь ласка».
+uk043	punctuation	Перелік короткий: хліб, молоко, яблука й чай.
+uk044	punctuation	Хто прийде — Олена, Андрій чи Богдан?
+uk045	punctuation	По-перше, перевір дані; по-друге, запусти модель.
+uk046	currency	На рахунку залишилося 100 ₴.
+uk047	currency	Вартість становить 20 USD або 18 EUR.
+uk048	date	Сьогодні 22.07.2026.
+uk049	date	Подію перенесли на 1 січня 2027 року.
+uk050	complex	О 12:45 потяг № 91 Київ—Львів вирушив із третьої колії.
+corpus_lada_29566_ed49cbd210	corpus_plain	Араміс вів далі.
+corpus_lada_46736_31f5fe2cd0	name_or_toponym	Д'Артаньян з жахом дивився на нього.
+corpus_lada_32534_e81e8eb663	punctuation	— А таємниця в тім, що вчора ввечорі я бачив міледі, — відповів Атос.
+corpus_lada_25759_d92c928f74	punctuation	— Ну, тоді я двома словами нагадаю вам за себе.
+corpus_lada_31501_00e7682b4d	punctuation	— Праведний боже! — пробурмотів Фелтон.
+corpus_lada_32617_6a6f2eebbd	punctuation	— Ой, пане!
+corpus_lada_46810_1a5cefd759	punctuation	Дональд і Дейві — це були найкращі зразки прикордонних невдатників.
+corpus_lada_35860_b8040228bd	punctuation	— От же ні, коли хочеш знати! — каже Кирило Тур.
+corpus_lada_46221_9c9deacb97	corpus_plain	Тої ж хвилини на сходах розлігся дзвін острог та голоси кількох людей.
+corpus_lada_46746_0f218e0314	corpus_plain	Я вийду переможцем.
+corpus_lada_26539_ea8249a18c	punctuation	— Сорок штук.
+corpus_lada_31563_f020e03e4e	punctuation	— А що таке щастя?
+corpus_lada_25159_b9d12ce54c	punctuation	— Хто ви такий і що вам треба? — вигукнула вона.
+corpus_lada_35705_2143a6af56	corpus_plain	Моє тіло стрепенулося, і я відкриваю очі.
+corpus_lada_48231_eccb5b829e	corpus_plain	Була чудова місячна ніч.
+corpus_lada_30118_7d378a9836	punctuation	— Вбити чи звеліти вбити Б'юкенгема.
+corpus_lada_25938_556df7382f	punctuation	— Поки я стеріг вікно, він стеріг двері.
+corpus_lada_33255_1f2eb9204a	corpus_plain	А понад ті могили пливе рікою одно велике неперерване страждання.
+corpus_lada_32322_3e2e39c521	punctuation	— Буква закону! — глузливо всміхнувся Гічкок.
+corpus_lada_32792_e9678f3222	punctuation	— То вже не наша печаль.
+corpus_lada_48352_5bbdc2b653	corpus_plain	Гвинтовка тілько засміявсь.
+corpus_lada_35979_9e22189e91	punctuation	— Он як! А як же вам пощастило втекти?
+corpus_lada_33086_5d4c81416e	punctuation	— Я і без того зароблю собі на хліб! — гордо запевнював він.
+corpus_lada_46616_d571efa2c1	name_or_toponym	Розпочав суд над Кирилом Туром батько Пугач.
+corpus_lada_48525_d2efd92c0f	punctuation	— Мене вона непокоїть скрізь, — сказав Д'Артаньян.
+corpus_lada_48778_0a8ed1a6a0	punctuation	— Присягаюся, ви примусили мене забути про все, люба Констанціє.
+corpus_lada_30147_af7199c084	punctuation	— Еге, є сало, та не для кота! — озветься другий через дорогу.
+corpus_lada_31805_c8e40c2b66	punctuation	— Пустіть мене.
+corpus_lada_35554_d4206882ea	punctuation	— Якщо монсеньєр побажає, я до послуг вашої еміненції.
+corpus_lada_25431_8c3ac410f8	punctuation	— Ви маєте взяти назад коня? Так, чи ні?
+corpus_lada_35783_c2bb42ab0b	punctuation	— Що там таке? — запитав Борис, приступаючи ще ближче.
+corpus_lada_35925_cff0549366	corpus_plain	Чути було, як пройшов патруль, щоб змінити варту.
+corpus_lada_46346_64999933ab	punctuation	— Замовчіть! Ви дурний.
+corpus_lada_26047_1e71699e04	punctuation	— Ми мали цю честь.
+corpus_lada_48101_41b54e7cfa	punctuation	— Мов якийсь демон глузує з людської віри, з людського сподівання.
+corpus_lada_31043_10cdec3a8b	punctuation	— Гей, мушкетери, ви б'єтесь? А накази короля? Як ми до них ставимось?
+corpus_lada_47049_c754a363c9	corpus_plain	Неможна було гаяти часу.
+corpus_lada_35133_720a003a88	corpus_plain	Хоч уже посутеніло, але ще можна було на кілька кроків пізнати людину.
+corpus_lada_45987_f45bc63858	punctuation	— Чи дозволить вона?
+corpus_lada_26552_236e850246	punctuation	— Я гадав, що тепер пізніше.
+corpus_lada_32433_6220d91c94	punctuation	— Певно козаки з Чигирину.
+corpus_lada_48850_f5d91fbe3f	corpus_plain	Він узяв сокиру й гострим кінцем почав розважувати зуби.
+corpus_lada_48813_a7bca8dc6a	name_or_toponym	Д'Артаньян знову зняв перстень.
+corpus_lada_48608_8ef1a005df	corpus_plain	Щука ширше рознімає рот, побачивши їх.
+corpus_lada_33224_8ed32aa334	punctuation	— Це — тигриця, пантера.
+corpus_lada_35419_a735525e92	punctuation	— Алеж я вас не знаю і не хочу! — скрикнула я до нього.
+corpus_lada_48531_d765cf15c4	corpus_plain	Вона наказувала чекати, я й чекав.
+corpus_lada_48755_aa46cf4bf6	punctuation	— А, чорт! — вихопилося в Д'Артаньяна.
+corpus_lada_25401_eeb0dcf5aa	punctuation	Ваша милість говорить про пана Портоса?
+corpus_lada_33182_a10bfbf15f	punctuation	— Ну, будь же ти в мене за рідного отця, і благословіте нас укупі.
+corpus_lada_48585_300380be8d	corpus_plain	Ні, помиляємось, він знайшов покупця на діямант.
+corpus_lada_33072_d986002858	punctuation	— Ах! — з докором в голосі сказала пані Бонасьє.
+corpus_lada_25313_695d999b2a	punctuation	— Хай так! — приєднався швайцарець.
+corpus_lada_35698_db85e45459	punctuation	Чоловік допомагав викрадати свою власну жінку! Проте, Д'Артаньян опанував себе.
+corpus_lada_46680_f9f8401328	corpus_plain	Ми повинні вжити якихось заходів.
+corpus_lada_30625_c25fd9d857	punctuation	— Ну ж бо, ну! Годі вам, Тревій! — сказав король.
+corpus_lada_46294_d96b39dc30	corpus_plain	Та, здається, це неможливо.
+corpus_lada_25436_3ae39e4d1d	punctuation	— Ні, Іване.
+corpus_lada_47085_68e6c240e9	corpus_plain	І козаки чесно рятували свою славу.
+corpus_lada_30463_803523b0d2	corpus_plain	Атос деякий час не збочував з неї й посувався наперед, втупивши очі в землю.
+corpus_lada_26381_16d833ce84	punctuation	— Ви так гадаєте?
+corpus_lada_32085_20a4fc3a5a	corpus_plain	Але ж був уже занадто властолюбний.
+corpus_lada_25333_2f4bbc403a	punctuation	— Чорт побирай, сумна штука те, що ви кажете.
+corpus_lada_35920_8d63e95fe3	corpus_plain	вистрілила вгору відома йому мелодія, мов протяжне, тужливе зітхання.
+corpus_lada_31588_413a09ee27	punctuation	— Так вони не гостювати прибули, а просити помочі на ляхів.
+corpus_lada_25859_654350ef1f	punctuation	— Що таке? — запитав молодший.
+corpus_lada_31463_4279690e90	punctuation	— Я щасливий.
+corpus_lada_35792_85395514d5	corpus_plain	Люди перестали закладатися.
+corpus_lada_26102_1fcaae154a	punctuation	— Правда, мій дорогий, що тобі уже надокучило так довго чекати?
+corpus_lada_46578_005abc4e90	corpus_plain	Щоправда, досі такого випадку не було.
+corpus_lada_32288_bdbba7fc00	punctuation	— У чім справа? — запитав Сазерланд.
+corpus_lada_47156_0242a9bbc1	corpus_plain	Це я зважила непохитно.
+corpus_lada_32242_d1a0d61dd3	punctuation	— Алеж то не будуть політичні віча.
+corpus_lada_25679_edc3b97681	punctuation	— Правда, вона мені дуже заважає.
+corpus_lada_32543_2ca900a2d4	punctuation	— Не я, а ми! — виправив Д'Артаньян.
+corpus_lada_35038_2d3225261e	name_or_toponym	Він зайшов у те село з паном Косціцьким, котрого вмів був цілковито опанувати.
+corpus_lada_32398_3c030e5948	punctuation	— Ні, я хочу, щоб ви подумали.
+corpus_lada_26407_4d23fa52f3	punctuation	— Ми до ваших послуг, ваша еміненціє.
+corpus_lada_31315_373f96bd74	corpus_plain	А вони вже й розпустили губи.
+corpus_lada_25293_25a762b9cb	punctuation	— Я тебе розумію.
+corpus_lada_48737_10cec2be97	corpus_plain	Треба було запобігти цьому.
+corpus_lada_35402_83de52a803	name_or_toponym	Д'Артаньян підвівся, взяв капелюха.
+corpus_lada_32464_fbb8efb78d	punctuation	— От люблю козака! — мовив запорожець.
+corpus_lada_47916_6975592f8b	corpus_plain	Атос витяг шпаду й заступив йому дорогу.
+corpus_lada_31176_4a69adc7e8	punctuation	— Що ж? — каже.
+corpus_lada_30026_e81fbabdde	punctuation	— Це мене послав бог оборонити вас.
+corpus_lada_26177_6aa636c54c	punctuation	— Майже ніколи.
+corpus_lada_32088_5c1efc289d	name_or_toponym	Араміс вийшов з коршми Парпайо разом із Портосом.
+corpus_lada_33008_2333db8ea0	punctuation	— Пане, — звернувся до нього Рішельє, — ви Д'Артаньян з Беарна?
+corpus_lada_26321_3afc2499e7	punctuation	— Ні, приведіть мені всіх чотирьох.
+corpus_lada_31024_b022f513dd	punctuation	— Ура! Чарівна дамо! — згукнув капітан.
+corpus_lada_32227_3696a45fc6	punctuation	— І знаєте нумери?
+corpus_lada_35888_e481a9a9c9	corpus_plain	Герінгтон не звернув на нього ніякої уваги, бо давно до нього звик.
+corpus_lada_30187_16cf2b2320	punctuation	— А то чому!
+corpus_lada_47196_509ba0b2c6	corpus_plain	Таким чином, то підбігаючи, то спочиваючи, вони відкатали ще два перегони.
+corpus_lada_46155_7e6c9f2b98	corpus_plain	Міледі спробувала відчинити дверцята й вискочити з карети.
+corpus_lada_30739_2f7b832767	corpus_plain	Араміс, дарма що поранений, вхопив за гриву коня і понісся слідом за іншими.
+corpus_lada_25224_ea5f853910	punctuation	— Як упізнав? Хіба ти вже бачила колись цього чоловіка?
+corpus_lada_26235_e89b99157a	punctuation	— Я вам, паночку, по полтиннику за всяке зерно дам.
+corpus_lada_35593_65e79d5222	punctuation	— Ви навіть не питаєте мене, чого я приїхала сюди на північ.
+corpus_lada_33177_08e30b55f4	punctuation	— Вона здатна на все.
+corpus_lada_34993_9c21e732da	corpus_plain	Її захопила ніч.
+corpus_lada_30644_2a27d6650a	punctuation	— Та ви ж не наш, — зауважив Портос.
+corpus_lada_31543_fcbb5884c4	punctuation	— Так, льокай — Любен на ймення.
+corpus_lada_33243_793e2b9732	punctuation	— Убивство! — залементував Патрік.
+corpus_lada_32709_35213e2690	punctuation	— Розмовляти з вами, приносить мені нещастя, — відказав Портос.
+corpus_lada_34865_7e146b1cc7	punctuation	— Невже? Мені дуже жалко! А давно?
+corpus_lada_46423_0631a2d5f4	corpus_plain	Я встала і обернулася лицем до них.
+corpus_lada_47168_f5d7a94511	corpus_plain	Офіцер сів у човен разом з нею.
+corpus_lada_32058_c15daec965	punctuation	— Ще вісім, або що?
+corpus_lada_35816_d19df0ac68	corpus_plain	Я знав, що ви скоро опам'ятаєтесь.
+corpus_lada_25817_d8ecbf8291	punctuation	— Відтоді, — відповів Д'Артаньян, — як вони мають друзів, що за них клопочуться.
+corpus_lada_35927_60693eb17c	name_or_toponym	Урі Брем скористався з цього моменту.
+corpus_lada_35616_1e2f0b55ce	name_or_toponym	Лорд Вінтер і троє мушкетерів запитливо перезирнулися.
+corpus_lada_30006_6f72725d96	punctuation	— Хіба ти забув щось? — спитав Араміс.
+corpus_lada_26238_58b0d6cbff	punctuation	— Годі лиш, батьку! — крикне Брюховецький.
+corpus_lada_32083_9f6b2bc4e3	punctuation	— Ще не пройшло й дня, як прийшла вона у Переяслав.
+corpus_lada_48725_5f9e4fdc20	punctuation	— А куди ж я поїду?
+corpus_lada_36028_2e089fa4b6	corpus_plain	Чув за неї багато, дарма що ці примхи та що довге волося, а таки розумна жінка.
+corpus_lada_32879_cb583a23c6	punctuation	— Ось той лист! — вигукнула королева переривистим, тремтячим голосом.
+corpus_lada_48418_dfb11ee64b	corpus_plain	Одбули ми дурне мужицтво, одбули міщан, одбули й старих дундуків.
+corpus_lada_45997_83025df7b5	punctuation	— Це тому, що ви мене не любите.
+corpus_lada_35957_08b5e97800	punctuation	Життя — це ланцюг дрібних нещасть, що їх філософ встрічає сміхом.
+corpus_lada_35102_5ad08a3849	punctuation	— Та про той нещасливий рабунок, як то було.
+corpus_lada_30551_47312517b6	punctuation	— Е, серденько, все таки то для мене недобре афішуватися на таких зібраннях.
+corpus_lada_31970_28eda82721	punctuation	— Опісля дорахуєш.
+corpus_lada_35877_b25ba05d99	corpus_plain	І в оцій хвилі вона не міркувала того.
+corpus_lada_25690_d30aa983f7	name_or_toponym	Але Кардеджі тільки всміхнувся.
+corpus_lada_36141_9b881644a6	punctuation	— До Кале, — сказав Д'Артаньян.
+corpus_lada_35665_356db6a51b	corpus_plain	Міледі скористалася з цієї нагоди.
+corpus_lada_35829_c2d8a2faa0	name_or_toponym	Д'Артаньян одіслав слугу.
+corpus_lada_35425_b5037404f2	corpus_plain	Вона впала навзнак і, здавалось, зомліла.
+corpus_lada_46672_70331141c1	corpus_plain	Дайте йому човна та їжі.
+corpus_lada_46929_9a1166fe22	punctuation	— За декілька льє від кордону Ельзаса й Лотарингії.
+corpus_lada_32854_c0555c3557	punctuation	— Так, так! — каже гірко Сомко.
+corpus_lada_46697_2247052adc	corpus_plain	Я звелю вигаптувати на ній три золоті лілеї й подарую її вашій роті, як прапор.
+corpus_lada_32759_181f821ed6	punctuation	— Так я й зробив, преподобні отці, — відповів юнак, і собі віддавши їм поклона.
+corpus_lada_46804_331867891e	corpus_plain	Потім ви нас покличете, і ми будем обідати.
+corpus_lada_48226_6a5cc733af	corpus_plain	Богун зібрав свій полк і пішов у поход.
+corpus_lada_31009_a877c26e3b	punctuation	— А що ми там робитимемо?
+corpus_lada_25185_6059c3c14d	punctuation	— А й справді так, — відповів хазяїн — Я добре пригадую.
+corpus_lada_31404_91aac363a3	punctuation	— Юда ти беззаконний! — кричить Петро.
+corpus_lada_46070_873a3bbb61	punctuation	— Стане, — відмовив Д'Артаньян.
+corpus_lada_29677_3dd56455f9	corpus_plain	, був, як то кажуть, жид з головою.
+corpus_lada_48511_9693d00309	punctuation	— Як ви вирішили, — сказав Атос, — то йдіть.
+corpus_lada_31482_6194bac29a	punctuation	— Ну, то сідай на коня і їдь додому.
+corpus_lada_46310_192b83b2ff	punctuation	— Ви розкажете нам про це?
+corpus_lada_47150_facfd3eb1c	punctuation	— Ви вже готові? — спитав Фелтон.
+corpus_lada_35774_4e5443fd61	punctuation	— Відповідайте, або вам доведеться дорого заплатити за ваше неслухнянство.
+corpus_lada_46763_b052fe592c	corpus_plain	На цей раз хан уперто одмовив їй у її домоганні.
+corpus_lada_31676_3528089fe7	punctuation	— Живий, живий! — крикнув урадуваний хлопець.
+corpus_lada_29570_d9c2a1c856	punctuation	— Ніяких таких книжок ані рахунків у мене нема.
+corpus_lada_29512_572b4c73b7	punctuation	— В мене,— каже,— одна дорога по всьому світу.
+corpus_lada_26185_ba9b20b496	punctuation	— Тепер я пропав, — і механічно, не чинивши ніякого опору, пішов за вартою.
+corpus_lada_32695_2098bdc6e0	punctuation	— Гаразд! На цей раз нас перемогли.
+corpus_lada_36157_653402342c	corpus_plain	Зрозумієш і сам, що я не знав, що й думати про це.
+corpus_lada_48270_abbb5a05cc	corpus_plain	Було справді недалеко.
+corpus_lada_36123_aa67afee87	corpus_plain	Після моїх нещасних пригод я часто зомліваю.
+corpus_lada_32234_e35ab7c649	corpus_plain	А проїхали ми всього лише двісті миль.
+corpus_lada_26255_98c21e5fd7	punctuation	— З якою? — схвильовано спитав салдат, побачивши, що не все скінчено.
+corpus_lada_36069_9c775e0dbc	name_or_toponym	Подив Д'Артаньянів дедалі збільшувався.
+corpus_lada_48323_656e123d2f	corpus_plain	Як довго я там лежав у непритомнім стані, не знаю.
+corpus_lada_32316_c6daa0c243	punctuation	— Обридло мені чути від тебе, Газізю, про Україну та українців.
+corpus_lada_30580_7840cb45e4	punctuation	— Так, монсеньєр.
+corpus_lada_25341_105e085c51	punctuation	— Буде ж тому пацюкові!
+corpus_lada_26357_30b2379c5a	punctuation	— Він пішов, а будинок зачинено.
+corpus_lada_25863_3e61c46ff7	punctuation	— Це абсолютний секрет.
+corpus_lada_30559_0a0bfc7855	punctuation	— Цього не може бути.
+corpus_lada_48056_7a9ae5ef4f	punctuation	— Я! — згукнув Бонасьє.
+corpus_lada_48129_b47fde5e52	punctuation	— Цілком так, цілком вірно, маєте чудову память, міледі.
+corpus_lada_25828_ed1f31887d	punctuation	— Та, нарешті — вигукнув Д'Артаньян, — де він? Де Атос?
+corpus_lada_48638_6d3e219a33	punctuation	— Мабуть, у вас в Січі тілько й роботи, що потішати один одного вигадками.
+corpus_lada_25879_5af71f1048	punctuation	— На п'ятсот.
+corpus_lada_48360_4576d1ef68	punctuation	— Ну, тепер, братчики, нам своя воля.
+corpus_lada_25709_3bd1b14e16	punctuation	— Володю! — сказала вона, зупиняючися в дверях.
+corpus_lada_46327_0a5dfc0768	corpus_plain	Немає такого дня, щоб я не працював на річці, або кудись не мандрував.
+corpus_lada_30598_1110930894	punctuation	— Ні, я чекав на сусідів, та вони повідомили мене, що не прийдуть.
+corpus_lada_35837_5489d38754	punctuation	— Плетеш небилиці, Ґаво, — скрикнув Вовкун.
+corpus_lada_47771_1c026cb023	corpus_plain	Той тілько мовчки похитав головою.
+corpus_lada_46498_1e63ef0fb3	corpus_plain	Що в тій хвилі я втратив тебе.
+corpus_lada_30874_c19ae81836	punctuation	— Тепер мені залишається перевести найважливішу частину трусу.
+corpus_lada_46106_3a8c18542f	corpus_plain	Було під північ.
+corpus_lada_35608_f5fc4f54cb	corpus_plain	Тільки я певний, що все буде добре.
+corpus_lada_36415_a36538f8e9	corpus_plain	І так її все направляють, доки з полотнянки не зробиться лейбик.
+corpus_lada_46391_ade801a772	corpus_plain	Північне сяйво розмальовувало небо тремкими, мінливими фарбами.
+corpus_lada_48268_1e517ec7ce	corpus_plain	Ви не могли привезти з собою досить грошей, щоб жити тут.
+corpus_lada_32419_1c94b96d87	punctuation	— Ні у мене, — приєднався Атос.
+corpus_lada_25799_b700c5c989	punctuation	— Як я можу вгадати?
+corpus_lada_33257_8c86a268a8	punctuation	— Був пару разів.
+corpus_lada_48305_983116b370	corpus_plain	Мов сновиди ходили довкола опустілої хати та ревли з голоду і зі страху.
+corpus_lada_47850_99e1f2ceef	punctuation	— А пощо треба? Так вам вона сподобалася?
+corpus_lada_30458_d7b3a76516	punctuation	— Кохання до тебе, яке починає вже понимати мене.
+corpus_lada_31497_e3c76a78fd	punctuation	— Манюсю — говорю я — ти дуже весела сьогодні.
+corpus_lada_30527_506a43db59	punctuation	— Ну, так що?
+corpus_lada_26508_a97e80347a	punctuation	— Де тобі тихо, пане полковнику чи панотче?
+corpus_lada_31201_2c2c181a62	punctuation	— Ну, от і у мене таке ж серце.
+corpus_lada_35680_1b399334d2	corpus_plain	То поверталися її тюремники.
+corpus_lada_35721_0d21acb08c	corpus_plain	Цього разу мій рішенець безповоротний.
+corpus_lada_30130_62234b271b	punctuation	— Пан війт мене знають.
+corpus_lada_48306_45415e3fad	punctuation	— Хто налив вам вина, що там було?
+corpus_lada_29511_d731196e3c	punctuation	— За десять десята.
+corpus_lada_48841_9aab0b5816	corpus_plain	Ігуменя стала слухати уважніш, трохи пожвавіла й всміхнулася.
+corpus_lada_31951_4f79e3a4d2	punctuation	— Геть з дисертаціями! — скричав Д'Артаньян.
+corpus_lada_32849_8746493bb9	punctuation	— Ну, не розумію тебе, Мундзю, — сказав він по хвилі.
+corpus_lada_35776_459270c460	punctuation	— Хіба в пана Портоса нема грошей?
+corpus_lada_46453_8b2cd1b309	corpus_plain	Був це правдивий арештанський літопис.
+corpus_lada_26433_adb88afb4b	punctuation	— Я думаю, — сказав Атос.
+corpus_lada_35858_9015c5c29b	punctuation	Ну, як тобі здається?
+corpus_lada_35560_c668ab19c4	punctuation	Д'Артаньян, охоронець листа, — природний голова експедиції.
+corpus_lada_46154_6b1b6b4030	name_or_toponym	Герцоґ Орлеанський та інші вельможі теж були в мисливських костюмах.
+corpus_lada_31388_cb482fdaf0	punctuation	— Чи не правда, Арамісе? — спитав Портос, повертаючися до іншого мушкетера.
+corpus_lada_33066_1383f4182e	punctuation	— Що він робив? — спитав мене ключник.
+corpus_lada_25653_6c3091d270	punctuation	— Не треба, — відказав Араміс.
+corpus_lada_47773_1bdf1525bb	name_or_toponym	За ним повіявсь і батько Пугач із своїм чурою.
+corpus_lada_29860_c3e1321fba	punctuation	— Ледачу ж вибрав він дорогу — каже Шрам.
+corpus_lada_31883_618bb4a4d7	punctuation	— Те, щоб Шраменя перш доказало, що згідне воно битись із Кирилом Туром.
+corpus_lada_31369_e4805b5449	punctuation	— Тоді ваше доручення не буде виконано.
+corpus_lada_35635_ef4b646221	corpus_plain	Роби, як знаєш.
+corpus_lada_47027_4f2764e02a	corpus_plain	Купив би, а не хочеться йти на підсіння.
+corpus_lada_48007_c19f87091d	punctuation	— Боже мій милий, — почувся глухий голос Атоса.
+corpus_lada_31091_70e25199b3	punctuation	Цього не буде!
+corpus_lada_48264_93391a6a0c	corpus_plain	Розлючений опором якогось хлопчиська, він почав давати маху.
+corpus_lada_48565_4c42a6b38b	corpus_plain	Королева ступила до залі.
+corpus_lada_30911_59fd8d1b05	punctuation	— Тікаймо на Вкраїну.
+corpus_lada_46195_0226c7f434	corpus_plain	Село оддалік тонуло в якійсь синій памороці.
+corpus_lada_32070_d24b398b9f	corpus_plain	А втім, правда ваша, мені потрібна відпустка.
+corpus_lada_46993_09d4e394a3	punctuation	— Поцілуйте мене! — промовила вона тихо, прояснівши на лиці.
+corpus_lada_47167_3a96e69f94	name_or_toponym	Д'Артаньян зараз же зрозумів, куди гне це мстиве творіння.
+corpus_lada_34814_6f2c9bbb7e	name_or_toponym	Тетеря слав йому накази з погрозами, але Богун робив своє.
+corpus_lada_26477_c8a746d0a9	punctuation	— Ввійдіть сюди, пане офіцере.
+corpus_lada_32683_af2a4398b4	name_or_toponym	А Довгий Джеф став зовсім безпорадний.
+corpus_lada_25465_e7c866c138	punctuation	— А ти, синку, дуже багато ймеш їм віри.
+corpus_lada_48109_e417daf8a3	name_or_toponym	Шрам глянув на свого Петра, а Петро стоїть коло вікна білий, як крейда.
+corpus_lada_47791_d24ed78801	punctuation	— І я теж, — додав Араміс.
+corpus_lada_26570_2b7998f2da	punctuation	— Щоб не рубали гаю, от за що!
+corpus_lada_25483_89ddaca5c3	punctuation	— Прийдеться нести бідолаху, — сказав.
+corpus_lada_35900_1f430382c3	corpus_plain	Що тільки побачу, зараз хотів би те зробити.
+corpus_lada_46056_4d7f58bf73	name_or_toponym	Д'Артаньян мовчки вклонився.
+corpus_lada_30523_83684cb348	punctuation	— Не приносив ніхто, але один лист надійшов сам собою.
+corpus_lada_36402_393b1a8bd4	punctuation	— Чудово! Так ви, здається, багатир, любий пане Бонасьє?
+corpus_lada_35946_9fc6ec8059	corpus_plain	Обабіч простягався покрів м'якого, блискучого снігу.
+corpus_lada_46468_9939a25520	corpus_plain	Почали значні козаки жити на лядський кшталт із великої розкоші.
+corpus_lada_26400_825fb920c9	punctuation	— Ге, ге, ге! — всміхнувся Кеслер на той солоний Владків дотеп.
+corpus_lada_30160_fbb4c75239	punctuation	— Гадаєте, що треба було йому допомогти?
+corpus_lada_26402_bd9e4e8fea	punctuation	— Я, принаймні, мав би надію відшукати її.
+corpus_lada_31383_bfd909d76d	punctuation	— А може б йому рани поперев'язувати? — сказав Тоньо.
+corpus_lada_47152_e299ec5d17	name_or_toponym	Тепер ви й сами бачите, Фелтоне, що я мушу вмерти.
+corpus_lada_31562_5938570a13	punctuation	— Нехай, нехай! — каже ще один, ідучи мимо.
+corpus_lada_31393_4e7dae0d0d	punctuation	— Так, у цьому готелі.
+corpus_lada_35633_07b65dbed1	corpus_plain	Кардинал подзеленькав удруге.
+corpus_lada_46841_8b25974024	corpus_plain	Шрам тож посупивсь.
+corpus_lada_32484_73c493a5a7	punctuation	— Із божка! — каже Шрам.
+corpus_lada_25715_5366de7774	punctuation	— Годі тобі, ми лише зганяли згагу.
+corpus_lada_46252_678a32cfe9	corpus_plain	Одночасно й гуркіт ущух.
+corpus_lada_25376_00048c64b2	punctuation	— Скажи, козаче, де мені знайти полковника Богуна?
+corpus_lada_26310_1d9fd44c8c	punctuation	— О, друзі мої! — пробурмотів він — де ви тепер? І як мені вас бракує!
+corpus_lada_29649_bf38b350ba	punctuation	— Куди ж се їм була далека дорога? — спитав Петро.
+corpus_lada_32553_2b9eb39c14	punctuation	— Не побивайся, гетьмане! — кажуть полковники.
+corpus_lada_46418_2822198b8c	punctuation	— Вина! — сказав Атос, побачивши хазяїна.
+corpus_lada_46862_78a0c9bc9f	corpus_plain	Поєднавшися після невдалого полювання на кулика, брати якийсь час ішли мовчки.
+corpus_lada_31869_f490d6c386	punctuation	— Селі? Селі? — повторив він ледве дишучи.
+corpus_lada_35248_8d23079a33	corpus_plain	З цілої купи хутрів серед човна підвелась місис Сейзер в усій своїй красі.
+corpus_lada_35629_8f756939ae	name_or_toponym	Сітка Чарлі на хвилину зупинився і почав знову кидати в посуд кусочки льоду.
+corpus_lada_47847_62e1b4dccb	punctuation	Ось вони! — сказав Атос.
+corpus_lada_29840_ae64f263c5	punctuation	— Познайомимося, Марія Карловна, це діло не довге.
+corpus_lada_46138_ef8f107899	corpus_plain	Він боровся тепер руками й ногами, боровся люто, мовчазно.
+corpus_lada_46101_8f189c880b	corpus_plain	Злякалась голубонька, як дитина, і заплакала з ляку.
+corpus_lada_26529_52f0186750	punctuation	— Нехай собі їде.
+corpus_lada_31597_e37dcd5f64	punctuation	— А так їх лишити не можна було.
+corpus_lada_35873_1fd29d3442	punctuation	Чи ж не так?
+corpus_lada_32081_a5132ed9dc	punctuation	— Ти жалієш мене, моя голубонько? — спитав Д'Артаньян!
+corpus_lada_32738_66df99c6a7	corpus_plain	Атос на хвилину замислився.
+corpus_lada_29994_79300544f7	punctuation	— О боже, спасителю! Се наші їдуть! — закричала Леся, глянувши на дорогу.
+corpus_lada_47784_39b3d1aabe	name_or_toponym	Д'Артаньян був самотній серед ґвардійців, бо приятелював з мушкетерами.
+corpus_lada_25796_f6de0fa07d	punctuation	— Рано! — мовив Араміс.
+corpus_lada_31432_029eec7a25	punctuation	— Любий мій друже, не можна так, — обізвався зтиха Карковський.
+corpus_lada_26480_5696e74f6e	corpus_plain	А Іванцеві того було й треба.
+corpus_lada_45995_67307ec7b3	punctuation	— Я такий самий, як і ваш Генрись.
+corpus_lada_32717_c391966192	punctuation	— Королівські мушкетери.
+corpus_lada_35118_d28e44f3e0	punctuation	— Як Б'юкенгем?
+corpus_lada_32703_a7af22d80c	punctuation	Кажіть, подобалася вам, чи ні?
+corpus_lada_47112_0151b5671c	punctuation	— Манюсю, — мовить і уриває.
+corpus_lada_30660_69427e862b	punctuation	— Та хто ж приходив? Кажи мерщій.
+corpus_lada_46683_0ce75e9096	corpus_plain	Це було маячіння.
+corpus_lada_48297_47049b73a8	punctuation	Хіба ви не казали мені, що це ваш родинний перстень?
+corpus_lada_31333_87df7e2cd6	abbreviation	— Вона поїхала до Англії, — мовив ДАтос.
+corpus_lada_48084_663345b9bf	punctuation	Та це було ще не все — залишалися площадка й передпокій.
+corpus_lada_36182_e6c0429b17	name_or_toponym	Нічого й казати Петрові.
+corpus_lada_35124_cd89caf6d1	corpus_plain	Від щирого серця бажаю вам успіху, якщо це вам до вподоби.
+corpus_lada_48562_f8be98187e	corpus_plain	Це годиться для чоловіків випещених, подібних до жінок.
+corpus_lada_25775_3bd3f5c1e6	punctuation	— На коней да до Ічні!
+corpus_lada_35508_3b430e9d70	corpus_plain	Почувсь брязкіт посуду.
+corpus_lada_48100_c9997c1d8c	name_or_toponym	Цієї хвилини пані Бонасьє почала приходити до пам'яті.
+corpus_lada_31042_ff768666f6	punctuation	— Мілорде Вінтер! Якої кари вимагаєте ви для цієї жінки?
+corpus_lada_26029_efa80e9c26	punctuation	— Так ти не пустиш бранців назад, на Вкраїну?
+corpus_lada_26575_d2d741e878	punctuation	— Ну, а тепер ви мусите все зрозуміти.
+corpus_lada_35571_3a49571117	corpus_plain	Три постаті ритмічно підіймали і спускали весла.
+corpus_lada_35494_f781be9b4e	name_or_toponym	Між ним і Д'Артаньяном був стіл.
+corpus_lada_30169_b5046c2bd4	punctuation	— Щось не дуже я йму віри їхньому лицемірству, а надто цій ґасконській штуці.
+corpus_lada_32432_7978606d76	punctuation	— Будьте спокійні — я моряк.
+corpus_lada_32781_368f090a3b	punctuation	О, я нещасний, який же я нещасний?
+corpus_lada_25803_80c036ab86	punctuation	— Візьми сотню козаків! — звернувся Богун до Влучака.
+corpus_lada_32131_adac2db6fb	punctuation	— Слухаєте, пане?
+corpus_lada_34848_ea8731179c	name_or_toponym	Ще здаля вони помітили Араміса, який стояв, сумно притулившися до вікна.
+corpus_lada_32179_a3c364b66c	punctuation	— Тепер до рідного Бугу повертаються з походу козаки.
+corpus_lada_33018_d4e758c42a	punctuation	— Ось тут, — сказав він.
+corpus_lada_47813_42edc2bb7b	punctuation	— Слухай же, — мовила вона далі.
+corpus_lada_32527_e3337060ea	punctuation	— Добрі молодці тілько жартують.
+corpus_lada_30891_7c851f3176	punctuation	— Кажу ж тобі, що все знаю.
+corpus_lada_25204_677aee5bfd	punctuation	— Сьогодні ввечорі.
+corpus_lada_33280_14534e2fad	punctuation	— Біленьке й м'якеньке личенько, як у дитини!
+corpus_lada_36088_c856ca5922	corpus_plain	По рокові був я вже таким майстром, що всі сільські хлопці в кут передо мною.
+corpus_lada_46659_c68945dc45	corpus_plain	Кожний лист, це бомба.
+corpus_lada_35531_970ab96e85	corpus_plain	Увійшов і зараз запер двері.
+corpus_lada_35522_4c0bee1bea	corpus_plain	Раптом тишу нічну розірвав частий випал рушничний.
+corpus_lada_29879_b571f6ac0c	punctuation	— Ні, ваша ясновельможність.
+corpus_lada_32978_d62a796110	punctuation	— Годі вже про се! Просимо до господи, дорогії гості.
+corpus_lada_35581_4088fb8704	corpus_plain	Сказавши це, ключник двері замкнув і пішов.
+corpus_lada_47890_181b9fb386	corpus_plain	Погляди їхні зустрілися, а далі все пішло, як по маслу.
+corpus_lada_25820_5e50876ced	punctuation	— Один каже, що зійшов на пси, а другий, що подався на пана.
+corpus_lada_47840_d692b39ae5	corpus_plain	Дивно во очію, а так воно єсть, що він тілько й живе душі спасенієм.
+corpus_lada_32927_09486d633f	punctuation	— Як? Так як бог дасть.
+corpus_lada_48429_7178849b49	corpus_plain	Плянше був озброєний мушкетом і пістолетом.
+corpus_lada_47185_5cf01d310a	corpus_plain	Я вдова бусурмана.
+corpus_lada_35956_2804384cbc	name_or_toponym	Д'Артаньян стрибнув назад і витяг шпаду.
+corpus_lada_36145_bbf6149a0b	corpus_plain	Не рація йти проти народніх звичаїв, коли не чуєшся на силі.
+corpus_lada_32391_4859a2a7f9	punctuation	— Розуміється, — сказала вона коротко.
+corpus_lada_31916_8ec65b0052	punctuation	— Як ся маєте, пане Староміський? — обізвався Гава, наближаючися до старого.
+corpus_lada_31233_a12fab669e	punctuation	— І Сомко згодивсь?
+corpus_lada_31271_bd65b6f537	punctuation	— Як же ти отмеш дівойку, не наробивши гвалту?
+corpus_lada_30003_bd24942b57	punctuation	— Не дармо йде про тебе лицарська слава.
+corpus_lada_46570_6bd3897c47	punctuation	— А дача його?
+corpus_lada_34864_d86ac9dd8e	corpus_plain	Тяжка у вас рука.
+corpus_lada_35370_7e7fe089bf	punctuation	— Це все єдине — верескнула молода жінка.
+corpus_lada_35389_5b73456fc6	corpus_plain	Я це для невістки купила.
+corpus_lada_30192_0436393929	punctuation	— Про що ви питали?
+corpus_lada_25257_e59db7ece7	punctuation	— Ти чого, Лейбуню? — гостро спитала вона.
+corpus_lada_31125_5c0e4b163d	punctuation	На чому ми спинилися?
+corpus_lada_31519_cd07d6e8b9	corpus_plain	А що вже воювати з бусурменами, так хоч щодня.
+corpus_lada_46671_0a1e7568c1	corpus_plain	Ця подвійна обережність показувала, що обоє не хотіли, щоб їх впізнали.
+corpus_lada_47941_39368df1d1	corpus_plain	Так усе й пропало.
+corpus_lada_46178_4fe0684012	corpus_plain	Розв'язана може зранити або вбити.
+corpus_lada_31533_746d44ffe5	punctuation	— Так, ваша величність! Як і завжди!
+corpus_lada_25413_0631929db0	punctuation	— Се,— каже,— наш юродивий Кирило Тур.
+corpus_lada_31566_cbffbe7009	punctuation	— Е, уже раду рушили!
+corpus_lada_34986_1dc9c610d2	corpus_plain	Кардинал кусав вуси й губи.
+corpus_lada_26441_fcc28ae5c2	punctuation	— Що поробиш? — казав мушкетер.
+corpus_lada_25843_c2341f1ba8	punctuation	— Ну, а ти виступаєш на тім вічу з яким рефератом?
+corpus_lada_25450_47fca7778f	punctuation	А за мене не турбуйтесь! В мене тут не пропадуть.
+corpus_lada_46046_dcc2a1b3a2	punctuation	— А прийдете з зброєю, то битимуся з вами на смерть, як і до цього бився.
+corpus_lada_26000_00391f4ea8	punctuation	— Що це таке? — спитав Портос.
+corpus_lada_30413_3b5f6b6449	punctuation	— Я вважаю вас не за дурня.
+corpus_lada_46203_213d6fc37e	name_or_toponym	Од'їхавши за півмілі, Д'Артаньян побачив світло й почув постріл.
+corpus_lada_46791_1804a63aa1	punctuation	— На пістолях!
+corpus_lada_25437_140144a789	punctuation	— На наступний понеділок! Ще п'ять днів.
+corpus_lada_31261_e14ed360e7	punctuation	— Королівська лілея! — відповів Атос.
+corpus_lada_25576_21703a1f02	punctuation	— Боже мій! І ти вирятував мене?
+corpus_lada_30195_9873a5f485	corpus_plain	, які знали, хто де живе, та водили товаришів по заможніших дворах.
+corpus_lada_46882_5675fc755a	corpus_plain	В усякому разі не за те, що виступав, принаймні свідомо, проти пана кардинала.
+corpus_lada_25648_a485f36f5e	punctuation	Але хто пише?
+corpus_lada_46405_d248775f23	punctuation	— Е, ні, мій голубе! Сього не буде.
+corpus_lada_31507_c5591bb636	punctuation	— Це вірна особа?
+corpus_lada_25562_d2fa470cd2	punctuation	— Я ручуся за Базена, — сказав Араміс.
+corpus_lada_36328_42ebefd1e6	corpus_plain	Недалеко треба було й шукати.
+corpus_lada_47971_f8912a5b3d	corpus_plain	Звичайно, чоловіки завжди залишаються чоловікам.
+corpus_lada_25397_07f12002c5	punctuation	— Яке безумство так марно кохати!
+corpus_lada_31384_74ef9d93d9	punctuation	— Будьте обережні, Атосе, будьте обережні.
+corpus_lada_30802_d9625bf0cb	punctuation	— Пані Бонасьє? Правильно, — сказав Атос.
+corpus_lada_46395_30261cf903	name_or_toponym	Д'Артаньянові потрібний був деякий час, щоб отямитися від цієї розмови.
+corpus_lada_25343_360d2a7c03	corpus_plain	А ти сиди собі і не ворухнись, а то зараз же до Мойсея на той світ виряджу.
+corpus_lada_32851_c366b48427	punctuation	— І до того, ще поранений в плече.
+corpus_lada_48804_a9c3a4af26	corpus_plain	За п'ять хвилин вони були на кораблі.
+corpus_lada_25473_4a4ea9ec7f	punctuation	— Поклич тепер і її, хай сюди йде.
+corpus_lada_32466_7563cc7fa1	punctuation	— Так, мені добре відомо вино, про яке ви кажете.
+corpus_lada_35487_2a7d8ef5b1	corpus_plain	Проте, ми не скорилися, нас потягли силоміць.
+corpus_lada_35412_2c50652e74	corpus_plain	Бідна дівчина почуттям угадувала те, що мало статися.
+corpus_lada_48047_30485608c0	corpus_plain	Але це було давно.
+corpus_lada_26490_7dbdef7481	punctuation	Не погубіть же козацької слави!
+corpus_lada_33195_e0d3621339	punctuation	— Ні, я не вагаюся.
+corpus_lada_30586_35ce7a2135	punctuation	— Розваги? У чому?
+corpus_lada_48374_698647d8ae	punctuation	— Чи не переказував він чого особисто для мене?
+corpus_lada_29515_fde539d896	punctuation	Тріє царі, де ви йдете?
+corpus_lada_35278_4849c72b3b	corpus_plain	Ходім спати, а то ще занедужаєш.
+corpus_lada_32821_2aa0e30938	punctuation	— Тепер про нас хіба тільки почуєш.
+corpus_lada_32022_300fd38b5c	punctuation	— Як же ти вирвешся звідси?
+corpus_lada_31844_7f63edd8b5	punctuation	— Як се? Ти одступаєшся од бранки?
+corpus_lada_26190_40b6b9054b	punctuation	— Так, так, — похитав головою Атос, — це я бачу.
+corpus_lada_47994_ee65540d46	corpus_plain	Тої ж хвилини задеренчали колеса карети.
+corpus_lada_47799_80e802282d	corpus_plain	Треба сим безшабельним гевалам збити трохи пихи.
+corpus_lada_35632_80109a7cc4	name_or_toponym	Так минала щодня добра година й аж тоді йшов пан Андрій снідати.
+corpus_lada_32910_8328809714	punctuation	— Ваша жінка втекла.
+corpus_lada_29693_338480f9cc	punctuation	От як у нас тепер завелось!
+corpus_lada_30391_3477c24963	punctuation	— У нас було непорозуміння в питанні про туалет, — сказав юнак.
+corpus_lada_46326_7aae96731d	name_or_toponym	Залишалися Портос і Бікара.
+corpus_lada_25998_c462dddc8d	punctuation	— Хан зрадив нас.
+corpus_lada_47115_c611667f1c	punctuation	— Море, драгий побро! — крикнув Чорногор.
+corpus_lada_48037_a6e7da6584	corpus_plain	Кожний з них ніс по ковдрі.
+corpus_lada_25524_022e220dd8	punctuation	Хіба ж вона не чудова жінка!
+corpus_lada_46175_cc70e1b8cb	corpus_plain	Після обіда божий чоловік іграв і співав усяких поважних пісень.
+corpus_lada_46519_2fb87a26ce	corpus_plain	Я, що сили, підганяв собак, йшов від ранку до ночи.
+corpus_lada_48394_6fd7e15a5a	corpus_plain	Той, здавалося, був дуже заклопотаний.
+corpus_lada_25510_b71634d776	punctuation	— І чого ти, гайвороне, кричиш? — обрушився Мундзьо на меншого брата.
+corpus_lada_25573_00d76c9375	punctuation	— І коштовна попона на ньому теж моя?
+corpus_lada_46906_44d950798d	name_or_toponym	Д'Артаньян наставив йому вістря шпади до горла.
+corpus_lada_46676_c73d53a10d	name_or_toponym	Ти, може, не знаєш, сидючи тут, що вже розжовав усяк харцизяку Іванця.
+corpus_lada_47809_f08ccdf947	punctuation	Массіно мій! Я ні про що не думаю, лише про тебе.
+corpus_lada_46587_9ed2f99703	name_or_toponym	Плянше подався до вулиці Голубника, а Д'Артаньян на вулицю Феру.
+corpus_lada_26437_1bd7e47fe9	punctuation	— І гаряча була справа?
+corpus_lada_33156_0879edc4fd	punctuation	— Надінь, надінь, мій любий.
+corpus_lada_26280_7109f6e54f	punctuation	— Робіть те, що я звелів, — згукнув комісар.
+corpus_lada_33058_ad227c4678	corpus_plain	А внизу готівка, книжечки податкові і банкові.
+corpus_lada_47140_cb3477c981	corpus_plain	Я велів принести два келішки коньяку.
+corpus_lada_46581_0d55f8420d	corpus_plain	Атос, завжди мовчазний, тільки запитливо глянув на юнака.
+corpus_lada_47009_c50c9e5c97	punctuation	— Христос грає! — каже дід.
+corpus_lada_32670_4f37684b64	punctuation	— Ти добре знаєш, як ми співчуваємо цій бідній маленькій пані Бонасьє.
+corpus_lada_46118_ec1eba3800	punctuation	— Ну, ну, аджеж я знаю, що ти не смієш стріляти!
+corpus_lada_25400_b535c17d90	punctuation	— Нема? А як же тато господарство ведуть?
+corpus_lada_47079_90f7d68b13	corpus_plain	Опанас провів мене до містечка, куди було треба.
+corpus_lada_25342_eab6c07b04	punctuation	— Ми до Сомкового табору.
+corpus_lada_34914_815ed476c0	corpus_plain	Портос був людина зовсім протилежного ґатунку.
+corpus_lada_33202_3ea5ae60bd	name_or_toponym	Аж ось приїхав із Ніженя сотник, Гордій Костомара.
+corpus_lada_31276_ba45e2f68f	punctuation	Що ми вдвох робитимемо з одним конем?
+corpus_lada_46296_99f047ffc5	punctuation	— Що ж пані має зробити з ним?
+corpus_lada_48683_4319cd6111	punctuation	— Наше вино? — здивувався Атос.
+corpus_lada_46149_fd07fab350	corpus_plain	Я вже казав вам, кидайте якомога скорше Париж.
+corpus_lada_35381_51bc371c68	corpus_plain	Ніч проминула досить спокійно.
+corpus_lada_34829_2e3d18ecce	punctuation	— Наші не кудкудахчуть, ізнісши яєчко.
+corpus_lada_33087_b2d2b27e35	punctuation	— Так, священик.
+corpus_lada_33275_99a3c0c78c	punctuation	— Дозвольте мені, пані, висловити здивування з приводу цього, — сказала ігуменя.
+corpus_lada_48298_90a75f977d	punctuation	— Яке ж там у вас лихо? — питає повагом Гвинтовка.
+corpus_lada_34839_6c202669c9	corpus_plain	Вони так само сказали, що жертви не буде.
+corpus_lada_34859_c7b74825f7	name_or_toponym	Все те щасливе життя Богунів та Михнюків давно минулося.
+corpus_lada_48801_2ffd211faf	corpus_plain	В світлоньку ввійшла,.
+corpus_lada_32904_a70e2fa651	punctuation	— Ну, та й добре ж, — сказала міледі, — виконав він свою ролю.
+corpus_lada_30289_af13502726	punctuation	— Ні, запевняю вас! Я натрапив на ваш слід цілком випадково.
+corpus_lada_32945_0cfb089f03	punctuation	— Що за чудесний вид! — мимоволі скрикнув молодший панич.
+corpus_lada_25682_96b33d6432	punctuation	— Геть, іродові душі! — крикне на них Шрам.
+corpus_lada_46144_b0a882e7c9	corpus_plain	Тоді одвернулась і пішла геть.
+corpus_lada_29682_5a1eeb9e02	punctuation	— Тихо, — застерегла її міледі — навіть тут неможна так говорити про нього.
+corpus_lada_46369_a10eb60c95	punctuation	Був лише глядачем — здалека, так, здалека дивився на все.
+corpus_lada_26541_d72beafef2	corpus_plain	А Петро, як ускочив у хату, то й став у порога, як укопаний.
+corpus_lada_36035_6dd0f391d0	corpus_plain	В Москві стався замах на високу особу.
+corpus_lada_48772_1069d3d88b	corpus_plain	Продаватимеш, кажеш, то й я продам.
+corpus_lada_48835_6bec57926d	corpus_plain	Тепер їм довелось зазнати доброї біди в цій країні.
+corpus_lada_48029_18c91616c2	corpus_plain	Я приймаю вашу пропозицію.
+corpus_lada_26642_4567dbe79b	punctuation	— Ваш брат у сьому не тямить сили.
+corpus_lada_30530_8dfc0deaea	punctuation	Аж тут берег під ним — хруп! Одколовсь, і вже козак похиливсь назад.
+corpus_lada_32241_da045a5892	punctuation	— Що? Невже татаре?
+corpus_lada_25623_43c65a2ad9	punctuation	— Боже милий, Атосе, це ж вбивство! — вихопилося в Д'Артаньяна.
+corpus_lada_25536_4a9709ae18	punctuation	Прощайте, пані! До побачення!

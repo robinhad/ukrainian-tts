@@ -64,3 +64,21 @@ python -m training.inference.synthesize \
 ```
 
 The raw WAV remains separate from any publication mastering.
+
+## Full-corpus training after MVP PASS
+
+Calibration selected `batch_bins=3000000` with about 12% VRAM reserve. FP32 is kept
+because the 200-iteration AMP check degraded validation loss. Training uses one RTX
+3090 and resumes in the same experiment directory:
+
+```bash
+cd training
+./scripts/run_full_training.sh 1000
+./scripts/run_full_training.sh 25000
+./scripts/run_milestone_inference.sh latest.pth
+./scripts/run_full_training.sh 50000
+./scripts/run_full_training.sh 100000
+```
+
+Further 200k/400k extensions use the same command and are allowed only while fixed
+eval listening and inference diagnostics improve.

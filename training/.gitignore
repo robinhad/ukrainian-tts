@@ -1,6 +1,8 @@
 data/
 dump/
 exp/
+dump_full/
+exp_full/
 .venv/
 activate.sh
 vendor/espnet-src/

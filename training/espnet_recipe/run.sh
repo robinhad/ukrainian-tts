@@ -12,6 +12,12 @@ cd "${RECIPE_ROOT}"
 
 export MANIFEST_DIR="${MANIFEST_DIR:-${ROOT}/data/manifests}"
 GPU_COUNT="${GPU_COUNT:-1}"
+TRAIN_SET="${TRAIN_SET:-smoke_train}"
+VALID_SET="${VALID_SET:-smoke_dev}"
+TEST_SETS="${TEST_SETS:-smoke_eval}"
+export DATA_SETS="${DATA_SETS:-${TRAIN_SET} ${VALID_SET} ${TEST_SETS}}"
+DUMP_DIR="${DUMP_DIR:-${ROOT}/dump}"
+EXP_DIR="${EXP_DIR:-${ROOT}/exp}"
 
 exec "${ESPNET_ROOT}/egs2/TEMPLATE/tts1/tts.sh" \
     --lang uk \
@@ -31,14 +37,14 @@ exec "${ESPNET_ROOT}/egs2/TEMPLATE/tts1/tts.sh" \
     --token_type phn \
     --g2p espeak_ng_ukrainian \
     --cleaner none \
-    --train_set smoke_train \
-    --valid_set smoke_dev \
-    --test_sets smoke_eval \
-    --srctexts "${RECIPE_ROOT}/data/smoke_train/text" \
+    --train_set "${TRAIN_SET}" \
+    --valid_set "${VALID_SET}" \
+    --test_sets "${TEST_SETS}" \
+    --srctexts "${RECIPE_ROOT}/data/${TRAIN_SET}/text" \
     --min_wav_duration 0.1 \
     --max_wav_duration 20 \
     --train_config "${RECIPE_ROOT}/conf/tuning/train_jets_uk_24k.yaml" \
     --inference_config "${RECIPE_ROOT}/conf/tuning/decode_jets.yaml" \
-    --dumpdir "${ROOT}/dump" \
-    --expdir "${ROOT}/exp" \
+    --dumpdir "${DUMP_DIR}" \
+    --expdir "${EXP_DIR}" \
     "$@"

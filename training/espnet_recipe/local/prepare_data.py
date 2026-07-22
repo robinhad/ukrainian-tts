@@ -19,7 +19,11 @@ def main() -> int:
     parser.add_argument("--manifest-dir", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     args = parser.parse_args()
-    for manifest in sorted(args.manifest_dir.glob("smoke_*.parquet")):
+    manifests = [
+        path for path in sorted(args.manifest_dir.glob("*.parquet"))
+        if path.stem != "all"
+    ]
+    for manifest in manifests:
         frame = pd.read_parquet(manifest).sort_values("utterance_id")
         target = args.output_root / manifest.stem
         target.mkdir(parents=True, exist_ok=True)

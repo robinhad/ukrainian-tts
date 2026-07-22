@@ -17,7 +17,7 @@ from training.frontend.phonemize import UkrainianPhonemizer
 FIELDS = [
     "utterance_id", "speaker_id", "audio_path", "text_raw", "text_sanitized",
     "espeak_phonemes", "duration", "sample_rate", "source", "source_license",
-    "split", "qc_flags", "audio_sha256", "text_sha256", "espeak_version",
+    "source_group", "split", "qc_flags", "audio_sha256", "text_sha256", "espeak_version",
     "frontend_config_hash",
 ]
 
