@@ -54,7 +54,15 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
 
 
 def gpu_status() -> list[dict[str, object]]:
-    fields = ["index", "utilization.gpu", "memory.used", "memory.total", "temperature.gpu"]
+    fields = [
+        "index",
+        "utilization.gpu",
+        "memory.used",
+        "memory.total",
+        "temperature.gpu",
+        "power.draw",
+        "power.limit",
+    ]
     output = subprocess.run(
         [
             "nvidia-smi",
@@ -66,16 +74,21 @@ def gpu_status() -> list[dict[str, object]]:
         text=True,
     ).stdout
     rows = csv.reader(io.StringIO(output), skipinitialspace=True)
-    return [
-        {
+    result = []
+    for row in rows:
+        power_draw = float(row[5])
+        power_limit = float(row[6])
+        result.append({
             "index": int(row[0]),
             "utilization_percent": int(row[1]),
             "memory_used_mib": int(row[2]),
             "memory_total_mib": int(row[3]),
             "temperature_c": int(row[4]),
-        }
-        for row in rows
-    ]
+            "power_draw_w": round(power_draw, 2),
+            "power_limit_w": round(power_limit, 2),
+            "power_utilization_percent": round(100 * power_draw / power_limit, 1),
+        })
+    return result
 
 
 def main() -> int:

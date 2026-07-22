@@ -94,7 +94,8 @@ listening results and the inference diagnostics improve.
 ## Get the training status
 
 Use this command to get the progress, the Europe/Kyiv ETA, the checkpoint list,
-the error count, and the status of each GPU:
+the error count, and the status of each GPU. The GPU status includes power draw,
+power limit, temperature, memory use, and compute use.
 
 ```bash
 python scripts/training_status.py \
