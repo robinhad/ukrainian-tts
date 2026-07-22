@@ -1,63 +1,63 @@
-# Setup environment
-Link: https://espnet.github.io/espnet/installation.html
+# Training steps
+
+Use these steps for the Ukrainian JETS pipeline. Run the commands from the
+repository root. Do not use this procedure for VITS or Tacotron2.
+
+## 1. Prepare the local environment
+
+The bootstrap command installs the dependencies in `training/.venv` and
+`training/vendor`. It does not install a system Python package.
 
 ```sh
-sudo apt-get install cmake sox libsndfile1-dev ffmpeg
-git clone --branch v.202301 https://github.com/espnet/espnet
-cd ./espnet/tools
-./setup_anaconda.sh anaconda espnet 3.10
-. ./activate_python.sh
-make
-pip install --upgrade torch torchaudio # or setup same versions
-make
-. ./activate_python.sh; python3 check_install.py
+training/scripts/bootstrap_env.sh
+source training/activate.sh
+python training/scripts/validate_espeak.py
 ```
 
-# Run training
-
-ESPNET is a dynamic framework. For the latest guide, please refer to https://github.com/espnet/espnet/tree/master/egs2/TEMPLATE/tts1
-
-This page provides general launching steps on how training was performed for reference, and this doesn't cover data preparation.
-
-NOTE: before running the script below, copy [./train_vits.yaml](./train_vits.yaml) or [./finetune_joint_tacotron2_hifigan.yaml](./finetune_joint_tacotron2_hifigan.yaml) to your `<espnet_root>/egs2/ljspeech/tts1/conf/tuning/` folder
-
+## 2. Run the frontend tests
 
 ```sh
-cd ../egs2/ljspeech/tts1
-pip install torchvision # to save figures
-pip install speechbrain # for x-vectors
-# option 1: train VITS
-./run.sh \
-    --stage 6 \
-    --min_wav_duration 0.38 \
-    --use_xvector true \
-    --xvector_tool speechbrain \
-    --fs 22050 \
-    --n_fft 1024 \
-    --n_shift 256 \
-    --win_length null \
-    --dumpdir dump/22k \
-    --expdir exp/22k \
-    --tts_task gan_tts \
-    --feats_extract linear_spectrogram \
-    --feats_normalize none \
-    --train_config ./conf/tuning/train_vits.yaml \
-    --inference_config ./conf/tuning/decode_vits.yaml
-# option 2: train tacotron2 and hifigan jointly
-./run.sh \
-    --stage 6 \
-    --min_wav_duration 0.38 \
-    --use_xvector true \
-    --xvector_tool speechbrain \
-    --fs 22050 \
-    --n_fft 1024 \
-    --n_shift 256 \
-    --win_length null \
-    --dumpdir dump/22k \
-    --expdir exp/22k \
-    --train_config ./conf/tuning/finetune_joint_tacotron2_hifigan.yaml \
-    --tts_task gan_tts
-
+pytest -q training/tests
 ```
 
+## 3. Run the smoke pipeline
 
+This command uses GPU0. It prepares the smoke data, trains JETS, and makes the
+smoke WAV files.
+
+```sh
+training/scripts/run_smoke_test.sh
+```
+
+Do not start full training if a critical gate in
+`training/reports/scale_readiness.md` is not `PASS`.
+
+## 4. Run full training
+
+The full-training command uses both pinned RTX 3090 cards. The command checks
+both cards, available RAM, and available disk space before it starts.
+
+```sh
+training/scripts/run_full_training.sh 25000
+```
+
+Use the same command with `50000` or `100000` only after you evaluate the fixed
+evaluation set for the preceding milestone.
+
+## 5. Make the milestone WAV files
+
+```sh
+training/scripts/run_milestone_inference.sh latest.pth
+```
+
+## 6. Make one local WAV file
+
+The output is a raw mono 24 kHz WAV file. This command does not apply mastering.
+
+```sh
+training/.venv/bin/python -m training.inference.synthesize \
+  --text "Український синтез мовлення працює офлайн." \
+  --output training/eval/generated/example.wav \
+  --config training/exp_full/tts_jets_uk_24k_full/config.yaml \
+  --checkpoint training/exp_full/tts_jets_uk_24k_full/latest.pth
+```

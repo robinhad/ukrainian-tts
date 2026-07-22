@@ -2,14 +2,22 @@
 
 ## Business understanding
 
-The MVP proves the complete Ukrainian single-speaker JETS contour, not perceptual
-quality. The fixed architecture is ESPnet2 GAN-TTS/JETS, raw 24 kHz mono waveform,
-eSpeak-ng Ukrainian phonemes with stress and punctuation, and no separate vocoder,
-verbalizer or stress model.
+The MVP proves that the complete Ukrainian single-speaker JETS pipeline operates.
+It does not prove perceptual quality. The fixed architecture has these components:
 
-Success requires deterministic non-empty phonemes, valid ESPnet data directories,
-token and pitch/energy statistics, stable generator/discriminator updates, a real
-checkpoint, and a finite non-empty 24 kHz mono WAV produced from that checkpoint.
+- ESPnet2 GAN-TTS with JETS.
+- Raw mono audio at 24 kHz.
+- Ukrainian eSpeak-ng phonemes with stress and punctuation.
+- No separate vocoder, verbalizer, or stress model.
+
+The MVP is successful when the pipeline meets these conditions:
+
+- The frontend makes deterministic and non-empty phonemes.
+- The ESPnet data directories are valid.
+- The pipeline makes token, pitch, and energy statistics.
+- The generator and the discriminator update without an error.
+- The training stage saves a real checkpoint.
+- The checkpoint makes a finite and non-empty mono WAV at 24 kHz.
 
 ## Constraints and risks
 
@@ -29,42 +37,44 @@ checkpoint, and a finite non-empty 24 kHz mono WAV produced from that checkpoint
 
 ## Data understanding and preparation
 
-The local environment is bootstrapped from pinned ESPnet and eSpeak-ng revisions.
+The local environment uses pinned ESPnet and eSpeak-ng revisions.
 The Ukrainian frontend uses eSpeak-ng 1.52.0 with language-data SHA-256
 `924ed10e1c4f6f41ac603ceb3204d1b20877d75a9f8e71d392d7fdc98aa80d6d`.
-The 50-case regression snapshot covers ordinary text, stress-sensitive words,
-apostrophes, hyphens, numbers, dates, time, abbreviations, names, toponyms,
-Latin/mixed text and complex punctuation. On 2026-07-22 all 18 frontend and
-configuration tests passed in 0.80 seconds with no empty token sequences.
+The 50-case regression snapshot includes ordinary text and stress-sensitive words.
+It also includes apostrophes, hyphens, numbers, dates, times, abbreviations, names,
+toponyms, Latin text, mixed text, and complex punctuation. On 2026-07-22, all 18
+frontend and configuration tests passed in 0.80 seconds. No token sequence was empty.
 
-The pinned Lada Parquet was materialized deterministically into 256 train, 32 dev
-and 32 eval utterances. All 320 audio/text pairs exist and are unique, totalling
-0.474 hours. Durations range from 3.36 to 10.38 seconds with a 5.4 second median.
-Model copies are mono PCM WAV at 24 kHz and received no signal processing. QC marked
-28 source recordings as potentially clipped; the flag is retained in the manifest.
-ESPnet validated every generated data directory without dropping an utterance.
+The data stage made 256 train, 32 dev, and 32 eval utterances from the pinned Lada
+Parquet file. All 320 audio and text pairs exist and are unique. Their total duration
+is 0.474 hours. The durations are 3.36 to 10.38 seconds. The median is 5.4 seconds.
+The model copies are mono PCM WAV files at 24 kHz. The data stage did not apply
+signal processing. QC marked 28 source recordings as possibly clipped. The manifest
+keeps this flag. ESPnet accepted all the utterances in each data directory.
 
 ## Modeling
 
-Stages 5 and 6 produced a 153-entry phoneme token list (0.0% OOV) plus speech,
-text, pitch and energy statistics. A CUDA dry run constructed the complete FP32
-JETS model (83.31M trainable parameters), both AdamW optimizers and all extractors.
-The first launch exposed that ESPnet's GAN trainer does not support gradient
-accumulation; `accum_grad` was changed from 2 to the supported value 1. The repeated
-run completed 100 FP32 iterations plus validation without NaN or OOM. Peak cached
-VRAM was 5.938 GiB. A real 1-epoch checkpoint was saved with SHA-256
+Stages 5 and 6 made a phoneme token list with 153 entries and 0.0% OOV. The stages
+also made the speech, text, pitch, and energy statistics. A CUDA dry run constructed
+the FP32 JETS model with 83.31 million trainable parameters. It also constructed
+the two AdamW optimizers and all the extractors. The first launch showed that the
+ESPnet GAN trainer does not support gradient accumulation. The configuration now
+uses the supported value `accum_grad: 1`. The repeated run completed 100 FP32
+iterations and validation. It had no NaN or OOM error. Peak cached VRAM was 5.938
+GiB. The run saved a real 1-epoch checkpoint with SHA-256
 `6092bf244c08cf89971deb653c760f61c5a56bba63eb4dafafb36ed88c02685c`.
 
 ## Evaluation
 
-ESPnet inference generated all 32 fixed smoke-eval utterances. Independent QC found
-32 valid mono 24 kHz finite, non-empty and non-zero WAVs, no output clipping, and
-durations from 1.653 to 4.096 seconds. Median GPU real-time factor was 0.0185. This
-is a contour validation after only 100 iterations; no perceptual-quality claim is
-made.
+ESPnet inference made all 32 fixed smoke-eval utterances. Independent QC accepted
+all 32 WAV files. Each file is finite, non-empty, non-zero, mono, and 24 kHz. QC did
+not find output clipping. The durations are 1.653 to 4.096 seconds. The median GPU
+real-time factor is 0.0185. This test only validates the pipeline after 100
+iterations. It does not validate perceptual quality.
 
 ## Deployment
 
-The local `python -m training.inference.synthesize` entrypoint loaded the same
-frontend, token list, config and checkpoint and generated a 2.955-second raw WAV at
-24 kHz with metadata JSON and RTF 0.112. It performs no publication mastering.
+The local `python -m training.inference.synthesize` entry point used the same
+frontend, token list, configuration, and checkpoint. It made a 2.955-second raw WAV
+at 24 kHz. It also made the metadata JSON. The RTF was 0.112. The entry point did
+not apply publication mastering.

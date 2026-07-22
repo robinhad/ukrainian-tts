@@ -2,8 +2,8 @@
 
 ## Виконано
 
-Pipeline implementation is in progress on branch `autotrain`. This report is updated
-after each executed stage and does not claim unexecuted training or synthesis.
+Pipeline implementation is in progress on branch `autotrain`. This report contains
+results only for commands that ran.
 
 ## CRISP-DM cycle 1
 
@@ -29,18 +29,18 @@ See `scale_readiness.md` for evidence-backed statuses.
 
 ## Фактичні запуски
 
-- Host resource preflight: exit 0; two idle RTX 3090 GPUs, RAM and disk thresholds pass.
+- Host resource preflight: exit 0. Two RTX 3090 GPUs were idle. The RAM and disk checks passed.
 - Minimal sanitation tests: exit 0; 10 passed.
-- First bootstrap attempt: exit 1 after PyTorch 2.9.1+cu128 installed; removed an invalid PyPI `espnet==202604` requirement because the pinned ESPnet release is installed from commit `cff0a07`.
-- Second bootstrap attempt: ESPnet installed and eSpeak built, then exit 1 because eSpeak defaulted to a static library; enabled the shared library required by phonemizer.
+- First bootstrap attempt: exit 1. PyTorch 2.9.1+cu128 was installed. The PyPI `espnet==202604` requirement was not valid. The pipeline now installs ESPnet from commit `cff0a07`.
+- Second bootstrap attempt: exit 1. ESPnet was installed and eSpeak was built. eSpeak made a static library. The next configuration enabled the shared library that phonemizer requires.
 - Environment bootstrap retry: exit 0; pinned ESPnet and shared eSpeak-ng installed.
 - Frontend regression suite: exit 0; 18 tests passed in 0.80 seconds.
-- Smoke subset materialization: first implementation wrote all 320 records but exited 250 in Hugging Face streaming shutdown; pinned Parquet implementation then exited 0.
+- Smoke subset materialization: the first implementation wrote all 320 records. It exited 250 during Hugging Face streaming shutdown. The pinned Parquet implementation then exited 0.
 - Audio preparation: exit 0; 320 mono PCM 24 kHz WAV files created.
 - Manifest validation: exit 0; 320 utterances, 0.474 hours, no errors, 28 clipping flags.
-- ESPnet stages 1--6: after fixing `run.pl`, `resampy`, and `--srctexts`, exit 0; data directories, 153-token list and statistics created.
+- ESPnet stages 1--6: exit 0 after fixes to `run.pl`, `resampy`, and `--srctexts`. The stages made the data directories, a 153-token list, and the statistics.
 - JETS dry run: exit 0; 83.31M-parameter model and both optimizers constructed on CUDA.
-- First training launch: exit 1 before the first batch because ESPnet GANTrainer rejects `accum_grad > 1`; changed it to 1.
+- First training launch: exit 1 before the first batch. ESPnet GANTrainer rejected `accum_grad > 1`. The configuration now uses `accum_grad: 1`.
 - Smoke training retry: exit 0; 100 train iterations, 5 validation batches, peak cached VRAM 5.938 GiB, no NaN/OOM, checkpoint saved.
 - ESPnet smoke inference: exit 0; 32 WAVs generated.
 - Independent WAV validation: exit 0; 32/32 mono 24 kHz finite/nonzero outputs, no clipping, median RTF 0.0185.
@@ -50,11 +50,11 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Full frontend snapshot: exit 0; 500 cases; all 18 tests passed in 5.06 seconds.
 - Full ESPnet stages 1--6: exit 0; data directories, token list and pitch/energy statistics produced.
 - FP32 batch calibration: 1M, 2M, 2.5M and 3M each completed 200 iterations; 3M selected with 20.727 GiB peak cache and about 12% VRAM reserve.
-- AMP check: exit 0 and finite, but validation generator loss 140.497 versus 77.744 for FP32; AMP rejected.
+- AMP check: exit 0 and finite. The AMP validation generator loss was 140.497. The FP32 loss was 77.744. Long training does not use AMP.
 - Full 1k training: exit 0; 1000 iterations in 25m38s, train/valid generator loss 82.403/84.718, peak cached VRAM 20.727 GiB, checkpoint saved with no NaN/OOM.
 - Full 1k ESPnet inference: exit 0 in 15s; all 180 fixed eval utterances generated.
 - Full 1k independent WAV validation: exit 0; 180/180 mono 24 kHz finite/nonzero WAVs, no clipping warnings, median RTF 0.00893.
-- First fresh-shell local inference: exit 1 because the entrypoint did not discover pinned eSpeak data outside the recipe environment; added repository-local discovery and fail-closed version/hash checking.
+- First local inference from a new shell: exit 1. The entry point did not find pinned eSpeak data outside the recipe environment. It now finds the repository-local data and rejects a different version or hash.
 - Local inference retry with eSpeak variables explicitly unset: exit 0; 3.477-second mono 24 kHz WAV, RTF 0.103, metadata written.
 - Post-fix automated tests: exit 0; 19 passed in 5.10 seconds.
 
@@ -77,13 +77,13 @@ See `scale_readiness.md` for evidence-backed statuses.
 
 ## Відомі проблеми
 
-- Twenty-eight smoke files carry a clipping QC flag and require review before scaling.
+- Twenty-eight smoke files have a clipping QC flag.
 - The 100-iteration checkpoint proves operability only; expected speech quality is low.
-- Source metadata lacks document IDs; contiguous 50-file blocks are the documented proxy for related recordings.
+- The source metadata does not have document IDs. The split procedure uses contiguous 50-file blocks as proxy groups.
 - The full corpus has 366 clipping flags and 104 phoneme tokens occurring at most ten times.
 - AMP was stable but degraded the 200-iteration validation metric and is disabled.
-- The 1k checkpoint is technically valid but has not been selected for perceptual quality; 25k listening evaluation is still required.
-- The repository Git remote contains an embedded credential; it must not be printed and should be rotated.
+- The 1k checkpoint is technically valid. It is not selected for perceptual quality. The 25k checkpoint requires a listening evaluation.
+- The Git remote contains an embedded credential. Do not print it. Rotate the credential.
 
 ## Наступна одна дія
 

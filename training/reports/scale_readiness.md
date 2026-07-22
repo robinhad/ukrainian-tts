@@ -15,4 +15,5 @@
 | Valid 24 kHz mono WAV | PASS | 32/32 eval WAVs passed finite/nonzero/mono/24 kHz checks; duration 1.65--4.10 s; median RTF 0.0185 | `reports/smoke_inference.json`, `eval/generated/example.wav` | Listening quality is intentionally outside the MVP gate |
 | Reproduction commands documented | PASS | Bootstrap, stage and inference commands | `README.md` | Keep actual commands in log |
 
-Every critical MVP row is `PASS`; cycle 2 preparation and batch calibration are now allowed.
+Every critical MVP row is `PASS`. Cycle 2 preparation and batch calibration are
+permitted.

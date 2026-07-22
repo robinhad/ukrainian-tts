@@ -1,8 +1,11 @@
 # Ukrainian single-speaker JETS training
 
-This directory contains the reproducible ESPnet2 GAN-TTS pipeline. It is independent
-from the repository's legacy multi-speaker inference code and deliberately performs
-no verbalization, separate stress prediction, denoising, compression or mastering.
+This directory contains the reproducible ESPnet2 GAN-TTS pipeline. The pipeline is
+separate from the legacy multi-speaker inference code. It does not use a verbalizer,
+a separate stress model, denoising, compression, or mastering.
+
+The project documents use ASD-STE100 Simplified Technical English style. No
+approved STE checker has certified these documents.
 
 ## Fixed versions
 
@@ -12,7 +15,7 @@ no verbalization, separate stress prediction, denoising, compression or masterin
 - Dataset `speech-uk/opentts-lada`, revision
   `729289b58251da4a21ce85f8808dd908f28b0d7f`
 
-## Bootstrap
+## Prepare the environment
 
 ```bash
 cd training
@@ -25,14 +28,14 @@ python -m training.frontend.snapshot \
   --cache data/phonemes.sqlite3 --update
 ```
 
-The bootstrap installs only into `training/.venv` and `training/vendor`. It applies
-`patches/espnet-espeak-ng-ukrainian.patch` to the pinned local ESPnet checkout.
+The bootstrap installs files only in `training/.venv` and `training/vendor`. It
+applies `patches/espnet-espeak-ng-ukrainian.patch` to the pinned ESPnet source.
 
 ## Smoke cycle
 
-GPU 0 is selected by UUID. Every long command is wrapped by `run_logged.py`, which
-records the exit status and prints a heartbeat at least every five minutes.
-Each heartbeat includes the current Europe/Kyiv time and an estimated completion time.
+The smoke cycle uses GPU0. The code selects GPU0 by its UUID. `run_logged.py`
+records the exit status for each long command. It prints a heartbeat at intervals
+of five minutes or less. The heartbeat contains the Europe/Kyiv time and the ETA.
 
 ```bash
 cd training
@@ -40,7 +43,7 @@ source ./activate.sh
 ./scripts/run_smoke_test.sh
 ```
 
-The ESPnet stages can also be resumed independently:
+Use these commands to resume an ESPnet stage:
 
 ```bash
 ./espnet_recipe/run.sh --stage 1 --stop_stage 6
@@ -55,9 +58,9 @@ Do not run full-corpus preparation or long training unless every critical gate i
 
 ## Local inference
 
-The entrypoint discovers the pinned repository-local eSpeak-ng installation, so it
-can be invoked from a fresh shell after bootstrap (sourcing `activate.sh` remains
-recommended for all recipe commands):
+The entry point finds the pinned eSpeak-ng installation in this repository. You
+can run it from a new shell after the bootstrap. Source `activate.sh` before you
+run a recipe command.
 
 ```bash
 training/.venv/bin/python -m training.inference.synthesize \
@@ -67,14 +70,14 @@ training/.venv/bin/python -m training.inference.synthesize \
   --checkpoint exp/<experiment>/<checkpoint>.pth
 ```
 
-The raw WAV remains separate from any publication mastering.
+Keep the raw WAV separate from the publication WAV.
 
 ## Full-corpus training after MVP PASS
 
-Calibration selected `batch_bins=3000000` with about 12% VRAM reserve per process.
-FP32 is kept because the 200-iteration AMP check degraded validation loss. Training
-uses one RTX 3090 by default for smoke tests and both RTX 3090 cards for full
-training. Full training resumes in the same experiment directory:
+Calibration selected `batch_bins=3000000`. This value kept approximately 12% of
+the VRAM free for each process. The 200-iteration AMP test increased the validation
+loss. Thus, full training uses FP32. Smoke tests use one RTX 3090. Full training
+uses both RTX 3090 cards. Use these commands to resume the same experiment:
 
 ```bash
 cd training
@@ -85,5 +88,5 @@ cd training
 ./scripts/run_full_training.sh 100000
 ```
 
-Further 200k/400k extensions use the same command and are allowed only while fixed
-eval listening and inference diagnostics improve.
+Use the same command for the 200k and 400k targets. Continue only if the fixed-set
+listening results and the inference diagnostics improve.
