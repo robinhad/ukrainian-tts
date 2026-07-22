@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from training.frontend.phonemize import UkrainianPhonemizer
+from training.frontend.phonemize import (
+    FrontendConfig,
+    UkrainianPhonemizer,
+    validate_pinned_config,
+)
 
 
 @pytest.fixture(scope="module")
@@ -33,3 +37,10 @@ def test_non_empty_and_deterministic(frontend, text):
 def test_stress_marker_is_preserved(frontend):
     _, tokens = frontend.phonemize("Український синтез мовлення.")
     assert any("ˈ" in token or "ˌ" in token for token in tokens)
+
+
+def test_version_mismatch_is_rejected():
+    with pytest.raises(RuntimeError, match="version"):
+        validate_pinned_config(
+            FrontendConfig(espeak_version="0.0.0", espeak_data_hash="invalid")
+        )

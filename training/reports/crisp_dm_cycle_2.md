@@ -27,7 +27,8 @@ of them occurring at most ten times.
 ESPnet validated all train/dev/eval directories. Full tokenization reported 0.0%
 OOV and full speech, pitch and energy statistics were aggregated. The deterministic
 frontend snapshot now contains 500 corpus and curated sentences; all 18 automated
-tests passed in 5.06 seconds.
+tests passed in 5.06 seconds. After the local-entrypoint environment fix, the
+expanded suite passed all 19 tests in 5.10 seconds.
 
 ## Modeling
 
@@ -45,7 +46,18 @@ was finite and faster, but its validation generator loss was 140.497 versus 77.7
 for FP32 at the same calibrated batch size. AMP is therefore disabled for the long
 run. The resumable runner checkpoints every 1000 iterations.
 
+The full-corpus FP32 sanity milestone completed 1000 training iterations on GPU0
+in 25m38s wall time (25m13s inside the trainer). It saved `1epoch.pth` with SHA-256
+`66e06306...5910f`; train generator loss was 82.403 and validation generator loss
+was 84.718. Generator, discriminator, alignment, pitch and energy losses were
+finite, and peak cached VRAM was 20.727 GiB.
+
 ## Evaluation and deployment
 
-Full-corpus milestone evaluation begins after the 1k checkpoint and reuses the same
-180-utterance eval split. Release packaging remains pending checkpoint evaluation.
+The 1k checkpoint generated all 180 fixed eval utterances in 15 seconds. Independent
+validation passed every output: mono 24 kHz, finite, non-empty, no clipping warnings,
+durations 1.184--10.037 seconds and median RTF 0.00893. The local deployment
+entrypoint also produced a 3.477-second WAV with RTF 0.103. Its first fresh-shell
+attempt exposed missing pinned eSpeak environment discovery; the frontend now
+discovers the repository-local runtime and rejects version/data-hash drift. Release
+packaging and perceptual checkpoint selection remain pending later milestones.

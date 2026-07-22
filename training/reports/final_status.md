@@ -19,8 +19,8 @@ after each executed stage and does not claim unexecuted training or synthesis.
 - Business Understanding: PASS
 - Data Understanding: PASS for the complete pinned corpus
 - Data Preparation: PASS; full ESPnet token/statistics stages completed
-- Modeling: batch calibration PASS; 1k/25k+ long run pending
-- Evaluation: fixed 180-utterance eval set prepared; full milestone NOT RUN
+- Modeling: batch calibration and 1k full-corpus sanity milestone PASS; 25k pending
+- Evaluation: 1k fixed-set inference PASS for 180/180 WAVs
 - Deployment: release candidate pending checkpoint evaluation
 
 ## MVP-gate
@@ -51,6 +51,12 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Full ESPnet stages 1--6: exit 0; data directories, token list and pitch/energy statistics produced.
 - FP32 batch calibration: 1M, 2M, 2.5M and 3M each completed 200 iterations; 3M selected with 20.727 GiB peak cache and about 12% VRAM reserve.
 - AMP check: exit 0 and finite, but validation generator loss 140.497 versus 77.744 for FP32; AMP rejected.
+- Full 1k training: exit 0; 1000 iterations in 25m38s, train/valid generator loss 82.403/84.718, peak cached VRAM 20.727 GiB, checkpoint saved with no NaN/OOM.
+- Full 1k ESPnet inference: exit 0 in 15s; all 180 fixed eval utterances generated.
+- Full 1k independent WAV validation: exit 0; 180/180 mono 24 kHz finite/nonzero WAVs, no clipping warnings, median RTF 0.00893.
+- First fresh-shell local inference: exit 1 because the entrypoint did not discover pinned eSpeak data outside the recipe environment; added repository-local discovery and fail-closed version/hash checking.
+- Local inference retry with eSpeak variables explicitly unset: exit 0; 3.477-second mono 24 kHz WAV, RTF 0.103, metadata written.
+- Post-fix automated tests: exit 0; 19 passed in 5.10 seconds.
 
 ## Створені артефакти
 
@@ -64,6 +70,10 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Evaluation report: `training/reports/smoke_inference.json`.
 - Full manifests: `training/data/full/manifests/`; detailed report: `training/reports/full_data_analysis.json`.
 - Full token/statistics artifacts: `training/dump_full/token_list/` and `training/exp_full/tts_stats_raw_phn_espeak_ng_ukrainian/`.
+- Full 1k checkpoint: `training/exp_full/tts_jets_uk_24k_full/1epoch.pth` (runtime artifact).
+- Full 1k eval WAVs: `training/exp_full/tts_jets_uk_24k_full/decode_jets_latest/eval/wav/`.
+- Full 1k evaluation report: `training/reports/full_inference_1k.json`.
+- Full 1k local example: `training/eval/generated/full_1k.wav` and adjacent metadata JSON.
 
 ## Відомі проблеми
 
@@ -72,8 +82,9 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Source metadata lacks document IDs; contiguous 50-file blocks are the documented proxy for related recordings.
 - The full corpus has 366 clipping flags and 104 phoneme tokens occurring at most ten times.
 - AMP was stable but degraded the 200-iteration validation metric and is disabled.
+- The 1k checkpoint is technically valid but has not been selected for perceptual quality; 25k listening evaluation is still required.
 - The repository Git remote contains an embedded credential; it must not be printed and should be rotated.
 
 ## Наступна одна дія
 
-`cd training && ./scripts/run_full_training.sh 1000`
+`cd training && ./scripts/run_full_training.sh 25000`

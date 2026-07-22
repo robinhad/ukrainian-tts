@@ -55,8 +55,12 @@ Do not run full-corpus preparation or long training unless every critical gate i
 
 ## Local inference
 
+The entrypoint discovers the pinned repository-local eSpeak-ng installation, so it
+can be invoked from a fresh shell after bootstrap (sourcing `activate.sh` remains
+recommended for all recipe commands):
+
 ```bash
-python -m training.inference.synthesize \
+training/.venv/bin/python -m training.inference.synthesize \
   --text "Український синтез мовлення працює офлайн." \
   --output eval/generated/example.wav \
   --config exp/<experiment>/config.yaml \
