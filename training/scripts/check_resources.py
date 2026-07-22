@@ -54,29 +54,37 @@ def compute_processes() -> list[dict[str, str]]:
     return [dict(zip(fields, row)) for row in csv.reader(io.StringIO(output), skipinitialspace=True)]
 
 
-def torch_probe(expected_uuid: str) -> dict:
+def torch_probe(expected_uuids: list[str]) -> dict:
     import torch
 
     if not torch.cuda.is_available():
         raise RuntimeError("torch.cuda.is_available() is false")
-    if torch.cuda.device_count() < 1:
-        raise RuntimeError("PyTorch sees no CUDA devices")
-    properties = torch.cuda.get_device_properties(0)
-    tensor = torch.randn((2048, 2048), device="cuda")
-    result = tensor @ tensor.T
-    torch.cuda.synchronize()
-    if not torch.isfinite(result).all().item():
-        raise RuntimeError("CUDA matmul returned non-finite values")
-    del tensor, result
-    torch.cuda.empty_cache()
+    if torch.cuda.device_count() < len(expected_uuids):
+        raise RuntimeError(
+            f"PyTorch sees {torch.cuda.device_count()} CUDA devices, expected {len(expected_uuids)}"
+        )
+    devices = []
+    for index, expected_uuid in enumerate(expected_uuids):
+        properties = torch.cuda.get_device_properties(index)
+        tensor = torch.randn((2048, 2048), device=f"cuda:{index}")
+        result = tensor @ tensor.T
+        torch.cuda.synchronize(index)
+        if not torch.isfinite(result).all().item():
+            raise RuntimeError(f"CUDA matmul returned non-finite values on device {index}")
+        devices.append({
+            "index": index,
+            "device_name": properties.name,
+            "compute_capability": f"{properties.major}.{properties.minor}",
+            "total_memory_mib": round(properties.total_memory / 1024**2),
+            "expected_uuid": expected_uuid,
+        })
+        del tensor, result
+        torch.cuda.empty_cache()
     return {
         "torch_version": torch.__version__,
         "torch_cuda": torch.version.cuda,
-        "device_name": properties.name,
-        "compute_capability": f"{properties.major}.{properties.minor}",
-        "total_memory_mib": round(properties.total_memory / 1024**2),
         "visible_device": os.environ.get("CUDA_VISIBLE_DEVICES"),
-        "expected_uuid": expected_uuid,
+        "devices": devices,
     }
 
 
@@ -84,6 +92,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", choices=["smoke", "full"], default="smoke")
     parser.add_argument("--gpu-uuid", default=DEFAULT_GPU_UUID)
+    parser.add_argument(
+        "--gpu-uuids",
+        help="comma-separated GPU UUIDs; overrides --gpu-uuid",
+    )
     parser.add_argument("--workspace", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--require-torch", action="store_true")
     parser.add_argument("--output", type=Path)
@@ -91,25 +103,34 @@ def main() -> int:
 
     minimum_ram = 32 if args.mode == "smoke" else 64
     minimum_disk = 40 if args.mode == "smoke" else 150
+    expected_uuids = (
+        [value.strip() for value in args.gpu_uuids.split(",") if value.strip()]
+        if args.gpu_uuids else [args.gpu_uuid]
+    )
     report = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "mode": args.mode,
-        "gpu_uuid": args.gpu_uuid,
+        "gpu_uuids": expected_uuids,
         "checks": {},
         "errors": [],
     }
     try:
         rows = gpu_rows()
-        target = next(row for row in rows if row["uuid"] == args.gpu_uuid)
-        processes = [row for row in compute_processes() if row["gpu_uuid"] == args.gpu_uuid]
+        targets = [next(row for row in rows if row["uuid"] == uuid) for uuid in expected_uuids]
+        processes = [row for row in compute_processes() if row["gpu_uuid"] in expected_uuids]
         report["checks"]["gpus"] = rows
         report["checks"]["target_processes"] = processes
-        free_mib = float(target["memory.free"])
-        temperature = float(target["temperature.gpu"])
-        if free_mib < 22 * 1024:
-            report["errors"].append(f"target GPU has only {free_mib:.0f} MiB free")
-        if temperature >= 75:
-            report["errors"].append(f"target GPU temperature is {temperature:.0f} C")
+        for target in targets:
+            free_mib = float(target["memory.free"])
+            temperature = float(target["temperature.gpu"])
+            if free_mib < 22 * 1024:
+                report["errors"].append(
+                    f"GPU {target['uuid']} has only {free_mib:.0f} MiB free"
+                )
+            if temperature >= 75:
+                report["errors"].append(
+                    f"GPU {target['uuid']} temperature is {temperature:.0f} C"
+                )
         if processes:
             report["errors"].append("target GPU has active compute processes")
     except Exception as error:
@@ -126,7 +147,7 @@ def main() -> int:
 
     if args.require_torch and not report["errors"]:
         try:
-            report["checks"]["torch"] = torch_probe(args.gpu_uuid)
+            report["checks"]["torch"] = torch_probe(expected_uuids)
         except Exception as error:
             report["errors"].append(f"PyTorch probe failed: {error}")
 

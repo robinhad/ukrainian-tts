@@ -13,6 +13,7 @@ espnet_recipe/scripts
 espnet_recipe/utils
 reports/commands.jsonl
 reports/resource_usage.jsonl
+reports/resource_preflight*.json
 eval/generated/
 release/
 *.log

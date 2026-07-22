@@ -52,6 +52,15 @@ in 25m38s wall time (25m13s inside the trainer). It saved `1epoch.pth` with SHA-
 was 84.718. Generator, discriminator, alignment, pitch and energy losses were
 finite, and peak cached VRAM was 20.727 GiB.
 
+At the user's request, post-1k full training uses both RTX 3090 cards through
+single-node ESPnet DDP. The resource gate probes both pinned GPU UUIDs with CUDA
+matmul before launch. The first DDP attempt failed before any batch because the
+generated activation script reset `CUDA_VISIBLE_DEVICES` to GPU0; the template now
+preserves an explicit multi-GPU selection. The retry initialized both NCCL ranks and
+measured about 0.92 seconds per batch over the first 50 batches versus about 1.50
+seconds on one card. NCCL reports that direct P2P is unavailable and uses shared
+memory transport; this is a performance warning, not a training failure.
+
 ## Evaluation and deployment
 
 The 1k checkpoint generated all 180 fixed eval utterances in 15 seconds. Independent
