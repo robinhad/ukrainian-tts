@@ -1,5 +1,4 @@
 datasets==4.0.0
-espnet==202604
 huggingface-hub==0.34.3
 librosa==0.11.0
 numpy==2.2.6

@@ -6,6 +6,9 @@ activate.sh
 vendor/espnet-src/
 vendor/espeak-ng-src/
 vendor/espeak-ng-install/
+espnet_recipe/pyscripts
+espnet_recipe/scripts
+espnet_recipe/utils
 reports/commands.jsonl
 reports/resource_usage.jsonl
 eval/generated/

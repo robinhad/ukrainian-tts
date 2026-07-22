@@ -32,6 +32,7 @@ The bootstrap installs only into `training/.venv` and `training/vendor`. It appl
 
 GPU 0 is selected by UUID. Every long command is wrapped by `run_logged.py`, which
 records the exit status and prints a heartbeat at least every five minutes.
+Each heartbeat includes the current Europe/Kyiv time and an estimated completion time.
 
 ```bash
 cd training

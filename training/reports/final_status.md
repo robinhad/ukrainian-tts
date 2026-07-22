@@ -22,6 +22,8 @@ See `scale_readiness.md` for evidence-backed statuses.
 
 - Host resource preflight: exit 0; two idle RTX 3090 GPUs, RAM and disk thresholds pass.
 - Minimal sanitation tests: exit 0; 10 passed.
+- First bootstrap attempt: exit 1 after PyTorch 2.9.1+cu128 installed; removed an invalid PyPI `espnet==202604` requirement because the pinned ESPnet release is installed from commit `cff0a07`.
+- Second bootstrap attempt: ESPnet installed and eSpeak built, then exit 1 because eSpeak defaulted to a static library; enabled the shared library required by phonemizer.
 
 ## Створені артефакти
 
