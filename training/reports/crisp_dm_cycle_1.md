@@ -37,9 +37,16 @@ apostrophes, hyphens, numbers, dates, time, abbreviations, names, toponyms,
 Latin/mixed text and complex punctuation. On 2026-07-22 all 18 frontend and
 configuration tests passed in 0.80 seconds with no empty token sequences.
 
-Smoke dataset materialization and audio analysis have not yet run.
+The pinned Lada Parquet was materialized deterministically into 256 train, 32 dev
+and 32 eval utterances. All 320 audio/text pairs exist and are unique, totalling
+0.474 hours. Durations range from 3.36 to 10.38 seconds with a 5.4 second median.
+Model copies are mono PCM WAV at 24 kHz and received no signal processing. QC marked
+28 source recordings as potentially clipped; the flag is retained in the manifest.
+ESPnet validated every generated data directory without dropping an utterance.
 
 ## Modeling, evaluation and deployment
 
-The JETS configuration and local inference entrypoint are implemented but have not
-yet been exercised against smoke data. No checkpoint or synthesized WAV is claimed.
+Stages 5 and 6 produced a 153-entry phoneme token list (0.0% OOV) plus speech,
+text, pitch and energy statistics. A CUDA dry run constructed the complete FP32
+JETS model (83.31M trainable parameters), both AdamW optimizers and all extractors;
+the training loop has not yet run. No checkpoint or synthesized WAV is claimed.

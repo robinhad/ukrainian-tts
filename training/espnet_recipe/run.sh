@@ -34,6 +34,7 @@ exec "${ESPNET_ROOT}/egs2/TEMPLATE/tts1/tts.sh" \
     --train_set smoke_train \
     --valid_set smoke_dev \
     --test_sets smoke_eval \
+    --srctexts "${RECIPE_ROOT}/data/smoke_train/text" \
     --min_wav_duration 0.1 \
     --max_wav_duration 20 \
     --train_config "${RECIPE_ROOT}/conf/tuning/train_jets_uk_24k.yaml" \
