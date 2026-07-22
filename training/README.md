@@ -90,3 +90,14 @@ cd training
 
 Use the same command for the 200k and 400k targets. Continue only if the fixed-set
 listening results and the inference diagnostics improve.
+
+## Get the training status
+
+Use this command to get the progress, the Europe/Kyiv ETA, the checkpoint list,
+the error count, and the status of each GPU:
+
+```bash
+python scripts/training_status.py \
+  --log exp_full/tts_jets_uk_24k_full/train.log \
+  --output reports/training_status.jsonl
+```

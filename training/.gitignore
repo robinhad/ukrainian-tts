@@ -14,6 +14,7 @@ espnet_recipe/utils
 reports/commands.jsonl
 reports/resource_usage.jsonl
 reports/resource_preflight*.json
+reports/training_status.jsonl
 eval/generated/
 release/
 *.log
