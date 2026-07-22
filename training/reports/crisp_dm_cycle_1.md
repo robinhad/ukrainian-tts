@@ -44,9 +44,27 @@ Model copies are mono PCM WAV at 24 kHz and received no signal processing. QC ma
 28 source recordings as potentially clipped; the flag is retained in the manifest.
 ESPnet validated every generated data directory without dropping an utterance.
 
-## Modeling, evaluation and deployment
+## Modeling
 
 Stages 5 and 6 produced a 153-entry phoneme token list (0.0% OOV) plus speech,
 text, pitch and energy statistics. A CUDA dry run constructed the complete FP32
-JETS model (83.31M trainable parameters), both AdamW optimizers and all extractors;
-the training loop has not yet run. No checkpoint or synthesized WAV is claimed.
+JETS model (83.31M trainable parameters), both AdamW optimizers and all extractors.
+The first launch exposed that ESPnet's GAN trainer does not support gradient
+accumulation; `accum_grad` was changed from 2 to the supported value 1. The repeated
+run completed 100 FP32 iterations plus validation without NaN or OOM. Peak cached
+VRAM was 5.938 GiB. A real 1-epoch checkpoint was saved with SHA-256
+`6092bf244c08cf89971deb653c760f61c5a56bba63eb4dafafb36ed88c02685c`.
+
+## Evaluation
+
+ESPnet inference generated all 32 fixed smoke-eval utterances. Independent QC found
+32 valid mono 24 kHz finite, non-empty and non-zero WAVs, no output clipping, and
+durations from 1.653 to 4.096 seconds. Median GPU real-time factor was 0.0185. This
+is a contour validation after only 100 iterations; no perceptual-quality claim is
+made.
+
+## Deployment
+
+The local `python -m training.inference.synthesize` entrypoint loaded the same
+frontend, token list, config and checkpoint and generated a 2.955-second raw WAV at
+24 kHz with metadata JSON and RTF 0.112. It performs no publication mastering.

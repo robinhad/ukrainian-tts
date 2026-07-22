@@ -29,4 +29,6 @@ run_logged 5 python "${ROOT}/scripts/validate_dataset.py" \
 run_logged 30 "${ROOT}/espnet_recipe/run.sh" --stage 1 --stop_stage 6
 run_logged 90 "${ROOT}/espnet_recipe/run.sh" \
     --stage 7 --stop_stage 7 --train_args "--max_epoch 1"
-run_logged 15 "${ROOT}/espnet_recipe/run.sh" --stage 8 --stop_stage 8
+run_logged 15 "${ROOT}/espnet_recipe/run.sh" --stage 8 --stop_stage 8 \
+    --train_args "--max_epoch 1" \
+    --inference_model train.total_count.ave.pth

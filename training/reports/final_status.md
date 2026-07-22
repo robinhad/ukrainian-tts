@@ -10,9 +10,9 @@ after each executed stage and does not claim unexecuted training or synthesis.
 - Business Understanding: PASS
 - Data Understanding: PASS for smoke subset
 - Data Preparation: PASS for smoke subset
-- Modeling: model construction PASS; training NOT RUN
-- Evaluation: NOT RUN
-- Deployment: implementation in progress
+- Modeling: PASS for 100-iteration smoke run
+- Evaluation: PASS for 32 smoke-eval WAVs
+- Deployment: PASS for local raw-WAV entrypoint
 
 ## MVP-gate
 
@@ -31,6 +31,11 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Manifest validation: exit 0; 320 utterances, 0.474 hours, no errors, 28 clipping flags.
 - ESPnet stages 1--6: after fixing `run.pl`, `resampy`, and `--srctexts`, exit 0; data directories, 153-token list and statistics created.
 - JETS dry run: exit 0; 83.31M-parameter model and both optimizers constructed on CUDA.
+- First training launch: exit 1 before the first batch because ESPnet GANTrainer rejects `accum_grad > 1`; changed it to 1.
+- Smoke training retry: exit 0; 100 train iterations, 5 validation batches, peak cached VRAM 5.938 GiB, no NaN/OOM, checkpoint saved.
+- ESPnet smoke inference: exit 0; 32 WAVs generated.
+- Independent WAV validation: exit 0; 32/32 mono 24 kHz finite/nonzero outputs, no clipping, median RTF 0.0185.
+- Local inference entrypoint: exit 0; 2.955-second WAV plus JSON metadata, RTF 0.112.
 
 ## Створені артефакти
 
@@ -38,14 +43,17 @@ See `scale_readiness.md` for evidence-backed statuses.
 - Runtime manifests: `training/data/manifests/`; ESPnet data: `training/espnet_recipe/data/`.
 - Token list: `training/dump/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
 - Statistics: `training/exp/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- No checkpoint or generated WAV exists yet.
+- Checkpoint: `training/exp/tts_train_jets_uk_24k_raw_phn_espeak_ng_ukrainian_max_epoch1/1epoch.pth` (runtime artifact).
+- Generated eval WAVs: the matching `decode_jets_train.total_count.ave/smoke_eval/wav/` directory.
+- Local example: `training/eval/generated/example.wav` and adjacent metadata JSON.
+- Evaluation report: `training/reports/smoke_inference.json`.
 
 ## Відомі проблеми
 
 - Twenty-eight smoke files carry a clipping QC flag and require review before scaling.
-- GPU training and inference have not run yet.
+- The 100-iteration checkpoint proves operability only; expected speech quality is low.
 - The repository Git remote contains an embedded credential; it must not be printed and should be rotated.
 
 ## Наступна одна дія
 
-`cd training && source ./activate.sh && ./espnet_recipe/run.sh --stage 7 --stop_stage 7 --train_args "--max_epoch 1"`
+Materialize and analyze the complete pinned Lada corpus before any long training.

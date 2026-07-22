@@ -158,7 +158,8 @@ scheduler2_conf:
 generator_first: true
 num_iters_per_epoch: 100
 max_epoch: 10
-accum_grad: 2
+# ESPnet 202604 GANTrainer rejects gradient accumulation.
+accum_grad: 1
 batch_bins: 1000000
 batch_type: numel
 grad_clip: -1

@@ -10,9 +10,9 @@
 | Token list created | PASS | 153 tokens; ESPnet reported OOV rate 0.0% | `dump/token_list/phn_espeak_ng_ukrainian/tokens.txt` | Preserve with checkpoint |
 | Pitch/energy statistics created | PASS | Stage 6 completed and produced train/valid global-MVN NPZ files | `exp/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with checkpoint |
 | JETS model initializes | PASS | Dry run created 83.31M-parameter FP32 JETS plus two AdamW optimizers | `exp/tts_train_jets_uk_24k_raw_phn_espeak_ng_ukrainian_dry_runtrue/train.log` | Start 100-iteration smoke training |
-| Training iterations without NaN | NOT RUN | — | `exp/` | Run 100-iteration smoke |
-| Checkpoint saved | NOT RUN | — | `exp/` | Complete smoke epoch |
-| Valid 24 kHz mono WAV | NOT RUN | Validator implemented | `eval/generated/` | Run stage 8 inference |
+| Training iterations without NaN | PASS | 100 train iterations plus 5 validation batches; generator, discriminator and alignment losses finite; peak cache 5.938 GiB | `exp/tts_train_jets_uk_24k_raw_phn_espeak_ng_ukrainian_max_epoch1/train.log` | Preserve log and calibrate full run separately |
+| Checkpoint saved | PASS | 1-epoch model SHA-256 `6092bf24...c02685c` | `exp/tts_train_jets_uk_24k_raw_phn_espeak_ng_ukrainian_max_epoch1/1epoch.pth` | Keep runtime artifact off Git |
+| Valid 24 kHz mono WAV | PASS | 32/32 eval WAVs passed finite/nonzero/mono/24 kHz checks; duration 1.65--4.10 s; median RTF 0.0185 | `reports/smoke_inference.json`, `eval/generated/example.wav` | Listening quality is intentionally outside the MVP gate |
 | Reproduction commands documented | PASS | Bootstrap, stage and inference commands | `README.md` | Keep actual commands in log |
 
-Scaling is forbidden until every critical row is `PASS`.
+Every critical MVP row is `PASS`; cycle 2 preparation and batch calibration are now allowed.

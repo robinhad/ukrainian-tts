@@ -45,7 +45,9 @@ The ESPnet stages can also be resumed independently:
 ```bash
 ./espnet_recipe/run.sh --stage 1 --stop_stage 6
 ./espnet_recipe/run.sh --stage 7 --stop_stage 7 --train_args "--max_epoch 1"
-./espnet_recipe/run.sh --stage 8 --stop_stage 8
+./espnet_recipe/run.sh --stage 8 --stop_stage 8 \
+  --train_args "--max_epoch 1" \
+  --inference_model train.total_count.ave.pth
 ```
 
 Do not run full-corpus preparation or long training unless every critical gate in
