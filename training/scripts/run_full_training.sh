@@ -8,8 +8,8 @@ if (( TARGET_ITERATIONS < 1000 || TARGET_ITERATIONS % 1000 != 0 )); then
     exit 2
 fi
 TARGET_EPOCHS=$((TARGET_ITERATIONS / 1000))
-# Two-GPU ETA is deliberately conservative until the first DDP epoch is measured.
-ETA_MINUTES=$(((TARGET_ITERATIONS * 15 + 999) / 1000 + 10))
+# The first complete DDP epoch took 17 minutes and 24 seconds with validation.
+ETA_MINUTES=$(((TARGET_ITERATIONS * 18 + 999) / 1000 + 10))
 
 source "${ROOT}/activate.sh"
 GPU_UUIDS=${GPU_UUIDS:-"GPU-be591530-39fd-0b1c-50af-8c75548cb6b8,GPU-de1be084-ce05-942c-cb74-78e80652f184"}
