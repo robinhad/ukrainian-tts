@@ -1,0 +1,7 @@
+components:
+  - name: ESPnet
+    commit: cff0a07
+    license: Apache-2.0
+  - name: eSpeak-ng
+    commit: 4870adf
+    license: GPL-3.0-or-later

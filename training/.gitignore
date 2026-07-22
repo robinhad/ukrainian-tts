@@ -1,2 +1,15 @@
-espnet
-data
+data/
+dump/
+exp/
+.venv/
+activate.sh
+vendor/espnet-src/
+vendor/espeak-ng-src/
+vendor/espeak-ng-install/
+reports/commands.jsonl
+reports/resource_usage.jsonl
+eval/generated/
+release/
+*.log
+__pycache__/
+.pytest_cache/

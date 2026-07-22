@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+export UK_TTS_TRAINING_ROOT="@ROOT@"
+export ESPNET_ROOT="@ROOT@/vendor/espnet-src"
+export ESPEAK_ROOT="@ROOT@/vendor/espeak-ng-install"
+export PHONEMIZER_ESPEAK_LIBRARY="@LIB@"
+export ESPEAK_DATA_PATH="@DATA@"
+export PATH="@ROOT@/.venv/bin:@ROOT@/vendor/espeak-ng-install/bin:${PATH}"
+export PYTHONPATH="@ROOT@/..:${PYTHONPATH:-}"
+export CUDA_VISIBLE_DEVICES="GPU-be591530-39fd-0b1c-50af-8c75548cb6b8"

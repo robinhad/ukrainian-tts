@@ -1,0 +1,5 @@
+datasets:
+  - name: speech-uk/opentts-lada
+    revision: 729289b58251da4a21ce85f8808dd908f28b0d7f
+    license: Apache-2.0
+    url: https://huggingface.co/datasets/speech-uk/opentts-lada

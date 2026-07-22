@@ -1,0 +1,18 @@
+diff --git a/espnet2/text/phoneme_tokenizer.py b/espnet2/text/phoneme_tokenizer.py
+index 13a212a..4b43842 100644
+--- a/espnet2/text/phoneme_tokenizer.py
++++ b/espnet2/text/phoneme_tokenizer.py
+@@ -570,6 +570,13 @@ class PhonemeTokenizer(AbsTokenizer):
+                 with_stress=True,
+                 preserve_punctuation=True,
+             )
++        elif g2p_type == "espeak_ng_ukrainian":
++            self.g2p = Phonemizer(
++                language="uk",
++                backend="espeak",
++                with_stress=True,
++                preserve_punctuation=True,
++            )
+         elif g2p_type == "espeak_ng_polish":
+             self.g2p = Phonemizer(
+                 language="pl",

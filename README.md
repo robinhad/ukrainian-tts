@@ -94,7 +94,9 @@ See example notebook: [tts_example.ipynb](./tts_example.ipynb)  [![Open In Colab
 Look into this list with current problems: https://github.com/robinhad/ukrainian-tts/issues/35
 
 # How to train: 🏋️
-Link to guide: [training/STEPS.md](training/STEPS.md)
+For the reproducible Ukrainian single-speaker JETS/ESPnet2 pipeline, see
+[training/README.md](training/README.md). The historical training notes remain in
+[training/STEPS.md](training/STEPS.md).
 
 
 # Attribution 🤝

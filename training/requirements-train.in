@@ -1,0 +1,14 @@
+datasets==4.0.0
+espnet==202604
+huggingface-hub==0.34.3
+librosa==0.11.0
+numpy==2.2.6
+pandas==2.3.1
+phonemizer==3.3.0
+pyarrow==21.0.0
+pytest==8.4.1
+pytest-cov==6.2.1
+pyworld==0.3.5
+PyYAML==6.0.2
+soundfile==0.13.1
+typeguard==4.4.4
