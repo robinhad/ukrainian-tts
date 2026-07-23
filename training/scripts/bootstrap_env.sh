@@ -34,9 +34,9 @@ for patch in \
     "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch" \
     "${ROOT}/patches/espnet-speechbrain-variable-batch.patch"
 do
-    if ! git -C "${ESPNET_SRC}" apply --reverse --check "${patch}" >/dev/null 2>&1; then
-        git -C "${ESPNET_SRC}" apply --check "${patch}"
-        git -C "${ESPNET_SRC}" apply "${patch}"
+    if ! git -C "${ESPNET_SRC}" apply --unidiff-zero --reverse --check "${patch}" >/dev/null 2>&1; then
+        git -C "${ESPNET_SRC}" apply --unidiff-zero --check "${patch}"
+        git -C "${ESPNET_SRC}" apply --unidiff-zero "${patch}"
     fi
 done
 uv pip install --python "${VENV}/bin/python" --editable "${ESPNET_SRC}"

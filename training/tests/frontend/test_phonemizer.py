@@ -39,6 +39,19 @@ def test_stress_marker_is_preserved(frontend):
     assert any("ˈ" in token or "ˌ" in token for token in tokens)
 
 
+def test_punctuation_is_not_joined_to_phonemes(frontend):
+    _, tokens = frontend.phonemize("«Так», — справді?!")
+    punctuation = set(",.;:!?—–-…«»“”\"()[]{}")
+    for token in tokens:
+        if token in {"(uk)", "(en)"}:
+            continue
+        assert not (
+            any(character in punctuation for character in token)
+            and any(character not in punctuation for character in token)
+        )
+    assert {"«", "»", ",", "—", "?", "!"} <= set(tokens)
+
+
 def test_version_mismatch_is_rejected():
     with pytest.raises(RuntimeError, match="version"):
         validate_pinned_config(

@@ -1,18 +1,40 @@
 diff --git a/espnet2/text/phoneme_tokenizer.py b/espnet2/text/phoneme_tokenizer.py
-index 13a212a..4b43842 100644
+index c33fa35..59fcfb6 100644
 --- a/espnet2/text/phoneme_tokenizer.py
 +++ b/espnet2/text/phoneme_tokenizer.py
-@@ -570,6 +570,13 @@ class PhonemeTokenizer(AbsTokenizer):
-                 with_stress=True,
-                 preserve_punctuation=True,
-             )
+@@ -416,0 +417,27 @@ class Phonemizer:
++class UkrainianPhonemizer(Phonemizer):
++    """Keep Ukrainian punctuation separate from phoneme tokens."""
++
++    punctuation = frozenset(",.;:!?—–-…«»“”\"()[]{}")
++    language_switches = frozenset(("(uk)", "(en)"))
++
++    def __call__(self, text) -> List[str]:
++        tokens = super().__call__(text)
++        separated = []
++        for token in tokens:
++            if token in self.language_switches:
++                separated.append(token)
++                continue
++            phonemes = []
++            for character in token:
++                if character in self.punctuation:
++                    if phonemes:
++                        separated.append("".join(phonemes))
++                        phonemes.clear()
++                    separated.append(character)
++                else:
++                    phonemes.append(character)
++            if phonemes:
++                separated.append("".join(phonemes))
++        return separated
++
++
+@@ -556,0 +584,7 @@ class PhonemeTokenizer(AbsTokenizer):
 +        elif g2p_type == "espeak_ng_ukrainian":
-+            self.g2p = Phonemizer(
++            self.g2p = UkrainianPhonemizer(
 +                language="uk",
 +                backend="espeak",
 +                with_stress=True,
 +                preserve_punctuation=True,
 +            )
-         elif g2p_type == "espeak_ng_polish":
-             self.g2p = Phonemizer(
-                 language="pl",

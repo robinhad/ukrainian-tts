@@ -35,6 +35,7 @@ class FrontendConfig:
     language: str = "uk"
     with_stress: bool = True
     preserve_punctuation: bool = True
+    frontend_version: str = "uk_espeak_v2"
     sanitizer_version: str = SANITIZER_VERSION
     espeak_version: str = "unknown"
     espeak_data_hash: str = "unknown"
