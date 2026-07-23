@@ -114,7 +114,7 @@ statistics, and checkpoints with the `trimmed` suffix.
 ```bash
 training/scripts/run_trimmed_smoke_test.sh
 training/scripts/prepare_trimmed_full.sh
-BATCH_BINS=4000000 training/scripts/run_trimmed_training.sh 25000
+BATCH_BINS=3800000 training/scripts/run_trimmed_training.sh 25000
 training/scripts/finalize_trimmed_training.sh 25epoch.pth 25k
 ```
 
@@ -129,6 +129,11 @@ fixed evaluation items. It validates each WAV and makes one local inference
 example and one 20-item listening set. It also summarizes sampled GPU power,
 utilization, temperature, and device memory. Run this command only after the
 25k training command exits with status 0.
+
+The short calibration selected 4,000,000 batch bins. The complete data sequence
+later used 23.19 GiB on one GPU and left only 935 MiB free. The run resumed from
+the 3k checkpoint with 3,800,000 batch bins. This value keeps a safer device
+memory reserve for the long run.
 
 ## Make the listening set
 

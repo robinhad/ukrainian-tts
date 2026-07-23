@@ -68,6 +68,9 @@ The operator stopped the run before it saved a checkpoint.
 The 4,200,000 run used up to about 22.85 GiB of device memory on GPU 0. It left
 less than 10 percent free device memory. It did not give a useful power gain.
 
-The long run uses `batch_bins: 4000000` and `cudnn_benchmark: false`. This value
-keeps more device-memory reserve. Both GPUs reached 100 percent compute use
-during calibration. Do not use a previous checkpoint for this restart.
+The long run started with `batch_bins: 4000000` and `cudnn_benchmark: false`.
+Both GPUs reached 100 percent compute use. During epoch 4, one GPU used 23.19
+GiB and had only 935 MiB free. The operator stopped the run after the 3k
+checkpoint. The same experiment resumed with `batch_bins: 3800000`. This change
+keeps the model and optimizer state but restores a safer memory reserve. Do not
+use a checkpoint from the untrimmed experiment for this restart.
