@@ -15,6 +15,10 @@ from zoneinfo import ZoneInfo
 
 
 PROGRESS_RE = re.compile(r"(?P<epoch>\d+)epoch:train:\d+-(?P<batch>\d+)batch")
+TIMED_PROGRESS_RE = re.compile(
+    r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+)"
+    r".*?(?P<epoch>\d+)epoch:train:\d+-(?P<batch>\d+)batch"
+)
 ETA_RE = re.compile(
     r"Estimated time to finish: "
     r"(?:(?P<hours>\d+) hours?, )?"
@@ -32,6 +36,8 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
         "batch": None,
         "total_iterations": None,
         "estimated_seconds_remaining": None,
+        "observed_seconds_per_iteration": None,
+        "observed_iterations_per_minute": None,
         "error_matches": len(ERROR_RE.findall(text)),
     }
     if progress:
@@ -43,6 +49,35 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
             "batch": batch,
             "total_iterations": (epoch - 1) * iterations_per_epoch + batch,
         })
+    timed_progress = list(TIMED_PROGRESS_RE.finditer(text))
+    if len(timed_progress) >= 2:
+        samples = timed_progress[-20:]
+        first = samples[0]
+        last = samples[-1]
+        first_time = datetime.strptime(
+            first.group("timestamp"), "%Y-%m-%d %H:%M:%S,%f"
+        )
+        last_time = datetime.strptime(
+            last.group("timestamp"), "%Y-%m-%d %H:%M:%S,%f"
+        )
+        first_iteration = (
+            (int(first.group("epoch")) - 1) * iterations_per_epoch
+            + int(first.group("batch"))
+        )
+        last_iteration = (
+            (int(last.group("epoch")) - 1) * iterations_per_epoch
+            + int(last.group("batch"))
+        )
+        iteration_delta = last_iteration - first_iteration
+        elapsed = (last_time - first_time).total_seconds()
+        if iteration_delta > 0 and elapsed > 0:
+            seconds_per_iteration = elapsed / iteration_delta
+            result.update({
+                "observed_seconds_per_iteration": round(seconds_per_iteration, 4),
+                "observed_iterations_per_minute": round(
+                    60.0 / seconds_per_iteration, 2
+                ),
+            })
     if estimates:
         match = estimates[-1]
         result["estimated_seconds_remaining"] = (
@@ -105,11 +140,22 @@ def main() -> int:
     status = parse_log(args.log.read_text(encoding="utf-8", errors="replace"), args.iterations_per_epoch)
     seconds = status.pop("estimated_seconds_remaining")
     total = status.get("total_iterations")
+    eta_source = "espnet" if seconds is not None else None
+    observed_seconds = status.get("observed_seconds_per_iteration")
+    if (
+        seconds is None
+        and isinstance(total, int)
+        and isinstance(observed_seconds, float)
+        and total < args.target_iterations
+    ):
+        seconds = (args.target_iterations - total) * observed_seconds
+        eta_source = "observed_progress"
     status.update({
         "status": "RUNNING" if isinstance(total, int) and total < args.target_iterations else "COMPLETE",
         "target_iterations": args.target_iterations,
         "timestamp_kyiv": now.isoformat(),
         "eta_kyiv": (now + timedelta(seconds=seconds)).isoformat() if seconds is not None else None,
+        "eta_source": eta_source,
         "gpus": gpu_status(),
         "checkpoints": sorted(path.name for path in args.log.parent.glob("[0-9]*epoch.pth")),
     })
