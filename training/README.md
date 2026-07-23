@@ -31,6 +31,21 @@ python -m training.frontend.snapshot \
 The bootstrap installs files only in `training/.venv` and `training/vendor`. It
 applies `patches/espnet-espeak-ng-ukrainian.patch` to the pinned ESPnet source.
 
+## Audio trimming
+
+Audio preparation removes leading and trailing silence from each model copy. It
+does not change the raw OGG file. The detector uses relative frame RMS with these
+fixed values:
+
+- Threshold: 40 dB below the maximum frame RMS.
+- Frame length: 1024 samples.
+- Hop length: 256 samples.
+- Safety padding: 100 ms at each active boundary.
+
+The manifest records the original duration, the removed duration, both trim
+boundaries, and the trim configuration hash. Trimming does not use VAD,
+normalization, denoise, compression, or mastering.
+
 ## Smoke cycle
 
 The smoke cycle uses GPU0. The code selects GPU0 by its UUID. `run_logged.py`
@@ -90,6 +105,23 @@ cd training
 
 Use the same command for the 200k and 400k targets. Continue only if the fixed-set
 listening results and the inference diagnostics improve.
+
+## Restart with trimmed audio
+
+These commands keep the first full-corpus experiment. They make new data,
+statistics, and checkpoints with the `trimmed` suffix.
+
+```bash
+training/scripts/run_trimmed_smoke_test.sh
+training/scripts/prepare_trimmed_full.sh
+BATCH_BINS=4000000 training/scripts/run_trimmed_training.sh 25000
+```
+
+Calibrate `BATCH_BINS` before a long run. Use both GPUs. Increase the value until
+each GPU uses approximately 85--90% of its VRAM. Keep at least 10% free VRAM. Do
+not increase the GPU power limit and do not overclock the GPUs. Keep
+`cudnn_benchmark=false` for this variable-length workload. The benchmark mode
+made the calibration slower.
 
 ## Make the listening set
 

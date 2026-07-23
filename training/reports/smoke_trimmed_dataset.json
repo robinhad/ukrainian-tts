@@ -1,0 +1,15 @@
+{
+  "clipping_files": 28,
+  "duration_hours": 0.23821814814814818,
+  "duration_max": 5.16,
+  "duration_median": 2.690666666666667,
+  "duration_min": 0.9146666666666666,
+  "errors": [],
+  "splits": {
+    "smoke_dev": 32,
+    "smoke_eval": 32,
+    "smoke_train": 256
+  },
+  "status": "PASS",
+  "utterances": 320
+}

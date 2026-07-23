@@ -1,0 +1,15 @@
+{
+  "clipping_files": 366,
+  "duration_hours": 5.565373333333326,
+  "duration_max": 6.248,
+  "duration_median": 2.8026666666666666,
+  "duration_min": 0.8826666666666667,
+  "errors": [],
+  "splits": {
+    "dev": 146,
+    "eval": 180,
+    "train": 6461
+  },
+  "status": "PASS",
+  "utterances": 6787
+}

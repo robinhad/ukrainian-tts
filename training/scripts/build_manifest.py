@@ -18,7 +18,9 @@ FIELDS = [
     "utterance_id", "speaker_id", "audio_path", "text_raw", "text_sanitized",
     "espeak_phonemes", "duration", "sample_rate", "source", "source_license",
     "source_group", "split", "qc_flags", "audio_sha256", "text_sha256", "espeak_version",
-    "frontend_config_hash",
+    "frontend_config_hash", "trim_applied", "duration_before_trim",
+    "trim_start_seconds", "trim_end_seconds", "trim_removed_seconds",
+    "trim_threshold_rms", "trim_config_hash",
 ]
 
 

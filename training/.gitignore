@@ -3,6 +3,10 @@ dump/
 exp/
 dump_full/
 exp_full/
+dump_full_trimmed/
+exp_full_trimmed/
+dump_smoke_trimmed/
+exp_smoke_trimmed/
 .venv/
 activate.sh
 vendor/espnet-src/
@@ -15,6 +19,7 @@ reports/commands.jsonl
 reports/resource_usage.jsonl
 reports/resource_preflight*.json
 reports/training_status.jsonl
+reports/training_status_trimmed.jsonl
 eval/generated/
 release/
 *.log

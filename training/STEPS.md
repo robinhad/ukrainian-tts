@@ -29,6 +29,12 @@ smoke WAV files.
 training/scripts/run_smoke_test.sh
 ```
 
+For the silence-trimmed restart, use this command:
+
+```sh
+training/scripts/run_trimmed_smoke_test.sh
+```
+
 Do not start full training if a critical gate in
 `training/reports/scale_readiness.md` is not `PASS`.
 
@@ -43,6 +49,13 @@ training/scripts/run_full_training.sh 25000
 
 Use the same command with `50000` or `100000` only after you evaluate the fixed
 evaluation set for the preceding milestone.
+
+For a new run that uses trimmed audio, use these commands:
+
+```sh
+training/scripts/prepare_trimmed_full.sh
+BATCH_BINS=4000000 training/scripts/run_trimmed_training.sh 25000
+```
 
 ## 5. Make the milestone WAV files
 
