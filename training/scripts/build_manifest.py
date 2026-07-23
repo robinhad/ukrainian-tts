@@ -4,8 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import json
+import os
+import sqlite3
 from dataclasses import asdict
 from pathlib import Path
 
@@ -24,26 +27,78 @@ FIELDS = [
     "speaker_embedding_model", "speaker_identity_status",
 ]
 
+_WORKER_FRONTEND: UkrainianPhonemizer | None = None
+
+
+def _init_worker() -> None:
+    global _WORKER_FRONTEND
+    _WORKER_FRONTEND = UkrainianPhonemizer()
+
+
+def _phonemize_worker(text: str) -> tuple[str, list[str]]:
+    if _WORKER_FRONTEND is None:
+        _init_worker()
+    assert _WORKER_FRONTEND is not None
+    return _WORKER_FRONTEND.phonemize(text)
+
+
+def cache_key(frontend: UkrainianPhonemizer, sanitized: str) -> str:
+    return hashlib.sha256(
+        f"{frontend.config.digest}\0{sanitized}".encode()
+    ).hexdigest()
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--records", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--cache", type=Path, required=True)
+    parser.add_argument("--workers", type=int, default=min(16, os.cpu_count() or 1))
     args = parser.parse_args()
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
     frontend = UkrainianPhonemizer(cache_path=args.cache)
-    rows = []
-    for line in args.records.read_text(encoding="utf-8").splitlines():
-        source = json.loads(line)
-        sanitized, tokens = frontend.phonemize(source["text_raw"])
-        source.update(
-            text_sanitized=sanitized,
-            espeak_phonemes=tokens,
-            text_sha256=hashlib.sha256(sanitized.encode("utf-8")).hexdigest(),
-            espeak_version=frontend.config.espeak_version,
-            frontend_config_hash=frontend.config.digest,
+    sources = [
+        json.loads(line)
+        for line in args.records.read_text(encoding="utf-8").splitlines()
+    ]
+    texts = [str(source["text_raw"]) for source in sources]
+    if args.workers == 1:
+        phonemes = map(frontend.phonemize, texts)
+    else:
+        executor = concurrent.futures.ProcessPoolExecutor(
+            max_workers=args.workers,
+            initializer=_init_worker,
         )
-        rows.append({field: source.get(field) for field in FIELDS})
+        phonemes = executor.map(_phonemize_worker, texts, chunksize=64)
+
+    rows = []
+    cache_rows = []
+    try:
+        for source, (sanitized, tokens) in zip(sources, phonemes):
+            cache_rows.append(
+                (
+                    cache_key(frontend, sanitized),
+                    json.dumps(tokens, ensure_ascii=False),
+                )
+            )
+            source.update(
+                text_sanitized=sanitized,
+                espeak_phonemes=tokens,
+                text_sha256=hashlib.sha256(sanitized.encode("utf-8")).hexdigest(),
+                espeak_version=frontend.config.espeak_version,
+                frontend_config_hash=frontend.config.digest,
+            )
+            rows.append({field: source.get(field) for field in FIELDS})
+    finally:
+        if args.workers != 1:
+            executor.shutdown()
+
+    with sqlite3.connect(args.cache) as database:
+        database.executemany(
+            "INSERT OR REPLACE INTO phonemes(cache_key, tokens_json) VALUES (?, ?)",
+            cache_rows,
+        )
     args.output_dir.mkdir(parents=True, exist_ok=True)
     frame = pd.DataFrame(rows).sort_values("utterance_id")
     frame.to_parquet(args.output_dir / "all.parquet", index=False)
