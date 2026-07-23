@@ -26,6 +26,7 @@ ETA_RE = re.compile(
     r"(?P<seconds>[\d.]+) seconds"
 )
 ERROR_RE = re.compile(r"\b(?:nan|runtimeerror|traceback)\b|out of memory", re.IGNORECASE)
+TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+")
 
 
 def parse_log(text: str, iterations_per_epoch: int) -> dict:
@@ -36,6 +37,7 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
         "batch": None,
         "total_iterations": None,
         "estimated_seconds_remaining": None,
+        "estimate_timestamp": None,
         "observed_seconds_per_iteration": None,
         "observed_iterations_per_minute": None,
         "error_matches": len(ERROR_RE.findall(text)),
@@ -85,6 +87,12 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
             + int(match.group("minutes") or 0) * 60
             + float(match.group("seconds"))
         )
+        line_start = text.rfind("\n", 0, match.start()) + 1
+        line_end = text.find("\n", match.end())
+        line = text[line_start:] if line_end == -1 else text[line_start:line_end]
+        timestamp = TIMESTAMP_RE.search(line)
+        if timestamp:
+            result["estimate_timestamp"] = timestamp.group()
     return result
 
 
@@ -139,8 +147,18 @@ def main() -> int:
     now = datetime.now(ZoneInfo("Europe/Kyiv"))
     status = parse_log(args.log.read_text(encoding="utf-8", errors="replace"), args.iterations_per_epoch)
     seconds = status.pop("estimated_seconds_remaining")
+    estimate_timestamp = status.pop("estimate_timestamp")
     total = status.get("total_iterations")
     eta_source = "espnet" if seconds is not None else None
+    eta = None
+    if seconds is not None:
+        if isinstance(estimate_timestamp, str):
+            estimated_at = datetime.strptime(
+                estimate_timestamp, "%Y-%m-%d %H:%M:%S,%f"
+            ).replace(tzinfo=ZoneInfo("Europe/Kyiv"))
+            eta = estimated_at + timedelta(seconds=seconds)
+        else:
+            eta = now + timedelta(seconds=seconds)
     observed_seconds = status.get("observed_seconds_per_iteration")
     if (
         seconds is None
@@ -150,11 +168,12 @@ def main() -> int:
     ):
         seconds = (args.target_iterations - total) * observed_seconds
         eta_source = "observed_progress"
+        eta = now + timedelta(seconds=seconds)
     status.update({
         "status": "RUNNING" if isinstance(total, int) and total < args.target_iterations else "COMPLETE",
         "target_iterations": args.target_iterations,
         "timestamp_kyiv": now.isoformat(),
-        "eta_kyiv": (now + timedelta(seconds=seconds)).isoformat() if seconds is not None else None,
+        "eta_kyiv": eta.isoformat() if eta is not None else None,
         "eta_source": eta_source,
         "gpus": gpu_status(),
         "checkpoints": sorted(path.name for path in args.log.parent.glob("[0-9]*epoch.pth")),
