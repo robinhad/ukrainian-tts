@@ -2,89 +2,120 @@
 
 ## Виконано
 
-Pipeline implementation is in progress on branch `autotrain`. This report contains
-results only for commands that ran.
+The reproducible Ukrainian JETS pipeline is on branch `autotrain`. All new
+training code is under `training/`. The full-corpus run reached 25,000 iterations
+on two RTX 3090 GPUs. The command exited with status 0. The 25k checkpoint and all
+evaluation reports are complete.
+
+The pipeline uses Ukrainian text, the Lada speaker, 24 kHz audio, ESPnet2 JETS,
+GAN-TTS, and the pinned eSpeak-ng frontend. Training audio has no mastering,
+compression, de-essing, denoise, or loudness normalization.
 
 ## CRISP-DM cycle 1
 
-- Business Understanding: PASS
-- Data Understanding: PASS for smoke subset
-- Data Preparation: PASS for smoke subset
-- Modeling: PASS for 100-iteration smoke run
-- Evaluation: PASS for 32 smoke-eval WAVs
-- Deployment: PASS for local raw-WAV entrypoint
+- Business Understanding: PASS.
+- Data Understanding: PASS for the smoke subset.
+- Data Preparation: PASS for the smoke subset.
+- Modeling: PASS for the 100-iteration smoke run.
+- Evaluation: PASS for 32 smoke-eval WAV files.
+- Deployment: PASS for the local raw-WAV entry point.
 
 ## CRISP-DM cycle 2
 
-- Business Understanding: PASS
-- Data Understanding: PASS for the complete pinned corpus
-- Data Preparation: PASS; full ESPnet token/statistics stages completed
-- Modeling: batch calibration and 1k full-corpus sanity milestone PASS; 25k pending
-- Evaluation: 1k fixed-set inference PASS for 180/180 WAVs
-- Deployment: release candidate pending checkpoint evaluation
+- Business Understanding: PASS.
+- Data Understanding: PASS for the pinned full corpus.
+- Data Preparation: PASS. ESPnet token and statistics stages completed.
+- Modeling: PASS for batch calibration, 1k sanity, and the 25k dual-GPU run.
+- Evaluation: PASS for fixed-set inference and automatic WAV checks.
+- Deployment: PASS for the 25k local raw-WAV entry point. Release selection is
+  pending the listening test.
 
 ## MVP-gate
 
-See `scale_readiness.md` for evidence-backed statuses.
+| Gate | Status | Evidence |
+|---|---|---|
+| Frontend tests | PASS | 21 tests passed in 5.18 s |
+| eSpeak-ng pin | PASS | Version 1.52.0 and data hash are pinned |
+| Non-empty phonemes | PASS | Regression and corpus checks found no empty sequence |
+| ESPnet data directories | PASS | Smoke and full directories passed validation |
+| Token list | PASS | Full tokenization had 0.0% OOV |
+| Statistics | PASS | Speech, pitch, and energy statistics exist |
+| JETS construction | PASS | JETS and both AdamW optimizers initialized |
+| Stable training | PASS | 25,000 iterations; no NaN, OOM, or runtime error |
+| Checkpoint | PASS | 25k checkpoint exists and has a verified SHA-256 |
+| Inference WAV | PASS | 25k fixed eval passed for 180/180 files |
+| Reproduction commands | PASS | README, STEPS, and command log contain the commands |
 
 ## Фактичні запуски
 
-- Host resource preflight: exit 0. Two RTX 3090 GPUs were idle. The RAM and disk checks passed.
-- Minimal sanitation tests: exit 0; 10 passed.
-- First bootstrap attempt: exit 1. PyTorch 2.9.1+cu128 was installed. The PyPI `espnet==202604` requirement was not valid. The pipeline now installs ESPnet from commit `cff0a07`.
-- Second bootstrap attempt: exit 1. ESPnet was installed and eSpeak was built. eSpeak made a static library. The next configuration enabled the shared library that phonemizer requires.
-- Environment bootstrap retry: exit 0; pinned ESPnet and shared eSpeak-ng installed.
-- Frontend regression suite: exit 0; 18 tests passed in 0.80 seconds.
-- Smoke subset materialization: the first implementation wrote all 320 records. It exited 250 during Hugging Face streaming shutdown. The pinned Parquet implementation then exited 0.
-- Audio preparation: exit 0; 320 mono PCM 24 kHz WAV files created.
-- Manifest validation: exit 0; 320 utterances, 0.474 hours, no errors, 28 clipping flags.
-- ESPnet stages 1--6: exit 0 after fixes to `run.pl`, `resampy`, and `--srctexts`. The stages made the data directories, a 153-token list, and the statistics.
-- JETS dry run: exit 0; 83.31M-parameter model and both optimizers constructed on CUDA.
-- First training launch: exit 1 before the first batch. ESPnet GANTrainer rejected `accum_grad > 1`. The configuration now uses `accum_grad: 1`.
-- Smoke training retry: exit 0; 100 train iterations, 5 validation batches, peak cached VRAM 5.938 GiB, no NaN/OOM, checkpoint saved.
-- ESPnet smoke inference: exit 0; 32 WAVs generated.
-- Independent WAV validation: exit 0; 32/32 mono 24 kHz finite/nonzero outputs, no clipping, median RTF 0.0185.
-- Local inference entrypoint: exit 0; 2.955-second WAV plus JSON metadata, RTF 0.112.
-- Full materialization: exit 0; 6787/6962 rows selected, 6461/146/180 group split.
-- Full audio preparation and validation: exit 0; 10.343 hours, no hard errors, 366 clipping flags.
-- Full frontend snapshot: exit 0; 500 cases; all 18 tests passed in 5.06 seconds.
-- Full ESPnet stages 1--6: exit 0; data directories, token list and pitch/energy statistics produced.
-- FP32 batch calibration: 1M, 2M, 2.5M and 3M each completed 200 iterations; 3M selected with 20.727 GiB peak cache and about 12% VRAM reserve.
-- AMP check: exit 0 and finite. The AMP validation generator loss was 140.497. The FP32 loss was 77.744. Long training does not use AMP.
-- Full 1k training: exit 0; 1000 iterations in 25m38s, train/valid generator loss 82.403/84.718, peak cached VRAM 20.727 GiB, checkpoint saved with no NaN/OOM.
-- Full 1k ESPnet inference: exit 0 in 15s; all 180 fixed eval utterances generated.
-- Full 1k independent WAV validation: exit 0; 180/180 mono 24 kHz finite/nonzero WAVs, no clipping warnings, median RTF 0.00893.
-- First local inference from a new shell: exit 1. The entry point did not find pinned eSpeak data outside the recipe environment. It now finds the repository-local data and rejects a different version or hash.
-- Local inference retry with eSpeak variables explicitly unset: exit 0; 3.477-second mono 24 kHz WAV, RTF 0.103, metadata written.
-- Post-fix automated tests: exit 0; 19 passed in 5.10 seconds.
+- Host resource preflight: exit 0. PyTorch found two RTX 3090 GPUs. The CUDA
+  matrix check passed on both GPU UUIDs.
+- Environment and frontend tests: exit 0. The final suite reported `21 passed in
+  5.18s`.
+- Full data preparation: exit 0. It selected 6787 of 6962 rows and made a
+  6461/146/180 group split.
+- Full audio validation: exit 0. It validated 10.343 hours and reported 366
+  non-blocking clipping flags.
+- ESPnet stages 1--6: exit 0. They made the data directories, token list, speech
+  statistics, pitch statistics, and energy statistics.
+- FP32 calibration: exit 0 at 1M, 2M, 2.5M, and 3M `batch_bins`. The run selected
+  3M. The AMP comparison was finite but had a worse validation loss.
+- Full 1k training: exit 0. Train/validation generator loss was 82.403/84.718.
+- First dual-GPU 25k launch: exit 1 before a batch. The activation template reset
+  `CUDA_VISIBLE_DEVICES`. The local fix now keeps an explicit multi-GPU value.
+- Dual-GPU 25k retry: exit 0. The command ran for 25,316 seconds and reached
+  25,000 iterations. Final train/validation generator loss was 61.883/71.475.
+  Peak cached VRAM was 15.551 GiB.
+- GPU power monitor: 231 samples. GPU0 mean/max power was 188.91/235.28 W and its
+  maximum temperature was 86 C. GPU1 mean/max power was 212.18/253.82 W and its
+  maximum temperature was 78 C.
+- TensorBoard event audit: exit 0. The train log has 29 scalar tags. The valid log
+  has 16 scalar tags. Both logs reached step 25,000.
+- 25k ESPnet inference: exit 0 in 14.745 s. It made all 180 fixed eval files.
+- 25k WAV validation: exit 0. It accepted 180/180 mono 24 kHz finite, non-zero
+  files. It found no clipping warning. Duration was 2.816--7.424 s. Median RTF
+  was 0.00845.
+- Candidate inference: exit 0 for 5k, 15k, 17k, and 23k. Each checkpoint made
+  180/180 valid files without a clipping warning.
+- 25k local inference: exit 0. It made a 4.757-second mono 24 kHz WAV and JSON
+  metadata. RTF was 0.0754. Peak absolute sample was 0.457.
+- Post-training resource check: exit 0. Both GPUs were idle. The host had 122.06
+  GiB available RAM and 314.79 GiB free disk.
 
 ## Створені артефакти
 
-- Frontend, regression corpus, dataset/QC scripts, ESPnet recipe and JETS config are tracked under `training/`.
-- Runtime manifests: `training/data/manifests/`; ESPnet data: `training/espnet_recipe/data/`.
-- Token list: `training/dump/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
-- Statistics: `training/exp/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- Checkpoint: `training/exp/tts_train_jets_uk_24k_raw_phn_espeak_ng_ukrainian_max_epoch1/1epoch.pth` (runtime artifact).
-- Generated eval WAVs: the matching `decode_jets_train.total_count.ave/smoke_eval/wav/` directory.
-- Local example: `training/eval/generated/example.wav` and adjacent metadata JSON.
-- Evaluation report: `training/reports/smoke_inference.json`.
-- Full manifests: `training/data/full/manifests/`; detailed report: `training/reports/full_data_analysis.json`.
-- Full token/statistics artifacts: `training/dump_full/token_list/` and `training/exp_full/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- Full 1k checkpoint: `training/exp_full/tts_jets_uk_24k_full/1epoch.pth` (runtime artifact).
-- Full 1k eval WAVs: `training/exp_full/tts_jets_uk_24k_full/decode_jets_latest/eval/wav/`.
-- Full 1k evaluation report: `training/reports/full_inference_1k.json`.
-- Full 1k local example: `training/eval/generated/full_1k.wav` and adjacent metadata JSON.
+- Full manifests: `training/data/full/manifests/`.
+- ESPnet data directories: `training/espnet_recipe/data/{train,dev,eval}/`.
+- JETS config: `training/espnet_recipe/conf/tuning/train_jets_uk_24k.yaml`.
+- ESPnet patch: `training/patches/espnet-espeak-ng-ukrainian.patch`.
+- Full token list: `training/dump_full/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
+- Full statistics: `training/exp_full/tts_stats_raw_phn_espeak_ng_ukrainian/`.
+- Retained checkpoints: `training/exp_full/milestones/{5k,15k,17k,23k,25k}.pth`.
+- TensorBoard events: `training/exp_full/tts_jets_uk_24k_full/tensorboard/{train,valid}/`.
+- 25k checkpoint SHA-256: `d1ee89bdb99fe40a24a9c44ebfc4004e5ef18b4fc00c08658832ba36846ff4dd`.
+- Fixed eval WAV files: `training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_*k/eval/wav/`.
+- Evaluation reports: `training/reports/full_inference_{1k,5k,15k,17k,23k,25k}.json`.
+- GPU power summary: `training/reports/power_summary.json`.
+- 25k local example: `training/eval/generated/example_25k.wav` and adjacent JSON.
+- Listening set: `training/eval/generated/listening_25k/`.
+- CRISP-DM reports: `training/reports/crisp_dm_cycle_1.md` and
+  `training/reports/crisp_dm_cycle_2.md`.
 
 ## Відомі проблеми
 
-- Twenty-eight smoke files have a clipping QC flag.
-- The 100-iteration checkpoint proves operability only; expected speech quality is low.
-- The source metadata does not have document IDs. The split procedure uses contiguous 50-file blocks as proxy groups.
-- The full corpus has 366 clipping flags and 104 phoneme tokens occurring at most ten times.
-- AMP was stable but degraded the 200-iteration validation metric and is disabled.
-- The 1k checkpoint is technically valid. It is not selected for perceptual quality. The 25k checkpoint requires a listening evaluation.
-- The Git remote contains an embedded credential. Do not print it. Rotate the credential.
+- The source metadata has no document IDs. The split uses contiguous 50-file
+  blocks as proxy groups. Residual relation leakage is possible.
+- The full corpus has 366 clipping flags. The pipeline did not modify these files.
+- The frontend has 104 phoneme tokens that occur no more than ten times.
+- NCCL cannot use direct P2P on this host. It used shared-memory transport.
+- AMP was finite but reduced the short-run validation result. Full training used
+  FP32.
+- Validation loss is best at 15k and second best at 23k. Automatic WAV checks do
+  not measure naturalness. A listening test must select the release checkpoint.
+- The Git remote contains an embedded credential. Do not print it. Rotate it.
 
 ## Наступна одна дія
 
-`cd training && ./scripts/run_full_training.sh 25000`
+Listen to the 20 items in `training/eval/generated/listening_25k/`. Compare the
+raw reference with 15k, 23k, and 25k. Record one checkpoint selection before the
+release package is made.

@@ -65,9 +65,9 @@ run a recipe command.
 ```bash
 training/.venv/bin/python -m training.inference.synthesize \
   --text "Український синтез мовлення працює офлайн." \
-  --output eval/generated/example.wav \
-  --config exp/<experiment>/config.yaml \
-  --checkpoint exp/<experiment>/<checkpoint>.pth
+  --output training/eval/generated/example.wav \
+  --config training/exp_full/tts_jets_uk_24k_full/config.yaml \
+  --checkpoint training/exp_full/milestones/25k.pth
 ```
 
 Keep the raw WAV separate from the publication WAV.
@@ -91,6 +91,23 @@ cd training
 Use the same command for the 200k and 400k targets. Continue only if the fixed-set
 listening results and the inference diagnostics improve.
 
+## Make the listening set
+
+This command makes links to 20 raw references and the 15k, 23k, and 25k outputs.
+It does not copy the large audio files. Listen to the same utterance in each
+directory before you select a release checkpoint.
+
+```bash
+training/.venv/bin/python training/scripts/build_listening_set.py \
+  --manifest training/data/full/manifests/eval.parquet \
+  --raw-dir training/data/full/raw \
+  --candidate jets_15k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_15k/eval/wav \
+  --candidate jets_23k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_23k/eval/wav \
+  --candidate jets_25k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_25k/eval/wav \
+  --count 20 \
+  --output training/eval/generated/listening_25k
+```
+
 ## Get the training status
 
 Use this command to get the progress, the Europe/Kyiv ETA, the checkpoint list,
@@ -101,4 +118,14 @@ power limit, temperature, memory use, and compute use.
 python scripts/training_status.py \
   --log exp_full/tts_jets_uk_24k_full/train.log \
   --output reports/training_status.jsonl
+```
+
+## View the training metrics
+
+ESPnet writes TensorBoard event files through PyTorch. It does not use the
+TensorFlow training runtime. Use this command from the repository root:
+
+```bash
+training/.venv/bin/tensorboard \
+  --logdir training/exp_full/tts_jets_uk_24k_full/tensorboard
 ```

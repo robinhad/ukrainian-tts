@@ -1,0 +1,26 @@
+{
+  "source": "training/reports/training_status.jsonl",
+  "sample_count": 231,
+  "first_sample_kyiv": "2026-07-22T20:43:00.488960+03:00",
+  "last_sample_kyiv": "2026-07-23T03:01:42.338177+03:00",
+  "gpus": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 3090",
+      "power_limit_w": 350.0,
+      "mean_sampled_power_w": 188.91,
+      "maximum_sampled_power_w": 235.28,
+      "maximum_sampled_temperature_c": 86
+    },
+    {
+      "index": 1,
+      "name": "NVIDIA GeForce RTX 3090",
+      "power_limit_w": 350.0,
+      "mean_sampled_power_w": 212.18,
+      "maximum_sampled_power_w": 253.82,
+      "maximum_sampled_temperature_c": 78
+    }
+  ],
+  "thermal_slowdown_threshold_c": 95,
+  "result": "PASS"
+}

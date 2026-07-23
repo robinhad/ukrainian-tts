@@ -2,8 +2,8 @@
 
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
-| Host resource preflight | PASS | PyTorch 2.9.1+cu128 sees GPU 0; 2x RTX 3090 idle, 122.25 GiB RAM and 329.17 GiB disk available | `reports/resource_usage.jsonl` (runtime artifact) | Recheck immediately before training |
-| Frontend tests | PASS | `19 passed in 5.10s` on 2026-07-22, including pinned-version mismatch rejection | `tests/`, `tests/frontend/expected_phonemes.json` | Preserve snapshot in later stages |
+| Host resource preflight | PASS | PyTorch 2.9.1+cu128 passed a CUDA check on both RTX 3090 GPUs; the post-run check found 122.06 GiB RAM and 314.79 GiB disk available | `reports/resource_usage.jsonl` (runtime artifact) | Recheck immediately before the next training run |
+| Frontend tests | PASS | `21 passed in 5.18s` on 2026-07-23, including pinned-version mismatch rejection | `tests/`, `tests/frontend/expected_phonemes.json` | Preserve the snapshot in later stages |
 | eSpeak version/data hash pinned | PASS | eSpeak-ng 1.52.0; data hash `924ed10e...aa80d6d` | `vendor/ESPEAK_NG_VERSION`, `vendor/ESPEAK_NG_DATA_HASH` | Reject version/hash drift |
 | No empty phoneme sequences | PASS | All 50 regression inputs returned deterministic non-empty tokens | `tests/frontend/expected_phonemes.json` | Repeat after any frontend change |
 | ESPnet data directories valid | PASS | ESPnet validators kept 256 train, 32 dev and 32 eval utterances | `espnet_recipe/data/smoke_{train,dev,eval}/` | Regenerate from manifests on a new host |

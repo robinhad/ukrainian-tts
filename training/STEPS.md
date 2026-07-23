@@ -61,3 +61,19 @@ training/.venv/bin/python -m training.inference.synthesize \
   --config training/exp_full/tts_jets_uk_24k_full/config.yaml \
   --checkpoint training/exp_full/tts_jets_uk_24k_full/latest.pth
 ```
+
+## 7. Make the listening set
+
+Use the same 20 utterances for each candidate. Do not select a release checkpoint
+from validation loss alone.
+
+```sh
+training/.venv/bin/python training/scripts/build_listening_set.py \
+  --manifest training/data/full/manifests/eval.parquet \
+  --raw-dir training/data/full/raw \
+  --candidate jets_15k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_15k/eval/wav \
+  --candidate jets_23k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_23k/eval/wav \
+  --candidate jets_25k=training/exp_full/tts_jets_uk_24k_full/decode_jets_milestone_25k/eval/wav \
+  --count 20 \
+  --output training/eval/generated/listening_25k
+```
