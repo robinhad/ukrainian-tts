@@ -115,6 +115,7 @@ statistics, and checkpoints with the `trimmed` suffix.
 training/scripts/run_trimmed_smoke_test.sh
 training/scripts/prepare_trimmed_full.sh
 BATCH_BINS=4000000 training/scripts/run_trimmed_training.sh 25000
+training/scripts/finalize_trimmed_training.sh 25epoch.pth 25k
 ```
 
 Calibrate `BATCH_BINS` before a long run. Use both GPUs. Increase the value until
@@ -122,6 +123,11 @@ each GPU uses approximately 85--90% of its VRAM. Keep at least 10% free VRAM. Do
 not increase the GPU power limit and do not overclock the GPUs. Keep
 `cudnn_benchmark=false` for this variable-length workload. The benchmark mode
 made the calibration slower.
+
+The finalization command keeps the 25k checkpoint. It runs inference on all 180
+fixed evaluation items. It validates each WAV and makes one local inference
+example and one 20-item listening set. Run this command only after the 25k
+training command exits with status 0.
 
 ## Make the listening set
 

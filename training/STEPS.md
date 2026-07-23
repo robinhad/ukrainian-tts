@@ -63,6 +63,15 @@ BATCH_BINS=4000000 training/scripts/run_trimmed_training.sh 25000
 training/scripts/run_milestone_inference.sh latest.pth
 ```
 
+For the silence-trimmed restart, run this command only after 25k training exits
+with status 0:
+
+```sh
+training/scripts/finalize_trimmed_training.sh 25epoch.pth 25k
+```
+
+This command keeps the checkpoint and validates all fixed evaluation WAV files.
+
 ## 6. Make one local WAV file
 
 The output is a raw mono 24 kHz WAV file. This command does not apply mastering.
