@@ -126,8 +126,9 @@ made the calibration slower.
 
 The finalization command keeps the 25k checkpoint. It runs inference on all 180
 fixed evaluation items. It validates each WAV and makes one local inference
-example and one 20-item listening set. Run this command only after the 25k
-training command exits with status 0.
+example and one 20-item listening set. It also summarizes sampled GPU power,
+utilization, temperature, and device memory. Run this command only after the
+25k training command exits with status 0.
 
 ## Make the listening set
 

@@ -17,6 +17,11 @@ if [[ ! -s "${SOURCE_CHECKPOINT}" ]]; then
     exit 2
 fi
 
+source "${ROOT}/activate.sh"
+python "${ROOT}/scripts/summarize_training_status.py" \
+    --input "${ROOT}/reports/training_status_trimmed.jsonl" \
+    --output "${ROOT}/reports/power_summary_trimmed.json"
+
 mkdir -p "${MILESTONE_DIR}"
 cp --reflink=auto "${SOURCE_CHECKPOINT}" "${MILESTONE_CHECKPOINT}"
 cmp --silent "${SOURCE_CHECKPOINT}" "${MILESTONE_CHECKPOINT}"
@@ -28,7 +33,6 @@ DUMP_NAME=dump_full_trimmed \
 EXP_NAME=exp_full_trimmed \
     "${ROOT}/scripts/run_milestone_inference.sh" "${INFERENCE_MODEL}"
 
-source "${ROOT}/activate.sh"
 python "${ROOT}/scripts/synthesize_eval.py" \
     --wav-dir "${DECODE_DIR}/eval/wav" \
     --manifest "${ROOT}/data/full_trimmed/manifests/eval.parquet" \
