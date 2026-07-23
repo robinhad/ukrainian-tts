@@ -1,1 +1,10 @@
-checkpoints: []
+checkpoints:
+  - name: speechbrain/spkrec-ecapa-voxceleb
+    revision: 0f99f2d0ebe89ac095bcc5903c4dd8f72b367286
+    license: Apache-2.0
+    use: Speaker embedding extraction
+  - name: ukrainian-tts-v6-speaker-embeddings
+    revision: v6.0.0
+    sha256: 12cf09307b90d0e9745923300d98b7c41ced88229f7905c5a141588fde1d7530
+    license: MIT
+    use: Zero-shot Dmytro and fixed-speaker inference targets

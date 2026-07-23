@@ -3,3 +3,11 @@ datasets:
     revision: 729289b58251da4a21ce85f8808dd908f28b0d7f
     license: Apache-2.0
     url: https://huggingface.co/datasets/speech-uk/opentts-lada
+  - name: speech-uk/cv22-opus
+    revision: 46e5072c44cdd6d7d371adeba29f1ee7678aaf91
+    license: CC0-1.0
+    url: https://huggingface.co/datasets/speech-uk/cv22-opus
+notes:
+  - Common Voice speaker IDs are not present in cv22-opus. The pipeline uses
+    one ECAPA embedding for each utterance and does not assert speaker identity.
+  - No raw Dmytro dataset is present. Dmytro is an inference target only.
