@@ -8,8 +8,9 @@ if (( TARGET_ITERATIONS < 1000 || TARGET_ITERATIONS % 1000 != 0 )); then
     exit 2
 fi
 TARGET_EPOCHS=$((TARGET_ITERATIONS / 1000))
-# The first complete DDP epoch took 17 minutes and 24 seconds with validation.
-ETA_MINUTES=$(((TARGET_ITERATIONS * 18 + 999) / 1000 + 10))
+# Use a measured value for each dataset and batch configuration.
+ETA_MINUTES_PER_1000=${ETA_MINUTES_PER_1000:-18}
+ETA_MINUTES=$(((TARGET_ITERATIONS * ETA_MINUTES_PER_1000 + 999) / 1000 + 10))
 DATASET_NAME=${DATASET_NAME:-full}
 EXPERIMENT_NAME=${EXPERIMENT_NAME:-tts_jets_uk_24k_full}
 DUMP_NAME=${DUMP_NAME:-dump_full}

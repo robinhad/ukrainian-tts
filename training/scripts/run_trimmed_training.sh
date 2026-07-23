@@ -9,4 +9,5 @@ export EXP_NAME=exp_full_trimmed
 export BATCH_BINS=${BATCH_BINS:-4000000}
 export NUM_WORKERS=${NUM_WORKERS:-8}
 export CUDNN_BENCHMARK=${CUDNN_BENCHMARK:-false}
+export ETA_MINUTES_PER_1000=${ETA_MINUTES_PER_1000:-31}
 exec "${ROOT}/scripts/run_full_training.sh" "$@"
