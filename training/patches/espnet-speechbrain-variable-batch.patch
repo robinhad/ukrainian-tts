@@ -1,0 +1,88 @@
+diff --git a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+index b664095..33c06ef 100644
+--- a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
++++ b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+@@ -227,18 +227,24 @@ class SpkEmbedExtractor:
+                 return out.astype(np.float32)
+ 
+             elif self.toolkit == "speechbrain":
+-                batch = torch.stack(
+-                    [
+-                        (
+-                            w
+-                            if torch.is_tensor(w)
+-                            else torch.as_tensor(w, dtype=torch.float32)
+-                        )
+-                        for w in wav_list
+-                    ]
+-                ).to(self.device)
++                tensors = [
++                    (
++                        w.float()
++                        if torch.is_tensor(w)
++                        else torch.as_tensor(w, dtype=torch.float32)
++                    )
++                    for w in wav_list
++                ]
++                lengths = torch.tensor(
++                    [tensor.numel() for tensor in tensors],
++                    dtype=torch.float32,
++                    device=self.device,
++                )
++                batch = pad_sequence(tensors, batch_first=True).to(self.device)
++                relative_lengths = lengths / batch.shape[1]
+                 return (
+-                    self.model.encode_batch(batch)
++                    self.model.encode_batch(batch, relative_lengths)
++                    .squeeze(1)
+                     .detach()
+                     .cpu()
+                     .numpy()
+@@ -313,7 +319,14 @@ def main(argv):
+         def load_item(spk_utt):
+             spk, utt = spk_utt
+             in_sr, wav = wav_scp[utt]  # wav: np.float32
+-            if args.toolkit in ("rawnet", "espnet"):
++            if args.toolkit == "speechbrain":
++                wav = (
++                    spk_embed_extractor.audio_norm(torch.from_numpy(wav), in_sr)
++                    .cpu()
++                    .numpy()
++                )
++                in_sr = spk_embed_extractor.tgt_sr
++            elif args.toolkit in ("rawnet", "espnet"):
+                 tgt = spk_embed_extractor.tgt_sr
+                 if in_sr != tgt:
+                     key = (in_sr, tgt)
+diff --git a/egs2/TEMPLATE/asr1/scripts/utils/sort_spk_embed_scp.sh b/egs2/TEMPLATE/asr1/scripts/utils/sort_spk_embed_scp.sh
+old mode 100644
+new mode 100755
+index 1aca0ee..d1f22c7
+--- a/egs2/TEMPLATE/asr1/scripts/utils/sort_spk_embed_scp.sh
++++ b/egs2/TEMPLATE/asr1/scripts/utils/sort_spk_embed_scp.sh
+@@ -12,6 +12,7 @@ sort_data_dir() {
+   for f in text wav.scp utt2spk spk2utt utt2dur spk2gender; do
+     [ -f "${dir}/${f}" ] && LC_ALL=C sort -k1,1 "${dir}/${f}" -o "${dir}/${f}"
+   done
++  return 0
+ }
+ 
+ # Sort all standard data files for each dataset directory found
+@@ -25,11 +26,14 @@ done
+ for scp in "${dumpdir}/${tag}"/*/"${tag}.scp"; do
+   dset=$(basename "$(dirname "$scp")")
+ 
+-  # Train/val live under raw/org, tests under raw/
+-  if [[ "$dset" == "train" || "$dset" == "val" ]]; then
++  # Train/validation sets live under raw/org and test sets live under raw.
++  if [[ -d "${dumpdir}/raw/org/${dset}" ]]; then
+     rawdir="${dumpdir}/raw/org/${dset}"
+-  else
++  elif [[ -d "${dumpdir}/raw/${dset}" ]]; then
+     rawdir="${dumpdir}/raw/${dset}"
++  else
++    echo "Missing data directory for ${dset}"
++    exit 1
+   fi
+ 
+   ids="${rawdir}/text"

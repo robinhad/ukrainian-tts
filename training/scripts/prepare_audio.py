@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -112,6 +114,78 @@ def trim_silence(
     return trimmed, metadata
 
 
+def prepare_one(
+    row: dict,
+    *,
+    output_root: Path,
+    use_trim: bool,
+    top_db: float,
+    padding_ms: float,
+    frame_length: int,
+    hop_length: int,
+) -> dict:
+    row = row.copy()
+    flags = []
+    source = Path(row["audio_path"])
+    target = output_root / f"{row['utterance_id']}.wav"
+    try:
+        convert(source, target)
+        audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
+        if use_trim:
+            audio, trim_metadata = trim_silence(
+                audio,
+                sample_rate,
+                top_db=top_db,
+                padding_ms=padding_ms,
+                frame_length=frame_length,
+                hop_length=hop_length,
+            )
+            sf.write(target, audio, sample_rate, subtype="PCM_16")
+            audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
+        else:
+            trim_metadata = {
+                "trim_applied": False,
+                "duration_before_trim": len(audio) / sample_rate,
+                "trim_start_seconds": 0.0,
+                "trim_end_seconds": 0.0,
+                "trim_removed_seconds": 0.0,
+                "trim_threshold_rms": 0.0,
+                "trim_config_hash": "disabled",
+            }
+        duration = len(audio) / sample_rate
+        if sample_rate != SAMPLE_RATE:
+            flags.append("wrong_sample_rate")
+        if audio.shape[1] != 1:
+            flags.append("not_mono")
+        if duration <= 0:
+            flags.append("zero_duration")
+        if duration < 2:
+            flags.append("too_short")
+        if duration > 12:
+            flags.append("too_long")
+        if not np.isfinite(audio).all():
+            flags.append("non_finite")
+        if audio.size and float(np.max(np.abs(audio))) >= 0.999:
+            flags.append("clipping")
+        row.update(
+            audio_path=str(target.resolve()),
+            duration=duration,
+            sample_rate=sample_rate,
+            channels=audio.shape[1],
+            format="WAV/PCM_16",
+            qc_flags=flags,
+            audio_sha256=sha256(target),
+            **trim_metadata,
+        )
+    except Exception as error:
+        row.update(
+            qc_flags=[f"corrupt:{type(error).__name__}"],
+            duration=0.0,
+            sample_rate=0,
+        )
+    return row
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--records", type=Path, required=True)
@@ -125,66 +199,48 @@ def main() -> int:
     parser.add_argument("--trim-padding-ms", type=float, default=100.0)
     parser.add_argument("--trim-frame-length", type=int, default=1024)
     parser.add_argument("--trim-hop-length", type=int, default=256)
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=min(16, os.cpu_count() or 1),
+        help="Number of parallel ffmpeg workers. Use 1 for sequential processing.",
+    )
     args = parser.parse_args()
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
     records = [json.loads(line) for line in args.records.read_text(encoding="utf-8").splitlines()]
-    prepared = []
-    for row in records:
-        flags = []
-        source = Path(row["audio_path"])
-        target = args.output_root / f"{row['utterance_id']}.wav"
-        try:
-            convert(source, target)
-            audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
-            if args.trim_silence:
-                audio, trim_metadata = trim_silence(
-                    audio,
-                    sample_rate,
-                    top_db=args.trim_top_db,
-                    padding_ms=args.trim_padding_ms,
-                    frame_length=args.trim_frame_length,
-                    hop_length=args.trim_hop_length,
+    kwargs = {
+        "output_root": args.output_root,
+        "use_trim": args.trim_silence,
+        "top_db": args.trim_top_db,
+        "padding_ms": args.trim_padding_ms,
+        "frame_length": args.trim_frame_length,
+        "hop_length": args.trim_hop_length,
+    }
+    if args.workers == 1:
+        prepared = [prepare_one(row, **kwargs) for row in records]
+    else:
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=args.workers
+        ) as executor:
+            prepared = list(
+                executor.map(
+                    _prepare_job,
+                    ((row, kwargs) for row in records),
+                    chunksize=8,
                 )
-                sf.write(target, audio, sample_rate, subtype="PCM_16")
-                audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
-            else:
-                trim_metadata = {
-                    "trim_applied": False,
-                    "duration_before_trim": len(audio) / sample_rate,
-                    "trim_start_seconds": 0.0,
-                    "trim_end_seconds": 0.0,
-                    "trim_removed_seconds": 0.0,
-                    "trim_threshold_rms": 0.0,
-                    "trim_config_hash": "disabled",
-                }
-            duration = len(audio) / sample_rate
-            if sample_rate != SAMPLE_RATE:
-                flags.append("wrong_sample_rate")
-            if audio.shape[1] != 1:
-                flags.append("not_mono")
-            if duration <= 0:
-                flags.append("zero_duration")
-            if duration < 2:
-                flags.append("too_short")
-            if duration > 12:
-                flags.append("too_long")
-            if not np.isfinite(audio).all():
-                flags.append("non_finite")
-            if audio.size and float(np.max(np.abs(audio))) >= 0.999:
-                flags.append("clipping")
-            row.update(
-                audio_path=str(target.resolve()), duration=duration, sample_rate=sample_rate,
-                channels=audio.shape[1], format="WAV/PCM_16", qc_flags=flags,
-                audio_sha256=sha256(target), **trim_metadata,
             )
-        except Exception as error:
-            row.update(qc_flags=[f"corrupt:{type(error).__name__}"], duration=0.0, sample_rate=0)
-        prepared.append(row)
     args.output_records.parent.mkdir(parents=True, exist_ok=True)
     with args.output_records.open("w", encoding="utf-8") as stream:
         for row in prepared:
             stream.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
     print(json.dumps({"artifact": str(args.output_records), "records": len(prepared)}))
     return 0
+
+
+def _prepare_job(job: tuple[dict, dict]) -> dict:
+    row, kwargs = job
+    return prepare_one(row, **kwargs)
 
 
 if __name__ == "__main__":

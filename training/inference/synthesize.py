@@ -22,14 +22,39 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
-def synthesize(text: str, output: Path, config: Path, checkpoint: Path, device: str) -> dict:
+def load_speaker_embedding(path: Path, speaker: str) -> np.ndarray:
+    from kaldiio import load_ark
+
+    vectors = {
+        key: np.asarray(value, dtype=np.float32).squeeze()
+        for key, value in load_ark(str(path))
+    }
+    if speaker not in vectors:
+        raise RuntimeError(
+            f"speaker {speaker!r} is not in {path}; available={sorted(vectors)}"
+        )
+    vector = vectors[speaker]
+    if vector.ndim != 1 or not np.isfinite(vector).all() or not np.any(vector):
+        raise RuntimeError(f"speaker {speaker!r} has an invalid embedding")
+    return vector
+
+
+def synthesize(
+    text: str,
+    output: Path,
+    config: Path,
+    checkpoint: Path,
+    device: str,
+    speaker_embedding: np.ndarray | None = None,
+    speaker: str | None = None,
+) -> dict:
     from espnet2.bin.tts_inference import Text2Speech
 
     frontend = UkrainianPhonemizer()
     sanitized, tokens = frontend.phonemize(text)
     model = Text2Speech(train_config=config, model_file=checkpoint, device=device)
     started = time.monotonic()
-    result = model(sanitized)
+    result = model(sanitized, spembs=speaker_embedding)
     elapsed = time.monotonic() - started
     waveform = result["wav"].view(-1).detach().cpu().numpy().astype(np.float32)
     sample_rate = int(model.fs)
@@ -58,6 +83,10 @@ def synthesize(text: str, output: Path, config: Path, checkpoint: Path, device: 
         "real_time_factor": elapsed / duration,
         "peak_absolute": float(np.max(np.abs(waveform))),
         "warnings": ["possible_clipping"] if np.max(np.abs(waveform)) >= 0.999 else [],
+        "speaker": speaker,
+        "speaker_embedding_dimension": (
+            int(speaker_embedding.size) if speaker_embedding is not None else None
+        ),
     }
     output.with_suffix(output.suffix + ".json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
@@ -73,8 +102,30 @@ def main() -> int:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--device", choices=["cpu", "cuda"], default="cuda")
+    parser.add_argument("--speaker-embedding-ark", type=Path)
+    parser.add_argument("--speaker")
     args = parser.parse_args()
-    print(json.dumps(synthesize(args.text, args.output, args.config, args.checkpoint, args.device), ensure_ascii=False))
+    if bool(args.speaker_embedding_ark) != bool(args.speaker):
+        parser.error("--speaker-embedding-ark and --speaker must be used together")
+    embedding = (
+        load_speaker_embedding(args.speaker_embedding_ark, args.speaker)
+        if args.speaker_embedding_ark
+        else None
+    )
+    print(
+        json.dumps(
+            synthesize(
+                args.text,
+                args.output,
+                args.config,
+                args.checkpoint,
+                args.device,
+                speaker_embedding=embedding,
+                speaker=args.speaker,
+            ),
+            ensure_ascii=False,
+        )
+    )
     return 0
 
 

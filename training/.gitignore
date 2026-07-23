@@ -12,6 +12,9 @@ activate.sh
 vendor/espnet-src/
 vendor/espeak-ng-src/
 vendor/espeak-ng-install/
+vendor/speechbrain-spkrec-ecapa-voxceleb/
+dump_multispeaker*/
+exp_multispeaker*/
 espnet_recipe/pyscripts
 espnet_recipe/scripts
 espnet_recipe/utils

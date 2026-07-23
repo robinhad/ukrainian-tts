@@ -28,3 +28,18 @@ def test_jets_24k_config_invariants():
     assert config["generator_first"] is True
     assert config["use_amp"] is False
     assert config["batch_bins"] == 1_000_000
+
+
+def test_multispeaker_jets_uses_ecapa_embeddings():
+    config = yaml.safe_load(
+        (
+            ROOT
+            / "espnet_recipe/conf/tuning/train_jets_uk_24k_multispeaker.yaml"
+        ).read_text()
+    )
+    generator = config["tts_conf"]["generator_params"]
+    assert config["tts"] == "jets"
+    assert generator["spks"] == -1
+    assert generator["spk_embed_dim"] == 192
+    assert generator["spk_embed_integration_type"] == "add"
+    assert config["tts_conf"]["sampling_rate"] == 24000

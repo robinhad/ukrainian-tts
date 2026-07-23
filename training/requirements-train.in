@@ -11,4 +11,5 @@ pyworld==0.3.5
 PyYAML==6.0.2
 resampy==0.4.3
 soundfile==0.13.1
+speechbrain==1.1.0
 typeguard==4.4.4

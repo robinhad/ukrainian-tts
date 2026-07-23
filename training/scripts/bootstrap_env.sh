@@ -30,10 +30,15 @@ fi
 git -C "${ESPNET_SRC}" fetch --depth 1 origin tag v.202604-patch1
 git -C "${ESPNET_SRC}" checkout --detach FETCH_HEAD
 [[ $(git -C "${ESPNET_SRC}" rev-parse HEAD) == ${ESPNET_COMMIT}* ]]
-if ! git -C "${ESPNET_SRC}" apply --reverse --check "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch" >/dev/null 2>&1; then
-    git -C "${ESPNET_SRC}" apply --check "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch"
-    git -C "${ESPNET_SRC}" apply "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch"
-fi
+for patch in \
+    "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch" \
+    "${ROOT}/patches/espnet-speechbrain-variable-batch.patch"
+do
+    if ! git -C "${ESPNET_SRC}" apply --reverse --check "${patch}" >/dev/null 2>&1; then
+        git -C "${ESPNET_SRC}" apply --check "${patch}"
+        git -C "${ESPNET_SRC}" apply "${patch}"
+    fi
+done
 uv pip install --python "${VENV}/bin/python" --editable "${ESPNET_SRC}"
 
 if [[ ! -d "${ESPEAK_SRC}/.git" ]]; then

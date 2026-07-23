@@ -1,0 +1,23 @@
+{
+  "dimension": 192,
+  "embedding_model": "speechbrain/spkrec-ecapa-voxceleb",
+  "embedding_model_dir": "/home/ballvan/Projects/ukrainian-tts/training/vendor/speechbrain-spkrec-ecapa-voxceleb",
+  "embedding_model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "keys": [
+    "dmytro",
+    "lada",
+    "mykyta",
+    "oleksa",
+    "tetiana"
+  ],
+  "norms": {
+    "dmytro": 205.0370635986328,
+    "lada": 258.0004577636719,
+    "mykyta": 212.35000610351562,
+    "oleksa": 228.3377227783203,
+    "tetiana": 206.06907653808594
+  },
+  "sha256": "12cf09307b90d0e9745923300d98b7c41ced88229f7905c5a141588fde1d7530",
+  "source_url": "https://github.com/robinhad/ukrainian-tts/releases/download/v6.0.0/spk_xvector.ark",
+  "status": "PASS"
+}
