@@ -2,113 +2,90 @@
 
 ## Business understanding
 
-The production objective is stable Ukrainian pronunciation in the Lada voice. The
-pipeline must keep the voice of one speaker. Local inference must be reproducible.
-The training stage must make progressive checkpoints. Select a checkpoint from the
-fixed-set listening results and the inference stability. Do not select a checkpoint
-from the training loss only. The fixed JETS, eSpeak-ng, and 24 kHz architecture does
-not change.
+The objective is stable Ukrainian speech in the Lada voice. The pipeline must
+keep one speaker and must make reproducible local inference. JETS, ESPnet2,
+eSpeak-ng for Ukrainian, phoneme tokens, and 24 kHz audio remain fixed. The
+restart also removes leading and trailing silence from model audio copies.
 
 ## Data understanding
 
-The pinned source contains 6962 rows. Data preparation selected 6787 utterances.
-It removed 174 duplicate sanitized texts and one duration outlier. The selected
-corpus contains 10.343 hours. The durations are 2.64 to 11.22 seconds. The median
-is 5.4 seconds. The split contains 6461 train, 146 dev, and 180 eval utterances.
+The pinned source contains 6,962 rows. Data preparation selected 6,787
+utterances. It removed 174 duplicate sanitized texts and one duration outlier.
+The untrimmed selected audio contains 10.343 hours.
 
-The source does not contain a document ID. Thus, the split procedure uses each
-contiguous block of 50 numeric source files as one related group. A source group
-does not occur in more than one split. An exact audio hash or text hash does not
-occur in more than one split. The proxy groups can still cause residual leakage.
+The silence trim processed all 6,787 model copies. It kept 5.565 hours and
+removed 4.778 hours. The split contains 6,461 train, 146 development, and 180
+evaluation utterances. Exact ID, audio-hash, and text-hash leakage is zero.
 
-All model copies are mono PCM WAV files at 24 kHz. Data preparation did not apply
-mastering or normalization. QC set 366 clipping flags. The frontend found 259
-tokens. Of these tokens, 104 occur no more than ten times. See
-`reports/full_data_analysis.json` for the detailed coverage data.
+The source has no document ID. The split uses each contiguous block of 50 numeric
+source files as one related group. This proxy can leave related content in
+different splits.
 
 ## Data preparation
 
-ESPnet accepted all the train, dev, and eval directories. Full tokenization reported
-0.0% OOV. The statistics stage made the speech, pitch, and energy statistics. The
-deterministic frontend snapshot contains 500 corpus and curated sentences. The
-first suite had 18 passing tests in 5.06 seconds. After the local entry-point fix,
-the expanded suite had 19 passing tests in 5.10 seconds. The final suite had 21
-passing tests in 5.18 seconds after the 25k evaluation.
+The preparation stage made mono PCM WAV files at 24 kHz. A relative frame-RMS
+detector removed leading and trailing silence at 40 dB below each file maximum.
+It kept 100 ms of boundary padding. It did not use VAD or a forced aligner. It
+did not apply denoise, normalization, compression, de-essing, or mastering.
+
+ESPnet accepted the train, development, and evaluation directories. Tokenization
+reported 0.0 percent OOV. The statistics stage made speech, pitch, and energy
+statistics. The same pinned eSpeak-ng 1.52.0 frontend serves training and
+inference.
 
 ## Modeling
 
-FP32 batch calibration used 200 real iterations at every point:
+The trimmed smoke run completed 100 iterations and made a checkpoint. It used
+both generator and discriminator paths. It also made 32 of 32 valid eval WAV
+files.
 
-| batch_bins | Peak cached VRAM | Train time | Result |
-|---:|---:|---:|---|
-| 1,000,000 | 6.027 GiB | 2m04s | PASS |
-| 2,000,000 | 17.266 GiB | 3m40s | PASS |
-| 2,500,000 | 12.535 GiB | 4m22s | PASS; non-monotonic grouping |
-| 3,000,000 | 20.727 GiB | 5m07s | PASS; about 12% VRAM reserve |
+Dual-GPU calibration tested 4,000,000 and 4,200,000 batch bins. The 4,200,000
+setting left less than 10 percent device-memory reserve. The long run first used
+4,000,000. One card later had only 935 MiB free. The run stopped after the 3k
+checkpoint and resumed from that state with `batch_bins: 3800000`.
 
-The selected value is `batch_bins=3,000,000`. A 200-iteration AMP run was finite
-and faster. Its validation generator loss was 140.497. The FP32 loss was 77.744 at
-the same batch size. Thus, long training does not use AMP. The resumable runner
-saves a checkpoint after each 1000 iterations.
+The resumed FP32 run completed 25,000 iterations on both RTX 3090 cards. It
+returned exit status 0 after 32,318 seconds. Peak cached memory was 22.178 GiB.
+All reported generator, discriminator, alignment, pitch, and energy losses were
+finite.
 
-The full-corpus FP32 sanity milestone completed 1000 iterations on GPU0. The wall
-time was 25 minutes and 38 seconds. The trainer time was 25 minutes and 13 seconds.
-The run saved `1epoch.pth` with SHA-256 `66e06306...5910f`. The train generator
-loss was 82.403. The validation generator loss was 84.718. All generator,
-discriminator, alignment, pitch, and energy losses were finite. Peak cached VRAM
-was 20.727 GiB.
+| Iteration | Validation generator loss | Validation mel loss |
+|---:|---:|---:|
+| 1,000 | 74.101 | 56.198 |
+| 5,000 | 53.736 | 40.951 |
+| 10,000 | 50.890 | 37.879 |
+| 15,000 | 48.865 | 35.251 |
+| 20,000 | 48.014 | 34.565 |
+| 25,000 | 47.112 | 33.549 |
 
-Post-1k full training used both RTX 3090 cards. ESPnet used single-node DDP. Before
-the launch, the resource gate runs a CUDA matrix operation on both pinned GPU UUIDs.
-The first DDP attempt failed before the first batch. The generated activation script
-reset `CUDA_VISIBLE_DEVICES` to GPU0. The template now keeps an explicit multi-GPU
-selection. The retry initialized both NCCL ranks. The first 50 batches took
-approximately 0.92 seconds per batch. One GPU took approximately 1.50 seconds per
-batch. NCCL cannot use direct P2P on this host. It uses shared-memory transport.
-This condition can decrease performance, but it did not stop training.
+The validation mel loss fell by 40.3 percent. The validation generator loss fell
+by 36.4 percent. The last train and validation mel losses were 33.677 and 33.549.
+This is a meaningful loss decrease. A listening test must still measure
+naturalness and pronunciation.
 
-The dual-GPU FP32 run resumed from 1k and completed 25,000 iterations. The command
-ran for 25,316 seconds and exited with status 0. The final train and validation
-generator losses were 61.883 and 71.475. All reported losses were finite. The peak
-cached VRAM was 15.551 GiB. The 25k checkpoint SHA-256 is
-`d1ee89bd...46ff4dd`.
+The external monitor collected 140 samples. GPU0 mean and maximum power were
+197.11 W and 264.08 W. GPU1 mean and maximum power were 221.82 W and 261.39 W.
+Both cards reached 100 percent sampled compute use. Their maximum temperatures
+were 85 C and 79 C.
 
-The fixed validation set gave these generator losses for the retained candidates:
+TensorBoard contains 29 train scalar tags and 16 validation scalar tags through
+step 25,000. PyTorch writes the event files. TensorFlow is not a runtime
+dependency.
 
-| Checkpoint | Validation generator loss | SHA-256 prefix | Result |
-|---:|---:|---|---|
-| 15k | 68.848 | `ee289c8a` | Retained |
-| 17k | 70.752 | `ac0e7895` | Retained |
-| 23k | 69.162 | `f8cd1c9d` | Retained |
-| 25k | 71.475 | `d1ee89bd` | Retained target milestone |
+## Evaluation
 
-Loss alone does not select the release checkpoint. A listening test must compare
-the retained candidates.
+The 25k checkpoint made all 180 fixed evaluation utterances. Independent
+validation accepted 180 of 180 files. Each file is finite, non-empty, mono, and
+24 kHz. The duration range is 1.013 to 5.376 seconds. Median RTF is 0.01338.
+There are no clipping warnings.
 
-The power monitor recorded 231 samples during the run. GPU0 had a mean power of
-188.91 W, a maximum power of 235.28 W, and a maximum temperature of 86 C. GPU1
-had a mean power of 212.18 W, a maximum power of 253.82 W, and a maximum
-temperature of 78 C. Neither GPU reached the 95 C slowdown threshold.
+The local entry point made a 3.189-second raw WAV. Its RTF is 0.10438 and its peak
+absolute sample is 0.509. It also wrote the frontend, checkpoint, and config
+metadata.
 
-## Evaluation and deployment
+## Deployment
 
-The 1k checkpoint made all 180 fixed eval utterances in 15 seconds. Independent
-validation accepted each output. The 5k, 15k, 17k, 23k, and 25k checkpoints then
-used the same fixed eval set. Each run made 180 WAV files and exited with status 0.
-Independent validation accepted all 900 new files. Each file is finite, non-empty,
-mono, and 24 kHz. No run had a clipping warning.
-
-| Checkpoint | WAV result | Duration range | Median RTF |
-|---:|---|---:|---:|
-| 1k | 180/180 PASS | 1.184--10.037 s | 0.00893 |
-| 5k | 180/180 PASS | 2.240--7.829 s | 0.00757 |
-| 15k | 180/180 PASS | 2.016--7.360 s | 0.00788 |
-| 17k | 180/180 PASS | 1.557--8.139 s | 0.00785 |
-| 23k | 180/180 PASS | 1.600--8.309 s | 0.00770 |
-| 25k | 180/180 PASS | 2.816--7.424 s | 0.00845 |
-
-The 25k local entry point made a 4.757-second raw WAV. Its RTF was 0.0754 and its
-peak absolute sample was 0.457. It also wrote the frontend, checkpoint, and config
-metadata. The frontend uses the repository-local eSpeak runtime. It rejects a
-different version or data hash. Release packaging and perceptual checkpoint
-selection are pending.
+The 25k checkpoint, config, token list, statistics, TensorBoard files, inference
+report, local example, and 20-item listening set exist. The checkpoint SHA-256 is
+`58f4673676cd382d1ae2bc6c5a7a80e809ccce9e2b3dea42edef6cae177f9d75`.
+Perceptual review and release packaging remain separate steps.

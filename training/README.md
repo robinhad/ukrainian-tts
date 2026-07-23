@@ -171,5 +171,9 @@ TensorFlow training runtime. Use this command from the repository root:
 
 ```bash
 training/.venv/bin/tensorboard \
-  --logdir training/exp_full/tts_jets_uk_24k_full/tensorboard
+  --logdir training/exp_full_trimmed/tts_jets_uk_24k_trimmed/tensorboard
 ```
+
+The completed trimmed run has 29 train scalar tags and 16 validation scalar
+tags through step 25,000. The validation mel loss fell from 56.198 at 1k to
+33.549 at 25k.

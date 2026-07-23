@@ -74,3 +74,47 @@ GiB and had only 935 MiB free. The operator stopped the run after the 3k
 checkpoint. The same experiment resumed with `batch_bins: 3800000`. This change
 keeps the model and optimizer state but restores a safer memory reserve. Do not
 use a checkpoint from the untrimmed experiment for this restart.
+
+## Full training result
+
+The resumed run completed 25,000 iterations on both RTX 3090 GPUs. It used FP32
+and `batch_bins: 3800000`. The command ran for 32,318 seconds and returned exit
+status 0. The trainer reported no NaN, OOM, or critical runtime error.
+
+| Iteration | Validation generator loss | Validation mel loss |
+|---:|---:|---:|
+| 1,000 | 74.101 | 56.198 |
+| 5,000 | 53.736 | 40.951 |
+| 10,000 | 50.890 | 37.879 |
+| 15,000 | 48.865 | 35.251 |
+| 20,000 | 48.014 | 34.565 |
+| 25,000 | 47.112 | 33.549 |
+
+The validation mel loss fell by 40.3 percent from 1k to 25k. The validation
+generator loss fell by 36.4 percent. The last train and validation mel losses
+were 33.677 and 33.549. The loss trend is meaningful and does not show a clear
+train-validation gap. A listening test must still confirm speech quality.
+
+The final peak cached memory was 22.178 GiB. The external monitor collected 140
+training samples. GPU0 used a mean of 197.11 W and a maximum of 264.08 W. GPU1
+used a mean of 221.82 W and a maximum of 261.39 W. Both GPUs reached 100 percent
+sampled compute use. The maximum temperatures were 85 C and 79 C.
+
+TensorBoard contains 29 train scalar tags and 16 validation scalar tags. Both
+runs reached step 25,000. PyTorch writes these event files. The pipeline does
+not require the TensorFlow runtime.
+
+## Evaluation result
+
+- Fixed-set inference: PASS for 180 of 180 WAV files.
+- Sample rate and channels: 24 kHz and mono.
+- Duration range: 1.013 to 5.376 seconds.
+- Median real-time factor: 0.01338.
+- Clipping warnings: 0.
+- Local entry point: PASS.
+- Local example duration: 3.189 seconds.
+- Local example real-time factor: 0.10438.
+- Listening set: 20 raw-reference and generated-WAV pairs.
+
+The run used the same pinned eSpeak-ng frontend for training and inference. It
+did not use a forced aligner. JETS used its internal alignment module.

@@ -3,7 +3,7 @@
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
 | Host resource preflight | PASS | PyTorch 2.9.1+cu128 passed a CUDA check on both RTX 3090 GPUs; the post-run check found 122.06 GiB RAM and 314.79 GiB disk available | `reports/resource_usage.jsonl` (runtime artifact) | Recheck immediately before the next training run |
-| Frontend tests | PASS | `21 passed in 5.18s` on 2026-07-23, including pinned-version mismatch rejection | `tests/`, `tests/frontend/expected_phonemes.json` | Preserve the snapshot in later stages |
+| Frontend tests | PASS | Final suite: `28 passed in 5.55s`, including pinned-version mismatch rejection | `tests/`, `tests/frontend/expected_phonemes.json` | Preserve the snapshot in later stages |
 | eSpeak version/data hash pinned | PASS | eSpeak-ng 1.52.0; data hash `924ed10e...aa80d6d` | `vendor/ESPEAK_NG_VERSION`, `vendor/ESPEAK_NG_DATA_HASH` | Reject version/hash drift |
 | No empty phoneme sequences | PASS | All 50 regression inputs returned deterministic non-empty tokens | `tests/frontend/expected_phonemes.json` | Repeat after any frontend change |
 | ESPnet data directories valid | PASS | ESPnet validators kept 256 train, 32 dev and 32 eval utterances | `espnet_recipe/data/smoke_{train,dev,eval}/` | Regenerate from manifests on a new host |
@@ -17,3 +17,20 @@
 
 Every critical MVP row is `PASS`. Cycle 2 preparation and batch calibration are
 permitted.
+
+## Silence-trimmed full-run gate
+
+| Gate | Status | Evidence | Artifact | Next action |
+|---|---|---|---|---|
+| Silence trim | PASS | 6,787 of 6,787 files processed; 4.778 h removed; raw source unchanged | `reports/full_trimmed_dataset.json` | Keep the trim configuration fixed |
+| Full split | PASS | 6,461 train, 146 development, and 180 evaluation files; no exact leakage | `data/full_trimmed/manifests/` | Preserve manifests with the model |
+| Tokenization and statistics | PASS | 0.0% OOV; speech, pitch, and energy statistics exist | `dump_full_trimmed/`, `exp_full_trimmed/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the checkpoint |
+| Dual-GPU training | PASS | 25,000 iterations; exit 0; no NaN, OOM, or critical runtime error | `exp_full_trimmed/tts_jets_uk_24k_trimmed/train.log` | Use listening results for checkpoint selection |
+| Loss trend | PASS | Validation mel loss fell from 56.198 at 1k to 33.549 at 25k | TensorBoard validation events | Review speech quality |
+| Memory reserve | PASS | Final peak cache was 22.178 GiB per process after the 3.8M restart | Training log | Keep 3.8M unless the host changes |
+| Power monitor | PASS | 140 samples; maximum power 264.08 W and 261.39 W | `reports/power_summary_trimmed.json` | Recheck cooling before another long run |
+| Final checkpoint | PASS | SHA-256 `58f46736...f9d75` | `exp_full_trimmed/milestones/25k.pth` | Preserve off Git |
+| Fixed-set inference | PASS | 180 of 180 WAV files; 24 kHz mono; no clipping warning | `reports/full_trimmed_inference_25k.json` | Complete listening review |
+| Local inference | PASS | 3.189 s WAV; RTF 0.10438; metadata written | `eval/generated/example_trimmed_25k.wav` | Use this entry point for local tests |
+
+All available gates for the silence-trimmed 25k run are `PASS`.
