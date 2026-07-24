@@ -156,6 +156,14 @@ def gpu_status() -> list[dict[str, object]]:
     return result
 
 
+def training_state(total_iterations: object, target_iterations: int) -> str:
+    if not isinstance(total_iterations, int):
+        return "INITIALIZING"
+    if total_iterations < target_iterations:
+        return "RUNNING"
+    return "COMPLETE"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--log", type=Path, required=True)
@@ -192,7 +200,7 @@ def main() -> int:
         eta_source = "observed_progress"
         eta = now + timedelta(seconds=seconds)
     status.update({
-        "status": "RUNNING" if isinstance(total, int) and total < args.target_iterations else "COMPLETE",
+        "status": training_state(total, args.target_iterations),
         "target_iterations": args.target_iterations,
         "timestamp_kyiv": now.isoformat(),
         "eta_kyiv": eta.isoformat() if eta is not None else None,

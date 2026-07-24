@@ -1,4 +1,4 @@
-from training.scripts.training_status import parse_log
+from training.scripts.training_status import parse_log, training_state
 
 
 def test_parse_training_status():
@@ -62,3 +62,9 @@ def test_parse_latest_train_metrics():
         "discriminator_loss": 1.25,
         "train_time": 1.5,
     }
+
+
+def test_training_state_before_first_progress_record():
+    assert training_state(None, 1000) == "INITIALIZING"
+    assert training_state(20, 1000) == "RUNNING"
+    assert training_state(1000, 1000) == "COMPLETE"
