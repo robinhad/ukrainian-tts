@@ -36,8 +36,8 @@ def main() -> int:
     actual = set(frame["utterance_id"])
     missing = sorted(expected - actual)
     extra = sorted(actual - expected)
-    failures = frame[frame["enhancement_status"] != "ok"]
-    if missing or extra or len(failures):
+    failures = frame[frame["enhancement_status"] != "ok"].copy()
+    if missing or extra:
         report = {
             "expected_records": len(source),
             "actual_records": len(frame),
@@ -53,6 +53,7 @@ def main() -> int:
         args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         raise SystemExit("The enhanced record set is incomplete.")
 
+    frame = frame[frame["enhancement_status"] == "ok"]
     frame = frame.sort_values("utterance_id").reset_index(drop=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(args.output_dir / "all.parquet", index=False)
@@ -71,6 +72,10 @@ def main() -> int:
         "actual_records": len(frame),
         "enhancement_config_hashes": sorted(frame["enhancement_config_hash"].unique()),
         "expected_records": len(source),
+        "rejected_records": len(failures),
+        "rejected_examples": failures[
+            ["utterance_id", "enhancement_error"]
+        ].head(100).to_dict(orient="records"),
         "loudness_output_i": {
             "maximum": float(np.max(output_i)),
             "median": float(np.median(output_i)),
@@ -93,4 +98,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

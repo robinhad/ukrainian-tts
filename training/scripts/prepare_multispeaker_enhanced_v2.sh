@@ -24,16 +24,32 @@ python "${ROOT}/scripts/check_resources.py" \
     --workspace "$ROOT" --output "${ROOT}/reports/resource_usage.jsonl"
 
 mkdir -p "${DATA_ROOT}/records" "${DATA_ROOT}/logs" "${DATA_ROOT}/processed_24k"
+run_shard() {
+    local shard=$1
+    local gpu=$2
+    while true; do
+        set +e
+        CUDA_VISIBLE_DEVICES="$gpu" OMP_NUM_THREADS=1 \
+            python "${ROOT}/scripts/preprocess_enhanced_audio.py" \
+            --manifest "$SOURCE_MANIFEST" \
+            --output-root "${DATA_ROOT}/processed_24k" \
+            --output-records "${DATA_ROOT}/records/records-${shard}.jsonl" \
+            --model-cache "${ROOT}/vendor/deepfilternet-cache" \
+            --shard-index "$shard" --num-shards "$NUM_SHARDS" --resume \
+            --allow-failures --max-new-records 300
+        status=$?
+        set -e
+        if (( status == 75 )); then
+            continue
+        fi
+        return "$status"
+    done
+}
+
 pids=()
 for ((shard = 0; shard < NUM_SHARDS; shard++)); do
     gpu=${GPUS[$((shard % ${#GPUS[@]}))]}
-    CUDA_VISIBLE_DEVICES="$gpu" OMP_NUM_THREADS=1 \
-        python "${ROOT}/scripts/preprocess_enhanced_audio.py" \
-        --manifest "$SOURCE_MANIFEST" \
-        --output-root "${DATA_ROOT}/processed_24k" \
-        --output-records "${DATA_ROOT}/records/records-${shard}.jsonl" \
-        --model-cache "${ROOT}/vendor/deepfilternet-cache" \
-        --shard-index "$shard" --num-shards "$NUM_SHARDS" --resume \
+    run_shard "$shard" "$gpu" \
         > "${DATA_ROOT}/logs/preprocess-${shard}.log" 2>&1 &
     pids+=("$!")
 done

@@ -36,10 +36,22 @@ def main() -> int:
     parser.add_argument("--shard-index", type=int, default=0)
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--max-new-records",
+        type=int,
+        help="Exit with status 75 after this many new records so native state can be recycled.",
+    )
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--allow-failures",
+        action="store_true",
+        help="Record rejected files and return success after the shard completes.",
+    )
     args = parser.parse_args()
     if args.num_shards < 1 or not 0 <= args.shard_index < args.num_shards:
         parser.error("the shard index must be inside the shard count")
+    if args.max_new_records is not None and args.max_new_records < 1:
+        parser.error("--max-new-records must be positive")
 
     frame = pd.read_parquet(args.manifest).sort_values("utterance_id")
     rows = frame.to_dict(orient="records")[args.shard_index :: args.num_shards]
@@ -52,15 +64,28 @@ def main() -> int:
     completed = 0
     failed = 0
     started = time.monotonic()
-    mode = "a" if args.resume and args.output_records.exists() else "w"
+    mode = "w"
     existing = set()
-    if mode == "a":
+    prior_terminal: list[dict] = []
+    if args.resume and args.output_records.exists():
         for line in args.output_records.read_text(encoding="utf-8").splitlines():
             prior = json.loads(line)
-            if prior.get("enhancement_status") == "ok":
+            if prior.get("enhancement_status") == "ok" or args.allow_failures:
                 existing.add(prior["utterance_id"])
+                prior_terminal.append(prior)
+    pending = [row for row in rows if str(row["utterance_id"]) not in existing]
+    has_more = (
+        args.max_new_records is not None
+        and len(pending) > args.max_new_records
+    )
+    if args.max_new_records is not None:
+        pending = pending[: args.max_new_records]
     with args.output_records.open(mode, encoding="utf-8") as stream:
-        for row in rows:
+        for prior in prior_terminal:
+            stream.write(
+                json.dumps(prior, ensure_ascii=False, sort_keys=True) + "\n"
+            )
+        for row in pending:
             utterance_id = str(row["utterance_id"])
             if utterance_id in existing:
                 continue
@@ -104,7 +129,9 @@ def main() -> int:
                 ),
                 flush=True,
             )
-    return 1 if failed else 0
+    if failed and not args.allow_failures:
+        return 1
+    return 75 if has_more else 0
 
 
 if __name__ == "__main__":
