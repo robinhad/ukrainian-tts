@@ -67,7 +67,7 @@ remain in paths that contain `rejected_corrupt_text`.
 The ingestion step now rejects embedded tab or newline metadata and text that
 has more than 500 characters. Dataset validation also rejects text or phoneme
 sequences above 500 items. The corrected source has six fewer Common Voice
-rows. The test suite has 49 passing tests.
+rows. The training test suite has 50 passing tests.
 
 The corrected full list has 87 lines, no joined punctuation token, and 0.0
 percent OOV. It contains 84 corpus tokens and three ESPnet special tokens. The
@@ -99,9 +99,15 @@ Discrete batch composition causes a memory jump above 4,500,000. The
 200-iteration test at 4,500,000 did not contain a corrupted row. Therefore, it
 did not expose the source defect.
 
-The next gate uses the corrected data at 4,500,000 batch bins for one complete
-1,000-iteration epoch. The 25k run can resume only after this gate makes a
-checkpoint and finite validation metrics.
+The corrected 1,000-iteration gate completed on both GPUs. The command returned
+exit status 0. It made 45 finite validation batches and a checkpoint. The
+validation generator loss was 77.467. The validation mel loss was 59.788. The
+checkpoint SHA-256 is
+`0ae3911e797e035513341b7b4a2b03c7305b3566aa17b430e398ebc1580cd4c8`.
+
+The gate reported 22.684 GiB peak cached VRAM. This value leaves less than 10
+percent free VRAM. The 4,500,000 setting fails the memory-reserve gate. The
+25,000-iteration continuation uses the verified 3,800,000 setting.
 
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.
