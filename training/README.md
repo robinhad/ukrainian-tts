@@ -177,3 +177,58 @@ training/.venv/bin/tensorboard \
 The completed trimmed run has 29 train scalar tags and 16 validation scalar
 tags through step 25,000. The validation mel loss fell from 56.198 at 1k to
 33.549 at 25k.
+
+## Train with Common Voice and Lada
+
+This iteration uses Common Voice and Lada audio. It uses one 192-value ECAPA
+embedding for each utterance. It uses both RTX 3090 GPUs for training.
+
+The public Common Voice source does not contain stable client IDs. Therefore,
+the data pipeline does not claim a common speaker identity for two Common Voice
+files. The pipeline uses `lada` as the speaker ID for Lada data.
+
+Run these commands from the repository root:
+
+```bash
+training/scripts/run_multispeaker_smoke_test.sh
+training/scripts/prepare_multispeaker_full.sh
+training/scripts/calibrate_multispeaker_batch.sh 4500000 200
+training/scripts/run_multispeaker_training.sh 25000
+training/scripts/finalize_multispeaker_training.sh 25epoch.pth 25k
+```
+
+The preparation command makes 24 kHz mono PCM WAV model copies. It removes only
+leading and trailing silence. It uses a 40 dB relative frame-RMS threshold and
+100 ms boundary padding. It does not use MFA, VAD, denoise, compression,
+de-essing, loudness normalization, or mastering.
+
+The preparation command uses the pinned Common Voice and Lada revisions. Set
+`DMYTRO_MANIFEST` only when a valid Dmytro manifest and its audio files are
+available. If this variable is not set, Dmytro is not in the train set.
+
+The selected long-run value is `batch_bins=4500000`. Larger tested values did
+not keep the required VRAM reserve. The training command uses FP32 and writes
+TensorBoard metrics through PyTorch.
+
+Use this command to run the external five-minute monitor:
+
+```bash
+training/scripts/monitor_multispeaker_training.sh \
+  TRAIN_PID 25000 300
+```
+
+The monitor writes current progress, power, memory, temperature, and the Kyiv
+ETA to `training/reports/training_status_multispeaker.jsonl`.
+
+The finalization command starts only after the 25k checkpoint exists. It
+validates all 1,677 fixed evaluation files. It also makes a listening set with
+10 Common Voice references and 10 Lada references. It makes one Lada example
+and one zero-shot Dmytro example. The zero-shot example does not make Dmytro a
+trained speaker.
+
+Use this command to view the current model metrics:
+
+```bash
+training/.venv/bin/tensorboard \
+  --logdir training/exp_multispeaker_full/tts_jets_uk_24k_multispeaker/tensorboard
+```

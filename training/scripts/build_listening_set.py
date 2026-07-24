@@ -23,6 +23,34 @@ def evenly_spaced_rows(frame: pd.DataFrame, count: int) -> pd.DataFrame:
     return ordered.iloc[indices]
 
 
+def balanced_rows(
+    frame: pd.DataFrame,
+    count: int,
+    column: str,
+) -> pd.DataFrame:
+    """Select the same number of duration-spaced rows from each group."""
+    if column not in frame.columns:
+        raise ValueError(f"balance column is not in the manifest: {column}")
+    groups = [
+        group
+        for _, group in frame.groupby(column, dropna=False, sort=True)
+    ]
+    if count < len(groups):
+        raise ValueError(
+            f"count must be at least the number of groups ({len(groups)})"
+        )
+    base, remainder = divmod(count, len(groups))
+    selected = []
+    for index, group in enumerate(groups):
+        group_count = base + (1 if index < remainder else 0)
+        if group_count > len(group):
+            raise ValueError(
+                f"group {index} has {len(group)} rows, but needs {group_count}"
+            )
+        selected.append(evenly_spaced_rows(group, group_count))
+    return pd.concat(selected, ignore_index=True)
+
+
 def make_link(source: Path, destination: Path) -> None:
     if not source.is_file():
         raise FileNotFoundError(source)
@@ -41,22 +69,41 @@ def parse_candidate(value: str) -> tuple[str, Path]:
     return label, Path(path)
 
 
+def reference_path(item: object, raw_dir: Path | None) -> Path:
+    """Get the reference path from the manifest or the legacy raw directory."""
+    manifest_path = getattr(item, "audio_path", None)
+    if isinstance(manifest_path, str) and manifest_path.strip():
+        return Path(manifest_path)
+    if raw_dir is None:
+        raise ValueError(
+            "the manifest has no audio_path values; provide --raw-dir"
+        )
+    return raw_dir / f"{item.utterance_id}.ogg"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
-    parser.add_argument("--raw-dir", type=Path, required=True)
+    parser.add_argument("--raw-dir", type=Path)
     parser.add_argument("--candidate", action="append", type=parse_candidate, required=True)
     parser.add_argument("--count", type=int, default=20)
+    parser.add_argument("--balance-column")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
     frame = pd.read_parquet(args.manifest)
-    selected = evenly_spaced_rows(frame, args.count)
+    selected = (
+        balanced_rows(frame, args.count, args.balance_column)
+        if args.balance_column
+        else evenly_spaced_rows(frame, args.count)
+    )
     rows = []
     for item in selected.itertuples(index=False):
         utterance_id = str(item.utterance_id)
-        reference = args.raw_dir / f"{utterance_id}.ogg"
-        reference_link = args.output / "reference_raw" / reference.name
+        reference = reference_path(item, args.raw_dir)
+        reference_link = (
+            args.output / "reference_raw" / f"{utterance_id}{reference.suffix}"
+        )
         make_link(reference, reference_link)
         row = {
             "utterance_id": utterance_id,
