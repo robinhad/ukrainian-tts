@@ -12,11 +12,40 @@ import pandas as pd
 import soundfile as sf
 
 
+def text_sequence_errors(
+    utterance_id: str,
+    text: str,
+    phonemes: object,
+    *,
+    max_text_characters: int,
+    max_phoneme_tokens: int,
+) -> list[str]:
+    """Return hard errors for empty or implausibly long text input."""
+    errors = []
+    if not text.strip() or len(phonemes) == 0:
+        errors.append(f"{utterance_id}: empty text or phonemes")
+    if len(text) > max_text_characters:
+        errors.append(
+            f"{utterance_id}: text has {len(text)} characters; "
+            f"maximum={max_text_characters}"
+        )
+    if len(phonemes) > max_phoneme_tokens:
+        errors.append(
+            f"{utterance_id}: phonemes have {len(phonemes)} tokens; "
+            f"maximum={max_phoneme_tokens}"
+        )
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--max-text-characters", type=int, default=500)
+    parser.add_argument("--max-phoneme-tokens", type=int, default=500)
     args = parser.parse_args()
+    if args.max_text_characters < 1 or args.max_phoneme_tokens < 1:
+        parser.error("text and phoneme limits must be positive")
     frame = pd.read_parquet(args.manifest)
     errors = []
     required = {
@@ -50,8 +79,13 @@ def main() -> int:
         if audio.size and np.max(np.abs(audio)) >= 0.999:
             clipping += 1
         durations.append(len(audio) / sample_rate)
-        if not str(row.text_sanitized).strip() or len(row.espeak_phonemes) == 0:
-            errors.append(f"{row.utterance_id}: empty text or phonemes")
+        errors.extend(text_sequence_errors(
+            str(row.utterance_id),
+            str(row.text_sanitized),
+            row.espeak_phonemes,
+            max_text_characters=args.max_text_characters,
+            max_phoneme_tokens=args.max_phoneme_tokens,
+        ))
     report = {
         "status": "PASS" if not errors else "FAIL", "utterances": len(frame),
         "splits": frame["split"].value_counts().sort_index().to_dict(),

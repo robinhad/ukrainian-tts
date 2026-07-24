@@ -25,6 +25,7 @@ EMBEDDING_MODEL = (
     "@0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
 )
 SEED = "777"
+MAX_TEXT_CHARACTERS = 500
 
 
 def stable_score(value: str) -> str:
@@ -44,6 +45,20 @@ def split_for_text(text_hash: str) -> str:
 def split_name(mode: str, split: str) -> str:
     prefix = "multispeaker_smoke_" if mode == "smoke" else "multispeaker_"
     return prefix + split
+
+
+def transcription_issue(text: str, max_characters: int) -> str | None:
+    """Return the reason that a source transcription is not one sentence."""
+    if any(separator in text for separator in ("\n", "\r", "\t")):
+        return "embedded_metadata_separator"
+    sanitized = sanitize_text(text)
+    if not sanitized:
+        return "empty_sanitized_text"
+    if len(sanitized) > max_characters:
+        return "text_too_long"
+    if not any(character.isalpha() for character in sanitized):
+        return "no_spoken_text"
+    return None
 
 
 def cv_files(limit: int | None = None) -> list[str]:
@@ -84,6 +99,7 @@ def materialize_cv(
     files: list[str],
     min_duration: float,
     max_duration: float,
+    max_text_characters: int,
 ) -> tuple[list[dict], Counter]:
     raw_dir = output_root / "raw" / "common_voice"
     raw_dir.mkdir(parents=True, exist_ok=True)
@@ -102,13 +118,11 @@ def materialize_cv(
         if not min_duration <= duration <= max_duration:
             excluded["duration"] += 1
             continue
+        issue = transcription_issue(text, max_text_characters)
+        if issue is not None:
+            excluded[issue] += 1
+            continue
         sanitized = sanitize_text(text)
-        if not sanitized:
-            excluded["empty_sanitized_text"] += 1
-            continue
-        if not any(character.isalpha() for character in sanitized):
-            excluded["no_spoken_text"] += 1
-            continue
         audio_hash = hashlib.sha256(content).hexdigest()
         if audio_hash in seen_audio:
             excluded["duplicate_audio"] += 1
@@ -118,7 +132,8 @@ def materialize_cv(
         identifier = f"cv22_{Path(source_path).stem}_{audio_hash[:10]}"
         extension = Path(source_path).suffix or ".opus"
         target = raw_dir / f"{identifier}{extension}"
-        target.write_bytes(content)
+        if not target.is_file() or target.stat().st_size != len(content):
+            target.write_bytes(content)
         rows.append(
             {
                 "utterance_id": identifier,
@@ -261,7 +276,14 @@ def main() -> int:
     parser.add_argument("--cv-shards", type=int)
     parser.add_argument("--min-duration", type=float, default=2.0)
     parser.add_argument("--max-duration", type=float, default=12.0)
+    parser.add_argument(
+        "--max-text-characters",
+        type=int,
+        default=MAX_TEXT_CHARACTERS,
+    )
     args = parser.parse_args()
+    if args.max_text_characters < 1:
+        parser.error("--max-text-characters must be positive")
 
     args.output_root.mkdir(parents=True, exist_ok=True)
     shard_limit = args.cv_shards
@@ -273,6 +295,7 @@ def main() -> int:
         files=files,
         min_duration=args.min_duration,
         max_duration=args.max_duration,
+        max_text_characters=args.max_text_characters,
     )
     lada_rows = load_lada(args.lada_manifest)
     dmytro_rows = load_dmytro(args.dmytro_manifest)

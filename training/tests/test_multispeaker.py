@@ -13,6 +13,7 @@ from training.scripts.create_multispeaker_dataset import (
     split_for_text,
     split_name,
     stable_score,
+    transcription_issue,
 )
 from training.frontend.sanitize import sanitize_text
 
@@ -24,6 +25,15 @@ def test_common_voice_text_split_is_deterministic():
     assert split_name("smoke", "train") == "multispeaker_smoke_train"
     assert split_name("full", "eval") == "multispeaker_eval"
     assert not any(character.isalpha() for character in sanitize_text("-"))
+
+
+def test_common_voice_rejects_embedded_metadata_and_long_text():
+    assert transcription_issue("Добрий текст.", 500) is None
+    assert (
+        transcription_issue("Добрий текст.\tmetadata", 500)
+        == "embedded_metadata_separator"
+    )
+    assert transcription_issue("а" * 501, 500) == "text_too_long"
 
 
 def test_lada_manifest_becomes_embedding_conditioned(tmp_path: Path):
