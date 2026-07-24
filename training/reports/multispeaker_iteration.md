@@ -117,6 +117,11 @@ segments. It completed epoch 3 with 12.562 GiB peak cached VRAM. The validation
 generator loss was 65.770, and the validation mel loss was 50.837. The
 25,000-iteration continuation uses this setting.
 
+The 5,000-iteration milestone is byte-stable and has SHA-256
+`186ed2e62d049903279dcb1d6448a54418db752606bc8dbec007984fb7372481`.
+Its validation generator loss is 65.756. Its validation mel loss is 48.828.
+The run has no NaN, OOM, or critical runtime error through this milestone.
+
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.
 

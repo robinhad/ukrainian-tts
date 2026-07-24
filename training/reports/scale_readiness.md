@@ -51,7 +51,7 @@ All available gates for the silence-trimmed 25k run are `PASS`.
 | 4.5M memory reserve | FAIL | Peak cached VRAM was 22.684 GiB, which leaves less than 10 percent free | `reports/training_status_multispeaker.jsonl` | Use a smaller setting |
 | 3.8M, 3.4M, 3.0M, and 2.5M reserve | FAIL | Late or later-epoch dynamic batches left less than 10 percent CUDA memory free | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train_rejected_reserve_*.log` | Use 2.0M and expandable segments |
 | 2.0M memory reserve | PASS | Epoch 3 completed; peak cached VRAM was 12.562 GiB; validation generator loss was 65.770 | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/3epoch.pth` | Keep 2.0M and expandable segments |
-| Long training | RUNNING | Epoch 3 completed without NaN or OOM; epoch 4 started | `scripts/run_multispeaker_training.sh` | Continue to 25k |
+| Long training | RUNNING | The verified 5k milestone has validation generator loss 65.756 and mel loss 48.828; no NaN or OOM | `exp_multispeaker_full/milestones/5k.pth` | Continue to 25k |
 | Full fixed-set inference | NOT RUN | A long-run checkpoint does not exist yet | `scripts/run_multispeaker_milestone_inference.sh` | Run after a milestone checkpoint |
 
 All corrected data, one-epoch training, and 2.0M memory gates are `PASS`.
