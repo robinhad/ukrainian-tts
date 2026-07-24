@@ -1,0 +1,145 @@
+{
+  "eligible_common_voice_vectors": 63062,
+  "errors": [],
+  "generated": [
+    {
+      "channels": 1,
+      "duration": 9.28,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_01_lada.wav.json",
+      "peak_absolute": 0.293548583984375,
+      "real_time_factor": 0.04065886971837809,
+      "sample_rate": 24000,
+      "voice": "voice_01_lada",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_01_lada.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 9.845333333333333,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_02_dmytro_zero_shot.wav.json",
+      "peak_absolute": 0.55914306640625,
+      "real_time_factor": 0.037402647883804846,
+      "sample_rate": 24000,
+      "voice": "voice_02_dmytro_zero_shot",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_02_dmytro_zero_shot.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 10.08,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_03_common_voice.wav.json",
+      "peak_absolute": 0.490325927734375,
+      "real_time_factor": 0.03558628599248117,
+      "sample_rate": 24000,
+      "voice": "voice_03_common_voice",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_03_common_voice.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 9.866666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_04_common_voice.wav.json",
+      "peak_absolute": 0.417205810546875,
+      "real_time_factor": 0.037292098985179455,
+      "sample_rate": 24000,
+      "voice": "voice_04_common_voice",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_04_common_voice.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 9.994666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_05_common_voice.wav.json",
+      "peak_absolute": 0.352752685546875,
+      "real_time_factor": 0.03879562760104416,
+      "sample_rate": 24000,
+      "voice": "voice_05_common_voice",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_enhanced_v2_25k/voice_05_common_voice.wav"
+    }
+  ],
+  "listening_sentence": "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району.",
+  "maximum_duration": 10.0,
+  "minimum_duration": 2.0,
+  "perceptual_issue": {
+    "issue": "metallic_timbre",
+    "next_action": "Use this five-voice set to separate speaker-conditioning effects from the shared model artifact.",
+    "source": "user_listening_report",
+    "status": "FAIL"
+  },
+  "selection": "deterministic_representative_minibatch_kmeans_medoids",
+  "status": "PASS",
+  "voices": [
+    {
+      "cosine_similarity": {
+        "voice_01_lada": 1.0,
+        "voice_02_dmytro_zero_shot": 0.107803,
+        "voice_03_common_voice": 0.175501,
+        "voice_04_common_voice": 0.144754,
+        "voice_05_common_voice": 0.354107
+      },
+      "reference_audio": null,
+      "source": "legacy_named_embedding",
+      "source_utterance_id": null,
+      "training_status": "trained_lada",
+      "voice": "voice_01_lada"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01_lada": 0.107803,
+        "voice_02_dmytro_zero_shot": 1.0,
+        "voice_03_common_voice": 0.42609,
+        "voice_04_common_voice": 0.12145,
+        "voice_05_common_voice": 0.123778
+      },
+      "reference_audio": null,
+      "source": "legacy_named_embedding",
+      "source_utterance_id": null,
+      "training_status": "zero_shot_not_in_training_data",
+      "voice": "voice_02_dmytro_zero_shot"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01_lada": 0.175501,
+        "voice_02_dmytro_zero_shot": 0.42609,
+        "voice_03_common_voice": 1.0,
+        "voice_04_common_voice": 0.242719,
+        "voice_05_common_voice": 0.173196
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_22653222_50ea94592f.wav",
+      "reference_duration": 9.192,
+      "reference_text": "У Гарварді, однак, пристосування до кінця позолоченого віку, віку шампанського, виявилось особливо болісним.",
+      "source": "hf://datasets/speech-uk/cv22-opus@46e5072c44cdd6d7d371adeba29f1ee7678aaf91",
+      "source_utterance_id": "cv22_common_voice_uk_22653222_50ea94592f",
+      "training_status": "utterance_embedding_in_training_data",
+      "voice": "voice_03_common_voice"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01_lada": 0.144754,
+        "voice_02_dmytro_zero_shot": 0.12145,
+        "voice_03_common_voice": 0.242719,
+        "voice_04_common_voice": 1.0,
+        "voice_05_common_voice": 0.133
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_33438412_5043dec4db.wav",
+      "reference_duration": 4.957333333333334,
+      "reference_text": "Те повітря неначе ходить хвилями, переливається своєю ясною блакиттю.",
+      "source": "hf://datasets/speech-uk/cv22-opus@46e5072c44cdd6d7d371adeba29f1ee7678aaf91",
+      "source_utterance_id": "cv22_common_voice_uk_33438412_5043dec4db",
+      "training_status": "utterance_embedding_in_training_data",
+      "voice": "voice_04_common_voice"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01_lada": 0.354107,
+        "voice_02_dmytro_zero_shot": 0.123778,
+        "voice_03_common_voice": 0.173196,
+        "voice_04_common_voice": 0.133,
+        "voice_05_common_voice": 1.0
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38194468_412ecbf7ef.wav",
+      "reference_duration": 5.48,
+      "reference_text": "Ще нічому не ймучи віри, голосно постукав, але до нього ніхто не обізвався.",
+      "source": "hf://datasets/speech-uk/cv22-opus@46e5072c44cdd6d7d371adeba29f1ee7678aaf91",
+      "source_utterance_id": "cv22_common_voice_uk_38194468_412ecbf7ef",
+      "training_status": "utterance_embedding_in_training_data",
+      "voice": "voice_05_common_voice"
+    }
+  ]
+}

@@ -277,3 +277,32 @@ training/reports/five_voice_listening_eval.json
 If all five files have the same artifact, review the shared JETS generator and
 the mixed acoustic data. If the artifact changes by voice, review the speaker
 embedding and its source audio.
+
+## Train with enhanced audio v2
+
+This data version uses DeepFilterNet3. It then applies a 70 Hz high-pass
+filter, light de-essing, and gentle compression. It applies two-pass EBU R128
+normalization with a -23 LUFS target and a -1 dBTP true-peak limit. It writes
+new 24 kHz mono PCM WAV files. It does not change the source audio.
+
+Run these commands from the repository root:
+
+```bash
+training/scripts/prepare_multispeaker_enhanced_v2.sh
+training/scripts/run_multispeaker_enhanced_v2_training.sh 25000
+training/scripts/generate_five_voice_enhanced_v2_eval.sh
+```
+
+The completed run used both RTX 3090 GPUs and FP32. It made 25,000 iterations
+without NaN or OOM. The fixed evaluation made 1,659 valid WAV files. The
+five-voice script uses the required sentence about Kamianets-Podilskyi.
+
+Use this command to view the new metrics:
+
+```bash
+training/.venv/bin/tensorboard \
+  --logdir training/exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/tensorboard
+```
+
+TensorBoard reads PyTorch event files. The training process does not use the
+TensorFlow runtime.

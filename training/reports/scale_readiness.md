@@ -62,3 +62,23 @@ All available gates for the corrected Common Voice and Lada run are `PASS`.
 Larger batch settings failed the memory-reserve gate. The completed 25k run
 used 2.0M batch bins and expandable allocator segments. Dmytro remains an
 inference-only zero-shot target because no raw Dmytro corpus is available.
+
+## Enhanced audio v2 gate
+
+| Gate | Status | Evidence | Artifact | Next action |
+|---|---|---|---|---|
+| Resource check | PASS | Two RTX 3090 GPUs and more than 122 GiB available RAM | `reports/resource_usage.jsonl` | Keep both GPUs available |
+| DeepFilterNet3 | PASS | DeepFilterNet 0.5.6 processed the source audio with the pinned DeepFilterNet3 model | `reports/multispeaker_enhanced_v2_dataset.json` | Keep the model hashes fixed |
+| Conservative mastering | PASS | The process used a 70 Hz high-pass filter, light de-essing, and 1.5 ratio compression | `reports/multispeaker_enhanced_v2.md` | Do not use these operations on a different run without a new data version |
+| Two-pass EBU R128 | PASS | 82,662 files are within 1 LU of -23 LUFS; maximum true peak is -1 dBTP | `reports/multispeaker_enhanced_v2_validation.json` | Keep rejected files out of training |
+| Split validation | PASS | 79,188 train, 1,815 development, and 1,659 evaluation files; no leakage | `data/multispeaker_enhanced_v2/manifests/` | Preserve manifest hashes |
+| Token list and statistics | PASS | 87 tokens, 0.0 percent OOV, and finite speech, pitch, and energy statistics | `exp_multispeaker_enhanced_v2/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the model |
+| Smoke training | PASS | 100 dual-GPU iterations, checkpoint, and 1,659 valid WAV files | `reports/multispeaker_enhanced_v2_smoke_eval.json` | Full training was permitted |
+| Full training | PASS | 25,000 FP32 iterations in 27,295 seconds; no NaN, OOM, or critical error | `exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/train.log` | Use listening results for model selection |
+| Loss trend | PASS | Best validation generator loss is 59.654; best mel loss is 42.327 at epoch 24 | TensorBoard validation events | Compare audio, not loss alone |
+| Full inference | PASS | 1,659 of 1,659 WAV files passed; median RTF is 0.00778; no clipping warning | `reports/multispeaker_enhanced_v2_inference_25k.json` | Complete the listening check |
+| Five-voice set | PASS | Five of five WAV files passed automatic checks | `reports/five_voice_enhanced_v2_25k.json` | Listen for metallic timbre |
+| Release package | NOT RUN | The model and evaluation artifacts exist, but no enhanced-v2 release package was made | `exp_multispeaker_enhanced_v2/` | Package only after the listening check |
+
+All training and automatic evaluation gates are `PASS`. Release promotion is
+not permitted until a human listening check is complete.

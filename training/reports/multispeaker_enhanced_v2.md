@@ -78,11 +78,50 @@ root and a separate smoke model directory.
 The smoke training used both GPUs. The maximum cached GPU memory was 8.4 GB for
 each process. The average validation generator loss was 103.429.
 
+## Full training
+
+The resource check found two RTX 3090 GPUs and more than 122 GiB of available
+RAM. The full run used both GPUs, FP32, 2,000,000 batch bins, and 8 data
+workers. It completed 25,000 iterations in 27,295 seconds. The command returned
+exit status 0. The log has no NaN, OOM, or critical runtime error.
+
+The final validation generator loss is 60.965. The final validation mel loss is
+43.070. Epoch 24 has the best values. Its generator loss is 59.654, and its mel
+loss is 42.327. The generator loss fell by 31.2 percent from epoch 1 to the best
+epoch.
+
+TensorBoard has 29 train scalar tags and 16 validation scalar tags. The report
+is `tensorboard_metrics_multispeaker_enhanced_v2.json`.
+
+The 25-epoch checkpoint SHA-256 is
+`adaafa329850b34ee4c727de16a602b4c60d349e7591eddf7058cb06edd5a4dd`.
+The averaged five-best checkpoint SHA-256 is
+`b09151b998dfefa2547b6cc7920092448417b214f94b3203483ce74642e3c134`.
+
+The GPU checks included power use. The highest observed samples were 240.76 W
+for GPU0 and 237.30 W for GPU1. GPU0 reached 85 C. GPU1 reached 77 C. Short
+software thermal slowdown occurred. Training continued without an error.
+
+## Full evaluation
+
+Inference used the averaged five-best checkpoint. It made 1,659 of 1,659
+evaluation WAV files in 76 seconds. All files are mono and 24 kHz. The
+validator found no empty file, non-finite sample, or clipping warning. Duration
+is 0.811 to 7.723 seconds. Median RTF is 0.00778.
+
+The five-voice listening set also passed the automatic WAV checks. It contains
+Lada, zero-shot Dmytro, and three Common Voice embeddings. Each voice uses this
+sentence:
+
+> Кам'янець-Подільський - місто в Хмельницькій області України, центр
+> Кам'янець-Подільської міської об'єднаної територіальної громади і
+> Кам'янець-Подільського району.
+
+Automatic checks do not measure metallic timbre. A human listening check must
+confirm if the new audio preparation reduced this issue.
+
 ## Next action
 
-Run:
-
-```bash
-training/scripts/run_multispeaker_enhanced_v2_training.sh 25000
-```
-
+Listen to the five files in
+`eval/generated/five_voice_enhanced_v2_25k/`. Record if the metallic artifact
+is present in each voice.
