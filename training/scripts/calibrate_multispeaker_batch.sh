@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-BATCH_BINS=${1:-3800000}
+BATCH_BINS=${1:-2500000}
 ITERATIONS=${2:-200}
 if (( BATCH_BINS < 1000000 || ITERATIONS < 50 || ITERATIONS > 500 )); then
     echo "Use batch_bins >= 1000000 and 50--500 iterations." >&2

@@ -48,10 +48,13 @@ All available gates for the silence-trimmed 25k run are `PASS`.
 | Pitch and energy statistics | PASS | 80,041 train and 1,831 development shapes; six finite NPZ files | `exp_multispeaker_full/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the model |
 | Rejected first long run | FAIL | Batch 941--950 caused text-attention OOM; six source rows had 10,763--244,054 phonemes; no checkpoint existed | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker_rejected_corrupt_text_4500000/` | Use only the corrected data |
 | Corrected dual-GPU 1k gate | PASS | Exit 0; 1,000 train iterations and 45 validation batches; finite validation generator loss 77.467 and mel loss 59.788 | `exp_multispeaker_full/milestones/1k.pth` | Resume from the verified checkpoint |
-| 4.5M memory reserve | FAIL | Peak cached VRAM was 22.684 GiB, which leaves less than 10 percent free | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train.log` | Use 3.8M for the long run |
-| Long training | NOT RUN | The corrected 1k gate passed; the default batch setting is now 3.8M | `scripts/run_multispeaker_training.sh` | Resume to 25k |
+| 4.5M memory reserve | FAIL | Peak cached VRAM was 22.684 GiB, which leaves less than 10 percent free | `reports/training_status_multispeaker.jsonl` | Use a smaller setting |
+| 3.8M, 3.4M, and 3.0M reserve | FAIL | Late dynamic batches left less than 10 percent CUDA memory free | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train_rejected_reserve_*.log` | Use 2.5M |
+| 2.5M memory reserve | PASS | Epoch 2 completed; peak cached VRAM was 19.416 GiB; validation generator loss was 70.997 | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/2epoch.pth` | Keep 2.5M |
+| Long training | RUNNING | Epoch 2 completed without NaN or OOM; epoch 3 started | `scripts/run_multispeaker_training.sh` | Continue to 25k |
 | Full fixed-set inference | NOT RUN | A long-run checkpoint does not exist yet | `scripts/run_multispeaker_milestone_inference.sh` | Run after a milestone checkpoint |
 
-All corrected data and one-epoch training gates are `PASS`. The 4.5M
-memory-reserve gate is `FAIL`, so the 25k continuation uses 3.8M. Dmytro remains
-an inference-only zero-shot target because no raw Dmytro corpus is available.
+All corrected data, one-epoch training, and 2.5M memory gates are `PASS`.
+Larger batch settings failed the memory-reserve gate. The 25k continuation uses
+2.5M. Dmytro remains an inference-only zero-shot target because no raw Dmytro
+corpus is available.
