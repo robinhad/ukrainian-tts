@@ -15,6 +15,7 @@ def test_parse_training_status():
         "estimate_timestamp": None,
         "observed_seconds_per_iteration": None,
         "observed_iterations_per_minute": None,
+        "latest_train_metrics": {"generator_loss": 61.084},
         "error_matches": 0,
     }
 
@@ -43,3 +44,21 @@ def test_parse_estimate_timestamp():
     )
     status = parse_log(text, iterations_per_epoch=1000)
     assert status["estimate_timestamp"] == "2026-07-23 11:54:00,420"
+
+
+def test_parse_latest_train_metrics():
+    text = (
+        "1epoch:train:11-20batch: generator_loss=9.125, "
+        "generator_align_loss=5.5, generator_g_mel_loss=7.250e+01, "
+        "discriminator_loss=1.25, train_time=1.5"
+    )
+
+    status = parse_log(text, iterations_per_epoch=1000)
+
+    assert status["latest_train_metrics"] == {
+        "generator_loss": 9.125,
+        "generator_g_mel_loss": 72.5,
+        "generator_align_loss": 5.5,
+        "discriminator_loss": 1.25,
+        "train_time": 1.5,
+    }

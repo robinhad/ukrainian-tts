@@ -27,6 +27,14 @@ ETA_RE = re.compile(
 )
 ERROR_RE = re.compile(r"\b(?:nan|runtimeerror|traceback)\b|out of memory", re.IGNORECASE)
 TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+")
+TRAIN_METRIC_NAMES = (
+    "generator_loss",
+    "generator_g_mel_loss",
+    "generator_align_loss",
+    "discriminator_loss",
+    "train_time",
+)
+NUMBER_PATTERN = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?"
 
 
 def parse_log(text: str, iterations_per_epoch: int) -> dict:
@@ -40,6 +48,7 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
         "estimate_timestamp": None,
         "observed_seconds_per_iteration": None,
         "observed_iterations_per_minute": None,
+        "latest_train_metrics": {},
         "error_matches": len(ERROR_RE.findall(text)),
     }
     if progress:
@@ -51,6 +60,19 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
             "batch": batch,
             "total_iterations": (epoch - 1) * iterations_per_epoch + batch,
         })
+        line_end = text.find("\n", match.end())
+        line = text[match.start():] if line_end == -1 else text[match.start():line_end]
+        result["latest_train_metrics"] = {
+            name: float(metric.group(1))
+            for name in TRAIN_METRIC_NAMES
+            if (
+                metric := re.search(
+                    rf"\b{re.escape(name)}=({NUMBER_PATTERN})\b",
+                    line,
+                    re.IGNORECASE,
+                )
+            )
+        }
     timed_progress = list(TIMED_PROGRESS_RE.finditer(text))
     if len(timed_progress) >= 2:
         samples = timed_progress[-20:]
