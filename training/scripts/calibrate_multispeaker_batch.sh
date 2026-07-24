@@ -2,12 +2,13 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-BATCH_BINS=${1:-2500000}
+BATCH_BINS=${1:-2000000}
 ITERATIONS=${2:-200}
 if (( BATCH_BINS < 1000000 || ITERATIONS < 50 || ITERATIONS > 500 )); then
     echo "Use batch_bins >= 1000000 and 50--500 iterations." >&2
     exit 2
 fi
+export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 
 source "${ROOT}/activate.sh"
 GPU_UUIDS=${GPU_UUIDS:-"GPU-be591530-39fd-0b1c-50af-8c75548cb6b8,GPU-de1be084-ce05-942c-cb74-78e80652f184"}

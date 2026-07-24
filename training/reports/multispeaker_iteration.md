@@ -108,11 +108,14 @@ checkpoint SHA-256 is
 The gate reported 22.684 GiB peak cached VRAM. This value leaves less than 10
 percent free VRAM. The 4,500,000 setting fails the memory-reserve gate.
 
-Full-epoch sampling also rejected 3,800,000, 3,400,000, and 3,000,000 batch
-bins. Their late dynamic batches left less than 10 percent CUDA memory free.
-The 2,500,000 setting completed epoch 2. Its peak cached VRAM was 19.416 GiB.
-The validation generator loss was 70.997, and the validation mel loss was
-56.326. The 25,000-iteration continuation uses 2,500,000 batch bins.
+Full-epoch sampling also rejected 3,800,000, 3,400,000, 3,000,000, and
+2,500,000 batch bins. Their late or later-epoch dynamic batches left less than
+10 percent CUDA memory free.
+
+The final setting uses 2,000,000 batch bins and expandable PyTorch allocator
+segments. It completed epoch 3 with 12.562 GiB peak cached VRAM. The validation
+generator loss was 65.770, and the validation mel loss was 50.837. The
+25,000-iteration continuation uses this setting.
 
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.
