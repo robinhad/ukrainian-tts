@@ -49,16 +49,41 @@ does not apply denoise, normalization, compression, de-essing, or mastering.
 
 ## Current modeling status
 
-ESPnet data preparation is complete. ECAPA extraction is in progress. Full
-tokenization and statistics must pass before batch calibration starts.
+ESPnet data preparation is complete. ECAPA extraction made 80,047 train, 1,831
+development, and 1,677 evaluation vectors.
+
+The first full token-list attempt exposed punctuation that was joined to
+phonemes. The list had 873 tokens. The pipeline rejected this output before
+calibration. Frontend version `uk_espeak_v2` separates each punctuation mark
+from phonemes. The 50-case and 500-case snapshots pass. The corrected full list
+has 103 tokens, no joined punctuation token, and 0.0 percent OOV.
+
+The statistics stage processed all 80,047 train and 1,831 development records.
+Speech, pitch, and energy statistics are finite.
 
 The full training plan is:
 
-1. Run 200 FP32 iterations with two GPUs and `batch_bins=3800000`.
+1. Run 200 FP32 iterations with two GPUs at each bounded batch setting.
 2. Check peak memory, GPU power, all losses, and the checkpoint.
-3. Keep at least 10 percent free VRAM.
+3. Keep 10 to 15 percent free VRAM.
 4. Start the 25,000-iteration run only after calibration passes.
 5. Generate the fixed evaluation set at the 1k, 5k, and 25k milestones.
+
+Calibration results at this time are:
+
+| Batch bins | Result | Peak cached VRAM | Validation generator loss |
+|---:|---|---:|---:|
+| 3,800,000 | PASS | 17.350 GiB | 99.021 |
+| 4,500,000 | PASS | 17.350 GiB | 104.686 |
+| 4,650,000 | FAIL reserve | 22.58 GiB observed | Not completed |
+| 4,750,000 | FAIL reserve | 21.87 GiB observed | Not completed |
+| 5,000,000 | FAIL reserve | 22.213 GiB | 97.804 |
+| 5,500,000 | FAIL reserve | More than 23 GiB observed | Not completed |
+
+The 4,650,000 and larger settings did not keep the required memory reserve.
+Discrete batch composition causes a memory jump above 4,500,000. The selected
+long-run value is 4,500,000. It is the largest setting that completed 200
+iterations and kept the memory gate.
 
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.

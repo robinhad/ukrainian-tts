@@ -29,3 +29,26 @@ def test_snapshot_matches(tmp_path):
         except (ImportError, RuntimeError) as error:
             pytest.skip(f"frontend dependencies are not bootstrapped: {error}")
         assert current == expected
+
+
+def test_full_snapshot_has_compact_punctuation_tokens():
+    snapshot = json.loads(
+        (ROOT / "tests/frontend/expected_phonemes_full.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    tokens = {
+        token
+        for case in snapshot["cases"].values()
+        for token in case["tokens"]
+    }
+    punctuation = set(",.;:!?—–-…«»“”\"()[]{}")
+    mixed = {
+        token
+        for token in tokens
+        if token not in {"(uk)", "(en)"}
+        and any(character in punctuation for character in token)
+        and any(character not in punctuation for character in token)
+    }
+    assert not mixed
+    assert len(tokens) < 150

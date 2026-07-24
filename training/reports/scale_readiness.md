@@ -34,3 +34,22 @@ permitted.
 | Local inference | PASS | 3.189 s WAV; RTF 0.10438; metadata written | `eval/generated/example_trimmed_25k.wav` | Use this entry point for local tests |
 
 All available gates for the silence-trimmed 25k run are `PASS`.
+
+## Common Voice and Lada full-run gate
+
+| Gate | Status | Evidence | Artifact | Next action |
+|---|---|---|---|---|
+| Full source manifest | PASS | 76,768 Common Voice and 6,787 Lada records; 33 cross-source duplicate texts removed | `data/multispeaker_full/source_records.jsonl` | Keep the source revisions fixed |
+| Silence trim | PASS | 83,555 model copies; 84.880 h after trim; raw files unchanged | `reports/multispeaker_full_dataset.json` | Keep the trim configuration fixed |
+| Split validation | PASS | 80,047 train, 1,831 development, and 1,677 evaluation records; no validation errors | `data/multispeaker_full/manifests/` | Preserve the manifest hashes |
+| Frontend regression | PASS | 34 tests; 50-case and 500-case snapshots; no joined punctuation token | `tests/frontend/` | Reject frontend drift |
+| Token list | PASS | 103 tokens and 0.0 percent OOV | `dump_multispeaker_full/token_list/phn_espeak_ng_ukrainian/tokens.txt` | Preserve with the model |
+| Speaker embeddings | PASS | 83,555 finite 192-D ECAPA vectors | `dump_multispeaker_full/xvector/` | Preserve the pinned ECAPA revision |
+| Pitch and energy statistics | PASS | 80,047 train and 1,831 development shapes; finite NPZ files | `exp_multispeaker_full/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the model |
+| Dual-GPU calibration | PASS | 4.5M completed 200 iterations; no NaN or OOM; larger settings failed the memory-reserve gate | `exp_multispeaker_full/calibration_4500000/train.log` | Start 25k with 4.5M |
+| Long training | NOT RUN | Calibration is complete | `scripts/run_multispeaker_training.sh` | Run the 25k command |
+| Full fixed-set inference | NOT RUN | A long-run checkpoint does not exist yet | `scripts/run_multispeaker_milestone_inference.sh` | Run after a milestone checkpoint |
+
+All data and calibration gates are `PASS`. Long dual-GPU training is permitted.
+Dmytro remains an inference-only zero-shot target because no raw Dmytro corpus
+is available.
