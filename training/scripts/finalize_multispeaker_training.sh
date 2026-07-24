@@ -8,7 +8,6 @@ TTS_EXP="${ROOT}/exp_multispeaker_full/tts_jets_uk_24k_multispeaker"
 SOURCE_CHECKPOINT="${TTS_EXP}/${CHECKPOINT_NAME}"
 MILESTONE_DIR="${ROOT}/exp_multispeaker_full/milestones"
 MILESTONE_CHECKPOINT="${MILESTONE_DIR}/${MILESTONE_LABEL}.pth"
-INFERENCE_MODEL="milestone_${MILESTONE_LABEL}.pth"
 DECODE_DIR="${TTS_EXP}/decode_jets_milestone_${MILESTONE_LABEL}/multispeaker_eval"
 MANIFEST="${ROOT}/data/multispeaker_full/manifests/multispeaker_eval.parquet"
 REPORT="${ROOT}/reports/multispeaker_full_inference_${MILESTONE_LABEL}.json"
@@ -37,18 +36,10 @@ python "${ROOT}/scripts/summarize_tensorboard.py" \
 mkdir -p "$MILESTONE_DIR"
 cp --reflink=auto "$SOURCE_CHECKPOINT" "$MILESTONE_CHECKPOINT"
 cmp --silent "$SOURCE_CHECKPOINT" "$MILESTONE_CHECKPOINT"
-ln -sfn "../milestones/${MILESTONE_LABEL}.pth" \
-    "${TTS_EXP}/${INFERENCE_MODEL}"
 
-"${ROOT}/scripts/run_multispeaker_milestone_inference.sh" "$INFERENCE_MODEL"
-
-python "${ROOT}/scripts/synthesize_eval.py" \
-    --wav-dir "${DECODE_DIR}/wav" \
-    --manifest "$MANIFEST" \
-    --checkpoint "$MILESTONE_CHECKPOINT" \
-    --config "${TTS_EXP}/config.yaml" \
-    --inference-log "${DECODE_DIR}/log/tts_inference.1.log" \
-    --output "$REPORT"
+for label in 1k 5k "$MILESTONE_LABEL"; do
+    "${ROOT}/scripts/evaluate_multispeaker_milestone.sh" "$label"
+done
 
 (
     cd "${ROOT}/.."
@@ -70,6 +61,10 @@ python "${ROOT}/scripts/synthesize_eval.py" \
 
 python "${ROOT}/scripts/build_listening_set.py" \
     --manifest "$MANIFEST" \
+    --candidate \
+        "jets_multispeaker_1k=${TTS_EXP}/decode_jets_milestone_1k/multispeaker_eval/wav" \
+    --candidate \
+        "jets_multispeaker_5k=${TTS_EXP}/decode_jets_milestone_5k/multispeaker_eval/wav" \
     --candidate "jets_multispeaker_${MILESTONE_LABEL}=${DECODE_DIR}/wav" \
     --balance-column source \
     --count 20 \
