@@ -137,6 +137,9 @@ dmypy.json
 *.ark
 *.npz
 
+# Local training release packages include large checkpoints.
+training/releases/
+
 # gradio
 gradio_queue.db
 flagged

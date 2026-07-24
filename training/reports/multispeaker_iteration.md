@@ -120,7 +120,23 @@ generator loss was 65.770, and the validation mel loss was 50.837. The
 The 5,000-iteration milestone is byte-stable and has SHA-256
 `186ed2e62d049903279dcb1d6448a54418db752606bc8dbec007984fb7372481`.
 Its validation generator loss is 65.756. Its validation mel loss is 48.828.
-The run has no NaN, OOM, or critical runtime error through this milestone.
+
+The corrected long run completed 25,000 iterations with exit status 0. It used
+both RTX 3090 GPUs. It had no NaN, OOM, or critical runtime error. Peak cached
+memory was 15.500 GiB. The 25k checkpoint SHA-256 is
+`395ccaba7e6837a60257a622b8d9ce0352246e41f728273e92d09c41b444f445`.
+
+The 25k validation generator, mel, and alignment losses are 58.242, 41.292, and
+4.498. The lowest validation mel loss is 40.226 at 24k. This value is 32.7
+percent below the 1k value. The loss decrease is meaningful.
+
+The 1k, 5k, and 25k checkpoints each made 1,677 fixed evaluation WAV files.
+All 5,031 files passed automatic validation. The 25k median RTF is 0.00800. No
+evaluation file has a clipping warning.
+
+The release candidate is
+`releases/uk-tts-jets-multispeaker-25k-rc/`. The listening set has 20 balanced
+Common Voice and Lada items for the three milestone candidates.
 
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.

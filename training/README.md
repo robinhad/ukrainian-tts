@@ -206,9 +206,10 @@ The preparation command uses the pinned Common Voice and Lada revisions. Set
 `DMYTRO_MANIFEST` only when a valid Dmytro manifest and its audio files are
 available. If this variable is not set, Dmytro is not in the train set.
 
-The selected long-run value is `batch_bins=4500000`. Larger tested values did
-not keep the required VRAM reserve. The training command uses FP32 and writes
-TensorBoard metrics through PyTorch.
+The selected long-run value is `batch_bins=2000000` with expandable PyTorch
+allocator segments. Tests at 4,500,000, 3,800,000, 3,400,000, 3,000,000, and
+2,500,000 did not keep the required VRAM reserve on later dynamic batches. The
+training command uses FP32 and writes TensorBoard metrics through PyTorch.
 
 Use this command to run the external five-minute monitor:
 
@@ -233,4 +234,24 @@ Use this command to view the current model metrics:
 ```bash
 training/.venv/bin/tensorboard \
   --logdir training/exp_multispeaker_full/tts_jets_uk_24k_multispeaker/tensorboard
+```
+
+The corrected run completed 25,000 iterations on both RTX 3090 GPUs. It
+returned exit status 0. The 25k checkpoint SHA-256 is
+`395ccaba7e6837a60257a622b8d9ce0352246e41f728273e92d09c41b444f445`.
+The lowest validation mel loss is 40.226 at 24k. This value is 32.7 percent
+below the 1k value.
+
+The 1k, 5k, and 25k checkpoints each made all 1,677 fixed evaluation WAV files.
+All files passed the automatic 24 kHz mono, finite, nonzero, duration, and
+clipping checks. The release candidate is:
+
+```text
+training/releases/uk-tts-jets-multispeaker-25k-rc/
+```
+
+Listen to the balanced set before you promote this candidate:
+
+```text
+training/eval/generated/listening_multispeaker_25k/
 ```

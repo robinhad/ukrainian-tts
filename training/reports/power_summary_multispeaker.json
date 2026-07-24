@@ -1,0 +1,31 @@
+{
+  "first_sample_kyiv": "2026-07-24T03:44:56.882615+03:00",
+  "gpus": [
+    {
+      "index": 0,
+      "maximum_sampled_memory_mib": 23692,
+      "maximum_sampled_power_w": 244.29,
+      "maximum_sampled_temperature_c": 85,
+      "maximum_sampled_utilization_percent": 100,
+      "mean_sampled_power_w": 193.16,
+      "mean_sampled_utilization_percent": 41.56,
+      "power_limit_w": 350.0,
+      "sample_count": 104
+    },
+    {
+      "index": 1,
+      "maximum_sampled_memory_mib": 22744,
+      "maximum_sampled_power_w": 254.45,
+      "maximum_sampled_temperature_c": 77,
+      "maximum_sampled_utilization_percent": 100,
+      "mean_sampled_power_w": 215.55,
+      "mean_sampled_utilization_percent": 49.71,
+      "power_limit_w": 350.0,
+      "sample_count": 104
+    }
+  ],
+  "last_sample_kyiv": "2026-07-24T11:54:33.171162+03:00",
+  "sample_count": 104,
+  "source": "/home/ballvan/Projects/ukrainian-tts/training/reports/training_status_multispeaker.jsonl",
+  "status": "PASS"
+}

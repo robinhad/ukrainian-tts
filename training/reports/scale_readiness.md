@@ -51,10 +51,14 @@ All available gates for the silence-trimmed 25k run are `PASS`.
 | 4.5M memory reserve | FAIL | Peak cached VRAM was 22.684 GiB, which leaves less than 10 percent free | `reports/training_status_multispeaker.jsonl` | Use a smaller setting |
 | 3.8M, 3.4M, 3.0M, and 2.5M reserve | FAIL | Late or later-epoch dynamic batches left less than 10 percent CUDA memory free | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train_rejected_reserve_*.log` | Use 2.0M and expandable segments |
 | 2.0M memory reserve | PASS | Epoch 3 completed; peak cached VRAM was 12.562 GiB; validation generator loss was 65.770 | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/3epoch.pth` | Keep 2.0M and expandable segments |
-| Long training | RUNNING | The verified 5k milestone has validation generator loss 65.756 and mel loss 48.828; no NaN or OOM | `exp_multispeaker_full/milestones/5k.pth` | Continue to 25k |
-| Full fixed-set inference | NOT RUN | A long-run checkpoint does not exist yet | `scripts/run_multispeaker_milestone_inference.sh` | Run after a milestone checkpoint |
+| Long training | PASS | Exit 0 after 25,000 iterations; no NaN, OOM, or critical error; final validation generator loss 58.242 and mel loss 41.292 | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train.log` | Use listening results for checkpoint selection |
+| Power and memory | PASS | Peak cached memory 15.500 GiB; sampled maximum power 244.29 W and 254.45 W; both GPUs reached 100 percent compute use | `reports/power_summary_multispeaker.json` | Keep 2.0M batch bins on this host |
+| Final checkpoint | PASS | The 25k checkpoint and milestone copy are byte-identical; SHA-256 `395ccaba...f445` | `exp_multispeaker_full/milestones/25k.pth` | Preserve outside Git |
+| Full fixed-set inference | PASS | The 1k, 5k, and 25k checkpoints each made 1,677 valid 24 kHz mono WAV files; no clipping warning | `reports/multispeaker_full_inference_{1k,5k,25k}.json` | Complete listening review |
+| Local speaker inference | PASS | Lada and Dmytro zero-shot WAV files are finite, non-empty, mono, and 24 kHz | `eval/generated/multispeaker_25k_{lada,dmytro_zero_shot}.wav` | Do not describe Dmytro as a trained speaker |
+| Release candidate | PASS | The release has 34 files, cards, reports, examples, licenses, and checksums | `releases/uk-tts-jets-multispeaker-25k-rc/` | Promote only after listening review |
 
-All corrected data, one-epoch training, and 2.0M memory gates are `PASS`.
-Larger batch settings failed the memory-reserve gate. The 25k continuation uses
-2.0M and expandable allocator segments. Dmytro remains an inference-only
-zero-shot target because no raw Dmytro corpus is available.
+All available gates for the corrected Common Voice and Lada run are `PASS`.
+Larger batch settings failed the memory-reserve gate. The completed 25k run
+used 2.0M batch bins and expandable allocator segments. Dmytro remains an
+inference-only zero-shot target because no raw Dmytro corpus is available.

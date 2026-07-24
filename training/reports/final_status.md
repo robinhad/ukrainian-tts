@@ -3,105 +3,118 @@
 ## Виконано
 
 The reproducible Ukrainian JETS pipeline is on branch `autotrain`. All new
-training code is under `training/`. The pipeline made silence-trimmed model
-copies and kept all raw source files unchanged. The full run reached 25,000
-iterations on two RTX 3090 GPUs. The command returned exit status 0.
+training code is under `training/`. The Common Voice and Lada run completed
+25,000 FP32 iterations on two RTX 3090 GPUs. The command returned exit status
+0. The code uses author `Codex <codex@openai.com>`.
 
-The pipeline uses Ukrainian text, the Lada speaker, 24 kHz audio, ESPnet2 JETS,
-GAN-TTS, phoneme tokens, and pinned eSpeak-ng 1.52.0. It does not use a separate
-verbalizer, stress model, G2P model, vocoder, VAD, or forced aligner. It does not
-apply denoise, normalization, compression, de-essing, or mastering to training
-audio.
+The pipeline made silence-trimmed model copies and kept raw source files
+unchanged. It uses ESPnet2 JETS, GAN-TTS, 24 kHz mono audio, phoneme tokens,
+eSpeak-ng 1.52.0, and 192-value ECAPA speaker embeddings. Dmytro is not in the
+train set. The Dmytro example uses the pinned legacy embedding for zero-shot
+inference.
 
 ## CRISP-DM cycle 1
 
 - Business Understanding: PASS.
-- Data Understanding: PASS for the silence-trimmed smoke subset.
-- Data Preparation: PASS for 320 smoke files.
-- Modeling: PASS for 100 iterations.
+- Data Understanding: PASS for the Common Voice and Lada smoke subset.
+- Data Preparation: PASS for 320 smoke records.
+- Modeling: PASS for 100 dual-GPU iterations.
 - Evaluation: PASS for 32 of 32 smoke-eval WAV files.
-- Deployment: PASS for the local raw-WAV entry point.
+- Deployment: PASS for Lada and Dmytro zero-shot local entry points.
 
 ## CRISP-DM cycle 2
 
 - Business Understanding: PASS.
-- Data Understanding: PASS for 6,787 selected utterances.
-- Data Preparation: PASS for trimmed audio, split, token list, and statistics.
+- Data Understanding: PASS for 83,549 retained utterances.
+- Data Preparation: PASS for trimmed audio, split, token list, statistics, and
+  speaker embeddings.
 - Modeling: PASS for 25,000 FP32 iterations on two GPUs.
-- Evaluation: PASS for 180 of 180 fixed-set WAV files.
-- Deployment: PASS for local inference. Perceptual release selection is pending.
+- Evaluation: PASS for 5,031 fixed-set WAV files across 1k, 5k, and 25k.
+- Deployment: PASS for local inference, listening set, and release candidate.
 
 ## MVP-gate
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Frontend tests | PASS | Final suite has 28 passing tests |
+| Frontend tests | PASS | Final training suite has 50 passing tests |
 | eSpeak-ng pin | PASS | Version 1.52.0 and the language-data hash are pinned |
 | Non-empty phonemes | PASS | Regression and corpus checks found no empty sequence |
-| ESPnet data directories | PASS | Train, development, and evaluation directories pass |
-| Token list | PASS | Full tokenization has 0.0% OOV |
-| Statistics | PASS | Speech, pitch, and energy statistics exist |
+| Dataset validation | PASS | 80,041 train, 1,831 development, and 1,677 evaluation records; zero errors |
+| Token list | PASS | 87 lines and 0.0 percent OOV |
+| Statistics | PASS | Finite speech, pitch, and energy statistics exist |
+| Speaker embeddings | PASS | 83,549 finite, nonzero 192-value vectors exist |
 | JETS construction | PASS | JETS and both AdamW optimizers initialize |
 | Stable training | PASS | 25,000 iterations; no NaN, OOM, or critical error |
-| Checkpoint | PASS | The 25k checkpoint exists and has a verified SHA-256 |
-| Inference WAV | PASS | 180 of 180 fixed-eval files pass |
-| Reproduction commands | PASS | README and scripts contain the commands |
+| Checkpoint | PASS | The 25k checkpoint and milestone copy are byte-identical |
+| Fixed-set inference | PASS | 5,031 of 5,031 WAV files pass |
+| Release candidate | PASS | The package has 34 files and verified checksums |
+| Reproduction commands | PASS | `training/README.md` and scripts contain the commands |
 
 ## Фактичні запуски
 
 | Command | Exit | Key result | Artifact |
 |---|---:|---|---|
-| `training/scripts/run_trimmed_smoke_test.sh` | 0 | 100 iterations and 32 of 32 valid WAV files | `reports/smoke_trimmed_inference.json` |
-| `training/scripts/prepare_trimmed_full.sh` | 0 | 6,787 files; 5.565 h after trim; 0.0% OOV; statistics complete | `reports/full_trimmed_dataset.json` |
-| `BATCH_BINS=3800000 training/scripts/run_trimmed_training.sh 25000` | 0 | 25,000 iterations on two GPUs in 32,318 s | `exp_full_trimmed/tts_jets_uk_24k_trimmed/train.log` |
-| `training/scripts/finalize_trimmed_training.sh 25epoch.pth 25k` | 0 | Checkpoint copy, 180-file inference, WAV checks, local example, and listening set | `reports/full_trimmed_inference_25k.json` |
-| `source training/activate.sh && pytest -q training/tests` | 0 | 28 tests passed in 5.55 s | `tests/` |
-| `python training/scripts/check_resources.py --mode full --require-torch --workspace training --output training/reports/resource_usage.jsonl` | 0 | 121.89 GiB RAM and 284.78 GiB disk free after the run | `reports/resource_usage.jsonl` |
+| `training/scripts/run_multispeaker_smoke_test.sh` | 0 | 100 dual-GPU iterations and 32 valid eval WAV files | `reports/multispeaker_smoke_inference.json` |
+| `training/scripts/prepare_multispeaker_full.sh` | 0 | 83,549 records; 84.871 h; 0.0 percent OOV; statistics complete | `reports/multispeaker_full_dataset.json` |
+| `BATCH_BINS=2000000 training/scripts/run_multispeaker_training.sh 25000` | 0 | 25,000 iterations on two GPUs in 23,461 s | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker/train.log` |
+| `training/scripts/finalize_multispeaker_training.sh 25epoch.pth 25k` | 0 | Three 1,677-file evaluations, local examples, listening set, and release | `reports/multispeaker_full_inference_25k.json` |
+| `source training/activate.sh && pytest -q training/tests` | 0 | 50 tests passed | `tests/` |
+| `sha256sum -c checksums.txt` in the release directory | 0 | All 33 payload checksums passed | `releases/uk-tts-jets-multispeaker-25k-rc/checksums.txt` |
+| `pytest -q` from the repository root | 2 | Legacy test collection stopped because optional `stanza` is not installed | `tests/` |
 
-The final train and validation generator losses are 47.795 and 47.112. The final
-train and validation mel losses are 33.677 and 33.549. Peak cached VRAM is
-22.178 GiB. Validation mel loss fell by 40.3 percent from 1k to 25k.
+The 25k validation generator, mel, and alignment losses are 58.242, 41.292,
+and 4.498. The lowest validation mel loss is 40.226 at 24k. This value is 32.7
+percent below the 1k value of 59.788. Peak cached VRAM is 15.500 GiB.
 
-The GPU monitor collected 140 samples. GPU0 mean and maximum power were 197.11 W
-and 264.08 W. GPU1 mean and maximum power were 221.82 W and 261.39 W. Both
-cards reached 100 percent sampled utilization.
+The GPU monitor collected 104 samples. GPU0 mean and maximum power were 193.16 W
+and 244.29 W. GPU1 mean and maximum power were 215.55 W and 254.45 W. Both
+cards reached 100 percent sampled compute use.
 
 The TensorBoard audit found 29 train scalar tags and 16 validation scalar tags.
-Both event streams reach step 25,000. The fixed-eval run accepted 180 of 180
-mono 24 kHz files. It found no clipping warning. Duration is 1.013 to 5.376
-seconds. Median RTF is 0.01338.
+The 25k fixed-set run accepted 1,677 of 1,677 mono 24 kHz files. It found no
+clipping warning. Duration is 0.832 to 7.371 seconds. Median RTF is 0.00800.
 
 ## Створені артефакти
 
-- Trimmed manifests: `training/data/full_trimmed/manifests/`.
-- ESPnet data directories: `training/espnet_recipe/data/{train,dev,eval}/`.
-- JETS config: `training/espnet_recipe/conf/tuning/train_jets_uk_24k.yaml`.
+- Manifests: `training/data/multispeaker_full/manifests/`.
+- ESPnet data directories:
+  `training/espnet_recipe/data/multispeaker_{train,dev,eval}/`.
+- JETS config:
+  `training/espnet_recipe/conf/tuning/train_jets_uk_24k_multispeaker.yaml`.
 - ESPnet patch: `training/patches/espnet-espeak-ng-ukrainian.patch`.
-- Token list: `training/dump_full_trimmed/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
-- Statistics: `training/exp_full_trimmed/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- Checkpoint: `training/exp_full_trimmed/milestones/25k.pth`.
-- Checkpoint SHA-256: `58f4673676cd382d1ae2bc6c5a7a80e809ccce9e2b3dea42edef6cae177f9d75`.
-- TensorBoard events: `training/exp_full_trimmed/tts_jets_uk_24k_trimmed/tensorboard/{train,valid}/`.
-- Fixed-eval WAV files: `training/exp_full_trimmed/tts_jets_uk_24k_trimmed/decode_jets_milestone_25k/eval/wav/`.
-- Evaluation report: `training/reports/full_trimmed_inference_25k.json`.
-- Power report: `training/reports/power_summary_trimmed.json`.
-- Local example: `training/eval/generated/example_trimmed_25k.wav` and adjacent JSON.
-- Listening set: `training/eval/generated/listening_trimmed_25k/`.
-- CRISP-DM reports: `training/reports/crisp_dm_cycle_1.md` and
-  `training/reports/crisp_dm_cycle_2.md`.
+- Token list:
+  `training/dump_multispeaker_full/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
+- Statistics:
+  `training/exp_multispeaker_full/tts_stats_raw_phn_espeak_ng_ukrainian/`.
+- Checkpoint: `training/exp_multispeaker_full/milestones/25k.pth`.
+- Checkpoint SHA-256:
+  `395ccaba7e6837a60257a622b8d9ce0352246e41f728273e92d09c41b444f445`.
+- TensorBoard events:
+  `training/exp_multispeaker_full/tts_jets_uk_24k_multispeaker/tensorboard/`.
+- Fixed-eval WAV files:
+  `training/exp_multispeaker_full/tts_jets_uk_24k_multispeaker/decode_jets_milestone_25k/multispeaker_eval/wav/`.
+- Evaluation reports:
+  `training/reports/multispeaker_full_inference_{1k,5k,25k}.json`.
+- Power report: `training/reports/power_summary_multispeaker.json`.
+- Local examples: `training/eval/generated/multispeaker_25k_{lada,dmytro_zero_shot}.wav`.
+- Listening set: `training/eval/generated/listening_multispeaker_25k/`.
+- Release candidate:
+  `training/releases/uk-tts-jets-multispeaker-25k-rc/`.
 
 ## Відомі проблеми
 
-- The source metadata has no document IDs. The split uses contiguous 50-file
-  blocks as proxy groups. Residual relation leakage is possible.
-- Automatic WAV checks do not measure naturalness or pronunciation.
+- Common Voice client IDs are not present in the pinned public source.
+- Dmytro has no raw training corpus. Dmytro is a zero-shot inference target.
+- Automatic WAV checks do not measure naturalness, pronunciation, or speaker
+  similarity.
+- GPU0 reached 85 C and had brief software thermal slowdown. Hardware thermal
+  slowdown did not occur.
 - NCCL cannot use direct P2P on this host. It uses shared-memory transport.
-- AMP gave a worse short-run validation result. The full run uses FP32.
-- One card reached 85 C. This is below the configured 95 C stop limit, but
-  cooling limits sustained power.
-- The Git remote contains an embedded credential. Do not print it. Rotate it.
+- The repository root test collection needs the legacy optional `stanza`
+  dependency. The isolated `training/tests` suite does not need it.
 
 ## Наступна одна дія
 
-Listen to the 20 pairs in `training/eval/generated/listening_trimmed_25k/`.
-Record the perceptual result before the release package is made.
+Listen to the 20 items in
+`training/eval/generated/listening_multispeaker_25k/`. Record the perceptual
+result before you promote the release candidate.

@@ -1,0 +1,468 @@
+{
+  "errors": [],
+  "run_count": 2,
+  "runs": {
+    "train": {
+      "scalar_tag_count": 29,
+      "scalars": {
+        "discriminator_backward_time": {
+          "absolute_change": 0.012341290712356567,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.12594935297966003,
+          "last_step": 25000,
+          "last_value": 0.1382906436920166,
+          "maximum_value": 0.30149465799331665,
+          "minimum_value": 0.08964789658784866
+        },
+        "discriminator_fake_loss": {
+          "absolute_change": -0.29679834842681885,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 1.0733728408813477,
+          "last_step": 25000,
+          "last_value": 0.7765744924545288,
+          "maximum_value": 1.4326300621032715,
+          "minimum_value": 0.21944117546081543
+        },
+        "discriminator_forward_time": {
+          "absolute_change": -0.21955545246601105,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.4512336552143097,
+          "last_step": 25000,
+          "last_value": 0.23167820274829865,
+          "maximum_value": 0.4988708198070526,
+          "minimum_value": 0.18904323875904083
+        },
+        "discriminator_loss": {
+          "absolute_change": -2.1442270278930664,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 3.8911352157592773,
+          "last_step": 25000,
+          "last_value": 1.746908187866211,
+          "maximum_value": 3.8911352157592773,
+          "minimum_value": 0.6308391690254211
+        },
+        "discriminator_optim_step_time": {
+          "absolute_change": 0.003173776436597109,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.00177776999771595,
+          "last_step": 25000,
+          "last_value": 0.004951546434313059,
+          "maximum_value": 0.005296866875141859,
+          "minimum_value": 0.001416615443304181
+        },
+        "discriminator_real_loss": {
+          "absolute_change": -1.8474283814430237,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 2.8177621364593506,
+          "last_step": 25000,
+          "last_value": 0.9703337550163269,
+          "maximum_value": 2.8177621364593506,
+          "minimum_value": 0.3333356976509094
+        },
+        "discriminator_train_time": {
+          "absolute_change": -0.20380660891532898,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.5835304856300354,
+          "last_step": 25000,
+          "last_value": 0.3797238767147064,
+          "maximum_value": 0.77768474817276,
+          "minimum_value": 0.31240376830101013
+        },
+        "generator_align_bin_loss": {
+          "absolute_change": -2.1723155975341797,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 5.264979839324951,
+          "last_step": 25000,
+          "last_value": 3.0926642417907715,
+          "maximum_value": 5.264979839324951,
+          "minimum_value": 2.624356508255005
+        },
+        "generator_align_forwardsum_loss": {
+          "absolute_change": -1.0993694067001343,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 2.521737575531006,
+          "last_step": 25000,
+          "last_value": 1.4223681688308716,
+          "maximum_value": 3.3864731788635254,
+          "minimum_value": 1.2010867595672607
+        },
+        "generator_align_loss": {
+          "absolute_change": -3.2716851234436035,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 7.786717414855957,
+          "last_step": 25000,
+          "last_value": 4.5150322914123535,
+          "maximum_value": 7.786717414855957,
+          "minimum_value": 4.05823278427124
+        },
+        "generator_backward_time": {
+          "absolute_change": -0.03283257782459259,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.2126356065273285,
+          "last_step": 25000,
+          "last_value": 0.1798030287027359,
+          "maximum_value": 0.35761314630508423,
+          "minimum_value": 0.12212216854095459
+        },
+        "generator_forward_time": {
+          "absolute_change": -0.6801456809043884,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.9721390008926392,
+          "last_step": 25000,
+          "last_value": 0.29199331998825073,
+          "maximum_value": 0.9721390008926392,
+          "minimum_value": 0.2538652718067169
+        },
+        "generator_g_adv_loss": {
+          "absolute_change": 0.38214111328125,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 2.84594464302063,
+          "last_step": 25000,
+          "last_value": 3.22808575630188,
+          "maximum_value": 4.786482810974121,
+          "minimum_value": 1.6957308053970337
+        },
+        "generator_g_feat_match_loss": {
+          "absolute_change": 8.305066734552383,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.41456636786460876,
+          "last_step": 25000,
+          "last_value": 8.719633102416992,
+          "maximum_value": 11.395526885986328,
+          "minimum_value": 0.41456636786460876
+        },
+        "generator_g_loss": {
+          "absolute_change": -299.1552047729492,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 351.9241943359375,
+          "last_step": 25000,
+          "last_value": 52.76898956298828,
+          "maximum_value": 351.9241943359375,
+          "minimum_value": 48.89838409423828
+        },
+        "generator_g_mel_loss": {
+          "absolute_change": -307.8424263000488,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 348.6636962890625,
+          "last_step": 25000,
+          "last_value": 40.82126998901367,
+          "maximum_value": 348.6636962890625,
+          "minimum_value": 37.46091842651367
+        },
+        "generator_loss": {
+          "absolute_change": -314.733341217041,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 372.8390197753906,
+          "last_step": 25000,
+          "last_value": 58.10567855834961,
+          "maximum_value": 372.8390197753906,
+          "minimum_value": 54.237510681152344
+        },
+        "generator_optim_step_time": {
+          "absolute_change": 0.0028236908838152885,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.007953054271638393,
+          "last_step": 25000,
+          "last_value": 0.010776745155453682,
+          "maximum_value": 0.012642606161534786,
+          "minimum_value": 0.0037399190478026867
+        },
+        "generator_train_time": {
+          "absolute_change": -0.7250866591930389,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 1.2139192819595337,
+          "last_step": 25000,
+          "last_value": 0.48883262276649475,
+          "maximum_value": 1.2139192819595337,
+          "minimum_value": 0.40341031551361084
+        },
+        "generator_var_dur_loss": {
+          "absolute_change": -5.058993458747864,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 5.212687969207764,
+          "last_step": 25000,
+          "last_value": 0.1536945104598999,
+          "maximum_value": 5.212687969207764,
+          "minimum_value": 0.12035169452428818
+        },
+        "generator_var_energy_loss": {
+          "absolute_change": -3.24237260222435,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 3.5992329120635986,
+          "last_step": 25000,
+          "last_value": 0.35686030983924866,
+          "maximum_value": 3.5992329120635986,
+          "minimum_value": 0.21369227766990662
+        },
+        "generator_var_loss": {
+          "absolute_change": -12.306444108486176,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 13.128100395202637,
+          "last_step": 25000,
+          "last_value": 0.8216562867164612,
+          "maximum_value": 13.128100395202637,
+          "minimum_value": 0.6492080092430115
+        },
+        "generator_var_pitch_loss": {
+          "absolute_change": -4.005078762769699,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 4.316180229187012,
+          "last_step": 25000,
+          "last_value": 0.3111014664173126,
+          "maximum_value": 4.316180229187012,
+          "minimum_value": 0.2325693964958191
+        },
+        "gpu_max_cached_mem_GB": {
+          "absolute_change": -7.18359375,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 22.68359375,
+          "last_step": 25000,
+          "last_value": 15.5,
+          "maximum_value": 22.68359375,
+          "minimum_value": 12.5625
+        },
+        "iter_epoch": {
+          "absolute_change": 24.0,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 1.0,
+          "last_step": 25000,
+          "last_value": 25.0,
+          "maximum_value": 25.0,
+          "minimum_value": 1.0
+        },
+        "iter_time": {
+          "absolute_change": -0.015184611445874907,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.015281308442354202,
+          "last_step": 25000,
+          "last_value": 9.66969964792952e-05,
+          "maximum_value": 0.015281308442354202,
+          "minimum_value": 5.8418139815330505e-05
+        },
+        "optim0_lr0": {
+          "absolute_change": -5.9913145378232e-07,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.00019999999494757503,
+          "last_step": 25000,
+          "last_value": 0.0001994008634937927,
+          "maximum_value": 0.00019999999494757503,
+          "minimum_value": 0.0001994008634937927
+        },
+        "optim1_lr0": {
+          "absolute_change": -5.9913145378232e-07,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 0.00019999999494757503,
+          "last_step": 25000,
+          "last_value": 0.0001994008634937927,
+          "maximum_value": 0.00019999999494757503,
+          "minimum_value": 0.0001994008634937927
+        },
+        "train_time": {
+          "absolute_change": -4.068298101425171,
+          "count": 2500,
+          "first_step": 10,
+          "first_value": 4.970738887786865,
+          "last_step": 25000,
+          "last_value": 0.9024407863616943,
+          "maximum_value": 4.970738887786865,
+          "minimum_value": 0.7184486389160156
+        }
+      }
+    },
+    "valid": {
+      "scalar_tag_count": 16,
+      "scalars": {
+        "discriminator_fake_loss": {
+          "absolute_change": 0.1565266251564026,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 0.6715810298919678,
+          "last_step": 25000,
+          "last_value": 0.8281076550483704,
+          "maximum_value": 1.0060878992080688,
+          "minimum_value": 0.5681754946708679
+        },
+        "discriminator_loss": {
+          "absolute_change": 0.0691152811050415,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 1.6927353143692017,
+          "last_step": 25000,
+          "last_value": 1.7618505954742432,
+          "maximum_value": 2.5844504833221436,
+          "minimum_value": 1.5304443836212158
+        },
+        "discriminator_real_loss": {
+          "absolute_change": -0.08741140365600586,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 1.0211542844772339,
+          "last_step": 25000,
+          "last_value": 0.933742880821228,
+          "maximum_value": 1.8417450189590454,
+          "minimum_value": 0.7935954928398132
+        },
+        "generator_align_bin_loss": {
+          "absolute_change": -0.751805305480957,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 3.8274378776550293,
+          "last_step": 25000,
+          "last_value": 3.0756325721740723,
+          "maximum_value": 3.8274378776550293,
+          "minimum_value": 3.0756325721740723
+        },
+        "generator_align_forwardsum_loss": {
+          "absolute_change": -0.3075343370437622,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 1.7301641702651978,
+          "last_step": 25000,
+          "last_value": 1.4226298332214355,
+          "maximum_value": 1.7301641702651978,
+          "minimum_value": 1.4120025634765625
+        },
+        "generator_align_loss": {
+          "absolute_change": -1.0593395233154297,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 5.5576019287109375,
+          "last_step": 25000,
+          "last_value": 4.498262405395508,
+          "maximum_value": 5.5576019287109375,
+          "minimum_value": 4.498262405395508
+        },
+        "generator_g_adv_loss": {
+          "absolute_change": -0.4279055595397949,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 3.5694987773895264,
+          "last_step": 25000,
+          "last_value": 3.1415932178497314,
+          "maximum_value": 3.876466989517212,
+          "minimum_value": 2.7433199882507324
+        },
+        "generator_g_feat_match_loss": {
+          "absolute_change": 1.8133292198181152,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 6.705611705780029,
+          "last_step": 25000,
+          "last_value": 8.518940925598145,
+          "maximum_value": 9.065140724182129,
+          "minimum_value": 5.2873005867004395
+        },
+        "generator_g_loss": {
+          "absolute_change": -17.11095428466797,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 70.06307983398438,
+          "last_step": 25000,
+          "last_value": 52.952125549316406,
+          "maximum_value": 70.06307983398438,
+          "minimum_value": 52.594505310058594
+        },
+        "generator_g_mel_loss": {
+          "absolute_change": -18.496376037597656,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 59.787967681884766,
+          "last_step": 25000,
+          "last_value": 41.29159164428711,
+          "maximum_value": 59.787967681884766,
+          "minimum_value": 40.225608825683594
+        },
+        "generator_loss": {
+          "absolute_change": -19.225116729736328,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 77.46695709228516,
+          "last_step": 25000,
+          "last_value": 58.24184036254883,
+          "maximum_value": 77.46695709228516,
+          "minimum_value": 57.87176513671875
+        },
+        "generator_var_dur_loss": {
+          "absolute_change": -0.22601021826267242,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 0.36852678656578064,
+          "last_step": 25000,
+          "last_value": 0.14251656830310822,
+          "maximum_value": 0.36852678656578064,
+          "minimum_value": 0.1419837772846222
+        },
+        "generator_var_energy_loss": {
+          "absolute_change": -0.1546722650527954,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 0.4880155026912689,
+          "last_step": 25000,
+          "last_value": 0.3333432376384735,
+          "maximum_value": 0.4880155026912689,
+          "minimum_value": 0.3204726576805115
+        },
+        "generator_var_loss": {
+          "absolute_change": -1.0548230409622192,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 1.8462743759155273,
+          "last_step": 25000,
+          "last_value": 0.7914513349533081,
+          "maximum_value": 1.8462743759155273,
+          "minimum_value": 0.7713855504989624
+        },
+        "generator_var_pitch_loss": {
+          "absolute_change": -0.6741406321525574,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 0.9897321462631226,
+          "last_step": 25000,
+          "last_value": 0.3155915141105652,
+          "maximum_value": 0.9897321462631226,
+          "minimum_value": 0.3026599586009979
+        },
+        "gpu_max_cached_mem_GB": {
+          "absolute_change": -7.18359375,
+          "count": 25,
+          "first_step": 1000,
+          "first_value": 22.68359375,
+          "last_step": 25000,
+          "last_value": 15.5,
+          "maximum_value": 22.68359375,
+          "minimum_value": 12.5625
+        }
+      }
+    }
+  },
+  "source": "/home/ballvan/Projects/ukrainian-tts/training/exp_multispeaker_full/tts_jets_uk_24k_multispeaker/tensorboard",
+  "status": "PASS"
+}

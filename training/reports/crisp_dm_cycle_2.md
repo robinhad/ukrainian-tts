@@ -2,90 +2,115 @@
 
 ## Business understanding
 
-The objective is stable Ukrainian speech in the Lada voice. The pipeline must
-keep one speaker and must make reproducible local inference. JETS, ESPnet2,
-eSpeak-ng for Ukrainian, phoneme tokens, and 24 kHz audio remain fixed. The
-restart also removes leading and trailing silence from model audio copies.
+The objective was one reproducible Ukrainian JETS model for Common Voice and
+Lada audio. The model must support speaker embeddings. Lada is the named local
+speaker. Dmytro stays an inference-only zero-shot target because no raw Dmytro
+training corpus is available.
+
+The fixed architecture uses ESPnet2 GAN-TTS, JETS, 24 kHz audio, phoneme tokens,
+and eSpeak-ng 1.52.0 for Ukrainian. It does not use a separate verbalizer,
+stress model, G2P model, vocoder, VAD, or forced aligner.
 
 ## Data understanding
 
-The pinned source contains 6,962 rows. Data preparation selected 6,787
-utterances. It removed 174 duplicate sanitized texts and one duration outlier.
-The untrimmed selected audio contains 10.343 hours.
+The pinned and corrected data contains 76,762 Common Voice records and 6,787
+Lada records. The ingestion step rejected six Common Voice rows that contained
+embedded TSV metadata. It also removed 33 cross-source duplicate texts.
 
-The silence trim processed all 6,787 model copies. It kept 5.565 hours and
-removed 4.778 hours. The split contains 6,461 train, 146 development, and 180
-evaluation utterances. Exact ID, audio-hash, and text-hash leakage is zero.
+The retained data contains 83,549 utterances and 84.871 hours after boundary
+silence removal. The split contains 80,041 train, 1,831 development, and 1,677
+evaluation records. Validation found no ID, audio-hash, or text-hash split
+leakage. It found 633 clipping flags. The flags stay in the manifest.
 
-The source has no document ID. The split uses each contiguous block of 50 numeric
-source files as one related group. This proxy can leave related content in
-different splits.
+The public Common Voice source does not contain stable client IDs. The pipeline
+uses one utterance-level ECAPA embedding for each Common Voice recording. It
+does not claim a common speaker identity for two Common Voice files.
 
 ## Data preparation
 
-The preparation stage made mono PCM WAV files at 24 kHz. A relative frame-RMS
-detector removed leading and trailing silence at 40 dB below each file maximum.
-It kept 100 ms of boundary padding. It did not use VAD or a forced aligner. It
-did not apply denoise, normalization, compression, de-essing, or mastering.
+The preparation stage made mono PCM WAV model copies at 24 kHz. A relative
+frame-RMS detector removed leading and trailing silence at 40 dB below each
+file maximum. It kept 100 ms of boundary padding. It did not change raw source
+files. It did not apply denoise, normalization, compression, de-essing, or
+mastering.
 
-ESPnet accepted the train, development, and evaluation directories. Tokenization
-reported 0.0 percent OOV. The statistics stage made speech, pitch, and energy
-statistics. The same pinned eSpeak-ng 1.52.0 frontend serves training and
-inference.
+The text stage applies Unicode NFC, apostrophe unification, control-character
+removal, standard spaces, repeated-space collapse, and edge trimming. It does
+not expand numbers, dates, units, URLs, or email addresses. The same pinned
+eSpeak-ng frontend serves training and inference.
+
+The corrected token list has 87 lines and 0.0 percent OOV. The maximum retained
+phoneme sequence has 140 tokens. The statistics stage made finite speech,
+pitch, and energy statistics. The retained ECAPA store has one finite,
+nonzero, 192-value vector for each retained utterance.
 
 ## Modeling
 
-The trimmed smoke run completed 100 iterations and made a checkpoint. It used
-both generator and discriminator paths. It also made 32 of 32 valid eval WAV
-files.
+The first long-run attempt found six corrupted Common Voice transcriptions.
+Their phoneme sequences had 10,763 to 244,054 tokens. The model stopped with a
+CUDA out-of-memory error before a checkpoint existed. The corrected ingestion
+and validation steps now reject tabs, newlines, texts above 500 characters, and
+phoneme sequences above 500 tokens.
 
-Dual-GPU calibration tested 4,000,000 and 4,200,000 batch bins. The 4,200,000
-setting left less than 10 percent device-memory reserve. The long run first used
-4,000,000. One card later had only 935 MiB free. The run stopped after the 3k
-checkpoint and resumed from that state with `batch_bins: 3800000`.
+Dynamic batch tests rejected 4,500,000, 3,800,000, 3,400,000, 3,000,000, and
+2,500,000 batch bins because a later batch did not keep the required memory
+reserve. The stable setting is 2,000,000 batch bins with expandable PyTorch
+allocator segments. The run used FP32 and both RTX 3090 GPUs.
 
-The resumed FP32 run completed 25,000 iterations on both RTX 3090 cards. It
-returned exit status 0 after 32,318 seconds. Peak cached memory was 22.178 GiB.
-All reported generator, discriminator, alignment, pitch, and energy losses were
-finite.
+The corrected run completed 25,000 iterations and returned exit status 0 after
+23,461 seconds. It reported no NaN, OOM, or critical runtime error. Peak cached
+memory was 15.500 GiB.
 
-| Iteration | Validation generator loss | Validation mel loss |
-|---:|---:|---:|
-| 1,000 | 74.101 | 56.198 |
-| 5,000 | 53.736 | 40.951 |
-| 10,000 | 50.890 | 37.879 |
-| 15,000 | 48.865 | 35.251 |
-| 20,000 | 48.014 | 34.565 |
-| 25,000 | 47.112 | 33.549 |
+| Iteration | Validation generator loss | Validation mel loss | Validation alignment loss |
+|---:|---:|---:|---:|
+| 1,000 | 77.467 | 59.788 | 5.558 |
+| 5,000 | 65.756 | 48.828 | 4.961 |
+| 10,000 | 62.793 | 44.599 | 4.742 |
+| 15,000 | 59.247 | 42.689 | 4.626 |
+| 19,000 | 58.305 | 40.971 | 4.557 |
+| 24,000 | 57.872 | 40.226 | 4.506 |
+| 25,000 | 58.242 | 41.292 | 4.498 |
 
-The validation mel loss fell by 40.3 percent. The validation generator loss fell
-by 36.4 percent. The last train and validation mel losses were 33.677 and 33.549.
-This is a meaningful loss decrease. A listening test must still measure
-naturalness and pronunciation.
+The lowest validation mel loss is at 24k. It is 32.7 percent below the 1k
+value. The final validation mel loss is 30.9 percent below the 1k value.
+Alignment loss continued to improve through 25k. These changes are meaningful.
+A listening test must still measure naturalness, pronunciation, and speaker
+quality.
 
-The external monitor collected 140 samples. GPU0 mean and maximum power were
-197.11 W and 264.08 W. GPU1 mean and maximum power were 221.82 W and 261.39 W.
+The external monitor collected 104 samples. GPU0 mean and maximum power were
+193.16 W and 244.29 W. GPU1 mean and maximum power were 215.55 W and 254.45 W.
 Both cards reached 100 percent sampled compute use. Their maximum temperatures
-were 85 C and 79 C.
+were 85 C and 77 C.
 
-TensorBoard contains 29 train scalar tags and 16 validation scalar tags through
-step 25,000. PyTorch writes the event files. TensorFlow is not a runtime
+TensorBoard contains 29 train scalar tags and 16 validation scalar tags.
+PyTorch writes the event files. TensorFlow is not a training runtime
 dependency.
 
 ## Evaluation
 
-The 25k checkpoint made all 180 fixed evaluation utterances. Independent
-validation accepted 180 of 180 files. Each file is finite, non-empty, mono, and
-24 kHz. The duration range is 1.013 to 5.376 seconds. Median RTF is 0.01338.
-There are no clipping warnings.
+The 1k, 5k, and 25k checkpoints each made all 1,677 fixed evaluation
+utterances. Independent validation accepted all 5,031 WAV files. Each file is
+finite, non-empty, mono, and 24 kHz. No evaluation set has a clipping warning.
 
-The local entry point made a 3.189-second raw WAV. Its RTF is 0.10438 and its peak
-absolute sample is 0.509. It also wrote the frontend, checkpoint, and config
-metadata.
+| Milestone | WAV count | Duration range, s | Median RTF |
+|---|---:|---:|---:|
+| 1k | 1,677 | 0.736--5.760 | 0.00829 |
+| 5k | 1,677 | 0.704--6.635 | 0.00833 |
+| 25k | 1,677 | 0.832--7.371 | 0.00800 |
+
+The local entry point made one Lada WAV and one Dmytro zero-shot WAV. The Lada
+WAV is 2.880 seconds and has RTF 0.13110. The Dmytro WAV is 3.115 seconds and
+has RTF 0.11909. Both files have adjacent JSON metadata.
 
 ## Deployment
 
-The 25k checkpoint, config, token list, statistics, TensorBoard files, inference
-report, local example, and 20-item listening set exist. The checkpoint SHA-256 is
-`58f4673676cd382d1ae2bc6c5a7a80e809ccce9e2b3dea42edef6cae177f9d75`.
-Perceptual review and release packaging remain separate steps.
+The release candidate is
+`training/releases/uk-tts-jets-multispeaker-25k-rc/`. It contains 34 files,
+including the checkpoint, config, token list, statistics, frontend snapshot,
+automatic evaluation, power report, TensorBoard report, licenses, cards,
+examples, and SHA-256 checksums.
+
+The checkpoint SHA-256 is
+`395ccaba7e6837a60257a622b8d9ce0352246e41f728273e92d09c41b444f445`.
+The 20-item listening set contains balanced Common Voice and Lada items for the
+1k, 5k, and 25k candidates. Perceptual review is the next release decision.
