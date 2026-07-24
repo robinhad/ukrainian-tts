@@ -1,0 +1,456 @@
+{
+  "actual_records": 82662,
+  "enhancement_config_hashes": [
+    "c34a74614c56b1a46478b20c336bdec56c567957009e5f1321b6ff76b14741a0"
+  ],
+  "expected_records": 83549,
+  "loudness_output_i": {
+    "maximum": -22.0,
+    "median": -22.97,
+    "minimum": -23.98,
+    "outside_one_lu": 0,
+    "target_lufs": -23.0
+  },
+  "loudness_rejected_examples": [
+    {
+      "output_i_lufs": -21.69,
+      "utterance_id": "cv22_common_voice_uk_21374966_ed48cdbedd"
+    },
+    {
+      "output_i_lufs": -21.93,
+      "utterance_id": "cv22_common_voice_uk_21470287_e3f7bef01f"
+    },
+    {
+      "output_i_lufs": -21.71,
+      "utterance_id": "cv22_common_voice_uk_21506814_76a7a05f10"
+    },
+    {
+      "output_i_lufs": -37.08,
+      "utterance_id": "cv22_common_voice_uk_21565340_ba3dc3ac25"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_21567369_ffbaf04ff2"
+    },
+    {
+      "output_i_lufs": -21.94,
+      "utterance_id": "cv22_common_voice_uk_21582288_03db079570"
+    },
+    {
+      "output_i_lufs": -37.53,
+      "utterance_id": "cv22_common_voice_uk_21797587_f0a7969f62"
+    },
+    {
+      "output_i_lufs": -44.08,
+      "utterance_id": "cv22_common_voice_uk_22046720_8b1a3cffd5"
+    },
+    {
+      "output_i_lufs": -21.85,
+      "utterance_id": "cv22_common_voice_uk_22423294_1262de6eac"
+    },
+    {
+      "output_i_lufs": -21.69,
+      "utterance_id": "cv22_common_voice_uk_22433689_9a9bebc376"
+    },
+    {
+      "output_i_lufs": -21.78,
+      "utterance_id": "cv22_common_voice_uk_23558692_0943ce5324"
+    },
+    {
+      "output_i_lufs": -21.9,
+      "utterance_id": "cv22_common_voice_uk_23568766_e606552ad2"
+    },
+    {
+      "output_i_lufs": -42.53,
+      "utterance_id": "cv22_common_voice_uk_23570340_5126d89f2a"
+    },
+    {
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_23576904_c1c5215415"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_23694644_c6fee9c9c3"
+    },
+    {
+      "output_i_lufs": -21.96,
+      "utterance_id": "cv22_common_voice_uk_23874287_f8e5130246"
+    },
+    {
+      "output_i_lufs": -21.59,
+      "utterance_id": "cv22_common_voice_uk_23956004_c9da58a025"
+    },
+    {
+      "output_i_lufs": -21.77,
+      "utterance_id": "cv22_common_voice_uk_23956621_3a138bd231"
+    },
+    {
+      "output_i_lufs": -37.3,
+      "utterance_id": "cv22_common_voice_uk_24464215_fb64ded93f"
+    },
+    {
+      "output_i_lufs": -25.39,
+      "utterance_id": "cv22_common_voice_uk_24507128_f44aeb7e90"
+    },
+    {
+      "output_i_lufs": -25.58,
+      "utterance_id": "cv22_common_voice_uk_24507292_8b81c7ab20"
+    },
+    {
+      "output_i_lufs": -39.76,
+      "utterance_id": "cv22_common_voice_uk_25146448_da5bcff775"
+    },
+    {
+      "output_i_lufs": -21.75,
+      "utterance_id": "cv22_common_voice_uk_25874435_d705ee367c"
+    },
+    {
+      "output_i_lufs": -21.96,
+      "utterance_id": "cv22_common_voice_uk_25875262_310a24f543"
+    },
+    {
+      "output_i_lufs": -21.92,
+      "utterance_id": "cv22_common_voice_uk_25944359_b430ed4b2b"
+    },
+    {
+      "output_i_lufs": -21.88,
+      "utterance_id": "cv22_common_voice_uk_26214161_4afbcac973"
+    },
+    {
+      "output_i_lufs": -21.95,
+      "utterance_id": "cv22_common_voice_uk_26575860_7538cd0792"
+    },
+    {
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_26631809_a72364c85f"
+    },
+    {
+      "output_i_lufs": -21.77,
+      "utterance_id": "cv22_common_voice_uk_26632063_a6f8bacfb2"
+    },
+    {
+      "output_i_lufs": -37.48,
+      "utterance_id": "cv22_common_voice_uk_27447996_73bca0a49d"
+    },
+    {
+      "output_i_lufs": -38.81,
+      "utterance_id": "cv22_common_voice_uk_27597652_2c300c9050"
+    },
+    {
+      "output_i_lufs": -36.56,
+      "utterance_id": "cv22_common_voice_uk_27604030_3e12c70aaa"
+    },
+    {
+      "output_i_lufs": -37.74,
+      "utterance_id": "cv22_common_voice_uk_27627282_d6a392fe8f"
+    },
+    {
+      "output_i_lufs": -21.91,
+      "utterance_id": "cv22_common_voice_uk_29103613_8ae3f47f37"
+    },
+    {
+      "output_i_lufs": -21.61,
+      "utterance_id": "cv22_common_voice_uk_30519152_58fdcee187"
+    },
+    {
+      "output_i_lufs": -38.5,
+      "utterance_id": "cv22_common_voice_uk_30602035_c33adffe26"
+    },
+    {
+      "output_i_lufs": -38.92,
+      "utterance_id": "cv22_common_voice_uk_30608084_334a2b9faf"
+    },
+    {
+      "output_i_lufs": -40.65,
+      "utterance_id": "cv22_common_voice_uk_30608176_7ded8eb2cf"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_30669628_754f6a5522"
+    },
+    {
+      "output_i_lufs": -38.49,
+      "utterance_id": "cv22_common_voice_uk_32834438_1c8efffd1a"
+    },
+    {
+      "output_i_lufs": -21.7,
+      "utterance_id": "cv22_common_voice_uk_32848348_9d5b11779d"
+    },
+    {
+      "output_i_lufs": -21.98,
+      "utterance_id": "cv22_common_voice_uk_33276541_8fcb1234f0"
+    },
+    {
+      "output_i_lufs": -50.29,
+      "utterance_id": "cv22_common_voice_uk_33334642_6d2e858fcd"
+    },
+    {
+      "output_i_lufs": -21.89,
+      "utterance_id": "cv22_common_voice_uk_36490821_3bdd22a7d9"
+    },
+    {
+      "output_i_lufs": -40.01,
+      "utterance_id": "cv22_common_voice_uk_36926421_9548dfd8c5"
+    },
+    {
+      "output_i_lufs": -21.55,
+      "utterance_id": "cv22_common_voice_uk_37160131_e17bba22f1"
+    },
+    {
+      "output_i_lufs": -36.63,
+      "utterance_id": "cv22_common_voice_uk_38098521_4759680a17"
+    },
+    {
+      "output_i_lufs": -37.84,
+      "utterance_id": "cv22_common_voice_uk_38189932_37660263fc"
+    },
+    {
+      "output_i_lufs": -26.92,
+      "utterance_id": "cv22_common_voice_uk_38192725_954e63d50c"
+    },
+    {
+      "output_i_lufs": -21.56,
+      "utterance_id": "cv22_common_voice_uk_38197231_7b0bc521b8"
+    },
+    {
+      "output_i_lufs": -21.94,
+      "utterance_id": "cv22_common_voice_uk_38198611_85d0ef0730"
+    },
+    {
+      "output_i_lufs": -37.69,
+      "utterance_id": "cv22_common_voice_uk_38237002_ef2f95e174"
+    },
+    {
+      "output_i_lufs": -26.44,
+      "utterance_id": "cv22_common_voice_uk_38249043_5b0bfb6dc2"
+    },
+    {
+      "output_i_lufs": -43.32,
+      "utterance_id": "cv22_common_voice_uk_38277637_629716a602"
+    },
+    {
+      "output_i_lufs": -21.78,
+      "utterance_id": "cv22_common_voice_uk_38289509_9a41b6dcb6"
+    },
+    {
+      "output_i_lufs": -21.94,
+      "utterance_id": "cv22_common_voice_uk_38511186_ead9685c48"
+    },
+    {
+      "output_i_lufs": -21.86,
+      "utterance_id": "lada_25314_26f5085a44"
+    },
+    {
+      "output_i_lufs": -21.77,
+      "utterance_id": "cv22_common_voice_uk_21222765_5630c62082"
+    },
+    {
+      "output_i_lufs": -21.49,
+      "utterance_id": "cv22_common_voice_uk_21450223_1da953e736"
+    },
+    {
+      "output_i_lufs": -21.63,
+      "utterance_id": "cv22_common_voice_uk_21450447_169698f5c8"
+    },
+    {
+      "output_i_lufs": -21.94,
+      "utterance_id": "cv22_common_voice_uk_21506902_7cbbc11702"
+    },
+    {
+      "output_i_lufs": -21.92,
+      "utterance_id": "cv22_common_voice_uk_21565038_86d1dbfd07"
+    },
+    {
+      "output_i_lufs": -36.99,
+      "utterance_id": "cv22_common_voice_uk_21566122_a95ddf0abb"
+    },
+    {
+      "output_i_lufs": -21.87,
+      "utterance_id": "cv22_common_voice_uk_21567619_72b6661f62"
+    },
+    {
+      "output_i_lufs": -36.3,
+      "utterance_id": "cv22_common_voice_uk_21573989_25753bdfcd"
+    },
+    {
+      "output_i_lufs": -61.51,
+      "utterance_id": "cv22_common_voice_uk_21731878_d1c6fe563c"
+    },
+    {
+      "output_i_lufs": -21.87,
+      "utterance_id": "cv22_common_voice_uk_21770253_995642c5da"
+    },
+    {
+      "output_i_lufs": -38.83,
+      "utterance_id": "cv22_common_voice_uk_21797552_561663e330"
+    },
+    {
+      "output_i_lufs": -38.14,
+      "utterance_id": "cv22_common_voice_uk_22113343_5005c13fd1"
+    },
+    {
+      "output_i_lufs": -21.9,
+      "utterance_id": "cv22_common_voice_uk_22130058_05595de2d2"
+    },
+    {
+      "output_i_lufs": -21.82,
+      "utterance_id": "cv22_common_voice_uk_22436913_0b9527d0cd"
+    },
+    {
+      "output_i_lufs": -21.7,
+      "utterance_id": "cv22_common_voice_uk_22667570_c3ec51240c"
+    },
+    {
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_23555576_6f3a1335c6"
+    },
+    {
+      "output_i_lufs": -20.75,
+      "utterance_id": "cv22_common_voice_uk_23568783_effa3ec048"
+    },
+    {
+      "output_i_lufs": -21.98,
+      "utterance_id": "cv22_common_voice_uk_23570009_4ae794ecb9"
+    },
+    {
+      "output_i_lufs": -41.66,
+      "utterance_id": "cv22_common_voice_uk_23571013_1f9a1f8f9f"
+    },
+    {
+      "output_i_lufs": -21.94,
+      "utterance_id": "cv22_common_voice_uk_23576084_ef54fcee65"
+    },
+    {
+      "output_i_lufs": -21.79,
+      "utterance_id": "cv22_common_voice_uk_23937046_5af2a84603"
+    },
+    {
+      "output_i_lufs": -40.96,
+      "utterance_id": "cv22_common_voice_uk_23951293_8b0a7e6635"
+    },
+    {
+      "output_i_lufs": -21.76,
+      "utterance_id": "cv22_common_voice_uk_23956808_549526e2cc"
+    },
+    {
+      "output_i_lufs": -21.61,
+      "utterance_id": "cv22_common_voice_uk_23964680_1fb16e2d04"
+    },
+    {
+      "output_i_lufs": -21.96,
+      "utterance_id": "cv22_common_voice_uk_24093039_7a6f69cf03"
+    },
+    {
+      "output_i_lufs": -21.9,
+      "utterance_id": "cv22_common_voice_uk_24492093_eee89fb4f0"
+    },
+    {
+      "output_i_lufs": -25.08,
+      "utterance_id": "cv22_common_voice_uk_24507134_d6893e7782"
+    },
+    {
+      "output_i_lufs": -21.91,
+      "utterance_id": "cv22_common_voice_uk_25533000_cdd0aedc88"
+    },
+    {
+      "output_i_lufs": -21.72,
+      "utterance_id": "cv22_common_voice_uk_25534621_4bd4479fd6"
+    },
+    {
+      "output_i_lufs": -21.87,
+      "utterance_id": "cv22_common_voice_uk_25610851_4f9facdaf0"
+    },
+    {
+      "output_i_lufs": -21.79,
+      "utterance_id": "cv22_common_voice_uk_25944621_1f18469803"
+    },
+    {
+      "output_i_lufs": -21.89,
+      "utterance_id": "cv22_common_voice_uk_25944748_5095c9aeaf"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_26816367_6d00ce86cd"
+    },
+    {
+      "output_i_lufs": -21.91,
+      "utterance_id": "cv22_common_voice_uk_26983742_98728d8089"
+    },
+    {
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_27318913_8106260eab"
+    },
+    {
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_30543820_be23235bad"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_30586040_cb3e2b3872"
+    },
+    {
+      "output_i_lufs": -21.95,
+      "utterance_id": "cv22_common_voice_uk_30985422_8931829668"
+    },
+    {
+      "output_i_lufs": -21.73,
+      "utterance_id": "cv22_common_voice_uk_32174305_277c3cec3c"
+    },
+    {
+      "output_i_lufs": -21.99,
+      "utterance_id": "cv22_common_voice_uk_32424684_f2cb7038f3"
+    },
+    {
+      "output_i_lufs": -21.62,
+      "utterance_id": "cv22_common_voice_uk_32659637_7a5e258059"
+    },
+    {
+      "output_i_lufs": -36.38,
+      "utterance_id": "cv22_common_voice_uk_33586800_4fc7f47ff4"
+    },
+    {
+      "output_i_lufs": -21.99,
+      "utterance_id": "cv22_common_voice_uk_34120294_e710563575"
+    }
+  ],
+  "loudness_rejected_records": 880,
+  "loudness_tolerance_lu": 1.0,
+  "maximum_true_peak_db": -1.0,
+  "rejected_examples": [
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-z0rzimaq/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.3:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38192786_238d9f61b7.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38192786_238d9f61b7"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-fim742en/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-52.17:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_21567554_71e21dbfb5.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_21567554_71e21dbfb5"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-01ozqw0d/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-44.84:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38189036_bf950e7a27.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38189036_bf950e7a27"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-erhdrhyu/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-54.55:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38191283_fcb5478a45.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38191283_fcb5478a45"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-7f1vz181/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-53.93:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_24507344_7adaf66820.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_24507344_7adaf66820"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-y3m8ummu/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-55.42:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38191909_bb91f33826.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38191909_bb91f33826"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ridkrts4/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-53.27:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_38192744_605ae7b1ab.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38192744_605ae7b1ab"
+    }
+  ],
+  "rejected_records": 7,
+  "splits": {
+    "multispeaker_dev": 1815,
+    "multispeaker_eval": 1659,
+    "multispeaker_train": 79188
+  },
+  "status": "PASS"
+}

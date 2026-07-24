@@ -17,7 +17,10 @@ def main() -> int:
     parser.add_argument("--records-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--loudness-tolerance-lu", type=float, default=1.0)
     args = parser.parse_args()
+    if args.loudness_tolerance_lu <= 0:
+        parser.error("--loudness-tolerance-lu must be positive")
 
     source = pd.read_parquet(args.source_manifest)
     rows = []
@@ -53,7 +56,15 @@ def main() -> int:
         args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         raise SystemExit("The enhanced record set is incomplete.")
 
-    frame = frame[frame["enhancement_status"] == "ok"]
+    frame = frame[frame["enhancement_status"] == "ok"].copy()
+    frame["output_i_lufs"] = [
+        item["second_pass"]["output_i"] for item in frame["loudness"]
+    ]
+    loudness_mask = np.isfinite(frame["output_i_lufs"]) & (
+        np.abs(frame["output_i_lufs"] + 23.0) <= args.loudness_tolerance_lu
+    )
+    loudness_rejected = frame[~loudness_mask].copy()
+    frame = frame[loudness_mask]
     frame = frame.sort_values("utterance_id").reset_index(drop=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(args.output_dir / "all.parquet", index=False)
@@ -72,6 +83,11 @@ def main() -> int:
         "actual_records": len(frame),
         "enhancement_config_hashes": sorted(frame["enhancement_config_hash"].unique()),
         "expected_records": len(source),
+        "loudness_rejected_records": len(loudness_rejected),
+        "loudness_rejected_examples": loudness_rejected[
+            ["utterance_id", "output_i_lufs"]
+        ].head(100).to_dict(orient="records"),
+        "loudness_tolerance_lu": args.loudness_tolerance_lu,
         "rejected_records": len(failures),
         "rejected_examples": failures[
             ["utterance_id", "enhancement_error"]
