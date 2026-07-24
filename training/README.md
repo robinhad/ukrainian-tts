@@ -224,7 +224,8 @@ The finalization command starts only after the 25k checkpoint exists. It
 validates all 1,677 fixed evaluation files. It also makes a listening set with
 10 Common Voice references and 10 Lada references. It makes one Lada example
 and one zero-shot Dmytro example. The zero-shot example does not make Dmytro a
-trained speaker.
+trained speaker. It makes a release candidate with model, frontend, statistics,
+reports, licenses, cards, and SHA-256 checksums.
 
 Use this command to view the current model metrics:
 

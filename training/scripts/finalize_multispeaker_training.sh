@@ -14,6 +14,7 @@ MANIFEST="${ROOT}/data/multispeaker_full/manifests/multispeaker_eval.parquet"
 REPORT="${ROOT}/reports/multispeaker_full_inference_${MILESTONE_LABEL}.json"
 SPEAKER_ARK="${ROOT}/data/multispeaker/source_metadata/spk_xvector_v6.ark"
 EXAMPLE_TEXT="Український синтез мовлення працює офлайн."
+RELEASE_DIR="${ROOT}/releases/uk-tts-jets-multispeaker-${MILESTONE_LABEL}-rc"
 
 if [[ ! -s "$SOURCE_CHECKPOINT" ]]; then
     echo "The checkpoint does not exist: $SOURCE_CHECKPOINT" >&2
@@ -75,7 +76,14 @@ python "${ROOT}/scripts/build_listening_set.py" \
     --output \
         "${ROOT}/eval/generated/listening_multispeaker_${MILESTONE_LABEL}"
 
+python "${ROOT}/scripts/package_multispeaker_release.py" \
+    --checkpoint "$MILESTONE_CHECKPOINT" \
+    --evaluation-report "$REPORT" \
+    --milestone "$MILESTONE_LABEL" \
+    --output "$RELEASE_DIR"
+
 echo "Checkpoint: $MILESTONE_CHECKPOINT"
 echo "Evaluation report: $REPORT"
 echo "Listening set: ${ROOT}/eval/generated/listening_multispeaker_${MILESTONE_LABEL}"
+echo "Release candidate: $RELEASE_DIR"
 echo "The Dmytro example is zero-shot. Dmytro data was not in the train set."
