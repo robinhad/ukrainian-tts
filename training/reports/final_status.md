@@ -107,6 +107,9 @@ clipping warning. Duration is 0.832 to 7.371 seconds. Median RTF is 0.00800.
 - Dmytro has no raw training corpus. Dmytro is a zero-shot inference target.
 - Automatic WAV checks do not measure naturalness, pronunciation, or speaker
   similarity.
+- The user reported a metallic timbre in the 25k output. The perceptual status
+  is `FAIL` until the five-voice review identifies whether the artifact is
+  shared or speaker-dependent.
 - GPU0 reached 85 C and had brief software thermal slowdown. Hardware thermal
   slowdown did not occur.
 - NCCL cannot use direct P2P on this host. It uses shared-memory transport.
@@ -115,6 +118,7 @@ clipping warning. Duration is 0.832 to 7.371 seconds. Median RTF is 0.00800.
 
 ## Наступна одна дія
 
-Listen to the 20 items in
-`training/eval/generated/listening_multispeaker_25k/`. Record the perceptual
-result before you promote the release candidate.
+Listen to the five files in
+`training/eval/generated/five_voice_metallic_review/`. Record whether the
+metallic artifact is present in all voices before you select the next training
+change.

@@ -138,6 +138,31 @@ The release candidate is
 `releases/uk-tts-jets-multispeaker-25k-rc/`. The listening set has 20 balanced
 Common Voice and Lada items for the three milestone candidates.
 
+## Metallic-timbre follow-up
+
+The user reported that the 25k voice sounds too metallic. This is a perceptual
+`FAIL`. Automatic waveform checks cannot reject this artifact.
+
+The follow-up set uses this fixed sentence:
+
+> Кам'янець-Подільський - місто в Хмельницькій області України, центр
+> Кам'янець-Подільської міської об'єднаної територіальної громади і
+> Кам'янець-Подільського району.
+
+The set contains Lada, Dmytro zero-shot, and three representative Common Voice
+embedding clusters. The Common Voice vectors are deterministic cluster medoids,
+not maximum-distance outliers. All five outputs are finite, non-empty, mono,
+and 24 kHz. None has a clipping warning.
+
+If all five outputs have the same metallic artifact, the shared JETS generator
+or the mixed acoustic data is the likely source. If the artifact changes by
+voice, speaker conditioning and source acoustics need separate review.
+
+Artifacts:
+
+- `eval/generated/five_voice_metallic_review/`
+- `reports/five_voice_listening_eval.json`
+
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.
 

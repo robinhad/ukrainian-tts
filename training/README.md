@@ -255,3 +255,25 @@ Listen to the balanced set before you promote this candidate:
 ```text
 training/eval/generated/listening_multispeaker_25k/
 ```
+
+## Generate the five-voice metallic-timbre review
+
+The user reported a metallic timbre in the 25k model. This command makes the
+same long sentence with Lada, Dmytro zero-shot, and three representative Common
+Voice embedding clusters:
+
+```bash
+training/scripts/generate_five_voice_listening_eval.sh
+```
+
+The script selects Common Voice cluster medoids. It does not select extreme
+embedding outliers. It validates all five WAV files and writes:
+
+```text
+training/eval/generated/five_voice_metallic_review/
+training/reports/five_voice_listening_eval.json
+```
+
+If all five files have the same artifact, review the shared JETS generator and
+the mixed acoustic data. If the artifact changes by voice, review the speaker
+embedding and its source audio.
