@@ -71,6 +71,7 @@ def make_cards(
     power: dict,
     metrics: dict,
     dataset_hash: str,
+    training_commit: str,
     repository_commit: str,
 ) -> None:
     model_card = f"""# Ukrainian JETS multispeaker model
@@ -91,7 +92,9 @@ Use the same frontend, token list, statistics, and eSpeak-ng data that are in
 this package. The Dmytro example is zero-shot. Dmytro data was not in the train
 set.
 
-Repository commit: `{repository_commit}`
+Training commit: `{training_commit}`
+
+Packaging commit: `{repository_commit}`
 
 Dataset SHA-256: `{dataset_hash}`
 
@@ -207,6 +210,14 @@ def main() -> int:
             / "exp_multispeaker_full"
             / "tts_jets_uk_24k_multispeaker"
         )
+        training_commit_path = tts_exp / "training_git_commit.txt"
+        copy_required(
+            training_commit_path,
+            temporary / "training-commit.txt",
+        )
+        training_commit = training_commit_path.read_text(
+            encoding="utf-8"
+        ).strip()
         copy_required(tts_exp / "config.yaml", temporary / "config.yaml")
         copy_required(
             root
@@ -284,6 +295,7 @@ def main() -> int:
             power=power,
             metrics=metrics,
             dataset_hash=dataset_hash,
+            training_commit=training_commit,
             repository_commit=repository_commit,
         )
         write_checksums(temporary)

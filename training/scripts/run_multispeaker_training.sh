@@ -29,6 +29,10 @@ export DATA_SETS="${TRAIN_SET} ${VALID_SET} ${TEST_SETS}"
 export DUMP_DIR="${ROOT}/dump_multispeaker_full"
 export EXP_DIR="${ROOT}/exp_multispeaker_full"
 TTS_EXP="${EXP_DIR}/tts_jets_uk_24k_multispeaker"
+mkdir -p "$TTS_EXP"
+if [[ ! -e "${TTS_EXP}/training_git_commit.txt" ]]; then
+    git -C "${ROOT}/.." rev-parse HEAD > "${TTS_EXP}/training_git_commit.txt"
+fi
 
 python "${ROOT}/scripts/run_logged.py" \
     --log "${ROOT}/reports/commands.jsonl" --eta-minutes "${ETA_MINUTES}" -- \
