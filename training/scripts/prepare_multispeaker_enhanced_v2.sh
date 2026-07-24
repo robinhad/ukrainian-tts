@@ -18,6 +18,7 @@ fi
 NUM_SHARDS=$((WORKERS_PER_GPU * ${#GPUS[@]}))
 
 source "${ROOT}/activate.sh"
+export CUDA_VISIBLE_DEVICES="$GPU_UUIDS"
 python "${ROOT}/scripts/check_resources.py" \
     --mode full --require-torch --gpu-uuids "$GPU_UUIDS" \
     --workspace "$ROOT" --output "${ROOT}/reports/resource_usage.jsonl"
@@ -70,4 +71,3 @@ export GPU_COUNT=2
 
 "${ROOT}/espnet_recipe/run_multispeaker_enhanced_v2.sh" \
     --stage 1 --stop_stage 6
-
