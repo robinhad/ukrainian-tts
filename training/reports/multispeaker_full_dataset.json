@@ -1,6 +1,6 @@
 {
   "clipping_files": 633,
-  "duration_hours": 84.87962111111128,
+  "duration_hours": 84.87139851851866,
   "duration_max": 10.48,
   "duration_median": 3.3786666666666667,
   "duration_min": 0.488,
@@ -8,8 +8,8 @@
   "splits": {
     "multispeaker_dev": 1831,
     "multispeaker_eval": 1677,
-    "multispeaker_train": 80047
+    "multispeaker_train": 80041
   },
   "status": "PASS",
-  "utterances": 83555
+  "utterances": 83549
 }

@@ -31,12 +31,12 @@ quality.
 
 | Item | Value |
 |---|---:|
-| Common Voice records | 76,768 |
+| Common Voice records | 76,762 |
 | Lada records | 6,787 |
 | Dmytro training records | 0 |
-| Total records | 83,555 |
-| Total duration after trim | 84.880 h |
-| Train records | 80,047 |
+| Total records | 83,549 |
+| Total duration after trim | 84.871 h |
+| Train records | 80,041 |
 | Development records | 1,831 |
 | Evaluation records | 1,677 |
 | Cross-source duplicate texts removed | 33 |
@@ -49,17 +49,31 @@ does not apply denoise, normalization, compression, de-essing, or mastering.
 
 ## Current modeling status
 
-ESPnet data preparation is complete. ECAPA extraction made 80,047 train, 1,831
-development, and 1,677 evaluation vectors.
+ESPnet data preparation is complete. The retained ECAPA store contains 80,041
+train, 1,831 development, and 1,677 evaluation vectors.
 
 The first full token-list attempt exposed punctuation that was joined to
 phonemes. The list had 873 tokens. The pipeline rejected this output before
 calibration. Frontend version `uk_espeak_v2` separates each punctuation mark
-from phonemes. The 50-case and 500-case snapshots pass. The corrected full list
-has 103 tokens, no joined punctuation token, and 0.0 percent OOV.
+from phonemes. The 50-case and 500-case snapshots pass.
 
-The statistics stage processed all 80,047 train and 1,831 development records.
-Speech, pitch, and energy statistics are finite.
+The first long run exposed six corrupted Common Voice transcriptions. Each
+transcription contained many source metadata rows. Their phoneme lengths were
+10,763 to 244,054 tokens. Normal corpus text has at most 140 tokens. Transformer
+self-attention caused a CUDA out-of-memory error in batch 941--950. The run
+stopped before the first checkpoint. The rejected run and its data artifacts
+remain in paths that contain `rejected_corrupt_text`.
+
+The ingestion step now rejects embedded tab or newline metadata and text that
+has more than 500 characters. Dataset validation also rejects text or phoneme
+sequences above 500 items. The corrected source has six fewer Common Voice
+rows. The test suite has 49 passing tests.
+
+The corrected full list has 87 lines, no joined punctuation token, and 0.0
+percent OOV. It contains 84 corpus tokens and three ESPnet special tokens. The
+statistics stage processed all 80,041 train and 1,831 development records.
+Speech, pitch, and energy statistics are finite. Maximum train text shape is
+140 tokens.
 
 The full training plan is:
 
@@ -69,7 +83,7 @@ The full training plan is:
 4. Start the 25,000-iteration run only after calibration passes.
 5. Generate the fixed evaluation set at the 1k, 5k, and 25k milestones.
 
-Calibration results at this time are:
+The initial calibration results were:
 
 | Batch bins | Result | Peak cached VRAM | Validation generator loss |
 |---:|---|---:|---:|
@@ -81,9 +95,13 @@ Calibration results at this time are:
 | 5,500,000 | FAIL reserve | More than 23 GiB observed | Not completed |
 
 The 4,650,000 and larger settings did not keep the required memory reserve.
-Discrete batch composition causes a memory jump above 4,500,000. The selected
-long-run value is 4,500,000. It is the largest setting that completed 200
-iterations and kept the memory gate.
+Discrete batch composition causes a memory jump above 4,500,000. The
+200-iteration test at 4,500,000 did not contain a corrupted row. Therefore, it
+did not expose the source defect.
+
+The next gate uses the corrected data at 4,500,000 batch bins for one complete
+1,000-iteration epoch. The 25k run can resume only after this gate makes a
+checkpoint and finite validation metrics.
 
 ESPnet writes TensorBoard event files through PyTorch. TensorFlow is not a
 training runtime dependency.

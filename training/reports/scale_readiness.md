@@ -39,17 +39,18 @@ All available gates for the silence-trimmed 25k run are `PASS`.
 
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
-| Full source manifest | PASS | 76,768 Common Voice and 6,787 Lada records; 33 cross-source duplicate texts removed | `data/multispeaker_full/source_records.jsonl` | Keep the source revisions fixed |
-| Silence trim | PASS | 83,555 model copies; 84.880 h after trim; raw files unchanged | `reports/multispeaker_full_dataset.json` | Keep the trim configuration fixed |
-| Split validation | PASS | 80,047 train, 1,831 development, and 1,677 evaluation records; no validation errors | `data/multispeaker_full/manifests/` | Preserve the manifest hashes |
-| Frontend regression | PASS | 34 tests; 50-case and 500-case snapshots; no joined punctuation token | `tests/frontend/` | Reject frontend drift |
-| Token list | PASS | 103 tokens and 0.0 percent OOV | `dump_multispeaker_full/token_list/phn_espeak_ng_ukrainian/tokens.txt` | Preserve with the model |
-| Speaker embeddings | PASS | 83,555 finite 192-D ECAPA vectors | `dump_multispeaker_full/xvector/` | Preserve the pinned ECAPA revision |
-| Pitch and energy statistics | PASS | 80,047 train and 1,831 development shapes; finite NPZ files | `exp_multispeaker_full/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the model |
-| Dual-GPU calibration | PASS | 4.5M completed 200 iterations; no NaN or OOM; larger settings failed the memory-reserve gate | `exp_multispeaker_full/calibration_4500000/train.log` | Start 25k with 4.5M |
-| Long training | NOT RUN | Calibration is complete | `scripts/run_multispeaker_training.sh` | Run the 25k command |
+| Full source manifest | PASS | 76,762 Common Voice and 6,787 Lada records; six embedded-metadata transcriptions and 33 cross-source duplicate texts removed | `data/multispeaker_full/source_records.jsonl` | Keep the source revisions and text limits fixed |
+| Silence trim | PASS | 83,549 retained model copies; 84.871 h after trim; raw files unchanged | `reports/multispeaker_full_dataset.json` | Keep the trim configuration fixed |
+| Split validation | PASS | 80,041 train, 1,831 development, and 1,677 evaluation records; no validation errors; maximum phoneme length 140 | `data/multispeaker_full/manifests/` | Preserve the manifest hashes |
+| Frontend regression | PASS | 49 tests; 50-case and 500-case snapshots; no joined punctuation token; extreme text guard | `tests/frontend/`, `tests/test_validate_dataset.py` | Reject frontend or source-text drift |
+| Token list | PASS | 87 lines and 0.0 percent OOV | `dump_multispeaker_full/token_list/phn_espeak_ng_ukrainian/tokens.txt` | Preserve with the model |
+| Speaker embeddings | PASS | 83,549 retained finite, nonzero 192-D ECAPA vectors | `dump_multispeaker_full/xvector/` | Preserve the pinned ECAPA revision |
+| Pitch and energy statistics | PASS | 80,041 train and 1,831 development shapes; six finite NPZ files | `exp_multispeaker_full/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve with the model |
+| Rejected first long run | FAIL | Batch 941--950 caused text-attention OOM; six source rows had 10,763--244,054 phonemes; no checkpoint existed | `exp_multispeaker_full/tts_jets_uk_24k_multispeaker_rejected_corrupt_text_4500000/` | Use only the corrected data |
+| Corrected dual-GPU 1k gate | NOT RUN | Corrected data and statistics pass; 4.5M is the largest prior bounded setting with memory reserve | `scripts/run_multispeaker_training.sh` | Run one complete epoch at 4.5M |
+| Long training | NOT RUN | The corrected 1k gate must pass first | `scripts/run_multispeaker_training.sh` | Resume to 25k after a valid 1k checkpoint |
 | Full fixed-set inference | NOT RUN | A long-run checkpoint does not exist yet | `scripts/run_multispeaker_milestone_inference.sh` | Run after a milestone checkpoint |
 
-All data and calibration gates are `PASS`. Long dual-GPU training is permitted.
-Dmytro remains an inference-only zero-shot target because no raw Dmytro corpus
-is available.
+All corrected data gates are `PASS`. The one-epoch gate must pass before the
+25k run. Dmytro remains an inference-only zero-shot target because no raw
+Dmytro corpus is available.
