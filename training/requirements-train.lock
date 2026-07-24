@@ -6,6 +6,8 @@ aiohttp==3.14.2
     # via fsspec
 aiosignal==1.4.0
     # via aiohttp
+appdirs==1.4.4
+    # via deepfilternet
 async-timeout==5.0.1
     # via aiohttp
 attrs==26.1.0
@@ -38,6 +40,10 @@ datasets==4.0.0
     # via -r training/requirements-train.in
 decorator==5.3.1
     # via librosa
+deepfilterlib==0.5.6
+    # via deepfilternet
+deepfilternet==0.5.6
+    # via -r training/requirements-train.in
 dill==0.3.8
     # via
     #   datasets
@@ -99,6 +105,8 @@ librosa==0.11.0
     # via -r training/requirements-train.in
 llvmlite==0.48.0
     # via numba
+loguru==0.7.3
+    # via deepfilternet
 markupsafe==3.0.3
     # via jinja2
 mpmath==1.3.0
@@ -117,10 +125,12 @@ numba==0.66.0
     # via
     #   librosa
     #   resampy
-numpy==2.2.6
+numpy==1.26.4
     # via
     #   -r training/requirements-train.in
     #   datasets
+    #   deepfilterlib
+    #   deepfilternet
     #   librosa
     #   numba
     #   pandas
@@ -172,9 +182,10 @@ nvidia-nvshmem-cu13==3.4.5
     # via torch
 nvidia-nvtx==13.0.85
     # via cuda-toolkit
-packaging==26.2
+packaging==23.2
     # via
     #   datasets
+    #   deepfilternet
     #   huggingface-hub
     #   lazy-loader
     #   pooch
@@ -239,6 +250,7 @@ regex==2026.7.19
 requests==2.34.2
     # via
     #   datasets
+    #   deepfilternet
     #   huggingface-hub
     #   pooch
     #   speechbrain
@@ -279,7 +291,9 @@ soxr==1.1.0
 speechbrain==1.1.0
     # via -r training/requirements-train.in
 sympy==1.14.0
-    # via torch
+    # via
+    #   deepfilternet
+    #   torch
 termcolor==3.3.0
     # via csvw
 threadpoolctl==3.6.0

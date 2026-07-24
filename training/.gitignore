@@ -13,6 +13,7 @@ vendor/espnet-src/
 vendor/espeak-ng-src/
 vendor/espeak-ng-install/
 vendor/speechbrain-spkrec-ecapa-voxceleb/
+vendor/deepfilternet-cache/
 dump_multispeaker*/
 exp_multispeaker*/
 espnet_recipe/pyscripts
