@@ -1,0 +1,31 @@
+{
+  "first_sample_kyiv": "2026-07-24T23:26:27.601445+03:00",
+  "gpus": [
+    {
+      "index": 0,
+      "maximum_sampled_memory_mib": 20086,
+      "maximum_sampled_power_w": 231.31,
+      "maximum_sampled_temperature_c": 86,
+      "maximum_sampled_utilization_percent": 100,
+      "mean_sampled_power_w": 182.19,
+      "mean_sampled_utilization_percent": 43.52,
+      "power_limit_w": 300.0,
+      "sample_count": 274
+    },
+    {
+      "index": 1,
+      "maximum_sampled_memory_mib": 13462,
+      "maximum_sampled_power_w": 241.6,
+      "maximum_sampled_temperature_c": 78,
+      "maximum_sampled_utilization_percent": 100,
+      "mean_sampled_power_w": 210.31,
+      "mean_sampled_utilization_percent": 55.76,
+      "power_limit_w": 300.0,
+      "sample_count": 274
+    }
+  ],
+  "last_sample_kyiv": "2026-07-25T22:12:39.067150+03:00",
+  "sample_count": 274,
+  "source": "training/reports/training_status_multispeaker_enhanced_v2_100k.jsonl",
+  "status": "PASS"
+}

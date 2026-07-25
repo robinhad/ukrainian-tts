@@ -120,8 +120,42 @@ sentence:
 Automatic checks do not measure metallic timbre. A human listening check must
 confirm if the new audio preparation reduced this issue.
 
+## 100k continuation
+
+The continued run resumed from the 25k checkpoint. The target was 100,000
+total iterations. It did not add 100,000 iterations to the first run.
+
+The command used both RTX 3090 GPUs, FP32, 2,000,000 batch bins, and 8 data
+workers. It completed at 22:11 Europe/Kyiv on 25 July 2026. The continued
+process took 81,938 seconds. It returned exit status 0. The log has no NaN,
+OOM, or critical runtime error.
+
+The final validation generator loss is 57.538. The final validation mel loss
+is 39.769. The best generator loss is 56.459 at 97k. The best mel loss is
+38.897 at 97k. The best alignment loss is 4.204 at 99k. The final
+discriminator loss is 1.833.
+
+The maximum cached GPU memory was 20.670 GiB. The highest sampled power was
+231.31 W for GPU0 and 241.60 W for GPU1. GPU0 reached 86 C. GPU1 reached
+78 C. GPU0 had software thermal slowdown. The process did not report a
+hardware thermal shutdown.
+
+The epoch 100 checkpoint SHA-256 is
+`9a5cfbde6c1e8133dff95278b1920d1ed596836bcbd4c5c1ef5ac35f611c4384`.
+The new averaged five-best checkpoint SHA-256 is
+`7ad913443283cab76db31c9ad058dcdec43f87dce148dd29a6cd660920208897`.
+
+Inference used the new averaged checkpoint. It made 1,659 of 1,659 evaluation
+WAV files in 77 seconds. All files passed the automatic checks. Duration is
+0.768 to 8.224 seconds. Median RTF is 0.00799. The validator found no clipping
+warning.
+
+The 100k five-voice set also passed all automatic WAV checks. Each voice uses
+the required sentence about Kamianets-Podilskyi. The set contains Lada,
+zero-shot Dmytro, and three Common Voice embeddings.
+
 ## Next action
 
 Listen to the five files in
-`eval/generated/five_voice_enhanced_v2_25k/`. Record if the metallic artifact
+`eval/generated/five_voice_enhanced_v2_100k/`. Record if the metallic artifact
 is present in each voice.

@@ -290,12 +290,26 @@ Run these commands from the repository root:
 ```bash
 training/scripts/prepare_multispeaker_enhanced_v2.sh
 training/scripts/run_multispeaker_enhanced_v2_training.sh 25000
-training/scripts/generate_five_voice_enhanced_v2_eval.sh
+training/scripts/run_multispeaker_enhanced_v2_training.sh 100000
+MILESTONE_TAG=100k MODEL_FILE=train.total_count.ave.pth \
+  training/scripts/generate_five_voice_enhanced_v2_eval.sh
 ```
 
-The completed run used both RTX 3090 GPUs and FP32. It made 25,000 iterations
-without NaN or OOM. The fixed evaluation made 1,659 valid WAV files. The
-five-voice script uses the required sentence about Kamianets-Podilskyi.
+The completed run used both RTX 3090 GPUs and FP32. It resumed at 25k and
+stopped at 100,000 total iterations. It did not add 100,000 iterations to the
+first run. The log has no NaN, OOM, or critical runtime error. The fixed
+evaluation made 1,659 valid WAV files. The 100k five-voice script made five
+valid WAV files. It uses the required sentence about Kamianets-Podilskyi.
+
+The best validation generator loss is 56.459 at 97k. The best validation mel
+loss is 38.897 at 97k. The averaged five-best checkpoint SHA-256 is
+`7ad913443283cab76db31c9ad058dcdec43f87dce148dd29a6cd660920208897`.
+
+Listen to the five 100k files here:
+
+```text
+training/eval/generated/five_voice_enhanced_v2_100k/
+```
 
 Use this command to view the new metrics:
 

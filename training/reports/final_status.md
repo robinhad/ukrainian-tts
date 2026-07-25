@@ -2,21 +2,20 @@
 
 ## Виконано
 
-The enhanced-v2 iteration is complete on branch `autotrain`. All training code
-is under `training/`. The process made new audio copies and did not change raw
-source files.
+The enhanced-v2 model reached 100,000 total iterations on branch `autotrain`.
+All training code is under `training/`. The run used both RTX 3090 GPUs.
 
-The audio process used DeepFilterNet3, a 70 Hz high-pass filter, light
-de-essing, gentle 1.5 ratio compression, and two-pass EBU R128 normalization.
-It wrote mono PCM WAV files at 24 kHz. The loudness target was -23 LUFS.
+The audio data uses DeepFilterNet3, a 70 Hz high-pass filter, light de-essing,
+gentle 1.5 ratio compression, and two-pass EBU R128 normalization. The process
+wrote new mono PCM WAV files at 24 kHz. It did not change the source audio.
 
-The model is ESPnet2 JETS with Ukrainian eSpeak-ng phonemes and ECAPA speaker
-embeddings. It completed 25,000 FP32 iterations on two RTX 3090 GPUs.
+The model is ESPnet2 JETS. It uses Ukrainian eSpeak-ng phonemes and ECAPA
+speaker embeddings.
 
 ## CRISP-DM cycle 1
 
 - Business Understanding: PASS.
-- Data Understanding: PASS for the enhanced smoke set.
+- Data Understanding: PASS.
 - Data Preparation: PASS.
 - Modeling: PASS for 100 dual-GPU iterations.
 - Evaluation: PASS for 1,659 smoke-eval WAV files.
@@ -27,7 +26,7 @@ embeddings. It completed 25,000 FP32 iterations on two RTX 3090 GPUs.
 - Business Understanding: PASS.
 - Data Understanding: PASS for 83,549 input files.
 - Data Preparation: PASS for 82,662 retained files and 83.896 hours.
-- Modeling: PASS for 25,000 dual-GPU iterations.
+- Modeling: PASS for 100,000 total dual-GPU iterations.
 - Evaluation: PASS for 1,659 fixed-eval WAV files and five listening WAV files.
 - Deployment: PASS for local inference. The release package is NOT RUN.
 
@@ -44,8 +43,8 @@ embeddings. It completed 25,000 FP32 iterations on two RTX 3090 GPUs.
 | Statistics | PASS | Speech, pitch, and energy statistics exist |
 | JETS construction | PASS | Two DDP model processes started |
 | Smoke training | PASS | 100 iterations; no NaN |
-| Full training | PASS | 25,000 iterations; no NaN, OOM, or critical error |
-| Checkpoint | PASS | Epoch 25 and averaged five-best checkpoints exist |
+| Full training | PASS | 100,000 total iterations; no NaN, OOM, or critical error |
+| Checkpoint | PASS | Epoch 100 and averaged five-best checkpoints exist |
 | Fixed-set inference | PASS | 1,659 of 1,659 WAV files passed |
 | Five-voice evaluation | PASS | Five of five WAV files passed automatic checks |
 | Human timbre check | NOT RUN | Automatic checks cannot measure metallic timbre |
@@ -57,19 +56,19 @@ embeddings. It completed 25,000 FP32 iterations on two RTX 3090 GPUs.
 |---|---:|---|---|
 | `training/scripts/prepare_multispeaker_enhanced_v2.sh` | 0 | 82,662 retained files and statistics | `reports/multispeaker_enhanced_v2_dataset.json` |
 | Enhanced smoke training | 0 | 100 dual-GPU iterations; no NaN | `exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2_smoke/1epoch.pth` |
-| `training/scripts/run_multispeaker_enhanced_v2_training.sh 25000` | 0 | 25,000 iterations in 27,295 seconds | `exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/train.log` |
-| ESPnet stage 8 with `train.total_count.ave.pth` | 0 | 1,659 WAV files in 76 seconds | `reports/multispeaker_enhanced_v2_inference_25k.json` |
-| `training/scripts/generate_five_voice_enhanced_v2_eval.sh` | 0 | Five valid listening WAV files | `reports/five_voice_enhanced_v2_25k.json` |
-| `pytest -q training/tests training/tests/frontend` | 0 | 20 tests passed in 5.21 seconds | `tests/` |
+| `training/scripts/run_multispeaker_enhanced_v2_training.sh 25000` | 0 | First 25,000 iterations | `exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/25epoch.pth` |
+| `training/scripts/run_multispeaker_enhanced_v2_training.sh 100000` | 0 | Resumed to 100,000 total iterations in 81,938 seconds | `exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/100epoch.pth` |
+| ESPnet stage 8 with `train.total_count.ave.pth` | 0 | 1,659 valid WAV files in 77 seconds | `reports/multispeaker_enhanced_v2_inference_100k.json` |
+| 100k five-voice command | 0 | Five valid listening WAV files | `reports/five_voice_enhanced_v2_100k.json` |
+| `pytest -q training/tests training/tests/frontend` | 0 | 20 tests passed in 5.16 seconds | `tests/` |
 
-The final validation generator loss is 60.965. The final mel loss is 43.070.
-Epoch 24 has the best values: 59.654 and 42.327. The log has no NaN marker.
+The final validation generator loss is 57.538. The final mel loss is 39.769.
+The best values are 56.459 and 38.897 at 97k. The best alignment loss is 4.204
+at 99k. The final discriminator loss is 1.833.
 
-The highest observed power samples were 240.76 W for GPU0 and 237.30 W for
-GPU1. GPU0 reached 85 C. GPU1 reached 77 C. Short software thermal slowdown
-occurred, but training continued without an error.
-
-TensorBoard has 29 train scalar tags and 16 validation scalar tags.
+The highest sampled power was 231.31 W for GPU0 and 241.60 W for GPU1. GPU0
+reached 86 C. GPU1 reached 78 C. GPU0 had software thermal slowdown. The
+training process completed without a hardware thermal shutdown.
 
 ## Створені артефакти
 
@@ -83,37 +82,39 @@ TensorBoard has 29 train scalar tags and 16 validation scalar tags.
   `training/dump_multispeaker_enhanced_v2/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
 - Statistics:
   `training/exp_multispeaker_enhanced_v2/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- Epoch 25 checkpoint:
-  `training/exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/25epoch.pth`.
+- Epoch 100 checkpoint:
+  `training/exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/100epoch.pth`.
 - Averaged checkpoint:
   `training/exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/train.total_count.ave_5best.pth`.
 - Fixed-eval WAV files:
   `training/exp_multispeaker_enhanced_v2/tts_jets_uk_24k_multispeaker_enhanced_v2/decode_jets_train.total_count.ave/multispeaker_eval/wav/`.
 - Five-voice listening set:
-  `training/eval/generated/five_voice_enhanced_v2_25k/`.
+  `training/eval/generated/five_voice_enhanced_v2_100k/`.
 - Evaluation reports:
-  `training/reports/multispeaker_enhanced_v2_inference_25k.json` and
-  `training/reports/five_voice_enhanced_v2_25k.json`.
+  `training/reports/multispeaker_enhanced_v2_inference_100k.json` and
+  `training/reports/five_voice_enhanced_v2_100k.json`.
+- Power report:
+  `training/reports/power_summary_multispeaker_enhanced_v2_100k.json`.
 - TensorBoard report:
-  `training/reports/tensorboard_metrics_multispeaker_enhanced_v2.json`.
+  `training/reports/tensorboard_metrics_multispeaker_enhanced_v2_100k.json`.
 
-The epoch 25 SHA-256 is
-`adaafa329850b34ee4c727de16a602b4c60d349e7591eddf7058cb06edd5a4dd`.
+The epoch 100 SHA-256 is
+`9a5cfbde6c1e8133dff95278b1920d1ed596836bcbd4c5c1ef5ac35f611c4384`.
 The averaged checkpoint SHA-256 is
-`b09151b998dfefa2547b6cc7920092448417b214f94b3203483ce74642e3c134`.
+`7ad913443283cab76db31c9ad058dcdec43f87dce148dd29a6cd660920208897`.
 
 ## Відомі проблеми
 
 - Dmytro has no raw training corpus. The Dmytro sample is zero-shot.
 - Automatic checks do not measure naturalness, pronunciation, or speaker
   similarity.
-- The earlier model had a user-reported metallic timbre. The new five-voice
+- The earlier model had a user-reported metallic timbre. The 100k five-voice
   set needs a human check. This report does not claim that the issue is fixed.
-- GPU0 had short software thermal slowdown at up to 85 C.
-- No enhanced-v2 release package exists yet.
+- GPU0 had software thermal slowdown at up to 86 C.
+- No enhanced-v2 release package exists.
 
 ## Наступна одна дія
 
 Listen to all five files in
-`training/eval/generated/five_voice_enhanced_v2_25k/`. Record if the metallic
+`training/eval/generated/five_voice_enhanced_v2_100k/`. Record if the metallic
 artifact is present in each voice.
