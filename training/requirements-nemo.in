@@ -1,0 +1,6 @@
+nemo_toolkit[asr]==2.4.1
+huggingface-hub==0.34.3
+numpy==1.26.4
+soundfile==0.13.1
+torch==2.9.1
+torchaudio==2.9.1

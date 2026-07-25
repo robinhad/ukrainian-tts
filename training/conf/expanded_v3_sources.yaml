@@ -1,0 +1,203 @@
+schema_version: 1
+policy:
+  allow_licenses:
+    - Apache-2.0
+    - CC0-1.0
+    - CC-BY-2.0-FR
+    - CC-BY-3.0
+    - CC-BY-4.0
+    - CC-BY-SA-3.0
+    - CC-BY-SA-4.0
+    - Public-Domain
+    - User-Grant-Commercial-Training
+  deny_families:
+    - ASMR
+    - Common-Voice-derivative
+    - GPL-audio
+    - MLCommons
+    - non-commercial
+    - test-only
+    - VoxLingua
+    - YODAS
+  raw_redistribution_default: false
+  free_disk_warn_gib: 80
+  free_disk_stop_gib: 60
+sources:
+  common_voice_26_uk:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: mozilla_data_collective
+    uri: https://datacollective.mozillafoundation.org/datasets/cmqinqaqp00wunq07w9oyei38
+    revision: "26"
+    license: CC0-1.0
+    commercial_use: true
+    raw_redistribution: false
+    notes: Use the direct Mozilla release. Do not use a derivative.
+  fleurs_uk:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: google/fleurs
+    subset: uk_ua
+    revision: 70bb2e84b976b7e960aa89f1c648e09c59f894dd
+    license: CC-BY-4.0
+    commercial_use: true
+    raw_redistribution: false
+  voice_of_america:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: speech-uk/voice-of-america
+    revision: 00d13d27de85e324564d97a42ddbc91600f406cc
+    license: CC-BY-4.0
+    commercial_use: true
+    raw_redistribution: false
+  tg_voices_uk:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: Yehor/tg-voices-uk
+    revision: 1c9d3d7fd3c1ac58b3c6b9c15ad4f560f37a7fb5
+    license: CC0-1.0
+    commercial_use: true
+    raw_redistribution: false
+  ukr_dialects:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: KSE-RESEARCH-Group/ukr-dialects-audio-dataset
+    revision: 92152824f5f1fcdde135cd1d1a8e5d0be5e30e35
+    license: CC-BY-4.0
+    commercial_use: true
+    raw_redistribution: false
+  opentts_lada:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: speech-uk/opentts-lada
+    revision: 729289b58251da4a21ce85f8808dd908f28b0d7f
+    license: Apache-2.0
+    commercial_use: true
+    raw_redistribution: false
+  opentts_tetiana:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: speech-uk/opentts-tetiana
+    revision: f9d181e584158eb71560d432b6c2a3a5314c7aa4
+    license: Apache-2.0
+    commercial_use: true
+    raw_redistribution: false
+  opentts_mykyta:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: speech-uk/opentts-mykyta
+    revision: ed5f11d4b7123da9cd763023cee01366df27e054
+    license: Apache-2.0
+    commercial_use: true
+    raw_redistribution: false
+  ua_ser:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: huggingface
+    repo_id: OlhaHavryliuk/UA-SER
+    revision: c3fc0b0ef8d40f133d7a74e804ab6f376ef53aa9
+    license: CC-BY-4.0
+    commercial_use: true
+    raw_redistribution: false
+    notes: The dataset CSV contains human transcripts and speaker IDs.
+  voa_ukr_user_grant:
+    enabled: true
+    decision: allow
+    kind: unlabeled
+    connector: huggingface
+    repo_id: robinhad/VOA-ukr
+    revision: ecca883f639e099953c9affdda2b0aa56c190813
+    license: User-Grant-Commercial-Training
+    commercial_use: true
+    raw_redistribution: false
+    evidence: User grant in this Codex thread on 2026-07-26.
+    notes: The inspected source rows use a dash as the transcript. Treat this source as unlabeled.
+  shtooka_uk:
+    enabled: true
+    decision: allow_per_file
+    kind: labeled
+    connector: per_file
+    uri: https://fsi-languages.yojik.eu/audiocollections/audiocollections.html
+    license: per-file
+    commercial_use: conditional
+    raw_redistribution: false
+  lingua_libre_uk:
+    enabled: true
+    decision: allow_per_file
+    kind: unlabeled
+    connector: per_file
+    uri: https://lingualibre.org/
+    license: per-file
+    commercial_use: conditional
+    raw_redistribution: false
+  tatoeba_uk:
+    enabled: true
+    decision: allow_per_file
+    kind: labeled
+    connector: per_file
+    uri: https://tatoeba.org/en/audio/index/ukr
+    license: per-file
+    commercial_use: conditional
+    raw_redistribution: false
+  librivox_uk:
+    enabled: true
+    decision: allow_per_file
+    kind: unlabeled
+    connector: per_file
+    uri: https://librivox.org/search
+    license: per-file
+    commercial_use: conditional
+    raw_redistribution: false
+  wikimedia_commons_uk:
+    enabled: true
+    decision: allow_per_file
+    kind: unlabeled
+    connector: per_file
+    uri: https://commons.wikimedia.org/wiki/Category:Audio_files_in_Ukrainian
+    license: per-file
+    commercial_use: conditional
+    raw_redistribution: false
+  speech_uk_cv22_opus:
+    enabled: false
+    decision: deny
+    kind: labeled
+    connector: huggingface
+    repo_id: speech-uk/cv22-opus
+    license: CC0-1.0
+    commercial_use: true
+    raw_redistribution: false
+    deny_reason: Common-Voice-derivative
+models:
+  diarizer:
+    repo_id: nvidia/diar_streaming_sortformer_4spk-v2
+    revision: 6dbf0d69730bfee097056692b86525a0a23b32f9
+    license: CC-BY-4.0
+    sample_rate: 16000
+    maximum_speakers: 4
+  asr:
+    repo_id: nvidia/parakeet-tdt-0.6b-v3
+    revision: 7c35754d166cca382ad1e53e68b01e7c575f3a1d
+    license: CC-BY-4.0
+    accepted_language: uk
+    minimum_mean_confidence: 0.80
+    minimum_ukrainian_letter_ratio: 0.80
+  speaker_embedding:
+    repo_id: speechbrain/spkrec-ecapa-voxceleb
+    revision: 0f99f2d0ebe89ac095bcc5903c4dd8f72b367286
+    dimension: 192

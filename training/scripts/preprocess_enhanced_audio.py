@@ -92,8 +92,15 @@ def main() -> int:
             target = args.output_root / f"{utterance_id}.wav"
             record = dict(row)
             record["source_qc_flags"] = record.get("qc_flags")
+            record["canonical_raw_audio_path"] = str(
+                Path(
+                    row.get("canonical_raw_audio_path") or row["audio_path"]
+                ).resolve()
+            )
             try:
-                metrics = processor.process(Path(row["audio_path"]), target)
+                metrics = processor.process(
+                    Path(record["canonical_raw_audio_path"]), target
+                )
                 record.update(metrics)
                 record["audio_path"] = str(target.resolve())
                 record["qc_flags"] = []

@@ -9,6 +9,7 @@ import io
 import json
 import re
 import subprocess
+import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -170,6 +171,9 @@ def main() -> int:
     parser.add_argument("--target-iterations", type=int, default=25000)
     parser.add_argument("--iterations-per-epoch", type=int, default=1000)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--workspace", type=Path)
+    parser.add_argument("--free-disk-stop-gib", type=float, default=60.0)
+    parser.add_argument("--maximum-temperature-c", type=int, default=90)
     args = parser.parse_args()
 
     if not args.log.is_file():
@@ -199,13 +203,31 @@ def main() -> int:
         seconds = (args.target_iterations - total) * observed_seconds
         eta_source = "observed_progress"
         eta = now + timedelta(seconds=seconds)
+    gpus = gpu_status()
+    workspace = args.workspace or args.log.parent
+    free_disk_gib = shutil.disk_usage(workspace).free / 1024**3
+    critical = []
+    if free_disk_gib < args.free_disk_stop_gib:
+        critical.append(
+            f"free disk {free_disk_gib:.2f} GiB is below "
+            f"{args.free_disk_stop_gib:.2f} GiB"
+        )
+    for gpu in gpus:
+        if int(gpu["temperature_c"]) >= args.maximum_temperature_c:
+            critical.append(
+                f"GPU {gpu['index']} temperature is "
+                f"{gpu['temperature_c']} C"
+            )
     status.update({
         "status": training_state(total, args.target_iterations),
         "target_iterations": args.target_iterations,
         "timestamp_kyiv": now.isoformat(),
         "eta_kyiv": eta.isoformat() if eta is not None else None,
         "eta_source": eta_source,
-        "gpus": gpu_status(),
+        "gpus": gpus,
+        "free_disk_gib": round(free_disk_gib, 2),
+        "free_disk_stop_gib": args.free_disk_stop_gib,
+        "critical_conditions": critical,
         "checkpoints": sorted(path.name for path in args.log.parent.glob("[0-9]*epoch.pth")),
     })
     rendered = json.dumps(status, indent=2, sort_keys=True)
@@ -214,7 +236,7 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         with args.output.open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(status, sort_keys=True) + "\n")
-    return 0 if status["error_matches"] == 0 else 1
+    return 0 if status["error_matches"] == 0 and not critical else 1
 
 
 if __name__ == "__main__":

@@ -7,6 +7,59 @@ a separate stress model, denoising, compression, or mastering.
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 
+## Expanded-v3 iteration
+
+The expanded-v3 pipeline uses all permitted Ukrainian sources. The source
+registry uses a default-deny policy. A record must have a permitted audio
+license. A code license does not prove the audio license.
+
+The pipeline applies these audio operations to each training copy:
+
+1. Remove leading and trailing silence.
+2. Apply DeepFilterNet3.
+3. Apply a 70 Hz high-pass filter.
+4. Apply light de-essing.
+5. Apply gentle compression.
+6. Apply two-pass EBU R128 normalization.
+
+The source audio does not change. The training manifest points only to the clean
+copy. ECAPA uses raw audio for 50 percent of the records. It uses clean audio for
+the other 50 percent.
+
+The pipeline reads the Hugging Face token from
+`/home/ballvan/Projects/hf_token.txt`. It does not export or copy the token.
+Set `MDC_COMMON_VOICE_ROOT` to the extracted direct Common Voice directory.
+The directory must contain `validated.tsv` and `clips/`.
+
+Run the expanded smoke stages:
+
+```sh
+training/scripts/prepare_expanded_v3.sh smoke
+training/scripts/run_expanded_v3_smoke.sh
+```
+
+Run the full preparation:
+
+```sh
+MDC_COMMON_VOICE_ROOT=/path/to/uk \
+  training/scripts/prepare_expanded_v3.sh full
+```
+
+The full preparation makes
+`training/reports/expanded_v3_full_scale_readiness.json`. The training launcher
+stops unless this report has `PASS`.
+
+Start the fresh 25,000-step run:
+
+```sh
+training/scripts/launch_expanded_v3_training.sh
+```
+
+The launcher uses both RTX 3090 cards. It writes TensorBoard event files. It
+reports GPU load, VRAM, temperature, power, disk space, and Kyiv ETA. The report
+interval cannot exceed five minutes. The process stops when free disk space is
+less than 60 GiB.
+
 ## Fixed versions
 
 - ESPnet `v.202604-patch1`, commit `cff0a07`

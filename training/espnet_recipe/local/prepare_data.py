@@ -21,7 +21,7 @@ def main() -> int:
     args = parser.parse_args()
     manifests = [
         path for path in sorted(args.manifest_dir.glob("*.parquet"))
-        if path.stem != "all"
+        if path.stem not in {"all", "all_with_embeddings"}
     ]
     for manifest in manifests:
         frame = pd.read_parquet(manifest).sort_values("utterance_id")

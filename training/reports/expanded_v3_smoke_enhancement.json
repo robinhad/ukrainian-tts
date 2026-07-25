@@ -1,0 +1,198 @@
+{
+  "actual_records": 318,
+  "duration_rejected_examples": [
+    {
+      "duration": 1.2026666666666668,
+      "utterance_id": "lada_25164_e8608431ff"
+    },
+    {
+      "duration": 1.2306666666666666,
+      "utterance_id": "lada_25204_677aee5bfd"
+    },
+    {
+      "duration": 1.896,
+      "utterance_id": "opentts_tetiana_64819_3de42303ca83"
+    },
+    {
+      "duration": 1.608,
+      "utterance_id": "opentts_mykyta_53353_80e1ba580407"
+    },
+    {
+      "duration": 1.496,
+      "utterance_id": "opentts_tetiana_61280_1905079b434d"
+    },
+    {
+      "duration": 1.576,
+      "utterance_id": "opentts_tetiana_63783_85f633a47e4a"
+    },
+    {
+      "duration": 1.56,
+      "utterance_id": "opentts_tetiana_65377_10c2b640c918"
+    },
+    {
+      "duration": 1.944,
+      "utterance_id": "opentts_tetiana_66329_9665000c52c7"
+    },
+    {
+      "duration": 1.4053333333333333,
+      "utterance_id": "lada_25144_d2f1090dc3"
+    },
+    {
+      "duration": 1.5333333333333334,
+      "utterance_id": "lada_25180_92dc63320c"
+    },
+    {
+      "duration": 1.0533333333333332,
+      "utterance_id": "lada_25194_7e14a67277"
+    },
+    {
+      "duration": 1.5866666666666667,
+      "utterance_id": "lada_25206_9ae8ace8b0"
+    },
+    {
+      "duration": 1.8386666666666667,
+      "utterance_id": "lada_25240_6e941d6f91"
+    },
+    {
+      "duration": 1.656,
+      "utterance_id": "opentts_mykyta_53272_0bda165e0371"
+    },
+    {
+      "duration": 1.992,
+      "utterance_id": "opentts_mykyta_53388_97c620ba7e22"
+    },
+    {
+      "duration": 1.576,
+      "utterance_id": "opentts_tetiana_60367_760d8cf91360"
+    },
+    {
+      "duration": 1.4093333333333333,
+      "utterance_id": "lada_25157_2b62afa542"
+    },
+    {
+      "duration": 1.64,
+      "utterance_id": "lada_25195_d41933c6e8"
+    },
+    {
+      "duration": 1.924,
+      "utterance_id": "lada_25245_a43771a78c"
+    },
+    {
+      "duration": 1.4866666666666666,
+      "utterance_id": "lada_25258_b5796fd0ae"
+    },
+    {
+      "duration": 1.8,
+      "utterance_id": "opentts_tetiana_65454_55ca9ba6e662"
+    },
+    {
+      "duration": 1.8106666666666666,
+      "utterance_id": "lada_25227_d5cb062f7f"
+    },
+    {
+      "duration": 1.432,
+      "utterance_id": "opentts_tetiana_64568_3933367c443b"
+    },
+    {
+      "duration": 1.636,
+      "utterance_id": "ukr_dialects_segment_01586_f9fc533073dd"
+    },
+    {
+      "duration": 1.0106666666666666,
+      "utterance_id": "lada_25198_a2e210330f"
+    },
+    {
+      "duration": 1.8746666666666667,
+      "utterance_id": "lada_25228_cd6ba923c9"
+    },
+    {
+      "duration": 1.864,
+      "utterance_id": "opentts_mykyta_53319_7fa6b49e6ef0"
+    },
+    {
+      "duration": 1.816,
+      "utterance_id": "opentts_tetiana_60473_5a1f7b542365"
+    },
+    {
+      "duration": 1.688,
+      "utterance_id": "opentts_tetiana_65093_06135893e3c2"
+    },
+    {
+      "duration": 1.004,
+      "utterance_id": "lada_25151_999f525aca"
+    },
+    {
+      "duration": 1.4546666666666668,
+      "utterance_id": "lada_25173_a51273a78a"
+    },
+    {
+      "duration": 1.6826666666666668,
+      "utterance_id": "lada_25199_8db3d2c13c"
+    },
+    {
+      "duration": 1.1386666666666667,
+      "utterance_id": "lada_25215_daa5c7bc80"
+    },
+    {
+      "duration": 1.7186666666666666,
+      "utterance_id": "lada_25251_ec1dd5da38"
+    },
+    {
+      "duration": 1.752,
+      "utterance_id": "opentts_mykyta_53320_481f4cd89f0b"
+    },
+    {
+      "duration": 1.508,
+      "utterance_id": "ukr_dialects_segment_00235_72e423d3f45a"
+    },
+    {
+      "duration": 1.54,
+      "utterance_id": "ukr_dialects_segment_01643_b10d6cb6836a"
+    },
+    {
+      "duration": 1.176,
+      "utterance_id": "opentts_tetiana_65146_51532d41df48"
+    }
+  ],
+  "duration_rejected_records": 38,
+  "enhancement_config_hashes": [
+    "18c551649f16a8b85e1eae0ca1f0e4a900959031c4c7ba398b623f609ecca4d4"
+  ],
+  "expected_records": 360,
+  "loudness_output_i": {
+    "maximum": -22.1,
+    "median": -22.85,
+    "minimum": -23.69,
+    "outside_one_lu": 0,
+    "target_lufs": -23.0
+  },
+  "loudness_rejected_examples": [
+    {
+      "output_i_lufs": -21.99,
+      "utterance_id": "ukr_dialects_segment_01664_b62a899635c5"
+    },
+    {
+      "output_i_lufs": -26.03,
+      "utterance_id": "ukr_dialects_segment_01344_02a7d0e59df0"
+    },
+    {
+      "output_i_lufs": -24.2,
+      "utterance_id": "ukr_dialects_segment_01420_043929a51de8"
+    },
+    {
+      "output_i_lufs": -21.9,
+      "utterance_id": "ukr_dialects_segment_01306_faa06489b73e"
+    }
+  ],
+  "loudness_rejected_records": 4,
+  "loudness_tolerance_lu": 1.0,
+  "maximum_true_peak_db": -1.0,
+  "rejected_examples": [],
+  "rejected_records": 0,
+  "splits": {
+    "expanded_v3_smoke_dev": 19,
+    "expanded_v3_smoke_eval": 31,
+    "expanded_v3_smoke_train": 268
+  },
+  "status": "PASS"
+}

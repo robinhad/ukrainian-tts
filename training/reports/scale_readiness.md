@@ -1,5 +1,24 @@
 # Scale readiness
 
+## Expanded-v3 gate
+
+The expanded-v3 smoke gate has `PASS`. The fresh full-data gate has not run.
+Therefore, the expanded-v3 25K training has not started.
+
+| Gate | Status | Evidence | Artifact | Next action |
+|---|---|---|---|---|
+| Disk reserve | PASS | 384 GiB was free; the stop limit is 60 GiB | `reports/expanded_v3_source_policy.json` | Monitor the disk during each stage |
+| Source policy | PASS | The default-deny registry passed | `conf/expanded_v3_sources.yaml` | Keep each revision and license fixed |
+| Expanded smoke data | PASS | 318 clean files from five sources | `reports/expanded_v3_smoke_validation.json` | Preserve the smoke evidence |
+| Hybrid embeddings | PASS | 159 raw and 159 clean vectors | `reports/expanded_v3_smoke_hybrid_embeddings.json` | Apply the same rule to full data |
+| Dual-GPU smoke training | PASS | 100 finite iterations made a checkpoint | `exp_expanded_v3_smoke/` | Keep runtime files outside Git |
+| Smoke inference | PASS | 31 of 31 WAV files passed | `reports/expanded_v3_smoke_inference.json` | Complete the full source gate |
+| Direct Common Voice 26 | NOT RUN | The direct archive is not present | None | Set `MDC_COMMON_VOICE_ROOT` |
+| Full enabled-source coverage | NOT RUN | Several sources still need ingestion or per-file review | None | Ingest and validate each source |
+| NeMo pseudo-label pass | NOT RUN | The full unlabeled pass did not run | None | Run Sortformer and Parakeet |
+| Expanded full readiness | NOT RUN | No full PASS report exists | `reports/expanded_v3_full_scale_readiness.json` | Run full preparation |
+| Fresh expanded 25K run | NOT RUN | The launcher correctly requires full PASS | None | Start only after the full gate passes |
+
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
 | Host resource preflight | PASS | PyTorch 2.9.1+cu128 passed a CUDA check on both RTX 3090 GPUs; the post-run check found 122.06 GiB RAM and 314.79 GiB disk available | `reports/resource_usage.jsonl` (runtime artifact) | Recheck immediately before the next training run |

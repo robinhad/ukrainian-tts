@@ -17,6 +17,7 @@ def main() -> int:
     parser.add_argument("--records-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--output-records", type=Path)
     parser.add_argument("--loudness-tolerance-lu", type=float, default=1.0)
     args = parser.parse_args()
     if args.loudness_tolerance_lu <= 0:
@@ -57,6 +58,30 @@ def main() -> int:
         raise SystemExit("The enhanced record set is incomplete.")
 
     frame = frame[frame["enhancement_status"] == "ok"].copy()
+    source_by_id = source.set_index("utterance_id").to_dict(orient="index")
+    source_metadata = {
+        "speaker_id",
+        "speaker_stratum_id",
+        "text_raw",
+        "source",
+        "source_id",
+        "source_group",
+        "source_license",
+        "source_original_split",
+        "split",
+        "label_kind",
+        "license_evidence",
+        "speaker_embedding_mode",
+        "speaker_embedding_model",
+        "speaker_identity_status",
+        "canonical_raw_audio_path",
+    }
+    for column in source_metadata:
+        if column in source.columns:
+            frame[column] = [
+                source_by_id[str(identifier)].get(column)
+                for identifier in frame["utterance_id"]
+            ]
     frame["output_i_lufs"] = [
         item["second_pass"]["output_i"] for item in frame["loudness"]
     ]
@@ -65,9 +90,31 @@ def main() -> int:
     )
     loudness_rejected = frame[~loudness_mask].copy()
     frame = frame[loudness_mask]
+    duration_mask = frame["duration"].between(2.0, 12.0, inclusive="both")
+    duration_rejected = frame[~duration_mask].copy()
+    frame = frame[duration_mask]
     frame = frame.sort_values("utterance_id").reset_index(drop=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(args.output_dir / "all.parquet", index=False)
+    if args.output_records:
+        args.output_records.parent.mkdir(parents=True, exist_ok=True)
+        with args.output_records.open("w", encoding="utf-8") as stream:
+            for row in frame.to_dict(orient="records"):
+                stream.write(
+                    json.dumps(
+                        row,
+                        default=lambda value: (
+                            value.tolist()
+                            if isinstance(value, np.ndarray)
+                            else value.item()
+                            if isinstance(value, np.generic)
+                            else str(value)
+                        ),
+                        ensure_ascii=False,
+                        sort_keys=True,
+                    )
+                    + "\n"
+                )
     for split, split_frame in frame.groupby("split", sort=True):
         split_frame.to_parquet(args.output_dir / f"{split}.parquet", index=False)
 
@@ -88,10 +135,18 @@ def main() -> int:
             ["utterance_id", "output_i_lufs"]
         ].head(100).to_dict(orient="records"),
         "loudness_tolerance_lu": args.loudness_tolerance_lu,
-        "rejected_records": len(failures),
-        "rejected_examples": failures[
-            ["utterance_id", "enhancement_error"]
+        "duration_rejected_records": len(duration_rejected),
+        "duration_rejected_examples": duration_rejected[
+            ["utterance_id", "duration"]
         ].head(100).to_dict(orient="records"),
+        "rejected_records": len(failures),
+        "rejected_examples": (
+            failures[["utterance_id", "enhancement_error"]]
+            .head(100)
+            .to_dict(orient="records")
+            if "enhancement_error" in failures.columns
+            else []
+        ),
         "loudness_output_i": {
             "maximum": float(np.max(output_i)),
             "median": float(np.median(output_i)),

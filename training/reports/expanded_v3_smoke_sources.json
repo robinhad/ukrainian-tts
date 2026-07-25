@@ -1,0 +1,23 @@
+{
+  "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3_smoke/records/source_records.jsonl",
+  "label_kind_counts": {
+    "human": 360
+  },
+  "records": 360,
+  "rejected": {
+    "duplicate_text": 14
+  },
+  "source_counts": {
+    "opentts_lada": 72,
+    "opentts_mykyta": 72,
+    "opentts_tetiana": 72,
+    "tg_voices_uk": 72,
+    "ukr_dialects": 72
+  },
+  "split_counts": {
+    "expanded_v3_smoke_dev": 20,
+    "expanded_v3_smoke_eval": 34,
+    "expanded_v3_smoke_train": 306
+  },
+  "status": "PASS"
+}

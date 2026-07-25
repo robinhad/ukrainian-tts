@@ -1,0 +1,32 @@
+{
+  "archives": {
+    "expanded_v3_smoke_dev": {
+      "dimensions": [
+        192
+      ],
+      "records": 19
+    },
+    "expanded_v3_smoke_eval": {
+      "dimensions": [
+        192
+      ],
+      "records": 31
+    },
+    "expanded_v3_smoke_train": {
+      "dimensions": [
+        192
+      ],
+      "records": 268
+    }
+  },
+  "counts": {
+    "clean": 159,
+    "raw": 159
+  },
+  "kaldi_root": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3_smoke/hybrid_embedding_data",
+  "manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3_smoke/manifests/all_with_embeddings.parquet",
+  "maximum_speaker_delta": 1,
+  "records": 318,
+  "status": "PASS",
+  "total_delta": 0
+}

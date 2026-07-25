@@ -102,7 +102,7 @@ def main() -> int:
     args = parser.parse_args()
 
     minimum_ram = 32 if args.mode == "smoke" else 64
-    minimum_disk = 40 if args.mode == "smoke" else 150
+    minimum_disk = 60
     expected_uuids = (
         [value.strip() for value in args.gpu_uuids.split(",") if value.strip()]
         if args.gpu_uuids else [args.gpu_uuid]
@@ -140,10 +140,16 @@ def main() -> int:
     disk_gib = shutil.disk_usage(args.workspace).free / 1024**3
     report["checks"]["available_ram_gib"] = round(ram_gib, 2)
     report["checks"]["free_disk_gib"] = round(disk_gib, 2)
+    report["checks"]["free_disk_warning_gib"] = 80
+    report["checks"]["free_disk_stop_gib"] = minimum_disk
     if ram_gib < minimum_ram:
         report["errors"].append(f"available RAM {ram_gib:.1f} GiB < {minimum_ram} GiB")
     if disk_gib < minimum_disk:
         report["errors"].append(f"free disk {disk_gib:.1f} GiB < {minimum_disk} GiB")
+    elif args.mode == "full" and disk_gib < 80:
+        report["checks"]["disk_warning"] = (
+            f"Free disk space is below the 80 GiB cleanup warning threshold."
+        )
 
     if args.require_torch and not report["errors"]:
         try:

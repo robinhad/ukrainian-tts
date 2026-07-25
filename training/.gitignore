@@ -16,6 +16,9 @@ vendor/speechbrain-spkrec-ecapa-voxceleb/
 vendor/deepfilternet-cache/
 dump_multispeaker*/
 exp_multispeaker*/
+dump_expanded*/
+exp_expanded*/
+.venv-nemo/
 espnet_recipe/pyscripts
 espnet_recipe/scripts
 espnet_recipe/utils

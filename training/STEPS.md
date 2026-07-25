@@ -3,6 +3,23 @@
 Use these steps for the Ukrainian JETS pipeline. Run the commands from the
 repository root. Do not use this procedure for VITS or Tacotron2.
 
+## Expanded-v3 controlled run
+
+Do not start the expanded-v3 25K run after only a smoke PASS. First, prepare all
+enabled sources and create the full readiness report.
+
+```sh
+export MDC_COMMON_VOICE_ROOT=/path/to/direct/common-voice/uk
+training/scripts/bootstrap_nemo_env.sh
+training/scripts/prepare_expanded_v3.sh full
+jq .status training/reports/expanded_v3_full_scale_readiness.json
+training/scripts/launch_expanded_v3_training.sh
+```
+
+The required status is `PASS`. The launcher uses two GPUs. It saves 1K, 5K,
+15K, and 25K milestones. It then makes five listening voices with the fixed
+Kamianets-Podilskyi sentence.
+
 ## 1. Prepare the local environment
 
 The bootstrap command installs the dependencies in `training/.venv` and

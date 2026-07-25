@@ -14,6 +14,8 @@ def test_enhancement_config_is_conservative_and_pinned() -> None:
     assert config.compressor_ratio == 1.5
     assert config.target_lufs == -23.0
     assert config.output_sample_rate == 24_000
+    assert config.trim_top_db == 40.0
+    assert config.trim_padding_ms == 100.0
     assert len(config.digest) == 64
 
 
@@ -35,4 +37,3 @@ def test_parse_loudnorm_json() -> None:
     result = parse_loudnorm(stderr)
     assert result["input_i"] == -20.1
     assert result["target_offset"] == 0.0
-

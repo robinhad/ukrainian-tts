@@ -1,0 +1,84 @@
+{
+  "disk": {
+    "free_gib": 384.18,
+    "status": "PASS",
+    "stop_gib": 60.0,
+    "warn_gib": 80.0
+  },
+  "gates": [
+    {
+      "artifact": "training",
+      "evidence": "384.18 GiB is free. The stop threshold is 60.0 GiB.",
+      "gate": "Disk reserve",
+      "next_action": "Recheck during processing.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/data/expanded_v3_smoke/manifests/all.parquet",
+      "evidence": "The manifest has 318 records.",
+      "gate": "Clean training manifest",
+      "next_action": "Preserve its hash.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v3_smoke_sources.json",
+      "evidence": "The smoke manifest has 5 sources: opentts_lada, opentts_mykyta, opentts_tetiana, tg_voices_uk, ukr_dialects.",
+      "gate": "Enabled source coverage",
+      "next_action": "Keep the source revisions fixed.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v3_smoke_validation.json",
+      "evidence": "The dataset validator returned PASS.",
+      "gate": "Dataset validation",
+      "next_action": "Repeat after any manifest change.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v3_smoke_hybrid_embeddings.json",
+      "evidence": "The report has 159 raw and 159 clean embeddings.",
+      "gate": "Hybrid speaker embeddings",
+      "next_action": "Preserve the ECAPA revision.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/dump_expanded_v3_smoke/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "evidence": "The token list has 55 lines.",
+      "gate": "Token list",
+      "next_action": "Preserve the token list.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/exp_expanded_v3_smoke/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "evidence": "ESPnet statistics exist.",
+      "gate": "Pitch and energy statistics",
+      "next_action": "Preserve the statistics.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/exp_expanded_v3_smoke/tts_jets_uk_24k_expanded_v3_smoke/1epoch.pth",
+      "evidence": "A real 100-iteration checkpoint exists.",
+      "gate": "Smoke checkpoint",
+      "next_action": "Keep the checkpoint off Git.",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v3_smoke_inference.json",
+      "evidence": "Inference validated 31 WAV files.",
+      "gate": "Smoke inference",
+      "next_action": "Use the full-data gate next.",
+      "status": "PASS"
+    }
+  ],
+  "manifest_records": 318,
+  "missing_enabled_sources": [],
+  "mode": "smoke",
+  "source_counts": {
+    "opentts_lada": 53,
+    "opentts_mykyta": 67,
+    "opentts_tetiana": 61,
+    "tg_voices_uk": 72,
+    "ukr_dialects": 65
+  },
+  "status": "PASS"
+}

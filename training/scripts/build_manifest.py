@@ -25,6 +25,11 @@ FIELDS = [
     "trim_start_seconds", "trim_end_seconds", "trim_removed_seconds",
     "trim_threshold_rms", "trim_config_hash", "speaker_embedding_mode",
     "speaker_embedding_model", "speaker_identity_status",
+    "source_id", "canonical_raw_audio_path", "source_original_split",
+    "label_kind", "license_evidence", "embedding_audio_variant",
+    "embedding_audio_path", "diarization_model", "asr_model",
+    "asr_language", "asr_mean_confidence",
+    "speaker_stratum_id",
 ]
 
 _WORKER_FRONTEND: UkrainianPhonemizer | None = None

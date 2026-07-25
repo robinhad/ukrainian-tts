@@ -18,6 +18,7 @@ import torch
 import torchaudio.functional as AF
 
 from training.audio_enhancement.deepfilternet_compat import install
+from training.scripts.prepare_audio import trim_silence
 
 install()
 
@@ -47,6 +48,10 @@ class EnhancementConfig:
     target_lra: float = 7.0
     target_true_peak_db: float = -1.0
     output_sample_rate: int = OUTPUT_SAMPLE_RATE
+    trim_top_db: float = 40.0
+    trim_padding_ms: float = 100.0
+    trim_frame_length: int = 1024
+    trim_hop_length: int = 256
 
     @property
     def digest(self) -> str:
@@ -102,10 +107,18 @@ class EnhancedAudioProcessor:
             log_level="WARNING",
         )
 
-    def denoise(self, source: Path, output_48k: Path) -> None:
+    def denoise(self, source: Path, output_48k: Path) -> dict[str, Any]:
         audio, sample_rate = sf.read(source, always_2d=True, dtype="float32")
         if audio.shape[1] != 1:
             audio = np.mean(audio, axis=1, keepdims=True)
+        audio, trim_metadata = trim_silence(
+            audio,
+            sample_rate,
+            top_db=self.config.trim_top_db,
+            padding_ms=self.config.trim_padding_ms,
+            frame_length=self.config.trim_frame_length,
+            hop_length=self.config.trim_hop_length,
+        )
         tensor = torch.from_numpy(audio.T.copy())
         if sample_rate != MODEL_SAMPLE_RATE:
             tensor = AF.resample(tensor, sample_rate, MODEL_SAMPLE_RATE)
@@ -117,6 +130,7 @@ class EnhancedAudioProcessor:
             atten_lim_db=self.config.attenuation_limit_db,
         )
         sf.write(output_48k, result.squeeze(0).numpy(), MODEL_SAMPLE_RATE, subtype="FLOAT")
+        return trim_metadata
 
     def master_and_normalize(self, source_48k: Path, target: Path) -> dict[str, Any]:
         cfg = self.config
@@ -170,7 +184,7 @@ class EnhancedAudioProcessor:
     def process(self, source: Path, target: Path) -> dict[str, Any]:
         with tempfile.TemporaryDirectory(prefix="uktts-dfn3-") as temporary:
             denoised = Path(temporary) / "denoised-48k.wav"
-            self.denoise(source, denoised)
+            trim_metadata = self.denoise(source, denoised)
             loudness = self.master_and_normalize(denoised, target)
         audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
         peak = float(np.max(np.abs(audio))) if audio.size else 0.0
@@ -187,4 +201,5 @@ class EnhancedAudioProcessor:
             "loudness": loudness,
             "peak_amplitude": peak,
             "sample_rate": sample_rate,
+            **trim_metadata,
         }

@@ -1,0 +1,18 @@
+{
+  "disk": {
+    "free_gib": 385.45,
+    "status": "PASS",
+    "stop_gib": 60.0,
+    "warn_gib": 80.0
+  },
+  "errors": [],
+  "record_count": 0,
+  "status": "PASS",
+  "token_file": {
+    "exists": true,
+    "exported": false,
+    "mode": "664",
+    "mode_warning": true,
+    "path": "/home/ballvan/Projects/hf_token.txt"
+  }
+}

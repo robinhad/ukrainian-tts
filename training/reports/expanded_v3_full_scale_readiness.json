@@ -1,0 +1,80 @@
+{
+  "disk": {
+    "free_gib": 384.18,
+    "status": "PASS",
+    "stop_gib": 60.0,
+    "warn_gib": 80.0
+  },
+  "gates": [
+    {
+      "artifact": "training",
+      "evidence": "384.18 GiB is free. The stop threshold is 60.0 GiB.",
+      "gate": "Disk reserve",
+      "next_action": "Recheck during processing.",
+      "status": "PASS"
+    },
+    {
+      "artifact": null,
+      "evidence": "The manifest has 0 records.",
+      "gate": "Clean training manifest",
+      "next_action": "Prepare and validate the clean audio manifest.",
+      "status": "NOT RUN"
+    },
+    {
+      "artifact": null,
+      "evidence": "Present sources: none. Missing enabled sources: common_voice_26_uk, fleurs_uk, librivox_uk, lingua_libre_uk, opentts_lada, opentts_mykyta, opentts_tetiana, shtooka_uk, tatoeba_uk, tg_voices_uk, ua_ser, ukr_dialects, voa_ukr_user_grant, voice_of_america, wikimedia_commons_uk.",
+      "gate": "Enabled source coverage",
+      "next_action": "Ingest each missing source with valid license evidence.",
+      "status": "FAIL"
+    },
+    {
+      "artifact": null,
+      "evidence": "No PASS validation report exists.",
+      "gate": "Dataset validation",
+      "next_action": "Run the dataset validator.",
+      "status": "NOT RUN"
+    },
+    {
+      "artifact": null,
+      "evidence": "No hybrid embedding report exists.",
+      "gate": "Hybrid speaker embeddings",
+      "next_action": "Create the exact 50/50 ECAPA embedding set.",
+      "status": "NOT RUN"
+    },
+    {
+      "artifact": null,
+      "evidence": "The token list has 0 lines.",
+      "gate": "Token list",
+      "next_action": "Run ESPnet token collection.",
+      "status": "NOT RUN"
+    },
+    {
+      "artifact": null,
+      "evidence": "ESPnet statistics do not exist.",
+      "gate": "Pitch and energy statistics",
+      "next_action": "Run ESPnet statistics collection.",
+      "status": "NOT RUN"
+    }
+  ],
+  "manifest_records": 0,
+  "missing_enabled_sources": [
+    "common_voice_26_uk",
+    "fleurs_uk",
+    "librivox_uk",
+    "lingua_libre_uk",
+    "opentts_lada",
+    "opentts_mykyta",
+    "opentts_tetiana",
+    "shtooka_uk",
+    "tatoeba_uk",
+    "tg_voices_uk",
+    "ua_ser",
+    "ukr_dialects",
+    "voa_ukr_user_grant",
+    "voice_of_america",
+    "wikimedia_commons_uk"
+  ],
+  "mode": "full",
+  "source_counts": {},
+  "status": "FAIL"
+}
