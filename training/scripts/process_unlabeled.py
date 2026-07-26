@@ -259,8 +259,8 @@ def main() -> int:
                     round(part_start * sample_rate) : round(part_end * sample_rate)
                 ]
                 segment_key = (
-                    f"{source['audio_sha256_source']}:{part_start:.3f}:"
-                    f"{part_end:.3f}:{speaker}"
+                    f"{source['audio_sha256_source']}:{source['source_group']}:"
+                    f"{part_start:.3f}:{part_end:.3f}:{speaker}"
                 )
                 identifier = (
                     f"{source['source_id']}_pseudo_"
@@ -328,8 +328,6 @@ def main() -> int:
                         "asr_mean_confidence": confidence,
                     }
                 )
-        if args.delete_source_audio:
-            Path(source["audio_path"]).unlink(missing_ok=True)
     args.output_records.parent.mkdir(parents=True, exist_ok=True)
     with args.output_records.open(
         "a" if args.append else "w", encoding="utf-8"
@@ -353,6 +351,9 @@ def main() -> int:
             json.dumps(report, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
         )
+    if args.delete_source_audio:
+        for source in sources:
+            Path(source["audio_path"]).unlink(missing_ok=True)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 

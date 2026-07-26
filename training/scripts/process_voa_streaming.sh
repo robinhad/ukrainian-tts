@@ -83,18 +83,32 @@ run_worker() {
     done
 }
 
+terminate_tree() {
+    local parent_pid=$1
+    local child_pid
+    while read -r child_pid; do
+        [[ -n "$child_pid" ]] && terminate_tree "$child_pid"
+    done < <(pgrep -P "$parent_pid" || true)
+    kill -TERM "$parent_pid" 2>/dev/null || true
+}
+
 pids=()
 for worker_index in "${!GPU_IDS[@]}"; do
     run_worker "$worker_index" &
     pids+=("$!")
 done
 worker_status=0
-for pid in "${pids[@]}"; do
-    if ! wait "$pid"; then
+for ((finished = 0; finished < ${#pids[@]}; finished++)); do
+    if ! wait -n; then
         worker_status=1
+        break
     fi
 done
 if (( worker_status != 0 )); then
+    for pid in "${pids[@]}"; do
+        terminate_tree "$pid"
+    done
+    wait || true
     exit "$worker_status"
 fi
 

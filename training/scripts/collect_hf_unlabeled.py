@@ -68,10 +68,12 @@ def main() -> int:
     if not files:
         raise SystemExit("The source has no accessible Parquet shards.")
     source_root = args.output_root / args.source_id
-    raw_dir = source_root / "unlabeled_raw_16k"
+    batch_name = Path(args.records_name).stem
+    raw_dir = source_root / "unlabeled_raw_16k" / batch_name
     records = []
     cache_artifacts = []
     excluded: dict[str, int] = {}
+    seen_hashes: set[str] = set()
     for filename in files:
         if check_disk(args.output_root, registry)["status"] == "STOP":
             raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
@@ -102,6 +104,12 @@ def main() -> int:
                 excluded["missing_audio"] = excluded.get("missing_audio", 0) + 1
                 continue
             source_hash = hashlib.sha256(content).hexdigest()
+            if source_hash in seen_hashes:
+                excluded["duplicate_audio"] = (
+                    excluded.get("duplicate_audio", 0) + 1
+                )
+                continue
+            seen_hashes.add(source_hash)
             identifier = f"{args.source_id}_source_{source_hash[:20]}"
             target = raw_dir / f"{identifier}.flac"
             if not target.is_file():
