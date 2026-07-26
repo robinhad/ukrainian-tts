@@ -60,6 +60,11 @@ reports GPU load, VRAM, temperature, power, disk space, and Kyiv ETA. The report
 interval cannot exceed five minutes. The process stops when free disk space is
 less than 60 GiB.
 
+The data preparation keeps each processed source batch while free disk space is
+more than 60 GiB. At 60 GiB, it removes the oldest processed batch. It stops the
+removal when free disk space is more than 60 GiB. It does not remove an
+unprocessed batch.
+
 ## Fixed versions
 
 - ESPnet `v.202604-patch1`, commit `cff0a07`

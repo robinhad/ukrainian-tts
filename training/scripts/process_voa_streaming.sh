@@ -69,14 +69,15 @@ run_worker() {
             --registry "$REGISTRY" --records "$records" \
             --output-root "${PSEUDO_ROOT}/audio" \
             --output-records "$worker_records" --report "$process_report" \
-            --model-cache "$MODEL_CACHE" --append --delete-source-audio \
+            --model-cache "$MODEL_CACHE" --append \
             >"$process_log" 2>&1; then
             tail -n 120 "$process_log"
             exit 1
         fi
         sed -n '1,120p' "$process_report"
         "$PYTHON" "${ROOT}/scripts/cleanup_unlabeled_cache.py" \
-            --records "$records" --collect-report "$report" --marker "$marker"
+            --records "$records" --collect-report "$report" --marker "$marker" \
+            --free-disk-trigger-gib 60
         "$PYTHON" "${ROOT}/scripts/source_policy.py" \
             --registry "$REGISTRY" --workspace "$ROOT"
         batch_index=$((batch_index + 1))

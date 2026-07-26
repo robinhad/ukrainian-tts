@@ -6,9 +6,10 @@ The expanded-v3 source policy, clean-audio process, hybrid embedding process,
 NeMo pseudo-label process, ESPnet recipe, readiness gate, monitor, and 25K
 launcher exist under `training/`.
 
-The stop threshold for free disk space is 60 GiB. The warning threshold is 80
-GiB. The monitor records GPU power and calculates the ETA in Kyiv time. The
-maximum status interval is five minutes.
+The data-preparation cleanup trigger is 60 GiB. The process does not remove a
+completed source batch above this trigger. The training stop threshold is 60
+GiB. The warning threshold is 80 GiB. The monitor records GPU power and
+calculates the ETA in Kyiv time. The maximum status interval is five minutes.
 
 ## CRISP-DM cycle 1
 

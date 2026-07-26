@@ -93,6 +93,9 @@ These items are open:
 
 ## Disk control
 
-The warning threshold is 80 GiB. The stop threshold is 60 GiB. The preparation
-scripts check the threshold before large source stages. The training monitor
-checks the threshold at intervals of no more than five minutes.
+The warning threshold is 80 GiB. The cleanup trigger is 60 GiB during data
+preparation. The process keeps completed source batches when free space is more
+than 60 GiB. At 60 GiB, it removes the oldest completed batch until free space
+is more than 60 GiB. If no completed batch is available, the preparation stops.
+The training stop threshold is 60 GiB. The training monitor checks this
+threshold at intervals of no more than five minutes.

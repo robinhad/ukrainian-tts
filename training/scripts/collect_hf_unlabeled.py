@@ -16,11 +16,32 @@ from training.scripts.ingest_hf_parquet import (
     iter_rows,
     parquet_files,
 )
+from training.scripts.cleanup_unlabeled_cache import sweep_deferred_batches
 from training.scripts.source_policy import (
     check_disk,
     load_registry,
     read_hf_token,
 )
+
+
+def ensure_disk(
+    output_root: Path,
+    source_id: str,
+    registry: dict,
+) -> None:
+    disk = check_disk(output_root, registry)
+    if disk["status"] != "STOP":
+        return
+    trigger_gib = float(registry["policy"]["free_disk_stop_gib"])
+    sweep_deferred_batches(
+        output_root / source_id / "markers",
+        output_root,
+        trigger_gib,
+    )
+    if check_disk(output_root, registry)["status"] == "STOP":
+        raise SystemExit(
+            "Free disk space is below 60 GiB and no processed cache can be removed."
+        )
 
 
 def main() -> int:
@@ -44,8 +65,7 @@ def main() -> int:
         parser.error("The source policy does not allow this source.")
     if source.get("kind") != "unlabeled":
         parser.error("The source must have the unlabeled kind.")
-    if check_disk(args.output_root, registry)["status"] == "STOP":
-        raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
+    ensure_disk(args.output_root, args.source_id, registry)
 
     token = read_hf_token()
     files = parquet_files(
@@ -75,8 +95,7 @@ def main() -> int:
     excluded: dict[str, int] = {}
     seen_hashes: set[str] = set()
     for filename in files:
-        if check_disk(args.output_root, registry)["status"] == "STOP":
-            raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
+        ensure_disk(args.output_root, args.source_id, registry)
         shard: Path | str
         if filename.startswith(("https://", "http://")):
             shard = filename

@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -338,12 +339,25 @@ def main() -> int:
             for row in accepted
             )
         )
+    cleanup_trigger_gib = float(registry["policy"]["free_disk_stop_gib"])
+    free_gib = shutil.disk_usage(args.output_root).free / 1024**3
+    cleanup_source_audio = (
+        args.delete_source_audio and free_gib <= cleanup_trigger_gib
+    )
+    if cleanup_source_audio:
+        for source in sources:
+            Path(source["audio_path"]).unlink(missing_ok=True)
     report = {
         "status": "PASS",
         "source_files": len(sources),
         "accepted_segments": len(accepted),
         "rejected": dict(sorted(rejected.items())),
         "artifact": str(args.output_records),
+        "source_audio_cleanup": (
+            "CLEANED" if cleanup_source_audio else "DEFERRED"
+        ),
+        "cleanup_trigger_gib": cleanup_trigger_gib,
+        "free_gib_before_cleanup": round(free_gib, 2),
     }
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -351,9 +365,6 @@ def main() -> int:
             json.dumps(report, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
         )
-    if args.delete_source_audio:
-        for source in sources:
-            Path(source["audio_path"]).unlink(missing_ok=True)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
