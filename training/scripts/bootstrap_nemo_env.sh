@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 VENV="${ROOT}/.venv-nemo"
+NEMO_COMMIT=2639d4bef8d1450782263a8f616242acfb6fecb9
 
 command -v uv >/dev/null
 if [[ ! -x "${VENV}/bin/python" ]]; then
@@ -13,6 +14,6 @@ uv pip install --python "${VENV}/bin/python" \
     --index-url https://download.pytorch.org/whl/cu128
 uv pip install --python "${VENV}/bin/python" \
     -r "${ROOT}/requirements-nemo.in"
-"${VENV}/bin/python" -c \
-    "import nemo; assert nemo.__version__ == '2.4.1', nemo.__version__"
-echo "The NeMo 2.4.1 environment is ready."
+"${VENV}/bin/python" -c "import nemo; print(nemo.__version__)"
+printf '%s\n' "$NEMO_COMMIT" >"${ROOT}/vendor/NEMO_COMMIT"
+echo "The pinned NeMo environment is ready."

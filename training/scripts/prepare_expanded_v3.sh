@@ -32,21 +32,20 @@ python "${ROOT}/scripts/check_resources.py" \
     --workspace "$ROOT" --output "${ROOT}/reports/resource_usage_expanded_v3.jsonl"
 
 mkdir -p "${DATA_ROOT}/sources" "${DATA_ROOT}/records" "${DATA_ROOT}/logs"
-python "${ROOT}/scripts/export_existing_lada.py" \
-    --manifest "${ROOT}/data/full_trimmed/manifests/all.parquet" \
-    --output "${DATA_ROOT}/sources/opentts_lada/records.jsonl" \
-    "${LADA_LIMIT[@]}"
+if [[ "$MODE" == smoke ]]; then
+    python "${ROOT}/scripts/export_existing_lada.py" \
+        --manifest "${ROOT}/data/full_trimmed/manifests/all.parquet" \
+        --output "${DATA_ROOT}/sources/opentts_lada/records.jsonl" \
+        "${LADA_LIMIT[@]}"
+else
+    python "${ROOT}/scripts/export_available_multispeaker_sources.py" \
+        --source-records "${ROOT}/data/multispeaker_full/source_records.jsonl" \
+        --output-root "${DATA_ROOT}/sources"
+fi
 
 LABELED_SOURCES=(opentts_tetiana opentts_mykyta tg_voices_uk ukr_dialects)
 if [[ "$MODE" == full ]]; then
-    LABELED_SOURCES+=(fleurs_uk voice_of_america)
-    if [[ -z "${MDC_COMMON_VOICE_ROOT:-}" ]]; then
-        echo "Set MDC_COMMON_VOICE_ROOT to the extracted direct Common Voice 26 Ukrainian directory." >&2
-        exit 2
-    fi
-    python "${ROOT}/scripts/ingest_common_voice_directory.py" \
-        --registry "$REGISTRY" --source-root "$MDC_COMMON_VOICE_ROOT" \
-        --output-root "${DATA_ROOT}/sources"
+    LABELED_SOURCES+=(fleurs_uk)
 fi
 for source_id in "${LABELED_SOURCES[@]}"; do
     python "${ROOT}/scripts/ingest_hf_parquet.py" \
@@ -58,19 +57,7 @@ done
 if [[ "$MODE" == full ]]; then
     python "${ROOT}/scripts/collect_ua_ser.py" \
         --registry "$REGISTRY" --output-root "${DATA_ROOT}/sources"
-    python "${ROOT}/scripts/collect_hf_unlabeled.py" \
-        --registry "$REGISTRY" --source-id voa_ukr_user_grant \
-        --output-root "${DATA_ROOT}/sources"
-    mapfile -t UNLABELED_RECORDS < <(
-        find "${DATA_ROOT}/sources" -name unlabeled_records.jsonl -type f | sort
-    )
-    if (( ${#UNLABELED_RECORDS[@]} )); then
-        "${ROOT}/.venv-nemo/bin/python" "${ROOT}/scripts/process_unlabeled.py" \
-            --registry "$REGISTRY" --records "${UNLABELED_RECORDS[@]}" \
-            --output-root "${DATA_ROOT}/sources/pseudo_uk/audio" \
-            --output-records "${DATA_ROOT}/sources/pseudo_uk/records.jsonl" \
-            --model-cache "${ROOT}/vendor/nemo-cache"
-    fi
+    DATA_ROOT="$DATA_ROOT" "${ROOT}/scripts/process_voa_streaming.sh"
 fi
 
 mapfile -t SOURCE_RECORDS < <(
@@ -100,6 +87,14 @@ python "${ROOT}/scripts/build_manifest.py" \
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
 NUM_SHARDS=$((WORKERS_PER_GPU * ${#GPUS[@]}))
 mkdir -p "${DATA_ROOT}/enhanced_records" "${DATA_ROOT}/processed_24k"
+if [[ "$MODE" == full ]]; then
+    python "${ROOT}/scripts/seed_reused_enhanced_records.py" \
+        --source-manifest "${SOURCE_MANIFEST_DIR}/all.parquet" \
+        --clean-manifest \
+            "${ROOT}/data/multispeaker_enhanced_v2/manifests/all.parquet" \
+        --output-records-dir "${DATA_ROOT}/enhanced_records" \
+        --num-shards "$NUM_SHARDS"
+fi
 run_shard() {
     local shard=$1
     local gpu=$2

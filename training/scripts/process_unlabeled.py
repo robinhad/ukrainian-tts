@@ -126,11 +126,35 @@ def hypothesis_confidence(hypothesis: Any) -> float | None:
         value = getattr(hypothesis, name, None)
         if value is not None:
             return float(value)
-    score = getattr(hypothesis, "score", None)
-    tokens = getattr(hypothesis, "y_sequence", None)
-    if score is not None and tokens is not None and len(tokens):
-        return float(math.exp(min(0.0, float(score) / len(tokens))))
+    for name in ("word_confidence", "token_confidence"):
+        values = getattr(hypothesis, name, None)
+        if values is not None and len(values):
+            return float(np.mean(np.asarray(values, dtype=np.float64)))
     return None
+
+
+def enable_asr_confidence(asr_model: Any) -> None:
+    """Enable token confidence without importing optional NeMo CLI helpers."""
+    from nemo.collections.asr.parts.utils.asr_confidence_utils import (
+        ConfidenceConfig,
+    )
+    from omegaconf import OmegaConf, open_dict
+
+    decoding_cfg = asr_model.cfg.decoding
+    with open_dict(decoding_cfg):
+        if "confidence_cfg" not in decoding_cfg:
+            decoding_cfg.confidence_cfg = OmegaConf.structured(
+                ConfidenceConfig(aggregation="mean")
+            )
+        decoding_cfg.confidence_cfg.preserve_frame_confidence = True
+        decoding_cfg.confidence_cfg.preserve_token_confidence = True
+        decoding_cfg.confidence_cfg.preserve_word_confidence = False
+        strategy = decoding_cfg.get("strategy", "greedy")
+        if strategy in ("greedy", "greedy_batch"):
+            decoding_cfg.greedy.preserve_frame_confidence = True
+        elif strategy in ("malsd_batch", "maes_batch"):
+            decoding_cfg.beam.preserve_frame_confidence = True
+    asr_model.change_decoding_strategy(decoding_cfg, verbose=False)
 
 
 def load_models(registry: dict[str, Any], cache: Path) -> tuple[Any, Any]:
@@ -163,12 +187,15 @@ def load_models(registry: dict[str, Any], cache: Path) -> tuple[Any, Any]:
     asr_model = ASRModel.restore_from(
         str(next(asr_dir.glob("*.nemo"))), map_location="cuda", strict=False
     )
+    enable_asr_confidence(asr_model)
     diar_model.eval()
     asr_model.eval()
     diar_model.sortformer_modules.chunk_len = 340
     diar_model.sortformer_modules.chunk_right_context = 40
     diar_model.sortformer_modules.fifo_len = 40
     diar_model.sortformer_modules.spkcache_update_period = 300
+    diar_model.sortformer_modules.spkcache_len = 188
+    diar_model.sortformer_modules._check_streaming_parameters()
     return diar_model, asr_model
 
 
@@ -178,8 +205,11 @@ def main() -> int:
     parser.add_argument("--records", type=Path, nargs="+", required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--output-records", type=Path, required=True)
+    parser.add_argument("--report", type=Path)
     parser.add_argument("--model-cache", type=Path, required=True)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--append", action="store_true")
+    parser.add_argument("--delete-source-audio", action="store_true")
     args = parser.parse_args()
     registry = load_registry(args.registry)
     diar_cfg = registry["models"]["diarizer"]
@@ -245,7 +275,11 @@ def main() -> int:
                 text = sanitize_text(str(hypothesis.text))
                 language = hypothesis_language(hypothesis)
                 confidence = hypothesis_confidence(hypothesis)
-                if language != asr_cfg["accepted_language"]:
+                script_ratio = ukrainian_letter_ratio(text)
+                if (
+                    language is not None
+                    and language != asr_cfg["accepted_language"]
+                ):
                     rejected["language"] = rejected.get("language", 0) + 1
                     target.unlink(missing_ok=True)
                     continue
@@ -255,12 +289,11 @@ def main() -> int:
                     rejected["confidence"] = rejected.get("confidence", 0) + 1
                     target.unlink(missing_ok=True)
                     continue
-                if ukrainian_letter_ratio(text) < float(
-                    asr_cfg["minimum_ukrainian_letter_ratio"]
-                ):
+                if script_ratio < float(asr_cfg["minimum_ukrainian_letter_ratio"]):
                     rejected["script_ratio"] = rejected.get("script_ratio", 0) + 1
                     target.unlink(missing_ok=True)
                     continue
+                accepted_language = language or "uk_script_inferred"
                 audio_hash = hashlib.sha256(target.read_bytes()).hexdigest()
                 accepted.append(
                     {
@@ -291,18 +324,22 @@ def main() -> int:
                             f"{diar_cfg['repo_id']}@{diar_cfg['revision']}"
                         ),
                         "asr_model": f"{asr_cfg['repo_id']}@{asr_cfg['revision']}",
-                        "asr_language": language,
+                        "asr_language": accepted_language,
                         "asr_mean_confidence": confidence,
                     }
                 )
+        if args.delete_source_audio:
+            Path(source["audio_path"]).unlink(missing_ok=True)
     args.output_records.parent.mkdir(parents=True, exist_ok=True)
-    args.output_records.write_text(
-        "".join(
+    with args.output_records.open(
+        "a" if args.append else "w", encoding="utf-8"
+    ) as stream:
+        stream.write(
+            "".join(
             json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n"
             for row in accepted
-        ),
-        encoding="utf-8",
-    )
+            )
+        )
     report = {
         "status": "PASS",
         "source_files": len(sources),
@@ -310,6 +347,12 @@ def main() -> int:
         "rejected": dict(sorted(rejected.items())),
         "artifact": str(args.output_records),
     }
+    if args.report:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 

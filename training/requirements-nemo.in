@@ -1,4 +1,4 @@
-nemo_toolkit[asr]==2.4.1
+nemo_toolkit[asr] @ git+https://github.com/NVIDIA/NeMo.git@2639d4bef8d1450782263a8f616242acfb6fecb9
 huggingface-hub==0.34.3
 numpy==1.26.4
 soundfile==0.13.1

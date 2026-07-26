@@ -12,6 +12,32 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
+def gpu_status() -> str:
+    result = subprocess.run(
+        [
+            "nvidia-smi",
+            "--query-gpu=index,utilization.gpu,memory.used,power.draw,"
+            "power.limit,temperature.gpu",
+            "--format=csv,noheader,nounits",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return "GPU metrics are not available"
+    metrics = []
+    for line in result.stdout.splitlines():
+        index, utilization, memory, power, limit, temperature = (
+            value.strip() for value in line.split(",")
+        )
+        metrics.append(
+            f"GPU {index}: {utilization}% util, {memory} MiB, "
+            f"{power}/{limit} W, {temperature} C"
+        )
+    return "; ".join(metrics)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--log", type=Path, required=True)
@@ -35,7 +61,8 @@ def main() -> int:
             now = datetime.now(kyiv).strftime("%Y-%m-%d %H:%M:%S %Z")
             eta = estimated_finish.strftime("%Y-%m-%d %H:%M:%S %Z")
             print(
-                f"[monitor] {now}; running {command[0]} for {elapsed}s; ETA {eta}",
+                f"[monitor] {now}; running {command[0]} for {elapsed}s; "
+                f"ETA {eta}; {gpu_status()}",
                 flush=True,
             )
     record = {

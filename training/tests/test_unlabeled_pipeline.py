@@ -1,6 +1,9 @@
+from types import SimpleNamespace
+
 import numpy as np
 
 from training.scripts.process_unlabeled import (
+    hypothesis_confidence,
     low_energy_split,
     non_overlapping_segments,
     parse_segment,
@@ -34,3 +37,15 @@ def test_long_segment_splits_near_low_energy():
     assert len(parts) == 2
     assert 11.0 <= parts[0][1] <= 12.5
     assert parts[-1][1] == 20.0
+
+
+def test_confidence_uses_normalized_token_scores():
+    hypothesis = SimpleNamespace(
+        confidence=None,
+        mean_confidence=None,
+        word_confidence=None,
+        token_confidence=[0.7, 0.9],
+        score=-100.0,
+        y_sequence=[1, 2],
+    )
+    assert hypothesis_confidence(hypothesis) == 0.8

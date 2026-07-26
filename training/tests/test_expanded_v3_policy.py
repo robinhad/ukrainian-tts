@@ -32,16 +32,16 @@ def test_registry_rejects_common_voice_derivative_record():
     assert any("denied" in error for error in errors)
 
 
-def test_per_file_source_requires_license_evidence():
+def test_per_file_source_is_disabled_without_complete_license_evidence():
     registry = load_registry(REGISTRY)
     record = {
         "source_id": "tatoeba_uk",
         "source_license": "CC-BY-4.0",
         "audio_sha256_source": "a" * 64,
     }
-    assert any("evidence" in error for error in validate_record(record, registry))
-    record["license_evidence"] = "https://example.test/license"
-    assert validate_record(record, registry) == []
+    errors = validate_record(record, registry)
+    assert any("denied" in error for error in errors)
+    assert not registry["sources"]["tatoeba_uk"]["enabled"]
 
 
 def test_policy_file_has_no_token_value():

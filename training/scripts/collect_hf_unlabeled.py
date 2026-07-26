@@ -29,7 +29,11 @@ def main() -> int:
     parser.add_argument("--source-id", required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--maximum-shards", type=int)
+    parser.add_argument("--shard-start", type=int, default=0)
+    parser.add_argument("--shard-count", type=int)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--records-name", default="unlabeled_records.jsonl")
+    parser.add_argument("--report-name", default="collect_report.json")
     args = parser.parse_args()
 
     registry = load_registry(args.registry)
@@ -51,11 +55,22 @@ def main() -> int:
         args.maximum_shards,
         source.get("subset"),
     )
+    if args.shard_start < 0:
+        parser.error("--shard-start must not be negative.")
+    if args.shard_count is not None and args.shard_count < 1:
+        parser.error("--shard-count must be positive.")
+    stop = (
+        args.shard_start + args.shard_count
+        if args.shard_count is not None
+        else None
+    )
+    files = files[args.shard_start:stop]
     if not files:
         raise SystemExit("The source has no accessible Parquet shards.")
     source_root = args.output_root / args.source_id
     raw_dir = source_root / "unlabeled_raw_16k"
     records = []
+    cache_artifacts = []
     excluded: dict[str, int] = {}
     for filename in files:
         if check_disk(args.output_root, registry)["status"] == "STOP":
@@ -72,6 +87,12 @@ def main() -> int:
                     filename=filename,
                     token=token,
                 )
+            )
+            cache_artifacts.append(
+                {
+                    "snapshot_path": str(shard),
+                    "blob_path": str(shard.resolve()),
+                }
             )
         for row_index, row in enumerate(iter_rows(shard, token)):
             audio = row.get("audio") or {}
@@ -109,7 +130,7 @@ def main() -> int:
                 break
         if args.limit is not None and len(records) >= args.limit:
             break
-    output = source_root / "unlabeled_records.jsonl"
+    output = source_root / args.records_name
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         "".join(json.dumps(row, sort_keys=True) + "\n" for row in records),
@@ -121,8 +142,11 @@ def main() -> int:
         "records": len(records),
         "excluded": dict(sorted(excluded.items())),
         "artifact": str(output),
+        "shard_start": args.shard_start,
+        "shard_count": len(files),
+        "cache_artifacts": cache_artifacts,
     }
-    (source_root / "collect_report.json").write_text(
+    (source_root / args.report_name).write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(json.dumps(report, indent=2, sort_keys=True))

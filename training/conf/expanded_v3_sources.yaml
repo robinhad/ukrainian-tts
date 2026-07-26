@@ -24,8 +24,8 @@ policy:
   free_disk_stop_gib: 60
 sources:
   common_voice_26_uk:
-    enabled: true
-    decision: allow
+    enabled: false
+    decision: deny
     kind: labeled
     connector: mozilla_data_collective
     uri: https://datacollective.mozillafoundation.org/datasets/cmqinqaqp00wunq07w9oyei38
@@ -33,7 +33,20 @@ sources:
     license: CC0-1.0
     commercial_use: true
     raw_redistribution: false
-    notes: Use the direct Mozilla release. Do not use a derivative.
+    deny_reason: Direct archive is not available on this host.
+    notes: The user selected the Common Voice copy that is already available.
+  common_voice_available_uk:
+    enabled: true
+    decision: allow
+    kind: labeled
+    connector: local_existing
+    uri: training/data/multispeaker_full/source_records.jsonl
+    revision: 46e5072c44cdd6d7d371adeba29f1ee7678aaf91
+    license: CC0-1.0
+    commercial_use: true
+    raw_redistribution: false
+    evidence: User selected the available Common Voice copy on 2026-07-26.
+    notes: This is the existing local Common Voice audio. The user explicitly approved this source.
   fleurs_uk:
     enabled: true
     decision: allow
@@ -46,8 +59,8 @@ sources:
     commercial_use: true
     raw_redistribution: false
   voice_of_america:
-    enabled: true
-    decision: allow
+    enabled: false
+    decision: deny
     kind: labeled
     connector: huggingface
     repo_id: speech-uk/voice-of-america
@@ -55,6 +68,7 @@ sources:
     license: CC-BY-4.0
     commercial_use: true
     raw_redistribution: false
+    deny_reason: The user requested that this source be skipped.
   tg_voices_uk:
     enabled: true
     decision: allow
@@ -129,50 +143,55 @@ sources:
     evidence: User grant in this Codex thread on 2026-07-26.
     notes: The inspected source rows use a dash as the transcript. Treat this source as unlabeled.
   shtooka_uk:
-    enabled: true
-    decision: allow_per_file
+    enabled: false
+    decision: deny
     kind: labeled
     connector: per_file
     uri: https://fsi-languages.yojik.eu/audiocollections/audiocollections.html
     license: per-file
     commercial_use: conditional
     raw_redistribution: false
+    deny_reason: No complete per-file commercial license manifest is available.
   lingua_libre_uk:
-    enabled: true
-    decision: allow_per_file
+    enabled: false
+    decision: deny
     kind: unlabeled
     connector: per_file
     uri: https://lingualibre.org/
     license: per-file
     commercial_use: conditional
     raw_redistribution: false
+    deny_reason: No complete per-file commercial license manifest is available.
   tatoeba_uk:
-    enabled: true
-    decision: allow_per_file
+    enabled: false
+    decision: deny
     kind: labeled
     connector: per_file
     uri: https://tatoeba.org/en/audio/index/ukr
     license: per-file
     commercial_use: conditional
     raw_redistribution: false
+    deny_reason: No complete per-file commercial license manifest is available.
   librivox_uk:
-    enabled: true
-    decision: allow_per_file
+    enabled: false
+    decision: deny
     kind: unlabeled
     connector: per_file
     uri: https://librivox.org/search
     license: per-file
     commercial_use: conditional
     raw_redistribution: false
+    deny_reason: No per-record text and recording public-domain review is available.
   wikimedia_commons_uk:
-    enabled: true
-    decision: allow_per_file
+    enabled: false
+    decision: deny
     kind: unlabeled
     connector: per_file
     uri: https://commons.wikimedia.org/wiki/Category:Audio_files_in_Ukrainian
     license: per-file
     commercial_use: conditional
     raw_redistribution: false
+    deny_reason: No complete per-file commercial license manifest is available.
   speech_uk_cv22_opus:
     enabled: false
     decision: deny
