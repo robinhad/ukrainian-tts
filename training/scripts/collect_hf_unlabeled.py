@@ -44,6 +44,39 @@ def ensure_disk(
         )
 
 
+def existing_collection(
+    records_path: Path,
+    report_path: Path,
+    source_id: str,
+    shard_start: int,
+    shard_count: int | None,
+) -> dict | None:
+    """Return a complete existing collection that is safe to resume."""
+    if shard_count is None or not records_path.is_file() or not report_path.is_file():
+        return None
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        records = [
+            json.loads(line)
+            for line in records_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    except (OSError, json.JSONDecodeError):
+        return None
+    if (
+        report.get("status") != "PASS"
+        or report.get("source_id") != source_id
+        or int(report.get("shard_start", -1)) != shard_start
+        or int(report.get("shard_count", -1)) != shard_count
+        or int(report.get("records", -1)) != len(records)
+        or not records
+    ):
+        return None
+    if any(not Path(record.get("audio_path", "")).is_file() for record in records):
+        return None
+    return report
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--registry", type=Path, required=True)
@@ -65,7 +98,32 @@ def main() -> int:
         parser.error("The source policy does not allow this source.")
     if source.get("kind") != "unlabeled":
         parser.error("The source must have the unlabeled kind.")
+    if args.shard_start < 0:
+        parser.error("--shard-start must not be negative.")
+    if args.shard_count is not None and args.shard_count < 1:
+        parser.error("--shard-count must be positive.")
     ensure_disk(args.output_root, args.source_id, registry)
+
+    source_root = args.output_root / args.source_id
+    output = source_root / args.records_name
+    report_path = source_root / args.report_name
+    if args.limit is None:
+        resumed = existing_collection(
+            output,
+            report_path,
+            args.source_id,
+            args.shard_start,
+            args.shard_count,
+        )
+        if resumed is not None:
+            print(
+                json.dumps(
+                    {**resumed, "resumed_existing_collection": True},
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            return 0
 
     token = read_hf_token()
     files = parquet_files(
@@ -75,10 +133,6 @@ def main() -> int:
         args.maximum_shards,
         source.get("subset"),
     )
-    if args.shard_start < 0:
-        parser.error("--shard-start must not be negative.")
-    if args.shard_count is not None and args.shard_count < 1:
-        parser.error("--shard-count must be positive.")
     stop = (
         args.shard_start + args.shard_count
         if args.shard_count is not None
@@ -87,7 +141,6 @@ def main() -> int:
     files = files[args.shard_start:stop]
     if not files:
         raise SystemExit("The source has no accessible Parquet shards.")
-    source_root = args.output_root / args.source_id
     batch_name = Path(args.records_name).stem
     raw_dir = source_root / "unlabeled_raw_16k" / batch_name
     records = []
@@ -157,7 +210,6 @@ def main() -> int:
                 break
         if args.limit is not None and len(records) >= args.limit:
             break
-    output = source_root / args.records_name
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         "".join(json.dumps(row, sort_keys=True) + "\n" for row in records),
@@ -173,7 +225,7 @@ def main() -> int:
         "shard_count": len(files),
         "cache_artifacts": cache_artifacts,
     }
-    (source_root / args.report_name).write_text(
+    report_path.write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(json.dumps(report, indent=2, sort_keys=True))

@@ -15,6 +15,7 @@ MODEL_CACHE="${ROOT}/vendor/nemo-cache"
 LOG_ROOT="${ROOT}/logs/expanded-v3/voa"
 PYTHON="${ROOT}/.venv/bin/python"
 export PYTHONPATH="$(cd "${ROOT}/.." && pwd)${PYTHONPATH:+:${PYTHONPATH}}"
+export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 
 if [[ ! -x "${ROOT}/.venv-nemo/bin/python" ]]; then
     "${ROOT}/scripts/bootstrap_nemo_env.sh"

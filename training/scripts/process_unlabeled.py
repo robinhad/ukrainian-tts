@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import shutil
 import subprocess
 import tempfile
@@ -96,6 +97,98 @@ def low_energy_split(
         cursor = cut
     result.append((cursor, end))
     return result
+
+
+def diarization_chunks(
+    audio: np.ndarray,
+    sample_rate: int,
+    maximum_seconds: float,
+) -> list[tuple[int, float, np.ndarray]]:
+    """Split source audio before feature extraction to limit GPU memory."""
+    if sample_rate <= 0:
+        raise ValueError("The sample rate must be positive.")
+    if maximum_seconds <= 0:
+        raise ValueError("The maximum chunk duration must be positive.")
+    maximum_samples = max(1, round(sample_rate * maximum_seconds))
+    return [
+        (index, first / sample_rate, audio[first : first + maximum_samples])
+        for index, first in enumerate(range(0, len(audio), maximum_samples))
+    ]
+
+
+def diarize_in_chunks(
+    diar_model: Any,
+    audio: np.ndarray,
+    sample_rate: int,
+    maximum_seconds: float,
+    maximum_speakers: int,
+) -> list[tuple[float, float, int]]:
+    """Diarize bounded chunks and return source-relative time intervals."""
+    if maximum_speakers < 1:
+        raise ValueError("The maximum speaker count must be positive.")
+    segments: list[tuple[float, float, int]] = []
+    for chunk_index, offset, chunk in diarization_chunks(
+        audio,
+        sample_rate,
+        maximum_seconds,
+    ):
+        predicted = diar_model.diarize(
+            audio=[chunk],
+            batch_size=1,
+            sample_rate=sample_rate,
+        )[0]
+        for value in predicted:
+            start, end, speaker = parse_segment(value)
+            segments.append(
+                (
+                    start + offset,
+                    end + offset,
+                    chunk_index * maximum_speakers + speaker,
+                )
+            )
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    return segments
+
+
+def source_progress_key(source: dict[str, Any]) -> str:
+    material = (
+        f"{source['audio_sha256_source']}:{source.get('source_group', '')}"
+    )
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()
+
+
+def append_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
+    if not rows:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as stream:
+        for row in rows:
+            stream.write(
+                json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n"
+            )
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def load_progress(path: Path) -> dict[str, dict[str, Any]]:
+    if not path.is_file():
+        return {}
+    entries: dict[str, dict[str, Any]] = {}
+    for line_number, line in enumerate(
+        path.read_text(encoding="utf-8").splitlines(),
+        1,
+    ):
+        if not line.strip():
+            continue
+        entry = json.loads(line)
+        key = str(entry.get("source_key") or "")
+        if not key:
+            raise ValueError(
+                f"Progress line {line_number} has no source key: {path}"
+            )
+        entries[key] = entry
+    return entries
 
 
 def ukrainian_letter_ratio(text: str) -> float:
@@ -208,25 +301,68 @@ def main() -> int:
     parser.add_argument("--output-records", type=Path, required=True)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--model-cache", type=Path, required=True)
+    parser.add_argument("--source-start", type=int, default=0)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--append", action="store_true")
     parser.add_argument("--delete-source-audio", action="store_true")
     args = parser.parse_args()
+    if args.source_start < 0:
+        parser.error("--source-start must not be negative.")
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit must be positive.")
+
     registry = load_registry(args.registry)
     diar_cfg = registry["models"]["diarizer"]
     asr_cfg = registry["models"]["asr"]
-    diar_model, asr_model = load_models(registry, args.model_cache)
     sources = [
         json.loads(line)
         for path in args.records
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
+    sources = sources[args.source_start :]
     if args.limit is not None:
         sources = sources[: args.limit]
-    accepted = []
+    if not sources:
+        raise SystemExit("No source records are selected.")
+
+    if args.report:
+        progress_path = args.report.with_name(
+            f"{args.report.stem}.progress.jsonl"
+        )
+    else:
+        progress_path = args.output_records.with_name(
+            f"{args.output_records.name}.progress.jsonl"
+        )
+    selected_keys = {source_progress_key(source) for source in sources}
+    progress = {
+        key: entry
+        for key, entry in load_progress(progress_path).items()
+        if key in selected_keys
+    }
+    resumed_source_files = len(progress)
+    accepted_count = sum(
+        int(entry.get("accepted_segments", 0))
+        for entry in progress.values()
+    )
     rejected: dict[str, int] = {}
+    for entry in progress.values():
+        for reason, count in entry.get("rejected", {}).items():
+            rejected[reason] = rejected.get(reason, 0) + int(count)
+
+    args.output_records.parent.mkdir(parents=True, exist_ok=True)
+    if not args.append and not progress:
+        args.output_records.write_text("", encoding="utf-8")
+    elif not args.output_records.exists():
+        args.output_records.touch()
+
+    diar_model, asr_model = load_models(registry, args.model_cache)
     for source in sources:
+        progress_key = source_progress_key(source)
+        if progress_key in progress:
+            continue
+        source_accepted: list[dict[str, Any]] = []
+        source_rejected: dict[str, int] = {}
         audio, sample_rate = sf.read(
             source["audio_path"], always_2d=True, dtype="float32"
         )
@@ -243,10 +379,13 @@ def main() -> int:
                     check=True,
                 )
                 mono, sample_rate = sf.read(converted, dtype="float32")
-        predicted = diar_model.diarize(
-            audio=[mono], batch_size=1, sample_rate=sample_rate
-        )[0]
-        parsed = [parse_segment(value) for value in predicted]
+        parsed = diarize_in_chunks(
+            diar_model,
+            mono,
+            sample_rate,
+            float(diar_cfg["maximum_chunk_seconds"]),
+            int(diar_cfg["maximum_speakers"]),
+        )
         single = non_overlapping_segments(parsed)
         for start, end, speaker in single:
             for part_start, part_end in low_energy_split(
@@ -254,7 +393,9 @@ def main() -> int:
             ):
                 duration = part_end - part_start
                 if not 2.0 <= duration <= 12.0:
-                    rejected["duration"] = rejected.get("duration", 0) + 1
+                    source_rejected["duration"] = (
+                        source_rejected.get("duration", 0) + 1
+                    )
                     continue
                 samples = mono[
                     round(part_start * sample_rate) : round(part_end * sample_rate)
@@ -281,26 +422,36 @@ def main() -> int:
                     language is not None
                     and language != asr_cfg["accepted_language"]
                 ):
-                    rejected["language"] = rejected.get("language", 0) + 1
+                    source_rejected["language"] = (
+                        source_rejected.get("language", 0) + 1
+                    )
                     target.unlink(missing_ok=True)
                     continue
                 if confidence is None or confidence < float(
                     asr_cfg["minimum_mean_confidence"]
                 ):
-                    rejected["confidence"] = rejected.get("confidence", 0) + 1
+                    source_rejected["confidence"] = (
+                        source_rejected.get("confidence", 0) + 1
+                    )
                     target.unlink(missing_ok=True)
                     continue
                 if script_ratio < float(asr_cfg["minimum_ukrainian_letter_ratio"]):
-                    rejected["script_ratio"] = rejected.get("script_ratio", 0) + 1
+                    source_rejected["script_ratio"] = (
+                        source_rejected.get("script_ratio", 0) + 1
+                    )
                     target.unlink(missing_ok=True)
                     continue
                 accepted_language = language or "uk_script_inferred"
                 audio_hash = hashlib.sha256(target.read_bytes()).hexdigest()
-                accepted.append(
+                source_scope = source["audio_sha256_source"][:20]
+                source_accepted.append(
                     {
                         **source,
                         "utterance_id": identifier,
-                        "speaker_id": f"{source['source_id']}:{speaker}",
+                        "speaker_id": (
+                            f"{source['source_id']}:{source_scope}:"
+                            f"speaker-{speaker}"
+                        ),
                         "audio_path": str(target.resolve()),
                         "canonical_raw_audio_path": str(target.resolve()),
                         "text_raw": text,
@@ -308,7 +459,11 @@ def main() -> int:
                         "duration": duration,
                         "sample_rate": sample_rate,
                         "source_group": (
-                            f"{source['source_group']}:speaker-{speaker}"
+                            f"{source['source_group']}:source-{source_scope}:"
+                            f"speaker-{speaker}"
+                        ),
+                        "parent_audio_sha256_source": (
+                            source["audio_sha256_source"]
                         ),
                         "audio_sha256_source": audio_hash,
                         "text_sha256_source": hashlib.sha256(
@@ -329,16 +484,23 @@ def main() -> int:
                         "asr_mean_confidence": confidence,
                     }
                 )
-    args.output_records.parent.mkdir(parents=True, exist_ok=True)
-    with args.output_records.open(
-        "a" if args.append else "w", encoding="utf-8"
-    ) as stream:
-        stream.write(
-            "".join(
-            json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n"
-            for row in accepted
-            )
-        )
+        append_jsonl(args.output_records, source_accepted)
+        progress_entry = {
+            "source_key": progress_key,
+            "audio_sha256_source": source["audio_sha256_source"],
+            "source_group": source.get("source_group"),
+            "accepted_segments": len(source_accepted),
+            "rejected": dict(sorted(source_rejected.items())),
+        }
+        append_jsonl(progress_path, [progress_entry])
+        progress[progress_key] = progress_entry
+        accepted_count += len(source_accepted)
+        for reason, count in source_rejected.items():
+            rejected[reason] = rejected.get(reason, 0) + count
+        del audio, mono
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
     cleanup_trigger_gib = float(registry["policy"]["free_disk_stop_gib"])
     free_gib = shutil.disk_usage(args.output_root).free / 1024**3
     cleanup_source_audio = (
@@ -350,9 +512,15 @@ def main() -> int:
     report = {
         "status": "PASS",
         "source_files": len(sources),
-        "accepted_segments": len(accepted),
+        "processed_source_files": len(progress),
+        "resumed_source_files": resumed_source_files,
+        "accepted_segments": accepted_count,
         "rejected": dict(sorted(rejected.items())),
         "artifact": str(args.output_records),
+        "progress_artifact": str(progress_path),
+        "diarization_maximum_chunk_seconds": float(
+            diar_cfg["maximum_chunk_seconds"]
+        ),
         "source_audio_cleanup": (
             "CLEANED" if cleanup_source_audio else "DEFERRED"
         ),

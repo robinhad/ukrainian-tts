@@ -3,10 +3,13 @@ from types import SimpleNamespace
 import numpy as np
 
 from training.scripts.process_unlabeled import (
+    diarization_chunks,
+    diarize_in_chunks,
     hypothesis_confidence,
     low_energy_split,
     non_overlapping_segments,
     parse_segment,
+    source_progress_key,
     ukrainian_letter_ratio,
 )
 
@@ -49,3 +52,47 @@ def test_confidence_uses_normalized_token_scores():
         y_sequence=[1, 2],
     )
     assert hypothesis_confidence(hypothesis) == 0.8
+
+
+def test_diarization_chunks_bound_feature_extraction():
+    audio = np.arange(1300, dtype=np.float32)
+    chunks = diarization_chunks(audio, sample_rate=10, maximum_seconds=60)
+    assert [len(chunk) for _, _, chunk in chunks] == [600, 600, 100]
+    assert [offset for _, offset, _ in chunks] == [0.0, 60.0, 120.0]
+
+
+def test_chunked_diarization_preserves_source_time_and_speaker_scope():
+    class FakeDiarizer:
+        def __init__(self):
+            self.calls = 0
+
+        def diarize(self, audio, batch_size, sample_rate):
+            self.calls += 1
+            assert batch_size == 1
+            assert sample_rate == 10
+            return [["0.0 2.0 speaker_1"]]
+
+    model = FakeDiarizer()
+    segments = diarize_in_chunks(
+        model,
+        np.zeros(1300, dtype=np.float32),
+        sample_rate=10,
+        maximum_seconds=60,
+        maximum_speakers=4,
+    )
+    assert model.calls == 3
+    assert segments == [
+        (0.0, 2.0, 1),
+        (60.0, 62.0, 5),
+        (120.0, 122.0, 9),
+    ]
+
+
+def test_progress_key_is_stable_and_source_specific():
+    first = {
+        "audio_sha256_source": "a" * 64,
+        "source_group": "group-a",
+    }
+    second = {**first, "source_group": "group-b"}
+    assert source_progress_key(first) == source_progress_key(first)
+    assert source_progress_key(first) != source_progress_key(second)

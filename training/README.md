@@ -26,6 +26,11 @@ The source audio does not change. The training manifest points only to the clean
 copy. ECAPA uses raw audio for 50 percent of the records. It uses clean audio for
 the other 50 percent.
 
+The unlabeled-audio stage limits each diarization input to 60 seconds. This
+limit controls GPU memory for long source files. The stage writes a progress
+record after each source file. A restart uses the progress records and a
+complete existing collection.
+
 The pipeline reads the Hugging Face token from
 `/home/ballvan/Projects/hf_token.txt`. It does not export or copy the token.
 Set `MDC_COMMON_VOICE_ROOT` to the extracted direct Common Voice directory.

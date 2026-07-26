@@ -29,14 +29,18 @@ UA-SER supplies human transcripts and speaker IDs. The pipeline does not send
 UA-SER through ASR.
 
 For unlabeled sources, the pipeline uses the pinned NVIDIA Sortformer model for
-diarization. It keeps
-only intervals with one active speaker. It splits long intervals at a local
-low-energy point.
+diarization. Feature extraction uses source chunks of no more than 60 seconds.
+The process keeps source-relative time values. It keeps only intervals with one
+active speaker. It splits long intervals at a local low-energy point.
 
 The pipeline uses the pinned NVIDIA Parakeet model for speech recognition. It
 keeps Ukrainian hypotheses with a mean confidence of at least 0.80. Ukrainian
 letters must be at least 80 percent of all letters. A pseudo-labeled record can
 only enter the training split.
+
+The process writes a progress record after each source file. A restart skips
+each completed source file. The collector also uses an existing batch when its
+report, record count, shard range, and audio paths are complete.
 
 ## Clean audio
 

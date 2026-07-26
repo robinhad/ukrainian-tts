@@ -209,6 +209,7 @@ models:
     license: CC-BY-4.0
     sample_rate: 16000
     maximum_speakers: 4
+    maximum_chunk_seconds: 60
   asr:
     repo_id: nvidia/parakeet-tdt-0.6b-v3
     revision: 7c35754d166cca382ad1e53e68b01e7c575f3a1d
