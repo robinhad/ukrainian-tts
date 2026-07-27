@@ -36,7 +36,8 @@ fi
 
 SHARD_ROOT="${KALDI_ROOT}/.embedding_shards"
 mkdir -p "$SHARD_ROOT"
-for data_set in "${DATASETS[@]}"; do
+if [[ "${SKIP_EXTRACTION:-false}" != true ]]; then
+  for data_set in "${DATASETS[@]}"; do
     output="${DUMP_DIR}/xvector/${data_set}"
     mkdir -p "$output"
     pids=()
@@ -84,7 +85,8 @@ for data_set in "${DATASETS[@]}"; do
             "${output}"/part-*/"${name}" > "${output}/${name}.merged"
         mv "${output}/${name}.merged" "${output}/${name}"
     done
-done
+  done
+fi
 
 python - "$KALDI_ROOT" "$DUMP_DIR" "$REPORT" <<'PY'
 import json
@@ -97,7 +99,11 @@ import numpy as np
 kaldi_root = Path(sys.argv[1])
 dump_dir = Path(sys.argv[2])
 report_path = Path(sys.argv[3])
-sets = sorted(path.name for path in kaldi_root.iterdir() if path.is_dir())
+sets = sorted(
+    path.name
+    for path in kaldi_root.iterdir()
+    if path.is_dir() and not path.name.startswith(".")
+)
 set_reports = {}
 for name in sets:
     expected = {
