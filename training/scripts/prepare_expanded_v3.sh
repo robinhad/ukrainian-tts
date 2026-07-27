@@ -169,6 +169,7 @@ export GPU_COUNT=${#GPUS[@]}
 "${ROOT}/espnet_recipe/run_expanded_v3.sh" --stage 1 --stop_stage 2
 
 MANIFEST="${DATA_ROOT}/manifests/all.parquet" \
+RAW_MANIFEST="${SOURCE_MANIFEST_DIR}/all.parquet" \
 OUTPUT_MANIFEST="${DATA_ROOT}/hybrid_manifest/all.parquet" \
 KALDI_ROOT="${DATA_ROOT}/hybrid_embedding_data" \
 DUMP_DIR="$DUMP_DIR" \

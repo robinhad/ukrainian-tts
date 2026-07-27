@@ -27,6 +27,7 @@ python "${ROOT}/scripts/run_logged.py" \
     "${ROOT}/espnet_recipe/run_expanded_v3.sh" --stage 1 --stop_stage 2
 
 MANIFEST="${ROOT}/data/expanded_v3/manifests/all.parquet" \
+RAW_MANIFEST="${ROOT}/data/expanded_v3/source_manifests/all.parquet" \
 OUTPUT_MANIFEST="${ROOT}/data/expanded_v3/hybrid_manifest/all.parquet" \
 KALDI_ROOT="${ROOT}/data/expanded_v3/hybrid_embedding_data" \
 DUMP_DIR="$DUMP_DIR" \

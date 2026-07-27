@@ -61,6 +61,7 @@ def kaldi_speaker_id(utterance_id: str, speaker_id: str) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--raw-manifest", type=Path, required=True)
     parser.add_argument("--output-manifest", type=Path, required=True)
     parser.add_argument("--kaldi-root", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
@@ -72,20 +73,36 @@ def main() -> int:
         "speaker_id",
         "split",
         "audio_path",
-        "canonical_raw_audio_path",
     }
     missing = sorted(required - set(frame.columns))
     if missing:
         raise SystemExit(f"The manifest has no required columns: {missing}")
+    raw_frame = pd.read_parquet(
+        args.raw_manifest,
+        columns=["utterance_id", "audio_path"],
+    )
+    if raw_frame["utterance_id"].duplicated().any():
+        raise SystemExit("The raw manifest has duplicate utterance IDs.")
+    raw_audio = dict(
+        zip(
+            raw_frame["utterance_id"].astype(str),
+            raw_frame["audio_path"].astype(str),
+        )
+    )
+    missing_raw = sorted(set(frame["utterance_id"].astype(str)) - set(raw_audio))
+    if missing_raw:
+        raise SystemExit(
+            f"The raw manifest has no required utterances: {missing_raw[:10]}"
+        )
     assignment = assign_variants(frame)
     frame["embedding_audio_variant"] = [
         assignment[str(identifier)] for identifier in frame["utterance_id"]
     ]
     frame["embedding_audio_path"] = [
-        str(raw) if variant == "raw" else str(clean)
-        for variant, raw, clean in zip(
+        raw_audio[str(identifier)] if variant == "raw" else str(clean)
+        for variant, identifier, clean in zip(
             frame["embedding_audio_variant"],
-            frame["canonical_raw_audio_path"],
+            frame["utterance_id"],
             frame["audio_path"],
         )
     ]

@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 MANIFEST=${MANIFEST:?Set MANIFEST to the clean expanded-v3 manifest.}
+RAW_MANIFEST=${RAW_MANIFEST:?Set RAW_MANIFEST to the pre-enhancement manifest.}
 KALDI_ROOT=${KALDI_ROOT:?Set KALDI_ROOT to the hybrid extraction data root.}
 DUMP_DIR=${DUMP_DIR:?Set DUMP_DIR to the ESPnet dump root.}
 REPORT=${REPORT:-"${ROOT}/reports/expanded_v3_hybrid_embeddings.json"}
@@ -13,6 +14,7 @@ MODEL="${ROOT}/vendor/speechbrain-spkrec-ecapa-voxceleb"
 source "${ROOT}/activate.sh"
 python "${ROOT}/scripts/prepare_hybrid_embeddings.py" \
     --manifest "$MANIFEST" \
+    --raw-manifest "$RAW_MANIFEST" \
     --output-manifest "$OUTPUT_MANIFEST" \
     --kaldi-root "$KALDI_ROOT" \
     --report "$REPORT"
