@@ -2,7 +2,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from training.scripts.prepare_hybrid_embeddings import assign_variants
+from training.scripts.prepare_hybrid_embeddings import (
+    assign_variants,
+    kaldi_speaker_id,
+)
 
 
 def test_hybrid_assignment_is_exact_and_speaker_stratified():
@@ -24,3 +27,13 @@ def test_hybrid_assignment_is_exact_and_speaker_stratified():
         values = [assignment[value] for value in speaker_frame["utterance_id"]]
         assert abs(values.count("raw") - values.count("clean")) <= 1
     assert assignment == assign_variants(frame)
+
+
+def test_kaldi_speaker_id_keeps_utterance_sort_order():
+    utterances = ["source_0a", "source_0b", "source_ff"]
+    lines = [
+        f"{utterance} {kaldi_speaker_id(utterance, 'shared-speaker')}"
+        for utterance in utterances
+    ]
+    assert lines == sorted(lines)
+    assert lines == sorted(lines, key=lambda line: line.split(maxsplit=1)[1])

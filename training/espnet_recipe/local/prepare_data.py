@@ -14,6 +14,11 @@ def write_lines(path: Path, lines: list[str]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def kaldi_speaker_id(utterance_id: str, speaker_id: str) -> str:
+    """Keep Kaldi speaker sorting valid without changing utterance IDs."""
+    return f"{utterance_id}--{speaker_id}"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest-dir", type=Path, required=True)
@@ -31,7 +36,7 @@ def main() -> int:
         speakers = defaultdict(list)
         for row in frame.itertuples():
             utt = str(row.utterance_id)
-            speaker = str(row.speaker_id)
+            speaker = kaldi_speaker_id(utt, str(row.speaker_id))
             wav.append(f"{utt} {row.audio_path}")
             text.append(f"{utt} {row.text_sanitized}")
             utt2spk.append(f"{utt} {speaker}")
