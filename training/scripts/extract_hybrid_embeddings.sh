@@ -25,48 +25,64 @@ if (( ${#GPUS[@]} < 1 )); then
     exit 2
 fi
 
-mapfile -t DATASETS < <(find "$KALDI_ROOT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
+mapfile -t DATASETS < <(
+    find "$KALDI_ROOT" -mindepth 1 -maxdepth 1 -type d \
+        ! -name '.embedding_shards' -printf '%f\n' | sort
+)
 if (( ${#DATASETS[@]} < 2 )); then
     echo "The hybrid input has fewer than two data sets." >&2
     exit 2
 fi
 
-pids=()
-for index in "${!DATASETS[@]}"; do
-    data_set=${DATASETS[$index]}
-    gpu=${GPUS[$((index % ${#GPUS[@]}))]}
-    output="${DUMP_DIR}/xvector/${data_set}"
-    mkdir -p "$output"
-    (
-        cd "${ROOT}/vendor/espnet-src/egs2/TEMPLATE/tts1"
-        CUDA_VISIBLE_DEVICES="$gpu" python pyscripts/utils/extract_spk_embed_parallel.py \
-            --pretrained_model "$MODEL" \
-            --toolkit speechbrain \
-            --spk_embed_tag xvector \
-            --device cuda \
-            --num_workers "${SPK_EMBED_NUM_WORKERS:-8}" \
-            --batch_size "${SPK_EMBED_BATCH_SIZE:-8}" \
-            --prefetch 64 \
-            "${KALDI_ROOT}/${data_set}" "$output" \
-            > "${output}/spk_embed_extract.log" 2>&1
-    ) &
-    pids+=("$!")
-done
-
-failed=0
-for pid in "${pids[@]}"; do
-    wait "$pid" || failed=1
-done
-if (( failed )); then
-    echo "Speaker embedding extraction failed." >&2
-    exit 1
-fi
-
+SHARD_ROOT="${KALDI_ROOT}/.embedding_shards"
+mkdir -p "$SHARD_ROOT"
 for data_set in "${DATASETS[@]}"; do
     output="${DUMP_DIR}/xvector/${data_set}"
+    mkdir -p "$output"
+    pids=()
+    for index in "${!GPUS[@]}"; do
+        gpu=${GPUS[$index]}
+        shard="${SHARD_ROOT}/${data_set}/part-${index}"
+        part_output="${output}/part-${index}"
+        mkdir -p "$shard" "$part_output"
+        awk -v shard="$index" -v count="${#GPUS[@]}" \
+            '((NR - 1) % count) == shard' \
+            "${KALDI_ROOT}/${data_set}/wav.scp" > "${shard}/wav.scp"
+        awk -v shard="$index" -v count="${#GPUS[@]}" \
+            '((NR - 1) % count) == shard' \
+            "${KALDI_ROOT}/${data_set}/utt2spk" > "${shard}/utt2spk"
+        "${ROOT}/espnet_recipe/utils/utt2spk_to_spk2utt.pl" \
+            "${shard}/utt2spk" > "${shard}/spk2utt"
+        (
+            cd "${ROOT}/vendor/espnet-src/egs2/TEMPLATE/tts1"
+            CUDA_VISIBLE_DEVICES="$gpu" \
+                python pyscripts/utils/extract_spk_embed_parallel.py \
+                --pretrained_model "$MODEL" \
+                --toolkit speechbrain \
+                --spk_embed_tag xvector \
+                --device cuda:0 \
+                --num_workers "${SPK_EMBED_NUM_WORKERS:-8}" \
+                --batch_size "${SPK_EMBED_BATCH_SIZE:-8}" \
+                --prefetch 64 \
+                "$shard" "$part_output" \
+                > "${part_output}/spk_embed_extract.log" 2>&1
+        ) &
+        pids+=("$!")
+    done
+
+    failed=0
+    for pid in "${pids[@]}"; do
+        wait "$pid" || failed=1
+    done
+    if (( failed )); then
+        echo "Speaker embedding extraction failed for ${data_set}." >&2
+        exit 1
+    fi
+
     for name in xvector.scp spk_xvector.scp; do
-        LC_ALL=C sort "${output}/${name}" > "${output}/${name}.sorted"
-        mv "${output}/${name}.sorted" "${output}/${name}"
+        LC_ALL=C sort -k1,1 -u \
+            "${output}"/part-*/"${name}" > "${output}/${name}.merged"
+        mv "${output}/${name}.merged" "${output}/${name}"
     done
 done
 
