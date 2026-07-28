@@ -35,6 +35,9 @@ The process will save milestone copies at 1K, 5K, 15K, 25K, 50K, 100K,
 
 The chain writes GPU utilization, VRAM, power, temperature, disk space,
 stage, metrics, and Kyiv ETA. The maximum status interval is 15 minutes.
+The readable live status is in
+`reports/expanded_v3_500k_visible_status.log`. The tmux session name is
+`expanded_v3_visible_monitor`.
 
 ## Readiness exception
 

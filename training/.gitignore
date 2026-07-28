@@ -27,6 +27,7 @@ reports/resource_usage.jsonl
 reports/resource_preflight*.json
 reports/training_status.jsonl
 reports/training_status_trimmed.jsonl
+reports/*_stage.txt
 eval/generated/
 release/
 *.log
