@@ -2,9 +2,13 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-TRAIN_PID=${1:?Usage: preserve_expanded_v3_milestones.sh TRAIN_PID}
-TTS_EXP="${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k"
+TRAIN_PID=${1:?Usage: preserve_expanded_v3_milestones.sh TRAIN_PID TARGET_ITERATIONS TTS_EXP}
+TARGET_ITERATIONS=${2:-25000}
+TARGET_LABEL="$((TARGET_ITERATIONS / 1000))k"
+TTS_EXP=${3:-"${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_${TARGET_LABEL}"}
+MAX_EPOCH=$((TARGET_ITERATIONS / 1000))
 MILESTONE_DIR="${TTS_EXP}/milestones"
+MILESTONES=(1 5 15 25 50 100 200 300 400 500)
 mkdir -p "$MILESTONE_DIR"
 
 preserve() {
@@ -24,14 +28,18 @@ preserve() {
         mv "${target}.part" "$target"
     fi
 }
+
+preserve_available() {
+    local epoch
+    for epoch in "${MILESTONES[@]}"; do
+        if (( epoch <= MAX_EPOCH )); then
+            preserve "$epoch" "${epoch}k"
+        fi
+    done
+}
+
 while kill -0 "$TRAIN_PID" 2>/dev/null; do
-    preserve 1 1k
-    preserve 5 5k
-    preserve 15 15k
-    preserve 25 25k
+    preserve_available
     sleep 30
 done
-preserve 1 1k
-preserve 5 5k
-preserve 15 15k
-preserve 25 25k
+preserve_available

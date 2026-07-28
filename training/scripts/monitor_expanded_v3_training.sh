@@ -2,20 +2,23 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-TRAIN_PID=${1:?Usage: monitor_expanded_v3_training.sh TRAIN_PID}
-INTERVAL_SECONDS=${INTERVAL_SECONDS:-300}
-LOG="${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/train.log"
-STATUS="${ROOT}/reports/training_status_expanded_v3.jsonl"
+TRAIN_PID=${1:?Usage: monitor_expanded_v3_training.sh TRAIN_PID TARGET_ITERATIONS TTS_EXP}
+TARGET_ITERATIONS=${2:-25000}
+TARGET_LABEL="$((TARGET_ITERATIONS / 1000))k"
+TTS_EXP=${3:-"${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_${TARGET_LABEL}"}
+INTERVAL_SECONDS=${INTERVAL_SECONDS:-900}
+LOG="${TTS_EXP}/train.log"
+STATUS="${ROOT}/reports/training_status_expanded_v3_${TARGET_LABEL}.jsonl"
 PYTHON="${ROOT}/.venv/bin/python"
 
-if (( INTERVAL_SECONDS < 1 || INTERVAL_SECONDS > 300 )); then
-    echo "INTERVAL_SECONDS must be in the range 1 to 300." >&2
+if (( INTERVAL_SECONDS < 1 || INTERVAL_SECONDS > 900 )); then
+    echo "INTERVAL_SECONDS must be in the range 1 to 900." >&2
     exit 2
 fi
 probe() {
     set +e
     "$PYTHON" "${ROOT}/scripts/training_status.py" \
-        --log "$LOG" --target-iterations 25000 \
+        --log "$LOG" --target-iterations "$TARGET_ITERATIONS" \
         --workspace "$ROOT" --free-disk-stop-gib 60 \
         --maximum-temperature-c 90 --output "$STATUS"
     result=$?

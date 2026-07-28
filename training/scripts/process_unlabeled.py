@@ -294,21 +294,12 @@ def enable_asr_confidence(asr_model: Any) -> None:
     asr_model.change_decoding_strategy(decoding_cfg, verbose=False)
 
 
-def load_models(registry: dict[str, Any], cache: Path) -> tuple[Any, Any]:
-    from nemo.collections.asr.models import ASRModel, SortformerEncLabelModel
+def load_asr_model(registry: dict[str, Any], cache: Path) -> Any:
+    """Load the pinned ASR model with token-confidence output enabled."""
+    from nemo.collections.asr.models import ASRModel
 
     token = read_hf_token()
-    diar = registry["models"]["diarizer"]
     asr = registry["models"]["asr"]
-    diar_dir = Path(
-        snapshot_download(
-            diar["repo_id"],
-            revision=diar["revision"],
-            token=token,
-            cache_dir=cache,
-            allow_patterns=["*.nemo"],
-        )
-    )
     asr_dir = Path(
         snapshot_download(
             asr["repo_id"],
@@ -318,15 +309,33 @@ def load_models(registry: dict[str, Any], cache: Path) -> tuple[Any, Any]:
             allow_patterns=["*.nemo"],
         )
     )
-    diar_model = SortformerEncLabelModel.restore_from(
-        str(next(diar_dir.glob("*.nemo"))), map_location="cuda", strict=False
-    )
     asr_model = ASRModel.restore_from(
         str(next(asr_dir.glob("*.nemo"))), map_location="cuda", strict=False
     )
     enable_asr_confidence(asr_model)
-    diar_model.eval()
     asr_model.eval()
+    return asr_model
+
+
+def load_models(registry: dict[str, Any], cache: Path) -> tuple[Any, Any]:
+    from nemo.collections.asr.models import SortformerEncLabelModel
+
+    token = read_hf_token()
+    diar = registry["models"]["diarizer"]
+    diar_dir = Path(
+        snapshot_download(
+            diar["repo_id"],
+            revision=diar["revision"],
+            token=token,
+            cache_dir=cache,
+            allow_patterns=["*.nemo"],
+        )
+    )
+    diar_model = SortformerEncLabelModel.restore_from(
+        str(next(diar_dir.glob("*.nemo"))), map_location="cuda", strict=False
+    )
+    asr_model = load_asr_model(registry, cache)
+    diar_model.eval()
     diar_model.sortformer_modules.chunk_len = 340
     diar_model.sortformer_modules.chunk_right_context = 40
     diar_model.sortformer_modules.fifo_len = 40

@@ -69,8 +69,13 @@ mapfile -t SOURCE_RECORDS < <(
         ! -path "${DATA_ROOT}/sources/pseudo_uk*/records.jsonl" | sort
 )
 if [[ "$MODE" == full ]]; then
+    VOA_RECORDS="${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records.jsonl"
+    RECOVERED_VOA_RECORDS="${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records_with_recovered_long.jsonl"
+    if [[ -s "$RECOVERED_VOA_RECORDS" ]]; then
+        VOA_RECORDS="$RECOVERED_VOA_RECORDS"
+    fi
     SOURCE_RECORDS+=(
-        "${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records.jsonl"
+        "$VOA_RECORDS"
     )
 fi
 MERGE_ARGS=()
@@ -200,7 +205,12 @@ python "${ROOT}/scripts/audit_expanded_v3_readiness.py" \
 readiness_status=$?
 set -e
 if [[ "$MODE" == full && $readiness_status -ne 0 ]]; then
-    echo "The full expanded-v3 readiness gate is not PASS." >&2
-    exit "$readiness_status"
+    if [[ "${ALLOW_USER_AUTHORIZED_UNDER_MINIMUM_HOURS:-0}" == 1 ]]; then
+        echo "The user authorized training on the available dataset." >&2
+        echo "The readiness report remains FAIL for audit." >&2
+    else
+        echo "The full expanded-v3 readiness gate is not PASS." >&2
+        exit "$readiness_status"
+    fi
 fi
 echo "The expanded-v3 ${MODE} data preparation is complete."

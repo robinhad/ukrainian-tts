@@ -2,6 +2,7 @@ from types import SimpleNamespace
 
 import numpy as np
 
+from training.scripts.process_deferred_long import strict_low_energy_split
 from training.scripts.process_unlabeled import (
     diarization_chunks,
     diarize_in_chunks,
@@ -14,6 +15,22 @@ from training.scripts.process_unlabeled import (
     source_progress_key,
     ukrainian_letter_ratio,
 )
+
+
+def test_deferred_long_split_stays_between_two_and_twenty_seconds():
+    sample_rate = 100
+    audio = np.ones(2088, dtype=np.float32)
+    audio[1840:1890] = 0
+    parts = strict_low_energy_split(
+        audio,
+        sample_rate,
+        minimum_seconds=2.0,
+        maximum_seconds=20.0,
+    )
+    durations = [end - start for start, end in parts]
+    assert len(parts) == 2
+    assert all(2.0 <= duration <= 20.0 for duration in durations)
+    assert abs(sum(durations) - 20.88) < 1e-6
 
 
 def test_duration_rejection_states_short_and_long_separately():
