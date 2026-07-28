@@ -43,7 +43,7 @@ only enter the training split.
 The process writes a progress record after each source file. A restart skips
 each completed source file. The collector also uses an existing batch when its
 report, record count, shard range, and audio paths are complete. Version
-`v2-c050-d20-g050` uses new markers and outputs. It cannot reuse pseudo-label
+`v3-c050-d20-g050-duration-split` uses new markers and outputs. It cannot reuse pseudo-label
 completion markers from the 0.80-confidence run.
 
 ## Clean audio
