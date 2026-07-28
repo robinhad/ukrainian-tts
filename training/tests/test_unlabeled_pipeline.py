@@ -5,6 +5,7 @@ import numpy as np
 from training.scripts.process_unlabeled import (
     diarization_chunks,
     diarize_in_chunks,
+    duration_rejection_reason,
     hypothesis_confidence,
     low_energy_split,
     merge_adjacent_same_speaker_segments,
@@ -13,6 +14,13 @@ from training.scripts.process_unlabeled import (
     source_progress_key,
     ukrainian_letter_ratio,
 )
+
+
+def test_duration_rejection_states_short_and_long_separately():
+    assert duration_rejection_reason(1.99, 2.0, 20.0) == "duration_too_short"
+    assert duration_rejection_reason(20.01, 2.0, 20.0) == "duration_too_long"
+    assert duration_rejection_reason(2.0, 2.0, 20.0) is None
+    assert duration_rejection_reason(20.0, 2.0, 20.0) is None
 
 
 def test_diarization_keeps_only_single_speaker_intervals():

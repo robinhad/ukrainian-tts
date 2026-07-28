@@ -228,6 +228,19 @@ def ukrainian_letter_ratio(text: str) -> float:
     return sum(character in UKRAINIAN_ALPHABET for character in letters) / len(letters)
 
 
+def duration_rejection_reason(
+    duration: float,
+    minimum_seconds: float,
+    maximum_seconds: float,
+) -> str | None:
+    """Return a specific rejection reason for an invalid duration."""
+    if duration < minimum_seconds:
+        return "duration_too_short"
+    if duration > maximum_seconds:
+        return "duration_too_long"
+    return None
+
+
 def hypothesis_language(hypothesis: Any) -> str | None:
     for name in ("lang", "language", "language_id"):
         value = getattr(hypothesis, name, None)
@@ -436,9 +449,14 @@ def main() -> int:
                 maximum_segment_seconds,
             ):
                 duration = part_end - part_start
-                if not minimum_segment_seconds <= duration <= maximum_segment_seconds:
-                    source_rejected["duration"] = (
-                        source_rejected.get("duration", 0) + 1
+                duration_reason = duration_rejection_reason(
+                    duration,
+                    minimum_segment_seconds,
+                    maximum_segment_seconds,
+                )
+                if duration_reason is not None:
+                    source_rejected[duration_reason] = (
+                        source_rejected.get(duration_reason, 0) + 1
                     )
                     continue
                 samples = mono[
