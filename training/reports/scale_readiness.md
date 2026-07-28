@@ -2,22 +2,24 @@
 
 ## Expanded-v3 gate
 
-The expanded-v3 smoke gate has `PASS`. The fresh full-data gate has not run.
-Therefore, the expanded-v3 25K training has not started.
+The expanded-v3 full gate has `PASS`. The 25K training and the five-voice
+automatic evaluation are complete.
 
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
-| Disk reserve | PASS | 384 GiB was free; the stop limit is 60 GiB | `reports/expanded_v3_source_policy.json` | Monitor the disk during each stage |
+| Disk reserve | PASS | The minimum monitored reserve was 75.49 GiB; the stop limit was 60 GiB | `reports/training_status_expanded_v3.jsonl` | Keep the 60 GiB limit |
 | Source policy | PASS | The default-deny registry passed | `conf/expanded_v3_sources.yaml` | Keep each revision and license fixed |
 | Expanded smoke data | PASS | 318 clean files from five sources | `reports/expanded_v3_smoke_validation.json` | Preserve the smoke evidence |
-| Hybrid embeddings | PASS | 159 raw and 159 clean vectors | `reports/expanded_v3_smoke_hybrid_embeddings.json` | Apply the same rule to full data |
+| Full data | PASS | 76,578 records and 95.260 hours passed validation | `reports/expanded_v3_full_validation.json` | Preserve the manifest hashes |
+| Enabled source coverage | PASS | All nine permitted source groups are present | `reports/expanded_v3_full_sources.json` | Keep the source revisions fixed |
+| Hybrid embeddings | PASS | 38,289 raw and 38,289 clean vectors are finite 192-value vectors | `reports/expanded_v3_full_hybrid_embeddings.json` | Preserve the ECAPA revision |
+| Token list and statistics | PASS | The token list has 110 lines; pitch and energy statistics exist | `dump_expanded_v3/`, `exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve these files with the model |
 | Dual-GPU smoke training | PASS | 100 finite iterations made a checkpoint | `exp_expanded_v3_smoke/` | Keep runtime files outside Git |
-| Smoke inference | PASS | 31 of 31 WAV files passed | `reports/expanded_v3_smoke_inference.json` | Complete the full source gate |
-| Direct Common Voice 26 | NOT RUN | The direct archive is not present | None | Set `MDC_COMMON_VOICE_ROOT` |
-| Full enabled-source coverage | NOT RUN | Several sources still need ingestion or per-file review | None | Ingest and validate each source |
-| NeMo pseudo-label pass | NOT RUN | The full unlabeled pass did not run | None | Run Sortformer and Parakeet |
-| Expanded full readiness | NOT RUN | No full PASS report exists | `reports/expanded_v3_full_scale_readiness.json` | Run full preparation |
-| Fresh expanded 25K run | NOT RUN | The launcher correctly requires full PASS | None | Start only after the full gate passes |
+| Full readiness | PASS | Every full preparation gate passed | `reports/expanded_v3_full_scale_readiness.json` | Do not change the data before model review |
+| Fresh expanded 25K run | PASS | Training ended at 25,000 iterations with exit 0; no NaN or OOM occurred | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/train.log` | Use listening results for the next decision |
+| GPU use | PASS | Both RTX 3090 GPUs reached 100 percent compute use; peak power was 241.20 W and 234.98 W | `reports/training_status_expanded_v3.jsonl` | Check GPU 0 cooling before a longer run |
+| Checkpoint | PASS | The epoch and milestone files are identical; SHA-256 starts with `3c2882f6` | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/milestones/25k.pth` | Preserve the file outside Git |
+| Five-voice evaluation | PASS | Five WAV files are non-empty, finite, mono, and 24 kHz | `reports/five_voice_expanded_v3_25k.json` | Do the human listening check |
 
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|

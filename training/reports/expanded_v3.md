@@ -83,17 +83,21 @@ quality.
 
 ## Full-run status
 
-The full 25K run has not started. The full source gate does not have `PASS`.
-This action prevents a partial-data run.
+The full gate has `PASS`. The manifest has 76,578 records and 95.260 hours.
+The train, development, and evaluation splits have 73,755, 1,403, and 1,420
+records.
 
-These items are open:
+The hybrid embedding set has 38,289 source-audio vectors and 38,289 clean-audio
+vectors. Each vector has 192 values. The token list has 110 lines. The pitch
+and energy statistics exist.
 
-- Supply the extracted direct Common Voice 26 Ukrainian directory.
-- Resolve access to `speech-uk/voice-of-america`.
-- Complete per-file commercial license review.
-- Run the full Sortformer and Parakeet pass.
-- Prepare all clean audio and full hybrid embeddings.
-- Create the full token list and statistics.
+The dual-GPU JETS run completed 25,000 iterations. It ended with exit code 0.
+No NaN or OOM occurred. The final validation generator loss is 60.947. The
+final validation mel loss is 44.106. Peak cached GPU memory is 21.381 GiB.
+
+The five-voice evaluation made five valid 24 kHz mono WAV files. All five files
+use the required Kamianets-Podilskyi sentence. Automatic checks have `PASS`.
+The human listening check is open.
 
 ## Disk control
 

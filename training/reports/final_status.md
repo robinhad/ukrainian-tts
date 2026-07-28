@@ -2,23 +2,25 @@
 
 ## Виконано
 
-The expanded-v3 source policy, clean-audio process, hybrid embedding process,
-NeMo pseudo-label process, ESPnet recipe, readiness gate, monitor, and 25K
-launcher exist under `training/`.
+The expanded-v3 pipeline is complete through the 25K listening gate. The code
+is under `training/`. The pipeline prepared clean audio, made exact 50/50
+hybrid embeddings, made ESPnet statistics, trained JETS on two GPUs, and made
+five listening files.
 
-The data-preparation cleanup trigger is 60 GiB. The process does not remove a
-completed source batch above this trigger. The training stop threshold is 60
-GiB. The warning threshold is 80 GiB. The monitor records GPU power and
-calculates the ETA in Kyiv time. The maximum status interval is five minutes.
+The cleanup trigger was 60 GiB. The minimum monitored reserve was 75.49 GiB.
+The process did not start cleanup.
 
 ## CRISP-DM cycle 1
 
 - Business Understanding: PASS.
-- Data Understanding: PASS for a real 360-record source sample.
-- Data Preparation: PASS for 318 retained clean records.
-- Modeling: PASS for 100 fresh dual-GPU iterations.
-- Evaluation: PASS for 31 of 31 WAV files.
-- Deployment: PASS for the existing local inference entry point.
+- Data Understanding: PASS.
+- Data Preparation: PASS.
+- Modeling: PASS.
+- Evaluation: PASS.
+- Deployment: PASS.
+
+The full data has 76,578 utterances and 95.260 hours. The train, development,
+and evaluation splits have 73,755, 1,403, and 1,420 utterances.
 
 ## MVP-gate
 
@@ -27,55 +29,52 @@ calculates the ETA in Kyiv time. The maximum status interval is five minutes.
 | Source policy | PASS |
 | Frontend regression | PASS |
 | Non-empty phonemes | PASS |
-| Clean smoke data | PASS |
+| Clean full data | PASS |
 | Exact 50/50 hybrid embeddings | PASS |
 | ESPnet token list | PASS |
 | Pitch and energy statistics | PASS |
 | JETS construction | PASS |
-| Dual-GPU smoke training | PASS |
-| Checkpoint | PASS |
-| Valid 24 kHz mono WAV | PASS |
-| Full enabled-source coverage | NOT RUN |
-| Full NeMo pass | NOT RUN |
-| Fresh 25K training | NOT RUN |
-| Five-voice 25K evaluation | NOT RUN |
+| Dual-GPU training | PASS |
+| No NaN or OOM | PASS |
+| 25K checkpoint | PASS |
+| Five valid 24 kHz mono WAV files | PASS |
 
 ## Фактичні запуски
 
 | Command | Exit | Key result | Artifact |
 |---|---:|---|---|
-| `prepare_expanded_v3.sh smoke` | 0 | 318 clean records; token list and statistics exist | `reports/expanded_v3_smoke_validation.json` |
-| `run_expanded_v3_smoke.sh` | 0 | 100 iterations; checkpoint exists | `exp_expanded_v3_smoke/tts_jets_uk_24k_expanded_v3_smoke/1epoch.pth` |
-| Expanded smoke inference | 0 | 31 of 31 WAV files passed | `reports/expanded_v3_smoke_inference.json` |
-| Full training test suite | 0 | 63 tests passed | `tests/` |
+| `prepare_expanded_v3.sh full` and resume stages | 0 | 76,578 clean records passed the final gate | `reports/expanded_v3_full_scale_readiness.json` |
+| `run_expanded_v3.sh --stage 4 --stop_stage 6` | 0 | The token list and all statistics exist | `dump_expanded_v3/`, `exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/` |
+| ESPnet stage 7 | 0 | 25,000 iterations completed at 03:43 EEST | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/train.log` |
+| Initial automatic five-voice step | 1 | The selector read the wrong aggregate archive | `reports/expanded_v3_25k_launcher.log` |
+| `MODEL_FILE=milestones/25k.pth generate_five_voice_expanded_v3_eval.sh` | 0 | Five of five WAV files passed | `reports/five_voice_expanded_v3_25k.json` |
+| `pytest -q training/tests` | 0 | 75 tests passed | `tests/` |
 
 ## Створені артефакти
 
-- Manifests: `data/expanded_v3_smoke/manifests/`.
-- ESPnet data: `espnet_recipe/data/expanded_v3_smoke_*`.
+- Manifests: `data/expanded_v3/manifests/`.
+- ESPnet data: `espnet_recipe/data/expanded_v3_*`.
 - Configuration: `conf/expanded_v3_sources.yaml`.
-- Token list: `dump_expanded_v3_smoke/token_list/`.
-- Statistics: `exp_expanded_v3_smoke/tts_stats_raw_phn_espeak_ng_ukrainian/`.
-- Checkpoint: `exp_expanded_v3_smoke/tts_jets_uk_24k_expanded_v3_smoke/1epoch.pth`.
-- WAV files: `exp_expanded_v3_smoke/tts_jets_uk_24k_expanded_v3_smoke/decode_jets_train.total_count.ave/`.
-- Reports: `reports/expanded_v3*.json` and `reports/expanded_v3.md`.
+- Token list: `dump_expanded_v3/token_list/phn_espeak_ng_ukrainian/tokens.txt`.
+- Statistics: `exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/`.
+- Checkpoint: `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/milestones/25k.pth`.
+- Listening WAV files: `eval/generated/five_voice_expanded_v3_25k/`.
+- Evaluation report: `reports/five_voice_expanded_v3_25k.json`.
+- Runtime reports: `reports/expanded_v3_full_*.json` and
+  `reports/training_status_expanded_v3.jsonl`.
+
+The checkpoint SHA-256 is
+`3c2882f692a0873f89b31a643db36748c12de7e1f8157cfe9e87ac4f27c70c2c`.
 
 ## Відомі проблеми
 
-- The direct Common Voice 26 directory is not present.
-- The `speech-uk/voice-of-america` data files are not accessible.
-- Per-file sources do not have a completed license manifest.
-- The full NeMo environment and full unlabeled pass did not run.
-- Human evaluation of metallic sound did not run for a new 25K checkpoint.
+- The earlier model had a metallic timbre in the user listening check.
+- The new 25K five-voice set does not have a human listening result.
+- GPU 0 reached 86 degrees C. Check cooling before a longer run.
+- Flash Attention is not installed. ESPnet used its standard attention code.
 
 ## Наступна одна дія
 
-Download the direct Common Voice archive. Then run:
-
-```sh
-MDC_COMMON_VOICE_ROOT=/path/to/extracted/uk \
-  training/scripts/prepare_expanded_v3.sh full
-```
-
-Do not start `launch_expanded_v3_training.sh` until the full readiness report
-has `PASS`.
+Listen to the five WAV files in
+`training/eval/generated/five_voice_expanded_v3_25k/`. Decide if training must
+continue after the listening check.

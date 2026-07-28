@@ -1,0 +1,29 @@
+{
+  "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/records/source_records.jsonl",
+  "label_kind_counts": {
+    "human": 84081,
+    "pseudo": 2507
+  },
+  "records": 86588,
+  "rejected": {
+    "duplicate_audio": 3,
+    "duplicate_text": 52068
+  },
+  "source_counts": {
+    "common_voice_available_uk": 46707,
+    "fleurs_uk": 1286,
+    "opentts_lada": 6787,
+    "opentts_mykyta": 1818,
+    "opentts_tetiana": 588,
+    "tg_voices_uk": 337,
+    "ua_ser": 950,
+    "ukr_dialects": 25608,
+    "voa_ukr_user_grant": 2507
+  },
+  "split_counts": {
+    "expanded_v3_dev": 1682,
+    "expanded_v3_eval": 1682,
+    "expanded_v3_train": 83224
+  },
+  "status": "PASS"
+}

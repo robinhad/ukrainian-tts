@@ -1,0 +1,136 @@
+{
+  "errors": [],
+  "generated": [
+    {
+      "channels": 1,
+      "duration": 9.514666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_01.wav.json",
+      "peak_absolute": 0.511383056640625,
+      "real_time_factor": 0.038524997022340045,
+      "sample_rate": 24000,
+      "voice": "voice_01",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_01.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 10.026666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_02.wav.json",
+      "peak_absolute": 0.541259765625,
+      "real_time_factor": 0.03590739355087301,
+      "sample_rate": 24000,
+      "voice": "voice_02",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_02.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 10.069333333333333,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_03.wav.json",
+      "peak_absolute": 0.31732177734375,
+      "real_time_factor": 0.037451606825857006,
+      "sample_rate": 24000,
+      "voice": "voice_03",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_03.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 9.717333333333332,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_04.wav.json",
+      "peak_absolute": 0.354400634765625,
+      "real_time_factor": 0.03862787897898279,
+      "sample_rate": 24000,
+      "voice": "voice_04",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_04.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 10.069333333333333,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_05.wav.json",
+      "peak_absolute": 0.360595703125,
+      "real_time_factor": 0.034550857289691636,
+      "sample_rate": 24000,
+      "voice": "voice_05",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_25k/voice_05.wav"
+    }
+  ],
+  "listening_sentence": "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району.",
+  "perceptual_issue": {
+    "issue": "metallic_timbre",
+    "next_action": "Use this five-voice set to separate speaker-conditioning effects from the shared model artifact.",
+    "source": "user_listening_report",
+    "status": "FAIL"
+  },
+  "selection": "deterministic_representative_minibatch_kmeans_medoids",
+  "status": "PASS",
+  "voices": [
+    {
+      "cosine_similarity": {
+        "voice_01": 1.0,
+        "voice_02": 0.269714,
+        "voice_03": 0.227093,
+        "voice_04": 0.253763,
+        "voice_05": 0.040168
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_28011094_f607881fd2.wav",
+      "reference_text": "Вовк завжди хвостом наперед лізе, а ти його за хвіст дверима й припнеш.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_28011094_f607881fd2",
+      "voice": "voice_01"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.269714,
+        "voice_02": 1.0,
+        "voice_03": 0.216679,
+        "voice_04": 0.17279,
+        "voice_05": 0.174202
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_28074447_d576e5ec80.wav",
+      "reference_text": "А хлопці припечатали — \"Жінка журиться\".",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_28074447_d576e5ec80",
+      "voice": "voice_02"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.227093,
+        "voice_02": 0.216679,
+        "voice_03": 1.0,
+        "voice_04": 0.363914,
+        "voice_05": 0.24189
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/cv22_common_voice_uk_32176762_1115a82dd2.wav",
+      "reference_text": "А знає твердо, що хтось у свати набивався.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_32176762_1115a82dd2",
+      "voice": "voice_03"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.253763,
+        "voice_02": 0.17279,
+        "voice_03": 0.363914,
+        "voice_04": 1.0,
+        "voice_05": 0.28881
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_enhanced_v2/processed_24k/lada_46330_a84d8d1713.wav",
+      "reference_text": "Я знаю про все, бо це мій обов'язок знати про все.",
+      "source_id": "opentts_lada",
+      "source_utterance_id": "lada_46330_a84d8d1713",
+      "voice": "voice_04"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.040168,
+        "voice_02": 0.174202,
+        "voice_03": 0.24189,
+        "voice_04": 0.28881,
+        "voice_05": 1.0
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/ukr_dialects_5615_7a1520457d81.wav",
+      "reference_text": "Аж у серці йому се лихо зробило, як холоднокровно розгадав все добре, що він хотів вигоїти почерез свій дурний розум. У вочех йому світ пожовк,",
+      "source_id": "ukr_dialects",
+      "source_utterance_id": "ukr_dialects_5615_7a1520457d81",
+      "voice": "voice_05"
+    }
+  ]
+}

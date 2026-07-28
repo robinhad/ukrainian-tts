@@ -13,7 +13,7 @@ TEXT=${LISTENING_TEXT:-"Кам'янець-Подільський - місто в
 source "${ROOT}/activate.sh"
 python "${ROOT}/scripts/select_five_expanded_voices.py" \
     --manifest "${ROOT}/data/expanded_v3/manifests/expanded_v3_train.parquet" \
-    --corpus-ark "${ROOT}/dump_expanded_v3/xvector/expanded_v3_train/spk_xvector.ark" \
+    --corpus-ark "${ROOT}/dump_expanded_v3/xvector/expanded_v3_train/xvector.scp" \
     --output-ark "$VOICE_ARK" \
     --output-report "$REPORT"
 

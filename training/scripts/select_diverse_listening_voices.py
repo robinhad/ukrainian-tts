@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from kaldiio import load_ark, save_ark
+from kaldiio import load_ark, load_scp, save_ark
 from sklearn.cluster import MiniBatchKMeans
 
 
@@ -47,9 +47,10 @@ def representative_cluster_medoids(
 
 
 def load_vectors(path: Path) -> dict[str, np.ndarray]:
-    """Load finite, nonzero, one-dimensional vectors from a Kaldi archive."""
+    """Load finite, nonzero, one-dimensional vectors from Kaldi data."""
     vectors: dict[str, np.ndarray] = {}
-    for key, value in load_ark(str(path)):
+    source = load_scp(str(path)).items() if path.suffix == ".scp" else load_ark(str(path))
+    for key, value in source:
         vector = np.asarray(value, dtype=np.float32).squeeze()
         if (
             vector.ndim == 1

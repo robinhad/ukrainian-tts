@@ -1,80 +1,74 @@
 {
   "disk": {
-    "free_gib": 384.18,
-    "status": "PASS",
+    "free_gib": 79.75,
+    "status": "WARN",
     "stop_gib": 60.0,
     "warn_gib": 80.0
   },
   "gates": [
     {
-      "artifact": "training",
-      "evidence": "384.18 GiB is free. The stop threshold is 60.0 GiB.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training",
+      "evidence": "79.75 GiB is free. The stop threshold is 60.0 GiB.",
       "gate": "Disk reserve",
       "next_action": "Recheck during processing.",
       "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "The manifest has 0 records.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/manifests/all.parquet",
+      "evidence": "The manifest has 76578 records.",
       "gate": "Clean training manifest",
-      "next_action": "Prepare and validate the clean audio manifest.",
-      "status": "NOT RUN"
+      "next_action": "Preserve its hash.",
+      "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "Present sources: none. Missing enabled sources: common_voice_26_uk, fleurs_uk, librivox_uk, lingua_libre_uk, opentts_lada, opentts_mykyta, opentts_tetiana, shtooka_uk, tatoeba_uk, tg_voices_uk, ua_ser, ukr_dialects, voa_ukr_user_grant, voice_of_america, wikimedia_commons_uk.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_sources.json",
+      "evidence": "Present sources: common_voice_available_uk, fleurs_uk, opentts_lada, opentts_mykyta, opentts_tetiana, tg_voices_uk, ua_ser, ukr_dialects, voa_ukr_user_grant. Missing enabled sources: none.",
       "gate": "Enabled source coverage",
-      "next_action": "Ingest each missing source with valid license evidence.",
-      "status": "FAIL"
+      "next_action": "Keep the source revisions fixed.",
+      "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "No PASS validation report exists.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_validation.json",
+      "evidence": "The dataset validator returned PASS.",
       "gate": "Dataset validation",
-      "next_action": "Run the dataset validator.",
-      "status": "NOT RUN"
+      "next_action": "Repeat after any manifest change.",
+      "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "No hybrid embedding report exists.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_hybrid_embeddings.json",
+      "evidence": "The report has 38289 raw and 38289 clean embeddings.",
       "gate": "Hybrid speaker embeddings",
-      "next_action": "Create the exact 50/50 ECAPA embedding set.",
-      "status": "NOT RUN"
+      "next_action": "Preserve the ECAPA revision.",
+      "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "The token list has 0 lines.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v3/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "evidence": "The token list has 110 lines.",
       "gate": "Token list",
-      "next_action": "Run ESPnet token collection.",
-      "status": "NOT RUN"
+      "next_action": "Preserve the token list.",
+      "status": "PASS"
     },
     {
-      "artifact": null,
-      "evidence": "ESPnet statistics do not exist.",
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "evidence": "ESPnet statistics exist.",
       "gate": "Pitch and energy statistics",
-      "next_action": "Run ESPnet statistics collection.",
-      "status": "NOT RUN"
+      "next_action": "Preserve the statistics.",
+      "status": "PASS"
     }
   ],
-  "manifest_records": 0,
-  "missing_enabled_sources": [
-    "common_voice_26_uk",
-    "fleurs_uk",
-    "librivox_uk",
-    "lingua_libre_uk",
-    "opentts_lada",
-    "opentts_mykyta",
-    "opentts_tetiana",
-    "shtooka_uk",
-    "tatoeba_uk",
-    "tg_voices_uk",
-    "ua_ser",
-    "ukr_dialects",
-    "voa_ukr_user_grant",
-    "voice_of_america",
-    "wikimedia_commons_uk"
-  ],
+  "manifest_records": 76578,
+  "missing_enabled_sources": [],
   "mode": "full",
-  "source_counts": {},
-  "status": "FAIL"
+  "source_counts": {
+    "common_voice_available_uk": 39830,
+    "fleurs_uk": 1094,
+    "opentts_lada": 5236,
+    "opentts_mykyta": 1709,
+    "opentts_tetiana": 528,
+    "tg_voices_uk": 323,
+    "ua_ser": 465,
+    "ukr_dialects": 24899,
+    "voa_ukr_user_grant": 2494
+  },
+  "status": "PASS"
 }
