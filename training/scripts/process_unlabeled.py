@@ -342,6 +342,8 @@ def main() -> int:
     parser.add_argument("--records", type=Path, nargs="+", required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--output-records", type=Path, required=True)
+    parser.add_argument("--deferred-root", type=Path, required=True)
+    parser.add_argument("--deferred-records", type=Path, required=True)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--model-cache", type=Path, required=True)
     parser.add_argument("--source-start", type=int, default=0)
@@ -394,6 +396,10 @@ def main() -> int:
         int(entry.get("accepted_segments", 0))
         for entry in progress.values()
     )
+    deferred_too_long_count = sum(
+        int(entry.get("deferred_too_long_segments", 0))
+        for entry in progress.values()
+    )
     rejected: dict[str, int] = {}
     for entry in progress.values():
         for reason, count in entry.get("rejected", {}).items():
@@ -404,6 +410,11 @@ def main() -> int:
         args.output_records.write_text("", encoding="utf-8")
     elif not args.output_records.exists():
         args.output_records.touch()
+    args.deferred_records.parent.mkdir(parents=True, exist_ok=True)
+    if not args.append and not progress:
+        args.deferred_records.write_text("", encoding="utf-8")
+    elif not args.deferred_records.exists():
+        args.deferred_records.touch()
 
     diar_model, asr_model = load_models(registry, args.model_cache)
     for source in sources:
@@ -411,6 +422,7 @@ def main() -> int:
         if progress_key in progress:
             continue
         source_accepted: list[dict[str, Any]] = []
+        source_deferred: list[dict[str, Any]] = []
         source_rejected: dict[str, int] = {}
         audio, sample_rate = sf.read(
             source["audio_path"], always_2d=True, dtype="float32"
@@ -454,11 +466,6 @@ def main() -> int:
                     minimum_segment_seconds,
                     maximum_segment_seconds,
                 )
-                if duration_reason is not None:
-                    source_rejected[duration_reason] = (
-                        source_rejected.get(duration_reason, 0) + 1
-                    )
-                    continue
                 samples = mono[
                     round(part_start * sample_rate) : round(part_end * sample_rate)
                 ]
@@ -470,6 +477,58 @@ def main() -> int:
                     f"{source['source_id']}_pseudo_"
                     f"{hashlib.sha256(segment_key.encode()).hexdigest()[:20]}"
                 )
+                if duration_reason == "duration_too_long":
+                    deferred_target = args.deferred_root / f"{identifier}.flac"
+                    deferred_target.parent.mkdir(parents=True, exist_ok=True)
+                    sf.write(
+                        deferred_target,
+                        samples,
+                        sample_rate,
+                        subtype="PCM_16",
+                    )
+                    deferred_hash = hashlib.sha256(
+                        deferred_target.read_bytes()
+                    ).hexdigest()
+                    source_scope = source["audio_sha256_source"][:20]
+                    source_deferred.append(
+                        {
+                            **source,
+                            "utterance_id": identifier,
+                            "speaker_id": (
+                                f"{source['source_id']}:{source_scope}:"
+                                f"speaker-{speaker}"
+                            ),
+                            "audio_path": str(deferred_target.resolve()),
+                            "canonical_raw_audio_path": str(
+                                deferred_target.resolve()
+                            ),
+                            "duration_source": duration,
+                            "duration": duration,
+                            "sample_rate": sample_rate,
+                            "source_group": (
+                                f"{source['source_group']}:"
+                                f"source-{source_scope}:speaker-{speaker}"
+                            ),
+                            "parent_audio_sha256_source": (
+                                source["audio_sha256_source"]
+                            ),
+                            "audio_sha256_source": deferred_hash,
+                            "text_sha256_source": hashlib.sha256(
+                                b""
+                            ).hexdigest(),
+                            "label_kind": "unlabeled_deferred",
+                            "processing_status": "deferred",
+                            "deferred_reason": "duration_too_long",
+                            "segment_start_seconds": part_start,
+                            "segment_end_seconds": part_end,
+                        }
+                    )
+                    continue
+                if duration_reason is not None:
+                    source_rejected[duration_reason] = (
+                        source_rejected.get(duration_reason, 0) + 1
+                    )
+                    continue
                 target = args.output_root / f"{identifier}.flac"
                 target.parent.mkdir(parents=True, exist_ok=True)
                 sf.write(target, samples, sample_rate, subtype="PCM_16")
@@ -547,16 +606,19 @@ def main() -> int:
                     }
                 )
         append_jsonl(args.output_records, source_accepted)
+        append_jsonl(args.deferred_records, source_deferred)
         progress_entry = {
             "source_key": progress_key,
             "audio_sha256_source": source["audio_sha256_source"],
             "source_group": source.get("source_group"),
             "accepted_segments": len(source_accepted),
+            "deferred_too_long_segments": len(source_deferred),
             "rejected": dict(sorted(source_rejected.items())),
         }
         append_jsonl(progress_path, [progress_entry])
         progress[progress_key] = progress_entry
         accepted_count += len(source_accepted)
+        deferred_too_long_count += len(source_deferred)
         for reason, count in source_rejected.items():
             rejected[reason] = rejected.get(reason, 0) + count
         del audio, mono
@@ -577,8 +639,10 @@ def main() -> int:
         "processed_source_files": len(progress),
         "resumed_source_files": resumed_source_files,
         "accepted_segments": accepted_count,
+        "deferred_too_long_segments": deferred_too_long_count,
         "rejected": dict(sorted(rejected.items())),
         "artifact": str(args.output_records),
+        "deferred_artifact": str(args.deferred_records),
         "progress_artifact": str(progress_path),
         "diarization_maximum_chunk_seconds": float(
             diar_cfg["maximum_chunk_seconds"]

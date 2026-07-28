@@ -8,10 +8,12 @@ BATCH_SHARDS=${VOA_BATCH_SHARDS:-10}
 TOTAL_SHARDS=${VOA_TOTAL_SHARDS:-195}
 START_SHARD=${VOA_START_SHARD:-0}
 GPU_IDS_CSV=${VOA_GPU_IDS:-0,1}
-PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v3-c050-d20-g050-duration-split}
+PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v4-c050-d20-g050-defer-long}
 SOURCE_ROOT="${DATA_ROOT}/sources/voa_ukr_user_grant"
 PSEUDO_ROOT="${DATA_ROOT}/sources/pseudo_uk_${PIPELINE_VERSION}"
 OUTPUT_RECORDS="${PSEUDO_ROOT}/records.jsonl"
+DEFERRED_ROOT="${PSEUDO_ROOT}/deferred_too_long"
+DEFERRED_RECORDS="${DEFERRED_ROOT}/records.jsonl"
 MODEL_CACHE="${ROOT}/vendor/nemo-cache"
 LOG_ROOT="${ROOT}/logs/expanded-v3/voa"
 MARKER_ROOT="${SOURCE_ROOT}/markers/${PIPELINE_VERSION}"
@@ -22,7 +24,9 @@ export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 if [[ ! -x "${ROOT}/.venv-nemo/bin/python" ]]; then
     "${ROOT}/scripts/bootstrap_nemo_env.sh"
 fi
-mkdir -p "$SOURCE_ROOT/batches" "$MARKER_ROOT" "$PSEUDO_ROOT/audio" "$LOG_ROOT"
+mkdir -p \
+    "$SOURCE_ROOT/batches" "$MARKER_ROOT" "$PSEUDO_ROOT/audio" \
+    "$DEFERRED_ROOT/audio" "$LOG_ROOT"
 if (( START_SHARD == 0 )) && [[ -s "${MARKER_ROOT}/000-000.json" ]]; then
     START_SHARD=1
 fi
@@ -38,6 +42,7 @@ run_worker() {
     local worker_index=$1
     local gpu_id=${GPU_IDS[$worker_index]}
     local worker_records="${PSEUDO_ROOT}/records-gpu${gpu_id}.jsonl"
+    local worker_deferred_records="${DEFERRED_ROOT}/records-gpu${gpu_id}.jsonl"
     local batch_index=0
     local start count tag marker records_name report_name records report
     local process_report process_log
@@ -72,6 +77,8 @@ run_worker() {
             --registry "$REGISTRY" --records "$records" \
             --output-root "${PSEUDO_ROOT}/audio" \
             --output-records "$worker_records" --report "$process_report" \
+            --deferred-root "${DEFERRED_ROOT}/audio" \
+            --deferred-records "$worker_deferred_records" \
             --model-cache "$MODEL_CACHE" --append \
             >"$process_log" 2>&1; then
             tail -n 120 "$process_log"
@@ -125,3 +132,11 @@ if (( ${#record_inputs[@]} == 0 )); then
 fi
 "$PYTHON" "${ROOT}/scripts/merge_jsonl_records.py" \
     --inputs "${record_inputs[@]}" --output "$OUTPUT_RECORDS"
+
+shopt -s nullglob
+deferred_inputs=("$DEFERRED_ROOT"/records-gpu*.jsonl)
+shopt -u nullglob
+if (( ${#deferred_inputs[@]} > 0 )); then
+    "$PYTHON" "${ROOT}/scripts/merge_jsonl_records.py" \
+        --inputs "${deferred_inputs[@]}" --output "$DEFERRED_RECORDS"
+fi

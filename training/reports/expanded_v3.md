@@ -43,8 +43,12 @@ only enter the training split.
 The process writes a progress record after each source file. A restart skips
 each completed source file. The collector also uses an existing batch when its
 report, record count, shard range, and audio paths are complete. Version
-`v3-c050-d20-g050-duration-split` uses new markers and outputs. It cannot reuse pseudo-label
-completion markers from the 0.80-confidence run.
+`v4-c050-d20-g050-defer-long` uses new markers and outputs. It cannot reuse
+pseudo-label completion markers from the 0.80-confidence run.
+
+The pipeline saves segments longer than 20 seconds in `deferred_too_long`.
+It does not add these segments to the training manifest. A later process can
+split or review these files.
 
 ## Clean audio
 

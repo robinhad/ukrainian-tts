@@ -13,7 +13,7 @@ contains 2.981 VOA hours. The minimum is 800 hours.
 | Expanded smoke data | PASS | 318 clean files from five sources | `reports/expanded_v3_smoke_validation.json` | Preserve the smoke evidence |
 | Full data | FAIL | 76,578 records passed file validation, but the corpus does not meet the VOA duration requirement | `reports/expanded_v3_full_validation.json` | Rebuild the VOA pseudo-label data |
 | Enabled source coverage | PASS | All nine permitted source groups are present | `reports/expanded_v3_full_sources.json` | Keep the source revisions fixed |
-| VOA retained duration | FAIL | The manifest has 2.981 hours; the required minimum is 800 hours | `data/expanded_v3/manifests/all.parquet` | Run pseudo-label pipeline version `v3-c050-d20-g050-duration-split` |
+| VOA retained duration | FAIL | The manifest has 2.981 hours; the required minimum is 800 hours | `data/expanded_v3/manifests/all.parquet` | Run pseudo-label pipeline version `v4-c050-d20-g050-defer-long` |
 | Hybrid embeddings | PASS | 38,289 raw and 38,289 clean vectors are finite 192-value vectors | `reports/expanded_v3_full_hybrid_embeddings.json` | Preserve the ECAPA revision |
 | Token list and statistics | PASS | The token list has 110 lines; pitch and energy statistics exist | `dump_expanded_v3/`, `exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve these files with the model |
 | Dual-GPU smoke training | PASS | 100 finite iterations made a checkpoint | `exp_expanded_v3_smoke/` | Keep runtime files outside Git |
