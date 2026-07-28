@@ -36,6 +36,40 @@ def gate(
     }
 
 
+def minimum_source_duration_gates(
+    frame: pd.DataFrame,
+    registry: dict[str, Any],
+) -> list[dict[str, str | None]]:
+    """Return gates for sources that define a minimum retained duration."""
+    results = []
+    for source_id, source in sorted(registry["sources"].items()):
+        minimum = source.get("minimum_retained_hours")
+        if minimum is None:
+            continue
+        retained = float(
+            frame.loc[frame["source_id"].astype(str) == source_id, "duration"].sum()
+            / 3600
+        )
+        passed = retained >= float(minimum)
+        results.append(
+            gate(
+                f"{source_id} retained duration",
+                "PASS" if passed else "FAIL",
+                (
+                    f"The manifest has {retained:.3f} hours. "
+                    f"The minimum is {float(minimum):.3f} hours."
+                ),
+                None,
+                (
+                    "Preserve the retained source duration."
+                    if passed
+                    else "Rebuild the source with the configured pseudo-label settings."
+                ),
+            )
+        )
+    return results
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--registry", type=Path, required=True)
@@ -76,8 +110,9 @@ def main() -> int:
 
     source_counts: Counter[str] = Counter()
     manifest_records = 0
+    frame = pd.DataFrame(columns=["source_id", "duration"])
     if manifest_path.is_file():
-        frame = pd.read_parquet(manifest_path, columns=["source_id"])
+        frame = pd.read_parquet(manifest_path, columns=["source_id", "duration"])
         manifest_records = len(frame)
         source_counts.update(str(value) for value in frame["source_id"])
     manifest_ok = manifest_records > 0
@@ -90,6 +125,8 @@ def main() -> int:
             "Prepare and validate the clean audio manifest." if not manifest_ok else "Preserve its hash.",
         )
     )
+    if args.mode == "full" and manifest_ok:
+        gates.extend(minimum_source_duration_gates(frame, registry))
 
     enabled = {
         source_id

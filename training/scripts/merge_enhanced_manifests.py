@@ -19,9 +19,13 @@ def main() -> int:
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--output-records", type=Path)
     parser.add_argument("--loudness-tolerance-lu", type=float, default=1.0)
+    parser.add_argument("--minimum-duration", type=float, default=2.0)
+    parser.add_argument("--maximum-duration", type=float, default=12.0)
     args = parser.parse_args()
     if args.loudness_tolerance_lu <= 0:
         parser.error("--loudness-tolerance-lu must be positive")
+    if not 0 < args.minimum_duration <= args.maximum_duration:
+        parser.error("The duration limits are invalid.")
 
     source = pd.read_parquet(args.source_manifest)
     rows = []
@@ -90,7 +94,11 @@ def main() -> int:
     )
     loudness_rejected = frame[~loudness_mask].copy()
     frame = frame[loudness_mask]
-    duration_mask = frame["duration"].between(2.0, 12.0, inclusive="both")
+    duration_mask = frame["duration"].between(
+        args.minimum_duration,
+        args.maximum_duration,
+        inclusive="both",
+    )
     duration_rejected = frame[~duration_mask].copy()
     frame = frame[duration_mask]
     frame = frame.sort_values("utterance_id").reset_index(drop=True)
@@ -136,6 +144,8 @@ def main() -> int:
         ].head(100).to_dict(orient="records"),
         "loudness_tolerance_lu": args.loudness_tolerance_lu,
         "duration_rejected_records": len(duration_rejected),
+        "minimum_duration": args.minimum_duration,
+        "maximum_duration": args.maximum_duration,
         "duration_rejected_examples": duration_rejected[
             ["utterance_id", "duration"]
         ].head(100).to_dict(orient="records"),

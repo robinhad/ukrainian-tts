@@ -2,20 +2,22 @@
 
 ## Expanded-v3 gate
 
-The expanded-v3 full gate has `PASS`. The 25K training and the five-voice
-automatic evaluation are complete.
+The historical 25K training and the five-voice automatic evaluation are
+complete. The revised expanded-v3 full gate has `FAIL` because the manifest
+contains 2.981 VOA hours. The minimum is 800 hours.
 
 | Gate | Status | Evidence | Artifact | Next action |
 |---|---|---|---|---|
 | Disk reserve | PASS | The minimum monitored reserve was 75.49 GiB; the stop limit was 60 GiB | `reports/training_status_expanded_v3.jsonl` | Keep the 60 GiB limit |
 | Source policy | PASS | The default-deny registry passed | `conf/expanded_v3_sources.yaml` | Keep each revision and license fixed |
 | Expanded smoke data | PASS | 318 clean files from five sources | `reports/expanded_v3_smoke_validation.json` | Preserve the smoke evidence |
-| Full data | PASS | 76,578 records and 95.260 hours passed validation | `reports/expanded_v3_full_validation.json` | Preserve the manifest hashes |
+| Full data | FAIL | 76,578 records passed file validation, but the corpus does not meet the VOA duration requirement | `reports/expanded_v3_full_validation.json` | Rebuild the VOA pseudo-label data |
 | Enabled source coverage | PASS | All nine permitted source groups are present | `reports/expanded_v3_full_sources.json` | Keep the source revisions fixed |
+| VOA retained duration | FAIL | The manifest has 2.981 hours; the required minimum is 800 hours | `data/expanded_v3/manifests/all.parquet` | Run pseudo-label pipeline version `v2-c050-d20-g050` |
 | Hybrid embeddings | PASS | 38,289 raw and 38,289 clean vectors are finite 192-value vectors | `reports/expanded_v3_full_hybrid_embeddings.json` | Preserve the ECAPA revision |
 | Token list and statistics | PASS | The token list has 110 lines; pitch and energy statistics exist | `dump_expanded_v3/`, `exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve these files with the model |
 | Dual-GPU smoke training | PASS | 100 finite iterations made a checkpoint | `exp_expanded_v3_smoke/` | Keep runtime files outside Git |
-| Full readiness | PASS | Every full preparation gate passed | `reports/expanded_v3_full_scale_readiness.json` | Do not change the data before model review |
+| Full readiness | FAIL | The new source-duration gate rejects the current manifest | `reports/expanded_v3_full_scale_readiness.json` | Do not start another long training run |
 | Fresh expanded 25K run | PASS | Training ended at 25,000 iterations with exit 0; no NaN or OOM occurred | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/train.log` | Use listening results for the next decision |
 | GPU use | PASS | Both RTX 3090 GPUs reached 100 percent compute use; peak power was 241.20 W and 234.98 W | `reports/training_status_expanded_v3.jsonl` | Check GPU 0 cooling before a longer run |
 | Checkpoint | PASS | The epoch and milestone files are identical; SHA-256 starts with `3c2882f6` | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/milestones/25k.pth` | Preserve the file outside Git |

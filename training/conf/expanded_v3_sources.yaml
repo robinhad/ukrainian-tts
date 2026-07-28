@@ -140,6 +140,7 @@ sources:
     license: User-Grant-Commercial-Training
     commercial_use: true
     raw_redistribution: false
+    minimum_retained_hours: 800
     evidence: User grant in this Codex thread on 2026-07-26.
     notes: The inspected source rows use a dash as the transcript. Treat this source as unlabeled.
   shtooka_uk:
@@ -210,12 +211,16 @@ models:
     sample_rate: 16000
     maximum_speakers: 4
     maximum_chunk_seconds: 60
+  pseudo_labeling:
+    minimum_segment_seconds: 2
+    maximum_segment_seconds: 20
+    same_speaker_merge_gap_seconds: 0.5
   asr:
     repo_id: nvidia/parakeet-tdt-0.6b-v3
     revision: 7c35754d166cca382ad1e53e68b01e7c575f3a1d
     license: CC-BY-4.0
     accepted_language: uk
-    minimum_mean_confidence: 0.80
+    minimum_mean_confidence: 0.50
     minimum_ukrainian_letter_ratio: 0.80
   speaker_embedding:
     repo_id: speechbrain/spkrec-ecapa-voxceleb

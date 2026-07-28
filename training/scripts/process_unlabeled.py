@@ -65,12 +65,42 @@ def non_overlapping_segments(
     return pieces
 
 
+def merge_adjacent_same_speaker_segments(
+    segments: list[tuple[float, float, int]],
+    source_activity: list[tuple[float, float, int]],
+    maximum_gap_seconds: float,
+) -> list[tuple[float, float, int]]:
+    """Merge same-speaker intervals only when the short gap has no activity."""
+    if maximum_gap_seconds < 0:
+        raise ValueError("The maximum merge gap must not be negative.")
+    merged: list[tuple[float, float, int]] = []
+    for start, end, speaker in sorted(segments):
+        if not merged:
+            merged.append((start, end, speaker))
+            continue
+        previous_start, previous_end, previous_speaker = merged[-1]
+        gap = start - previous_end
+        gap_has_activity = any(
+            activity_start < start and activity_end > previous_end
+            for activity_start, activity_end, _ in source_activity
+        )
+        if (
+            speaker == previous_speaker
+            and 0.0 <= gap <= maximum_gap_seconds
+            and not gap_has_activity
+        ):
+            merged[-1] = (previous_start, end, speaker)
+        else:
+            merged.append((start, end, speaker))
+    return merged
+
+
 def low_energy_split(
     audio: np.ndarray,
     sample_rate: int,
     start: float,
     end: float,
-    maximum_seconds: float = 12.0,
+    maximum_seconds: float = 20.0,
 ) -> list[tuple[float, float]]:
     """Split a long interval at a low-energy point near each target boundary."""
     result = []
@@ -313,7 +343,13 @@ def main() -> int:
 
     registry = load_registry(args.registry)
     diar_cfg = registry["models"]["diarizer"]
+    segment_cfg = registry["models"]["pseudo_labeling"]
     asr_cfg = registry["models"]["asr"]
+    minimum_segment_seconds = float(segment_cfg["minimum_segment_seconds"])
+    maximum_segment_seconds = float(segment_cfg["maximum_segment_seconds"])
+    merge_gap_seconds = float(segment_cfg["same_speaker_merge_gap_seconds"])
+    if not 0 < minimum_segment_seconds <= maximum_segment_seconds:
+        raise ValueError("The segment duration limits are invalid.")
     sources = [
         json.loads(line)
         for path in args.records
@@ -386,13 +422,21 @@ def main() -> int:
             float(diar_cfg["maximum_chunk_seconds"]),
             int(diar_cfg["maximum_speakers"]),
         )
-        single = non_overlapping_segments(parsed)
+        single = merge_adjacent_same_speaker_segments(
+            non_overlapping_segments(parsed),
+            parsed,
+            merge_gap_seconds,
+        )
         for start, end, speaker in single:
             for part_start, part_end in low_energy_split(
-                mono, sample_rate, start, end
+                mono,
+                sample_rate,
+                start,
+                end,
+                maximum_segment_seconds,
             ):
                 duration = part_end - part_start
-                if not 2.0 <= duration <= 12.0:
+                if not minimum_segment_seconds <= duration <= maximum_segment_seconds:
                     source_rejected["duration"] = (
                         source_rejected.get("duration", 0) + 1
                     )
@@ -521,6 +565,10 @@ def main() -> int:
         "diarization_maximum_chunk_seconds": float(
             diar_cfg["maximum_chunk_seconds"]
         ),
+        "minimum_segment_seconds": minimum_segment_seconds,
+        "maximum_segment_seconds": maximum_segment_seconds,
+        "same_speaker_merge_gap_seconds": merge_gap_seconds,
+        "minimum_mean_confidence": float(asr_cfg["minimum_mean_confidence"]),
         "source_audio_cleanup": (
             "CLEANED" if cleanup_source_audio else "DEFERRED"
         ),

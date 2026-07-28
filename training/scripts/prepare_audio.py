@@ -123,6 +123,8 @@ def prepare_one(
     padding_ms: float,
     frame_length: int,
     hop_length: int,
+    minimum_duration: float,
+    maximum_duration: float,
 ) -> dict:
     row = row.copy()
     flags = []
@@ -159,9 +161,9 @@ def prepare_one(
             flags.append("not_mono")
         if duration <= 0:
             flags.append("zero_duration")
-        if duration < 2:
+        if duration < minimum_duration:
             flags.append("too_short")
-        if duration > 12:
+        if duration > maximum_duration:
             flags.append("too_long")
         if not np.isfinite(audio).all():
             flags.append("non_finite")
@@ -199,6 +201,8 @@ def main() -> int:
     parser.add_argument("--trim-padding-ms", type=float, default=100.0)
     parser.add_argument("--trim-frame-length", type=int, default=1024)
     parser.add_argument("--trim-hop-length", type=int, default=256)
+    parser.add_argument("--minimum-duration", type=float, default=2.0)
+    parser.add_argument("--maximum-duration", type=float, default=12.0)
     parser.add_argument(
         "--workers",
         type=int,
@@ -208,6 +212,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.workers < 1:
         parser.error("--workers must be at least 1")
+    if not 0 < args.minimum_duration <= args.maximum_duration:
+        parser.error("The duration limits are invalid.")
     records = [json.loads(line) for line in args.records.read_text(encoding="utf-8").splitlines()]
     kwargs = {
         "output_root": args.output_root,
@@ -216,6 +222,8 @@ def main() -> int:
         "padding_ms": args.trim_padding_ms,
         "frame_length": args.trim_frame_length,
         "hop_length": args.trim_hop_length,
+        "minimum_duration": args.minimum_duration,
+        "maximum_duration": args.maximum_duration,
     }
     if args.workers == 1:
         prepared = [prepare_one(row, **kwargs) for row in records]

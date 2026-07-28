@@ -31,16 +31,20 @@ UA-SER through ASR.
 For unlabeled sources, the pipeline uses the pinned NVIDIA Sortformer model for
 diarization. Feature extraction uses source chunks of no more than 60 seconds.
 The process keeps source-relative time values. It keeps only intervals with one
-active speaker. It splits long intervals at a local low-energy point.
+active speaker. It merges same-speaker intervals across a silent gap of no more
+than 0.5 seconds. It splits intervals longer than 20 seconds at a local
+low-energy point.
 
 The pipeline uses the pinned NVIDIA Parakeet model for speech recognition. It
-keeps Ukrainian hypotheses with a mean confidence of at least 0.80. Ukrainian
+keeps Ukrainian hypotheses with a mean confidence of at least 0.50. Ukrainian
 letters must be at least 80 percent of all letters. A pseudo-labeled record can
 only enter the training split.
 
 The process writes a progress record after each source file. A restart skips
 each completed source file. The collector also uses an existing batch when its
-report, record count, shard range, and audio paths are complete.
+report, record count, shard range, and audio paths are complete. Version
+`v2-c050-d20-g050` uses new markers and outputs. It cannot reuse pseudo-label
+completion markers from the 0.80-confidence run.
 
 ## Clean audio
 
@@ -83,9 +87,15 @@ quality.
 
 ## Full-run status
 
-The full gate has `PASS`. The manifest has 76,578 records and 95.260 hours.
+The completed 25K run is technically valid, but it does not meet the new VOA
+duration gate. The manifest has 76,578 records and 95.260 hours.
 The train, development, and evaluation splits have 73,755, 1,403, and 1,420
 records.
+
+The manifest contains only 2.981 VOA hours. The required minimum is 800 hours.
+The old pseudo-label process accepted 2,947 of 1,349,403 candidate outcomes.
+It rejected 757,829 candidates at the uncalibrated 0.80 confidence threshold.
+Do not use the current manifest as the full large-corpus training set.
 
 The hybrid embedding set has 38,289 source-audio vectors and 38,289 clean-audio
 vectors. Each vector has 192 values. The token list has 110 lines. The pitch

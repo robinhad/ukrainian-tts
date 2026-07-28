@@ -7,6 +7,7 @@ from training.scripts.process_unlabeled import (
     diarize_in_chunks,
     hypothesis_confidence,
     low_energy_split,
+    merge_adjacent_same_speaker_segments,
     non_overlapping_segments,
     parse_segment,
     source_progress_key,
@@ -20,6 +21,45 @@ def test_diarization_keeps_only_single_speaker_intervals():
         (0.0, 3.0, 0),
         (4.0, 7.0, 1),
     ]
+
+
+def test_short_silent_gap_merges_adjacent_same_speaker_segments():
+    activity = [(0.0, 3.0, 0), (3.4, 7.0, 0)]
+    assert merge_adjacent_same_speaker_segments(
+        non_overlapping_segments(activity),
+        activity,
+        maximum_gap_seconds=0.5,
+    ) == [(0.0, 7.0, 0)]
+
+
+def test_merge_does_not_restore_overlap_or_merge_other_speaker():
+    activity = [(0.0, 3.0, 0), (2.8, 3.2, 1), (3.2, 7.0, 0)]
+    single = non_overlapping_segments(activity)
+    assert merge_adjacent_same_speaker_segments(
+        single,
+        activity,
+        maximum_gap_seconds=0.5,
+    ) == [(0.0, 2.8, 0), (3.0, 3.2, 1), (3.2, 7.0, 0)]
+
+
+def test_merge_does_not_restore_removed_overlap():
+    activity = [(0.0, 3.0, 0), (2.8, 3.2, 1), (3.0, 7.0, 0)]
+    single = non_overlapping_segments(activity)
+    assert single == [(0.0, 2.8, 0), (3.2, 7.0, 0)]
+    assert merge_adjacent_same_speaker_segments(
+        single,
+        activity,
+        maximum_gap_seconds=0.5,
+    ) == single
+
+
+def test_long_silent_gap_does_not_merge():
+    activity = [(0.0, 3.0, 0), (3.6, 7.0, 0)]
+    assert merge_adjacent_same_speaker_segments(
+        non_overlapping_segments(activity),
+        activity,
+        maximum_gap_seconds=0.5,
+    ) == activity
 
 
 def test_diarization_segment_parser_accepts_model_formats():
@@ -40,6 +80,17 @@ def test_long_segment_splits_near_low_energy():
     assert len(parts) == 2
     assert 11.0 <= parts[0][1] <= 12.5
     assert parts[-1][1] == 20.0
+
+
+def test_twenty_second_segment_does_not_split():
+    audio = np.ones(2000, dtype=np.float32)
+    assert low_energy_split(
+        audio,
+        sample_rate=100,
+        start=0.0,
+        end=20.0,
+        maximum_seconds=20.0,
+    ) == [(0.0, 20.0)]
 
 
 def test_confidence_uses_normalized_token_scores():

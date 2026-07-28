@@ -8,11 +8,13 @@ BATCH_SHARDS=${VOA_BATCH_SHARDS:-10}
 TOTAL_SHARDS=${VOA_TOTAL_SHARDS:-195}
 START_SHARD=${VOA_START_SHARD:-0}
 GPU_IDS_CSV=${VOA_GPU_IDS:-0,1}
+PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v2-c050-d20-g050}
 SOURCE_ROOT="${DATA_ROOT}/sources/voa_ukr_user_grant"
-PSEUDO_ROOT="${DATA_ROOT}/sources/pseudo_uk"
+PSEUDO_ROOT="${DATA_ROOT}/sources/pseudo_uk_${PIPELINE_VERSION}"
 OUTPUT_RECORDS="${PSEUDO_ROOT}/records.jsonl"
 MODEL_CACHE="${ROOT}/vendor/nemo-cache"
 LOG_ROOT="${ROOT}/logs/expanded-v3/voa"
+MARKER_ROOT="${SOURCE_ROOT}/markers/${PIPELINE_VERSION}"
 PYTHON="${ROOT}/.venv/bin/python"
 export PYTHONPATH="$(cd "${ROOT}/.." && pwd)${PYTHONPATH:+:${PYTHONPATH}}"
 export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
@@ -20,8 +22,8 @@ export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 if [[ ! -x "${ROOT}/.venv-nemo/bin/python" ]]; then
     "${ROOT}/scripts/bootstrap_nemo_env.sh"
 fi
-mkdir -p "$SOURCE_ROOT/batches" "$SOURCE_ROOT/markers" "$PSEUDO_ROOT/audio" "$LOG_ROOT"
-if (( START_SHARD == 0 )) && [[ -s "${SOURCE_ROOT}/markers/000-000.json" ]]; then
+mkdir -p "$SOURCE_ROOT/batches" "$MARKER_ROOT" "$PSEUDO_ROOT/audio" "$LOG_ROOT"
+if (( START_SHARD == 0 )) && [[ -s "${MARKER_ROOT}/000-000.json" ]]; then
     START_SHARD=1
 fi
 
@@ -49,7 +51,7 @@ run_worker() {
             count=$((TOTAL_SHARDS - start))
         fi
         tag=$(printf '%03d-%03d' "$start" "$((start + count - 1))")
-        marker="${SOURCE_ROOT}/markers/${tag}.json"
+        marker="${MARKER_ROOT}/${tag}.json"
         if [[ -s "$marker" ]]; then
             batch_index=$((batch_index + 1))
             continue
@@ -63,8 +65,8 @@ run_worker() {
             --records-name "$records_name" --report-name "$report_name"
         records="${SOURCE_ROOT}/${records_name}"
         report="${SOURCE_ROOT}/${report_name}"
-        process_report="${SOURCE_ROOT}/batches/process-${tag}.json"
-        process_log="${LOG_ROOT}/process-${tag}.log"
+        process_report="${SOURCE_ROOT}/batches/process-${PIPELINE_VERSION}-${tag}.json"
+        process_log="${LOG_ROOT}/process-${PIPELINE_VERSION}-${tag}.log"
         if ! CUDA_VISIBLE_DEVICES="$gpu_id" \
             "${ROOT}/.venv-nemo/bin/python" "${ROOT}/scripts/process_unlabeled.py" \
             --registry "$REGISTRY" --records "$records" \

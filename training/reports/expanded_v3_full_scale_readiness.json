@@ -1,55 +1,62 @@
 {
   "disk": {
-    "free_gib": 79.75,
+    "free_gib": 75.42,
     "status": "WARN",
     "stop_gib": 60.0,
     "warn_gib": 80.0
   },
   "gates": [
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training",
-      "evidence": "79.75 GiB is free. The stop threshold is 60.0 GiB.",
+      "artifact": "training",
+      "evidence": "75.42 GiB is free. The stop threshold is 60.0 GiB.",
       "gate": "Disk reserve",
       "next_action": "Recheck during processing.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/manifests/all.parquet",
+      "artifact": "training/data/expanded_v3/manifests/all.parquet",
       "evidence": "The manifest has 76578 records.",
       "gate": "Clean training manifest",
       "next_action": "Preserve its hash.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_sources.json",
+      "artifact": null,
+      "evidence": "The manifest has 2.981 hours. The minimum is 800.000 hours.",
+      "gate": "voa_ukr_user_grant retained duration",
+      "next_action": "Rebuild the source with the configured pseudo-label settings.",
+      "status": "FAIL"
+    },
+    {
+      "artifact": "training/reports/expanded_v3_full_sources.json",
       "evidence": "Present sources: common_voice_available_uk, fleurs_uk, opentts_lada, opentts_mykyta, opentts_tetiana, tg_voices_uk, ua_ser, ukr_dialects, voa_ukr_user_grant. Missing enabled sources: none.",
       "gate": "Enabled source coverage",
       "next_action": "Keep the source revisions fixed.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_validation.json",
+      "artifact": "training/reports/expanded_v3_full_validation.json",
       "evidence": "The dataset validator returned PASS.",
       "gate": "Dataset validation",
       "next_action": "Repeat after any manifest change.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v3_full_hybrid_embeddings.json",
+      "artifact": "training/reports/expanded_v3_full_hybrid_embeddings.json",
       "evidence": "The report has 38289 raw and 38289 clean embeddings.",
       "gate": "Hybrid speaker embeddings",
       "next_action": "Preserve the ECAPA revision.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v3/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "artifact": "training/dump_expanded_v3/token_list/phn_espeak_ng_ukrainian/tokens.txt",
       "evidence": "The token list has 110 lines.",
       "gate": "Token list",
       "next_action": "Preserve the token list.",
       "status": "PASS"
     },
     {
-      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "artifact": "training/exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian",
       "evidence": "ESPnet statistics exist.",
       "gate": "Pitch and energy statistics",
       "next_action": "Preserve the statistics.",
@@ -70,5 +77,5 @@
     "ukr_dialects": 24899,
     "voa_ukr_user_grant": 2494
   },
-  "status": "PASS"
+  "status": "FAIL"
 }

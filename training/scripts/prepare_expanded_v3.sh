@@ -14,6 +14,9 @@ if [[ "$MODE" == full ]]; then
 fi
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
+MINIMUM_SEGMENT_SECONDS=2
+MAXIMUM_SEGMENT_SECONDS=20
+VOA_PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v2-c050-d20-g050}
 SOURCE_LIMIT=()
 LADA_LIMIT=()
 if [[ "$MODE" == smoke ]]; then
@@ -57,12 +60,19 @@ done
 if [[ "$MODE" == full ]]; then
     python "${ROOT}/scripts/collect_ua_ser.py" \
         --registry "$REGISTRY" --output-root "${DATA_ROOT}/sources"
-    DATA_ROOT="$DATA_ROOT" "${ROOT}/scripts/process_voa_streaming.sh"
+    DATA_ROOT="$DATA_ROOT" VOA_PIPELINE_VERSION="$VOA_PIPELINE_VERSION" \
+        "${ROOT}/scripts/process_voa_streaming.sh"
 fi
 
 mapfile -t SOURCE_RECORDS < <(
-    find "${DATA_ROOT}/sources" -name records.jsonl -type f | sort
+    find "${DATA_ROOT}/sources" -name records.jsonl -type f \
+        ! -path "${DATA_ROOT}/sources/pseudo_uk*/records.jsonl" | sort
 )
+if [[ "$MODE" == full ]]; then
+    SOURCE_RECORDS+=(
+        "${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records.jsonl"
+    )
+fi
 MERGE_ARGS=()
 if [[ "$MODE" == smoke ]]; then
     MERGE_ARGS=(--smoke --smoke-maximum 360)
@@ -78,7 +88,9 @@ python "${ROOT}/scripts/prepare_audio.py" \
     --records "${DATA_ROOT}/records/source_records.jsonl" \
     --output-root "${DATA_ROOT}/canonical_trimmed_24k" \
     --output-records "${DATA_ROOT}/records/canonical_records.jsonl" \
-    --trim-silence --workers 16
+    --trim-silence --workers 16 \
+    --minimum-duration "$MINIMUM_SEGMENT_SECONDS" \
+    --maximum-duration "$MAXIMUM_SEGMENT_SECONDS"
 python "${ROOT}/scripts/build_manifest.py" \
     --records "${DATA_ROOT}/records/canonical_records.jsonl" \
     --output-dir "$SOURCE_MANIFEST_DIR" \
@@ -137,7 +149,9 @@ python "${ROOT}/scripts/merge_enhanced_manifests.py" \
     --records-dir "${DATA_ROOT}/enhanced_records" \
     --output-dir "${DATA_ROOT}/enhanced_intermediate" \
     --output-records "${DATA_ROOT}/records/enhanced_records.jsonl" \
-    --report "${ROOT}/reports/expanded_v3_${MODE}_enhancement.json"
+    --report "${ROOT}/reports/expanded_v3_${MODE}_enhancement.json" \
+    --minimum-duration "$MINIMUM_SEGMENT_SECONDS" \
+    --maximum-duration "$MAXIMUM_SEGMENT_SECONDS"
 python "${ROOT}/scripts/build_manifest.py" \
     --records "${DATA_ROOT}/records/enhanced_records.jsonl" \
     --output-dir "${DATA_ROOT}/manifests" \

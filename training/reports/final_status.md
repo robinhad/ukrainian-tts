@@ -2,13 +2,14 @@
 
 ## Виконано
 
-The expanded-v3 pipeline is complete through the 25K listening gate. The code
-is under `training/`. The pipeline prepared clean audio, made exact 50/50
-hybrid embeddings, made ESPnet statistics, trained JETS on two GPUs, and made
-five listening files.
+The historical expanded-v3 pipeline completed the 25K listening gate. A later
+source-duration audit found that this run used only 2.981 VOA hours. The
+intended minimum is 800 hours. Therefore, the historical model is not the
+intended large-corpus model.
 
-The cleanup trigger was 60 GiB. The minimum monitored reserve was 75.49 GiB.
-The process did not start cleanup.
+The cleanup trigger was 60 GiB. The data collector removed completed source
+batches only when the free space reached this trigger. The training monitor
+kept a minimum reserve of 75.49 GiB.
 
 ## CRISP-DM cycle 1
 
@@ -29,7 +30,8 @@ and evaluation splits have 73,755, 1,403, and 1,420 utterances.
 | Source policy | PASS |
 | Frontend regression | PASS |
 | Non-empty phonemes | PASS |
-| Clean full data | PASS |
+| Clean full data | FAIL |
+| VOA retained duration | FAIL |
 | Exact 50/50 hybrid embeddings | PASS |
 | ESPnet token list | PASS |
 | Pitch and energy statistics | PASS |
@@ -48,7 +50,8 @@ and evaluation splits have 73,755, 1,403, and 1,420 utterances.
 | ESPnet stage 7 | 0 | 25,000 iterations completed at 03:43 EEST | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k/train.log` |
 | Initial automatic five-voice step | 1 | The selector read the wrong aggregate archive | `reports/expanded_v3_25k_launcher.log` |
 | `MODEL_FILE=milestones/25k.pth generate_five_voice_expanded_v3_eval.sh` | 0 | Five of five WAV files passed | `reports/five_voice_expanded_v3_25k.json` |
-| `pytest -q training/tests` | 0 | 75 tests passed | `tests/` |
+| `pytest -q training/tests` | 0 | 81 tests passed | `tests/` |
+| Revised expanded-v3 readiness audit | 1 | The gate correctly failed at 2.981 of 800 required VOA hours | `reports/expanded_v3_full_scale_readiness.json` |
 
 ## Створені артефакти
 
@@ -68,6 +71,9 @@ The checkpoint SHA-256 is
 
 ## Відомі проблеми
 
+- The current manifest has 2.981 VOA hours. The minimum is 800 hours.
+- The old process rejected 757,829 duration-eligible candidates at confidence
+  0.80.
 - The earlier model had a metallic timbre in the user listening check.
 - The new 25K five-voice set does not have a human listening result.
 - GPU 0 reached 86 degrees C. Check cooling before a longer run.
@@ -75,6 +81,6 @@ The checkpoint SHA-256 is
 
 ## Наступна одна дія
 
-Listen to the five WAV files in
-`training/eval/generated/five_voice_expanded_v3_25k/`. Decide if training must
-continue after the listening check.
+Run the versioned VOA pseudo-label pipeline with the 0.50 confidence threshold,
+the 20-second maximum, and the 0.5-second same-speaker merge gap. Do not start
+another long training run until the manifest has at least 800 VOA hours.

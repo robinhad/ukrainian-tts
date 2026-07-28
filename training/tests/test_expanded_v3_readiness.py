@@ -1,6 +1,11 @@
 from pathlib import Path
 
-from training.scripts.audit_expanded_v3_readiness import gate
+import pandas as pd
+
+from training.scripts.audit_expanded_v3_readiness import (
+    gate,
+    minimum_source_duration_gates,
+)
 
 
 def test_readiness_gate_has_required_fields():
@@ -12,3 +17,24 @@ def test_readiness_gate_has_required_fields():
         "artifact": "/tmp",
         "next_action": "Recheck.",
     }
+
+
+def test_minimum_source_duration_gate_fails_below_required_hours():
+    frame = pd.DataFrame(
+        {
+            "source_id": ["voa", "voa", "other"],
+            "duration": [1800.0, 1800.0, 3600.0],
+        }
+    )
+    registry = {
+        "sources": {
+            "voa": {"minimum_retained_hours": 2.0},
+            "other": {},
+        }
+    }
+
+    result = minimum_source_duration_gates(frame, registry)
+
+    assert len(result) == 1
+    assert result[0]["status"] == "FAIL"
+    assert "1.000 hours" in result[0]["evidence"]
