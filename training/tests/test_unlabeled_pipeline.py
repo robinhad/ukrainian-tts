@@ -2,7 +2,10 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from training.scripts.process_deferred_long import strict_low_energy_split
+from training.scripts.process_deferred_long import (
+    read_mono_audio,
+    strict_low_energy_split,
+)
 from training.scripts.process_unlabeled import (
     diarization_chunks,
     diarize_in_chunks,
@@ -31,6 +34,36 @@ def test_deferred_long_split_stays_between_two_and_twenty_seconds():
     assert len(parts) == 2
     assert all(2.0 <= duration <= 20.0 for duration in durations)
     assert abs(sum(durations) - 20.88) < 1e-6
+
+
+def test_deferred_long_reader_rejects_an_impossible_header(monkeypatch):
+    called = False
+
+    def fail_if_read(*args, **kwargs):
+        nonlocal called
+        called = True
+        raise AssertionError("The reader must reject the header first.")
+
+    monkeypatch.setattr(
+        "training.scripts.process_deferred_long.sf.info",
+        lambda path: SimpleNamespace(
+            samplerate=16000,
+            channels=1,
+            frames=4_000_000_000_000_000,
+        ),
+    )
+    monkeypatch.setattr(
+        "training.scripts.process_deferred_long.sf.read",
+        fail_if_read,
+    )
+
+    try:
+        read_mono_audio("broken.flac", maximum_seconds=25.0)
+    except ValueError as error:
+        assert "audio header reports" in str(error)
+    else:
+        raise AssertionError("The impossible header was accepted.")
+    assert not called
 
 
 def test_duration_rejection_states_short_and_long_separately():

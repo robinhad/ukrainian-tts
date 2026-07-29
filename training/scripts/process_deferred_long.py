@@ -6,7 +6,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
+import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -84,6 +86,31 @@ def load_progress(path: Path) -> dict[str, dict[str, Any]]:
     return result
 
 
+def read_mono_audio(
+    path: str | Path,
+    *,
+    maximum_seconds: float,
+) -> tuple[np.ndarray, int]:
+    """Read audio only when its header has a plausible size."""
+    info = sf.info(path)
+    if info.samplerate <= 0 or info.channels <= 0 or info.frames <= 0:
+        raise ValueError("The audio header has invalid dimensions.")
+    duration = info.frames / info.samplerate
+    if not math.isfinite(duration) or duration > maximum_seconds:
+        raise ValueError(
+            f"The audio header reports {duration:.3f} seconds. "
+            f"The limit is {maximum_seconds:.3f} seconds."
+        )
+    audio, sample_rate = sf.read(
+        path,
+        dtype="float32",
+        always_2d=True,
+    )
+    if audio.shape[0] <= 0 or audio.shape[1] <= 0:
+        raise ValueError("The decoded audio is empty.")
+    return np.mean(audio, axis=1), int(sample_rate)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--registry", type=Path, required=True)
@@ -137,12 +164,34 @@ def main() -> int:
         key = progress_key(row)
         if key in progress:
             continue
-        audio, sample_rate = sf.read(
-            row["audio_path"],
-            dtype="float32",
-            always_2d=True,
+        expected_seconds = float(row.get("duration", args.maximum_seconds))
+        maximum_source_seconds = max(
+            args.maximum_seconds + 5.0,
+            expected_seconds + 5.0,
         )
-        mono = np.mean(audio, axis=1)
+        try:
+            mono, sample_rate = read_mono_audio(
+                row["audio_path"],
+                maximum_seconds=maximum_source_seconds,
+            )
+        except (OSError, RuntimeError, ValueError, MemoryError) as error:
+            source_rejected = Counter({"unreadable_audio": 1})
+            item = {
+                "source_utterance_id": key,
+                "parts": 0,
+                "accepted_parts": 0,
+                "rejected": dict(source_rejected),
+                "error": f"{type(error).__name__}: {error}",
+            }
+            append_jsonl(args.progress, [item])
+            progress[key] = item
+            rejected.update(source_rejected)
+            print(
+                f"Reject {key}: {item['error']}",
+                file=sys.stderr,
+                flush=True,
+            )
+            continue
         accepted_rows: list[dict[str, Any]] = []
         source_rejected: Counter[str] = Counter()
         parts = strict_low_energy_split(
