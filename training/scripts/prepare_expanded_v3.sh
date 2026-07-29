@@ -130,7 +130,8 @@ run_shard() {
             --output-records "${DATA_ROOT}/enhanced_records/records-${shard}.jsonl" \
             --model-cache "${ROOT}/vendor/deepfilternet-cache" \
             --shard-index "$shard" --num-shards "$NUM_SHARDS" --resume \
-            --allow-failures --max-new-records 300
+            --allow-failures --retry-failures --maximum-attempts 2 \
+            --max-new-records 300
         status=$?
         set -e
         if (( status == 75 )); then

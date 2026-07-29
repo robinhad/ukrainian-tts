@@ -43,6 +43,17 @@ def main() -> int:
     )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument(
+        "--retry-failures",
+        action="store_true",
+        help="Retry failed records until they reach the attempt limit.",
+    )
+    parser.add_argument(
+        "--maximum-attempts",
+        type=int,
+        default=2,
+        help="Maximum enhancement attempts for one record.",
+    )
+    parser.add_argument(
         "--allow-failures",
         action="store_true",
         help="Record rejected files and return success after the shard completes.",
@@ -52,6 +63,8 @@ def main() -> int:
         parser.error("the shard index must be inside the shard count")
     if args.max_new_records is not None and args.max_new_records < 1:
         parser.error("--max-new-records must be positive")
+    if args.maximum_attempts < 1:
+        parser.error("--maximum-attempts must be positive")
 
     frame = pd.read_parquet(args.manifest).sort_values("utterance_id")
     rows = frame.to_dict(orient="records")[args.shard_index :: args.num_shards]
@@ -67,10 +80,24 @@ def main() -> int:
     mode = "w"
     existing = set()
     prior_terminal: list[dict] = []
+    prior_attempts: dict[str, int] = {}
     if args.resume and args.output_records.exists():
         for line in args.output_records.read_text(encoding="utf-8").splitlines():
             prior = json.loads(line)
-            if prior.get("enhancement_status") == "ok" or args.allow_failures:
+            identifier = str(prior["utterance_id"])
+            attempts = int(
+                prior.get(
+                    "enhancement_attempts",
+                    1 if prior.get("enhancement_status") == "failed" else 0,
+                )
+            )
+            prior_attempts[identifier] = attempts
+            retryable = (
+                args.retry_failures
+                and prior.get("enhancement_status") == "failed"
+                and attempts < args.maximum_attempts
+            )
+            if not retryable:
                 existing.add(prior["utterance_id"])
                 prior_terminal.append(prior)
     pending = [row for row in rows if str(row["utterance_id"]) not in existing]
@@ -91,11 +118,12 @@ def main() -> int:
                 continue
             target = args.output_root / f"{utterance_id}.wav"
             record = dict(row)
+            record["enhancement_attempts"] = (
+                prior_attempts.get(utterance_id, 0) + 1
+            )
             record["source_qc_flags"] = record.get("qc_flags")
             record["canonical_raw_audio_path"] = str(
-                Path(
-                    row.get("canonical_raw_audio_path") or row["audio_path"]
-                ).resolve()
+                Path(row["audio_path"]).resolve()
             )
             try:
                 metrics = processor.process(
