@@ -18,8 +18,13 @@ MINIMUM_SEGMENT_SECONDS=2
 MAXIMUM_SEGMENT_SECONDS=20
 VOA_PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v4-c050-d20-g050-defer-long}
 INCLUDE_RECOVERED_LONG=${INCLUDE_RECOVERED_LONG:-1}
+REUSE_SOURCE_MANIFEST=${REUSE_SOURCE_MANIFEST:-0}
 if [[ "$INCLUDE_RECOVERED_LONG" != 0 && "$INCLUDE_RECOVERED_LONG" != 1 ]]; then
     echo "INCLUDE_RECOVERED_LONG must be 0 or 1." >&2
+    exit 2
+fi
+if [[ "$REUSE_SOURCE_MANIFEST" != 0 && "$REUSE_SOURCE_MANIFEST" != 1 ]]; then
+    echo "REUSE_SOURCE_MANIFEST must be 0 or 1." >&2
     exit 2
 fi
 SOURCE_LIMIT=()
@@ -39,7 +44,20 @@ python "${ROOT}/scripts/check_resources.py" \
     --require-torch --gpu-uuids "$GPU_UUIDS" \
     --workspace "$ROOT" --output "${ROOT}/reports/resource_usage_expanded_v3.jsonl"
 
+SOURCE_MANIFEST_DIR="${DATA_ROOT}/source_manifests"
 mkdir -p "${DATA_ROOT}/sources" "${DATA_ROOT}/records" "${DATA_ROOT}/logs"
+if [[ "$REUSE_SOURCE_MANIFEST" == 1 ]]; then
+    for required in \
+        "${DATA_ROOT}/records/source_records.jsonl" \
+        "${DATA_ROOT}/records/canonical_records.jsonl" \
+        "${SOURCE_MANIFEST_DIR}/all.parquet"; do
+        if [[ ! -s "$required" ]]; then
+            echo "The reusable source artifact does not exist: ${required}" >&2
+            exit 1
+        fi
+    done
+    echo "Reuse the completed source manifest and canonical audio."
+else
 if [[ "$MODE" == smoke ]]; then
     python "${ROOT}/scripts/export_existing_lada.py" \
         --manifest "${ROOT}/data/full_trimmed/manifests/all.parquet" \
@@ -94,7 +112,6 @@ python "${ROOT}/scripts/merge_expanded_records.py" \
     --report "${ROOT}/reports/expanded_v3_${MODE}_sources.json" \
     "${MERGE_ARGS[@]}"
 
-SOURCE_MANIFEST_DIR="${DATA_ROOT}/source_manifests"
 python "${ROOT}/scripts/prepare_audio.py" \
     --records "${DATA_ROOT}/records/source_records.jsonl" \
     --output-root "${DATA_ROOT}/canonical_trimmed_24k" \
@@ -106,6 +123,7 @@ python "${ROOT}/scripts/build_manifest.py" \
     --records "${DATA_ROOT}/records/canonical_records.jsonl" \
     --output-dir "$SOURCE_MANIFEST_DIR" \
     --cache "${DATA_ROOT}/frontend_cache.sqlite" --workers 16
+fi
 
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
 NUM_SHARDS=$((WORKERS_PER_GPU * ${#GPUS[@]}))
