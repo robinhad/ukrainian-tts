@@ -112,7 +112,9 @@ def sweep_deferred_batches(
     cleaned: list[Path] = []
     if free_disk_gib(workspace) > trigger_gib:
         return cleaned
-    for marker in sorted(markers_root.glob("*.json")):
+    # A pipeline version can put markers in a child directory. Search all
+    # version directories so the collector can reclaim a completed batch.
+    for marker in sorted(markers_root.rglob("*.json")):
         try:
             data = json.loads(marker.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):

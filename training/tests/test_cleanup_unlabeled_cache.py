@@ -5,6 +5,7 @@ from pathlib import Path
 from training.scripts.cleanup_unlabeled_cache import (
     RETENTION_SUFFIX,
     finalize_batch,
+    sweep_deferred_batches,
 )
 
 
@@ -58,3 +59,21 @@ def test_deferred_cleanup_restores_a_legacy_worker_path(tmp_path: Path):
     assert result["cleanup_status"] == "DEFERRED"
     assert audio.read_bytes() == b"audio"
     assert not retained.exists()
+
+
+def test_sweep_finds_markers_in_pipeline_version_directory(tmp_path: Path):
+    audio, records, report, marker = make_batch(tmp_path, "001-001")
+    versioned_marker = marker.parent / "v4" / marker.name
+    result = finalize_batch(records, report, versioned_marker, trigger_gib=0)
+    assert result["cleanup_status"] == "DEFERRED"
+
+    cleaned = sweep_deferred_batches(
+        tmp_path / "markers",
+        tmp_path,
+        trigger_gib=10**9,
+    )
+
+    assert cleaned == [versioned_marker]
+    assert not audio.exists()
+    assert not records.exists()
+    assert json.loads(versioned_marker.read_text())["cleanup_status"] == "CLEANED"
