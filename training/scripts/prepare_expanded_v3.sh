@@ -14,6 +14,7 @@ if [[ "$MODE" == full ]]; then
 fi
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
+MAX_SHARD_RESTARTS=${MAX_SHARD_RESTARTS:-10}
 MINIMUM_SEGMENT_SECONDS=2
 MAXIMUM_SEGMENT_SECONDS=20
 VOA_PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v4-c050-d20-g050-defer-long}
@@ -139,6 +140,7 @@ fi
 run_shard() {
     local shard=$1
     local gpu=$2
+    local restarts=0
     while true; do
         set +e
         CUDA_VISIBLE_DEVICES="$gpu" OMP_NUM_THREADS=1 \
@@ -154,6 +156,14 @@ run_shard() {
         set -e
         if (( status == 75 )); then
             continue
+        fi
+        if (( status == 137 || status == 143 )); then
+            restarts=$((restarts + 1))
+            if (( restarts <= MAX_SHARD_RESTARTS )); then
+                echo "Shard ${shard} stopped with status ${status}. Resume attempt ${restarts}/${MAX_SHARD_RESTARTS}." >&2
+                sleep 5
+                continue
+            fi
         fi
         return "$status"
     done
