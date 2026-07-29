@@ -17,6 +17,11 @@ WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
 MINIMUM_SEGMENT_SECONDS=2
 MAXIMUM_SEGMENT_SECONDS=20
 VOA_PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v4-c050-d20-g050-defer-long}
+INCLUDE_RECOVERED_LONG=${INCLUDE_RECOVERED_LONG:-1}
+if [[ "$INCLUDE_RECOVERED_LONG" != 0 && "$INCLUDE_RECOVERED_LONG" != 1 ]]; then
+    echo "INCLUDE_RECOVERED_LONG must be 0 or 1." >&2
+    exit 2
+fi
 SOURCE_LIMIT=()
 LADA_LIMIT=()
 if [[ "$MODE" == smoke ]]; then
@@ -71,9 +76,10 @@ mapfile -t SOURCE_RECORDS < <(
 if [[ "$MODE" == full ]]; then
     VOA_RECORDS="${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records.jsonl"
     RECOVERED_VOA_RECORDS="${DATA_ROOT}/sources/pseudo_uk_${VOA_PIPELINE_VERSION}/records_with_recovered_long.jsonl"
-    if [[ -s "$RECOVERED_VOA_RECORDS" ]]; then
+    if [[ "$INCLUDE_RECOVERED_LONG" == 1 && -s "$RECOVERED_VOA_RECORDS" ]]; then
         VOA_RECORDS="$RECOVERED_VOA_RECORDS"
     fi
+    echo "VOA training records: ${VOA_RECORDS}"
     SOURCE_RECORDS+=(
         "$VOA_RECORDS"
     )

@@ -14,6 +14,11 @@ export ALLOW_USER_AUTHORIZED_UNDER_MINIMUM_HOURS=1
 export ALLOW_TRAINING_RESUME=1
 export VOA_PIPELINE_VERSION="$VERSION"
 export VOA_GPU_IDS=0,1
+export INCLUDE_RECOVERED_LONG=${INCLUDE_RECOVERED_LONG:-1}
+if [[ "$INCLUDE_RECOVERED_LONG" != 0 && "$INCLUDE_RECOVERED_LONG" != 1 ]]; then
+    echo "INCLUDE_RECOVERED_LONG must be 0 or 1." >&2
+    exit 2
+fi
 
 kyiv_time() {
     TZ=Europe/Kyiv date '+%Y-%m-%d %H:%M:%S %Z'
@@ -80,19 +85,22 @@ if [[ ! -s "${PSEUDO_ROOT}/records.jsonl" ]]; then
     echo "The merged VOA pseudo-label manifest does not exist." >&2
     exit 1
 fi
-if [[ ! -s "${PSEUDO_ROOT}/deferred_too_long/records.jsonl" ]]; then
-    echo "The deferred-long manifest does not exist." >&2
-    exit 1
-fi
-
-set_stage "RECOVER_DEFERRED_LONG"
-"${ROOT}/.venv/bin/python" "${ROOT}/scripts/run_logged.py" \
-    --log "$COMMAND_LOG" --eta-minutes 600 -- \
-    "${ROOT}/scripts/process_deferred_long_parallel.sh"
-
-if [[ ! -s "${PSEUDO_ROOT}/records_with_recovered_long.jsonl" ]]; then
-    echo "The recovered VOA manifest does not exist." >&2
-    exit 1
+if [[ "$INCLUDE_RECOVERED_LONG" == 1 ]]; then
+    if [[ ! -s "${PSEUDO_ROOT}/deferred_too_long/records.jsonl" ]]; then
+        echo "The deferred-long manifest does not exist." >&2
+        exit 1
+    fi
+    set_stage "RECOVER_DEFERRED_LONG"
+    "${ROOT}/.venv/bin/python" "${ROOT}/scripts/run_logged.py" \
+        --log "$COMMAND_LOG" --eta-minutes 600 -- \
+        "${ROOT}/scripts/process_deferred_long_parallel.sh"
+    if [[ ! -s "${PSEUDO_ROOT}/records_with_recovered_long.jsonl" ]]; then
+        echo "The recovered VOA manifest does not exist." >&2
+        exit 1
+    fi
+else
+    set_stage "SKIP_DEFERRED_LONG"
+    echo "[chain] Use the base VOA manifest without recovered long segments."
 fi
 
 set_stage "PREPARE_CLEAN_EXPANDED_V3"
