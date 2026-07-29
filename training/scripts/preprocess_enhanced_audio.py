@@ -42,11 +42,20 @@ def main() -> int:
         help="Exit with status 75 after this many new records so native state can be recycled.",
     )
     parser.add_argument("--resume", action="store_true")
-    parser.add_argument(
+    retry_group = parser.add_mutually_exclusive_group()
+    retry_group.add_argument(
         "--retry-failures",
+        dest="retry_failures",
         action="store_true",
         help="Retry failed records until they reach the attempt limit.",
     )
+    retry_group.add_argument(
+        "--no-retry-failures",
+        dest="retry_failures",
+        action="store_false",
+        help="Keep failed records without another attempt.",
+    )
+    parser.set_defaults(retry_failures=True)
     parser.add_argument(
         "--maximum-attempts",
         type=int,
