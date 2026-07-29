@@ -3,7 +3,12 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from training.audio_enhancement.pipeline import EnhancementConfig, parse_loudnorm
+from training.audio_enhancement.pipeline import (
+    EnhancedAudioProcessor,
+    EnhancementConfig,
+    parse_loudnorm,
+    sha256,
+)
 
 
 def test_enhancement_config_is_conservative_and_pinned() -> None:
@@ -37,3 +42,28 @@ def test_parse_loudnorm_json() -> None:
     result = parse_loudnorm(stderr)
     assert result["input_i"] == -20.1
     assert result["target_offset"] == 0.0
+
+
+def test_inspect_existing_output_measures_without_changing_audio(tmp_path: Path) -> None:
+    sample_rate = 24_000
+    seconds = 3
+    time = np.arange(sample_rate * seconds) / sample_rate
+    audio = 0.05 * np.sin(2 * np.pi * 220 * time)
+    target = tmp_path / "enhanced.wav"
+    sf.write(target, audio, sample_rate, subtype="PCM_16")
+    before = sha256(target)
+
+    processor = object.__new__(EnhancedAudioProcessor)
+    processor.config = EnhancementConfig()
+    metrics = processor.inspect_existing_output(target)
+
+    assert sha256(target) == before
+    assert metrics["audio_sha256"] == before
+    assert metrics["channels"] == 1
+    assert metrics["duration"] == seconds
+    assert metrics["sample_rate"] == sample_rate
+    assert np.isfinite(metrics["loudness"]["second_pass"]["output_i"])
+    assert (
+        metrics["loudness"]["second_pass"]["normalization_type"]
+        == "measured_existing_output"
+    )

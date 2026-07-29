@@ -14,6 +14,7 @@ if [[ "$MODE" == full ]]; then
 fi
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
+ENHANCEMENT_NUM_SHARDS=${ENHANCEMENT_NUM_SHARDS:-}
 MAX_SHARD_RESTARTS=${MAX_SHARD_RESTARTS:-10}
 MINIMUM_SEGMENT_SECONDS=2
 MAXIMUM_SEGMENT_SECONDS=20
@@ -127,7 +128,12 @@ python "${ROOT}/scripts/build_manifest.py" \
 fi
 
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
-NUM_SHARDS=$((WORKERS_PER_GPU * ${#GPUS[@]}))
+NUM_SHARDS=${ENHANCEMENT_NUM_SHARDS:-$((WORKERS_PER_GPU * ${#GPUS[@]}))}
+MAX_CONCURRENT_WORKERS=$((WORKERS_PER_GPU * ${#GPUS[@]}))
+if (( NUM_SHARDS < 1 || MAX_CONCURRENT_WORKERS < 1 )); then
+    echo "The enhancement shard and worker counts must be positive." >&2
+    exit 2
+fi
 mkdir -p "${DATA_ROOT}/enhanced_records" "${DATA_ROOT}/processed_24k"
 if [[ "$MODE" == full ]]; then
     python "${ROOT}/scripts/seed_reused_enhanced_records.py" \
@@ -169,10 +175,19 @@ run_shard() {
     done
 }
 
+run_worker_slot() {
+    local slot=$1
+    local shard
+    for ((shard = slot; shard < NUM_SHARDS; shard += MAX_CONCURRENT_WORKERS)); do
+        run_shard "$shard" "${GPUS[$((slot % ${#GPUS[@]}))]}" \
+            >> "${DATA_ROOT}/logs/preprocess-${shard}.log" 2>&1
+    done
+}
+
 pids=()
-for ((shard = 0; shard < NUM_SHARDS; shard++)); do
-    run_shard "$shard" "${GPUS[$((shard % ${#GPUS[@]}))]}" \
-        > "${DATA_ROOT}/logs/preprocess-${shard}.log" 2>&1 &
+worker_slots=$((NUM_SHARDS < MAX_CONCURRENT_WORKERS ? NUM_SHARDS : MAX_CONCURRENT_WORKERS))
+for ((slot = 0; slot < worker_slots; slot++)); do
+    run_worker_slot "$slot" &
     pids+=("$!")
 done
 failed=0

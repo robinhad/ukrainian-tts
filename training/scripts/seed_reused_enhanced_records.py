@@ -37,9 +37,44 @@ def main() -> int:
     source = pd.read_parquet(args.source_manifest).sort_values("utterance_id")
     clean = pd.read_parquet(args.clean_manifest).set_index("utterance_id")
     args.output_records_dir.mkdir(parents=True, exist_ok=True)
+    existing_by_id: dict[str, dict[str, Any]] = {}
+    for path in sorted(args.output_records_dir.glob("records-*.jsonl")):
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            identifier = str(record["utterance_id"])
+            previous = existing_by_id.get(identifier)
+            record_is_usable = (
+                record.get("enhancement_status") == "failed"
+                or Path(str(record.get("audio_path", ""))).is_file()
+            )
+            previous_is_usable = previous is not None and (
+                previous.get("enhancement_status") == "failed"
+                or Path(str(previous.get("audio_path", ""))).is_file()
+            )
+            if record_is_usable and not previous_is_usable:
+                existing_by_id[identifier] = record
+            elif record_is_usable and previous_is_usable:
+                previous_attempts = int(previous.get("enhancement_attempts", 0))
+                record_attempts = int(record.get("enhancement_attempts", 0))
+                if record_attempts >= previous_attempts:
+                    existing_by_id[identifier] = record
+
     shard_rows: list[list[dict[str, Any]]] = [[] for _ in range(args.num_shards)]
+    preserved_existing = 0
+    reused_clean = 0
     for position, row in enumerate(source.to_dict("records")):
         identifier = str(row["utterance_id"])
+        if identifier in existing_by_id:
+            prior = existing_by_id[identifier]
+            record = {**row, **prior}
+            record["canonical_raw_audio_path"] = str(
+                Path(row.get("canonical_raw_audio_path") or row["audio_path"]).resolve()
+            )
+            shard_rows[position % args.num_shards].append(json_value(record))
+            preserved_existing += 1
+            continue
         if identifier not in clean.index:
             continue
         prior = clean.loc[identifier].to_dict()
@@ -53,6 +88,7 @@ def main() -> int:
         record["audio_path"] = str(audio_path.resolve())
         record["enhancement_status"] = "ok"
         shard_rows[position % args.num_shards].append(json_value(record))
+        reused_clean += 1
     counts = []
     for index, rows in enumerate(shard_rows):
         target = args.output_records_dir / f"records-{index}.jsonl"
@@ -69,6 +105,8 @@ def main() -> int:
             {
                 "status": "PASS",
                 "records": sum(counts),
+                "preserved_existing": preserved_existing,
+                "reused_clean": reused_clean,
                 "shard_counts": counts,
             },
             indent=2,

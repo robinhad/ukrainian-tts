@@ -181,6 +181,54 @@ class EnhancedAudioProcessor:
         output = parse_loudnorm(second.stderr)
         return {"first_pass": measured, "second_pass": output}
 
+    def inspect_existing_output(self, target: Path) -> dict[str, Any]:
+        """Read and measure an existing enhanced WAV without changing it."""
+        cfg = self.config
+        measured_run = subprocess.run(
+            [
+                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info",
+                "-i", str(target), "-af",
+                (
+                    f"loudnorm=I={cfg.target_lufs}:LRA={cfg.target_lra}:"
+                    f"TP={cfg.target_true_peak_db}:print_format=json"
+                ),
+                "-f", "null", "-",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        measured = parse_loudnorm(measured_run.stderr)
+        actual_output = dict(measured)
+        actual_output.update(
+            {
+                "output_i": measured["input_i"],
+                "output_lra": measured["input_lra"],
+                "output_thresh": measured["input_thresh"],
+                "output_tp": measured["input_tp"],
+                "normalization_type": "measured_existing_output",
+            }
+        )
+        audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
+        peak = float(np.max(np.abs(audio))) if audio.size else 0.0
+        if sample_rate != cfg.output_sample_rate:
+            raise RuntimeError(f"unexpected output sample rate: {sample_rate}")
+        if audio.shape[1] != 1 or not len(audio) or not np.isfinite(audio).all():
+            raise RuntimeError("existing enhanced output failed waveform validation")
+        return {
+            "audio_sha256": sha256(target),
+            "channels": int(audio.shape[1]),
+            "duration": len(audio) / sample_rate,
+            "enhancement_config_hash": cfg.digest,
+            "format": "WAV/PCM_16",
+            "loudness": {
+                "first_pass": measured,
+                "second_pass": actual_output,
+            },
+            "peak_amplitude": peak,
+            "sample_rate": sample_rate,
+        }
+
     def process(self, source: Path, target: Path) -> dict[str, Any]:
         with tempfile.TemporaryDirectory(prefix="uktts-dfn3-") as temporary:
             denoised = Path(temporary) / "denoised-48k.wav"

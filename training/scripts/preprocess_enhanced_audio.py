@@ -135,9 +135,18 @@ def main() -> int:
                 Path(row["audio_path"]).resolve()
             )
             try:
-                metrics = processor.process(
-                    Path(record["canonical_raw_audio_path"]), target
-                )
+                if target.is_file():
+                    try:
+                        metrics = processor.inspect_existing_output(target)
+                        record["enhancement_recovered_from_existing_output"] = True
+                    except Exception:
+                        metrics = processor.process(
+                            Path(record["canonical_raw_audio_path"]), target
+                        )
+                else:
+                    metrics = processor.process(
+                        Path(record["canonical_raw_audio_path"]), target
+                    )
                 record.update(metrics)
                 record["audio_path"] = str(target.resolve())
                 record["qc_flags"] = []
