@@ -28,6 +28,7 @@ print_status() {
 import collections
 import glob
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -71,8 +72,44 @@ deferred_records, deferred_hours = record_metrics(
 recovered_records, recovered_hours = record_metrics(
     pseudo / "recovered_long/records-gpu*.jsonl"
 )
+enhanced = {}
+for name in glob.glob(
+    str(root / "data/expanded_v3/enhanced_records/records-*.jsonl")
+):
+    for line in Path(name).read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            item = json.loads(line)
+            enhanced[item["utterance_id"]] = item
+enhancement_status = collections.Counter(
+    item.get("enhancement_status", "unknown")
+    for item in enhanced.values()
+)
+enhancement_attempts = collections.Counter(
+    int(item.get("enhancement_attempts", 0))
+    for item in enhanced.values()
+)
+enhancement_errors = collections.Counter(
+    str(item.get("enhancement_error", "unknown")).split(":", 1)[0]
+    for item in enhanced.values()
+    if item.get("enhancement_status") == "failed"
+)
+enhancement_total = 218980
 usage = shutil.disk_usage(root)
 print(json.dumps({
+    "preparation": {
+        "enhancement_attempts": dict(sorted(enhancement_attempts.items())),
+        "enhancement_error_types": dict(sorted(enhancement_errors.items())),
+        "enhancement_progress_percent": round(
+            100 * len(enhanced) / enhancement_total,
+            2,
+        ),
+        "enhancement_records": len(enhanced),
+        "enhancement_status": dict(sorted(enhancement_status.items())),
+        "enhancement_total": enhancement_total,
+        "includes_recovered_long": (
+            os.environ.get("TRAINING_INCLUDE_RECOVERED_LONG", "1") == "1"
+        ),
+    },
     "voa": {
         "accepted_hours": round(accepted_hours, 3),
         "accepted_records": accepted_records,
