@@ -42,7 +42,7 @@ exec "${ESPNET_ROOT}/egs2/TEMPLATE/tts1/tts.sh" \
     --test_sets "${TEST_SETS}" \
     --srctexts "${RECIPE_ROOT}/data/${TRAIN_SET}/text" \
     --min_wav_duration 0.1 \
-    --max_wav_duration 20 \
+    --max_wav_duration 20.01 \
     --train_config "${RECIPE_ROOT}/conf/tuning/train_jets_uk_24k.yaml" \
     --inference_config "${RECIPE_ROOT}/conf/tuning/decode_jets.yaml" \
     --dumpdir "${DUMP_DIR}" \
