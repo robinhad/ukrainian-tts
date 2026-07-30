@@ -29,9 +29,12 @@ import collections
 import glob
 import json
 import os
+import re
 import shutil
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 root = Path(sys.argv[1])
 progress = {}
@@ -95,6 +98,74 @@ enhancement_errors = collections.Counter(
 )
 enhancement_total = 218980
 usage = shutil.disk_usage(root)
+
+stats_root = (
+    root
+    / "exp_expanded_v3/tts_stats_raw_phn_espeak_ng_ukrainian/logdir"
+)
+stats_jobs = []
+for log_path in sorted(stats_root.glob("stats.[0-9]*.log")):
+    match = re.fullmatch(r"stats\.(\d+)\.log", log_path.name)
+    if match is None:
+        continue
+    job = int(match.group(1))
+    shape_path = stats_root / f"train.{job}.scp"
+    total = (
+        sum(1 for line in shape_path.open(encoding="utf-8") if line.strip())
+        if shape_path.is_file()
+        else 0
+    )
+    points = []
+    text_value = log_path.read_text(encoding="utf-8", errors="replace")
+    for line in text_value.splitlines():
+        point = re.search(
+            r"(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d).*Niter: (\d+)",
+            line,
+        )
+        if point is not None:
+            points.append(
+                (
+                    datetime.strptime(point.group(1), "%Y-%m-%d %H:%M:%S"),
+                    int(point.group(2)),
+                )
+            )
+    current = points[-1][1] if points else 0
+    rate = None
+    eta_seconds = None
+    if len(points) >= 2 and points[-1][0] > points[0][0]:
+        rate = (points[-1][1] - points[0][1]) / (
+            points[-1][0] - points[0][0]
+        ).total_seconds()
+        if rate > 0 and total >= current:
+            eta_seconds = (total - current) / rate
+    stats_jobs.append(
+        {
+            "current": current,
+            "error": (
+                "Traceback" in text_value
+                or "Ended (code 1)" in text_value
+                or "Keys are mismatched" in text_value
+            ),
+            "eta_seconds": eta_seconds,
+            "job": job,
+            "rate_iterations_per_second": (
+                round(rate, 4) if rate is not None else None
+            ),
+            "total": total,
+        }
+    )
+known_etas = [
+    item["eta_seconds"]
+    for item in stats_jobs
+    if item["eta_seconds"] is not None
+]
+stats_eta_seconds = max(known_etas) if known_etas else None
+stats_eta_kyiv = None
+if stats_eta_seconds is not None:
+    stats_eta_kyiv = (
+        datetime.now(ZoneInfo("Europe/Kyiv"))
+        + timedelta(seconds=stats_eta_seconds)
+    ).isoformat(timespec="seconds")
 print(json.dumps({
     "preparation": {
         "enhancement_attempts": dict(sorted(enhancement_attempts.items())),
@@ -109,6 +180,25 @@ print(json.dumps({
         "includes_recovered_long": (
             os.environ.get("TRAINING_INCLUDE_RECOVERED_LONG", "1") == "1"
         ),
+    },
+    "statistics": {
+        "completed_iterations": sum(item["current"] for item in stats_jobs),
+        "error_jobs": [
+            item["job"] for item in stats_jobs if item["error"]
+        ],
+        "estimated_finish_kyiv": stats_eta_kyiv,
+        "jobs": stats_jobs,
+        "progress_percent": (
+            round(
+                100
+                * sum(item["current"] for item in stats_jobs)
+                / sum(item["total"] for item in stats_jobs),
+                2,
+            )
+            if stats_jobs and sum(item["total"] for item in stats_jobs)
+            else 0.0
+        ),
+        "total_iterations": sum(item["total"] for item in stats_jobs),
     },
     "voa": {
         "accepted_hours": round(accepted_hours, 3),
