@@ -6,6 +6,12 @@ DATA_ROOT="${ROOT}/data/expanded_v3"
 STAGE_FILE="${ROOT}/reports/expanded_v3_500k_stage.txt"
 COMMAND_LOG="${ROOT}/reports/expanded_v3_500k_commands.jsonl"
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
+ESPNET_STATS_NJ=${ESPNET_STATS_NJ:-10}
+
+if (( ESPNET_STATS_NJ < 1 || ESPNET_STATS_NJ > 24 )); then
+    echo "ESPNET_STATS_NJ must be from 1 to 24." >&2
+    exit 2
+fi
 
 export GPU_UUIDS
 export ALLOW_USER_AUTHORIZED_UNDER_MINIMUM_HOURS=1
@@ -96,7 +102,8 @@ restore_embedding_indexes
 set_stage "PREPARE_ESPNET_TOKENS_AND_STATISTICS"
 "${ROOT}/.venv/bin/python" "${ROOT}/scripts/run_logged.py" \
     --log "$COMMAND_LOG" --eta-minutes 360 -- \
-    "${ROOT}/espnet_recipe/run_expanded_v3.sh" --stage 4 --stop_stage 6
+    "${ROOT}/espnet_recipe/run_expanded_v3.sh" \
+    --stage 4 --stop_stage 6 --nj "$ESPNET_STATS_NJ"
 
 set_stage "VERIFY_NO_LONG_SEGMENTS"
 verify_filtered_counts
