@@ -42,7 +42,7 @@ import pandas as pd
 manifest_root = Path(sys.argv[1])
 dump_root = Path(sys.argv[2])
 for split in ("train", "dev", "eval"):
-    frame = pd.read_parquet(manifest_root / f"{split}.parquet")
+    frame = pd.read_parquet(manifest_root / f"expanded_v3_{split}.parquet")
     expected = len(frame)
     text_path = dump_root / f"expanded_v3_{split}" / "text"
     actual = sum(1 for line in text_path.open(encoding="utf-8") if line.strip())
@@ -75,7 +75,7 @@ restore_embedding_indexes() {
         LC_ALL=C sort -k1,1 -u "${shards[@]}" >"$restored"
         expected=$(
             "${ROOT}/.venv/bin/python" -c \
-                "import pandas as pd; print(len(pd.read_parquet('${DATA_ROOT}/manifests/${split}.parquet')))"
+                "import pandas as pd; print(len(pd.read_parquet('${DATA_ROOT}/manifests/expanded_v3_${split}.parquet')))"
         )
         actual=$(wc -l <"$restored")
         if (( actual != expected )); then
