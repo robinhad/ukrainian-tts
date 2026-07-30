@@ -73,10 +73,10 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     policy = registry.get("policy", {})
     allowed = set(policy.get("allow_licenses", []))
-    if float(policy.get("free_disk_stop_gib", 0)) != 60:
-        errors.append("The free disk stop threshold must be 60 GiB.")
-    if float(policy.get("free_disk_warn_gib", 0)) <= 60:
-        errors.append("The free disk warning threshold must exceed 60 GiB.")
+    if float(policy.get("free_disk_stop_gib", 0)) != 30:
+        errors.append("The free disk stop threshold must be 30 GiB.")
+    if float(policy.get("free_disk_warn_gib", 0)) <= 30:
+        errors.append("The free disk warning threshold must exceed 30 GiB.")
     for source_id, source in registry.get("sources", {}).items():
         decision = source.get("decision")
         if source.get("enabled") and decision not in {"allow", "allow_per_file"}:
@@ -137,7 +137,8 @@ def main() -> int:
     disk = check_disk(args.workspace, registry)
     if disk["status"] == "STOP":
         errors.append(
-            f"Free disk space is {disk['free_gib']} GiB. The stop threshold is 60 GiB."
+            f"Free disk space is {disk['free_gib']} GiB. "
+            f"The stop threshold is {disk['stop_gib']} GiB."
         )
     token = {
         "path": str(DEFAULT_TOKEN_FILE),

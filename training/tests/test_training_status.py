@@ -1,4 +1,10 @@
-from training.scripts.training_status import parse_log, training_state
+from pathlib import Path
+
+from training.scripts.training_status import (
+    configured_free_disk_stop_gib,
+    parse_log,
+    training_state,
+)
 
 
 def test_parse_training_status():
@@ -81,3 +87,9 @@ def test_training_state_before_first_progress_record():
     assert training_state(None, 1000) == "INITIALIZING"
     assert training_state(20, 1000) == "RUNNING"
     assert training_state(1000, 1000) == "COMPLETE"
+
+
+def test_training_status_uses_expanded_disk_policy():
+    workspace = Path(__file__).parents[1]
+
+    assert configured_free_disk_stop_gib(workspace, 60.0) == 30.0

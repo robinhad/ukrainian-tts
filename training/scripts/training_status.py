@@ -14,6 +14,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import yaml
+
 
 PROGRESS_RE = re.compile(r"(?P<epoch>\d+)epoch:train:\d+-(?P<batch>\d+)batch")
 TIMED_PROGRESS_RE = re.compile(
@@ -174,6 +176,15 @@ def training_state(total_iterations: object, target_iterations: int) -> str:
     return "COMPLETE"
 
 
+def configured_free_disk_stop_gib(workspace: Path, fallback: float) -> float:
+    """Use the expanded data policy when it is available."""
+    registry_path = workspace / "conf" / "expanded_v3_sources.yaml"
+    if not registry_path.is_file():
+        return fallback
+    registry = yaml.safe_load(registry_path.read_text(encoding="utf-8"))
+    return float(registry["policy"]["free_disk_stop_gib"])
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--log", type=Path, required=True)
@@ -181,7 +192,7 @@ def main() -> int:
     parser.add_argument("--iterations-per-epoch", type=int, default=1000)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--workspace", type=Path)
-    parser.add_argument("--free-disk-stop-gib", type=float, default=60.0)
+    parser.add_argument("--free-disk-stop-gib", type=float, default=30.0)
     parser.add_argument("--maximum-temperature-c", type=int, default=90)
     args = parser.parse_args()
 
@@ -214,12 +225,16 @@ def main() -> int:
         eta = now + timedelta(seconds=seconds)
     gpus = gpu_status()
     workspace = args.workspace or args.log.parent
+    free_disk_stop_gib = configured_free_disk_stop_gib(
+        workspace,
+        args.free_disk_stop_gib,
+    )
     free_disk_gib = shutil.disk_usage(workspace).free / 1024**3
     critical = []
-    if free_disk_gib < args.free_disk_stop_gib:
+    if free_disk_gib < free_disk_stop_gib:
         critical.append(
             f"free disk {free_disk_gib:.2f} GiB is below "
-            f"{args.free_disk_stop_gib:.2f} GiB"
+            f"{free_disk_stop_gib:.2f} GiB"
         )
     for gpu in gpus:
         if int(gpu["temperature_c"]) >= args.maximum_temperature_c:
@@ -235,7 +250,7 @@ def main() -> int:
         "eta_source": eta_source,
         "gpus": gpus,
         "free_disk_gib": round(free_disk_gib, 2),
-        "free_disk_stop_gib": args.free_disk_stop_gib,
+        "free_disk_stop_gib": free_disk_stop_gib,
         "critical_conditions": critical,
         "checkpoints": sorted(path.name for path in args.log.parent.glob("[0-9]*epoch.pth")),
     })

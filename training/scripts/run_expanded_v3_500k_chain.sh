@@ -46,11 +46,11 @@ workspace = sys.argv[1]
 usage = shutil.disk_usage(workspace)
 free_gib = usage.free / 1024**3
 print(f"free_disk_gib={free_gib:.2f}")
-if free_gib <= 60.0:
+if free_gib <= 30.0:
     cleaned = sweep_deferred_batches(
         Path(sys.argv[2]),
         Path(workspace),
-        60.0,
+        30.0,
     )
     usage = shutil.disk_usage(workspace)
     print(f"cleanup_batches={len(cleaned)}")

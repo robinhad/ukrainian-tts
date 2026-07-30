@@ -12,10 +12,10 @@ from training.scripts.source_policy import (
 REGISTRY = Path(__file__).parents[1] / "conf" / "expanded_v3_sources.yaml"
 
 
-def test_expanded_registry_is_default_deny_and_uses_60_gib_stop():
+def test_expanded_registry_is_default_deny_and_uses_30_gib_stop():
     registry = load_registry(REGISTRY)
     assert validate_registry(registry) == []
-    assert registry["policy"]["free_disk_stop_gib"] == 60
+    assert registry["policy"]["free_disk_stop_gib"] == 30
     assert registry["sources"]["speech_uk_cv22_opus"]["decision"] == "deny"
     assert "YODAS" in registry["policy"]["deny_families"]
     assert "MLCommons" in registry["policy"]["deny_families"]

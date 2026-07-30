@@ -40,7 +40,8 @@ def ensure_disk(
     )
     if check_disk(output_root, registry)["status"] == "STOP":
         raise SystemExit(
-            "Free disk space is below 60 GiB and no processed cache can be removed."
+            f"Free disk space is below {trigger_gib:g} GiB. "
+            "No processed cache can be removed."
         )
 
 

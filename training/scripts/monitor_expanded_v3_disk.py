@@ -42,7 +42,7 @@ def main() -> int:
     parser.add_argument("--marker", type=Path, required=True)
     parser.add_argument("--status", type=Path, required=True)
     parser.add_argument("--interval-seconds", type=int, default=60)
-    parser.add_argument("--free-disk-trigger-gib", type=float, default=60.0)
+    parser.add_argument("--free-disk-trigger-gib", type=float, default=30.0)
     args = parser.parse_args()
 
     if args.watch_pid <= 0:

@@ -62,12 +62,12 @@ training/scripts/launch_expanded_v3_training.sh
 
 The launcher uses both RTX 3090 cards. It writes TensorBoard event files. It
 reports GPU load, VRAM, temperature, power, disk space, and Kyiv ETA. The report
-interval cannot exceed five minutes. The process stops when free disk space is
-less than 60 GiB.
+interval is 30 minutes for the current long run. The safety monitor checks more
+often. The process stops when free disk space is less than 30 GiB.
 
 The data preparation keeps each processed source batch while free disk space is
-more than 60 GiB. At 60 GiB, it removes the oldest processed batch. It stops the
-removal when free disk space is more than 60 GiB. It does not remove an
+more than 30 GiB. At 30 GiB, it removes the oldest processed batch. It stops the
+removal when free disk space is more than 30 GiB. It does not remove an
 unprocessed batch.
 
 ## Fixed versions

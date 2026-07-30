@@ -271,7 +271,9 @@ def main() -> int:
     args.output_root.mkdir(parents=True, exist_ok=True)
     disk = check_disk(args.output_root.parent, registry)
     if disk["status"] == "STOP":
-        raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
+        raise SystemExit(
+            "Free disk space is below the configured stop threshold."
+        )
     token = read_hf_token()
     files = parquet_files(
         source["repo_id"],
@@ -302,7 +304,9 @@ def main() -> int:
     for filename in files:
         disk = check_disk(args.output_root.parent, registry)
         if disk["status"] == "STOP":
-            raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
+            raise SystemExit(
+                "Free disk space is below the configured stop threshold."
+            )
         if filename.startswith(("https://", "http://")):
             shard: Path | str = filename
         else:

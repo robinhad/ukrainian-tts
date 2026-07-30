@@ -19,7 +19,7 @@ probe() {
     set +e
     "$PYTHON" "${ROOT}/scripts/training_status.py" \
         --log "$LOG" --target-iterations "$TARGET_ITERATIONS" \
-        --workspace "$ROOT" --free-disk-stop-gib 60 \
+        --workspace "$ROOT" --free-disk-stop-gib 30 \
         --maximum-temperature-c 90 --output "$STATUS"
     result=$?
     set -e

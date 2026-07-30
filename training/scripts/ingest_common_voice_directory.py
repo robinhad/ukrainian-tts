@@ -32,7 +32,9 @@ def main() -> int:
     if not metadata.is_file() or not clips.is_dir():
         raise SystemExit("The Common Voice directory needs validated.tsv and clips/.")
     if check_disk(args.output_root, registry)["status"] == "STOP":
-        raise SystemExit("Free disk space is below the 60 GiB stop threshold.")
+        raise SystemExit(
+            "Free disk space is below the configured stop threshold."
+        )
 
     target_root = args.output_root / source_id
     raw_dir = target_root / "canonical_raw_16k"

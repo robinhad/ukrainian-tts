@@ -181,7 +181,7 @@ def main() -> int:
     parser.add_argument("--records", type=Path, required=True)
     parser.add_argument("--collect-report", type=Path, required=True)
     parser.add_argument("--marker", type=Path, required=True)
-    parser.add_argument("--free-disk-trigger-gib", type=float, default=60.0)
+    parser.add_argument("--free-disk-trigger-gib", type=float, default=30.0)
     args = parser.parse_args()
 
     if args.free_disk_trigger_gib < 0:

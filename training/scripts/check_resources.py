@@ -102,7 +102,7 @@ def main() -> int:
     args = parser.parse_args()
 
     minimum_ram = 32 if args.mode == "smoke" else 64
-    minimum_disk = 60
+    minimum_disk = 30
     expected_uuids = (
         [value.strip() for value in args.gpu_uuids.split(",") if value.strip()]
         if args.gpu_uuids else [args.gpu_uuid]

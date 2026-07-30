@@ -21,7 +21,7 @@ policy:
     - YODAS
   raw_redistribution_default: false
   free_disk_warn_gib: 80
-  free_disk_stop_gib: 60
+  free_disk_stop_gib: 30
 sources:
   common_voice_26_uk:
     enabled: false

@@ -87,7 +87,7 @@ run_worker() {
         sed -n '1,120p' "$process_report"
         "$PYTHON" "${ROOT}/scripts/cleanup_unlabeled_cache.py" \
             --records "$records" --collect-report "$report" --marker "$marker" \
-            --free-disk-trigger-gib 60
+            --free-disk-trigger-gib 30
         "$PYTHON" "${ROOT}/scripts/source_policy.py" \
             --registry "$REGISTRY" --workspace "$ROOT"
         batch_index=$((batch_index + 1))
