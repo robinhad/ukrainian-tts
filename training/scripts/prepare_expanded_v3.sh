@@ -177,17 +177,27 @@ run_shard() {
 
 run_worker_slot() {
     local slot=$1
+    shift
     local shard
-    for ((shard = slot; shard < NUM_SHARDS; shard += MAX_CONCURRENT_WORKERS)); do
+    for shard in "$@"; do
         run_shard "$shard" "${GPUS[$((slot % ${#GPUS[@]}))]}" \
             >> "${DATA_ROOT}/logs/preprocess-${shard}.log" 2>&1
     done
 }
 
+plan_json=$(python "${ROOT}/scripts/plan_enhancement_workers.py" \
+    --manifest "${SOURCE_MANIFEST_DIR}/all.parquet" \
+    --records-dir "${DATA_ROOT}/enhanced_records" \
+    --num-shards "$NUM_SHARDS" \
+    --workers "$MAX_CONCURRENT_WORKERS")
+echo "$plan_json"
+mapfile -t shard_assignments < <(
+    jq -r '.assignments[] | join(" ")' <<<"$plan_json"
+)
 pids=()
-worker_slots=$((NUM_SHARDS < MAX_CONCURRENT_WORKERS ? NUM_SHARDS : MAX_CONCURRENT_WORKERS))
-for ((slot = 0; slot < worker_slots; slot++)); do
-    run_worker_slot "$slot" &
+for ((slot = 0; slot < ${#shard_assignments[@]}; slot++)); do
+    read -r -a assigned_shards <<<"${shard_assignments[$slot]}"
+    run_worker_slot "$slot" "${assigned_shards[@]}" &
     pids+=("$!")
 done
 failed=0
