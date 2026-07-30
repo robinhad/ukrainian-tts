@@ -54,8 +54,44 @@ for split in ("train", "dev", "eval"):
 PY
 }
 
+restore_embedding_indexes() {
+    local split
+    local output
+    local restored
+    local expected
+    local actual
+    local -a shards
+    for split in train dev eval; do
+        output="${DUMP_DIR}/xvector/expanded_v3_${split}/xvector.scp"
+        restored="${output}.restored"
+        mapfile -t shards < <(
+            find "$(dirname "$output")" -mindepth 2 -maxdepth 2 \
+                -path '*/part-*/xvector.scp' -type f -print | sort
+        )
+        if (( ${#shards[@]} == 0 )); then
+            echo "No embedding shards exist for ${split}." >&2
+            exit 1
+        fi
+        LC_ALL=C sort -k1,1 -u "${shards[@]}" >"$restored"
+        expected=$(
+            "${ROOT}/.venv/bin/python" -c \
+                "import pandas as pd; print(len(pd.read_parquet('${DATA_ROOT}/manifests/${split}.parquet')))"
+        )
+        actual=$(wc -l <"$restored")
+        if (( actual != expected )); then
+            echo "${split} has ${actual} restored embeddings. It requires ${expected}." >&2
+            exit 1
+        fi
+        mv "$restored" "$output"
+        echo "${split}_restored_embeddings=${actual}"
+    done
+}
+
 source "${ROOT}/activate.sh"
 mkdir -p "${ROOT}/reports"
+
+set_stage "RESTORE_COMPLETE_EMBEDDING_INDEXES"
+restore_embedding_indexes
 
 set_stage "PREPARE_ESPNET_TOKENS_AND_STATISTICS"
 "${ROOT}/.venv/bin/python" "${ROOT}/scripts/run_logged.py" \
