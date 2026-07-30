@@ -40,6 +40,7 @@ print_status() {
 import collections
 import glob
 import json
+import math
 import os
 import re
 import shutil
@@ -122,7 +123,7 @@ for log_path in sorted(stats_root.glob("stats.[0-9]*.log")):
         continue
     job = int(match.group(1))
     shape_path = stats_root / f"train.{job}.scp"
-    total = (
+    total_records = (
         sum(1 for line in shape_path.open(encoding="utf-8") if line.strip())
         if shape_path.is_file()
         else 0
@@ -141,29 +142,43 @@ for log_path in sorted(stats_root.glob("stats.[0-9]*.log")):
                     int(point.group(2)),
                 )
             )
-    current = points[-1][1] if points else 0
+    batch_size_match = re.search(r"\bbatch_size=(\d+)", text_value)
+    batch_size = int(batch_size_match.group(1)) if batch_size_match else 1
+    total_batches = (
+        math.ceil(total_records / batch_size) if total_records else 0
+    )
+    complete = "Ended (code 0)" in text_value
+    error = bool(
+        "Traceback" in text_value
+        or re.search(r"Ended \(code (?!0\))", text_value)
+        or "Keys are mismatched" in text_value
+    )
+    current_batches = (
+        total_batches if complete else (points[-1][1] if points else 0)
+    )
     rate = None
     eta_seconds = None
     if len(points) >= 2 and points[-1][0] > points[0][0]:
         rate = (points[-1][1] - points[0][1]) / (
             points[-1][0] - points[0][0]
         ).total_seconds()
-        if rate > 0 and total >= current:
-            eta_seconds = (total - current) / rate
+        if not complete and rate > 0 and total_batches >= current_batches:
+            eta_seconds = (total_batches - current_batches) / rate
     stats_jobs.append(
         {
-            "current": current,
-            "error": (
-                "Traceback" in text_value
-                or "Ended (code 1)" in text_value
-                or "Keys are mismatched" in text_value
-            ),
+            "batch_size": batch_size,
+            "completed_batches": current_batches,
+            "error": error,
             "eta_seconds": eta_seconds,
             "job": job,
-            "rate_iterations_per_second": (
+            "rate_batches_per_second": (
                 round(rate, 4) if rate is not None else None
             ),
-            "total": total,
+            "status": (
+                "FAIL" if error else "PASS" if complete else "RUNNING"
+            ),
+            "total_batches": total_batches,
+            "total_records": total_records,
         }
     )
 known_etas = [
@@ -194,7 +209,9 @@ print(json.dumps({
         ),
     },
     "statistics": {
-        "completed_iterations": sum(item["current"] for item in stats_jobs),
+        "completed_batches": sum(
+            item["completed_batches"] for item in stats_jobs
+        ),
         "error_jobs": [
             item["job"] for item in stats_jobs if item["error"]
         ],
@@ -203,14 +220,23 @@ print(json.dumps({
         "progress_percent": (
             round(
                 100
-                * sum(item["current"] for item in stats_jobs)
-                / sum(item["total"] for item in stats_jobs),
+                * sum(item["completed_batches"] for item in stats_jobs)
+                / sum(item["total_batches"] for item in stats_jobs),
                 2,
             )
-            if stats_jobs and sum(item["total"] for item in stats_jobs)
+            if stats_jobs and sum(item["total_batches"] for item in stats_jobs)
             else 0.0
         ),
-        "total_iterations": sum(item["total"] for item in stats_jobs),
+        "status": (
+            "FAIL"
+            if any(item["error"] for item in stats_jobs)
+            else "PASS"
+            if stats_jobs
+            and all(item["status"] == "PASS" for item in stats_jobs)
+            else "RUNNING"
+        ),
+        "total_batches": sum(item["total_batches"] for item in stats_jobs),
+        "total_records": sum(item["total_records"] for item in stats_jobs),
     },
     "voa": {
         "accepted_hours": round(accepted_hours, 3),
