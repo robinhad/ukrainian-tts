@@ -15,16 +15,28 @@ if (( INTERVAL_SECONDS < 60 || INTERVAL_SECONDS > 1800 )); then
 fi
 
 print_status() {
+    local current_stage
+    current_stage=$(
+        cut -d'|' -f2- "$STAGE_FILE" 2>/dev/null | xargs || true
+    )
+    current_stage=${current_stage:-UNKNOWN}
     echo "============================================================"
     TZ=Europe/Kyiv date '+status_time_kyiv=%Y-%m-%d %H:%M:%S %Z'
-    echo "stage=$(cut -d'|' -f2- "$STAGE_FILE" 2>/dev/null | xargs || echo UNKNOWN)"
-    if [[ -s "$VOA_LOG" ]]; then
-        echo "voa_$(grep 'ETA' "$VOA_LOG" | tail -n 1 || true)"
-    fi
-    if [[ -s "$CHAIN_LOG" ]]; then
-        echo "chain_$(grep 'ETA' "$CHAIN_LOG" | tail -n 1 || true)"
-    fi
-    "${ROOT}/.venv/bin/python" - "$ROOT" <<'PY'
+    echo "stage=${current_stage}"
+    case "$current_stage" in
+        WAIT_FOR_VOA*|VERIFY_AND_RESUME_VOA*|RECOVER_DEFERRED_LONG*)
+            if [[ -s "$VOA_LOG" ]]; then
+                echo "voa_$(grep 'ETA' "$VOA_LOG" | tail -n 1 || true)"
+            fi
+            ;;
+        PREPARE_CLEAN_EXPANDED_V3)
+            if [[ -s "$CHAIN_LOG" ]]; then
+                echo "chain_$(grep 'ETA' "$CHAIN_LOG" | tail -n 1 || true)"
+            fi
+            ;;
+    esac
+    CURRENT_STAGE="$current_stage" \
+        "${ROOT}/.venv/bin/python" - "$ROOT" <<'PY'
 import collections
 import glob
 import json
