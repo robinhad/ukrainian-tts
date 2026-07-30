@@ -4,6 +4,7 @@ import pandas as pd
 
 from training.scripts.audit_expanded_v3_readiness import (
     gate,
+    hybrid_embeddings_are_balanced,
     minimum_source_duration_gates,
 )
 
@@ -38,3 +39,27 @@ def test_minimum_source_duration_gate_fails_below_required_hours():
     assert len(result) == 1
     assert result[0]["status"] == "FAIL"
     assert "1.000 hours" in result[0]["evidence"]
+
+
+def test_hybrid_embedding_gate_accepts_nearest_split_for_odd_count():
+    report = {
+        "counts": {"clean": 51, "raw": 50},
+        "maximum_speaker_delta": 1,
+        "records": 101,
+        "status": "PASS",
+        "total_delta": 1,
+    }
+
+    assert hybrid_embeddings_are_balanced(report, 101)
+
+
+def test_hybrid_embedding_gate_rejects_unbalanced_split():
+    report = {
+        "counts": {"clean": 52, "raw": 49},
+        "maximum_speaker_delta": 3,
+        "records": 101,
+        "status": "PASS",
+        "total_delta": 3,
+    }
+
+    assert not hybrid_embeddings_are_balanced(report, 101)

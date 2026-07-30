@@ -46,6 +46,19 @@ def test_parse_estimate_timestamp():
     assert status["estimate_timestamp"] == "2026-07-23 11:54:00,420"
 
 
+def test_parse_day_scale_estimate_without_seconds():
+    text = (
+        "[host:0/2] 2026-07-30 05:39:26,408 INFO: "
+        "2/500epoch started. Estimated time to finish: "
+        "6 days, 5 hours and 23 minutes"
+    )
+
+    status = parse_log(text, iterations_per_epoch=1000)
+
+    assert status["estimated_seconds_remaining"] == 537780.0
+    assert status["estimate_timestamp"] == "2026-07-30 05:39:26,408"
+
+
 def test_parse_latest_train_metrics():
     text = (
         "1epoch:train:11-20batch: generator_loss=9.125, "

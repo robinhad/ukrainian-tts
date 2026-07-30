@@ -20,11 +20,10 @@ TIMED_PROGRESS_RE = re.compile(
     r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+)"
     r".*?(?P<epoch>\d+)epoch:train:\d+-(?P<batch>\d+)batch"
 )
-ETA_RE = re.compile(
-    r"Estimated time to finish: "
-    r"(?:(?P<hours>\d+) hours?, )?"
-    r"(?:(?P<minutes>\d+) minutes? and )?"
-    r"(?P<seconds>[\d.]+) seconds"
+ETA_RE = re.compile(r"Estimated time to finish: (?P<duration>[^\r\n]+)")
+ETA_COMPONENT_RE = re.compile(
+    r"(?P<value>[\d.]+)\s+"
+    r"(?P<unit>days?|hours?|minutes?|seconds?)"
 )
 ERROR_RE = re.compile(r"\b(?:nan|runtimeerror|traceback)\b|out of memory", re.IGNORECASE)
 TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+")
@@ -105,11 +104,21 @@ def parse_log(text: str, iterations_per_epoch: int) -> dict:
             })
     if estimates:
         match = estimates[-1]
-        result["estimated_seconds_remaining"] = (
-            int(match.group("hours") or 0) * 3600
-            + int(match.group("minutes") or 0) * 60
-            + float(match.group("seconds"))
+        multipliers = {
+            "day": 86400,
+            "hour": 3600,
+            "minute": 60,
+            "second": 1,
+        }
+        components = list(
+            ETA_COMPONENT_RE.finditer(match.group("duration"))
         )
+        if components:
+            result["estimated_seconds_remaining"] = sum(
+                float(component.group("value"))
+                * multipliers[component.group("unit").rstrip("s")]
+                for component in components
+            )
         line_start = text.rfind("\n", 0, match.start()) + 1
         line_end = text.find("\n", match.end())
         line = text[line_start:] if line_end == -1 else text[line_start:line_end]

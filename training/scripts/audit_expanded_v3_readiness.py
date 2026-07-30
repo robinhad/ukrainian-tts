@@ -70,6 +70,27 @@ def minimum_source_duration_gates(
     return results
 
 
+def hybrid_embeddings_are_balanced(
+    report: dict[str, Any] | None,
+    manifest_records: int,
+) -> bool:
+    """Return true when an odd record count has the closest possible split."""
+    if not report or report.get("status") != "PASS":
+        return False
+    counts = report.get("counts", {})
+    raw = counts.get("raw")
+    clean = counts.get("clean")
+    return bool(
+        isinstance(raw, int)
+        and isinstance(clean, int)
+        and report.get("records") == manifest_records
+        and raw + clean == manifest_records
+        and abs(raw - clean) <= 1
+        and report.get("maximum_speaker_delta", 2) <= 1
+        and report.get("total_delta", 2) <= 1
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--registry", type=Path, required=True)
@@ -170,12 +191,7 @@ def main() -> int:
     )
 
     hybrid_counts = hybrid.get("counts", {}) if hybrid else {}
-    hybrid_ok = bool(
-        hybrid
-        and hybrid.get("status") == "PASS"
-        and hybrid.get("records") == manifest_records
-        and hybrid_counts.get("raw") == hybrid_counts.get("clean")
-    )
+    hybrid_ok = hybrid_embeddings_are_balanced(hybrid, manifest_records)
     gates.append(
         gate(
             "Hybrid speaker embeddings",
