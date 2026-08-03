@@ -116,12 +116,28 @@ def preserve_best(
                 }
             )
 
+    selected_epochs = {
+        int(item["epoch"])
+        for values in selected.values()
+        for item in values
+    }
+    removed_epochs = []
+    for target in best_dir.glob("*epoch.pth"):
+        match = re.fullmatch(r"(\d+)epoch\.pth", target.name)
+        if match is None:
+            continue
+        epoch = int(match.group(1))
+        if epoch not in selected_epochs:
+            target.unlink()
+            removed_epochs.append(epoch)
+
     payload: dict[str, object] = {
         "log": str(log_path),
         "experiment": str(exp_dir),
         "keep_per_metric": keep,
         "metrics": selected,
         "preserved_epochs": sorted(preserved),
+        "removed_epochs": sorted(removed_epochs),
         "preservation_methods": {
             str(epoch): preserved[epoch] for epoch in sorted(preserved)
         },

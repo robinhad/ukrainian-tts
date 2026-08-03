@@ -27,6 +27,9 @@ def test_preserve_best_keeps_ranked_available_checkpoints(tmp_path: Path):
     )
     for epoch, *_ in rows:
         (exp_dir / f"{epoch}epoch.pth").write_bytes(f"checkpoint-{epoch}".encode())
+    best_dir = exp_dir / "best_checkpoints"
+    best_dir.mkdir()
+    (best_dir / "3epoch.pth").hardlink_to(exp_dir / "3epoch.pth")
 
     payload = preserve_best(log_path, exp_dir, keep=2)
 
@@ -34,6 +37,8 @@ def test_preserve_best_keeps_ranked_available_checkpoints(tmp_path: Path):
     assert [item["epoch"] for item in payload["metrics"]["generator_g_mel_loss"]] == [5, 4]
     assert [item["epoch"] for item in payload["metrics"]["generator_align_loss"]] == [5, 4]
     assert payload["preserved_epochs"] == [1, 2, 4, 5]
+    assert payload["removed_epochs"] == [3]
+    assert not (best_dir / "3epoch.pth").exists()
     for epoch in payload["preserved_epochs"]:
         source = exp_dir / f"{epoch}epoch.pth"
         target = exp_dir / "best_checkpoints" / f"{epoch}epoch.pth"
