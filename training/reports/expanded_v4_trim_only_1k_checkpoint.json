@@ -1,0 +1,12 @@
+{
+  "checkpoint": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/checkpoint.pth",
+  "epoch": 1,
+  "expected_steps": 1000,
+  "model_tensor_count": 549,
+  "nonfinite_model_tensors": [],
+  "optimizer_steps": [
+    1000
+  ],
+  "reported_steps": 1000,
+  "status": "PASS"
+}
