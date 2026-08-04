@@ -1,0 +1,13 @@
+{
+  "eligible_paths": [
+    "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources/pseudo_uk",
+    "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources/pseudo_uk_v2-c050-d20-g050",
+    "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources/pseudo_uk_v3-c050-d20-g050-duration-split",
+    "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources/voa_ukr_user_grant",
+    "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources/pseudo_uk_v4-c050-d20-g050-defer-long"
+  ],
+  "hybrid_report": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v4_trim_only_full_hybrid_embeddings.json",
+  "raw_embeddings_complete": true,
+  "source_root": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/sources",
+  "status": "PASS"
+}

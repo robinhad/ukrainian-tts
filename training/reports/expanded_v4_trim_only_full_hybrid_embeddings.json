@@ -1,0 +1,32 @@
+{
+  "archives": {
+    "expanded_v4_trim_only_dev": {
+      "dimensions": [
+        192
+      ],
+      "records": 1378
+    },
+    "expanded_v4_trim_only_eval": {
+      "dimensions": [
+        192
+      ],
+      "records": 1400
+    },
+    "expanded_v4_trim_only_train": {
+      "dimensions": [
+        192
+      ],
+      "records": 204727
+    }
+  },
+  "counts": {
+    "clean": 103753,
+    "raw": 103752
+  },
+  "kaldi_root": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/hybrid_embedding_data",
+  "manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/hybrid_manifest/all.parquet",
+  "maximum_speaker_delta": 1,
+  "records": 207505,
+  "status": "PASS",
+  "total_delta": 1
+}

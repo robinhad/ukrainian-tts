@@ -1,0 +1,57 @@
+{
+  "authorized_voa_minimum_exception": true,
+  "free_disk_gib": 45.6,
+  "gates": [
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training",
+      "evidence": "45.60 GiB is free. The limit is 30 GiB.",
+      "gate": "Disk reserve",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v4_trim_only_full_dataset.json",
+      "evidence": "The builder report has 207505 records.",
+      "gate": "Dataset build",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/manifests/all.parquet",
+      "evidence": "The manifest has 207505 of 207505 expected records.",
+      "gate": "Expected record count",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v4_trim_only_full_validation.json",
+      "evidence": "The validator found 0 clipping files.",
+      "gate": "Dataset validation",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/manifests/all.parquet",
+      "evidence": "DeepFilterNet, high-pass, de-essing, compression, and loudness normalization are disabled.",
+      "gate": "Trim-only profile",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v4_trim_only_full_hybrid_embeddings.json",
+      "evidence": "The report has 103752 pre-trim and 103753 post-trim vectors.",
+      "gate": "True 50/50 embeddings",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v4_trim_only/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "evidence": "The token list has 138 entries and must equal the epoch-367 list.",
+      "gate": "Token list",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v4_trim_only/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "evidence": "The required NPZ statistics exist.",
+      "gate": "Speech, pitch, and energy statistics",
+      "status": "PASS"
+    }
+  ],
+  "manifest_records": 207505,
+  "mode": "full",
+  "status": "PASS"
+}
