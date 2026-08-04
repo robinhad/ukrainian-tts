@@ -1,46 +1,46 @@
 # Expanded-v3 500K run
 
+This report uses ASD-STE100 Simplified Technical English style. An approved
+STE checker did not certify the report.
+
 ## Goal
 
-The pipeline will train JETS for 500,000 iterations. It will use two GPUs.
-It will use the complete accepted expanded-v3 dataset.
+The pipeline trained JETS for 500,000 iterations. It used two RTX 3090 GPUs.
+It used the accepted expanded-v3 dataset.
 
-## Long audio
+## Audio scope
 
-The VOA v4 process saves speech parts that are longer than 20 seconds. A
-second process will split these files at low-energy points. Each new part
-will be from 2 to 20 seconds long.
+The active manifest contains audio from 2 to 20 seconds. It does not contain
+the deferred segments that are longer than 20 seconds. The user selected this
+scope before the training run.
 
-The process will use the pinned Parakeet model to create text for each part.
-It will apply the same confidence and Ukrainian-script checks as the main
-VOA process. It will add accepted parts to the training dataset.
+The training audio uses the clean processing path. The path trims boundary
+silence. It applies DeepFilterNet3, a high-pass filter, light de-essing, gentle
+compression, and two-pass EBU R128 normalization.
 
-## Audio preparation
+## Training result
 
-Training audio will use the clean processing path. The path trims boundary
-silence. It applies DeepFilterNet3, a high-pass filter, light de-essing,
-gentle compression, and two-pass EBU R128 normalization.
-
-## Training
-
-The training target is 500,000 iterations. One epoch has 1,000 iterations.
-The maximum epoch is 500. The process uses a new experiment directory:
+The experiment directory is:
 
 `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_500k`
 
-The process will save milestone copies at 1K, 5K, 15K, 25K, 50K, 100K,
-200K, 300K, 400K, and 500K.
+The process saved milestone copies at 1K, 5K, 15K, 25K, 50K, 100K, 200K,
+300K, 400K, and 500K. It completed 500,000 iterations with exit code 0.
 
-## Monitoring
+## Monitoring result
 
-The chain writes GPU utilization, VRAM, power, temperature, disk space,
-stage, metrics, and Kyiv ETA. The maximum status interval is 15 minutes.
-The readable live status is in
-`reports/expanded_v3_500k_visible_status.log`. The tmux session name is
-`expanded_v3_visible_monitor`.
+The monitor wrote GPU utilization, VRAM, power, temperature, disk space,
+metrics, and Kyiv ETA. The visible interval was 30 minutes. The safety monitor
+used a shorter interval. The minimum reported disk reserve was 48.93 GiB. The
+stop threshold was 30 GiB.
+
+## Evaluation result
+
+The finalizer used GPU 0 for the 1,418-item fixed set. It used GPU 1 for the
+five-voice listening set. All 1,423 WAV files passed the automatic checks.
 
 ## Readiness exception
 
-The readiness report will keep the actual PASS or FAIL result. The user
-authorized training on the available recovered dataset even if the old
-800-hour VOA gate remains FAIL.
+The old VOA target is 800 hours. The accepted VOA subset has 377.489 hours.
+The readiness report keeps this result as `FAIL`. The user authorized this
+training run on the accepted dataset.

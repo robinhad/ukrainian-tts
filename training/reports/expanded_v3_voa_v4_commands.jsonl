@@ -1,0 +1,1 @@
+{"command": ["training/scripts/process_voa_streaming.sh"], "elapsed_seconds": 18458.732, "estimated_finish_kyiv": "2026-07-29T06:58:48.361689+03:00", "exit_status": 1, "finished_utc": "2026-07-29T00:36:27.093832+00:00", "started_utc": "2026-07-28T19:28:48.361453+00:00"}

@@ -1,6 +1,6 @@
 {
   "disk": {
-    "free_gib": 75.42,
+    "free_gib": 75.67,
     "status": "WARN",
     "stop_gib": 60.0,
     "warn_gib": 80.0

@@ -1,0 +1,136 @@
+{
+  "errors": [],
+  "generated": [
+    {
+      "channels": 1,
+      "duration": 9.290666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_01.wav.json",
+      "peak_absolute": 0.4093017578125,
+      "real_time_factor": 0.04083066625051718,
+      "sample_rate": 24000,
+      "voice": "voice_01",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_01.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 8.245333333333333,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_02.wav.json",
+      "peak_absolute": 0.37396240234375,
+      "real_time_factor": 0.04730751156590983,
+      "sample_rate": 24000,
+      "voice": "voice_02",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_02.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 8.256,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_03.wav.json",
+      "peak_absolute": 0.391876220703125,
+      "real_time_factor": 0.046468133835213137,
+      "sample_rate": 24000,
+      "voice": "voice_03",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_03.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 8.554666666666666,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_04.wav.json",
+      "peak_absolute": 0.4010009765625,
+      "real_time_factor": 0.044166984841020836,
+      "sample_rate": 24000,
+      "voice": "voice_04",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_04.wav"
+    },
+    {
+      "channels": 1,
+      "duration": 9.141333333333334,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_05.wav.json",
+      "peak_absolute": 0.447235107421875,
+      "real_time_factor": 0.04337708292269667,
+      "sample_rate": 24000,
+      "voice": "voice_05",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_05.wav"
+    }
+  ],
+  "listening_sentence": "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району.",
+  "perceptual_issue": {
+    "issue": "metallic_timbre",
+    "next_action": "Use this five-voice set to separate speaker-conditioning effects from the shared model artifact.",
+    "source": "user_listening_report",
+    "status": "FAIL"
+  },
+  "selection": "deterministic_representative_minibatch_kmeans_medoids",
+  "status": "PASS",
+  "voices": [
+    {
+      "cosine_similarity": {
+        "voice_01": 1.0,
+        "voice_02": 0.178778,
+        "voice_03": 0.200892,
+        "voice_04": 0.143946,
+        "voice_05": 0.254635
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/ukr_dialects_4980_c8b53cb89e7b.wav",
+      "reference_text": "Показав се, що за проскінник. Так, що тепер пусто собі нічого і не гадай, що так борзо будь-як ми се з нім укутаємо.",
+      "source_id": "ukr_dialects",
+      "source_utterance_id": "ukr_dialects_4980_c8b53cb89e7b",
+      "voice": "voice_01"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.178778,
+        "voice_02": 1.0,
+        "voice_03": 0.217191,
+        "voice_04": 0.247068,
+        "voice_05": 0.188614
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/ukr_dialects_ivanna_03644_6815cff80f02.wav",
+      "reference_text": "І ми розуміємо, що за такою банальною фразою, як \"виготовлення тканин\", стоїть насправді дуже важкий шлях.",
+      "source_id": "ukr_dialects",
+      "source_utterance_id": "ukr_dialects_ivanna_03644_6815cff80f02",
+      "voice": "voice_02"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.200892,
+        "voice_02": 0.217191,
+        "voice_03": 1.0,
+        "voice_04": 0.302972,
+        "voice_05": 0.277332
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/voa_ukr_user_grant_pseudo_0ab90596070518cf3ba8.wav",
+      "reference_text": "Кремль відставку Фліна назвав внутрішньою справою ша проте, деякі російські законодавці вважаються цілеспрямованим кроком проти Росії.",
+      "source_id": "voa_ukr_user_grant",
+      "source_utterance_id": "voa_ukr_user_grant_pseudo_0ab90596070518cf3ba8",
+      "voice": "voice_03"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.143946,
+        "voice_02": 0.247068,
+        "voice_03": 0.302972,
+        "voice_04": 1.0,
+        "voice_05": 0.273466
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/voa_ukr_user_grant_pseudo_519ee9ba45bb9e3ad57a.wav",
+      "reference_text": "Сам Чак Бері випускав хід за хітом, демонструючи також свою вправність з новим та найпопулярнішим на той час інструментом електрогітарою.",
+      "source_id": "voa_ukr_user_grant",
+      "source_utterance_id": "voa_ukr_user_grant_pseudo_519ee9ba45bb9e3ad57a",
+      "voice": "voice_04"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.254635,
+        "voice_02": 0.188614,
+        "voice_03": 0.277332,
+        "voice_04": 0.273466,
+        "voice_05": 1.0
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/voa_ukr_user_grant_pseudo_5a011803cc8dba61e662.wav",
+      "reference_text": "Моя релігія наказує не чинити жодного злочину чи гріха проти іншої людини, той хто.",
+      "source_id": "voa_ukr_user_grant",
+      "source_utterance_id": "voa_ukr_user_grant_pseudo_5a011803cc8dba61e662",
+      "voice": "voice_05"
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 {
   "clipping_files": 0,
-  "duration_hours": 95.2599347222225,
-  "duration_max": 12.0,
-  "duration_median": 3.848,
+  "duration_hours": 469.75520976851874,
+  "duration_max": 20.0,
+  "duration_median": 5.565333333333333,
   "duration_min": 2.0,
   "errors": [],
   "splits": {
-    "expanded_v3_dev": 1403,
-    "expanded_v3_eval": 1420,
-    "expanded_v3_train": 73755
+    "expanded_v3_dev": 1404,
+    "expanded_v3_eval": 1418,
+    "expanded_v3_train": 206045
   },
   "status": "PASS",
-  "utterances": 76578
+  "utterances": 208867
 }

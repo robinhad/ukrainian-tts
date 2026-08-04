@@ -1,4 +1,4 @@
-# Ukrainian single-speaker JETS training
+# Ukrainian JETS training
 
 This directory contains the reproducible ESPnet2 GAN-TTS pipeline. The pipeline is
 separate from the legacy multi-speaker inference code. It does not use a verbalizer,
@@ -51,19 +51,23 @@ MDC_COMMON_VOICE_ROOT=/path/to/uk \
 ```
 
 The full preparation makes
-`training/reports/expanded_v3_full_scale_readiness.json`. The training launcher
-stops unless this report has `PASS`.
+`training/reports/expanded_v3_full_scale_readiness.json`. The old 800-hour VOA
+gate has `FAIL`. The user authorized the 500K run on the accepted dataset.
 
-Start the fresh 25,000-step run:
+Start or resume the 500,000-iteration run:
 
 ```sh
-training/scripts/launch_expanded_v3_training.sh
+training/scripts/launch_expanded_v3_training.sh 500000
 ```
 
 The launcher uses both RTX 3090 cards. It writes TensorBoard event files. It
 reports GPU load, VRAM, temperature, power, disk space, and Kyiv ETA. The report
 interval is 30 minutes for the current long run. The safety monitor checks more
 often. The process stops when free disk space is less than 30 GiB.
+
+The completed run used 208,867 utterances and 469.755 hours. The active
+manifest contains audio from 2 to 20 seconds. It does not contain deferred
+audio that is longer than 20 seconds. Training completed with exit code 0.
 
 The data preparation keeps each processed source batch while free disk space is
 more than 30 GiB. At 30 GiB, it removes the oldest processed batch. It stops the
@@ -73,8 +77,8 @@ unprocessed batch.
 ### Evaluate the 500K model
 
 Do not run the finalizer while training is active. The finalizer stops if the
-training chain does not have the `COMPLETE` state. Run this command after the
-500K checkpoint exists:
+training chain does not have the `COMPLETE` state. The automatic finalizer ran
+after the 500K checkpoint became available. Use this command to repeat it:
 
 ```sh
 training/scripts/finalize_expanded_v3_500k.sh
@@ -90,6 +94,9 @@ training/reports/expanded_v3_inference_500k.json
 training/reports/five_voice_expanded_v3_500k.json
 training/reports/expanded_v3_500k_artifacts.sha256
 ```
+
+The finalizer completed with exit code 0. It validated 1,418 fixed-set files
+and five listening files. The next action is a human listening check.
 
 ## Fixed versions
 

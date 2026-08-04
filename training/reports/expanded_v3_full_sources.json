@@ -2,12 +2,12 @@
   "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/records/source_records.jsonl",
   "label_kind_counts": {
     "human": 84081,
-    "pseudo": 2507
+    "pseudo": 134899
   },
-  "records": 86588,
+  "records": 218980,
   "rejected": {
     "duplicate_audio": 3,
-    "duplicate_text": 52068
+    "duplicate_text": 67596
   },
   "source_counts": {
     "common_voice_available_uk": 46707,
@@ -18,12 +18,12 @@
     "tg_voices_uk": 337,
     "ua_ser": 950,
     "ukr_dialects": 25608,
-    "voa_ukr_user_grant": 2507
+    "voa_ukr_user_grant": 134899
   },
   "split_counts": {
     "expanded_v3_dev": 1682,
     "expanded_v3_eval": 1682,
-    "expanded_v3_train": 83224
+    "expanded_v3_train": 215616
   },
   "status": "PASS"
 }

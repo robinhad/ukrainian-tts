@@ -91,27 +91,30 @@ quality.
 
 ## Full-run status
 
-The completed 25K run is technically valid, but it does not meet the new VOA
-duration gate. The manifest has 76,578 records and 95.260 hours.
-The train, development, and evaluation splits have 73,755, 1,403, and 1,420
-records.
+The active manifest has 208,867 records and 469.755 hours. The training split
+has 206,045 records and 466.712 hours. The development split has 1,404 records
+and 1.514 hours. The evaluation split has 1,418 records and 1.529 hours.
 
-The manifest contains only 2.981 VOA hours. The required minimum is 800 hours.
-The old pseudo-label process accepted 2,947 of 1,349,403 candidate outcomes.
-It rejected 757,829 candidates at the uncalibrated 0.80 confidence threshold.
-Do not use the current manifest as the full large-corpus training set.
+The accepted VOA subset has 134,711 records and 377.489 hours. The old target
+is 800 hours. The readiness report keeps this result as `FAIL`. The user
+authorized training on the accepted dataset.
 
-The hybrid embedding set has 38,289 source-audio vectors and 38,289 clean-audio
-vectors. Each vector has 192 values. The token list has 110 lines. The pitch
-and energy statistics exist.
+The active manifest contains segments from 2 to 20 seconds. It excludes the
+deferred segments that are longer than 20 seconds.
 
-The dual-GPU JETS run completed 25,000 iterations. It ended with exit code 0.
-No NaN or OOM occurred. The final validation generator loss is 60.947. The
-final validation mel loss is 44.106. Peak cached GPU memory is 21.381 GiB.
+The hybrid embedding set has 104,433 source-audio vectors and 104,434
+clean-audio vectors. Each vector has 192 values. The token list has 138 entries.
+The OOV rate is 0 percent. The pitch and energy statistics exist.
 
-The five-voice evaluation made five valid 24 kHz mono WAV files. All five files
-use the required Kamianets-Podilskyi sentence. Automatic checks have `PASS`.
-The human listening check is open.
+The dual-GPU JETS run completed 500,000 iterations. It ended with exit code 0.
+No NaN or OOM occurred. The final validation generator loss is 57.506. The
+final validation mel loss is 40.105. The final validation alignment loss is
+4.321. Peak cached GPU memory is 23.062 GiB.
+
+The fixed evaluation made 1,418 valid 24 kHz mono WAV files. The five-voice
+evaluation made five more valid files. All five files use the required
+Kamianets-Podilskyi sentence. The automatic checks have `PASS`. The human
+listening check is open.
 
 ## Disk control
 

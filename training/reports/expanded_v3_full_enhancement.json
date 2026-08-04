@@ -1,1232 +1,1234 @@
 {
-  "actual_records": 76578,
+  "actual_records": 208867,
   "duration_rejected_examples": [
-    {
-      "duration": 1.7106666666666666,
-      "utterance_id": "cv22_common_voice_uk_20907166_c4f8770b72"
-    },
-    {
-      "duration": 1.4693333333333334,
-      "utterance_id": "cv22_common_voice_uk_20935782_82cc1620bd"
-    },
-    {
-      "duration": 1.2666666666666666,
-      "utterance_id": "cv22_common_voice_uk_21259487_4ab2b0b511"
-    },
-    {
-      "duration": 1.3413333333333333,
-      "utterance_id": "cv22_common_voice_uk_21259632_59ad036f2e"
-    },
-    {
-      "duration": 1.8786666666666667,
-      "utterance_id": "cv22_common_voice_uk_21259728_b8cdd4000c"
-    },
-    {
-      "duration": 1.6933333333333334,
-      "utterance_id": "cv22_common_voice_uk_21266271_bbd1a6a883"
-    },
     {
       "duration": 1.9173333333333333,
       "utterance_id": "cv22_common_voice_uk_21266387_54a3960fe7"
-    },
-    {
-      "duration": 1.9386666666666668,
-      "utterance_id": "cv22_common_voice_uk_21266915_0760d28f3f"
-    },
-    {
-      "duration": 1.5546666666666666,
-      "utterance_id": "cv22_common_voice_uk_21266986_4bca2c2b98"
-    },
-    {
-      "duration": 1.9386666666666668,
-      "utterance_id": "cv22_common_voice_uk_21342261_f08a710b78"
-    },
-    {
-      "duration": 1.7893333333333334,
-      "utterance_id": "cv22_common_voice_uk_21352784_ada68c93a9"
-    },
-    {
-      "duration": 1.8106666666666666,
-      "utterance_id": "cv22_common_voice_uk_21423096_5bc52d339c"
-    },
-    {
-      "duration": 1.9453333333333334,
-      "utterance_id": "cv22_common_voice_uk_21450378_72645b5702"
-    },
-    {
-      "duration": 1.1386666666666667,
-      "utterance_id": "cv22_common_voice_uk_21486125_9f6c85a539"
-    },
-    {
-      "duration": 1.6613333333333333,
-      "utterance_id": "cv22_common_voice_uk_21514894_f8fe435f06"
-    },
-    {
-      "duration": 1.64,
-      "utterance_id": "cv22_common_voice_uk_21534754_7f09567691"
-    },
-    {
-      "duration": 1.3733333333333333,
-      "utterance_id": "cv22_common_voice_uk_21537510_2c05730343"
-    },
-    {
-      "duration": 1.2773333333333334,
-      "utterance_id": "cv22_common_voice_uk_21555858_75f6b9261e"
-    },
-    {
-      "duration": 1.9493333333333334,
-      "utterance_id": "cv22_common_voice_uk_21565981_3a33412985"
-    },
-    {
-      "duration": 1.5866666666666667,
-      "utterance_id": "cv22_common_voice_uk_21567352_93fd2c6970"
-    },
-    {
-      "duration": 1.8853333333333333,
-      "utterance_id": "cv22_common_voice_uk_21567439_5e974617cf"
     },
     {
       "duration": 1.9813333333333334,
       "utterance_id": "cv22_common_voice_uk_21568292_b316dcc102"
     },
     {
-      "duration": 1.448,
-      "utterance_id": "cv22_common_voice_uk_21569366_430bb12f8b"
-    },
-    {
-      "duration": 1.9066666666666667,
-      "utterance_id": "cv22_common_voice_uk_21570508_861ea271fe"
-    },
-    {
-      "duration": 1.3306666666666667,
-      "utterance_id": "cv22_common_voice_uk_21571980_6678878704"
-    },
-    {
-      "duration": 1.6613333333333333,
-      "utterance_id": "cv22_common_voice_uk_21574301_2dacd3f4b1"
-    },
-    {
-      "duration": 1.864,
-      "utterance_id": "cv22_common_voice_uk_21574654_d3ce537689"
-    },
-    {
-      "duration": 1.1813333333333333,
-      "utterance_id": "cv22_common_voice_uk_21577322_8b28efffaa"
-    },
-    {
-      "duration": 1.7786666666666666,
-      "utterance_id": "cv22_common_voice_uk_21590918_a0d0b2fd91"
-    },
-    {
-      "duration": 1.9453333333333334,
-      "utterance_id": "cv22_common_voice_uk_21595513_c81fbb6d56"
-    },
-    {
-      "duration": 1.864,
-      "utterance_id": "cv22_common_voice_uk_21598754_6acfcb012e"
-    },
-    {
-      "duration": 1.832,
-      "utterance_id": "cv22_common_voice_uk_21599260_3a98782c03"
-    },
-    {
-      "duration": 1.864,
-      "utterance_id": "cv22_common_voice_uk_21615637_817b85610d"
-    },
-    {
-      "duration": 1.2986666666666666,
-      "utterance_id": "cv22_common_voice_uk_21621966_6a58e81832"
-    },
-    {
-      "duration": 1.0426666666666666,
-      "utterance_id": "cv22_common_voice_uk_21623059_42caf8746c"
-    },
-    {
-      "duration": 1.5013333333333334,
-      "utterance_id": "cv22_common_voice_uk_21630664_bedfe0beda"
-    },
-    {
-      "duration": 1.7253333333333334,
-      "utterance_id": "cv22_common_voice_uk_21632427_fa2aec7742"
-    },
-    {
-      "duration": 1.7,
-      "utterance_id": "cv22_common_voice_uk_21654165_6e473b3fbe"
-    },
-    {
-      "duration": 1.3626666666666667,
-      "utterance_id": "cv22_common_voice_uk_21659815_a353dc48b8"
-    },
-    {
-      "duration": 1.6186666666666667,
-      "utterance_id": "cv22_common_voice_uk_21666710_079c6393d6"
-    },
-    {
       "duration": 1.0533333333333332,
       "utterance_id": "cv22_common_voice_uk_21671672_a4a6212339"
-    },
-    {
-      "duration": 1.9813333333333334,
-      "utterance_id": "cv22_common_voice_uk_21711506_da15f4a705"
-    },
-    {
-      "duration": 1.5013333333333334,
-      "utterance_id": "cv22_common_voice_uk_21731905_b86e405aac"
-    },
-    {
-      "duration": 1.864,
-      "utterance_id": "cv22_common_voice_uk_21732284_66fd765c05"
-    },
-    {
-      "duration": 1.5333333333333334,
-      "utterance_id": "cv22_common_voice_uk_21743757_0141d73626"
-    },
-    {
-      "duration": 1.672,
-      "utterance_id": "cv22_common_voice_uk_21755902_5690a5f214"
-    },
-    {
-      "duration": 1.9493333333333334,
-      "utterance_id": "cv22_common_voice_uk_21793184_12c955a241"
-    },
-    {
-      "duration": 1.3093333333333332,
-      "utterance_id": "cv22_common_voice_uk_21823691_56a9143fea"
-    },
-    {
-      "duration": 1.832,
-      "utterance_id": "cv22_common_voice_uk_21833396_85686356ac"
     },
     {
       "duration": 1.2986666666666666,
       "utterance_id": "cv22_common_voice_uk_21861981_10ef2cf01a"
     },
     {
-      "duration": 1.9493333333333334,
-      "utterance_id": "cv22_common_voice_uk_21948123_b43c9f9c2e"
+      "duration": 1.096,
+      "utterance_id": "cv22_common_voice_uk_24018012_b2daf48c15"
     },
     {
-      "duration": 1.608,
-      "utterance_id": "cv22_common_voice_uk_21948196_684a718ede"
+      "duration": 1.5226666666666666,
+      "utterance_id": "cv22_common_voice_uk_25552817_f85f0634cb"
     },
     {
-      "duration": 1.32,
-      "utterance_id": "cv22_common_voice_uk_22118386_bb103d75f5"
-    },
-    {
-      "duration": 1.4693333333333334,
-      "utterance_id": "cv22_common_voice_uk_22126561_f2f4c64dc2"
-    },
-    {
-      "duration": 1.7786666666666666,
-      "utterance_id": "cv22_common_voice_uk_22196927_bdbc99c375"
-    },
-    {
-      "duration": 1.8853333333333333,
-      "utterance_id": "cv22_common_voice_uk_22197232_2ff58a34a5"
-    },
-    {
-      "duration": 1.7786666666666666,
-      "utterance_id": "cv22_common_voice_uk_22199367_8d778cc742"
-    },
-    {
-      "duration": 1.708,
-      "utterance_id": "cv22_common_voice_uk_22285020_85bbe6cdc9"
-    },
-    {
-      "duration": 1.9813333333333334,
-      "utterance_id": "cv22_common_voice_uk_22322015_e0955afa9c"
-    },
-    {
-      "duration": 1.3946666666666667,
-      "utterance_id": "cv22_common_voice_uk_22353689_bbc357321a"
-    },
-    {
-      "duration": 1.5746666666666667,
-      "utterance_id": "cv22_common_voice_uk_22410742_f21115c564"
-    },
-    {
-      "duration": 1.896,
-      "utterance_id": "cv22_common_voice_uk_22427896_26cc2286a8"
-    },
-    {
-      "duration": 1.8426666666666667,
-      "utterance_id": "cv22_common_voice_uk_22429844_d12699e0e8"
-    },
-    {
-      "duration": 1.0533333333333332,
-      "utterance_id": "cv22_common_voice_uk_22436439_3921d37649"
-    },
-    {
-      "duration": 1.8106666666666666,
-      "utterance_id": "cv22_common_voice_uk_22475794_e4827a2e9f"
-    },
-    {
-      "duration": 1.4266666666666667,
-      "utterance_id": "cv22_common_voice_uk_22475891_19d5be90bf"
-    },
-    {
-      "duration": 1.8213333333333332,
-      "utterance_id": "cv22_common_voice_uk_22475988_74eb23e6d5"
-    },
-    {
-      "duration": 1.4586666666666666,
-      "utterance_id": "cv22_common_voice_uk_22476079_3b29140269"
-    },
-    {
-      "duration": 1.768,
-      "utterance_id": "cv22_common_voice_uk_22498451_44f0e4733e"
-    },
-    {
-      "duration": 0.712,
-      "utterance_id": "cv22_common_voice_uk_22512223_332dc7a90f"
-    },
-    {
-      "duration": 1.6186666666666667,
-      "utterance_id": "cv22_common_voice_uk_22512608_c3f8a56fc1"
-    },
-    {
-      "duration": 1.9813333333333334,
-      "utterance_id": "cv22_common_voice_uk_22513230_646645dae8"
-    },
-    {
-      "duration": 1.864,
-      "utterance_id": "cv22_common_voice_uk_22513968_8713f5113e"
-    },
-    {
-      "duration": 1.256,
-      "utterance_id": "cv22_common_voice_uk_23402956_d4f8b13a7c"
-    },
-    {
-      "duration": 1.672,
-      "utterance_id": "cv22_common_voice_uk_23554528_aadf3e22ba"
-    },
-    {
-      "duration": 1.6826666666666668,
-      "utterance_id": "cv22_common_voice_uk_23554563_99a661c2b1"
-    },
-    {
-      "duration": 1.7893333333333334,
-      "utterance_id": "cv22_common_voice_uk_23555612_365bc8531f"
-    },
-    {
-      "duration": 1.3306666666666667,
-      "utterance_id": "cv22_common_voice_uk_23560991_001205933e"
-    },
-    {
-      "duration": 0.8293333333333334,
-      "utterance_id": "cv22_common_voice_uk_23562264_46e51bc9a6"
-    },
-    {
-      "duration": 0.8826666666666667,
-      "utterance_id": "cv22_common_voice_uk_23562318_a5322b381a"
-    },
-    {
-      "duration": 1.7253333333333334,
-      "utterance_id": "cv22_common_voice_uk_23562723_26ae843ba9"
-    },
-    {
-      "duration": 1.544,
-      "utterance_id": "cv22_common_voice_uk_23568834_a7f356a7e0"
+      "duration": 0.9253333333333333,
+      "utterance_id": "cv22_common_voice_uk_26652218_fa21cb9e49"
     },
     {
       "duration": 1.928,
-      "utterance_id": "cv22_common_voice_uk_23568851_742f5bfcc3"
+      "utterance_id": "cv22_common_voice_uk_27249811_2a9e97ca24"
     },
     {
-      "duration": 1.64,
-      "utterance_id": "cv22_common_voice_uk_23568994_a65c769151"
+      "duration": 1.992,
+      "utterance_id": "cv22_common_voice_uk_28074463_a3d379eae2"
     },
     {
-      "duration": 1.3626666666666667,
-      "utterance_id": "cv22_common_voice_uk_23571240_ccbc0033cf"
+      "duration": 1.288,
+      "utterance_id": "cv22_common_voice_uk_28305521_c9ef7b609e"
     },
     {
-      "duration": 1.704,
-      "utterance_id": "cv22_common_voice_uk_23574029_0d2fc85f09"
+      "duration": 1.9386666666666668,
+      "utterance_id": "cv22_common_voice_uk_28688890_1b9010957c"
     },
     {
-      "duration": 1.2666666666666666,
-      "utterance_id": "cv22_common_voice_uk_23664217_3c190bd6c5"
+      "duration": 1.9706666666666666,
+      "utterance_id": "cv22_common_voice_uk_30405688_57188c4dda"
+    },
+    {
+      "duration": 1.8533333333333333,
+      "utterance_id": "cv22_common_voice_uk_32499798_03e103bd7c"
+    },
+    {
+      "duration": 1.5226666666666666,
+      "utterance_id": "cv22_common_voice_uk_32530987_016372bb14"
+    },
+    {
+      "duration": 1.736,
+      "utterance_id": "cv22_common_voice_uk_33214957_debef0c2cd"
+    },
+    {
+      "duration": 1.384,
+      "utterance_id": "cv22_common_voice_uk_33438441_6f2d881299"
+    },
+    {
+      "duration": 1.8106666666666666,
+      "utterance_id": "cv22_common_voice_uk_34159194_c495a60fd8"
     },
     {
       "duration": 1.7146666666666666,
-      "utterance_id": "cv22_common_voice_uk_23664411_9d1192d57a"
+      "utterance_id": "cv22_common_voice_uk_37809680_6674db569d"
     },
     {
-      "duration": 1.3306666666666667,
-      "utterance_id": "cv22_common_voice_uk_23665945_470d548fb4"
+      "duration": 1.928,
+      "utterance_id": "cv22_common_voice_uk_38075950_23ba079df7"
+    },
+    {
+      "duration": 1.4586666666666666,
+      "utterance_id": "cv22_common_voice_uk_38194745_23147b11ed"
+    },
+    {
+      "duration": 1.5973333333333333,
+      "utterance_id": "cv22_common_voice_uk_38225501_413b1beaa9"
+    },
+    {
+      "duration": 1.7786666666666666,
+      "utterance_id": "cv22_common_voice_uk_38274618_fe156bbbc0"
     },
     {
       "duration": 1.704,
-      "utterance_id": "cv22_common_voice_uk_23668655_4616ecefc4"
+      "utterance_id": "cv22_common_voice_uk_39511615_c7b10c12c5"
     },
     {
-      "duration": 0.904,
-      "utterance_id": "cv22_common_voice_uk_23682985_f94ab4ef92"
+      "duration": 1.8106666666666666,
+      "utterance_id": "cv22_common_voice_uk_40109539_17a1ea0aff"
+    },
+    {
+      "duration": 1.8786666666666667,
+      "utterance_id": "lada_31015_ee5063e0f7"
+    },
+    {
+      "duration": 1.156,
+      "utterance_id": "lada_32098_49fe5b0a5d"
+    },
+    {
+      "duration": 1.7826666666666666,
+      "utterance_id": "lada_32691_3f60086c3d"
+    },
+    {
+      "duration": 1.5546666666666666,
+      "utterance_id": "lada_48136_680d1988a5"
+    },
+    {
+      "duration": 1.9666666666666666,
+      "utterance_id": "lada_48794_70a0877721"
+    },
+    {
+      "duration": 1.408,
+      "utterance_id": "ua_ser_a_078_1_456517b3276e"
+    },
+    {
+      "duration": 1.828,
+      "utterance_id": "ukr_dialects_2626_2d7719bffb9a"
+    },
+    {
+      "duration": 1.7146666666666666,
+      "utterance_id": "cv22_common_voice_uk_21376175_63f3733d26"
+    },
+    {
+      "duration": 1.732,
+      "utterance_id": "cv22_common_voice_uk_22047582_5cd612135d"
+    },
+    {
+      "duration": 1.8426666666666667,
+      "utterance_id": "cv22_common_voice_uk_22411006_f4c020c3c3"
+    },
+    {
+      "duration": 1.8533333333333333,
+      "utterance_id": "cv22_common_voice_uk_24018013_9bb499b3ca"
+    },
+    {
+      "duration": 1.7786666666666666,
+      "utterance_id": "cv22_common_voice_uk_24117351_dd2a45ea03"
+    },
+    {
+      "duration": 1.1173333333333333,
+      "utterance_id": "cv22_common_voice_uk_25875553_9b9a2eba21"
+    },
+    {
+      "duration": 1.1706666666666667,
+      "utterance_id": "cv22_common_voice_uk_26883636_5b24e09dce"
+    },
+    {
+      "duration": 1.8,
+      "utterance_id": "cv22_common_voice_uk_27090529_e35083b645"
+    },
+    {
+      "duration": 1.9173333333333333,
+      "utterance_id": "cv22_common_voice_uk_27249879_b0b1febfd1"
+    },
+    {
+      "duration": 1.4373333333333334,
+      "utterance_id": "cv22_common_voice_uk_27644306_c3d7b43bb8"
+    },
+    {
+      "duration": 1.3626666666666667,
+      "utterance_id": "cv22_common_voice_uk_28717377_6d837a713d"
+    },
+    {
+      "duration": 1.5506666666666666,
+      "utterance_id": "cv22_common_voice_uk_30511907_e491865141"
+    },
+    {
+      "duration": 1.3093333333333332,
+      "utterance_id": "cv22_common_voice_uk_33214958_3ac8c764f4"
+    },
+    {
+      "duration": 1.768,
+      "utterance_id": "cv22_common_voice_uk_33352377_5be5baf811"
+    },
+    {
+      "duration": 1.736,
+      "utterance_id": "cv22_common_voice_uk_33438449_4c17e97362"
+    },
+    {
+      "duration": 1.64,
+      "utterance_id": "cv22_common_voice_uk_37371588_e14890d0bf"
+    },
+    {
+      "duration": 1.4053333333333333,
+      "utterance_id": "cv22_common_voice_uk_38192314_eff78c76bf"
+    },
+    {
+      "duration": 1.736,
+      "utterance_id": "cv22_common_voice_uk_38199180_078163d989"
+    },
+    {
+      "duration": 1.9706666666666666,
+      "utterance_id": "cv22_common_voice_uk_38225502_6d14b6f3d5"
+    },
+    {
+      "duration": 1.8533333333333333,
+      "utterance_id": "cv22_common_voice_uk_38256885_acf1e7f426"
+    },
+    {
+      "duration": 1.3413333333333333,
+      "utterance_id": "cv22_common_voice_uk_39511618_274fc6a3c5"
+    },
+    {
+      "duration": 1.5226666666666666,
+      "utterance_id": "lada_25557_c0ebf255fe"
+    },
+    {
+      "duration": 1.8533333333333333,
+      "utterance_id": "lada_31016_20fe52ad1e"
+    },
+    {
+      "duration": 1.64,
+      "utterance_id": "lada_48465_c8a1f8036a"
+    },
+    {
+      "duration": 1.789,
+      "utterance_id": "ua_ser_h_108_1_23b8d226284c"
+    },
+    {
+      "duration": 1.924,
+      "utterance_id": "ua_ser_s_220_1_a3b21d9a0982"
+    },
+    {
+      "duration": 1.7893333333333334,
+      "utterance_id": "cv22_common_voice_uk_23561103_9f77a10810"
+    },
+    {
+      "duration": 1.064,
+      "utterance_id": "cv22_common_voice_uk_23838635_58563ff1cf"
+    },
+    {
+      "duration": 1.6186666666666667,
+      "utterance_id": "cv22_common_voice_uk_26225402_c42f5265a0"
+    },
+    {
+      "duration": 1.7253333333333334,
+      "utterance_id": "cv22_common_voice_uk_26899670_b77b6d051e"
+    },
+    {
+      "duration": 1.5653333333333332,
+      "utterance_id": "cv22_common_voice_uk_27465065_8e6b26e4d5"
+    },
+    {
+      "duration": 1.768,
+      "utterance_id": "cv22_common_voice_uk_27607303_978dc94db7"
+    },
+    {
+      "duration": 1.8213333333333332,
+      "utterance_id": "cv22_common_voice_uk_27749459_7c43105363"
+    },
+    {
+      "duration": 0.9786666666666667,
+      "utterance_id": "cv22_common_voice_uk_28305562_c885910aa3"
+    },
+    {
+      "duration": 1.8746666666666667,
+      "utterance_id": "cv22_common_voice_uk_28698260_fde500a065"
+    },
+    {
+      "duration": 1.384,
+      "utterance_id": "cv22_common_voice_uk_30132031_e197076865"
+    },
+    {
+      "duration": 1.8213333333333332,
+      "utterance_id": "cv22_common_voice_uk_30592098_1720f6296c"
+    },
+    {
+      "duration": 1.6293333333333333,
+      "utterance_id": "cv22_common_voice_uk_32135669_2a12b893e2"
     },
     {
       "duration": 1.6613333333333333,
-      "utterance_id": "cv22_common_voice_uk_23734572_92d8512ffe"
+      "utterance_id": "cv22_common_voice_uk_32810232_c190805682"
     },
     {
-      "duration": 1.608,
-      "utterance_id": "cv22_common_voice_uk_23742746_26322bf5df"
+      "duration": 1.2773333333333334,
+      "utterance_id": "cv22_common_voice_uk_33214967_2c45dff91b"
     },
     {
-      "duration": 1.5226666666666666,
-      "utterance_id": "cv22_common_voice_uk_23869066_dd52963f32"
+      "duration": 1.2026666666666668,
+      "utterance_id": "cv22_common_voice_uk_37560213_53d142f0f8"
     },
     {
-      "duration": 1.352,
-      "utterance_id": "cv22_common_voice_uk_23881596_fe2faef4cc"
+      "duration": 1.8533333333333333,
+      "utterance_id": "cv22_common_voice_uk_37813194_fb4e9bc40d"
     },
     {
-      "duration": 1.832,
-      "utterance_id": "cv22_common_voice_uk_23910945_9f40287c19"
+      "duration": 1.672,
+      "utterance_id": "cv22_common_voice_uk_38098659_dbaeb570ce"
     },
     {
-      "duration": 0.9466666666666667,
-      "utterance_id": "cv22_common_voice_uk_23929579_7d4d5756c9"
+      "duration": 1.9173333333333333,
+      "utterance_id": "cv22_common_voice_uk_38169361_cad974b49f"
     },
     {
-      "duration": 1.32,
-      "utterance_id": "cv22_common_voice_uk_23931294_fdede62914"
+      "duration": 1.8106666666666666,
+      "utterance_id": "cv22_common_voice_uk_38194767_bf3ce5a232"
     },
     {
-      "duration": 1.6933333333333334,
-      "utterance_id": "cv22_common_voice_uk_23936990_dc2372248d"
+      "duration": 1.8,
+      "utterance_id": "cv22_common_voice_uk_38222658_d5dd6e72e1"
     },
     {
-      "duration": 1.5226666666666666,
-      "utterance_id": "cv22_common_voice_uk_23955983_cc3d47fc12"
+      "duration": 1.8106666666666666,
+      "utterance_id": "cv22_common_voice_uk_38256916_bf54ddbe21"
+    },
+    {
+      "duration": 1.384,
+      "utterance_id": "cv22_common_voice_uk_38511211_197133429f"
+    },
+    {
+      "duration": 1.8106666666666666,
+      "utterance_id": "cv22_common_voice_uk_38548134_5d0ab3ecd3"
+    },
+    {
+      "duration": 1.8746666666666667,
+      "utterance_id": "cv22_common_voice_uk_39926988_ec682102ae"
+    },
+    {
+      "duration": 1.992,
+      "utterance_id": "cv22_common_voice_uk_41103013_fad1421e69"
+    },
+    {
+      "duration": 1.4053333333333333,
+      "utterance_id": "lada_31507_c5591bb636"
+    },
+    {
+      "duration": 1.64,
+      "utterance_id": "lada_34866_e1ed83dd6b"
+    },
+    {
+      "duration": 1.668,
+      "utterance_id": "lada_48146_6496f4af8b"
+    },
+    {
+      "duration": 0.9106666666666666,
+      "utterance_id": "lada_48805_ad0db36e8e"
+    },
+    {
+      "duration": 1.92,
+      "utterance_id": "ua_ser_a_088_0_6c5cd7223e3b"
+    },
+    {
+      "duration": 1.92,
+      "utterance_id": "ua_ser_h_117_1_ead56eed2b50"
+    },
+    {
+      "duration": 1.9133333333333333,
+      "utterance_id": "ua_ser_n_163_0_64d269c0e0e5"
+    },
+    {
+      "duration": 1.684,
+      "utterance_id": "ukr_dialects_ivanna_00790_c266338bffab"
+    },
+    {
+      "duration": 1.4013333333333333,
+      "utterance_id": "ukr_dialects_segment_00205_73b106f8825a"
+    },
+    {
+      "duration": 1.9066666666666667,
+      "utterance_id": "cv22_common_voice_uk_21342177_65c8e3be20"
+    },
+    {
+      "duration": 1.5973333333333333,
+      "utterance_id": "cv22_common_voice_uk_21412623_3d0fdbb000"
+    },
+    {
+      "duration": 1.544,
+      "utterance_id": "cv22_common_voice_uk_21565953_a149554f44"
+    },
+    {
+      "duration": 1.224,
+      "utterance_id": "cv22_common_voice_uk_22507215_196123727e"
+    },
+    {
+      "duration": 1.8386666666666667,
+      "utterance_id": "cv22_common_voice_uk_23734606_f2b666f04a"
+    },
+    {
+      "duration": 1.192,
+      "utterance_id": "cv22_common_voice_uk_23890521_2cd9a07e77"
+    },
+    {
+      "duration": 1.3093333333333332,
+      "utterance_id": "cv22_common_voice_uk_23969257_f1544b8ad0"
+    },
+    {
+      "duration": 1.512,
+      "utterance_id": "cv22_common_voice_uk_24085090_fac0857680"
+    },
+    {
+      "duration": 1.8213333333333332,
+      "utterance_id": "cv22_common_voice_uk_24357111_5785d2e7a2"
     }
   ],
-  "duration_rejected_records": 8749,
+  "duration_rejected_records": 8885,
   "enhancement_config_hashes": [
     "18c551649f16a8b85e1eae0ca1f0e4a900959031c4c7ba398b623f609ecca4d4",
     "c34a74614c56b1a46478b20c336bdec56c567957009e5f1321b6ff76b14741a0"
   ],
-  "expected_records": 86588,
+  "expected_records": 218980,
   "loudness_output_i": {
     "maximum": -22.0,
-    "median": -22.92,
-    "minimum": -23.99,
+    "median": -22.99,
+    "minimum": -24.0,
     "outside_one_lu": 0,
     "target_lufs": -23.0
   },
   "loudness_rejected_examples": [
     {
-      "output_i_lufs": -21.93,
-      "utterance_id": "fleurs_uk_12700628140354322042_dda528990edd"
+      "output_i_lufs": -24.02,
+      "utterance_id": "fleurs_uk_3677661616042563315_09b12e3e5fad"
     },
     {
-      "output_i_lufs": -27.29,
-      "utterance_id": "fleurs_uk_1410078379593129433_38f2239d15c7"
+      "output_i_lufs": -24.95,
+      "utterance_id": "ukr_dialects_hutsulendia_01076_962df7a5bd42"
     },
     {
-      "output_i_lufs": -27.22,
-      "utterance_id": "fleurs_uk_1458563134528362839_b78635cbcc71"
-    },
-    {
-      "output_i_lufs": -25.28,
-      "utterance_id": "fleurs_uk_14710254832596999787_f88acecf9a04"
-    },
-    {
-      "output_i_lufs": -14.61,
-      "utterance_id": "fleurs_uk_15167742844910703511_64d684edecb0"
-    },
-    {
-      "output_i_lufs": -27.56,
-      "utterance_id": "fleurs_uk_1540519716508208299_1047cb40a656"
-    },
-    {
-      "output_i_lufs": -27.07,
-      "utterance_id": "fleurs_uk_294361549347529306_e1881e656aa2"
-    },
-    {
-      "output_i_lufs": -26.42,
-      "utterance_id": "fleurs_uk_6388309345878102919_7ed9b9fef8c0"
-    },
-    {
-      "output_i_lufs": -29.81,
-      "utterance_id": "fleurs_uk_7289524778973283505_50d40f38a0c9"
-    },
-    {
-      "output_i_lufs": -27.24,
-      "utterance_id": "fleurs_uk_998130028044660412_932f7074630b"
-    },
-    {
-      "output_i_lufs": -21.66,
-      "utterance_id": "opentts_mykyta_58898_73a6fe6dadb0"
-    },
-    {
-      "output_i_lufs": -21.98,
-      "utterance_id": "opentts_mykyta_65599_fdb9b1a2de50"
-    },
-    {
-      "output_i_lufs": -21.97,
-      "utterance_id": "opentts_tetiana_61783_81cd312816ae"
-    },
-    {
-      "output_i_lufs": -38.68,
-      "utterance_id": "tg_voices_uk_38035_612efa7c3389"
-    },
-    {
-      "output_i_lufs": -42.92,
-      "utterance_id": "ua_ser_h_180_1_4cadeb419574"
-    },
-    {
-      "output_i_lufs": -25.6,
-      "utterance_id": "ukr_dialects_hutsulendia_00346_3d178aa29f9f"
-    },
-    {
-      "output_i_lufs": -27.24,
-      "utterance_id": "ukr_dialects_hutsulendia_00516_a6ab6e3dd483"
-    },
-    {
-      "output_i_lufs": -21.89,
-      "utterance_id": "ukr_dialects_hutsulendia_00989_61fb251c5c6f"
-    },
-    {
-      "output_i_lufs": -27.73,
-      "utterance_id": "ukr_dialects_hutsulendia_01522_5d98c4296c0d"
-    },
-    {
-      "output_i_lufs": -21.96,
-      "utterance_id": "ukr_dialects_hutsulendia_01557_4e4119b52235"
-    },
-    {
-      "output_i_lufs": -21.95,
-      "utterance_id": "ukr_dialects_ivanna_00264_799d41a55038"
-    },
-    {
-      "output_i_lufs": -21.95,
-      "utterance_id": "ukr_dialects_ivanna_00307_fd4ade103b4e"
-    },
-    {
-      "output_i_lufs": -21.81,
-      "utterance_id": "ukr_dialects_ivanna_00316_d9845f07a26e"
-    },
-    {
-      "output_i_lufs": -40.05,
-      "utterance_id": "ukr_dialects_ivanna_00337_804e0281cf28"
-    },
-    {
-      "output_i_lufs": -21.86,
-      "utterance_id": "ukr_dialects_ivanna_01138_c14938ee6de7"
-    },
-    {
-      "output_i_lufs": -21.33,
-      "utterance_id": "ukr_dialects_ivanna_01216_69fd11019207"
-    },
-    {
-      "output_i_lufs": -21.66,
-      "utterance_id": "ukr_dialects_ivanna_04497_366dc06d1bf6"
-    },
-    {
-      "output_i_lufs": -21.95,
-      "utterance_id": "ukr_dialects_ivanna_04661_39bda55f4f0d"
-    },
-    {
-      "output_i_lufs": -21.98,
-      "utterance_id": "ukr_dialects_larysa_irodenko_00002_af1e15d8b635"
-    },
-    {
-      "output_i_lufs": -21.92,
-      "utterance_id": "ukr_dialects_larysa_irodenko_00062_e5fb425ab492"
-    },
-    {
-      "output_i_lufs": -21.9,
-      "utterance_id": "ukr_dialects_segment_00088_cbd82065e7f5"
-    },
-    {
-      "output_i_lufs": -21.8,
-      "utterance_id": "ukr_dialects_segment_00970_765fa392198f"
-    },
-    {
-      "output_i_lufs": -21.9,
-      "utterance_id": "ukr_dialects_segment_01178_be1c5ba94aba"
-    },
-    {
-      "output_i_lufs": -62.87,
-      "utterance_id": "ukr_dialects_segment_01425_b17f464820b1"
-    },
-    {
-      "output_i_lufs": -24.24,
-      "utterance_id": "ukr_dialects_segment_01492_2d2aeb40de3f"
-    },
-    {
-      "output_i_lufs": -24.53,
-      "utterance_id": "ukr_dialects_segment_01525_f2e440347291"
-    },
-    {
-      "output_i_lufs": -21.7,
-      "utterance_id": "ukr_dialects_segment_01561_656649b5fa80"
-    },
-    {
-      "output_i_lufs": -21.53,
-      "utterance_id": "ukr_dialects_segment_02140_835bb984f330"
-    },
-    {
-      "output_i_lufs": -47.5,
-      "utterance_id": "ukr_dialects_segment_02247_b3263743311a"
-    },
-    {
-      "output_i_lufs": -60.55,
-      "utterance_id": "ukr_dialects_segment_02257_b3d897959ea8"
-    },
-    {
-      "output_i_lufs": -24.81,
-      "utterance_id": "ukr_dialects_segment_02704_c2d53bad8a49"
-    },
-    {
-      "output_i_lufs": -21.79,
-      "utterance_id": "ukr_dialects_segment_03124_cc69936a3b00"
-    },
-    {
-      "output_i_lufs": -21.92,
-      "utterance_id": "ukr_dialects_segment_04098_b0265874efe2"
-    },
-    {
-      "output_i_lufs": -21.98,
-      "utterance_id": "ukr_dialects_segment_05078_06ccedc6ae7d"
-    },
-    {
-      "output_i_lufs": -21.65,
-      "utterance_id": "ukr_dialects_segment_05379_fe62821f9ea7"
+      "output_i_lufs": -24.29,
+      "utterance_id": "ukr_dialects_ivanna_01129_ad0f9b5db57d"
     },
     {
       "output_i_lufs": -55.73,
       "utterance_id": "ukr_dialects_segment_05559_f86c0964e64a"
     },
     {
-      "output_i_lufs": -47.47,
-      "utterance_id": "ukr_dialects_segment_05692_51470be5cf22"
+      "output_i_lufs": -24.77,
+      "utterance_id": "ukr_dialects_segment_13570_2218238f0ee5"
     },
     {
-      "output_i_lufs": -21.39,
-      "utterance_id": "ukr_dialects_segment_06111_26a42f956c01"
-    },
-    {
-      "output_i_lufs": -54.02,
-      "utterance_id": "ukr_dialects_segment_06414_fd69f93940ba"
-    },
-    {
-      "output_i_lufs": -21.94,
-      "utterance_id": "ukr_dialects_segment_09082_65855473d6fd"
-    },
-    {
-      "output_i_lufs": -61.83,
-      "utterance_id": "ukr_dialects_segment_09487_c7f7cbd57cd2"
-    },
-    {
-      "output_i_lufs": -21.95,
-      "utterance_id": "ukr_dialects_segment_09880_0c2dd2c49782"
-    },
-    {
-      "output_i_lufs": -21.63,
-      "utterance_id": "ukr_dialects_segment_10200_e5ec61c00999"
-    },
-    {
-      "output_i_lufs": -21.09,
-      "utterance_id": "ukr_dialects_segment_10222_b09bb1a9e448"
-    },
-    {
-      "output_i_lufs": -24.07,
-      "utterance_id": "ukr_dialects_segment_10322_c7fcf0699033"
-    },
-    {
-      "output_i_lufs": -38.01,
-      "utterance_id": "ukr_dialects_segment_10375_53f2359c8a69"
-    },
-    {
-      "output_i_lufs": -21.71,
-      "utterance_id": "ukr_dialects_segment_10529_a4dbf96151b3"
-    },
-    {
-      "output_i_lufs": -21.7,
-      "utterance_id": "ukr_dialects_segment_11403_c4ee404ffb44"
-    },
-    {
-      "output_i_lufs": -21.99,
-      "utterance_id": "ukr_dialects_segment_11583_a2db6761b927"
-    },
-    {
-      "output_i_lufs": -21.61,
-      "utterance_id": "ukr_dialects_segment_11624_a8e52e4cda3a"
-    },
-    {
-      "output_i_lufs": -21.71,
-      "utterance_id": "ukr_dialects_segment_12596_36012bba8d7d"
-    },
-    {
-      "output_i_lufs": -21.77,
-      "utterance_id": "ukr_dialects_segment_12715_b63791569145"
-    },
-    {
-      "output_i_lufs": -58.64,
-      "utterance_id": "ukr_dialects_segment_12776_93d8192fcfd1"
-    },
-    {
-      "output_i_lufs": -21.67,
-      "utterance_id": "ukr_dialects_segment_13138_b2e39b1814da"
-    },
-    {
-      "output_i_lufs": -21.96,
-      "utterance_id": "ukr_dialects_segment_13216_25b9855211a8"
-    },
-    {
-      "output_i_lufs": -24.2,
-      "utterance_id": "ukr_dialects_segment_13291_2c903d8759a8"
-    },
-    {
-      "output_i_lufs": -53.35,
-      "utterance_id": "ukr_dialects_segment_13389_220be7e9ce56"
-    },
-    {
-      "output_i_lufs": -21.67,
-      "utterance_id": "ukr_dialects_segment_13397_5c5b231d49c1"
-    },
-    {
-      "output_i_lufs": -39.26,
-      "utterance_id": "ukr_dialects_segment_13913_3b577f8d7adf"
-    },
-    {
-      "output_i_lufs": -21.86,
-      "utterance_id": "ukr_dialects_segment_14159_4b1ba9c22409"
-    },
-    {
-      "output_i_lufs": -21.68,
-      "utterance_id": "ukr_dialects_segment_14389_648be09824ba"
-    },
-    {
-      "output_i_lufs": -21.94,
-      "utterance_id": "ukr_dialects_segment_14424_5e78af95bb2d"
-    },
-    {
-      "output_i_lufs": -24.19,
-      "utterance_id": "ukr_dialects_segment_15106_3ef2ac17d5aa"
-    },
-    {
-      "output_i_lufs": -21.8,
-      "utterance_id": "ukr_dialects_segment_15199_8b3b8c7a2d2b"
-    },
-    {
-      "output_i_lufs": -24.25,
-      "utterance_id": "ukr_dialects_segment_15722_4d90e84c20f4"
-    },
-    {
-      "output_i_lufs": -21.94,
-      "utterance_id": "ukr_dialects_segment_18040_27d1e365d1d0"
-    },
-    {
-      "output_i_lufs": -25.4,
-      "utterance_id": "fleurs_uk_13133525130829558152_a826086fae5d"
-    },
-    {
-      "output_i_lufs": -29.66,
-      "utterance_id": "fleurs_uk_16232106163177951195_d8e3bad8a06e"
-    },
-    {
-      "output_i_lufs": -14.57,
-      "utterance_id": "fleurs_uk_17282082606858355742_450c84d77323"
-    },
-    {
-      "output_i_lufs": -25.9,
-      "utterance_id": "fleurs_uk_3110618348678585053_8a1d9d38a8e8"
-    },
-    {
-      "output_i_lufs": -25.29,
-      "utterance_id": "fleurs_uk_4640308317971816104_17c8f10192d0"
-    },
-    {
-      "output_i_lufs": -24.85,
-      "utterance_id": "fleurs_uk_6921404722128655636_b4ecedf89516"
-    },
-    {
-      "output_i_lufs": -26.22,
-      "utterance_id": "fleurs_uk_7093519085700763303_000481bf1176"
-    },
-    {
-      "output_i_lufs": -27.82,
-      "utterance_id": "fleurs_uk_9200573166917680826_492e386a14da"
-    },
-    {
-      "output_i_lufs": -20.5,
-      "utterance_id": "fleurs_uk_9934147317243165140_37b94d96c36b"
-    },
-    {
-      "output_i_lufs": -21.97,
-      "utterance_id": "opentts_mykyta_67360_106866575cb2"
+      "output_i_lufs": -21.46,
+      "utterance_id": "voa_ukr_user_grant_pseudo_8fb414354116b29febd6"
     },
     {
       "output_i_lufs": -21.93,
-      "utterance_id": "opentts_tetiana_64193_244a69081516"
+      "utterance_id": "cv22_common_voice_uk_30585895_9a9dde294e"
     },
     {
-      "output_i_lufs": -26.49,
-      "utterance_id": "ukr_dialects_hutsulendia_00347_ca11f404edee"
+      "output_i_lufs": -21.81,
+      "utterance_id": "cv22_common_voice_uk_31323495_8d1774d5e5"
     },
     {
-      "output_i_lufs": -21.71,
-      "utterance_id": "ukr_dialects_hutsulendia_00360_aa102e33258f"
+      "output_i_lufs": -21.78,
+      "utterance_id": "cv22_common_voice_uk_33622372_7b7de54f53"
     },
     {
-      "output_i_lufs": -21.85,
-      "utterance_id": "ukr_dialects_hutsulendia_00711_84dd55f4440f"
+      "output_i_lufs": -36.4,
+      "utterance_id": "cv22_common_voice_uk_37779058_9354c8e2ec"
+    },
+    {
+      "output_i_lufs": -24.45,
+      "utterance_id": "ukr_dialects_ivanna_03460_837080bdcb0f"
+    },
+    {
+      "output_i_lufs": -24.56,
+      "utterance_id": "ukr_dialects_segment_03955_4a9b1e1ae7a3"
     },
     {
       "output_i_lufs": -21.99,
-      "utterance_id": "ukr_dialects_hutsulendia_00746_b2899ce3dd9b"
+      "utterance_id": "cv22_common_voice_uk_21568760_f364d3b9fe"
     },
     {
-      "output_i_lufs": -21.99,
-      "utterance_id": "ukr_dialects_hutsulendia_01356_c1231c92791d"
+      "output_i_lufs": -41.53,
+      "utterance_id": "cv22_common_voice_uk_30608226_f8f753343f"
     },
     {
-      "output_i_lufs": -20.47,
-      "utterance_id": "ukr_dialects_hutsulendia_01452_193351ff40f0"
+      "output_i_lufs": -24.03,
+      "utterance_id": "fleurs_uk_13667100179334311105_3351cf7d930c"
+    },
+    {
+      "output_i_lufs": -24.02,
+      "utterance_id": "ukr_dialects_ivanna_00427_91d9fe8c5d12"
+    },
+    {
+      "output_i_lufs": -21.77,
+      "utterance_id": "cv22_common_voice_uk_27596917_4841c3bd8c"
+    },
+    {
+      "output_i_lufs": -21.81,
+      "utterance_id": "cv22_common_voice_uk_29244632_67a115ae6e"
+    },
+    {
+      "output_i_lufs": -24.22,
+      "utterance_id": "ukr_dialects_segment_02163_60a09b645e77"
+    },
+    {
+      "output_i_lufs": -24.21,
+      "utterance_id": "ukr_dialects_segment_03300_1889315bab1b"
+    },
+    {
+      "output_i_lufs": -40.38,
+      "utterance_id": "cv22_common_voice_uk_38191492_07d1f3e55c"
     },
     {
       "output_i_lufs": -21.97,
-      "utterance_id": "ukr_dialects_ivanna_00445_96f2c5e97bfe"
+      "utterance_id": "cv22_common_voice_uk_23564081_a3f30ee78b"
     },
     {
-      "output_i_lufs": -21.53,
-      "utterance_id": "ukr_dialects_ivanna_01392_3364407ac6dc"
+      "output_i_lufs": -38.65,
+      "utterance_id": "cv22_common_voice_uk_38190079_0273cf5375"
     },
     {
-      "output_i_lufs": -21.95,
-      "utterance_id": "ukr_dialects_ivanna_03029_227859e8429c"
+      "output_i_lufs": -28.4,
+      "utterance_id": "fleurs_uk_1812625924547403470_4f4b9fc68ff4"
     },
     {
-      "output_i_lufs": -21.98,
-      "utterance_id": "ukr_dialects_ivanna_03156_da5aefacc894"
+      "output_i_lufs": -24.01,
+      "utterance_id": "fleurs_uk_8810140796648795928_818dd4097049"
     },
     {
-      "output_i_lufs": -38.01,
-      "utterance_id": "ukr_dialects_ivanna_03311_7186866f7a54"
+      "output_i_lufs": -53.3,
+      "utterance_id": "ukr_dialects_segment_01423_f3319bf29680"
     },
     {
-      "output_i_lufs": -21.88,
-      "utterance_id": "ukr_dialects_ivanna_04335_efd3e87e2414"
+      "output_i_lufs": -28.46,
+      "utterance_id": "fleurs_uk_8828214460402000604_06f10b1c70bf"
     },
     {
-      "output_i_lufs": -24.72,
-      "utterance_id": "ukr_dialects_segment_00942_7085a647bff0"
-    }
-  ],
-  "loudness_rejected_records": 602,
-  "loudness_tolerance_lu": 1.0,
-  "maximum_true_peak_db": -1.0,
-  "rejected_examples": [
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21555700_0c4165f286.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21555700_0c4165f286"
+      "output_i_lufs": -29.79,
+      "utterance_id": "ukr_dialects_segment_09363_b393e6e6dda1"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21787942_80d5026191.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21787942_80d5026191"
+      "output_i_lufs": -21.82,
+      "utterance_id": "voa_ukr_user_grant_pseudo_4e3b251fc08b3bc2e0e4"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21797709_44fa6c95dc.opus': Supported file format but file is malformed.",
+      "output_i_lufs": -38.27,
       "utterance_id": "cv22_common_voice_uk_21797709_44fa6c95dc"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22221953_50d3ffd73e.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22221953_50d3ffd73e"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22427328_a9d790f447.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22427328_a9d790f447"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23552429_ca50915991.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23552429_ca50915991"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23560140_13d35334e3.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23560140_13d35334e3"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23568810_dc3e472387.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23568810_dc3e472387"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_24507090_b87126a848.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_24507090_b87126a848"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_24507292_8b81c7ab20.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_24507292_8b81c7ab20"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_25382382_0c5d552563.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_25382382_0c5d552563"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_26267455_aa8a247e08.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_26267455_aa8a247e08"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_26852137_648e67da2f.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_26852137_648e67da2f"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27448150_6052ea9426.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27448150_6052ea9426"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27448365_ae49833d8c.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27448365_ae49833d8c"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27492652_f75c308889.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27492652_f75c308889"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27593472_e711e1180c.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27593472_e711e1180c"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27603604_9191fbda02.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27603604_9191fbda02"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27603624_6291d7f86b.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27603624_6291d7f86b"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27627717_a1ae966847.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27627717_a1ae966847"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_27631366_76e3af170d.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_27631366_76e3af170d"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_28231879_673c442fbe.opus': Supported file format but file is malformed.",
+      "output_i_lufs": -21.71,
       "utterance_id": "cv22_common_voice_uk_28231879_673c442fbe"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_28383276_b661c86acf.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_28383276_b661c86acf"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_29234061_ba86920e9d.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_29234061_ba86920e9d"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_30405158_33eb008959.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_30405158_33eb008959"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_30590461_4982a585c2.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_30590461_4982a585c2"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_30641889_3e8ca5a510.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_30641889_3e8ca5a510"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_30669584_bb6aa0b465.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_30669584_bb6aa0b465"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_30985422_8931829668.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_30985422_8931829668"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_31323723_1ebde3cd21.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_31323723_1ebde3cd21"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_32461290_faebbe4714.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_32461290_faebbe4714"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_32675665_967313ae5b.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_32675665_967313ae5b"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_33586804_3097a1dd33.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_33586804_3097a1dd33"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_34120532_076f032031.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_34120532_076f032031"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_35605160_0a36ca3171.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_35605160_0a36ca3171"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_36828887_9333b3c58e.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_36828887_9333b3c58e"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37641210_d5b7d57f6c.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37641210_d5b7d57f6c"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37708578_fa3dae25a3.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37708578_fa3dae25a3"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37759706_779f74522a.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37759706_779f74522a"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37813420_7cd75e0043.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37813420_7cd75e0043"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37923576_b8ec105696.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37923576_b8ec105696"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37993739_8200584df0.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37993739_8200584df0"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_37996870_2068ccb7a3.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_37996870_2068ccb7a3"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38187657_a7fae79921.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38187657_a7fae79921"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38189046_6f1542dbd6.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38189046_6f1542dbd6"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38189932_37660263fc.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38189932_37660263fc"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38190081_0ea14c83fb.opus': Supported file format but file is malformed.",
+      "output_i_lufs": -36.58,
       "utterance_id": "cv22_common_voice_uk_38190081_0ea14c83fb"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38191374_085b0c10ce.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38191374_085b0c10ce"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38192386_79c68d34f1.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38192386_79c68d34f1"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38192578_1b1c1ea097.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38192578_1b1c1ea097"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38193059_486958fdf8.opus': Supported file format but file is malformed.",
+      "output_i_lufs": -21.95,
       "utterance_id": "cv22_common_voice_uk_38193059_486958fdf8"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38193162_93ddc2673f.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38193162_93ddc2673f"
+      "output_i_lufs": -25.31,
+      "utterance_id": "fleurs_uk_14710254832596999787_f88acecf9a04"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38193978_1e9e998f2f.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38193978_1e9e998f2f"
+      "output_i_lufs": -63.74,
+      "utterance_id": "ukr_dialects_segment_01425_b17f464820b1"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38197503_5a6bfb871f.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38197503_5a6bfb871f"
+      "output_i_lufs": -38.35,
+      "utterance_id": "voa_ukr_user_grant_pseudo_e8861aebcac4bb2d1ab4"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38213729_9427c16ea1.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38213729_9427c16ea1"
+      "output_i_lufs": -38.33,
+      "utterance_id": "cv22_common_voice_uk_38191538_529e719971"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38223801_8cc32c0997.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38223801_8cc32c0997"
+      "output_i_lufs": -24.06,
+      "utterance_id": "ukr_dialects_larysa_irodenko_00304_674cd806af52"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38223837_fdbd23e5ea.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38223837_fdbd23e5ea"
+      "output_i_lufs": -47.54,
+      "utterance_id": "ukr_dialects_segment_03690_040bc2d958b6"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38228572_9c4b3b226a.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38228572_9c4b3b226a"
+      "output_i_lufs": -21.91,
+      "utterance_id": "ukr_dialects_segment_13690_8ed47d9240ca"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38232087_c4c8aa1001.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38232087_c4c8aa1001"
+      "output_i_lufs": -24.09,
+      "utterance_id": "ukr_dialects_segment_13691_2bb463f03a8f"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38259388_3e59a64cac.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38259388_3e59a64cac"
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_25944420_b50853f7d5"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38289549_9a3541af0c.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38289549_9a3541af0c"
+      "output_i_lufs": -21.91,
+      "utterance_id": "cv22_common_voice_uk_30985233_657fa29826"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38385602_a7c33016e2.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38385602_a7c33016e2"
+      "output_i_lufs": -38.48,
+      "utterance_id": "cv22_common_voice_uk_30602035_c33adffe26"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38514082_bca5cd1079.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38514082_bca5cd1079"
+      "output_i_lufs": -43.16,
+      "utterance_id": "cv22_common_voice_uk_38191581_82581faf7a"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_38616638_005fd95828.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_38616638_005fd95828"
+      "output_i_lufs": -37.18,
+      "utterance_id": "voa_ukr_user_grant_pseudo_b9d4d3c35558cea2ea15"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_39483564_76b9559e87.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_39483564_76b9559e87"
+      "output_i_lufs": -24.12,
+      "utterance_id": "voa_ukr_user_grant_pseudo_d459441485369c501b0f"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_39925415_3dad4fe630.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_39925415_3dad4fe630"
+      "output_i_lufs": -37.13,
+      "utterance_id": "cv22_common_voice_uk_38190086_9125111071"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_40810201_01ecf2fc23.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_40810201_01ecf2fc23"
+      "output_i_lufs": -24.14,
+      "utterance_id": "fleurs_uk_18212060632776610484_543f267b5c85"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-sspiti7a/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-55.77:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10884533804671023736_922d64c5574c.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_10884533804671023736_922d64c5574c"
+      "output_i_lufs": -21.91,
+      "utterance_id": "cv22_common_voice_uk_26983742_98728d8089"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-u3929kv9/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.27:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11037153745659167075_4cd350090b04.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_11037153745659167075_4cd350090b04"
+      "output_i_lufs": -38.48,
+      "utterance_id": "cv22_common_voice_uk_37996359_c16c73d04a"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-dbou8r_x/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-62.36:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11951104046687950923_57df0a34077a.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_11951104046687950923_57df0a34077a"
+      "output_i_lufs": -25.0,
+      "utterance_id": "fleurs_uk_17040773209290574171_acfe5e0ec464"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-olkiktkq/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.42:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12383936501511910783_eeff64fca1c6.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_12383936501511910783_eeff64fca1c6"
+      "output_i_lufs": -38.55,
+      "utterance_id": "ukr_dialects_segment_13219_d43ab9b6d1ea"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-61xks0dz/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.5:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12771210704383688246_1724d36afd7a.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_12771210704383688246_1724d36afd7a"
+      "output_i_lufs": -21.9,
+      "utterance_id": "cv22_common_voice_uk_21800257_c9015b17c4"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-v9lbl1pa/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.42:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12891630438683896139_bfb71867e9fe.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_12891630438683896139_bfb71867e9fe"
+      "output_i_lufs": -21.84,
+      "utterance_id": "cv22_common_voice_uk_26631809_a72364c85f"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-hdft3116/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.66:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13664792118303891057_e53b30002651.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_13664792118303891057_e53b30002651"
+      "output_i_lufs": -38.49,
+      "utterance_id": "cv22_common_voice_uk_32834438_1c8efffd1a"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-10efcbir/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.34:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_14934938352132101119_8d03219b6746.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_14934938352132101119_8d03219b6746"
+      "output_i_lufs": -24.37,
+      "utterance_id": "ukr_dialects_ivanna_04367_0b778f939662"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-lsk6q_70/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.16:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15294294615590686152_255becbdd520.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_15294294615590686152_255becbdd520"
+      "output_i_lufs": -58.2,
+      "utterance_id": "ukr_dialects_segment_05690_43f61be34955"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-zsh0piul/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.92:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17419075266867155092_2b0cc91fab1d.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_17419075266867155092_2b0cc91fab1d"
+      "output_i_lufs": -24.83,
+      "utterance_id": "ukr_dialects_segment_09786_929f3ac8782e"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-mwooj081/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.9:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2533742789011844283_2e388b2e47dd.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_2533742789011844283_2e388b2e47dd"
+      "output_i_lufs": -24.61,
+      "utterance_id": "fleurs_uk_10972667822627435997_1313a89c55c0"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-x5dsv36p/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.47:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3603337809352414768_933184cd62d4.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_3603337809352414768_933184cd62d4"
+      "output_i_lufs": -24.18,
+      "utterance_id": "ukr_dialects_segment_06886_c2a0cf34ae48"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-dsvxocxo/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.18:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_4371685438217548465_4893d1fc8767.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_4371685438217548465_4893d1fc8767"
+      "output_i_lufs": -24.11,
+      "utterance_id": "voa_ukr_user_grant_pseudo_e3bd76dadd38cdf92289"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-1jozx4ax/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.07:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5612756676047087966_9765c80323a9.wav']' returned non-zero exit status 1.",
-      "utterance_id": "fleurs_uk_5612756676047087966_9765c80323a9"
+      "output_i_lufs": -21.99,
+      "utterance_id": "cv22_common_voice_uk_30590461_4982a585c2"
     },
     {
-      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-26o_9oo9/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-inf:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/tg_voices_uk_38411_e4f2ac0392e2.wav']' returned non-zero exit status 1.",
-      "utterance_id": "tg_voices_uk_38411_e4f2ac0392e2"
+      "output_i_lufs": -21.82,
+      "utterance_id": "cv22_common_voice_uk_31323723_1ebde3cd21"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21534756_85acd119d3.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21534756_85acd119d3"
+      "output_i_lufs": -48.5,
+      "utterance_id": "ukr_dialects_segment_05692_51470be5cf22"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21571101_aea9198811.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21571101_aea9198811"
+      "output_i_lufs": -21.68,
+      "utterance_id": "ukr_dialects_segment_06111_26a42f956c01"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21761314_5dbeaf7f85.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21761314_5dbeaf7f85"
+      "output_i_lufs": -21.49,
+      "utterance_id": "ukr_dialects_segment_11403_c4ee404ffb44"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21787944_e7dc88a12f.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21787944_e7dc88a12f"
+      "output_i_lufs": -24.04,
+      "utterance_id": "voa_ukr_user_grant_pseudo_00cc8eebd9a98d382e84"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21797567_fffedceabd.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_21797567_fffedceabd"
-    },
-    {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_21800298_f8f41743a6.opus': Supported file format but file is malformed.",
+      "output_i_lufs": -21.75,
       "utterance_id": "cv22_common_voice_uk_21800298_f8f41743a6"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22353663_d791e9d9b8.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22353663_d791e9d9b8"
+      "output_i_lufs": -37.74,
+      "utterance_id": "cv22_common_voice_uk_27627282_d6a392fe8f"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22421704_ea580fcdbd.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22421704_ea580fcdbd"
+      "output_i_lufs": -37.11,
+      "utterance_id": "cv22_common_voice_uk_28714634_2160d00857"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22436913_0b9527d0cd.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22436913_0b9527d0cd"
+      "output_i_lufs": -21.99,
+      "utterance_id": "cv22_common_voice_uk_38195163_05ceee09bd"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_22495620_3c272bee35.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_22495620_3c272bee35"
+      "output_i_lufs": -27.48,
+      "utterance_id": "fleurs_uk_5208521582270798244_c64ffeb31f19"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23554599_0d607ce995.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23554599_0d607ce995"
+      "output_i_lufs": -19.43,
+      "utterance_id": "ukr_dialects_segment_05694_9a4c0a2bd3f9"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23560210_732cb3bc6b.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23560210_732cb3bc6b"
+      "output_i_lufs": -21.95,
+      "utterance_id": "voa_ukr_user_grant_pseudo_092c7835bf08fdc92d89"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23560429_b864a9fea2.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23560429_b864a9fea2"
+      "output_i_lufs": -21.96,
+      "utterance_id": "cv22_common_voice_uk_23559542_a226d21ebe"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23689245_eff6addda0.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23689245_eff6addda0"
+      "output_i_lufs": -21.98,
+      "utterance_id": "cv22_common_voice_uk_35984020_4a339de8fa"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23934087_07ddebc63d.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23934087_07ddebc63d"
+      "output_i_lufs": -29.45,
+      "utterance_id": "ukr_dialects_hutsulendia_00487_e12fdde59135"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23951293_8b0a7e6635.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23951293_8b0a7e6635"
+      "output_i_lufs": -21.43,
+      "utterance_id": "ukr_dialects_segment_11766_ca4b96caeabf"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_23951444_aa4f0c52f7.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_23951444_aa4f0c52f7"
+      "output_i_lufs": -21.9,
+      "utterance_id": "cv22_common_voice_uk_23734695_f9b437baa3"
     },
     {
-      "enhancement_error": "LibsndfileError: Error opening '/home/ballvan/Projects/ukrainian-tts/training/data/multispeaker_full/raw/common_voice/cv22_common_voice_uk_24507347_64091b7a88.opus': Supported file format but file is malformed.",
-      "utterance_id": "cv22_common_voice_uk_24507347_64091b7a88"
+      "output_i_lufs": -21.63,
+      "utterance_id": "cv22_common_voice_uk_32659637_7a5e258059"
+    },
+    {
+      "output_i_lufs": -40.29,
+      "utterance_id": "cv22_common_voice_uk_38191604_55e4f548ef"
+    },
+    {
+      "output_i_lufs": -21.95,
+      "utterance_id": "cv22_common_voice_uk_38200067_7bc0567e4e"
+    },
+    {
+      "output_i_lufs": -24.35,
+      "utterance_id": "fleurs_uk_14877969183515658609_c1f4fc25ab2c"
+    },
+    {
+      "output_i_lufs": -24.69,
+      "utterance_id": "ukr_dialects_segment_02576_9e927ff5cddf"
+    },
+    {
+      "output_i_lufs": -24.65,
+      "utterance_id": "ukr_dialects_segment_02963_e241f89a5850"
+    },
+    {
+      "output_i_lufs": -24.25,
+      "utterance_id": "ukr_dialects_segment_09381_be13e2ddd94c"
+    },
+    {
+      "output_i_lufs": -42.02,
+      "utterance_id": "cv22_common_voice_uk_25145430_fc6c0ed3b6"
+    },
+    {
+      "output_i_lufs": -39.63,
+      "utterance_id": "cv22_common_voice_uk_38191659_f68c6be89a"
+    },
+    {
+      "output_i_lufs": -24.54,
+      "utterance_id": "fleurs_uk_18383340959950198713_48726bdab98e"
+    },
+    {
+      "output_i_lufs": -21.97,
+      "utterance_id": "cv22_common_voice_uk_25549159_0e0aacfc47"
+    },
+    {
+      "output_i_lufs": -43.63,
+      "utterance_id": "cv22_common_voice_uk_38189425_624986c76d"
+    },
+    {
+      "output_i_lufs": -21.99,
+      "utterance_id": "fleurs_uk_5307402534173347157_f4454d540169"
+    },
+    {
+      "output_i_lufs": -24.23,
+      "utterance_id": "ukr_dialects_hutsulendia_00864_f62bbf93ee16"
+    },
+    {
+      "output_i_lufs": -24.29,
+      "utterance_id": "ukr_dialects_segment_01068_f7a3d58ff817"
+    },
+    {
+      "output_i_lufs": -21.86,
+      "utterance_id": "cv22_common_voice_uk_21800357_16d6bcf05a"
+    },
+    {
+      "output_i_lufs": -21.96,
+      "utterance_id": "cv22_common_voice_uk_23030875_f25e2913bd"
+    },
+    {
+      "output_i_lufs": -21.92,
+      "utterance_id": "cv22_common_voice_uk_33177756_86c63ebfdb"
+    },
+    {
+      "output_i_lufs": -21.81,
+      "utterance_id": "cv22_common_voice_uk_37923575_42f1e7871f"
+    },
+    {
+      "output_i_lufs": -36.43,
+      "utterance_id": "cv22_common_voice_uk_39944564_b5472f746a"
     }
   ],
-  "rejected_records": 659,
+  "loudness_rejected_records": 1127,
+  "loudness_tolerance_lu": 1.0,
+  "maximum_duration": 20.0,
+  "maximum_true_peak_db": -0.74,
+  "minimum_duration": 2.0,
+  "rejected_examples": [
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vo3fbhze/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-55.75:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10884533804671023736_922d64c5574c.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10884533804671023736_922d64c5574c"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-p8y3zmps/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.12:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_14723530716710254038_18fbc9a72d22.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_14723530716710254038_18fbc9a72d22"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-0xehjtz6/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.47:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5111591958185187198_cb5fe80aaa66.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5111591958185187198_cb5fe80aaa66"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-uy27h1q6/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.12:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_8841790055493155793_b2802be7db34.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_8841790055493155793_b2802be7db34"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ep9z2h29/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.44:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_18203740859250441773_e8a995e6f7f9.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_18203740859250441773_e8a995e6f7f9"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-76rnbo28/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.46:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5207576196791524788_f13f114f183a.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5207576196791524788_f13f114f183a"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-56u7jo9d/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.22:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10999061020252317583_26e806107326.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10999061020252317583_26e806107326"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-sdwyyqpl/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.91:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11011294148546574088_be8b80265243.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11011294148546574088_be8b80265243"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-t2f16t6o/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.26:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11037153745659167075_4cd350090b04.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11037153745659167075_4cd350090b04"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-gtel_j1d/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.34:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_14934938352132101119_8d03219b6746.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_14934938352132101119_8d03219b6746"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-x_02hefx/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-67.32:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17073122593868201415_09f76b6c9a9b.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_17073122593868201415_09f76b6c9a9b"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-e9d70_u_/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-52.75:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15113928212671019287_0b07f0c4189a.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_15113928212671019287_0b07f0c4189a"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-a5bcib_9/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.97:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15120115115463980307_fd920cdd4a00.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_15120115115463980307_fd920cdd4a00"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vybqp19q/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.85:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_9270626160761087489_ec74d9279866.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_9270626160761087489_ec74d9279866"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-0t35olyy/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.11:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5612756676047087966_9765c80323a9.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5612756676047087966_9765c80323a9"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-yu76578b/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-44.84:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/cv22_common_voice_uk_38189036_bf950e7a27.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38189036_bf950e7a27"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-na42scvq/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.51:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11429595225259689399_99ebfb961a15.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11429595225259689399_99ebfb961a15"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-2y27ma8e/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.59:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11447538482648695366_b4e4cfff17ee.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11447538482648695366_b4e4cfff17ee"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-dgsjdo86/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.66:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2021082310902862628_1a691f6e52d6.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2021082310902862628_1a691f6e52d6"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-hbvmof28/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-55.42:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/cv22_common_voice_uk_38191909_bb91f33826.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38191909_bb91f33826"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-c51id7j5/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.58:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11540285872465104914_29a717b25caa.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11540285872465104914_29a717b25caa"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-56x48fx2/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-67.71:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_115408010408639935_b74d45994ca9.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_115408010408639935_b74d45994ca9"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-nyuak1ot/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-62.48:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5718557364435824006_27e6367529c8.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5718557364435824006_27e6367529c8"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-8pwtwaom/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.18:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15294294615590686152_255becbdd520.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_15294294615590686152_255becbdd520"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ktzxglqn/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-68.27:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15334279588399248263_e04bbbfe9163.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_15334279588399248263_e04bbbfe9163"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-hbk2nkpi/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.57:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_1536792511206694458_d1175d30294f.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_1536792511206694458_d1175d30294f"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-qeo9l4vf/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.49:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5825838702308828585_57bad17626dc.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5825838702308828585_57bad17626dc"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-5ftwmdao/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.93:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2222427730189227396_c66da0d82c5d.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2222427730189227396_c66da0d82c5d"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-_d58wzwv/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-67.32:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5861265333875386153_f436323e47a9.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5861265333875386153_f436323e47a9"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-owv8o9fd/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.07:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_227269904725572727_ba7f344a6dd9.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_227269904725572727_ba7f344a6dd9"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-iqwlqkv4/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-51.95:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2276021341751804161_c8515497eea4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2276021341751804161_c8515497eea4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-_nbqdtj2/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-63.14:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_5945415150448928596_5c337dc3de12.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_5945415150448928596_5c337dc3de12"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-zzf730gx/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-62.35:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_11951104046687950923_57df0a34077a.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_11951104046687950923_57df0a34077a"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vrbiwmf5/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.9:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2533742789011844283_2e388b2e47dd.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2533742789011844283_2e388b2e47dd"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-r9lfg2ua/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.19:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_15743824618438295158_c78ea7508ccd.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_15743824618438295158_c78ea7508ccd"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-123c6f4x/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.63:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6286812014864111386_cc7e61f05009.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6286812014864111386_cc7e61f05009"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-fkuggvdx/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.08:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2661192897836272758_260c4942122d.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2661192897836272758_260c4942122d"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-uw77l1c9/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.64:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6337355598512388942_0aeeea5fe664.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6337355598512388942_0aeeea5fe664"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-lsldbxrg/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.6:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2701246719953131216_c27f52554dbf.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2701246719953131216_c27f52554dbf"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-wddsztmj/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-inf:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/tg_voices_uk_37995_a36433682b58.wav']' returned non-zero exit status 1.",
+      "utterance_id": "tg_voices_uk_37995_a36433682b58"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-fm0fzccx/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-62.27:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13598832832764680481_991feeb80066.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13598832832764680481_991feeb80066"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ibs4ikt6/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.45:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12383936501511910783_eeff64fca1c6.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_12383936501511910783_eeff64fca1c6"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-_5mnwimb/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.03:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12403273847417140749_0a5612559461.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_12403273847417140749_0a5612559461"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-pmrfnwwe/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.1:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_642004868963294483_9cccd12718f2.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_642004868963294483_9cccd12718f2"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-lg9dvq49/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-55.16:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_1605313212514595701_09a036eea2b3.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_1605313212514595701_09a036eea2b3"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-7jquyxr3/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-inf:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/tg_voices_uk_38357_7e0a4ea2d58e.wav']' returned non-zero exit status 1.",
+      "utterance_id": "tg_voices_uk_38357_7e0a4ea2d58e"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-8aw0vytk/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-inf:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/tg_voices_uk_38411_e4f2ac0392e2.wav']' returned non-zero exit status 1.",
+      "utterance_id": "tg_voices_uk_38411_e4f2ac0392e2"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-1f4idp46/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-67.69:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6566563358567907894_cfa57c92f584.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6566563358567907894_cfa57c92f584"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-aolmgk3t/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.76:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3925970133168212967_f80b9a8982dd.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3925970133168212967_f80b9a8982dd"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-cqjhcznb/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.55:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_658158873617295703_d08cdf659793.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_658158873617295703_d08cdf659793"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-1ia_evz2/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.63:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_2939968908045369759_181c8c4cbd05.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_2939968908045369759_181c8c4cbd05"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-y1r8reu0/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.0:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6646459974846250011_4765f0dc75b4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6646459974846250011_4765f0dc75b4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ctqql9h2/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.8:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6695965740086345035_325f52f4b084.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6695965740086345035_325f52f4b084"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ghsyhgt7/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.44:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12732077854155819408_c13c867fa951.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_12732077854155819408_c13c867fa951"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-w78jxjsw/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.46:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3974123642343458924_665251b1aba4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3974123642343458924_665251b1aba4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-4avn39h_/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.49:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12771210704383688246_1724d36afd7a.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_12771210704383688246_1724d36afd7a"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-_aq_8hie/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-51.03:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_1282429032393718471_e06333914992.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_1282429032393718471_e06333914992"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-n4x6k46t/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.78:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3083055845051259431_0c74bfba2688.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3083055845051259431_0c74bfba2688"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-jztedf6m/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.4:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_12891630438683896139_bfb71867e9fe.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_12891630438683896139_bfb71867e9fe"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-1a11z3fr/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.43:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_6955396162958198587_fd84b048b420.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_6955396162958198587_fd84b048b420"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ha1uv4ik/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-62.74:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_16399198543759989961_5f3f5163addd.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_16399198543759989961_5f3f5163addd"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-bz2rqg0o/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-63.37:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7000454127263842605_77c796479dfb.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7000454127263842605_77c796479dfb"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-5vf79dvm/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.51:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_16487679697406185084_318e33071b28.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_16487679697406185084_318e33071b28"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-my3equ4n/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.81:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13002170813035940970_ce6410090db4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13002170813035940970_ce6410090db4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vwx0avg7/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.26:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13011647632233325672_9c8e0e0df737.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13011647632233325672_9c8e0e0df737"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-13zxqzyt/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-53.27:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/cv22_common_voice_uk_38192744_605ae7b1ab.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38192744_605ae7b1ab"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-uicx3xb5/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.06:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13076847693884587361_df780f115714.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13076847693884587361_df780f115714"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-yofx6lu4/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.11:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7123852408330743390_ffc8be2e431f.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7123852408330743390_ffc8be2e431f"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-29un0l07/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-59.07:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7177130321767122387_cbbdc24b86af.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7177130321767122387_cbbdc24b86af"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-m2ut4y5o/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-59.05:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3476907483587028422_e70027186e54.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3476907483587028422_e70027186e54"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-v9chuwh4/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.91:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13226758815315737902_cab92b32cd67.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13226758815315737902_cab92b32cd67"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vuh1thd1/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-59.55:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7241737622850349236_fbd94c686095.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7241737622850349236_fbd94c686095"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-89hosdcx/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.74:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3541277587578427431_eea49f94613c.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3541277587578427431_eea49f94613c"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-u97x3hom/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.3:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/cv22_common_voice_uk_38192786_238d9f61b7.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38192786_238d9f61b7"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-if6py_2s/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.23:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_16807047031511924525_4fc921416e46.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_16807047031511924525_4fc921416e46"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-leuhfio8/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.47:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3603337809352414768_933184cd62d4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3603337809352414768_933184cd62d4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-sqbzvfyr/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-66.21:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13345985710746070647_60c0b29326a2.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13345985710746070647_60c0b29326a2"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-n7grsppa/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.74:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_16848694202945446044_a8ec920c3bbc.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_16848694202945446044_a8ec920c3bbc"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-dhm1uh2h/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.94:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_3671486994592834888_8f3a5932f39d.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_3671486994592834888_8f3a5932f39d"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vwcffwll/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.57:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7348958016768421713_0b21847fdc00.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7348958016768421713_0b21847fdc00"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-cppmbzz3/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-60.65:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_7956082106654436704_160e3672afb4.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_7956082106654436704_160e3672afb4"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-b840hui6/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-58.25:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_4260638407182941269_7b067595585f.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_4260638407182941269_7b067595585f"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-4b1u6fn9/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-63.28:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_800310590088877867_55d4bc6e7579.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_800310590088877867_55d4bc6e7579"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-h76iforo/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-59.0:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17419075266867155092_2b0cc91fab1d.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_17419075266867155092_2b0cc91fab1d"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-h39rjxtn/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.19:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_4371685438217548465_4893d1fc8767.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_4371685438217548465_4893d1fc8767"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-q0u88bgb/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.01:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_8052184284442183197_00f620dbf24d.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_8052184284442183197_00f620dbf24d"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-9ohenwya/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.89:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_4464691066468951780_9b7b311d72df.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_4464691066468951780_9b7b311d72df"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-pvzj8c04/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.06:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10034282790468914426_ffc9985efad6.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10034282790468914426_ffc9985efad6"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-hwrczehi/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.5:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17490807448211984422_14683c179727.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_17490807448211984422_14683c179727"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-vryk8jtv/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.07:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_380510413813243697_0b3ded187453.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_380510413813243697_0b3ded187453"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-5vz3hbhg/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.82:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10204854852631573453_8efa2dc9f9f3.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10204854852631573453_8efa2dc9f9f3"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ecrm7itc/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.16:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17520720141137239569_6e03d3ed50ea.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_17520720141137239569_6e03d3ed50ea"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-tk4btkhc/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.53:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10269066837152005989_c93d05266b6b.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10269066837152005989_c93d05266b6b"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-4qj7t5_k/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-54.55:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/cv22_common_voice_uk_38191283_fcb5478a45.wav']' returned non-zero exit status 1.",
+      "utterance_id": "cv22_common_voice_uk_38191283_fcb5478a45"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-u0yqhjm0/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-65.46:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_13664792118303891057_e53b30002651.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_13664792118303891057_e53b30002651"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-p6x3fier/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-57.57:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_4821683952561318087_50430631b438.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_4821683952561318087_50430631b438"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-whs6ifmp/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-61.35:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_10397666982733330743_6243601afae3.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_10397666982733330743_6243601afae3"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-ri9be8k7/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-64.1:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_17008663919649257280_662cef04b885.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_17008663919649257280_662cef04b885"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-g4ctw06b/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.6:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_1455715215739101000_84a0eb7ea0d6.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_1455715215739101000_84a0eb7ea0d6"
+    },
+    {
+      "enhancement_error": "CalledProcessError: Command '['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'info', '-y', '-i', '/tmp/uktts-dfn3-1xxt2bn8/mastered-48k.wav', '-af', 'loudnorm=I=-23.0:LRA=7.0:TP=-1.0:measured_I=-inf:measured_LRA=0.0:measured_TP=-56.67:measured_thresh=-70.0:offset=inf:linear=true:print_format=json', '-ac', '1', '-ar', '24000', '-c:a', 'pcm_s16le', '/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/processed_24k/fleurs_uk_18072506567577491757_81527fda217c.wav']' returned non-zero exit status 1.",
+      "utterance_id": "fleurs_uk_18072506567577491757_81527fda217c"
+    }
+  ],
+  "rejected_records": 101,
   "splits": {
-    "expanded_v3_dev": 1403,
-    "expanded_v3_eval": 1420,
-    "expanded_v3_train": 73755
+    "expanded_v3_dev": 1404,
+    "expanded_v3_eval": 1418,
+    "expanded_v3_train": 206045
   },
   "status": "PASS"
 }
