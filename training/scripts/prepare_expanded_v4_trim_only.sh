@@ -60,7 +60,8 @@ GPU_UUIDS="$GPU_UUIDS" \
 "${ROOT}/espnet_recipe/run_expanded_v4_trim_only.sh" --stage 4 --stop_stage 4 --nj 10
 mkdir -p "$TOKEN_DIR"
 cp "$REFERENCE_TOKENS" "${TOKEN_DIR}/tokens.txt"
-"${ROOT}/espnet_recipe/run_expanded_v4_trim_only.sh" --stage 6 --stop_stage 6 --nj 10
+"${ROOT}/espnet_recipe/run_expanded_v4_trim_only.sh" \
+    --stage 6 --stop_stage 6 --nj "${STATS_NJ:-20}"
 python "${ROOT}/scripts/audit_expanded_v4_trim_only_readiness.py" \
     --workspace "$ROOT" --data-root "$DATA_ROOT" --dump-dir "$DUMP_DIR" \
     --exp-dir "$EXP_DIR" --reports-root "$REPORTS" --mode "$MODE" \
