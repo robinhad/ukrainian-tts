@@ -3,10 +3,12 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 REPOSITORY_ROOT=$(cd "${ROOT}/.." && pwd)
-TTS_EXP="${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_25k"
-MODEL_FILE=${MODEL_FILE:-train.total_count.ave.pth}
-OUTPUT_DIR="${ROOT}/eval/generated/five_voice_expanded_v3_25k"
-REPORT="${ROOT}/reports/five_voice_expanded_v3_25k.json"
+TARGET_ITERATIONS=${TARGET_ITERATIONS:-25000}
+TARGET_LABEL=${TARGET_LABEL:-"$((TARGET_ITERATIONS / 1000))k"}
+TTS_EXP=${TTS_EXP:-"${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_${TARGET_LABEL}"}
+MODEL_FILE=${MODEL_FILE:-"milestones/${TARGET_LABEL}.pth"}
+OUTPUT_DIR=${OUTPUT_DIR:-"${ROOT}/eval/generated/five_voice_expanded_v3_${TARGET_LABEL}"}
+REPORT=${REPORT:-"${ROOT}/reports/five_voice_expanded_v3_${TARGET_LABEL}.json"}
 VOICE_ARK="${OUTPUT_DIR}/voices.ark"
 TEXT=${LISTENING_TEXT:-"Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району."}
 
