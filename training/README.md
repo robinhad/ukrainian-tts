@@ -96,7 +96,15 @@ training/reports/expanded_v3_500k_artifacts.sha256
 ```
 
 The finalizer completed with exit code 0. It validated 1,418 fixed-set files
-and five listening files. The next action is a human listening check.
+and five listening files. The user hears rasp and intermittent robotic sound.
+Release status is `FAIL`.
+
+The A/B review has five voices from epochs 367, 443, 488, and 500. Use this
+guide:
+
+```text
+training/reports/expanded_v3_500k_listening_followup.md
+```
 
 ## Fixed versions
 

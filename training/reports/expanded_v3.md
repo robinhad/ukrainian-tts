@@ -114,7 +114,8 @@ final validation mel loss is 40.105. The final validation alignment loss is
 The fixed evaluation made 1,418 valid 24 kHz mono WAV files. The five-voice
 evaluation made five more valid files. All five files use the required
 Kamianets-Podilskyi sentence. The automatic checks have `PASS`. The human
-listening check is open.
+listening check has `FAIL`. The user hears rasp and intermittent robotic sound.
+The A/B review compares epochs 367, 443, 488, and 500.
 
 ## Disk control
 

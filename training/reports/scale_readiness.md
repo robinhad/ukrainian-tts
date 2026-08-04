@@ -38,11 +38,11 @@ All critical cycle 1 gates have `PASS`.
 | 500K checkpoint | PASS | The milestone and epoch files are byte-identical. | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_500k/milestones/500k.pth` | Preserve the file outside Git. |
 | Validation-best checkpoints | PASS | The pipeline kept the best generator, mel, and alignment epochs. | `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_500k/best_checkpoints/validation_best.json` | Compare them by listening. |
 | Fixed-set inference | PASS | 1,418 of 1,418 WAV files passed. Median RTF is 0.00669. | `reports/expanded_v3_inference_500k.json` | Preserve the report. |
-| Five-voice inference | PASS | Five of five WAV files passed. | `reports/five_voice_expanded_v3_500k.json` | Do the human listening check. |
+| Five-voice inference | PASS | Five of five WAV files passed the technical checks. | `reports/five_voice_expanded_v3_500k.json` | Keep the technical report. |
 | Artifact checksums | PASS | `sha256sum -c` passed for every listed file. | `reports/expanded_v3_500k_artifacts.sha256` | Preserve the checksum file. |
 | Old 800-hour VOA target | FAIL | The accepted VOA subset has 377.489 hours. | `reports/expanded_v3_full_scale_readiness.json` | Treat this as an authorized run exception. |
-| Human listening | NOT RUN | Automatic checks cannot measure naturalness. | `eval/generated/five_voice_expanded_v3_500k/` | Listen before release. |
+| Human listening | FAIL | The user hears rasp and intermittent robotic sound. | `reports/five_voice_expanded_v3_500k.json` | Compare epochs 367, 443, 488, and 500. |
 
 The 500K training and automatic evaluation are complete. The old 800-hour VOA
 target remains open. The user authorized training on the accepted dataset.
-Release promotion is not ready until the human listening check is complete.
+Release promotion is not ready. Human listening has `FAIL`.

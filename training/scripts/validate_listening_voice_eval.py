@@ -16,6 +16,16 @@ def main() -> int:
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--wav-dir", type=Path, required=True)
     parser.add_argument("--text", required=True)
+    parser.add_argument(
+        "--human-listening-status",
+        choices=("NOT_RUN", "PASS", "FAIL"),
+        default="NOT_RUN",
+    )
+    parser.add_argument("--perceptual-issue", action="append", default=[])
+    parser.add_argument(
+        "--human-listening-source", default="user_listening_report"
+    )
+    parser.add_argument("--human-listening-note", action="append", default=[])
     args = parser.parse_args()
 
     report = json.loads(args.report.read_text(encoding="utf-8"))
@@ -59,16 +69,36 @@ def main() -> int:
             }
         )
 
+    automatic_status = "PASS" if not errors and len(generated) == 5 else "FAIL"
+    if automatic_status == "FAIL" or args.human_listening_status == "FAIL":
+        release_status = "FAIL"
+    elif args.human_listening_status == "PASS":
+        release_status = "PASS"
+    else:
+        release_status = "NOT_READY"
+
     report["listening_sentence"] = args.text
-    report["perceptual_issue"] = {
-        "status": "FAIL",
-        "issue": "metallic_timbre",
-        "source": "user_listening_report",
-        "next_action": "Use this five-voice set to separate speaker-conditioning effects from the shared model artifact.",
+    report.pop("perceptual_issue", None)
+    report["automatic_validation"] = {
+        "status": automatic_status,
+        "errors": errors,
     }
+    report["human_listening"] = {
+        "status": args.human_listening_status,
+        "issues": args.perceptual_issue,
+        "notes": args.human_listening_note,
+        "source": (
+            args.human_listening_source
+            if args.human_listening_status != "NOT_RUN"
+            else None
+        ),
+    }
+    report["release_status"] = release_status
     report["generated"] = generated
     report["errors"] = errors
-    report["status"] = "PASS" if not errors and len(generated) == 5 else "FAIL"
+    # Keep this field as the automatic status for compatibility with the
+    # finalizer and with earlier machine-readable reports.
+    report["status"] = automatic_status
     args.report.write_text(
         json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -84,7 +114,7 @@ def main() -> int:
             indent=2,
         )
     )
-    return 0 if report["status"] == "PASS" else 1
+    return 0 if automatic_status == "PASS" else 1
 
 
 if __name__ == "__main__":

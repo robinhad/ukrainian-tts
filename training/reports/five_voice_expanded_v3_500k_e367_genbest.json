@@ -7,69 +7,63 @@
   "generated": [
     {
       "channels": 1,
-      "duration": 9.290666666666667,
-      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_01.wav.json",
-      "peak_absolute": 0.4093017578125,
-      "real_time_factor": 0.04083066625051718,
+      "duration": 9.354666666666667,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_01.wav.json",
+      "peak_absolute": 0.545074462890625,
+      "real_time_factor": 0.04255818461110187,
       "sample_rate": 24000,
       "voice": "voice_01",
-      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_01.wav"
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_01.wav"
     },
     {
       "channels": 1,
-      "duration": 8.245333333333333,
-      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_02.wav.json",
-      "peak_absolute": 0.37396240234375,
-      "real_time_factor": 0.04730751156590983,
+      "duration": 8.565333333333333,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_02.wav.json",
+      "peak_absolute": 0.34722900390625,
+      "real_time_factor": 0.04621338581592848,
       "sample_rate": 24000,
       "voice": "voice_02",
-      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_02.wav"
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_02.wav"
     },
     {
       "channels": 1,
-      "duration": 8.256,
-      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_03.wav.json",
-      "peak_absolute": 0.391876220703125,
-      "real_time_factor": 0.046468133835213137,
+      "duration": 8.394666666666666,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_03.wav.json",
+      "peak_absolute": 0.449127197265625,
+      "real_time_factor": 0.048737777827492196,
       "sample_rate": 24000,
       "voice": "voice_03",
-      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_03.wav"
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_03.wav"
     },
     {
       "channels": 1,
-      "duration": 8.554666666666666,
-      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_04.wav.json",
-      "peak_absolute": 0.4010009765625,
-      "real_time_factor": 0.044166984841020836,
+      "duration": 8.672,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_04.wav.json",
+      "peak_absolute": 0.487274169921875,
+      "real_time_factor": 0.04639842562672572,
       "sample_rate": 24000,
       "voice": "voice_04",
-      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_04.wav"
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_04.wav"
     },
     {
       "channels": 1,
-      "duration": 9.141333333333334,
-      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_05.wav.json",
-      "peak_absolute": 0.447235107421875,
-      "real_time_factor": 0.04337708292269667,
+      "duration": 9.248,
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_05.wav.json",
+      "peak_absolute": 0.47259521484375,
+      "real_time_factor": 0.04275781239185943,
       "sample_rate": 24000,
       "voice": "voice_05",
-      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k/voice_05.wav"
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v3_500k_e367_genbest/voice_05.wav"
     }
   ],
   "human_listening": {
-    "issues": [
-      "raspy_audio",
-      "intermittent_robotic_quality"
-    ],
-    "notes": [
-      "The user hears rasp in the audio.",
-      "The audio sounds robotic in some parts."
-    ],
-    "source": "user_listening_report",
-    "status": "FAIL"
+    "issues": [],
+    "notes": [],
+    "source": null,
+    "status": "NOT_RUN"
   },
   "listening_sentence": "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району.",
-  "release_status": "FAIL",
+  "release_status": "NOT_READY",
   "selection": "deterministic_representative_minibatch_kmeans_medoids",
   "status": "PASS",
   "voices": [

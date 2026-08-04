@@ -48,7 +48,8 @@ The smoke cycle proved the complete technical path before the long run.
 | Finite losses | PASS | The log has no NaN, OOM, or critical runtime error. |
 | 500K checkpoint | PASS | The epoch file and milestone file are byte-identical. |
 | Fixed-set inference | PASS | 1,418 of 1,418 WAV files passed. |
-| Five-voice inference | PASS | Five of five WAV files passed. |
+| Five-voice automatic inference | PASS | Five of five WAV files passed the technical checks. |
+| Human listening | FAIL | The user hears rasp and intermittent robotic sound. |
 | Checksums | PASS | The final checksum file passes `sha256sum -c`. |
 | Old 800-hour VOA target | FAIL | The accepted VOA subset has 377.489 hours. The user authorized this run on the available data. |
 
@@ -63,7 +64,7 @@ The smoke cycle proved the complete technical path before the long run.
 | `generate_five_voice_expanded_v3_eval.sh` | 0 | Five listening WAV files passed. | `reports/five_voice_expanded_v3_500k.json` |
 | `finalize_expanded_v3_500k.sh` | 0 | Both evaluations and all checksums completed. | `reports/expanded_v3_500k_artifacts.sha256` |
 | Independent WAV audit | 0 | All 1,423 WAV files passed a second check. | `eval/generated/five_voice_expanded_v3_500k/` |
-| `python -m pytest -q training/tests` | 0 | All 94 tests passed in 7.93 seconds. | `tests/` |
+| `python -m pytest -q training/tests` | 0 | All 96 tests passed in 7.78 seconds. | `tests/` |
 
 ## Training metrics
 
@@ -93,6 +94,7 @@ the 30 GiB cleanup threshold.
 - Validation-best checkpoints: `exp_expanded_v3/tts_jets_uk_24k_expanded_v3_500k/best_checkpoints/`.
 - Fixed evaluation: `reports/expanded_v3_inference_500k.json`.
 - Listening evaluation: `reports/five_voice_expanded_v3_500k.json`.
+- A/B listening guide: `reports/expanded_v3_500k_listening_followup.md`.
 - Listening WAV files: `eval/generated/five_voice_expanded_v3_500k/`.
 - Checksums: `reports/expanded_v3_500k_artifacts.sha256`.
 - Runtime status: `reports/training_status_expanded_v3_500k.jsonl`.
@@ -103,13 +105,14 @@ The final checkpoint SHA-256 is
 ## Відомі проблеми
 
 - The old VOA target is 800 hours. The accepted VOA subset has 377.489 hours.
-- The user reported metallic sound in an earlier model. The 500K model needs a
-  human listening check.
+- The 500K model has rasp and intermittent robotic sound in the user check.
+- The three validation-best A/B sets need a human listening check.
 - GPU 0 reached 88 degrees C during training.
 - Flash Attention is not installed. ESPnet used its standard attention code.
 - The automatic tests do not measure naturalness or speaker preference.
 
 ## Наступна одна дія
 
-Listen to the five files in `eval/generated/five_voice_expanded_v3_500k/`.
-Select the best voice before you make a release candidate.
+Compare `voice_01.wav` in the four directories in
+`reports/expanded_v3_500k_listening_followup.md`. Report which epoch has the
+least rasp and robotic sound.
