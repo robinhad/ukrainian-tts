@@ -70,6 +70,27 @@ more than 30 GiB. At 30 GiB, it removes the oldest processed batch. It stops the
 removal when free disk space is more than 30 GiB. It does not remove an
 unprocessed batch.
 
+### Evaluate the 500K model
+
+Do not run the finalizer while training is active. The finalizer stops if the
+training chain does not have the `COMPLETE` state. Run this command after the
+500K checkpoint exists:
+
+```sh
+training/scripts/finalize_expanded_v3_500k.sh
+```
+
+The finalizer uses GPU 0 for the fixed set of 1,418 evaluation utterances. It
+uses GPU 1 for the five-voice listening set. All five voices use the required
+sentence about Kamianets-Podilskyi. The finalizer validates the WAV files and
+writes these reports:
+
+```text
+training/reports/expanded_v3_inference_500k.json
+training/reports/five_voice_expanded_v3_500k.json
+training/reports/expanded_v3_500k_artifacts.sha256
+```
+
 ## Fixed versions
 
 - ESPnet `v.202604-patch1`, commit `cff0a07`
