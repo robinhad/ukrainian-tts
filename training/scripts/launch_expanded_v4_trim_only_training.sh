@@ -7,6 +7,7 @@ TTS_EXP=${TTS_EXP:-"${ROOT}/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v
 LOG="${ROOT}/reports/expanded_v4_trim_only_100k_launcher.log"
 STATUS="${ROOT}/reports/training_status_expanded_v4_trim_only_100k.jsonl"
 MARKER="${ROOT}/reports/expanded_v4_trim_only_cleanup_eligible.json"
+PYTHON="${ROOT}/.venv/bin/python"
 
 TTS_EXP="$TTS_EXP" "${ROOT}/scripts/run_expanded_v4_trim_only_training.sh" "$TARGET_ITERATIONS" >"$LOG" 2>&1 &
 train_pid=$!
@@ -15,14 +16,14 @@ STATUS="$STATUS" INTERVAL_SECONDS=900 \
 monitor_pid=$!
 "${ROOT}/scripts/preserve_expanded_v3_milestones.sh" "$train_pid" "$TARGET_ITERATIONS" "$TTS_EXP" &
 milestone_pid=$!
-python "${ROOT}/scripts/monitor_trim_only_disk.py" \
+"$PYTHON" "${ROOT}/scripts/monitor_trim_only_disk.py" \
     --watch-pid "$train_pid" --workspace "$ROOT" --marker "$MARKER" \
     --status "${ROOT}/reports/expanded_v4_trim_only_disk.jsonl" &
 disk_pid=$!
 (
     while kill -0 "$train_pid" 2>/dev/null && [[ ! -s "${TTS_EXP}/train.log" ]]; do sleep 5; done
     if [[ -s "${TTS_EXP}/train.log" ]]; then
-        python "${ROOT}/scripts/preserve_validation_best_checkpoints.py" \
+        "$PYTHON" "${ROOT}/scripts/preserve_validation_best_checkpoints.py" \
             --log "${TTS_EXP}/train.log" --exp-dir "$TTS_EXP" \
             --target-epoch "$((TARGET_ITERATIONS / 1000))" --poll-seconds 30
     fi
@@ -41,7 +42,7 @@ if (( train_status || monitor_status || milestone_status || disk_status || best_
     echo "train=${train_status} monitor=${monitor_status} milestone=${milestone_status} disk=${disk_status} best=${best_status}" >&2
     exit 1
 fi
-python "${ROOT}/scripts/audit_finetune_checkpoint.py" \
+"$PYTHON" "${ROOT}/scripts/audit_finetune_checkpoint.py" \
     --checkpoint "${TTS_EXP}/checkpoint.pth" --expected-steps "$TARGET_ITERATIONS" \
     --output "${ROOT}/reports/expanded_v4_trim_only_100k_checkpoint.json"
 for label in 25k 50k 75k 100k; do
