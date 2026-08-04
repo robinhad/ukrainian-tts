@@ -4,6 +4,7 @@ import pandas as pd
 
 from training.scripts.prepare_hybrid_embeddings import (
     assign_variants,
+    kaldi_audio_spec,
     kaldi_speaker_id,
 )
 
@@ -37,3 +38,9 @@ def test_kaldi_speaker_id_keeps_utterance_sort_order():
     ]
     assert lines == sorted(lines)
     assert lines == sorted(lines, key=lambda line: line.split(maxsplit=1)[1])
+
+
+def test_compressed_raw_audio_uses_ffmpeg_pipe():
+    spec = kaldi_audio_spec("/tmp/a file.opus", "raw")
+    assert spec == "ffmpeg -nostdin -loglevel error -i '/tmp/a file.opus' -ac 1 -f wav - |"
+    assert kaldi_audio_spec("/tmp/clean.wav", "clean") == "/tmp/clean.wav"

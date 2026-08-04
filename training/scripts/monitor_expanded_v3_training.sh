@@ -8,7 +8,7 @@ TARGET_LABEL="$((TARGET_ITERATIONS / 1000))k"
 TTS_EXP=${3:-"${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_${TARGET_LABEL}"}
 INTERVAL_SECONDS=${INTERVAL_SECONDS:-900}
 LOG="${TTS_EXP}/train.log"
-STATUS="${ROOT}/reports/training_status_expanded_v3_${TARGET_LABEL}.jsonl"
+STATUS=${STATUS:-"${ROOT}/reports/training_status_expanded_v3_${TARGET_LABEL}.jsonl"}
 PYTHON="${ROOT}/.venv/bin/python"
 
 if (( INTERVAL_SECONDS < 1 || INTERVAL_SECONDS > 900 )); then
@@ -19,7 +19,7 @@ probe() {
     set +e
     "$PYTHON" "${ROOT}/scripts/training_status.py" \
         --log "$LOG" --target-iterations "$TARGET_ITERATIONS" \
-        --workspace "$ROOT" --free-disk-stop-gib 30 \
+        --workspace "$ROOT" --free-disk-stop-gib "${FREE_DISK_STOP_GIB:-30}" \
         --maximum-temperature-c 90 --output "$STATUS"
     result=$?
     set -e

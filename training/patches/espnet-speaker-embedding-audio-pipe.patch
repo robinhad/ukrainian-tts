@@ -1,0 +1,47 @@
+diff --git a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+--- a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
++++ b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+@@ -2,10 +2,13 @@
+ #  2025, Terry(Zhuoyan) Tao
+ 
+ import argparse
++import io
+ import itertools
+ import logging
+ import multiprocessing as mp
+ import os
++import shlex
++import subprocess
+ import sys
+ from concurrent.futures import ThreadPoolExecutor, as_completed
+ from pathlib import Path
+@@ -13,6 +16,7 @@
+ import kaldiio
+ import librosa
+ import numpy as np
++import soundfile
+ import torch
+ import torchaudio
+ from torch.nn.utils.rnn import pad_sequence
+@@ -319,7 +323,20 @@
+ 
+         def load_item(spk_utt):
+             spk, utt = spk_utt
+-            in_sr, wav = wav_scp[utt]  # wav: np.float32
++            audio_spec = wav_scp.get_path(utt)
++            if isinstance(audio_spec, str) and audio_spec.rstrip().endswith("|"):
++                command = shlex.split(audio_spec.rstrip()[:-1].strip())
++                completed = subprocess.run(
++                    command,
++                    check=True,
++                    stdout=subprocess.PIPE,
++                    stderr=subprocess.PIPE,
++                )
++                wav, in_sr = soundfile.read(
++                    io.BytesIO(completed.stdout), dtype="float32"
++                )
++            else:
++                in_sr, wav = wav_scp[utt]  # wav: np.float32
+             if args.toolkit == "speechbrain":
+                 wav = (
+                     spk_embed_extractor.audio_norm(torch.from_numpy(wav), in_sr)

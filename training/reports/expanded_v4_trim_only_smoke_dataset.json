@@ -1,0 +1,35 @@
+{
+  "clean_paths_missing": 0,
+  "duration_hours": 0.629569872685185,
+  "input_records": 208867,
+  "manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only_smoke/manifests/all.parquet",
+  "mode": "smoke",
+  "profile": {
+    "boundary_trim": true,
+    "channels": 1,
+    "compression": false,
+    "deepfilternet": false,
+    "deessing": false,
+    "format": "WAV/PCM_16",
+    "highpass": false,
+    "loudness_normalization": false,
+    "name": "expanded_v4_trim_only_v1",
+    "sample_rate": 24000
+  },
+  "profile_hash": "5cb8460da0b3a9b70bcb836cbedcc63eeb869f0a64cbb799cd9d15517a8fcdcc",
+  "raw_manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only_smoke/raw_embedding_manifest.parquet",
+  "raw_paths_missing": 0,
+  "records": 320,
+  "rejected": {
+    "clipping": 1357,
+    "too_long": 0,
+    "too_short": 5,
+    "unique_records": 1362
+  },
+  "splits": {
+    "expanded_v4_trim_only_dev": 32,
+    "expanded_v4_trim_only_eval": 32,
+    "expanded_v4_trim_only_train": 256
+  },
+  "status": "PASS"
+}

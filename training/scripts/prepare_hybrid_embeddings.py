@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shlex
 from collections import defaultdict
 from pathlib import Path
 
@@ -56,6 +57,17 @@ def write_lines(path: Path, lines: list[str]) -> None:
 def kaldi_speaker_id(utterance_id: str, speaker_id: str) -> str:
     """Keep Kaldi speaker sorting valid without changing utterance IDs."""
     return f"{utterance_id}--{speaker_id}"
+
+
+def kaldi_audio_spec(path: str, variant: str) -> str:
+    """Return a direct WAV path or an FFmpeg pipe for compressed raw audio."""
+    suffix = Path(path).suffix.lower()
+    if variant == "raw" and suffix not in {".wav", ".wave"}:
+        return (
+            "ffmpeg -nostdin -loglevel error -i "
+            f"{shlex.quote(path)} -ac 1 -f wav - |"
+        )
+    return path
 
 
 def main() -> int:
@@ -114,7 +126,8 @@ def main() -> int:
     for split, split_frame in frame.groupby("split", sort=True):
         directory = args.kaldi_root / str(split)
         wav_lines = [
-            f"{row.utterance_id} {row.embedding_audio_path}"
+            f"{row.utterance_id} "
+            f"{kaldi_audio_spec(row.embedding_audio_path, row.embedding_audio_variant)}"
             for row in split_frame.itertuples()
         ]
         speakers: dict[str, list[str]] = defaultdict(list)

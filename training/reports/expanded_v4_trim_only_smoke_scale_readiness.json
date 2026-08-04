@@ -1,0 +1,57 @@
+{
+  "authorized_voa_minimum_exception": true,
+  "free_disk_gib": 48.6,
+  "gates": [
+    {
+      "artifact": "training",
+      "evidence": "48.60 GiB is free. The limit is 30 GiB.",
+      "gate": "Disk reserve",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v4_trim_only_smoke_dataset.json",
+      "evidence": "The builder report has 320 records.",
+      "gate": "Dataset build",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/data/expanded_v4_trim_only_smoke/manifests/all.parquet",
+      "evidence": "The manifest has 320 of 320 expected records.",
+      "gate": "Expected record count",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v4_trim_only_smoke_validation.json",
+      "evidence": "The validator found 0 clipping files.",
+      "gate": "Dataset validation",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/data/expanded_v4_trim_only_smoke/manifests/all.parquet",
+      "evidence": "DeepFilterNet, high-pass, de-essing, compression, and loudness normalization are disabled.",
+      "gate": "Trim-only profile",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/reports/expanded_v4_trim_only_smoke_hybrid_embeddings.json",
+      "evidence": "The report has 160 pre-trim and 160 post-trim vectors.",
+      "gate": "True 50/50 embeddings",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/dump_expanded_v4_trim_only_smoke/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "evidence": "The token list has 138 entries and must equal the epoch-367 list.",
+      "gate": "Token list",
+      "status": "PASS"
+    },
+    {
+      "artifact": "training/exp_expanded_v4_trim_only_smoke/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "evidence": "The required NPZ statistics exist.",
+      "gate": "Speech, pitch, and energy statistics",
+      "status": "PASS"
+    }
+  ],
+  "manifest_records": 320,
+  "mode": "smoke",
+  "status": "PASS"
+}
