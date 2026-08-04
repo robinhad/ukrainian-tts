@@ -50,3 +50,6 @@ python "${ROOT}/scripts/synthesize_eval.py" \
     --config "${TTS_EXP}/config.yaml" \
     --inference-log "${DECODE_DIR}/log/tts_inference.1.log" \
     --output "${ROOT}/reports/expanded_v4_trim_only_smoke_inference.json"
+python "${ROOT}/scripts/audit_finetune_checkpoint.py" \
+    --checkpoint "${TTS_EXP}/checkpoint.pth" --expected-steps 100 \
+    --output "${ROOT}/reports/expanded_v4_trim_only_smoke_checkpoint.json"
