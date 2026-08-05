@@ -3,8 +3,52 @@ import subprocess
 import sys
 from pathlib import Path
 
+from training.scripts.summarize_training_status import summarize
+
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "summarize_training_status.py"
+
+
+def test_summarize_keeps_the_original_report_fields() -> None:
+    rows = [
+        {
+            "timestamp_kyiv": "2026-07-23T11:00:00+03:00",
+            "gpus": [
+                {
+                    "index": 0,
+                    "power_draw_w": 200.0,
+                    "power_limit_w": 350.0,
+                    "utilization_percent": 90,
+                    "temperature_c": 80,
+                    "memory_used_mib": 20000,
+                }
+            ],
+        },
+        {
+            "timestamp_kyiv": "2026-07-23T11:05:00+03:00",
+            "gpus": [
+                {
+                    "index": 0,
+                    "power_draw_w": 220.0,
+                    "power_limit_w": 350.0,
+                    "utilization_percent": 100,
+                    "temperature_c": 82,
+                    "memory_used_mib": 21000,
+                }
+            ],
+        },
+    ]
+    report = summarize(rows)
+    gpu = report["gpus"][0]
+    assert report["status"] == "PASS"
+    assert report["first_sample_kyiv"] == "2026-07-23T11:00:00+03:00"
+    assert gpu["power_limit_w"] == 350.0
+    assert gpu["mean_sampled_power_w"] == 210.0
+    assert gpu["maximum_sampled_utilization_percent"] == 100
+
+
+def test_empty_status_is_failure() -> None:
+    assert summarize([])["status"] == "FAIL"
 
 
 def test_status_summary_checks_two_gpus_and_monitor_gap(tmp_path: Path) -> None:
