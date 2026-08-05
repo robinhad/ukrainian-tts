@@ -42,9 +42,15 @@ if (( train_status || monitor_status || milestone_status || disk_status || best_
     echo "train=${train_status} monitor=${monitor_status} milestone=${milestone_status} disk=${disk_status} best=${best_status}" >&2
     exit 1
 fi
-"$PYTHON" "${ROOT}/scripts/audit_finetune_checkpoint.py" \
-    --checkpoint "${TTS_EXP}/checkpoint.pth" --expected-steps "$TARGET_ITERATIONS" \
+audit_args=(
+    --checkpoint "${TTS_EXP}/checkpoint.pth"
+    --expected-steps "$TARGET_ITERATIONS"
     --output "${ROOT}/reports/expanded_v4_trim_only_100k_checkpoint.json"
+)
+if [[ -s "${TTS_EXP}/milestones/100k.pth" ]]; then
+    audit_args+=(--model-artifact "${TTS_EXP}/milestones/100k.pth")
+fi
+"$PYTHON" "${ROOT}/scripts/audit_finetune_checkpoint.py" "${audit_args[@]}"
 for label in 25k 50k 75k 100k; do
     if [[ -s "${TTS_EXP}/milestones/${label}.pth" ]]; then
         TTS_EXP="$TTS_EXP" \

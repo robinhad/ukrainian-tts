@@ -1,0 +1,22 @@
+{
+  "checkpoint": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/checkpoint.pth",
+  "epoch": 25,
+  "expected_steps": 25000,
+  "model_artifact": {
+    "different_keys": [],
+    "matches_checkpoint_model": true,
+    "missing_keys": [],
+    "model_tensor_count": 549,
+    "nonfinite_model_tensors": [],
+    "path": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/milestones/25k.pth",
+    "sha256": "9933fb2d4413b5e1f670c81c5a0ae064637705015a913bdebb7d13bcd26f4997",
+    "unexpected_keys": []
+  },
+  "model_tensor_count": 549,
+  "nonfinite_model_tensors": [],
+  "optimizer_steps": [
+    25000
+  ],
+  "reported_steps": 25000,
+  "status": "PASS"
+}
