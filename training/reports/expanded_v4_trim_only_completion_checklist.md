@@ -1,5 +1,8 @@
 # Expanded-v4 Trim-Only Completion Checklist
 
+This report uses ASD-STE100 Simplified Technical English style. An approved
+STE checker did not certify this report.
+
 ## Scope
 
 This run uses the expanded-v4 trim-only data. The run does not use DeepFilterNet. It does not use a high-pass filter, de-essing, compression, or R128 normalization.

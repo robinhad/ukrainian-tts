@@ -1,5 +1,8 @@
 # Expanded-v4 Trim-Only Fine-Tune
 
+This report uses ASD-STE100 Simplified Technical English style. An approved
+STE checker did not certify this report.
+
 ## Purpose
 
 This run must reduce metallic and hoarse sound artifacts. It must isolate the effect of audio processing.
