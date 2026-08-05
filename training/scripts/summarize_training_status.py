@@ -1,67 +1,105 @@
 #!/usr/bin/env python3
-"""Summarize GPU power and utilization samples from the training monitor."""
+"""Summarize the monitored state of one training run."""
 
 from __future__ import annotations
 
 import argparse
 import json
-from collections import defaultdict
+import statistics
+from datetime import datetime
 from pathlib import Path
 
 
-def summarize(rows: list[dict]) -> dict:
-    """Return one summary for each GPU index."""
-    samples: dict[int, list[dict]] = defaultdict(list)
-    for row in rows:
-        for gpu in row.get("gpus", []):
-            samples[int(gpu["index"])].append(gpu)
+def summarize(path: Path, target_iterations: int, maximum_gap_minutes: float) -> dict:
+    rows = [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    rows = [row for row in rows if row.get("target_iterations") == target_iterations]
+    if not rows:
+        raise RuntimeError("The status file has no samples for the target run.")
 
-    gpu_summaries = []
-    for index, gpu_rows in sorted(samples.items()):
-        powers = [float(row["power_draw_w"]) for row in gpu_rows]
-        utilization = [int(row["utilization_percent"]) for row in gpu_rows]
-        temperatures = [int(row["temperature_c"]) for row in gpu_rows]
-        memory = [int(row["memory_used_mib"]) for row in gpu_rows]
-        gpu_summaries.append({
-            "index": index,
-            "sample_count": len(gpu_rows),
-            "power_limit_w": float(gpu_rows[-1]["power_limit_w"]),
-            "mean_sampled_power_w": round(sum(powers) / len(powers), 2),
-            "maximum_sampled_power_w": round(max(powers), 2),
-            "mean_sampled_utilization_percent": round(
-                sum(utilization) / len(utilization), 2
-            ),
-            "maximum_sampled_utilization_percent": max(utilization),
-            "maximum_sampled_temperature_c": max(temperatures),
-            "maximum_sampled_memory_mib": max(memory),
-        })
+    timestamps = [datetime.fromisoformat(row["timestamp_kyiv"]) for row in rows]
+    gaps = [
+        (current - previous).total_seconds() / 60.0
+        for previous, current in zip(timestamps, timestamps[1:])
+    ]
+    gpu_indices = sorted(
+        {gpu["index"] for row in rows for gpu in row.get("gpus", [])}
+    )
+    gpu_summary = []
+    for index in gpu_indices:
+        samples = [
+            gpu
+            for row in rows
+            for gpu in row.get("gpus", [])
+            if gpu["index"] == index
+        ]
+        gpu_summary.append(
+            {
+                "index": index,
+                "sample_count": len(samples),
+                "average_power_w": statistics.mean(
+                    sample["power_draw_w"] for sample in samples
+                ),
+                "maximum_power_w": max(sample["power_draw_w"] for sample in samples),
+                "average_power_limit_percent": statistics.mean(
+                    sample["power_utilization_percent"] for sample in samples
+                ),
+                "maximum_temperature_c": max(
+                    sample["temperature_c"] for sample in samples
+                ),
+                "maximum_memory_used_mib": max(
+                    sample["memory_used_mib"] for sample in samples
+                ),
+                "maximum_utilization_percent": max(
+                    sample["utilization_percent"] for sample in samples
+                ),
+            }
+        )
 
+    critical_sample_count = sum(bool(row.get("critical_conditions")) for row in rows)
+    maximum_error_matches = max(row.get("error_matches", 0) for row in rows)
+    maximum_gap = max(gaps, default=0.0)
+    status = (
+        "PASS"
+        if maximum_gap <= maximum_gap_minutes
+        and critical_sample_count == 0
+        and maximum_error_matches == 0
+        and gpu_indices == [0, 1]
+        else "FAIL"
+    )
     return {
+        "status": status,
+        "target_iterations": target_iterations,
         "sample_count": len(rows),
-        "first_sample_kyiv": rows[0].get("timestamp_kyiv") if rows else None,
-        "last_sample_kyiv": rows[-1].get("timestamp_kyiv") if rows else None,
-        "gpus": gpu_summaries,
-        "status": "PASS" if rows and gpu_summaries else "FAIL",
+        "first_timestamp_kyiv": rows[0]["timestamp_kyiv"],
+        "last_timestamp_kyiv": rows[-1]["timestamp_kyiv"],
+        "latest_total_iterations": rows[-1].get("total_iterations"),
+        "latest_eta_kyiv": rows[-1].get("eta_kyiv"),
+        "maximum_allowed_gap_minutes": maximum_gap_minutes,
+        "maximum_observed_gap_minutes": maximum_gap,
+        "gaps_over_limit": sum(gap > maximum_gap_minutes for gap in gaps),
+        "critical_sample_count": critical_sample_count,
+        "maximum_error_matches": maximum_error_matches,
+        "minimum_free_disk_gib": min(row["free_disk_gib"] for row in rows),
+        "gpus": gpu_summary,
     }
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--target-iterations", type=int, required=True)
+    parser.add_argument("--maximum-gap-minutes", type=float, default=30.0)
     args = parser.parse_args()
 
-    rows = [
-        json.loads(line)
-        for line in args.input.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-    ]
-    report = summarize(rows)
-    report["source"] = str(args.input)
+    report = summarize(args.input, args.target_iterations, args.maximum_gap_minutes)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["status"] == "PASS" else 1
