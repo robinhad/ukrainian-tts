@@ -42,6 +42,10 @@ if (( train_status || monitor_status || milestone_status || disk_status || best_
     echo "train=${train_status} monitor=${monitor_status} milestone=${milestone_status} disk=${disk_status} best=${best_status}" >&2
     exit 1
 fi
+"$PYTHON" "${ROOT}/scripts/summarize_training_status.py" \
+    --input "$STATUS" \
+    --output "${ROOT}/reports/expanded_v4_trim_only_training_monitor_summary.json" \
+    --target-iterations "$TARGET_ITERATIONS" --maximum-gap-minutes 30
 audit_args=(
     --checkpoint "${TTS_EXP}/checkpoint.pth"
     --expected-steps "$TARGET_ITERATIONS"
