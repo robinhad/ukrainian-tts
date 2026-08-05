@@ -7,6 +7,51 @@ a separate stress model, denoising, compression, or mastering.
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 
+## Expanded-v4 trim-only iteration
+
+This iteration tests the effect of simple audio preparation. It uses one
+boundary-silence trim. It does not use DeepFilterNet, a high-pass filter,
+de-essing, compression, or R128 normalization. The training files are 24 kHz
+mono PCM WAV files.
+
+The accepted corpus has 207,505 utterances and 467.127 hours. The run excludes
+1,357 clipped utterances and 5 utterances that are shorter than 2 seconds. It
+does not include audio that is longer than 20 seconds.
+
+The speaker embedding set has 103,752 vectors from audio before the trim. It
+has 103,753 vectors from audio after the trim. Each vector has 192 values.
+
+Run the smoke preparation and the dual-GPU smoke test:
+
+```sh
+training/scripts/prepare_expanded_v4_trim_only.sh smoke
+training/scripts/run_expanded_v4_trim_only_smoke.sh
+```
+
+Run the full preparation and the 100K fine-tune:
+
+```sh
+training/scripts/prepare_expanded_v4_trim_only.sh full
+training/scripts/launch_expanded_v4_trim_only_training.sh 100000
+```
+
+The fine-tune loads model weights from expanded-v3 epoch 367. It makes new
+optimizer, scheduler, epoch, and step states. Thus, `100000` means 100,000 new
+optimizer steps. The run uses two RTX 3090 GPUs and FP32.
+
+The monitor writes loss, GPU power, temperature, VRAM, free disk space, and a
+Kyiv ETA every 15 minutes. The cleanup monitor does not remove data while free
+disk space is more than 30 GiB.
+
+After training, the launcher validates the 25K, 50K, 75K, and 100K milestones.
+It then makes the fixed evaluation set and the five-voice 100K listening set.
+See these documents for the current state:
+
+```text
+training/reports/expanded_v4_trim_only_plan.md
+training/reports/expanded_v4_trim_only_completion_checklist.md
+```
+
 ## Expanded-v3 iteration
 
 The expanded-v3 pipeline uses all permitted Ukrainian sources. The source
