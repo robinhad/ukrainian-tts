@@ -34,6 +34,7 @@ All paths in this table are relative to `training/reports/`.
 | The smoke inference made 32 valid WAV files. | PASS | `expanded_v4_trim_only_smoke_inference.json` |
 | The full run made the 25K milestone. | PASS | `expanded_v4_trim_only_25k_checkpoint.json` |
 | The full run made and audited the 50K milestone. | PASS | `expanded_v4_trim_only_50k_checkpoint.json` |
+| The full run made and audited the 75K milestone. | PASS | `expanded_v4_trim_only_75k_checkpoint.json` |
 | The full run completed 100,000 new optimizer steps. | IN PROGRESS | The full training process is active. |
 | The 100K checkpoint has finite model values. | NOT RUN | This gate runs after step 100,000. |
 | The fixed evaluation set has valid 24 kHz mono WAV files. | NOT RUN | This gate runs after training. |
