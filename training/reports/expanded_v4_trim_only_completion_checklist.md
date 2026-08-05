@@ -35,20 +35,24 @@ All paths in this table are relative to `training/reports/`.
 | The full run made the 25K milestone. | PASS | `expanded_v4_trim_only_25k_checkpoint.json` |
 | The full run made and audited the 50K milestone. | PASS | `expanded_v4_trim_only_50k_checkpoint.json` |
 | The full run made and audited the 75K milestone. | PASS | `expanded_v4_trim_only_75k_checkpoint.json` |
-| The full run completed 100,000 new optimizer steps. | IN PROGRESS | The full training process is active. |
-| The 100K checkpoint has finite model values. | NOT RUN | This gate runs after step 100,000. |
-| The fixed evaluation set has valid 24 kHz mono WAV files. | NOT RUN | This gate runs after training. |
-| The five fixed voices have valid WAV files and model hashes. | NOT RUN | This gate runs after training. |
+| The full run completed 100,000 new optimizer steps. | PASS | `expanded_v4_trim_only_100k_checkpoint.json` |
+| The 100K checkpoint has finite model values. | PASS | The audit found 549 finite model tensors. |
+| The 100K milestone matches the checkpoint model. | PASS | The audit found no missing, unexpected, or different model values. |
+| The fixed evaluation set has valid 24 kHz mono WAV files. | PASS | The 25K, 50K, 75K, and 100K reports each contain 1,400 valid WAV files. |
+| The five fixed voices have valid WAV files and model hashes. | PASS | `five_voice_expanded_v4_trim_only_100k.json` |
+| A person checked speech quality. | NOT RUN | The user must listen to the five 100K WAV files. |
 
 ## Runtime Gates
 
 | Gate | Status | Evidence |
 |---|---|---|
 | Both RTX 3090 GPUs are in the run. | PASS | `training_status_expanded_v4_trim_only_100k.jsonl` |
-| The monitor interval is not more than 30 minutes. | PASS TO DATE | `expanded_v4_trim_only_training_monitor_summary.json` |
-| The runtime log has no OOM, NaN, or critical error. | PASS TO DATE | `training_status_expanded_v4_trim_only_100k.jsonl` |
-| Free disk space stays above 30 GiB. | PASS TO DATE | `expanded_v4_trim_only_disk.jsonl` |
+| The monitor interval is not more than 30 minutes. | PASS | The largest measured interval is 15.011 minutes. |
+| The runtime log has no OOM, NaN, or critical error. | PASS | The monitor found zero error matches and zero critical samples. |
+| Free disk space stays above 30 GiB. | PASS | The minimum measured free space is 37.45 GiB. |
+| GPU temperatures stay below 90 degrees C. | PASS | The measured maximum values are 87 and 78 degrees C. |
+| The full test suite passes. | PASS | All 101 tests passed on 2026-08-06. |
 
 ## Completion Rule
 
-Do not mark this run complete until all `IN PROGRESS` and `NOT RUN` gates have a final result. After training, run the fixed evaluation set and the five-voice evaluation. Then update this checklist and `final_status.md`.
+The training and automatic evaluation are complete. Human listening is not complete. Do not promote this model as a release until a person checks the five listening WAV files.
