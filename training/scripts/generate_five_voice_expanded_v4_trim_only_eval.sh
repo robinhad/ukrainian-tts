@@ -35,4 +35,5 @@ for voice in voice_01 voice_02 voice_03 voice_04 voice_05; do
     )
 done
 python "${ROOT}/scripts/validate_listening_voice_eval.py" \
-    --report "$REPORT" --wav-dir "$OUTPUT_DIR" --text "$TEXT"
+    --report "$REPORT" --wav-dir "$OUTPUT_DIR" --text "$TEXT" \
+    --checkpoint "${TTS_EXP}/${MODEL_FILE}" --config "${TTS_EXP}/config.yaml"

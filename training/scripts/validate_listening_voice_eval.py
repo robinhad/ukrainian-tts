@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,11 +12,21 @@ import numpy as np
 import soundfile as sf
 
 
+def file_hash(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--wav-dir", type=Path, required=True)
     parser.add_argument("--text", required=True)
+    parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--config", type=Path)
     parser.add_argument(
         "--human-listening-status",
         choices=("NOT_RUN", "PASS", "FAIL"),
@@ -27,6 +38,17 @@ def main() -> int:
     )
     parser.add_argument("--human-listening-note", action="append", default=[])
     args = parser.parse_args()
+
+    expected_checkpoint = (
+        str(args.checkpoint.resolve()) if args.checkpoint is not None else None
+    )
+    expected_checkpoint_sha256 = (
+        file_hash(args.checkpoint) if args.checkpoint is not None else None
+    )
+    expected_config = str(args.config.resolve()) if args.config is not None else None
+    expected_config_sha256 = (
+        file_hash(args.config) if args.config is not None else None
+    )
 
     report = json.loads(args.report.read_text(encoding="utf-8"))
     errors: list[str] = []
@@ -56,6 +78,20 @@ def main() -> int:
             errors.append(f"{voice}: output has possible clipping")
         if metadata.get("text_raw") != args.text:
             errors.append(f"{voice}: metadata text does not match")
+        if expected_checkpoint is not None and metadata.get("checkpoint") != expected_checkpoint:
+            errors.append(f"{voice}: metadata checkpoint does not match")
+        if (
+            expected_checkpoint_sha256 is not None
+            and metadata.get("checkpoint_sha256") != expected_checkpoint_sha256
+        ):
+            errors.append(f"{voice}: metadata checkpoint hash does not match")
+        if expected_config is not None and metadata.get("config") != expected_config:
+            errors.append(f"{voice}: metadata config does not match")
+        if (
+            expected_config_sha256 is not None
+            and metadata.get("config_sha256") != expected_config_sha256
+        ):
+            errors.append(f"{voice}: metadata config hash does not match")
         generated.append(
             {
                 "voice": voice,
@@ -66,6 +102,10 @@ def main() -> int:
                 "real_time_factor": metadata.get("real_time_factor"),
                 "sample_rate": sample_rate,
                 "channels": info.channels,
+                "checkpoint_sha256": metadata.get("checkpoint_sha256"),
+                "config_sha256": metadata.get("config_sha256"),
+                "frontend_config_hash": metadata.get("frontend_config_hash"),
+                "espeak_version": metadata.get("espeak_version"),
             }
         )
 
@@ -78,6 +118,12 @@ def main() -> int:
         release_status = "NOT_READY"
 
     report["listening_sentence"] = args.text
+    report["model"] = {
+        "checkpoint": expected_checkpoint,
+        "checkpoint_sha256": expected_checkpoint_sha256,
+        "config": expected_config,
+        "config_sha256": expected_config_sha256,
+    }
     report.pop("perceptual_issue", None)
     report["automatic_validation"] = {
         "status": automatic_status,
