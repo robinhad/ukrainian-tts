@@ -46,6 +46,9 @@ fi
     --input "$STATUS" \
     --output "${ROOT}/reports/expanded_v4_trim_only_training_monitor_summary.json" \
     --target-iterations "$TARGET_ITERATIONS" --maximum-gap-minutes 30
+"$PYTHON" "${ROOT}/scripts/summarize_tensorboard.py" \
+    --logdir "${TTS_EXP}/tensorboard" \
+    --output "${ROOT}/reports/expanded_v4_trim_only_tensorboard_metrics.json"
 audit_args=(
     --checkpoint "${TTS_EXP}/checkpoint.pth"
     --expected-steps "$TARGET_ITERATIONS"
