@@ -52,6 +52,26 @@ training/reports/expanded_v4_trim_only_plan.md
 training/reports/expanded_v4_trim_only_completion_checklist.md
 ```
 
+Make the per-dataset listening set after the 100K checkpoint exists:
+
+```sh
+CUDA_VISIBLE_DEVICES=0 training/.venv/bin/python \
+  training/scripts/generate_per_dataset_listening_eval.py \
+  --manifest training/data/expanded_v4_trim_only/hybrid_manifest/all.parquet \
+  --xvector-root training/dump_expanded_v4_trim_only/xvector \
+  --config training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/config.yaml \
+  --checkpoint training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/milestones/100k.pth \
+  --output training/eval/generated/per_dataset_expanded_v4_trim_only_100k \
+  --report training/reports/per_dataset_expanded_v4_trim_only_100k.json \
+  --count-per-dataset 10
+```
+
+The command makes 10 synthesized WAV files for each source dataset. It also
+makes 10 links to the paired trim-only reference files. Five items in each
+dataset use pre-trim speaker embeddings. Five items use post-trim speaker
+embeddings. Use `feedback_template.tsv` in the output directory to record the
+listening results.
+
 ## Expanded-v3 iteration
 
 The expanded-v3 pipeline uses all permitted Ukrainian sources. The source
