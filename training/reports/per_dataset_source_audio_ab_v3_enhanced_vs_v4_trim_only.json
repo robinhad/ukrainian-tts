@@ -1,0 +1,2328 @@
+{
+  "contains_synthesis": false,
+  "current_manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/hybrid_manifest/all.parquet",
+  "current_profile": {
+    "boundary_trim": true,
+    "compression": false,
+    "deepfilternet": false,
+    "deessing": false,
+    "highpass": false,
+    "name": "expanded_v4_trim_only",
+    "two_pass_ebu_r128": false
+  },
+  "dataset_count": 9,
+  "datasets": {
+    "common_voice_available_uk": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "fleurs_uk": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "opentts_lada": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "opentts_mykyta": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "opentts_tetiana": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "tg_voices_uk": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "ua_ser": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "ukr_dialects": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    },
+    "voa_ukr_user_grant": {
+      "current_clipping_warnings": 0,
+      "items": 10,
+      "previous_clipping_warnings": 0
+    }
+  },
+  "errors": [],
+  "items_per_dataset": 10,
+  "mode": "source_audio_only",
+  "output": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only",
+  "pair_count": 90,
+  "previous_manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v3/manifests/all.parquet",
+  "previous_profile": {
+    "compression": true,
+    "deepfilternet": true,
+    "deessing": true,
+    "highpass": true,
+    "name": "expanded_v3_enhanced",
+    "two_pass_ebu_r128": true
+  },
+  "records": [
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.088897705078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/01_cv22_common_voice_uk_38192942_a535c54c39.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "raw",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.57061767578125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/01_cv22_common_voice_uk_38192942_a535c54c39.wav",
+      "text": "Чого я піду до вас?",
+      "utterance_id": "cv22_common_voice_uk_38192942_a535c54c39"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.3021240234375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/02_cv22_common_voice_uk_21506893_359ce66adc.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "clean",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.6700439453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/02_cv22_common_voice_uk_21506893_359ce66adc.wav",
+      "text": "у вас три хвилини закінчилися.",
+      "utterance_id": "cv22_common_voice_uk_21506893_359ce66adc"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.7346666666666666,
+        "errors": [],
+        "peak_absolute": 0.761962890625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/03_cv22_common_voice_uk_23570672_bafcf0b90d.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.7346666666666666,
+        "errors": [],
+        "peak_absolute": 0.453582763671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/03_cv22_common_voice_uk_23570672_bafcf0b90d.wav",
+      "text": "Веселися і пий скільки завгодно!",
+      "utterance_id": "cv22_common_voice_uk_23570672_bafcf0b90d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.7386666666666666,
+        "errors": [],
+        "peak_absolute": 0.815216064453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/04_cv22_common_voice_uk_25562132_f56b17c0fc.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.7386666666666666,
+        "errors": [],
+        "peak_absolute": 0.478302001953125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/04_cv22_common_voice_uk_25562132_f56b17c0fc.wav",
+      "text": "А народ, як завжди, страшний жебрак",
+      "utterance_id": "cv22_common_voice_uk_25562132_f56b17c0fc"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.54,
+        "errors": [],
+        "peak_absolute": 0.57489013671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/05_cv22_common_voice_uk_32176713_c3cde52170.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.54,
+        "errors": [],
+        "peak_absolute": 0.417022705078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/05_cv22_common_voice_uk_32176713_c3cde52170.wav",
+      "text": "Я хутко повернувсь і пішов назад.",
+      "utterance_id": "cv22_common_voice_uk_32176713_c3cde52170"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.5493333333333332,
+        "errors": [],
+        "peak_absolute": 0.53375244140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/06_cv22_common_voice_uk_22343124_8b6f1cd083.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.5493333333333332,
+        "errors": [],
+        "peak_absolute": 0.556976318359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/06_cv22_common_voice_uk_22343124_8b6f1cd083.wav",
+      "text": "Ні, примітивні жарти теж є, але вкрай мало.",
+      "utterance_id": "cv22_common_voice_uk_22343124_8b6f1cd083"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.733333333333333,
+        "errors": [],
+        "peak_absolute": 0.589630126953125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/07_cv22_common_voice_uk_38198318_97a119c84d.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "raw",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.733333333333333,
+        "errors": [],
+        "peak_absolute": 0.615386962890625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/07_cv22_common_voice_uk_38198318_97a119c84d.wav",
+      "text": "Мов грім знічев'я луснув, раз, другий, третій.",
+      "utterance_id": "cv22_common_voice_uk_38198318_97a119c84d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.750666666666667,
+        "errors": [],
+        "peak_absolute": 0.911529541015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/08_cv22_common_voice_uk_38195132_ad8e297782.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "clean",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.750666666666667,
+        "errors": [],
+        "peak_absolute": 0.418731689453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/08_cv22_common_voice_uk_38195132_ad8e297782.wav",
+      "text": "Всі його і просили, і лаяли, але це нічого не помагало.",
+      "utterance_id": "cv22_common_voice_uk_38195132_ad8e297782"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 10.276,
+        "errors": [],
+        "peak_absolute": 0.770904541015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/09_cv22_common_voice_uk_23982406_ef5acecabb.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 10.276,
+        "errors": [],
+        "peak_absolute": 0.414398193359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/09_cv22_common_voice_uk_23982406_ef5acecabb.wav",
+      "text": "Відтепер Візантія мала платити Русі по сімсот літр золота — вдвічі більше, ніж за Рогволода.",
+      "utterance_id": "cv22_common_voice_uk_23982406_ef5acecabb"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 10.48,
+        "errors": [],
+        "peak_absolute": 0.06109619140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/current_trim_only_v4/10_cv22_common_voice_uk_23560694_d59308ac4d.wav",
+      "dataset": "common_voice_available_uk",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 10.48,
+        "errors": [],
+        "peak_absolute": 0.84912109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/common_voice_available_uk/previous_enhanced_v3/10_cv22_common_voice_uk_23560694_d59308ac4d.wav",
+      "text": "Якість Божу у собі пан хміль сокриває, Бо возносить смирних він, гордих усмиряє",
+      "utterance_id": "cv22_common_voice_uk_23560694_d59308ac4d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.058666666666667,
+        "errors": [],
+        "peak_absolute": 0.67926025390625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/01_fleurs_uk_5008689573688103234_3d6e73698796.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.048,
+        "errors": [],
+        "peak_absolute": 0.46051025390625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/01_fleurs_uk_5008689573688103234_3d6e73698796.wav",
+      "text": "він сказав що створив дзвінок у двері з вай-фай",
+      "utterance_id": "fleurs_uk_5008689573688103234_3d6e73698796"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.3986666666666667,
+        "errors": [],
+        "peak_absolute": 0.057281494140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/02_fleurs_uk_11323542457330854195_ffd63bd8e538.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.3986666666666667,
+        "errors": [],
+        "peak_absolute": 0.3375244140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/02_fleurs_uk_11323542457330854195_ffd63bd8e538.wav",
+      "text": "заят не постраждав під час інциденту",
+      "utterance_id": "fleurs_uk_11323542457330854195_ffd63bd8e538"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 7.193333333333333,
+        "errors": [],
+        "peak_absolute": 0.817230224609375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/03_fleurs_uk_17405139008713872412_570b315139eb.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 7.193333333333333,
+        "errors": [],
+        "peak_absolute": 0.531707763671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/03_fleurs_uk_17405139008713872412_570b315139eb.wav",
+      "text": "на жаль коли виникли нові методи письма статус і використання олівця були знижені",
+      "utterance_id": "fleurs_uk_17405139008713872412_570b315139eb"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 7.368,
+        "errors": [],
+        "peak_absolute": 0.892822265625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/04_fleurs_uk_1501334203760204631_0a90117f0e99.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 7.368,
+        "errors": [],
+        "peak_absolute": 0.48883056640625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/04_fleurs_uk_1501334203760204631_0a90117f0e99.wav",
+      "text": "регіональні та сезонні суворі погодні явища включають снігову бурю хуртовини крижані бурі та пилові бурі",
+      "utterance_id": "fleurs_uk_1501334203760204631_0a90117f0e99"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.925333333333333,
+        "errors": [],
+        "peak_absolute": 0.10382080078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/05_fleurs_uk_2001342717162761805_4ce1113356ee.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "raw",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.925333333333333,
+        "errors": [],
+        "peak_absolute": 0.4019775390625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/05_fleurs_uk_2001342717162761805_4ce1113356ee.wav",
+      "text": "наступне зображення змальовує атоми котрі випромінюють фотони звісно на ділі фотони набагато меншого розміру ніж на цьому малюнку",
+      "utterance_id": "fleurs_uk_2001342717162761805_4ce1113356ee"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.94,
+        "errors": [],
+        "peak_absolute": 0.839935302734375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/06_fleurs_uk_7007974347523088608_28b4e9be31a4.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "clean",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.94,
+        "errors": [],
+        "peak_absolute": 0.42523193359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/06_fleurs_uk_7007974347523088608_28b4e9be31a4.wav",
+      "text": "інформаційні бюлетені представляють лише короткі відомості про політичну ситуацію у країні",
+      "utterance_id": "fleurs_uk_7007974347523088608_28b4e9be31a4"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 10.244,
+        "errors": [],
+        "peak_absolute": 0.7843017578125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/07_fleurs_uk_5556576817920214318_6c17646643f1.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 10.244,
+        "errors": [],
+        "peak_absolute": 0.416412353515625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/07_fleurs_uk_5556576817920214318_6c17646643f1.wav",
+      "text": "виразні характеристики інтернету призвели до додаткових вимірів з точки зору підходу використання і задоволення",
+      "utterance_id": "fleurs_uk_5556576817920214318_6c17646643f1"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 10.326666666666666,
+        "errors": [],
+        "peak_absolute": 0.0531005859375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/08_fleurs_uk_4684138249320526522_54a4b8e5eb00.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 10.326666666666666,
+        "errors": [],
+        "peak_absolute": 0.38775634765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/08_fleurs_uk_4684138249320526522_54a4b8e5eb00.wav",
+      "text": "фактично всі комп'ютери якими сьогодні користуються працюють завдяки обробці інформації закодованої у формі бінарних чисел",
+      "utterance_id": "fleurs_uk_4684138249320526522_54a4b8e5eb00"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 11.88,
+        "errors": [],
+        "peak_absolute": 0.8560791015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/09_fleurs_uk_8953979656961907319_b5895ad40fef.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 11.88,
+        "errors": [],
+        "peak_absolute": 0.401336669921875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/09_fleurs_uk_8953979656961907319_b5895ad40fef.wav",
+      "text": "його часті відображення в музиці фільмах літературі та творах популярної культури допомогли зробити місто та його визначні пам'ятки відомими у всьому світі",
+      "utterance_id": "fleurs_uk_8953979656961907319_b5895ad40fef"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 11.94,
+        "errors": [],
+        "peak_absolute": 0.412841796875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/current_trim_only_v4/10_fleurs_uk_3231963766938923193_69d34d647473.wav",
+      "dataset": "fleurs_uk",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 11.94,
+        "errors": [],
+        "peak_absolute": 0.817291259765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/fleurs_uk/previous_enhanced_v3/10_fleurs_uk_3231963766938923193_69d34d647473.wav",
+      "text": "після того як поранені були доставлені в лікарню і бійка припинилася близько 40 ув'язнених залишилися у дворі та відмовилися повертатися до своїх камер",
+      "utterance_id": "fleurs_uk_3231963766938923193_69d34d647473"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.420806884765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/01_lada_30611_cf959bfb88.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.36138916015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/01_lada_30611_cf959bfb88.wav",
+      "text": "— Я хочу дати вам одну пораду.",
+      "utterance_id": "lada_30611_cf959bfb88"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.537353515625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/02_lada_25819_73838d9d02.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.458465576171875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/02_lada_25819_73838d9d02.wav",
+      "text": "— Чекати, — відповів Атос.",
+      "utterance_id": "lada_25819_73838d9d02"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.542666666666667,
+        "errors": [],
+        "peak_absolute": 0.46307373046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/03_lada_31570_098d4a2e81.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.542666666666667,
+        "errors": [],
+        "peak_absolute": 0.31414794921875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/03_lada_31570_098d4a2e81.wav",
+      "text": "— І ви не знали, що тут мешкає юнак?",
+      "utterance_id": "lada_31570_098d4a2e81"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.546666666666667,
+        "errors": [],
+        "peak_absolute": 0.773468017578125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/04_lada_26534_f3c4c2c095.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.546666666666667,
+        "errors": [],
+        "peak_absolute": 0.387725830078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/04_lada_26534_f3c4c2c095.wav",
+      "text": "От зараз ляхи всіх вас поріжуть!",
+      "utterance_id": "lada_26534_f3c4c2c095"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.204,
+        "errors": [],
+        "peak_absolute": 0.696258544921875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/05_lada_25213_7351b99ab5.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "raw",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.204,
+        "errors": [],
+        "peak_absolute": 0.41119384765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/05_lada_25213_7351b99ab5.wav",
+      "text": "Ой пане, як же ви тепер гадаєте, що зо мною буде?",
+      "utterance_id": "lada_25213_7351b99ab5"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.208,
+        "errors": [],
+        "peak_absolute": 0.3526611328125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/06_lada_34837_b06fc96919.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "clean",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.208,
+        "errors": [],
+        "peak_absolute": 0.403533935546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/06_lada_34837_b06fc96919.wav",
+      "text": "Пані, — звернувся офіцер до дами, — не турбуйтеся.",
+      "utterance_id": "lada_34837_b06fc96919"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.014666666666667,
+        "errors": [],
+        "peak_absolute": 0.597320556640625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/07_lada_32265_0662ad46c5.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "raw",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.014666666666667,
+        "errors": [],
+        "peak_absolute": 0.40509033203125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/07_lada_32265_0662ad46c5.wav",
+      "text": "Най псяюха намерзнеться бодай, най знає, що то красти!",
+      "utterance_id": "lada_32265_0662ad46c5"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.061333333333334,
+        "errors": [],
+        "peak_absolute": 0.369293212890625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/08_lada_46216_e6fbec0a7c.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "clean",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.061333333333334,
+        "errors": [],
+        "peak_absolute": 0.34228515625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/08_lada_46216_e6fbec0a7c.wav",
+      "text": "За дві години вибило дванадцять, і вартовий знову змінився.",
+      "utterance_id": "lada_46216_e6fbec0a7c"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 6.1626666666666665,
+        "errors": [],
+        "peak_absolute": 0.4312744140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/09_lada_46697_2247052adc.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "raw",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 6.1626666666666665,
+        "errors": [],
+        "peak_absolute": 0.311065673828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/09_lada_46697_2247052adc.wav",
+      "text": "Я звелю вигаптувати на ній три золоті лілеї й подарую її вашій роті, як прапор.",
+      "utterance_id": "lada_46697_2247052adc"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 6.237333333333333,
+        "errors": [],
+        "peak_absolute": 0.464263916015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/current_trim_only_v4/10_lada_46999_fb679ae1ea.wav",
+      "dataset": "opentts_lada",
+      "embedding_variant": "clean",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 6.237333333333333,
+        "errors": [],
+        "peak_absolute": 0.3662109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_lada/previous_enhanced_v3/10_lada_46999_fb679ae1ea.wav",
+      "text": "Ми аж ахнули! Цілі плечі хлопця вкриті були синцями та пругами засохлої крови.",
+      "utterance_id": "lada_46999_fb679ae1ea"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.134521484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/01_opentts_mykyta_68408_14c74d721af8.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.3994140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/01_opentts_mykyta_68408_14c74d721af8.wav",
+      "text": "Ти все сердився на мене.",
+      "utterance_id": "opentts_mykyta_68408_14c74d721af8"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.353851318359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/02_opentts_mykyta_55052_62ae90808824.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.505279541015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/02_opentts_mykyta_55052_62ae90808824.wav",
+      "text": "Тихі кроки в сальоні.",
+      "utterance_id": "opentts_mykyta_55052_62ae90808824"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.0693333333333332,
+        "errors": [],
+        "peak_absolute": 0.12469482421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/03_opentts_mykyta_59300_560bef3787f4.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.058666666666667,
+        "errors": [],
+        "peak_absolute": 0.398529052734375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/03_opentts_mykyta_59300_560bef3787f4.wav",
+      "text": "Поволі гомін позаду затихав.",
+      "utterance_id": "opentts_mykyta_59300_560bef3787f4"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.08,
+        "errors": [],
+        "peak_absolute": 0.133087158203125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/04_opentts_mykyta_59075_41601313591d.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.0733333333333333,
+        "errors": [],
+        "peak_absolute": 0.4163818359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/04_opentts_mykyta_59075_41601313591d.wav",
+      "text": "Пам'ятаю ваш перший влучний удар.",
+      "utterance_id": "opentts_mykyta_59075_41601313591d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.018666666666666,
+        "errors": [],
+        "peak_absolute": 0.180755615234375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/05_opentts_mykyta_68298_9dd3f4f86a41.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.014666666666667,
+        "errors": [],
+        "peak_absolute": 0.476043701171875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/05_opentts_mykyta_68298_9dd3f4f86a41.wav",
+      "text": "Тоді становище обернулось у справжні злидні.",
+      "utterance_id": "opentts_mykyta_68298_9dd3f4f86a41"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.136,
+        "errors": [],
+        "peak_absolute": 0.59356689453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/06_opentts_mykyta_55755_d1770f66ff47.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.132,
+        "errors": [],
+        "peak_absolute": 0.47705078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/06_opentts_mykyta_55755_d1770f66ff47.wav",
+      "text": "Зорудувавши все, я побігла на двірець залізниці.",
+      "utterance_id": "opentts_mykyta_55755_d1770f66ff47"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.192,
+        "errors": [],
+        "peak_absolute": 0.2220458984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/07_opentts_mykyta_64405_24370df7520a.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.188,
+        "errors": [],
+        "peak_absolute": 0.640533447265625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/07_opentts_mykyta_64405_24370df7520a.wav",
+      "text": "— Бгате Іване! — каже Черевань, а сам аж тремтить.",
+      "utterance_id": "opentts_mykyta_64405_24370df7520a"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.309333333333333,
+        "errors": [],
+        "peak_absolute": 0.5262451171875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/08_opentts_mykyta_54416_442dffb4cded.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.3053333333333335,
+        "errors": [],
+        "peak_absolute": 0.524078369140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/08_opentts_mykyta_54416_442dffb4cded.wav",
+      "text": "— Звичайно, я ж бо знаю, що ви не обертатиметесь спиною.",
+      "utterance_id": "opentts_mykyta_54416_442dffb4cded"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.498666666666667,
+        "errors": [],
+        "peak_absolute": 0.200042724609375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/09_opentts_mykyta_64456_7ea9240197e4.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.498666666666667,
+        "errors": [],
+        "peak_absolute": 0.656463623046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/09_opentts_mykyta_64456_7ea9240197e4.wav",
+      "text": "Дерева, собаки, люди, — усе зникло, немов рука божа змела їх з лиця землі.",
+      "utterance_id": "opentts_mykyta_64456_7ea9240197e4"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.701333333333332,
+        "errors": [],
+        "peak_absolute": 0.295623779296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/current_trim_only_v4/10_opentts_mykyta_64361_816db0a96ca0.wav",
+      "dataset": "opentts_mykyta",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.697333333333333,
+        "errors": [],
+        "peak_absolute": 0.746612548828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_mykyta/previous_enhanced_v3/10_opentts_mykyta_64361_816db0a96ca0.wav",
+      "text": "Хіба не знаєш, що се таке? Знай нас, панів! От воно що! Сказано — кармазини.",
+      "utterance_id": "opentts_mykyta_64361_816db0a96ca0"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.31353759765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/01_opentts_tetiana_66324_c61d6932b80d.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.002666666666667,
+        "errors": [],
+        "peak_absolute": 0.31689453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/01_opentts_tetiana_66324_c61d6932b80d.wav",
+      "text": "Жінка спустила відлогу.",
+      "utterance_id": "opentts_tetiana_66324_c61d6932b80d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.034666666666667,
+        "errors": [],
+        "peak_absolute": 0.235931396484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/02_opentts_tetiana_61557_9bdcd2e08762.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.030666666666667,
+        "errors": [],
+        "peak_absolute": 0.3388671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/02_opentts_tetiana_61557_9bdcd2e08762.wav",
+      "text": "Та ніщо там було й тямити.",
+      "utterance_id": "opentts_tetiana_61557_9bdcd2e08762"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.016,
+        "errors": [],
+        "peak_absolute": 0.4080810546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/03_opentts_tetiana_59743_deab634a89c2.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.009333333333333,
+        "errors": [],
+        "peak_absolute": 0.424346923828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/03_opentts_tetiana_59743_deab634a89c2.wav",
+      "text": "І мушкетери, не вагаючись, вийшли наперед.",
+      "utterance_id": "opentts_tetiana_59743_deab634a89c2"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.0693333333333332,
+        "errors": [],
+        "peak_absolute": 0.24285888671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/04_opentts_tetiana_60343_940d13e97ac3.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.0693333333333332,
+        "errors": [],
+        "peak_absolute": 0.541473388671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/04_opentts_tetiana_60343_940d13e97ac3.wav",
+      "text": "— Хай живе король! Хай живе кардинал!",
+      "utterance_id": "opentts_tetiana_60343_940d13e97ac3"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.125333333333334,
+        "errors": [],
+        "peak_absolute": 0.232086181640625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/05_opentts_tetiana_64656_91676b905fb2.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.125333333333334,
+        "errors": [],
+        "peak_absolute": 0.425537109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/05_opentts_tetiana_64656_91676b905fb2.wav",
+      "text": "— А може це не так серйозно? — розважаючи, відказав Гоз.",
+      "utterance_id": "opentts_tetiana_64656_91676b905fb2"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.136,
+        "errors": [],
+        "peak_absolute": 0.235107421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/06_opentts_tetiana_64681_77cb8963c20a.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.129333333333333,
+        "errors": [],
+        "peak_absolute": 0.452239990234375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/06_opentts_tetiana_64681_77cb8963c20a.wav",
+      "text": "— Ви — гемон, посланий на землю, — сказав Атос.",
+      "utterance_id": "opentts_tetiana_64681_77cb8963c20a"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.085333333333334,
+        "errors": [],
+        "peak_absolute": 0.356475830078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/07_opentts_tetiana_64945_04c8006f57c5.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "raw",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.078666666666667,
+        "errors": [],
+        "peak_absolute": 0.5421142578125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/07_opentts_tetiana_64945_04c8006f57c5.wav",
+      "text": "Але добре пам'ятаю другу обіцянку, що ви її, мабудь, теж пам'ятаєте.",
+      "utterance_id": "opentts_tetiana_64945_04c8006f57c5"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.224,
+        "errors": [],
+        "peak_absolute": 0.211639404296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/08_opentts_tetiana_66342_e0979962e4d1.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "clean",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.213333333333333,
+        "errors": [],
+        "peak_absolute": 0.56793212890625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/08_opentts_tetiana_66342_e0979962e4d1.wav",
+      "text": "Та в дійсності завдання не було так важке, як здавалося Захарові Тодосовичові.",
+      "utterance_id": "opentts_tetiana_66342_e0979962e4d1"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 7.764,
+        "errors": [],
+        "peak_absolute": 0.270721435546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/09_opentts_tetiana_66435_8c82ea0ac846.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 7.764,
+        "errors": [],
+        "peak_absolute": 0.415252685546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/09_opentts_tetiana_66435_8c82ea0ac846.wav",
+      "text": "Ох, да дівчина ж гарна! — додав Кирило Тур, поглянувши вовчим поглядом на Лесю.",
+      "utterance_id": "opentts_tetiana_66435_8c82ea0ac846"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.192,
+        "errors": [],
+        "peak_absolute": 0.237030029296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/current_trim_only_v4/10_opentts_tetiana_64883_646b6067de71.wav",
+      "dataset": "opentts_tetiana",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.192,
+        "errors": [],
+        "peak_absolute": 0.472930908203125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/opentts_tetiana/previous_enhanced_v3/10_opentts_tetiana_64883_646b6067de71.wav",
+      "text": "Дуже добре для світа, що універсальности місис Епінґвелів не на все вистачає.",
+      "utterance_id": "opentts_tetiana_64883_646b6067de71"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0135,
+        "errors": [],
+        "peak_absolute": 0.16650390625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/01_tg_voices_uk_40091_bb8b10cb7a66.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "raw",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0135,
+        "errors": [],
+        "peak_absolute": 0.3787841796875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/01_tg_voices_uk_40091_bb8b10cb7a66.wav",
+      "text": "Попрощались і роз'їхались.",
+      "utterance_id": "tg_voices_uk_40091_bb8b10cb7a66"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0308333333333333,
+        "errors": [],
+        "peak_absolute": 0.237548828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/02_tg_voices_uk_41298_2efec4d0ab05.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "clean",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0308333333333333,
+        "errors": [],
+        "peak_absolute": 0.5384521484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/02_tg_voices_uk_41298_2efec4d0ab05.wav",
+      "text": "Боротьба точилася недовго.",
+      "utterance_id": "tg_voices_uk_41298_2efec4d0ab05"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.1493333333333333,
+        "errors": [],
+        "peak_absolute": 0.21429443359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/03_tg_voices_uk_42217_6ee3ba65e390.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.1493333333333333,
+        "errors": [],
+        "peak_absolute": 0.595550537109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/03_tg_voices_uk_42217_6ee3ba65e390.wav",
+      "text": "Дик Гемфриз швидко засилив нитку у голку.",
+      "utterance_id": "tg_voices_uk_42217_6ee3ba65e390"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.2135,
+        "errors": [],
+        "peak_absolute": 0.2806396484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/04_tg_voices_uk_44389_c84406295458.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.2135,
+        "errors": [],
+        "peak_absolute": 0.470855712890625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/04_tg_voices_uk_44389_c84406295458.wav",
+      "text": "Побачуся з Хмельницьким, тоді й обміркую, що вчинити.",
+      "utterance_id": "tg_voices_uk_44389_c84406295458"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.157333333333334,
+        "errors": [],
+        "peak_absolute": 0.37078857421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/05_tg_voices_uk_37967_12f9a9f502bf.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.150666666666667,
+        "errors": [],
+        "peak_absolute": 0.8896484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/05_tg_voices_uk_37967_12f9a9f502bf.wav",
+      "text": "Ось в її уяві мигнув учорашній клень.",
+      "utterance_id": "tg_voices_uk_37967_12f9a9f502bf"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.2135,
+        "errors": [],
+        "peak_absolute": 0.393341064453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/06_tg_voices_uk_45400_366c2fc8e796.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.2135,
+        "errors": [],
+        "peak_absolute": 0.391204833984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/06_tg_voices_uk_45400_366c2fc8e796.wav",
+      "text": "Вона до того зморилась, що не могла навіть відв'язати полу, щоб увійти в шатро.",
+      "utterance_id": "tg_voices_uk_45400_366c2fc8e796"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.2735,
+        "errors": [],
+        "peak_absolute": 0.158935546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/07_tg_voices_uk_45096_a06c46b72587.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.2735,
+        "errors": [],
+        "peak_absolute": 0.457733154296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/07_tg_voices_uk_45096_a06c46b72587.wav",
+      "text": "Поміркуй, чи не вчинив би так само й ти, коли б вороги обсіли твою землю?",
+      "utterance_id": "tg_voices_uk_45096_a06c46b72587"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.2975,
+        "errors": [],
+        "peak_absolute": 0.522918701171875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/08_tg_voices_uk_40075_8c3c99ff70b3.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.2908333333333335,
+        "errors": [],
+        "peak_absolute": 0.720306396484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/08_tg_voices_uk_40075_8c3c99ff70b3.wav",
+      "text": "Але ви — янкі, а він був британець, син джентльмена.",
+      "utterance_id": "tg_voices_uk_40075_8c3c99ff70b3"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.690666666666667,
+        "errors": [],
+        "peak_absolute": 0.788848876953125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/09_tg_voices_uk_36914_1f4db481a108.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.690666666666667,
+        "errors": [],
+        "peak_absolute": 0.483123779296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/09_tg_voices_uk_36914_1f4db481a108.wav",
+      "text": "Потурбуймося хоч трішки про здоров'я любого їй герцоґа Б'токенгемського.",
+      "utterance_id": "tg_voices_uk_36914_1f4db481a108"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 9.3735,
+        "errors": [],
+        "peak_absolute": 0.075531005859375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/current_trim_only_v4/10_tg_voices_uk_55630_88f97fc87865.wav",
+      "dataset": "tg_voices_uk",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 9.3735,
+        "errors": [],
+        "peak_absolute": 0.37921142578125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/tg_voices_uk/previous_enhanced_v3/10_tg_voices_uk_55630_88f97fc87865.wav",
+      "text": "З якою люттю почав він робити шпадою, вистріливіни з обох пістолетів.",
+      "utterance_id": "tg_voices_uk_55630_88f97fc87865"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.415130615234375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/01_ua_ser_h_103_0_ea7a071f4ec4.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "raw",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.410919189453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/01_ua_ser_h_103_0_ea7a071f4ec4.wav",
+      "text": "У мене для вас дещо є.",
+      "utterance_id": "ua_ser_h_103_0_ea7a071f4ec4"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0007083333333333,
+        "errors": [],
+        "peak_absolute": 0.769866943359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/02_ua_ser_h_222_1_c337aff6b983.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "clean",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0007083333333333,
+        "errors": [],
+        "peak_absolute": 0.763519287109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/02_ua_ser_h_222_1_c337aff6b983.wav",
+      "text": "Добре",
+      "utterance_id": "ua_ser_h_222_1_c337aff6b983"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.2275,
+        "errors": [],
+        "peak_absolute": 0.29754638671875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/03_ua_ser_a_101_1_5204c9829dac.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.2275,
+        "errors": [],
+        "peak_absolute": 0.330902099609375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/03_ua_ser_a_101_1_5204c9829dac.wav",
+      "text": "Це відповідальність твоя, а не річ твоя.",
+      "utterance_id": "ua_ser_a_101_1_5204c9829dac"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.304,
+        "errors": [],
+        "peak_absolute": 0.405181884765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/04_ua_ser_n_144_1_ffe296ac0106.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.304,
+        "errors": [],
+        "peak_absolute": 0.3984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/04_ua_ser_n_144_1_ffe296ac0106.wav",
+      "text": "Роки письменниця провела",
+      "utterance_id": "ua_ser_n_144_1_ffe296ac0106"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.5243333333333333,
+        "errors": [],
+        "peak_absolute": 0.3302001953125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/05_ua_ser_s_108_1_aa9a326fa55f.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.5243333333333333,
+        "errors": [],
+        "peak_absolute": 0.33203125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/05_ua_ser_s_108_1_aa9a326fa55f.wav",
+      "text": "що я не зможу тобі тебе обійняти.",
+      "utterance_id": "ua_ser_s_108_1_aa9a326fa55f"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.56,
+        "errors": [],
+        "peak_absolute": 0.295562744140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/06_ua_ser_s_060_1_1e7075d56c89.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.56,
+        "errors": [],
+        "peak_absolute": 0.303375244140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/06_ua_ser_s_060_1_1e7075d56c89.wav",
+      "text": "Ну, я пам'ятаю, він просто лежить і тримається за голову.",
+      "utterance_id": "ua_ser_s_060_1_1e7075d56c89"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.919,
+        "errors": [],
+        "peak_absolute": 0.350982666015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/07_ua_ser_n_059_1_fc801f19a9af.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.919,
+        "errors": [],
+        "peak_absolute": 0.32025146484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/07_ua_ser_n_059_1_fc801f19a9af.wav",
+      "text": "Можливо, вона так, е-е, фліртує.",
+      "utterance_id": "ua_ser_n_059_1_fc801f19a9af"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.936,
+        "errors": [],
+        "peak_absolute": 0.460357666015625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/08_ua_ser_h_079_0_bed249e0837c.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.936,
+        "errors": [],
+        "peak_absolute": 0.559600830078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/08_ua_ser_h_079_0_bed249e0837c.wav",
+      "text": "Ну, можна так швиденько так показать",
+      "utterance_id": "ua_ser_h_079_0_bed249e0837c"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.9275,
+        "errors": [],
+        "peak_absolute": 0.48419189453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/09_ua_ser_s_115_0_bbef2478dda6.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.9275,
+        "errors": [],
+        "peak_absolute": 0.45623779296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/09_ua_ser_s_115_0_bbef2478dda6.wav",
+      "text": "Для неї це болюча тема, і точно і поки я слухав, я дійсно співпереживав їй.",
+      "utterance_id": "ua_ser_s_115_0_bbef2478dda6"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.501,
+        "errors": [],
+        "peak_absolute": 0.563232421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/current_trim_only_v4/10_ua_ser_a_135_1_96d444a98f72.wav",
+      "dataset": "ua_ser",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.501,
+        "errors": [],
+        "peak_absolute": 0.50103759765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ua_ser/previous_enhanced_v3/10_ua_ser_a_135_1_96d444a98f72.wav",
+      "text": "Я в цей момент така думаю, ну, йо, ну, та ви що? Ну, мені неприємно було це чути, взагалі.",
+      "utterance_id": "ua_ser_a_135_1_96d444a98f72"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.248046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/01_ukr_dialects_hutsulendia_00200_6fac1b0c4932.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.45831298828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/01_ukr_dialects_hutsulendia_00200_6fac1b0c4932.wav",
+      "text": "В ту сторону треба крутити.",
+      "utterance_id": "ukr_dialects_hutsulendia_00200_6fac1b0c4932"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.496826171875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/02_ukr_dialects_hutsulendia_00226_957f04ac2893.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.30657958984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/02_ukr_dialects_hutsulendia_00226_957f04ac2893.wav",
+      "text": "То ви родом з Вороненки?",
+      "utterance_id": "ukr_dialects_hutsulendia_00226_957f04ac2893"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.31,
+        "errors": [],
+        "peak_absolute": 0.255645751953125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/03_ukr_dialects_segment_07107_aee769b34013.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "raw",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.31,
+        "errors": [],
+        "peak_absolute": 0.49078369140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/03_ukr_dialects_segment_07107_aee769b34013.wav",
+      "text": "Пішла я до школи, вчилася в школі вже.",
+      "utterance_id": "ukr_dialects_segment_07107_aee769b34013"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 3.35,
+        "errors": [],
+        "peak_absolute": 0.28265380859375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/04_ukr_dialects_hutsulendia_00033_717ab0a78443.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "clean",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 3.35,
+        "errors": [],
+        "peak_absolute": 0.521820068359375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/04_ukr_dialects_hutsulendia_00033_717ab0a78443.wav",
+      "text": "Воно отут, подивіться, є запис.",
+      "utterance_id": "ukr_dialects_hutsulendia_00033_717ab0a78443"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.992,
+        "errors": [],
+        "peak_absolute": 0.70623779296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/05_ukr_dialects_5593_b20eebe43b2b.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "raw",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.992,
+        "errors": [],
+        "peak_absolute": 0.437408447265625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/05_ukr_dialects_5593_b20eebe43b2b.wav",
+      "text": "А зрештою, то хоч би й вони стрілили законом у Христа, то біда бере їх обох.",
+      "utterance_id": "ukr_dialects_5593_b20eebe43b2b"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 5.03,
+        "errors": [],
+        "peak_absolute": 0.38519287109375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/06_ukr_dialects_segment_08295_93efc383f0fd.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "clean",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 5.03,
+        "errors": [],
+        "peak_absolute": 0.467559814453125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/06_ukr_dialects_segment_08295_93efc383f0fd.wav",
+      "text": "Ну, та тут в селі проїзд, ти розумієш, оточили село, село П'ядики.",
+      "utterance_id": "ukr_dialects_segment_08295_93efc383f0fd"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 7.428,
+        "errors": [],
+        "peak_absolute": 0.710174560546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/07_ukr_dialects_4620_fa13dba8eb7a.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 7.428,
+        "errors": [],
+        "peak_absolute": 0.507415771484375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/07_ukr_dialects_4620_fa13dba8eb7a.wav",
+      "text": "У хоромах завівся нараз такий колот, що аж скрипка стала, утіхли данці та й співанки замовкли.",
+      "utterance_id": "ukr_dialects_4620_fa13dba8eb7a"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 7.438666666666666,
+        "errors": [],
+        "peak_absolute": 0.3861083984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/08_ukr_dialects_segment_12367_7afe91cd190c.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 7.444,
+        "errors": [],
+        "peak_absolute": 0.547454833984375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/08_ukr_dialects_segment_12367_7afe91cd190c.wav",
+      "text": "Коло церкви присилив там до плота, і поки це, а потом знов це поклав на коні і в хати.",
+      "utterance_id": "ukr_dialects_segment_12367_7afe91cd190c"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 12.0,
+        "errors": [],
+        "peak_absolute": 0.817230224609375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/09_ukr_dialects_segment_00625_c0c23d8756bc.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 12.0,
+        "errors": [],
+        "peak_absolute": 0.588592529296875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/09_ukr_dialects_segment_00625_c0c23d8756bc.wav",
+      "text": "І так, гуцульські співанки, записані Михайлом Ломацьким: \"Та не тото справжній гуцул, шо погуцуливси, але тото справжній гуцул, шо в горах родівси.",
+      "utterance_id": "ukr_dialects_segment_00625_c0c23d8756bc"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 12.0,
+        "errors": [],
+        "peak_absolute": 0.37799072265625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/current_trim_only_v4/10_ukr_dialects_segment_13145_5d2c8a4d6ec3.wav",
+      "dataset": "ukr_dialects",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 12.0,
+        "errors": [],
+        "peak_absolute": 0.525787353515625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/ukr_dialects/previous_enhanced_v3/10_ukr_dialects_segment_13145_5d2c8a4d6ec3.wav",
+      "text": "Юрчик приходив та й казав мені: \"Бабо, у нас є родина, каже, там у банях, де скали, там все зсувають, там, каже, хата, там дівчи-- каже, така дівчина чесна, розумна, то, то, то.\" Все мені так казав.",
+      "utterance_id": "ukr_dialects_segment_13145_5d2c8a4d6ec3"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.20953369140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/01_voa_ukr_user_grant_pseudo_0023fa4f9a0687b5cc8d.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "clean",
+      "item": "01",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.3865966796875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/01_voa_ukr_user_grant_pseudo_0023fa4f9a0687b5cc8d.wav",
+      "text": "Самого початку його ведення",
+      "utterance_id": "voa_ukr_user_grant_pseudo_0023fa4f9a0687b5cc8d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.05548095703125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/02_voa_ukr_user_grant_pseudo_0000c566c7b8a8b8764d.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "raw",
+      "item": "02",
+      "previous_check": {
+        "channels": 1,
+        "duration": 2.0,
+        "errors": [],
+        "peak_absolute": 0.393768310546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/02_voa_ukr_user_grant_pseudo_0000c566c7b8a8b8764d.wav",
+      "text": "Є побоювання в бізнес-середовищі?",
+      "utterance_id": "voa_ukr_user_grant_pseudo_0000c566c7b8a8b8764d"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.0,
+        "errors": [],
+        "peak_absolute": 0.235260009765625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/03_voa_ukr_user_grant_pseudo_9c620e72cd1b21bfa295.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "clean",
+      "item": "03",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.0,
+        "errors": [],
+        "peak_absolute": 0.362152099609375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/03_voa_ukr_user_grant_pseudo_9c620e72cd1b21bfa295.wav",
+      "text": "Ливі відносини між північною Кореєю і Росією набувають форми.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_9c620e72cd1b21bfa295"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 4.0,
+        "errors": [],
+        "peak_absolute": 0.31304931640625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/04_voa_ukr_user_grant_pseudo_b02c268c19e5ab1f4574.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "raw",
+      "item": "04",
+      "previous_check": {
+        "channels": 1,
+        "duration": 4.0,
+        "errors": [],
+        "peak_absolute": 0.3427734375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/04_voa_ukr_user_grant_pseudo_b02c268c19e5ab1f4574.wav",
+      "text": "Відповідь була слабкою, як з боку сполучених штатів, так і Європи.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_b02c268c19e5ab1f4574"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.56,
+        "errors": [],
+        "peak_absolute": 0.3507080078125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/05_voa_ukr_user_grant_pseudo_fb0f49d3c659d4fc1efe.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "clean",
+      "item": "05",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.56,
+        "errors": [],
+        "peak_absolute": 0.301422119140625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/05_voa_ukr_user_grant_pseudo_fb0f49d3c659d4fc1efe.wav",
+      "text": "Щоб мігранти хотіли повернутися, потрібні робочі місця, щоб економіка була динамічною і зростала, щоб люди поверталися за роботою.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_fb0f49d3c659d4fc1efe"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 8.64,
+        "errors": [],
+        "peak_absolute": 0.688232421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/06_voa_ukr_user_grant_pseudo_613a9ebd424341c97226.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "raw",
+      "item": "06",
+      "previous_check": {
+        "channels": 1,
+        "duration": 8.64,
+        "errors": [],
+        "peak_absolute": 0.408416748046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/06_voa_ukr_user_grant_pseudo_613a9ebd424341c97226.wav",
+      "text": "Ні, слухайте, президент теж звинуватив і Росію ще два тижні тому. Він погрожував санкціями проти Росії, якщо вони не сядуть за стіл переговорів.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_613a9ebd424341c97226"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 16.56,
+        "errors": [],
+        "peak_absolute": 0.220916748046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/07_voa_ukr_user_grant_pseudo_cede9824656f01c41369.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "clean",
+      "item": "07",
+      "previous_check": {
+        "channels": 1,
+        "duration": 16.56,
+        "errors": [],
+        "peak_absolute": 0.73577880859375,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/07_voa_ukr_user_grant_pseudo_cede9824656f01c41369.wav",
+      "text": "Для местных граждан Украины, чтобы принять участие в выборах, необходимо провести почти 6 часов в одну сторону за рулем от Лос-Анджелеса до Сан-Франциско, где находится единственный избирательный участок на западном побережье США, более шестисот километров. Это дальше, чем из Львова в Киев.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_cede9824656f01c41369"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 16.64,
+        "errors": [],
+        "peak_absolute": 0.225128173828125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/08_voa_ukr_user_grant_pseudo_6da391aad3f37e8d93e7.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "raw",
+      "item": "08",
+      "previous_check": {
+        "channels": 1,
+        "duration": 16.64,
+        "errors": [],
+        "peak_absolute": 0.57305908203125,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/08_voa_ukr_user_grant_pseudo_6da391aad3f37e8d93e7.wav",
+      "text": "Ми використовуємо своє право самим обирати, яким чином гарантувати свою безпеку. Росія, утім, не визнає це наше право. Росія вимагає мати право вето щодо вибору Швеції. Це неприйнятно. Ми самі ухвалюємо рішення і розраховуємо на повну.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_6da391aad3f37e8d93e7"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 20.0,
+        "errors": [],
+        "peak_absolute": 0.256256103515625,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/09_voa_ukr_user_grant_pseudo_ffff392a3f29e0f3f9c4.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "clean",
+      "item": "09",
+      "previous_check": {
+        "channels": 1,
+        "duration": 20.0,
+        "errors": [],
+        "peak_absolute": 0.307373046875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/09_voa_ukr_user_grant_pseudo_ffff392a3f29e0f3f9c4.wav",
+      "text": "Вони там опинилися абсолютно не випадково. Один із них тоді, у листопаді 2013 року, закінчив військову службу в повітряно-десантних військах, а інший весняним призовом пішов до повітряно-десантних військ. До цього він був учасником військово-патріотичного руху і дуже схоже на те, що їх скоординовано направляли тоді до Луган.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_ffff392a3f29e0f3f9c4"
+    },
+    {
+      "current_check": {
+        "channels": 1,
+        "duration": 20.0,
+        "errors": [],
+        "peak_absolute": 0.184783935546875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "current_trim_only_v4": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/current_trim_only_v4/10_voa_ukr_user_grant_pseudo_fffd53872ebb9321c196.wav",
+      "dataset": "voa_ukr_user_grant",
+      "embedding_variant": "raw",
+      "item": "10",
+      "previous_check": {
+        "channels": 1,
+        "duration": 20.0,
+        "errors": [],
+        "peak_absolute": 0.26141357421875,
+        "possible_clipping": false,
+        "sample_rate": 24000
+      },
+      "previous_enhanced_v3": "training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only/voa_ukr_user_grant/previous_enhanced_v3/10_voa_ukr_user_grant_pseudo_fffd53872ebb9321c196.wav",
+      "text": "У ресторанах Лос-Анджелеса, де приймають замовлення за столиком офіціанти, окрім маски на обличчя одягають захисний пластиковий щит. Попри те, що у Лос-Анджелесі офіційно дозволили їсти за столиками, більшість ресторанів у столиці Голівуду поки що обслуговують лише на виніс. А деякі заклади харчування через нещодавні протести.",
+      "utterance_id": "voa_ukr_user_grant_pseudo_fffd53872ebb9321c196"
+    }
+  ],
+  "status": "PASS"
+}

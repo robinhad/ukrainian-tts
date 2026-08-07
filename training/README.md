@@ -72,6 +72,23 @@ dataset use pre-trim speaker embeddings. Five items use post-trim speaker
 embeddings. Use `feedback_template.tsv` in the output directory to record the
 listening results.
 
+Make a source-audio-only A/B review of the two processing revisions:
+
+```sh
+training/.venv/bin/python \
+  training/scripts/build_per_dataset_source_audio_review.py \
+  --previous-manifest training/data/expanded_v3/manifests/all.parquet \
+  --current-manifest training/data/expanded_v4_trim_only/hybrid_manifest/all.parquet \
+  --output training/eval/generated/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only \
+  --report training/reports/per_dataset_source_audio_ab_v3_enhanced_vs_v4_trim_only.json \
+  --count-per-dataset 10
+```
+
+This source review does not contain synthesized audio. For each dataset, it
+contains 10 matched files from the previous enhanced revision and 10 matched
+files from the current trim-only revision. Use its `feedback_template.tsv` to
+record the preferred processing revision and all audible problems.
+
 ## Expanded-v3 iteration
 
 The expanded-v3 pipeline uses all permitted Ukrainian sources. The source
