@@ -3,7 +3,10 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from training.scripts.build_per_dataset_source_audio_review import pair_revisions
+from training.scripts.build_per_dataset_source_audio_review import (
+    copy_audio,
+    pair_revisions,
+)
 
 
 def make_current() -> pd.DataFrame:
@@ -54,3 +57,15 @@ def test_pair_revisions_rejects_missing_previous_item() -> None:
 
     with pytest.raises(ValueError, match="missing IDs"):
         pair_revisions(current, previous, 10)
+
+
+def test_copy_audio_makes_an_independent_file(tmp_path) -> None:
+    source = tmp_path / "source.wav"
+    destination = tmp_path / "review" / "copy.wav"
+    source.write_bytes(b"audio-data")
+
+    copy_audio(source, destination)
+
+    assert destination.read_bytes() == b"audio-data"
+    assert destination.is_file()
+    assert not destination.is_symlink()

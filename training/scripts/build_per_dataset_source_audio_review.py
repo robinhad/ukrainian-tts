@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -16,7 +17,6 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from training.scripts.generate_per_dataset_listening_eval import (
-    make_link,
     select_rows,
     validate_audio,
 )
@@ -60,6 +60,18 @@ def write_tsv(path: Path, rows: list[dict], fields: list[str]) -> None:
         writer.writerows({field: row.get(field, "") for field in fields} for row in rows)
 
 
+def copy_audio(source: Path, destination: Path) -> None:
+    """Copy one audio file and do not leave a symlink at the destination."""
+    if not source.is_file():
+        raise FileNotFoundError(source)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists() or destination.is_symlink():
+        destination.unlink()
+    shutil.copy2(source, destination)
+    if destination.is_symlink() or not destination.is_file():
+        raise RuntimeError(f"audio copy failed: {destination}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--previous-manifest", type=Path, required=True)
@@ -86,8 +98,8 @@ def main() -> int:
         dataset_root = args.output / dataset
         previous_link = dataset_root / "previous_enhanced_v3" / item_name
         current_link = dataset_root / "current_trim_only_v4" / item_name
-        make_link(Path(row.previous_audio_path), previous_link)
-        make_link(Path(row.audio_path), current_link)
+        copy_audio(Path(row.previous_audio_path), previous_link)
+        copy_audio(Path(row.audio_path), current_link)
         previous_check = validate_audio(previous_link)
         current_check = validate_audio(current_link)
         item_errors = [
@@ -153,6 +165,8 @@ def main() -> int:
         "status": "PASS" if not errors else "FAIL",
         "mode": "source_audio_only",
         "contains_synthesis": False,
+        "storage": "independent_wav_copies",
+        "uses_symlinks": False,
         "previous_profile": {
             "name": "expanded_v3_enhanced",
             "deepfilternet": True,
@@ -192,7 +206,8 @@ STE checker did not certify this document.
 
 This set contains source audio only. It does not contain synthesized audio.
 The set has {len(datasets)} datasets and {args.count_per_dataset} matched pairs
-for each dataset.
+for each dataset. Each WAV file is an independent copy. The set does not use
+symlinks.
 
 Listen to `previous_enhanced_v3` first. This revision uses DeepFilterNet,
 high-pass filtering, de-essing, compression, and two-pass EBU R128

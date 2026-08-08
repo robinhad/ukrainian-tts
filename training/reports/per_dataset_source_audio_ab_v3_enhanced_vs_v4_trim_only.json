@@ -1,5 +1,7 @@
 {
   "contains_synthesis": false,
+  "storage": "independent_wav_copies",
+  "uses_symlinks": false,
   "current_manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v4_trim_only/hybrid_manifest/all.parquet",
   "current_profile": {
     "boundary_trim": true,

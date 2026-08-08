@@ -86,8 +86,9 @@ training/.venv/bin/python \
 
 This source review does not contain synthesized audio. For each dataset, it
 contains 10 matched files from the previous enhanced revision and 10 matched
-files from the current trim-only revision. Use its `feedback_template.tsv` to
-record the preferred processing revision and all audible problems.
+files from the current trim-only revision. The WAV files are independent
+copies. They are not symlinks. Use its `feedback_template.tsv` to record the
+preferred processing revision and all audible problems.
 
 ## Expanded-v3 iteration
 
