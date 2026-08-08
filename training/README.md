@@ -1,11 +1,35 @@
 # Ukrainian JETS training
 
-This directory contains the reproducible ESPnet2 GAN-TTS pipeline. The pipeline is
-separate from the legacy multi-speaker inference code. It does not use a verbalizer,
-a separate stress model, denoising, compression, or mastering.
+This directory contains the reproducible ESPnet2 GAN-TTS pipeline. The pipeline
+is separate from the legacy multi-speaker inference code. It does not use a
+verbalizer or a separate stress model. Each versioned iteration fixes its audio
+processing profile.
 
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
+
+## Expanded-v5 enhanced non-VOA iteration
+
+This iteration trains for 100,000 new optimizer steps. It loads model weights
+from the best expanded-v4 checkpoint at epoch 28. It resets the optimizer,
+scheduler, epoch, and step states.
+
+The corpus uses the expanded-v3 enhanced audio. It excludes all VOA records.
+It keeps an exact 50/50 speaker-conditioning mix: 37,078 vectors use audio
+before enhancement, and 37,078 vectors use audio after enhancement.
+
+Run these commands in sequence:
+
+```sh
+training/scripts/prepare_expanded_v5_enhanced_novoa.sh
+training/scripts/run_expanded_v5_enhanced_novoa_smoke.sh
+training/scripts/launch_expanded_v5_enhanced_novoa_training.sh 100000
+```
+
+The full launcher uses both RTX 3090 cards. It writes loss, power, GPU use,
+VRAM, temperature, disk space, and Kyiv ETA data at intervals of not more than
+15 minutes. See `training/reports/expanded_v5_enhanced_novoa_plan.md` for the
+fixed inputs and gates.
 
 ## Expanded-v4 trim-only iteration
 
