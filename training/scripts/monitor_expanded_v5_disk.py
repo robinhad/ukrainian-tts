@@ -64,9 +64,12 @@ def main() -> int:
     parser.add_argument("--watch-pid", type=int, required=True)
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--status", type=Path, required=True)
+    parser.add_argument("--stop-pgid", type=int)
     parser.add_argument("--trigger-gib", type=float, default=30.0)
     parser.add_argument("--interval-seconds", type=int, default=60)
     args = parser.parse_args()
+    if args.stop_pgid is not None and args.stop_pgid <= 1:
+        parser.error("--stop-pgid must be greater than 1")
     targets = approved_targets(args.workspace)
 
     while alive(args.watch_pid):
@@ -106,7 +109,10 @@ def main() -> int:
                 )
                 append(args.status, row)
                 print(json.dumps(row, sort_keys=True), flush=True)
-                os.kill(args.watch_pid, signal.SIGTERM)
+                if args.stop_pgid is not None:
+                    os.killpg(args.stop_pgid, signal.SIGTERM)
+                else:
+                    os.kill(args.watch_pid, signal.SIGTERM)
                 return 1
         append(args.status, row)
         print(json.dumps(row, sort_keys=True), flush=True)

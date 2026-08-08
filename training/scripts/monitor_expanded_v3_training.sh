@@ -24,8 +24,17 @@ probe() {
     result=$?
     set -e
     if (( result != 0 )); then
-        echo "A critical training condition exists. Stop PID ${TRAIN_PID}." >&2
-        kill -TERM "$TRAIN_PID" 2>/dev/null || true
+        if [[ -n "${TRAIN_PGID:-}" ]]; then
+            if ! [[ "$TRAIN_PGID" =~ ^[0-9]+$ ]] || (( TRAIN_PGID <= 1 )); then
+                echo "TRAIN_PGID is not safe: ${TRAIN_PGID}" >&2
+                return 1
+            fi
+            echo "A critical training condition exists. Stop process group ${TRAIN_PGID}." >&2
+            kill -TERM -- "-${TRAIN_PGID}" 2>/dev/null || true
+        else
+            echo "A critical training condition exists. Stop PID ${TRAIN_PID}." >&2
+            kill -TERM "$TRAIN_PID" 2>/dev/null || true
+        fi
         return 1
     fi
 }
