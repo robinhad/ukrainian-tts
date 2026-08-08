@@ -67,7 +67,7 @@ CUDA_VISIBLE_DEVICES=0 training/.venv/bin/python \
 ```
 
 The command makes 10 synthesized WAV files for each source dataset. It also
-makes 10 links to the paired trim-only reference files. Five items in each
+makes 10 independent copies of the paired trim-only reference files. Five items in each
 dataset use pre-trim speaker embeddings. Five items use post-trim speaker
 embeddings. Use `feedback_template.tsv` in the output directory to record the
 listening results.

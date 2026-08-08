@@ -3,7 +3,10 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from training.scripts.generate_per_dataset_listening_eval import select_rows
+from training.scripts.generate_per_dataset_listening_eval import (
+    copy_audio,
+    select_rows,
+)
 
 
 def make_frame() -> pd.DataFrame:
@@ -45,3 +48,15 @@ def test_select_rows_is_deterministic() -> None:
 def test_select_rows_rejects_odd_count() -> None:
     with pytest.raises(ValueError, match="even number"):
         select_rows(make_frame(), 9)
+
+
+def test_copy_audio_does_not_make_a_symlink(tmp_path) -> None:
+    source = tmp_path / "source.wav"
+    destination = tmp_path / "output" / "reference.wav"
+    source.write_bytes(b"reference-audio")
+
+    copy_audio(source, destination)
+
+    assert destination.read_bytes() == b"reference-audio"
+    assert destination.is_file()
+    assert not destination.is_symlink()

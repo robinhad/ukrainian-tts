@@ -7,7 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
-import os
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -79,15 +79,15 @@ def select_rows(frame: pd.DataFrame, count_per_dataset: int) -> pd.DataFrame:
     return pd.concat(selected, ignore_index=True)
 
 
-def make_link(source: Path, destination: Path) -> None:
+def copy_audio(source: Path, destination: Path) -> None:
     if not source.is_file():
         raise FileNotFoundError(source)
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() or destination.is_symlink():
         destination.unlink()
-    destination.symlink_to(
-        os.path.relpath(source.resolve(), destination.parent.resolve())
-    )
+    shutil.copy2(source, destination)
+    if destination.is_symlink() or not destination.is_file():
+        raise RuntimeError(f"audio copy failed: {destination}")
 
 
 def validate_audio(path: Path) -> dict:
@@ -195,7 +195,7 @@ def main() -> int:
         reference_path = source_root / "reference_trim_only" / f"{item_name}.wav"
         synthesis_path.parent.mkdir(parents=True, exist_ok=True)
         sf.write(synthesis_path, waveform, 24000, subtype="PCM_16")
-        make_link(Path(row.audio_path), reference_path)
+        copy_audio(Path(row.audio_path), reference_path)
 
         reference_check = validate_audio(reference_path)
         synthesis_check = validate_audio(synthesis_path)
@@ -284,6 +284,8 @@ def main() -> int:
         }
     report = {
         "status": "PASS" if not errors else "FAIL",
+        "reference_storage": "independent_wav_copies",
+        "uses_symlinks": False,
         "manifest": str(args.manifest.resolve()),
         "output": str(args.output.resolve()),
         "checkpoint": str(args.checkpoint.resolve()),
@@ -310,8 +312,9 @@ STE checker did not certify this document.
 
 This set has {len(by_dataset)} datasets. Each dataset has
 {args.count_per_dataset} synthesized WAV files and {args.count_per_dataset}
-trim-only reference WAV files. Five items use pre-trim speaker embeddings.
-Five items use post-trim speaker embeddings.
+trim-only reference WAV files. Each reference is an independent copy. This set
+does not use symlinks. Five items use pre-trim speaker embeddings. Five items
+use post-trim speaker embeddings.
 
 Open `manifest.tsv` to see the text and file paths. Listen to the reference
 first. Then listen to the 100K synthesis. Enter the results in

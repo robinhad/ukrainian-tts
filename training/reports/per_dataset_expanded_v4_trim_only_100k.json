@@ -3,6 +3,8 @@
   "checkpoint_sha256": "35d576109acd745511c8692a167f504380d485344e09e9be363449012fd9b2b3",
   "config": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v4_trim_only/tts_jets_uk_24k_expanded_v4_trim_only_ft367_100k/config.yaml",
   "config_sha256": "fa2329de0f443d906cbb538a2539e7f1f5476690cb085f4b15032cd765f86bce",
+  "reference_storage": "independent_wav_copies",
+  "uses_symlinks": false,
   "dataset_count": 9,
   "datasets": {
     "common_voice_available_uk": {
