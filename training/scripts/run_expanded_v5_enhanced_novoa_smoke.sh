@@ -28,7 +28,8 @@ export VALID_SET=expanded_v5_enhanced_novoa_dev
 export TEST_SETS=expanded_v5_enhanced_novoa_eval
 export DATA_SETS="${TRAIN_SET} ${VALID_SET} ${TEST_SETS}"
 export DUMP_DIR="${ROOT}/dump_expanded_v5_enhanced_novoa"
-export EXP_DIR="${ROOT}/exp_expanded_v5_enhanced_novoa_smoke"
+# Keep the smoke model separate, but use the full filtered-corpus statistics.
+export EXP_DIR="${ROOT}/exp_expanded_v5_enhanced_novoa"
 export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 
 python "${ROOT}/scripts/check_resources.py" \
