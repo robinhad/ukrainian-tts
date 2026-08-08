@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 
 
 NITER = re.compile(r"INFO: Niter: (\d+)")
+LOG_TIMESTAMP = re.compile(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+")
 KYIV = ZoneInfo("Europe/Kyiv")
 
 
@@ -40,6 +41,15 @@ def completed_iterations(text: str) -> int:
     return completed + previous
 
 
+def first_log_time(text: str) -> float | None:
+    """Return the first ESPnet timestamp as a Unix value in Kyiv time."""
+    match = LOG_TIMESTAMP.search(text)
+    if match is None:
+        return None
+    value = datetime.strptime(match.group(1), "%Y-%m-%d %H:%M:%S")
+    return value.replace(tzinfo=KYIV).timestamp()
+
+
 def append(path: Path, row: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as stream:
@@ -48,12 +58,11 @@ def append(path: Path, row: dict[str, object]) -> None:
 
 def sample(logdir: Path, workspace: Path, total: int) -> dict[str, object]:
     logs = sorted(logdir.glob("stats.*.log"))
-    progress = sum(
-        completed_iterations(path.read_text(encoding="utf-8", errors="replace"))
-        for path in logs
-    )
+    texts = [path.read_text(encoding="utf-8", errors="replace") for path in logs]
+    progress = sum(completed_iterations(text) for text in texts)
     now_unix = time.time()
-    start_unix = min((path.stat().st_mtime for path in logs), default=now_unix)
+    start_times = [value for text in texts if (value := first_log_time(text))]
+    start_unix = min(start_times, default=now_unix)
     elapsed = max(now_unix - start_unix, 1.0)
     rate = progress / elapsed
     remaining = max(total - progress, 0)
