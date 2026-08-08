@@ -65,6 +65,11 @@ def main() -> int:
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--status", type=Path, required=True)
     parser.add_argument("--stop-pgid", type=int)
+    parser.add_argument(
+        "--report-only",
+        action="store_true",
+        help="Report exhausted cleanup capacity, but do not stop training.",
+    )
     parser.add_argument("--trigger-gib", type=float, default=30.0)
     parser.add_argument("--interval-seconds", type=int, default=60)
     args = parser.parse_args()
@@ -103,12 +108,19 @@ def main() -> int:
             if free <= args.trigger_gib and not any(path.exists() for path in targets):
                 row.update(
                     {
-                        "action": "STOP_NO_APPROVED_CLEANUP_REMAINS",
+                        "action": (
+                            "ALERT_NO_APPROVED_CLEANUP_REMAINS"
+                            if args.report_only
+                            else "STOP_NO_APPROVED_CLEANUP_REMAINS"
+                        ),
                         "free_disk_gib_after": round(free, 2),
                     }
                 )
                 append(args.status, row)
                 print(json.dumps(row, sort_keys=True), flush=True)
+                if args.report_only:
+                    time.sleep(args.interval_seconds)
+                    continue
                 if args.stop_pgid is not None:
                     os.killpg(args.stop_pgid, signal.SIGTERM)
                 else:

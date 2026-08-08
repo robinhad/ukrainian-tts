@@ -8,12 +8,13 @@ LOG="${ROOT}/reports/expanded_v5_enhanced_novoa_100k_launcher.log"
 STATUS="${ROOT}/reports/training_status_expanded_v5_enhanced_novoa_100k.jsonl"
 PYTHON="${ROOT}/.venv/bin/python"
 
-setsid env TTS_EXP="$TTS_EXP" \
+setsid env TTS_EXP="$TTS_EXP" ALLOW_TRAINING_RESUME=1 \
     "${ROOT}/scripts/run_expanded_v5_enhanced_novoa_training.sh" \
     "$TARGET_ITERATIONS" >"$LOG" 2>&1 &
 train_pid=$!
 train_pgid=$train_pid
-STATUS="$STATUS" INTERVAL_SECONDS=900 FREE_DISK_STOP_GIB=30 TRAIN_PGID="$train_pgid" \
+STATUS="$STATUS" INTERVAL_SECONDS=900 FREE_DISK_STOP_GIB=30 \
+    STOP_ON_CRITICAL=0 TRAIN_PGID="$train_pgid" \
     "${ROOT}/scripts/monitor_expanded_v3_training.sh" \
     "$train_pid" "$TARGET_ITERATIONS" "$TTS_EXP" &
 monitor_pid=$!
@@ -23,7 +24,8 @@ milestone_pid=$!
 "$PYTHON" "${ROOT}/scripts/monitor_expanded_v5_disk.py" \
     --watch-pid "$train_pid" --workspace "$ROOT" \
     --status "${ROOT}/reports/expanded_v5_enhanced_novoa_disk.jsonl" \
-    --trigger-gib 30 --interval-seconds 60 --stop-pgid "$train_pgid" &
+    --trigger-gib 30 --interval-seconds 60 --stop-pgid "$train_pgid" \
+    --report-only &
 disk_pid=$!
 (
     while kill -0 "$train_pid" 2>/dev/null && [[ ! -s "${TTS_EXP}/train.log" ]]; do

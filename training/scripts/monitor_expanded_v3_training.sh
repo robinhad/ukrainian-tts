@@ -7,6 +7,7 @@ TARGET_ITERATIONS=${2:-25000}
 TARGET_LABEL="$((TARGET_ITERATIONS / 1000))k"
 TTS_EXP=${3:-"${ROOT}/exp_expanded_v3/tts_jets_uk_24k_expanded_v3_${TARGET_LABEL}"}
 INTERVAL_SECONDS=${INTERVAL_SECONDS:-900}
+STOP_ON_CRITICAL=${STOP_ON_CRITICAL:-1}
 LOG="${TTS_EXP}/train.log"
 STATUS=${STATUS:-"${ROOT}/reports/training_status_expanded_v3_${TARGET_LABEL}.jsonl"}
 PYTHON="${ROOT}/.venv/bin/python"
@@ -24,6 +25,10 @@ probe() {
     result=$?
     set -e
     if (( result != 0 )); then
+        if [[ "$STOP_ON_CRITICAL" == 0 ]]; then
+            echo "A critical training condition exists. Report it and continue training." >&2
+            return 0
+        fi
         if [[ -n "${TRAIN_PGID:-}" ]]; then
             if ! [[ "$TRAIN_PGID" =~ ^[0-9]+$ ]] || (( TRAIN_PGID <= 1 )); then
                 echo "TRAIN_PGID is not safe: ${TRAIN_PGID}" >&2
