@@ -32,6 +32,13 @@ training/scripts/run_expanded_v6_sidon_deess_novoa_smoke.sh
 training/scripts/launch_expanded_v6_sidon_deess_novoa_training.sh 100000
 ```
 
+For an unattended run, start the continuation after the preprocessing process.
+Pass the preprocessing PID to this command:
+
+```sh
+training/scripts/continue_expanded_v6_pipeline.sh PREPROCESS_PID
+```
+
 The preprocessing command starts four workers on each RTX 3090 by default.
 The training command uses both RTX 3090 cards. The monitors
 write GPU use, power, VRAM, temperature, disk space, progress, and a Kyiv ETA
