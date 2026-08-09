@@ -129,6 +129,9 @@ The pipeline applies these audio operations to each training copy:
 5. Apply gentle compression.
 6. Apply two-pass EBU R128 normalization.
 
+See `training/reports/audio_enhancement_steps.md` for the exact sequence,
+filter values, output format, and validation rules.
+
 The source audio does not change. The training manifest points only to the clean
 copy. ECAPA uses raw audio for 50 percent of the records. It uses clean audio for
 the other 50 percent.
