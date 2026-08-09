@@ -1,0 +1,47 @@
+{
+  "compression_policy": {
+    "all_other_profiles": false,
+    "historical_dfn3_compressed": true
+  },
+  "contains_synthesis": false,
+  "dataset_count": 9,
+  "errors": [],
+  "items_per_dataset": 10,
+  "mode": "matched_training_source_audio",
+  "output": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/per_dataset_train_audio_enhancement_review_v2",
+  "profile_count": 7,
+  "profiles": {
+    "dfn3_no_compression": {
+      "errors": 0,
+      "files": 90
+    },
+    "historical_dfn3_compressed": {
+      "errors": 0,
+      "files": 90
+    },
+    "mossformer2_no_compression": {
+      "errors": 0,
+      "files": 90
+    },
+    "resemble_denoise_no_compression": {
+      "errors": 0,
+      "files": 90
+    },
+    "resemble_full_no_compression": {
+      "errors": 0,
+      "files": 90
+    },
+    "sidon_no_compression": {
+      "errors": 0,
+      "files": 90
+    },
+    "trim_only": {
+      "errors": 0,
+      "files": 90
+    }
+  },
+  "status": "PASS",
+  "uses_symlinks": false,
+  "utterance_count": 90,
+  "wav_count": 630
+}

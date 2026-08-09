@@ -140,6 +140,7 @@ dmypy.json
 # Local training release packages include large checkpoints.
 training/releases/
 training/vendor/nemo-cache/
+training/vendor/audio-enhancement-review-models/
 
 # gradio
 gradio_queue.db

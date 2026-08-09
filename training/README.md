@@ -1,5 +1,9 @@
 # Ukrainian JETS training
 
+See [Audio Enhancement Backend Review](reports/audio_enhancement_backend_review.md)
+for the matched source-audio comparison of DeepFilterNet3, Sidon, Resemble
+Enhance, and MossFormer2_SE_48K.
+
 This directory contains the reproducible ESPnet2 GAN-TTS pipeline. The pipeline
 is separate from the legacy multi-speaker inference code. It does not use a
 verbalizer or a separate stress model. Each versioned iteration fixes its audio
