@@ -4,7 +4,10 @@ import numpy as np
 import pandas as pd
 import soundfile as sf
 
-from training.audio_enhancement.review_pipeline import ReviewProcessingConfig
+from training.audio_enhancement.review_pipeline import (
+    ReviewProcessingConfig,
+    SidonDeessOnlyConfig,
+)
 from training.scripts.build_enhancement_backend_review import (
     EXPECTED_DATASETS,
     copy_real_file,
@@ -20,6 +23,22 @@ def test_review_config_has_no_compression() -> None:
     assert config.highpass_hz == 70.0
     assert config.target_lufs == -23.0
     assert config.output_sample_rate == 24_000
+
+
+def test_sidon_deess_profile_has_no_other_postprocessing() -> None:
+    config = SidonDeessOnlyConfig()
+
+    assert config.boundary_trim_applied is True
+    assert config.sidon_applied is True
+    assert config.deessing_applied is True
+    assert config.post_highpass_applied is False
+    assert config.loudness_normalization_applied is False
+    assert config.compression_applied is False
+    assert config.limiting_applied is False
+    assert "deesser=" in config.deesser_filter
+    assert "highpass" not in config.deesser_filter
+    assert "loudnorm" not in config.deesser_filter
+    assert "compress" not in config.deesser_filter
 
 
 def test_selection_is_balanced_and_includes_voa(tmp_path: Path) -> None:

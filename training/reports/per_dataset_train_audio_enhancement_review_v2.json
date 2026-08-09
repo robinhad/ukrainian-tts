@@ -9,7 +9,7 @@
   "items_per_dataset": 10,
   "mode": "matched_training_source_audio",
   "output": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/per_dataset_train_audio_enhancement_review_v2",
-  "profile_count": 7,
+  "profile_count": 8,
   "profiles": {
     "dfn3_no_compression": {
       "errors": 0,
@@ -31,6 +31,10 @@
       "errors": 0,
       "files": 90
     },
+    "sidon_deess_only": {
+      "errors": 0,
+      "files": 90
+    },
     "sidon_no_compression": {
       "errors": 0,
       "files": 90
@@ -40,8 +44,17 @@
       "files": 90
     }
   },
+  "sidon_deess_only_policy": {
+    "boundary_trim": true,
+    "compression": false,
+    "deessing": true,
+    "limiting": false,
+    "loudness_normalization": false,
+    "post_highpass": false,
+    "sidon": true
+  },
   "status": "PASS",
   "uses_symlinks": false,
   "utterance_count": 90,
-  "wav_count": 630
+  "wav_count": 720
 }

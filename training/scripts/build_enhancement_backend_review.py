@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare and finalize the seven-way source-audio enhancement review."""
+"""Prepare and finalize the source-audio enhancement review."""
 
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ if str(REPOSITORY_ROOT) not in sys.path:
 
 from training.audio_enhancement.review_pipeline import (
     ReviewProcessingConfig,
+    SidonDeessOnlyConfig,
     inspect_wav,
     sha256,
     write_json,
@@ -40,6 +41,7 @@ PROFILES = [
     "historical_dfn3_compressed",
     "dfn3_no_compression",
     "sidon_no_compression",
+    "sidon_deess_only",
     "resemble_denoise_no_compression",
     "resemble_full_no_compression",
     "mossformer2_no_compression",
@@ -151,6 +153,7 @@ def write_tsv(path: Path, rows: list[dict], fields: list[str]) -> None:
 
 def finalize(args: argparse.Namespace) -> int:
     config = ReviewProcessingConfig()
+    sidon_deess_config = SidonDeessOnlyConfig()
     records = load_selection(args.output / "selection.jsonl")
     rows = []
     errors = []
@@ -197,9 +200,33 @@ def finalize(args: argparse.Namespace) -> int:
                 errors.append({"profile": profile, "path": str(metadata), "error": "compression policy mismatch"})
                 profiles[profile]["errors"] += 1
             if profile not in {"trim_only", "historical_dfn3_compressed"}:
-                if details.get("processing_config_hash") != config.digest:
+                expected_config_hash = (
+                    sidon_deess_config.digest
+                    if profile == "sidon_deess_only"
+                    else config.digest
+                )
+                if details.get("processing_config_hash") != expected_config_hash:
                     errors.append({"profile": profile, "path": str(metadata), "error": "processing config mismatch"})
                     profiles[profile]["errors"] += 1
+            if profile == "sidon_deess_only":
+                expected_flags = {
+                    "compression_applied": False,
+                    "deessing_applied": True,
+                    "post_highpass_applied": False,
+                    "loudness_normalization_applied": False,
+                    "limiting_applied": False,
+                }
+                for key, expected in expected_flags.items():
+                    if details.get(key) is not expected:
+                        errors.append(
+                            {
+                                "profile": profile,
+                                "path": str(metadata),
+                                "error": f"{key} policy mismatch",
+                            }
+                        )
+                        profiles[profile]["errors"] += 1
+            elif profile not in {"trim_only", "historical_dfn3_compressed"}:
                 second_pass = details.get("loudness", {}).get("second_pass", {})
                 try:
                     output_i = float(second_pass["output_i"])
@@ -250,6 +277,15 @@ def finalize(args: argparse.Namespace) -> int:
             "historical_dfn3_compressed": True,
             "all_other_profiles": False,
         },
+        "sidon_deess_only_policy": {
+            "boundary_trim": True,
+            "sidon": True,
+            "deessing": True,
+            "post_highpass": False,
+            "loudness_normalization": False,
+            "compression": False,
+            "limiting": False,
+        },
         "output": str(args.output.resolve()),
         "errors": errors,
     }
@@ -267,6 +303,11 @@ The set does not use symbolic links.
 Listen to all profiles for one item before you continue to the next item. The
 historical DeepFilterNet3 profile contains compression. No other profile
 contains compression. Enter the results in `feedback_template.tsv`.
+
+The `sidon_deess_only` profile uses boundary trimming, Sidon, and light
+de-essing. It does not use an additional high-pass filter, loudness
+normalization, compression, or limiting. Sidon keeps its fixed internal 50 Hz
+input filter.
 
 Use a value from 1 to 5 for quality. Record metallic sound, rasp, robotic
 sound, speech loss, remaining noise, and pronunciation changes. Select one

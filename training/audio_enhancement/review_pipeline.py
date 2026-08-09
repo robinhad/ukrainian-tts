@@ -52,6 +52,39 @@ class ReviewProcessingConfig:
         )
 
 
+@dataclass(frozen=True)
+class SidonDeessOnlyConfig:
+    """Pinned processing values for the Sidon and de-essing sample."""
+
+    deesser_intensity: float = 0.15
+    deesser_max: float = 0.25
+    deesser_frequency: float = 0.50
+    output_sample_rate: int = 24_000
+    trim_top_db: float = 40.0
+    trim_padding_ms: float = 100.0
+    trim_frame_length: int = 1024
+    trim_hop_length: int = 256
+    boundary_trim_applied: bool = True
+    sidon_applied: bool = True
+    deessing_applied: bool = True
+    post_highpass_applied: bool = False
+    loudness_normalization_applied: bool = False
+    compression_applied: bool = False
+    limiting_applied: bool = False
+
+    @property
+    def digest(self) -> str:
+        payload = json.dumps(asdict(self), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+    @property
+    def deesser_filter(self) -> str:
+        return (
+            f"deesser=i={self.deesser_intensity}:m={self.deesser_max}:"
+            f"f={self.deesser_frequency}:s=o"
+        )
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -76,7 +109,7 @@ def parse_loudnorm(stderr: str) -> dict[str, float | str]:
 
 def load_and_trim(
     source: Path,
-    config: ReviewProcessingConfig,
+    config: ReviewProcessingConfig | SidonDeessOnlyConfig,
 ) -> tuple[np.ndarray, int, dict[str, Any]]:
     decode_method = "libsndfile"
     try:
@@ -190,6 +223,44 @@ def master_without_compression(
             text=True,
         )
     return {"first_pass": measured, "second_pass": parse_loudnorm(second.stderr)}
+
+
+def apply_deessing_only(
+    source: Path,
+    target: Path,
+    config: SidonDeessOnlyConfig,
+) -> dict[str, Any]:
+    """Apply only de-essing after Sidon and make a 24 kHz PCM WAV file."""
+    target.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-nostdin",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-y",
+            "-i",
+            str(source),
+            "-af",
+            config.deesser_filter,
+            "-ac",
+            "1",
+            "-ar",
+            str(config.output_sample_rate),
+            "-c:a",
+            "pcm_s16le",
+            str(target),
+        ],
+        check=True,
+    )
+    return {
+        "filter": config.deesser_filter,
+        "post_highpass_applied": False,
+        "loudness_normalization_applied": False,
+        "compression_applied": False,
+        "limiting_applied": False,
+    }
 
 
 def inspect_wav(path: Path) -> dict[str, Any]:

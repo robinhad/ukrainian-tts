@@ -64,6 +64,11 @@ wait "$dfn_pid"; dfn_status=$?
     --device cuda:0 --model-cache "${MODEL_CACHE}/sidon" \
     >"${ROOT}/reports/enhancement_review_sidon.log" 2>&1
 sidon_status=$?
+"$REVIEW_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
+    --backend sidon_deess_only --selection "$SELECTION" --output "$OUTPUT" \
+    --device cuda:0 --model-cache "${MODEL_CACHE}/sidon" \
+    >"${ROOT}/reports/enhancement_review_sidon_deess_only.log" 2>&1
+sidon_deess_status=$?
 set -e
 
 set +e
@@ -75,9 +80,13 @@ wait "$resemble_pid"; resemble_status=$?
 moss_status=$?
 set -e
 
-if (( dfn_status || sidon_status || resemble_status || moss_status )); then
+if ((
+    dfn_status || sidon_status || sidon_deess_status
+    || resemble_status || moss_status
+)); then
     echo "One or more enhancement backends failed." >&2
-    echo "dfn=${dfn_status} sidon=${sidon_status} resemble=${resemble_status} moss=${moss_status}" >&2
+    echo "dfn=${dfn_status} sidon=${sidon_status} sidon_deess=${sidon_deess_status}" >&2
+    echo "resemble=${resemble_status} moss=${moss_status}" >&2
     exit 1
 fi
 

@@ -8,8 +8,8 @@ STE checker did not certify this document.
 This review compares source audio from all nine approved training datasets. It
 does not compare synthesized audio. It includes VOA audio.
 
-The review uses 10 matched utterances from each dataset. It makes seven files
-for each utterance. Thus, the complete set has 90 utterances and 630 WAV files.
+The review uses 10 matched utterances from each dataset. It makes eight files
+for each utterance. Thus, the complete set has 90 utterances and 720 WAV files.
 All WAV files are real files. The process does not make symbolic links.
 
 ## Profiles
@@ -19,16 +19,20 @@ All WAV files are real files. The process does not make symbolic links.
    contains compression.
 3. `dfn3_no_compression` uses DeepFilterNet3 and no compression.
 4. `sidon_no_compression` uses Sidon and no compression.
-5. `resemble_denoise_no_compression` uses the Resemble denoiser and no
+5. `sidon_deess_only` uses boundary trimming, Sidon, and light de-essing. It
+   does not use a post-processing high-pass filter, loudness normalization,
+   compression, or limiting. Sidon has its fixed internal 50 Hz input filter.
+6. `resemble_denoise_no_compression` uses the Resemble denoiser and no
    compression.
-6. `resemble_full_no_compression` uses the complete Resemble Enhance model and
+7. `resemble_full_no_compression` uses the complete Resemble Enhance model and
    no compression.
-7. `mossformer2_no_compression` uses MossFormer2_SE_48K and no compression.
+8. `mossformer2_no_compression` uses MossFormer2_SE_48K and no compression.
 
-The five new enhanced profiles use the same final process. This process applies
-a 70 Hz high-pass filter and light de-essing. It then applies accurate two-pass
-EBU R128 normalization. The target values are -23 LUFS, LRA 7, and -1 dBTP.
-The process makes 24 kHz mono PCM WAV files. It does not apply compression.
+Five normalized enhanced profiles use the same final process. This process
+applies a 70 Hz high-pass filter and light de-essing. It then applies accurate
+two-pass EBU R128 normalization. The target values are -23 LUFS, LRA 7, and
+-1 dBTP. The `sidon_deess_only` profile does not use this final process. All
+profiles use 24 kHz mono PCM WAV files.
 
 ## Fixed Software
 
@@ -65,6 +69,12 @@ Run the complete review:
 training/scripts/run_enhancement_backend_review.sh
 ```
 
+Add or refresh only the Sidon and de-essing profile:
+
+```bash
+training/scripts/run_sidon_deess_listening_review.sh
+```
+
 The output directory is
 `training/eval/generated/per_dataset_train_audio_enhancement_review_v2`.
 The directory contains `manifest.tsv`, `feedback_template.tsv`, metadata, and
@@ -78,15 +88,17 @@ delete source caches only after this threshold condition occurs.
 
 The run completed on 2026-08-10. The final validation status is PASS.
 
-- The set has 630 WAV files and 630 metadata files.
+- The set has 720 WAV files and 720 metadata files.
 - Each profile has 90 WAV files.
 - The set has no symbolic links.
-- The files use 162,348,622 bytes.
+- The files use 185,551,584 bytes.
 - The compression policy has no violations.
-- The complete training test suite has 117 passed tests.
+- The complete training test suite has 118 passed tests.
 - The minimum measured free disk space was 124 GiB.
-- The maximum 30-second sample was 157.70 W on GPU 0.
-- The maximum 30-second sample was 260.28 W on GPU 1.
+- The Sidon and de-essing run used two physical GPUs.
+- The maximum measured value was 221.53 W on GPU 0.
+- The maximum measured value was 212.97 W on GPU 1.
 
 See `per_dataset_train_audio_enhancement_review_v2.json` for the validation
 result. See `enhancement_backend_review_resources.csv` for the resource data.
+See `sidon_deess_listening_resources.csv` for the new profile resource data.

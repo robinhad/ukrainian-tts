@@ -24,6 +24,8 @@ if str(REPOSITORY_ROOT) not in sys.path:
 
 from training.audio_enhancement.review_pipeline import (
     ReviewProcessingConfig,
+    SidonDeessOnlyConfig,
+    apply_deessing_only,
     inspect_wav,
     load_and_trim,
     master_without_compression,
@@ -146,8 +148,13 @@ class SidonBackend:
             "model_revision": SIDON_MODEL_REVISION,
             "feature_preprocessor_revision": W2V_BERT_MODEL_REVISION,
             "license": "MIT",
+            "internal_input_highpass_hz": 50,
             "weight_hashes": self.weight_hashes,
         }
+
+
+class SidonDeessOnlyBackend(SidonBackend):
+    profiles = ("sidon_deess_only",)
 
 
 class ResembleBackend:
@@ -266,6 +273,7 @@ class MossFormerBackend:
 BACKENDS = {
     "deepfilternet3": DeepFilterBackend,
     "sidon": SidonBackend,
+    "sidon_deess_only": SidonDeessOnlyBackend,
     "resemble": ResembleBackend,
     "mossformer2": MossFormerBackend,
 }
@@ -303,9 +311,24 @@ def main() -> int:
         action="store_true",
         help="Replace outputs that already passed validation.",
     )
+    parser.add_argument("--num-shards", type=int, default=1)
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument(
+        "--summary",
+        type=Path,
+        help="Write the backend summary to this path.",
+    )
     args = parser.parse_args()
 
-    config = ReviewProcessingConfig()
+    if args.num_shards < 1:
+        parser.error("--num-shards must be at least 1")
+    if not 0 <= args.shard_index < args.num_shards:
+        parser.error("--shard-index must be in the selected shard range")
+    config = (
+        SidonDeessOnlyConfig()
+        if args.backend == "sidon_deess_only"
+        else ReviewProcessingConfig()
+    )
     args.model_cache.mkdir(parents=True, exist_ok=True)
     backend = BACKENDS[args.backend](args.device, args.model_cache)
     failures = []
@@ -313,6 +336,7 @@ def main() -> int:
     skipped = 0
     started_all = time.monotonic()
     records = load_records(args.selection)
+    records = records[args.shard_index :: args.num_shards]
     if args.limit is not None:
         if args.limit < 1:
             parser.error("--limit must be at least 1")
@@ -341,15 +365,34 @@ def main() -> int:
                 with tempfile.TemporaryDirectory(prefix="uktts-review-backend-") as temporary:
                     intermediate = Path(temporary) / "backend.wav"
                     write_float_wav(intermediate, waveform, output_rate)
-                    loudness = master_without_compression(intermediate, targets[profile], config)
+                    if isinstance(config, SidonDeessOnlyConfig):
+                        postprocessing = apply_deessing_only(
+                            intermediate,
+                            targets[profile],
+                            config,
+                        )
+                        loudness = {"applied": False}
+                    else:
+                        loudness = master_without_compression(
+                            intermediate,
+                            targets[profile],
+                            config,
+                        )
+                        postprocessing = {
+                            "post_highpass_applied": True,
+                            "loudness_normalization_applied": True,
+                            "compression_applied": False,
+                            "limiting_applied": False,
+                        }
                 check = inspect_wav(targets[profile])
-                output_i = float(loudness["second_pass"]["output_i"])
-                output_tp = float(loudness["second_pass"]["output_tp"])
                 gate_errors = list(check["errors"])
-                if abs(output_i - config.target_lufs) > 1.0:
-                    gate_errors.append(f"loudness={output_i}")
-                if output_tp > config.target_true_peak_db + 0.05:
-                    gate_errors.append(f"true_peak={output_tp}")
+                if isinstance(config, ReviewProcessingConfig):
+                    output_i = float(loudness["second_pass"]["output_i"])
+                    output_tp = float(loudness["second_pass"]["output_tp"])
+                    if abs(output_i - config.target_lufs) > 1.0:
+                        gate_errors.append(f"loudness={output_i}")
+                    if output_tp > config.target_true_peak_db + 0.05:
+                        gate_errors.append(f"true_peak={output_tp}")
                 metadata = {
                     "status": "PASS" if not gate_errors else "FAIL",
                     "profile": profile,
@@ -359,13 +402,24 @@ def main() -> int:
                     "source_sha256": sha256(Path(record["raw_audio_path"])),
                     "audio_sha256": sha256(targets[profile]),
                     "compression_applied": False,
+                    "deessing_applied": True,
+                    "post_highpass_applied": postprocessing[
+                        "post_highpass_applied"
+                    ],
+                    "loudness_normalization_applied": postprocessing[
+                        "loudness_normalization_applied"
+                    ],
+                    "limiting_applied": False,
                     "processing_config_hash": config.digest,
                     "processing_config": asdict(config),
                     "backend": backend.identity,
+                    "requested_device": args.device,
+                    "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
                     "backend_seconds_for_record": backend_seconds,
                     "real_time_factor": backend_seconds / max(check["duration"], 1e-9),
                     "trim": trim,
                     "loudness": loudness,
+                    "postprocessing": postprocessing,
                     "waveform": check,
                     "errors": gate_errors,
                 }
@@ -402,8 +456,13 @@ def main() -> int:
         "skipped_outputs": skipped,
         "failed_records": failures,
         "elapsed_seconds": time.monotonic() - started_all,
+        "num_shards": args.num_shards,
+        "shard_index": args.shard_index,
+        "requested_device": args.device,
+        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
     }
-    write_json(args.output / f"backend_{args.backend}_summary.json", summary)
+    summary_path = args.summary or args.output / f"backend_{args.backend}_summary.json"
+    write_json(summary_path, summary)
     print(json.dumps({key: value for key, value in summary.items() if key != "failed_records"}, indent=2))
     return 0 if not failures else 1
 
