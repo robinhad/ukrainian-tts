@@ -12,12 +12,14 @@ GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | pas
 MODEL="${ROOT}/vendor/speechbrain-spkrec-ecapa-voxceleb"
 
 source "${ROOT}/activate.sh"
-python "${ROOT}/scripts/prepare_hybrid_embeddings.py" \
-    --manifest "$MANIFEST" \
-    --raw-manifest "$RAW_MANIFEST" \
-    --output-manifest "$OUTPUT_MANIFEST" \
-    --kaldi-root "$KALDI_ROOT" \
-    --report "$REPORT"
+if [[ "${SKIP_HYBRID_PREPARE:-false}" != true ]]; then
+    python "${ROOT}/scripts/prepare_hybrid_embeddings.py" \
+        --manifest "$MANIFEST" \
+        --raw-manifest "$RAW_MANIFEST" \
+        --output-manifest "$OUTPUT_MANIFEST" \
+        --kaldi-root "$KALDI_ROOT" \
+        --report "$REPORT"
+fi
 
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
 if (( ${#GPUS[@]} < 1 )); then

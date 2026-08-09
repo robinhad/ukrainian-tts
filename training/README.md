@@ -12,6 +12,31 @@ processing profile.
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 
+## Expanded-v6 Sidon and de-essing iteration
+
+This iteration trains for 100,000 new optimizer steps. It loads model weights
+from the expanded-v5 best mel checkpoint at epoch 81. It makes new optimizer,
+scheduler, epoch, and step states.
+
+The corpus has 74,156 non-VOA utterances. The training audio uses the existing
+boundary-trimmed input, Sidon, and light de-essing. It does not use a second
+high-pass filter, DeepFilterNet, compression, loudness normalization, or a
+limiter. Sidon has a fixed internal 50 Hz input filter.
+
+Run these commands in sequence:
+
+```sh
+training/scripts/run_expanded_v6_sidon_preprocessing.sh
+training/scripts/prepare_expanded_v6_sidon_deess_novoa.sh
+training/scripts/run_expanded_v6_sidon_deess_novoa_smoke.sh
+training/scripts/launch_expanded_v6_sidon_deess_novoa_training.sh 100000
+```
+
+The preprocessing and training commands use both RTX 3090 cards. The monitors
+write GPU use, power, VRAM, temperature, disk space, progress, and a Kyiv ETA
+at intervals of not more than 15 minutes. See
+`training/reports/expanded_v6_sidon_deess_novoa_plan.md` for the fixed gates.
+
 ## Expanded-v5 enhanced non-VOA iteration
 
 This iteration trains for 100,000 new optimizer steps. It loads model weights
