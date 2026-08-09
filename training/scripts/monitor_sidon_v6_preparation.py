@@ -55,6 +55,7 @@ def main() -> int:
     parser.add_argument("--minimum-free-gib", type=float, default=30)
     args = parser.parse_args()
     started = time.monotonic()
+    initial_processed = sum(len(rows(path)) for path in args.results)
     args.status.parent.mkdir(parents=True, exist_ok=True)
     while True:
         all_rows = [row for path in args.results for row in rows(path)]
@@ -62,7 +63,8 @@ def main() -> int:
         failed = sum(row.get("processing_status") == "failed" for row in all_rows)
         processed = ok + failed
         elapsed = max(time.monotonic() - started, 1e-6)
-        rate = processed / elapsed
+        new_processed = max(processed - initial_processed, 0)
+        rate = new_processed / elapsed
         eta_seconds = (args.total - processed) / rate if rate > 0 else None
         now = datetime.now(ZoneInfo("Europe/Kyiv"))
         free = shutil.disk_usage(args.workspace).free / 1024**3
@@ -70,6 +72,7 @@ def main() -> int:
             "timestamp_kyiv": now.isoformat(), "phase": "sidon_deess_preprocessing",
             "processed": processed, "retained": ok, "failed": failed, "total": args.total,
             "progress_percent": round(100 * processed / args.total, 4),
+            "processed_before_monitor": initial_processed,
             "rate_files_per_second": round(rate, 5), "elapsed_seconds": round(elapsed, 1),
             "eta_kyiv": (now + timedelta(seconds=eta_seconds)).isoformat() if eta_seconds is not None else None,
             "free_disk_gib": round(free, 2), "gpu": gpu_metrics(),

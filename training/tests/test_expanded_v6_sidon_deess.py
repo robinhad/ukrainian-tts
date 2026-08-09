@@ -43,3 +43,9 @@ def test_resume_requires_physical_valid_wav_and_matching_source(tmp_path: Path) 
     assert output_is_valid(target, source, config)
     sf.write(source, audio * 2, 24_000, subtype="PCM_16")
     assert not output_is_valid(target, source, config)
+
+
+def test_monitor_uses_incremental_resume_rate() -> None:
+    source = Path("training/scripts/monitor_sidon_v6_preparation.py").read_text()
+    assert "new_processed = max(processed - initial_processed, 0)" in source
+    assert "rate = new_processed / elapsed" in source
