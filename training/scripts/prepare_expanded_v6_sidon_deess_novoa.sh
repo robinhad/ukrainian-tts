@@ -19,10 +19,15 @@ source "${ROOT}/activate.sh"
 python "${ROOT}/scripts/check_resources.py" --mode full --require-torch \
     --gpu-uuids "$GPU_UUIDS" --workspace "$ROOT" \
     --output "${REPORTS}/resource_usage_expanded_v6_sidon_deess_novoa.jsonl"
+mapfile -t PROCESSING_RESULTS < <(find "${REPORTS}/expanded_v6_sidon_deess_novoa_processing" -maxdepth 1 -name 'shard-*.jsonl' -type f | sort -V)
+if (( ${#PROCESSING_RESULTS[@]} < 2 )); then
+    echo "The Sidon processing result shards do not exist." >&2
+    exit 2
+fi
 python "${ROOT}/scripts/build_expanded_v6_sidon_deess_novoa.py" \
     --base-manifest "${ROOT}/data/expanded_v5_enhanced_novoa/manifests/all.parquet" \
     --input-audio-manifest "${ROOT}/data/expanded_v5_enhanced_novoa/pre_enhancement_embedding_manifest.parquet" \
-    --processing-results "${REPORTS}/expanded_v6_sidon_deess_novoa_processing/shard-0.jsonl" "${REPORTS}/expanded_v6_sidon_deess_novoa_processing/shard-1.jsonl" \
+    --processing-results "${PROCESSING_RESULTS[@]}" \
     --output-dir "$MANIFEST_DIR" --raw-manifest "$RAW_MANIFEST" \
     --report "${REPORTS}/${PREFIX}_dataset.json"
 python "${ROOT}/scripts/validate_dataset.py" --manifest "${MANIFEST_DIR}/all.parquet" \

@@ -64,7 +64,8 @@ The full training cannot start until all these conditions have PASS status:
 Write a status record at least once every 15 minutes. Include the iteration,
 losses, GPU use, VRAM, power, temperature, free disk space, and Kyiv ETA. Stop
 preprocessing if free disk space is less than 30 GiB. Do not remove data before
-this threshold.
+this threshold. Start four Sidon workers on each GPU by default. Reduce this
+value only if a resource check finds an OOM error or instability.
 
 Save the 25K, 50K, 75K, and 100K checkpoints. Run the fixed evaluation set for
 each checkpoint. Make five listening voices at 100K. Use the fixed

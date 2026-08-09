@@ -10,28 +10,39 @@ RESULT_ROOT="${ROOT}/reports/expanded_v6_sidon_deess_novoa_processing"
 STATUS="${ROOT}/reports/expanded_v6_sidon_deess_novoa_preparation_status.jsonl"
 MODEL_CACHE="${ROOT}/vendor/audio-enhancement-review-models/sidon"
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
+WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
 if (( ${#GPUS[@]} != 2 )); then
     echo "This process requires exactly two GPU UUIDs." >&2
     exit 2
 fi
+if (( WORKERS_PER_GPU < 1 || WORKERS_PER_GPU > 6 )); then
+    echo "WORKERS_PER_GPU must be in the range 1 to 6." >&2
+    exit 2
+fi
+TOTAL_WORKERS=$((${#GPUS[@]} * WORKERS_PER_GPU))
 free_gib=$(df -B1 --output=avail "$ROOT" | tail -1)
 if (( free_gib < 30 * 1024 * 1024 * 1024 )); then
     echo "Free disk space is below 30 GiB." >&2
     exit 2
 fi
 mkdir -p "$OUTPUT" "$RESULT_ROOT"
-results=("${RESULT_ROOT}/shard-0.jsonl" "${RESULT_ROOT}/shard-1.jsonl")
-logs=("${RESULT_ROOT}/shard-0.log" "${RESULT_ROOT}/shard-1.log")
+results=()
+logs=()
+for ((index=0; index<TOTAL_WORKERS; index++)); do
+    results+=("${RESULT_ROOT}/shard-${index}.jsonl")
+    logs+=("${RESULT_ROOT}/shard-${index}.log")
+done
 
 run_pass() {
     local attempt=$1
     pids=()
-    for index in 0 1; do
-        CUDA_VISIBLE_DEVICES="${GPUS[$index]}" "$PYTHON" "${ROOT}/scripts/preprocess_sidon_deess_audio.py" \
+    for ((index=0; index<TOTAL_WORKERS; index++)); do
+        gpu_index=$((index % ${#GPUS[@]}))
+        CUDA_VISIBLE_DEVICES="${GPUS[$gpu_index]}" "$PYTHON" "${ROOT}/scripts/preprocess_sidon_deess_audio.py" \
             --manifest "$BASE" --input-audio-manifest "$INPUT" --output-root "$OUTPUT" \
             --output-results "${results[$index]}" --model-cache "$MODEL_CACHE" \
-            --device cuda:0 --num-shards 2 --shard-index "$index" --maximum-attempts 2 --resume \
+            --device cuda:0 --num-shards "$TOTAL_WORKERS" --shard-index "$index" --maximum-attempts 2 --resume \
             >>"${logs[$index]}" 2>&1 &
         pids+=("$!")
     done
