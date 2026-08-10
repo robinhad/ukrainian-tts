@@ -15,6 +15,7 @@ REPORTS="${ROOT}/reports"
 PREFIX=expanded_v6_sidon_deess_novoa_full
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
 
+export CUDA_VISIBLE_DEVICES="$GPU_UUIDS"
 source "${ROOT}/activate.sh"
 python "${ROOT}/scripts/check_resources.py" --mode full --require-torch \
     --gpu-uuids "$GPU_UUIDS" --workspace "$ROOT" \
@@ -40,7 +41,7 @@ export TRAIN_SET=expanded_v6_sidon_deess_novoa_train
 export VALID_SET=expanded_v6_sidon_deess_novoa_dev
 export TEST_SETS=expanded_v6_sidon_deess_novoa_eval
 export DATA_SETS="${TRAIN_SET} ${VALID_SET} ${TEST_SETS}"
-export GPU_COUNT=2 CUDA_VISIBLE_DEVICES="$GPU_UUIDS"
+export GPU_COUNT=2
 "${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" --stage 1 --stop_stage 2
 
 python "${ROOT}/scripts/prepare_hybrid_embeddings.py" \

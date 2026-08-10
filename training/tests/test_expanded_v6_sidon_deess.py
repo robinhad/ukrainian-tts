@@ -49,3 +49,13 @@ def test_monitor_uses_incremental_resume_rate() -> None:
     source = Path("training/scripts/monitor_sidon_v6_preparation.py").read_text()
     assert "new_processed = max(processed - initial_processed, 0)" in source
     assert "rate = new_processed / elapsed" in source
+
+
+def test_preparation_exposes_both_gpus_before_resource_probe() -> None:
+    source = Path(
+        "training/scripts/prepare_expanded_v6_sidon_deess_novoa.sh"
+    ).read_text()
+    visible = source.index('export CUDA_VISIBLE_DEVICES="$GPU_UUIDS"')
+    activate = source.index('source "${ROOT}/activate.sh"')
+    probe = source.index('python "${ROOT}/scripts/check_resources.py"')
+    assert visible < activate < probe
