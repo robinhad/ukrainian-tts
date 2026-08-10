@@ -65,3 +65,12 @@ def test_pipeline_monitor_has_a_thirty_minute_maximum() -> None:
     source = Path("training/scripts/monitor_expanded_v6_pipeline.py").read_text()
     assert 'default=1800' in source
     assert 'args.interval_seconds <= 1800' in source
+
+
+def test_training_launcher_uses_the_project_python() -> None:
+    source = Path(
+        "training/scripts/launch_expanded_v6_sidon_deess_novoa_training.sh"
+    ).read_text()
+    assert 'PYTHON="${ROOT}/.venv/bin/python"' in source
+    assert 'python "${ROOT}/scripts/monitor_expanded_v5_disk.py"' not in source
+    assert 'python "${ROOT}/scripts/preserve_validation_best_checkpoints.py"' not in source
