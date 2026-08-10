@@ -59,3 +59,9 @@ def test_preparation_exposes_both_gpus_before_resource_probe() -> None:
     activate = source.index('source "${ROOT}/activate.sh"')
     probe = source.index('python "${ROOT}/scripts/check_resources.py"')
     assert visible < activate < probe
+
+
+def test_pipeline_monitor_has_a_thirty_minute_maximum() -> None:
+    source = Path("training/scripts/monitor_expanded_v6_pipeline.py").read_text()
+    assert 'default=1800' in source
+    assert 'args.interval_seconds <= 1800' in source

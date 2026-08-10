@@ -39,6 +39,10 @@ Pass the preprocessing PID to this command:
 training/scripts/continue_expanded_v6_pipeline.sh PREPROCESS_PID
 ```
 
+The full-pipeline watchdog writes a phase and resource record every 30 minutes.
+The training monitor supplies the iteration, loss metrics, and Kyiv ETA after
+training starts.
+
 The preprocessing command starts four workers on each RTX 3090 by default.
 The training command uses both RTX 3090 cards. The monitors
 write GPU use, power, VRAM, temperature, disk space, progress, and a Kyiv ETA
