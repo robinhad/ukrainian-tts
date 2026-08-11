@@ -1,0 +1,41 @@
+{
+  "archives": {
+    "expanded_v6_sidon_deess_novoa_dev": {
+      "dimensions": [
+        192
+      ],
+      "records": 715
+    },
+    "expanded_v6_sidon_deess_novoa_eval": {
+      "dimensions": [
+        192
+      ],
+      "records": 703
+    },
+    "expanded_v6_sidon_deess_novoa_train": {
+      "dimensions": [
+        192
+      ],
+      "records": 35660
+    }
+  },
+  "assignment_matches_v5": true,
+  "clean_sets": {
+    "expanded_v6_sidon_deess_novoa_dev": {
+      "clean_records": 715
+    },
+    "expanded_v6_sidon_deess_novoa_eval": {
+      "clean_records": 703
+    },
+    "expanded_v6_sidon_deess_novoa_train": {
+      "clean_records": 35660
+    }
+  },
+  "counts": {
+    "clean": 37078,
+    "raw": 37078
+  },
+  "raw_input_paths_match_v5": true,
+  "records": 74156,
+  "status": "PASS"
+}

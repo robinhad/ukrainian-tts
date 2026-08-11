@@ -1,0 +1,15 @@
+{
+  "clipping_files": 0,
+  "duration_hours": 92.26645297453773,
+  "duration_max": 12.0,
+  "duration_median": 3.88,
+  "duration_min": 1.9453333333333334,
+  "errors": [],
+  "splits": {
+    "expanded_v6_sidon_deess_novoa_dev": 1404,
+    "expanded_v6_sidon_deess_novoa_eval": 1418,
+    "expanded_v6_sidon_deess_novoa_train": 71334
+  },
+  "status": "PASS",
+  "utterances": 74156
+}

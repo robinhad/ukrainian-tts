@@ -1,0 +1,63 @@
+{
+  "duration_hours": 92.266453,
+  "free_disk_gib": 107.54,
+  "gates": [
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training",
+      "evidence": "107.54 GiB is free. The threshold is 30 GiB.",
+      "gate": "Disk reserve",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v6_sidon_deess_novoa_full_dataset.json",
+      "evidence": "The build report must have PASS status.",
+      "gate": "Dataset build",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/manifests/all.parquet",
+      "evidence": "The corpus has 74156 records and 92.266453 hours.",
+      "gate": "Expected corpus",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/manifests/all.parquet",
+      "evidence": "The corpus has 0 VOA records.",
+      "gate": "VOA exclusion",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/manifests/all.parquet",
+      "evidence": "Sidon and light de-essing are on. Other enhancement steps are off.",
+      "gate": "Sidon and de-essing profile",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v6_sidon_deess_novoa_full_validation.json",
+      "evidence": "The validator must have PASS status.",
+      "gate": "Dataset validation",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/reports/expanded_v6_sidon_deess_novoa_full_hybrid_embeddings.json",
+      "evidence": "Embedding counts are {'clean': 37078, 'raw': 37078}. Archive records: 74156.",
+      "gate": "Exact 50/50 embeddings",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v6_sidon_deess_novoa/token_list/phn_espeak_ng_ukrainian/tokens.txt",
+      "evidence": "The token-list SHA-256 is dc4ea2634513b87e2e70b27d9545f5dd14cea91dd99391f615a24ded5ee964f2.",
+      "gate": "Token list",
+      "status": "PASS"
+    },
+    {
+      "artifact": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa/tts_stats_raw_phn_espeak_ng_ukrainian",
+      "evidence": "The statistics directory has 252 NPZ files.",
+      "gate": "Speech, pitch, and energy statistics",
+      "status": "PASS"
+    }
+  ],
+  "manifest_records": 74156,
+  "status": "PASS",
+  "voa_records": 0
+}

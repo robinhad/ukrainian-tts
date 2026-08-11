@@ -1,0 +1,13 @@
+{
+  "checkpoint": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa_smoke/tts_jets_uk_24k_expanded_v6_sidon_deess_novoa_from_v5e81_smoke/checkpoint.pth",
+  "epoch": 1,
+  "expected_steps": 100,
+  "model_artifact": null,
+  "model_tensor_count": 549,
+  "nonfinite_model_tensors": [],
+  "optimizer_steps": [
+    100
+  ],
+  "reported_steps": 100,
+  "status": "PASS"
+}

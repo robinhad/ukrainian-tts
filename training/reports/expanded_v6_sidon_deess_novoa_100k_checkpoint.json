@@ -1,0 +1,22 @@
+{
+  "checkpoint": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa/tts_jets_uk_24k_expanded_v6_sidon_deess_novoa_from_v5e81_100k/checkpoint.pth",
+  "epoch": 100,
+  "expected_steps": 100000,
+  "model_artifact": {
+    "different_keys": [],
+    "matches_checkpoint_model": true,
+    "missing_keys": [],
+    "model_tensor_count": 549,
+    "nonfinite_model_tensors": [],
+    "path": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa/tts_jets_uk_24k_expanded_v6_sidon_deess_novoa_from_v5e81_100k/milestones/100k.pth",
+    "sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+    "unexpected_keys": []
+  },
+  "model_tensor_count": 549,
+  "nonfinite_model_tensors": [],
+  "optimizer_steps": [
+    100000
+  ],
+  "reported_steps": 100000,
+  "status": "PASS"
+}

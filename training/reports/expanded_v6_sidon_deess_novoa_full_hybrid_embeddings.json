@@ -1,0 +1,30 @@
+{
+  "archives": {
+    "expanded_v6_sidon_deess_novoa_dev": {
+      "records": 1404,
+      "scp": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v6_sidon_deess_novoa/xvector/expanded_v6_sidon_deess_novoa_dev/xvector.scp"
+    },
+    "expanded_v6_sidon_deess_novoa_eval": {
+      "records": 1418,
+      "scp": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v6_sidon_deess_novoa/xvector/expanded_v6_sidon_deess_novoa_eval/xvector.scp"
+    },
+    "expanded_v6_sidon_deess_novoa_train": {
+      "records": 71334,
+      "scp": "/home/ballvan/Projects/ukrainian-tts/training/dump_expanded_v6_sidon_deess_novoa/xvector/expanded_v6_sidon_deess_novoa_train/xvector.scp"
+    }
+  },
+  "assignment_matches_v5": true,
+  "combined_vector_sha256": "6a0a46a7b95e525647cb3b4ad02accd3488aadfc86ab0b8db9524042f1b57f39",
+  "counts": {
+    "clean": 37078,
+    "raw": 37078
+  },
+  "dimensions": [
+    192
+  ],
+  "raw_input_paths_match_v5": true,
+  "recomputed_clean_vectors": 37078,
+  "records": 74156,
+  "reused_raw_vectors": 37078,
+  "status": "PASS"
+}

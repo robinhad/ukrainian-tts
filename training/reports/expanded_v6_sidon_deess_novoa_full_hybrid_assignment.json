@@ -1,0 +1,12 @@
+{
+  "counts": {
+    "clean": 37078,
+    "raw": 37078
+  },
+  "kaldi_root": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/hybrid_embedding_data",
+  "manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/hybrid_manifest/all.parquet",
+  "maximum_speaker_delta": 1,
+  "records": 74156,
+  "status": "PASS",
+  "total_delta": 0
+}

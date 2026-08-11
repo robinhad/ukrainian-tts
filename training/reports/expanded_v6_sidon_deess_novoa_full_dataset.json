@@ -1,0 +1,91 @@
+{
+  "hours": 92.266453,
+  "manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/manifests/all.parquet",
+  "profile": {
+    "boundary_trim": true,
+    "channels": 1,
+    "compression": false,
+    "deessing": true,
+    "feature_preprocessor_revision": "da985ba0987f70aaeb84a80f2851cfac8c697a7b",
+    "format": "WAV/PCM_16",
+    "limiting": false,
+    "loudness_normalization": false,
+    "name": "expanded_v6_sidon_deess_only",
+    "post_highpass": false,
+    "processing_config": {
+      "boundary_trim_applied": true,
+      "compression_applied": false,
+      "deesser_frequency": 0.5,
+      "deesser_intensity": 0.15,
+      "deesser_max": 0.25,
+      "deessing_applied": true,
+      "limiting_applied": false,
+      "loudness_normalization_applied": false,
+      "output_sample_rate": 24000,
+      "post_highpass_applied": false,
+      "sidon_applied": true,
+      "trim_frame_length": 1024,
+      "trim_hop_length": 256,
+      "trim_padding_ms": 100.0,
+      "trim_top_db": 40.0
+    },
+    "sample_rate": 24000,
+    "sidon": true,
+    "sidon_code_commit": "c8cde2b24e4c77c599ad43a9871140cdc9beeffa",
+    "sidon_internal_input_highpass_hz": 50,
+    "sidon_model_revision": "b3b02d8bbd55fdbc410e6e46e76ef95ace4fbf52"
+  },
+  "profile_hash": "b659bd1078559beccff42620ae2bd238e0eefa93b2af380de0df3cea6f65f3fb",
+  "raw_manifest": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/pre_enhancement_embedding_manifest.parquet",
+  "records": 74156,
+  "sources": {
+    "common_voice_available_uk": {
+      "hours": 42.899321,
+      "records": 39905
+    },
+    "fleurs_uk": {
+      "hours": 2.517813,
+      "records": 1046
+    },
+    "opentts_lada": {
+      "hours": 4.880089,
+      "records": 5238
+    },
+    "opentts_mykyta": {
+      "hours": 2.008416,
+      "records": 1704
+    },
+    "opentts_tetiana": {
+      "hours": 0.610098,
+      "records": 534
+    },
+    "tg_voices_uk": {
+      "hours": 0.396376,
+      "records": 323
+    },
+    "ua_ser": {
+      "hours": 0.344373,
+      "records": 465
+    },
+    "ukr_dialects": {
+      "hours": 38.609967,
+      "records": 24941
+    }
+  },
+  "splits": {
+    "expanded_v6_sidon_deess_novoa_dev": {
+      "hours": 1.514149,
+      "records": 1404
+    },
+    "expanded_v6_sidon_deess_novoa_eval": {
+      "hours": 1.529251,
+      "records": 1418
+    },
+    "expanded_v6_sidon_deess_novoa_train": {
+      "hours": 89.223053,
+      "records": 71334
+    }
+  },
+  "status": "PASS",
+  "voa_records": 0
+}

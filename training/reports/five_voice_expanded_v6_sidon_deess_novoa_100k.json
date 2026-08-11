@@ -1,0 +1,167 @@
+{
+  "automatic_validation": {
+    "errors": [],
+    "status": "PASS"
+  },
+  "errors": [],
+  "generated": [
+    {
+      "channels": 1,
+      "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+      "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f",
+      "duration": 9.973333333333333,
+      "espeak_version": "1.52.0",
+      "frontend_config_hash": "3548039dadd3415e9d7a75c5420601d392f627e0264ca6ac7e8f7263ce3d8484",
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_01.wav.json",
+      "peak_absolute": 0.617340087890625,
+      "real_time_factor": 0.03954209567839529,
+      "sample_rate": 24000,
+      "voice": "voice_01",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_01.wav"
+    },
+    {
+      "channels": 1,
+      "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+      "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f",
+      "duration": 9.952,
+      "espeak_version": "1.52.0",
+      "frontend_config_hash": "3548039dadd3415e9d7a75c5420601d392f627e0264ca6ac7e8f7263ce3d8484",
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_02.wav.json",
+      "peak_absolute": 0.668060302734375,
+      "real_time_factor": 0.038982591331806156,
+      "sample_rate": 24000,
+      "voice": "voice_02",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_02.wav"
+    },
+    {
+      "channels": 1,
+      "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+      "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f",
+      "duration": 10.730666666666666,
+      "espeak_version": "1.52.0",
+      "frontend_config_hash": "3548039dadd3415e9d7a75c5420601d392f627e0264ca6ac7e8f7263ce3d8484",
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_03.wav.json",
+      "peak_absolute": 0.5697021484375,
+      "real_time_factor": 0.03538848365170772,
+      "sample_rate": 24000,
+      "voice": "voice_03",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_03.wav"
+    },
+    {
+      "channels": 1,
+      "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+      "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f",
+      "duration": 10.176,
+      "espeak_version": "1.52.0",
+      "frontend_config_hash": "3548039dadd3415e9d7a75c5420601d392f627e0264ca6ac7e8f7263ce3d8484",
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_04.wav.json",
+      "peak_absolute": 0.555999755859375,
+      "real_time_factor": 0.037773681115197986,
+      "sample_rate": 24000,
+      "voice": "voice_04",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_04.wav"
+    },
+    {
+      "channels": 1,
+      "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+      "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f",
+      "duration": 9.376,
+      "espeak_version": "1.52.0",
+      "frontend_config_hash": "3548039dadd3415e9d7a75c5420601d392f627e0264ca6ac7e8f7263ce3d8484",
+      "metadata": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_05.wav.json",
+      "peak_absolute": 0.486083984375,
+      "real_time_factor": 0.04100228872177201,
+      "sample_rate": 24000,
+      "voice": "voice_05",
+      "wav": "/home/ballvan/Projects/ukrainian-tts/training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/voice_05.wav"
+    }
+  ],
+  "human_listening": {
+    "issues": [],
+    "notes": [],
+    "source": null,
+    "status": "NOT_RUN"
+  },
+  "listening_sentence": "Кам'янець-Подільський - місто в Хмельницькій області України, центр Кам'янець-Подільської міської об'єднаної територіальної громади і Кам'янець-Подільського району.",
+  "model": {
+    "checkpoint": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa/tts_jets_uk_24k_expanded_v6_sidon_deess_novoa_from_v5e81_100k/milestones/100k.pth",
+    "checkpoint_sha256": "d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5",
+    "config": "/home/ballvan/Projects/ukrainian-tts/training/exp_expanded_v6_sidon_deess_novoa/tts_jets_uk_24k_expanded_v6_sidon_deess_novoa_from_v5e81_100k/config.yaml",
+    "config_sha256": "c40062299bf3b5481ab6d95ef91160159567594a2bd1b465b020e8e92c173b8f"
+  },
+  "release_status": "NOT_READY",
+  "selection": "deterministic_representative_minibatch_kmeans_medoids",
+  "status": "PASS",
+  "voices": [
+    {
+      "cosine_similarity": {
+        "voice_01": 1.0,
+        "voice_02": 0.2783,
+        "voice_03": 0.186011,
+        "voice_04": 0.418081,
+        "voice_05": 0.179653
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/audio_24k/cv22_common_voice_uk_26590265_937a68955f.wav",
+      "reference_text": "На вулиці за ворітьми — варта з кулеметом теж поспівує.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_26590265_937a68955f",
+      "voice": "voice_01"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.2783,
+        "voice_02": 1.0,
+        "voice_03": 0.218841,
+        "voice_04": 0.424274,
+        "voice_05": 0.209183
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/audio_24k/cv22_common_voice_uk_28231951_0850e9c0cc.wav",
+      "reference_text": "До чола верхнього черепа прибито табличку з написом: \"Володіння Холодного Яру.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_28231951_0850e9c0cc",
+      "voice": "voice_02"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.186011,
+        "voice_02": 0.218841,
+        "voice_03": 1.0,
+        "voice_04": 0.144518,
+        "voice_05": 0.153328
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/audio_24k/cv22_common_voice_uk_32142510_33df735b28.wav",
+      "reference_text": "Натовп видимо хвилювався, чогось чекаючи.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_32142510_33df735b28",
+      "voice": "voice_03"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.418081,
+        "voice_02": 0.424274,
+        "voice_03": 0.144518,
+        "voice_04": 1.0,
+        "voice_05": 0.160819
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/audio_24k/cv22_common_voice_uk_39915786_fdbb2a4266.wav",
+      "reference_text": "Як він став говорити, то всьо мовчало і пильно слухало.",
+      "source_id": "common_voice_available_uk",
+      "source_utterance_id": "cv22_common_voice_uk_39915786_fdbb2a4266",
+      "voice": "voice_04"
+    },
+    {
+      "cosine_similarity": {
+        "voice_01": 0.179653,
+        "voice_02": 0.209183,
+        "voice_03": 0.153328,
+        "voice_04": 0.160819,
+        "voice_05": 1.0
+      },
+      "reference_audio": "/home/ballvan/Projects/ukrainian-tts/training/data/expanded_v6_sidon_deess_novoa/audio_24k/lada_48256_38039560f4.wav",
+      "reference_text": "Він стиха застогнав, що можна було взяти за останнє зідхання, і зомлів.",
+      "source_id": "opentts_lada",
+      "source_utterance_id": "lada_48256_38039560f4",
+      "voice": "voice_05"
+    }
+  ]
+}

@@ -30,6 +30,7 @@ training/scripts/run_expanded_v6_sidon_preprocessing.sh
 training/scripts/prepare_expanded_v6_sidon_deess_novoa.sh
 training/scripts/run_expanded_v6_sidon_deess_novoa_smoke.sh
 training/scripts/launch_expanded_v6_sidon_deess_novoa_training.sh 100000
+training/scripts/finalize_expanded_v6_sidon_deess_novoa_100k.sh
 ```
 
 For an unattended run, start the continuation after the preprocessing process.
@@ -48,6 +49,18 @@ The training command uses both RTX 3090 cards. The monitors
 write GPU use, power, VRAM, temperature, disk space, progress, and a Kyiv ETA
 at intervals of not more than 15 minutes. See
 `training/reports/expanded_v6_sidon_deess_novoa_plan.md` for the fixed gates.
+
+The completed run used both RTX 3090 GPUs and finished 100,000 new steps with
+exit code 0. The 25K, 50K, 75K, and 100K checkpoints each made 1,418 valid
+fixed-set WAV files. The five-voice listening set also passed the automatic
+checks. The final model SHA-256 is
+`d4ed14c8bfb828c97fffb7ca33065a882c6ba342829eb5a00f3dda8b4205d9d5`.
+
+Listen to the five files here:
+
+```text
+training/eval/generated/five_voice_expanded_v6_sidon_deess_novoa_100k/
+```
 
 ## Expanded-v5 enhanced non-VOA iteration
 
