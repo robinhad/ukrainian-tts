@@ -73,6 +73,15 @@ def test_monitor_detects_statistics_before_training() -> None:
     assert phase(processes, True) == "statistics"
 
 
+def test_monitor_detects_smoke_before_training() -> None:
+    processes = (
+        "bash run_expanded_v7_declick_limited_smoke.sh\n"
+        "python3 -m espnet2.bin.gan_tts_train --output_dir smoke"
+    )
+
+    assert phase(processes, True) == "smoke_training_or_inference"
+
+
 def test_monitor_reports_observed_statistics_progress(tmp_path: Path) -> None:
     logdir = (
         tmp_path
@@ -86,6 +95,8 @@ def test_monitor_reports_observed_statistics_progress(tmp_path: Path) -> None:
         "2026-08-12 00:00:05 INFO: Niter: 3\n",
         encoding="utf-8",
     )
+    (logdir / "stats.1").mkdir()
+    (logdir / "stats.1/config.yaml").write_text("batch_size: 1\n", encoding="utf-8")
     now = datetime(2026, 8, 12, 0, 0, 10, tzinfo=ZoneInfo("Europe/Kyiv"))
 
     result = statistics_progress(tmp_path, now)

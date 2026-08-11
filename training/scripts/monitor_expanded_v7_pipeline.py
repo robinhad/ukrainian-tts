@@ -39,10 +39,10 @@ def phase(processes: str, active: bool) -> str:
         return "milestone_evaluation"
     if "espnet2.bin.gan_tts_train --collect_stats true" in processes:
         return "statistics"
-    if "espnet2.bin.gan_tts_train" in processes or "torchrun" in processes:
-        return "training"
     if "run_expanded_v7_declick_limited_smoke" in processes:
         return "smoke_training_or_inference"
+    if "espnet2.bin.gan_tts_train" in processes or "torchrun" in processes:
+        return "training"
     if "extract_spk_embed" in processes:
         return "clean_speaker_embeddings"
     if "prepare_expanded_v7_declick_limited" in processes:
@@ -63,11 +63,25 @@ def statistics_progress(root: Path, now: datetime) -> dict | None:
         / f"exp_{NAME}/tts_stats_raw_phn_espeak_ng_ukrainian/logdir"
     )
     logs = sorted(logdir.glob("stats.*.log"))
-    shape_files = sorted(logdir.glob("train.*.scp")) + sorted(
-        logdir.glob("valid.*.scp")
-    )
+    shape_files = sorted(logdir.glob("train.*.scp")) + sorted(logdir.glob("valid.*.scp"))
     if not logs or not shape_files:
         return None
+
+    batch_size = 1
+    config_paths = sorted(logdir.glob("stats.*/config.yaml"))
+    if config_paths:
+        match = re.search(
+            r"^batch_size:\s*(\d+)\s*$",
+            config_paths[0].read_text(encoding="utf-8", errors="replace"),
+            flags=re.MULTILINE,
+        )
+        if match:
+            batch_size = int(match.group(1))
+
+    totals_by_job: dict[str, int] = {}
+    for path in shape_files:
+        job = path.stem.split(".")[-1]
+        totals_by_job[job] = totals_by_job.get(job, 0) + count_lines(path)
 
     processed = 0
     first_timestamp: datetime | None = None
@@ -75,9 +89,13 @@ def statistics_progress(root: Path, now: datetime) -> dict | None:
     niter_pattern = re.compile(r"Niter:\s*(\d+)")
     for path in logs:
         content = path.read_text(encoding="utf-8", errors="replace")
+        job = path.stem.split(".")[-1]
+        job_total = totals_by_job.get(job, 0)
         iterations = [int(value) for value in niter_pattern.findall(content)]
-        if iterations:
-            processed += max(iterations)
+        if "# Ended (code 0)" in content:
+            processed += job_total
+        elif iterations:
+            processed += min(max(iterations) * batch_size, job_total)
         match = timestamp_pattern.search(content)
         if match:
             timestamp = datetime.strptime(
