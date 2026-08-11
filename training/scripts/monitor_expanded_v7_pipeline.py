@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo
 
 NAME = "expanded_v7_sidon_deess_declick_limit_novoa"
 TOTAL_AUDIO = 74_156
+MILESTONE_EVALUATION_ESTIMATE = timedelta(minutes=10)
 
 
 def is_active(pid: int) -> bool:
@@ -222,12 +223,15 @@ def main() -> int:
         elif current_phase == "training" and training:
             phase_eta = training.get("eta_kyiv")
             if phase_eta:
-                total_eta = datetime.fromisoformat(phase_eta) + timedelta(hours=2)
-            eta_basis = "observed_training_rate_plus_2h_evaluation_estimate"
+                total_eta = (
+                    datetime.fromisoformat(phase_eta)
+                    + MILESTONE_EVALUATION_ESTIMATE
+                )
+            eta_basis = "observed_training_rate_plus_10m_evaluation_estimate"
         elif current_phase == "milestone_evaluation":
-            phase_eta = now + timedelta(hours=2)
+            phase_eta = now + MILESTONE_EVALUATION_ESTIMATE
             total_eta = phase_eta
-            eta_basis = "v6_runtime_estimate"
+            eta_basis = "observed_v7_smoke_inference_rate"
         elif current_phase == "initializing_or_transition":
             phase_eta = now + timedelta(minutes=10)
             total_eta = now + timedelta(hours=27)
