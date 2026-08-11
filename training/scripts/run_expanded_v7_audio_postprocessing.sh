@@ -24,6 +24,27 @@ if (( source_count != 74156 )); then
     exit 2
 fi
 mkdir -p "$OUTPUT" "$(dirname "$REPORT")"
+output_count=$(find "$OUTPUT" -type f -name '*.wav' -printf '.' | wc -c)
+if (( output_count == 74156 )) && [[ -s "$REPORT" ]]; then
+    if "$PYTHON" - "$REPORT" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+raise SystemExit(
+    0
+    if report.get("status") == "PASS"
+    and report.get("completed_files") == 74_156
+    and report.get("failed_files") == 0
+    else 1
+)
+PY
+    then
+        echo "Reuse 74,156 existing v7 final-stage PASS files."
+        exit 0
+    fi
+fi
 "$PYTHON" "${ROOT}/scripts/declick_and_limit_audio.py" batch \
     --config "$CONFIG" --input-dir "$SOURCE" --output-dir "$OUTPUT" \
     --recursive --jobs "$JOBS" --overwrite --summary-only --log-level WARNING \

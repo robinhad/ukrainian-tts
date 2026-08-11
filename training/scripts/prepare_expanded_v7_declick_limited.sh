@@ -40,7 +40,11 @@ export VALID_SET=${NAME}_dev
 export TEST_SETS=${NAME}_eval
 export DATA_SETS="${TRAIN_SET} ${VALID_SET} ${TEST_SETS}"
 export GPU_COUNT=2
-"${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" --stage 1 --stop_stage 2
+"${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" --stage 1 --stop_stage 1
+python "${ROOT}/scripts/prepare_direct_pcm24_raw_data.py" \
+    --manifest-dir "$MANIFEST_DIR" \
+    --kaldi-data-root "${ROOT}/espnet_recipe/data" --dump-dir "$DUMP_DIR" \
+    --train-set "$TRAIN_SET" --valid-set "$VALID_SET" --test-set "$TEST_SETS"
 
 python "${ROOT}/scripts/prepare_hybrid_embeddings.py" \
     --manifest "${MANIFEST_DIR}/all.parquet" --raw-manifest "$RAW_MANIFEST" \

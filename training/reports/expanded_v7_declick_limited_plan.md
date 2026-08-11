@@ -22,6 +22,10 @@ aformat=sample_fmts=fltp,adeclick=w=55:o=75:a=2:t=4:b=2,alimiter=limit=0.891251:
 Write physical PCM 24-bit WAV files in a new v7 directory. Use atomic output
 replacement. Do not change a v6 source file.
 
+ESPnet data preparation uses direct v7 PCM24 paths. It does not use the
+default stage 2 PCM16 rewrite. Thus, statistics and training use the final
+PCM24 waveform.
+
 ## Speaker embeddings
 
 Keep the existing exact 50/50 assignment. Reuse 37,078 vectors that use audio
