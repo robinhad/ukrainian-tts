@@ -49,13 +49,36 @@ Process a directory and keep its directory structure:
 ```bash
 training/.venv/bin/python training/scripts/declick_and_limit_audio.py batch \
   --config training/conf/audio_postprocess.yaml \
-  --input-dir enhanced --output-dir final --recursive \
+  --input-dir enhanced --output-dir final --recursive --jobs 8 \
   --report final/batch-report.json
 ```
 
 The CLI also has one option for each filter value. A CLI value has priority
 over the configuration file. Use `--overwrite` only when the command can
-replace an existing output. The command never changes an input file.
+replace an existing output. Use `--jobs` to run more than one FFmpeg process.
+Use `--summary-only` for a large batch log. The JSON report still contains each
+file result. The command never changes an input file.
+
+## Expanded-v7 final-stage iteration
+
+The v7 pipeline makes a new PCM 24-bit corpus from the completed v6 enhanced
+audio. It keeps the v6 files unchanged. It then calculates the clean half of
+the speaker embeddings again, runs the smoke gates, and trains for 100,000 new
+steps from the v6 epoch 94 validation-mel best checkpoint. The training uses
+both RTX 3090 cards.
+
+Start the complete unattended pipeline:
+
+```bash
+setsid training/scripts/run_expanded_v7_declick_limited_pipeline.sh \
+  > training/reports/expanded_v7_sidon_deess_declick_limit_novoa_pipeline.log \
+  2>&1 &
+```
+
+The pipeline keeps 30-minute status records in
+`training/reports/expanded_v7_sidon_deess_declick_limit_novoa_pipeline_status_30m.jsonl`.
+See `training/reports/expanded_v7_declick_limited_plan.md` for the fixed inputs,
+gates, and monitoring policy.
 
 ## Expanded-v6 Sidon and de-essing iteration
 

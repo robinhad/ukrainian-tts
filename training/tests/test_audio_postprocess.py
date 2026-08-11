@@ -129,6 +129,8 @@ def test_batch_cli_processes_nested_files(tmp_path: Path) -> None:
             "--output-dir",
             str(output_root),
             "--recursive",
+            "--jobs",
+            "2",
             "--report",
             str(report),
         ],

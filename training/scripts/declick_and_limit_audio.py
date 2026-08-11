@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import json
 import logging
 import sys
@@ -136,12 +137,17 @@ def run_batch(args: argparse.Namespace, config: DeClickLimiterConfig) -> int:
         raise AudioPostprocessError(
             "The batch input and output directories must differ."
         )
+    if args.jobs < 1:
+        raise AudioPostprocessError("--jobs must be at least 1.")
+    if args.fail_fast and args.jobs != 1:
+        raise AudioPostprocessError("--fail-fast requires --jobs 1.")
     files = source_files(args)
     if not files:
         raise AudioPostprocessError("The batch input did not match an audio file.")
     completed: list[dict[str, Any]] = []
     skipped: list[str] = []
     failures: list[dict[str, str]] = []
+    work: list[tuple[Path, Path]] = []
     for source in files:
         relative = source.relative_to(input_root).with_suffix(".wav")
         target = output_root / relative
@@ -149,27 +155,44 @@ def run_batch(args: argparse.Namespace, config: DeClickLimiterConfig) -> int:
             LOGGER.info("Skip existing output: %s", target)
             skipped.append(str(target))
             continue
+        work.append((source, target))
+
+    def process_item(item: tuple[Path, Path]) -> dict[str, Any]:
+        source, target = item
         try:
-            completed.append(
-                process_audio_file(
-                    source,
-                    target,
-                    config=config,
-                    ffmpeg_binary=args.ffmpeg,
-                    overwrite=args.overwrite,
-                    logger=LOGGER,
-                )
+            return process_audio_file(
+                source,
+                target,
+                config=config,
+                ffmpeg_binary=args.ffmpeg,
+                overwrite=args.overwrite,
+                logger=LOGGER,
             )
         except Exception as error:
-            failure = {
+            return {
+                "status": "FAIL",
                 "source": str(source),
                 "output": str(target),
                 "error": f"{type(error).__name__}: {error}",
             }
-            failures.append(failure)
-            LOGGER.error("Batch item failed: %s", failure)
+
+    if args.jobs == 1:
+        outcomes = map(process_item, work)
+    else:
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs)
+        outcomes = executor.map(process_item, work)
+    try:
+        for outcome in outcomes:
+            if outcome.get("status") == "PASS":
+                completed.append(outcome)
+                continue
+            failures.append(outcome)
+            LOGGER.error("Batch item failed: %s", outcome)
             if args.fail_fast:
                 break
+    finally:
+        if args.jobs != 1:
+            executor.shutdown(wait=True)
     summary = {
         "status": "PASS" if not failures else "FAIL",
         "input_dir": str(input_root),
@@ -186,7 +209,14 @@ def run_batch(args: argparse.Namespace, config: DeClickLimiterConfig) -> int:
     }
     if args.report:
         write_json_atomic(args.report, summary)
-    print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
+    rendered = summary
+    if args.summary_only:
+        rendered = {
+            key: value
+            for key, value in summary.items()
+            if key not in {"results", "skipped", "failures"}
+        }
+    print(json.dumps(rendered, ensure_ascii=False, indent=2, sort_keys=True))
     return 0 if not failures else 1
 
 
@@ -211,10 +241,21 @@ def main() -> int:
     batch_parser.add_argument("--output-dir", type=Path, required=True)
     batch_parser.add_argument("--pattern", action="append")
     batch_parser.add_argument("--recursive", action="store_true")
+    batch_parser.add_argument(
+        "--jobs",
+        type=int,
+        default=1,
+        help="Number of concurrent FFmpeg processes. The default is 1.",
+    )
     batch_parser.add_argument("--report", type=Path)
     batch_parser.add_argument("--overwrite", action="store_true")
     batch_parser.add_argument("--skip-existing", action="store_true")
     batch_parser.add_argument("--fail-fast", action="store_true")
+    batch_parser.add_argument(
+        "--summary-only",
+        action="store_true",
+        help="Do not print per-file results. The JSON report still has all results.",
+    )
     batch_parser.set_defaults(handler=run_batch)
 
     args = parser.parse_args()
