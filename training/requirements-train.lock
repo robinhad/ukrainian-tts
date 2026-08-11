@@ -79,6 +79,8 @@ idna==3.18
     # via
     #   requests
     #   yarl
+imageio-ffmpeg==0.6.0
+    # via -r training/requirements-train.in
 iniconfig==2.3.0
     # via pytest
 isodate==0.7.2

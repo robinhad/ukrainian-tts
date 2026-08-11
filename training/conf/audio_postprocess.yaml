@@ -1,0 +1,11 @@
+declick_peak_limit:
+  declick_window: 55
+  declick_overlap: 75
+  declick_ar_order: 2
+  declick_threshold: 4
+  declick_burst: 2
+  limiter_limit: 0.891251
+  limiter_attack_ms: 5
+  limiter_release_ms: 80
+  limiter_level: false
+  limiter_latency: true

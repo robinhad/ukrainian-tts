@@ -23,7 +23,6 @@ from training.scripts.run_enhancement_review_backend import (
     W2V_BERT_MODEL_REVISION,
 )
 
-
 EXPECTED_RECORDS = 74_156
 PROFILE = {
     "name": "expanded_v6_sidon_deess_only",
@@ -34,13 +33,14 @@ PROFILE = {
     "feature_preprocessor_revision": W2V_BERT_MODEL_REVISION,
     "sidon_internal_input_highpass_hz": 50,
     "deessing": True,
+    "declicking": True,
     "post_highpass": False,
     "loudness_normalization": False,
     "compression": False,
-    "limiting": False,
+    "limiting": True,
     "sample_rate": 24_000,
     "channels": 1,
-    "format": "WAV/PCM_16",
+    "format": "WAV/PCM_24",
     "processing_config": asdict(SidonDeessOnlyConfig()),
 }
 PROFILE_HASH = hashlib.sha256(
@@ -90,13 +90,21 @@ def main() -> int:
     if set(raw["utterance_id"].astype(str)) != expected:
         raise SystemExit("The input-audio manifest does not exactly cover the corpus.")
     if set(results["processing_status"].astype(str)) != {"ok"}:
-        failed = results.loc[
-            results["processing_status"].astype(str) != "ok", "utterance_id"
-        ].astype(str).head(10).tolist()
+        failed = (
+            results.loc[
+                results["processing_status"].astype(str) != "ok", "utterance_id"
+            ]
+            .astype(str)
+            .head(10)
+            .tolist()
+        )
         raise SystemExit(f"Sidon processing has failed records: {failed}")
-    if results["processing_config_hash"].astype(str).ne(
-        SidonDeessOnlyConfig().digest
-    ).any():
+    if (
+        results["processing_config_hash"]
+        .astype(str)
+        .ne(SidonDeessOnlyConfig().digest)
+        .any()
+    ):
         raise SystemExit("The processing results have a config-hash mismatch.")
 
     result_columns = [
@@ -125,9 +133,10 @@ def main() -> int:
     frame["highpass_applied"] = False
     frame["post_highpass_applied"] = False
     frame["deessing_applied"] = True
+    frame["declicking_applied"] = True
     frame["compression_applied"] = False
     frame["loudness_normalization_applied"] = False
-    frame["limiting_applied"] = False
+    frame["limiting_applied"] = True
     frame["embedding_audio_variant"] = None
     frame["embedding_audio_path"] = None
 

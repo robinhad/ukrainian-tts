@@ -21,7 +21,8 @@ All WAV files are real files. The process does not make symbolic links.
 4. `sidon_no_compression` uses Sidon and no compression.
 5. `sidon_deess_only` uses boundary trimming, Sidon, and light de-essing. It
    does not use a post-processing high-pass filter, loudness normalization,
-   compression, or limiting. Sidon has its fixed internal 50 Hz input filter.
+   or compression. A new run adds the common de-click and peak-limit stage.
+   Sidon has its fixed internal 50 Hz input filter.
 6. `resemble_denoise_no_compression` uses the Resemble denoiser and no
    compression.
 7. `resemble_full_no_compression` uses the complete Resemble Enhance model and
@@ -31,8 +32,9 @@ All WAV files are real files. The process does not make symbolic links.
 Five normalized enhanced profiles use the same final process. This process
 applies a 70 Hz high-pass filter and light de-essing. It then applies accurate
 two-pass EBU R128 normalization. The target values are -23 LUFS, LRA 7, and
--1 dBTP. The `sidon_deess_only` profile does not use this final process. All
-profiles use 24 kHz mono PCM WAV files.
+-1 dBTP. The `sidon_deess_only` profile does not use this loudness process.
+All new enhanced profiles then use the common de-click and peak-limit stage.
+They use 24 kHz mono PCM 24-bit WAV files.
 
 ## Fixed Software
 
@@ -87,6 +89,10 @@ delete source caches only after this threshold condition occurs.
 ## Completed Run
 
 The run completed on 2026-08-10. The final validation status is PASS.
+
+This completed review predates the common de-click and peak-limit stage. Its
+files do not change. A new review run uses the new stage and a new processing
+configuration hash.
 
 - The set has 720 WAV files and 720 metadata files.
 - Each profile has 90 WAV files.

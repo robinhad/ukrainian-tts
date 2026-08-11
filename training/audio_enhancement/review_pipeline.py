@@ -7,15 +7,19 @@ import json
 import re
 import subprocess
 import tempfile
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import soundfile as sf
 
+from training.audio_enhancement.postprocess import (
+    DeClickLimiterConfig,
+    process_audio_file,
+    resolve_ffmpeg_binary,
+)
 from training.scripts.prepare_audio import trim_silence
-
 
 LOUDNESS_JSON = re.compile(r"\{\s*\"input_i\".*?\}", re.DOTALL)
 
@@ -37,6 +41,9 @@ class ReviewProcessingConfig:
     trim_frame_length: int = 1024
     trim_hop_length: int = 256
     compression_applied: bool = False
+    final_postprocess: DeClickLimiterConfig = field(
+        default_factory=DeClickLimiterConfig
+    )
 
     @property
     def digest(self) -> str:
@@ -70,7 +77,11 @@ class SidonDeessOnlyConfig:
     post_highpass_applied: bool = False
     loudness_normalization_applied: bool = False
     compression_applied: bool = False
-    limiting_applied: bool = False
+    declicking_applied: bool = True
+    limiting_applied: bool = True
+    final_postprocess: DeClickLimiterConfig = field(
+        default_factory=DeClickLimiterConfig
+    )
 
     @property
     def digest(self) -> str:
@@ -175,15 +186,32 @@ def master_without_compression(
     source: Path,
     target: Path,
     config: ReviewProcessingConfig,
+    *,
+    ffmpeg_binary: str = "auto",
 ) -> dict[str, Any]:
     """Apply high-pass, de-essing, and two-pass R128 without compression."""
+    ffmpeg_binary = resolve_ffmpeg_binary(ffmpeg_binary)
     with tempfile.TemporaryDirectory(prefix="uktts-review-master-") as temporary:
         mastered = Path(temporary) / "mastered-48k.wav"
         subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y",
-                "-i", str(source), "-af", config.mastering_filter, "-ac", "1",
-                "-ar", "48000", "-c:a", "pcm_f32le", str(mastered),
+                ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-y",
+                "-i",
+                str(source),
+                "-af",
+                config.mastering_filter,
+                "-ac",
+                "1",
+                "-ar",
+                "48000",
+                "-c:a",
+                "pcm_f32le",
+                str(mastered),
             ],
             check=True,
         )
@@ -193,8 +221,18 @@ def master_without_compression(
         )
         first = subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info",
-                "-i", str(mastered), "-af", measure_filter, "-f", "null", "-",
+                ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "info",
+                "-i",
+                str(mastered),
+                "-af",
+                measure_filter,
+                "-f",
+                "null",
+                "-",
             ],
             check=True,
             capture_output=True,
@@ -211,59 +249,97 @@ def master_without_compression(
             f"offset={measured['target_offset']}:"
             "linear=true:print_format=json"
         )
-        target.parent.mkdir(parents=True, exist_ok=True)
+        normalized = Path(temporary) / "normalized.wav"
         second = subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info", "-y",
-                "-i", str(mastered), "-af", second_filter, "-ac", "1", "-ar",
-                str(config.output_sample_rate), "-c:a", "pcm_s16le", str(target),
+                ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "info",
+                "-y",
+                "-i",
+                str(mastered),
+                "-af",
+                second_filter,
+                "-ac",
+                "1",
+                "-ar",
+                str(config.output_sample_rate),
+                "-c:a",
+                "pcm_f32le",
+                str(normalized),
             ],
             check=True,
             capture_output=True,
             text=True,
         )
-    return {"first_pass": measured, "second_pass": parse_loudnorm(second.stderr)}
+        final = process_audio_file(
+            normalized,
+            target,
+            config=config.final_postprocess,
+            ffmpeg_binary=ffmpeg_binary,
+            overwrite=True,
+        )
+    return {
+        "first_pass": measured,
+        "second_pass": parse_loudnorm(second.stderr),
+        "declick_peak_limit": final,
+    }
 
 
 def apply_deessing_only(
     source: Path,
     target: Path,
     config: SidonDeessOnlyConfig,
+    *,
+    ffmpeg_binary: str = "auto",
 ) -> dict[str, Any]:
-    """Apply only de-essing after Sidon and make a 24 kHz PCM WAV file."""
-    target.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(
-        [
-            "ffmpeg",
-            "-nostdin",
-            "-hide_banner",
-            "-loglevel",
-            "error",
-            "-y",
-            "-i",
-            str(source),
-            "-af",
-            config.deesser_filter,
-            "-ac",
-            "1",
-            "-ar",
-            str(config.output_sample_rate),
-            "-c:a",
-            "pcm_s16le",
-            str(target),
-        ],
-        check=True,
-    )
+    """Apply de-essing, then de-clicking and limiting after Sidon."""
+    ffmpeg_binary = resolve_ffmpeg_binary(ffmpeg_binary)
+    with tempfile.TemporaryDirectory(prefix="uktts-sidon-post-") as temporary:
+        deessed = Path(temporary) / "deessed.wav"
+        subprocess.run(
+            [
+                ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-y",
+                "-i",
+                str(source),
+                "-af",
+                config.deesser_filter,
+                "-ac",
+                "1",
+                "-ar",
+                str(config.output_sample_rate),
+                "-c:a",
+                "pcm_f32le",
+                str(deessed),
+            ],
+            check=True,
+        )
+        final = process_audio_file(
+            deessed,
+            target,
+            config=config.final_postprocess,
+            ffmpeg_binary=ffmpeg_binary,
+            overwrite=True,
+        )
     return {
         "filter": config.deesser_filter,
         "post_highpass_applied": False,
         "loudness_normalization_applied": False,
         "compression_applied": False,
-        "limiting_applied": False,
+        "declicking_applied": True,
+        "limiting_applied": True,
+        "declick_peak_limit": final,
     }
 
 
-def inspect_wav(path: Path) -> dict[str, Any]:
+def inspect_wav(path: Path, *, require_pcm24: bool = True) -> dict[str, Any]:
     audio, sample_rate = sf.read(path, always_2d=True, dtype="float32")
     info = sf.info(path)
     peak = float(np.max(np.abs(audio))) if audio.size else 0.0
@@ -282,6 +358,10 @@ def inspect_wav(path: Path) -> dict[str, Any]:
         errors.append("all-zero waveform")
     if peak >= 0.999:
         errors.append("digital clipping")
+    if require_pcm24 and (
+        info.format not in {"WAV", "WAVEX"} or info.subtype != "PCM_24"
+    ):
+        errors.append(f"format={info.format}/{info.subtype}")
     return {
         "sample_rate": int(sample_rate),
         "channels": int(info.channels),

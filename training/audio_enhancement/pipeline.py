@@ -8,7 +8,7 @@ import os
 import re
 import subprocess
 import tempfile
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -18,12 +18,16 @@ import torch
 import torchaudio.functional as AF
 
 from training.audio_enhancement.deepfilternet_compat import install
+from training.audio_enhancement.postprocess import (
+    DeClickLimiterConfig,
+    process_audio_file,
+    resolve_ffmpeg_binary,
+)
 from training.scripts.prepare_audio import trim_silence
 
 install()
 
 from df.enhance import enhance, init_df  # noqa: E402
-
 
 MODEL_SAMPLE_RATE = 48_000
 OUTPUT_SAMPLE_RATE = 24_000
@@ -52,6 +56,9 @@ class EnhancementConfig:
     trim_padding_ms: float = 100.0
     trim_frame_length: int = 1024
     trim_hop_length: int = 256
+    final_postprocess: DeClickLimiterConfig = field(
+        default_factory=DeClickLimiterConfig
+    )
 
     @property
     def digest(self) -> str:
@@ -96,8 +103,15 @@ def parse_loudnorm(stderr: str) -> dict[str, float | str]:
 class EnhancedAudioProcessor:
     """Load DeepFilterNet3 once and process many files on one CUDA device."""
 
-    def __init__(self, config: EnhancementConfig, model_cache: Path) -> None:
+    def __init__(
+        self,
+        config: EnhancementConfig,
+        model_cache: Path,
+        *,
+        ffmpeg_binary: str = "auto",
+    ) -> None:
         self.config = config
+        self.ffmpeg_binary = resolve_ffmpeg_binary(ffmpeg_binary)
         model_cache.mkdir(parents=True, exist_ok=True)
         os.environ["XDG_CACHE_HOME"] = str(model_cache.resolve())
         self.model, self.df_state, _ = init_df(
@@ -129,7 +143,9 @@ class EnhancedAudioProcessor:
             pad=True,
             atten_lim_db=self.config.attenuation_limit_db,
         )
-        sf.write(output_48k, result.squeeze(0).numpy(), MODEL_SAMPLE_RATE, subtype="FLOAT")
+        sf.write(
+            output_48k, result.squeeze(0).numpy(), MODEL_SAMPLE_RATE, subtype="FLOAT"
+        )
         return trim_metadata
 
     def master_and_normalize(self, source_48k: Path, target: Path) -> dict[str, Any]:
@@ -137,9 +153,23 @@ class EnhancedAudioProcessor:
         mastered = source_48k.with_name("mastered-48k.wav")
         subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y",
-                "-i", str(source_48k), "-af", cfg.mastering_filter, "-ac", "1",
-                "-ar", str(MODEL_SAMPLE_RATE), "-c:a", "pcm_f32le", str(mastered),
+                self.ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-y",
+                "-i",
+                str(source_48k),
+                "-af",
+                cfg.mastering_filter,
+                "-ac",
+                "1",
+                "-ar",
+                str(MODEL_SAMPLE_RATE),
+                "-c:a",
+                "pcm_f32le",
+                str(mastered),
             ],
             check=True,
         )
@@ -149,8 +179,18 @@ class EnhancedAudioProcessor:
         )
         first = subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info", "-i",
-                str(mastered), "-af", loudness_filter, "-f", "null", "-",
+                self.ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "info",
+                "-i",
+                str(mastered),
+                "-af",
+                loudness_filter,
+                "-f",
+                "null",
+                "-",
             ],
             check=True,
             capture_output=True,
@@ -167,32 +207,70 @@ class EnhancedAudioProcessor:
             f"offset={measured['target_offset']}:"
             "linear=true:print_format=json"
         )
-        target.parent.mkdir(parents=True, exist_ok=True)
+        normalized = source_48k.with_name("normalized-24k.wav")
         second = subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info", "-y",
-                "-i", str(mastered), "-af", second_filter, "-ac", "1", "-ar",
-                str(cfg.output_sample_rate), "-c:a", "pcm_s16le", str(target),
+                self.ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "info",
+                "-y",
+                "-i",
+                str(mastered),
+                "-af",
+                second_filter,
+                "-ac",
+                "1",
+                "-ar",
+                str(cfg.output_sample_rate),
+                "-c:a",
+                "pcm_f32le",
+                str(normalized),
             ],
             check=True,
             capture_output=True,
             text=True,
         )
         output = parse_loudnorm(second.stderr)
-        return {"first_pass": measured, "second_pass": output}
+        final = process_audio_file(
+            normalized,
+            target,
+            config=cfg.final_postprocess,
+            ffmpeg_binary=self.ffmpeg_binary,
+            overwrite=True,
+        )
+        return {
+            "first_pass": measured,
+            "second_pass": output,
+            "declick_peak_limit": final,
+        }
 
     def inspect_existing_output(self, target: Path) -> dict[str, Any]:
         """Read and measure an existing enhanced WAV without changing it."""
         cfg = self.config
+        ffmpeg_binary = getattr(
+            self,
+            "ffmpeg_binary",
+            resolve_ffmpeg_binary("auto"),
+        )
         measured_run = subprocess.run(
             [
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info",
-                "-i", str(target), "-af",
+                ffmpeg_binary,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "info",
+                "-i",
+                str(target),
+                "-af",
                 (
                     f"loudnorm=I={cfg.target_lufs}:LRA={cfg.target_lra}:"
                     f"TP={cfg.target_true_peak_db}:print_format=json"
                 ),
-                "-f", "null", "-",
+                "-f",
+                "null",
+                "-",
             ],
             check=True,
             capture_output=True,
@@ -210,17 +288,20 @@ class EnhancedAudioProcessor:
             }
         )
         audio, sample_rate = sf.read(target, always_2d=True, dtype="float32")
+        info = sf.info(target)
         peak = float(np.max(np.abs(audio))) if audio.size else 0.0
         if sample_rate != cfg.output_sample_rate:
             raise RuntimeError(f"unexpected output sample rate: {sample_rate}")
         if audio.shape[1] != 1 or not len(audio) or not np.isfinite(audio).all():
             raise RuntimeError("existing enhanced output failed waveform validation")
+        if info.format not in {"WAV", "WAVEX"} or info.subtype != "PCM_24":
+            raise RuntimeError("existing enhanced output is not WAV/PCM_24")
         return {
             "audio_sha256": sha256(target),
             "channels": int(audio.shape[1]),
             "duration": len(audio) / sample_rate,
             "enhancement_config_hash": cfg.digest,
-            "format": "WAV/PCM_16",
+            "format": "WAV/PCM_24",
             "loudness": {
                 "first_pass": measured,
                 "second_pass": actual_output,
@@ -245,7 +326,7 @@ class EnhancedAudioProcessor:
             "channels": int(audio.shape[1]),
             "duration": len(audio) / sample_rate,
             "enhancement_config_hash": self.config.digest,
-            "format": "WAV/PCM_16",
+            "format": "WAV/PCM_24",
             "loudness": loudness,
             "peak_amplitude": peak,
             "sample_rate": sample_rate,

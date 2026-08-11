@@ -25,7 +25,7 @@ def test_review_config_has_no_compression() -> None:
     assert config.output_sample_rate == 24_000
 
 
-def test_sidon_deess_profile_has_no_other_postprocessing() -> None:
+def test_sidon_deess_profile_has_final_declick_and_limit() -> None:
     config = SidonDeessOnlyConfig()
 
     assert config.boundary_trim_applied is True
@@ -34,11 +34,18 @@ def test_sidon_deess_profile_has_no_other_postprocessing() -> None:
     assert config.post_highpass_applied is False
     assert config.loudness_normalization_applied is False
     assert config.compression_applied is False
-    assert config.limiting_applied is False
+    assert config.declicking_applied is True
+    assert config.limiting_applied is True
     assert "deesser=" in config.deesser_filter
     assert "highpass" not in config.deesser_filter
     assert "loudnorm" not in config.deesser_filter
     assert "compress" not in config.deesser_filter
+    assert config.final_postprocess.filter_chain == (
+        "aformat=sample_fmts=fltp,"
+        "adeclick=w=55:o=75:a=2:t=4:b=2,"
+        "alimiter=limit=0.891251:attack=5:release=80:"
+        "level=false:latency=true"
+    )
 
 
 def test_selection_is_balanced_and_includes_voa(tmp_path: Path) -> None:

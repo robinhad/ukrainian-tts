@@ -8,7 +8,7 @@ import json
 import sys
 import tempfile
 import time
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any
 
@@ -28,6 +28,7 @@ from training.audio_enhancement.review_pipeline import (
     write_float_wav,
     write_json,
 )
+from training.audio_enhancement.postprocess import load_config
 from training.scripts.run_enhancement_review_backend import SidonDeessOnlyBackend
 
 
@@ -113,6 +114,8 @@ def main() -> int:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--output-results", type=Path, required=True)
     parser.add_argument("--model-cache", type=Path, required=True)
+    parser.add_argument("--postprocess-config", type=Path)
+    parser.add_argument("--ffmpeg", default="auto")
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--shard-index", type=int, default=0)
@@ -149,7 +152,10 @@ def main() -> int:
     if args.limit is not None:
         rows = rows.head(args.limit)
 
-    config = SidonDeessOnlyConfig()
+    config = replace(
+        SidonDeessOnlyConfig(),
+        final_postprocess=load_config(args.postprocess_config),
+    )
     prior = load_prior(args.output_results) if args.resume else {}
     terminal: dict[str, dict[str, Any]] = {}
     pending: list[tuple[str, Path, int]] = []
@@ -165,7 +171,11 @@ def main() -> int:
             and output_is_valid(target, source, config)
         ):
             terminal[identifier] = old
-        elif old and old.get("processing_status") == "failed" and attempts >= args.maximum_attempts:
+        elif (
+            old
+            and old.get("processing_status") == "failed"
+            and attempts >= args.maximum_attempts
+        ):
             terminal[identifier] = old
         else:
             pending.append((identifier, source, attempts + 1))
@@ -207,6 +217,7 @@ def main() -> int:
                         intermediate,
                         target,
                         config,
+                        ffmpeg_binary=args.ffmpeg,
                     )
                 check = inspect_wav(target)
                 if check["errors"]:

@@ -44,13 +44,15 @@ def test_parse_loudnorm_json() -> None:
     assert result["target_offset"] == 0.0
 
 
-def test_inspect_existing_output_measures_without_changing_audio(tmp_path: Path) -> None:
+def test_inspect_existing_output_measures_without_changing_audio(
+    tmp_path: Path,
+) -> None:
     sample_rate = 24_000
     seconds = 3
     time = np.arange(sample_rate * seconds) / sample_rate
     audio = 0.05 * np.sin(2 * np.pi * 220 * time)
     target = tmp_path / "enhanced.wav"
-    sf.write(target, audio, sample_rate, subtype="PCM_16")
+    sf.write(target, audio, sample_rate, subtype="PCM_24")
     before = sha256(target)
 
     processor = object.__new__(EnhancedAudioProcessor)

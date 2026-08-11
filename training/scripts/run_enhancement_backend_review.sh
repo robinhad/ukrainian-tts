@@ -10,6 +10,8 @@ REVIEW_PYTHON="${ROOT}/.venv-audio-review/bin/python"
 TRAINING_PYTHON="${ROOT}/.venv/bin/python"
 RESOURCE_LOG="${ROOT}/reports/enhancement_backend_review_resources.csv"
 MIN_FREE_GIB=${MIN_FREE_GIB:-30}
+POSTPROCESS_CONFIG=${POSTPROCESS_CONFIG:-"${ROOT}/conf/audio_postprocess.yaml"}
+FFMPEG_BINARY=${FFMPEG_BINARY:-auto}
 runner_pid=$$
 
 free_gib() {
@@ -48,12 +50,14 @@ trap 'kill "$monitor_pid" 2>/dev/null || true' EXIT
 "$TRAINING_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
     --backend deepfilternet3 --selection "$SELECTION" --output "$OUTPUT" \
     --device cuda:0 --model-cache "${ROOT}/vendor/deepfilternet-cache" \
+    --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
     >"${ROOT}/reports/enhancement_review_deepfilternet3.log" 2>&1 &
 dfn_pid=$!
 
 "$REVIEW_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
     --backend resemble --selection "$SELECTION" --output "$OUTPUT" \
     --device cuda:1 --model-cache "${MODEL_CACHE}/resemble" \
+    --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
     >"${ROOT}/reports/enhancement_review_resemble.log" 2>&1 &
 resemble_pid=$!
 
@@ -62,11 +66,13 @@ wait "$dfn_pid"; dfn_status=$?
 "$REVIEW_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
     --backend sidon --selection "$SELECTION" --output "$OUTPUT" \
     --device cuda:0 --model-cache "${MODEL_CACHE}/sidon" \
+    --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
     >"${ROOT}/reports/enhancement_review_sidon.log" 2>&1
 sidon_status=$?
 "$REVIEW_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
     --backend sidon_deess_only --selection "$SELECTION" --output "$OUTPUT" \
     --device cuda:0 --model-cache "${MODEL_CACHE}/sidon" \
+    --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
     >"${ROOT}/reports/enhancement_review_sidon_deess_only.log" 2>&1
 sidon_deess_status=$?
 set -e
@@ -76,6 +82,7 @@ wait "$resemble_pid"; resemble_status=$?
 "$REVIEW_PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
     --backend mossformer2 --selection "$SELECTION" --output "$OUTPUT" \
     --device cuda:1 --model-cache "${MODEL_CACHE}/mossformer2" \
+    --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
     >"${ROOT}/reports/enhancement_review_mossformer2.log" 2>&1
 moss_status=$?
 set -e

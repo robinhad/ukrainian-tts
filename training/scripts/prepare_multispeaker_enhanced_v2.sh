@@ -6,6 +6,8 @@ SOURCE_MANIFEST=${SOURCE_MANIFEST:-"${ROOT}/data/multispeaker_full/manifests/all
 DATA_ROOT=${DATA_ROOT:-"${ROOT}/data/multispeaker_enhanced_v2"}
 GPU_UUIDS=${GPU_UUIDS:-"GPU-be591530-39fd-0b1c-50af-8c75548cb6b8,GPU-de1be084-ce05-942c-cb74-78e80652f184"}
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-8}
+POSTPROCESS_CONFIG=${POSTPROCESS_CONFIG:-"${ROOT}/conf/audio_postprocess.yaml"}
+FFMPEG_BINARY=${FFMPEG_BINARY:-auto}
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
 if (( ${#GPUS[@]} != 2 )); then
     echo "This iteration requires exactly two GPU UUIDs." >&2
@@ -35,6 +37,7 @@ run_shard() {
             --output-root "${DATA_ROOT}/processed_24k" \
             --output-records "${DATA_ROOT}/records/records-${shard}.jsonl" \
             --model-cache "${ROOT}/vendor/deepfilternet-cache" \
+            --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
             --shard-index "$shard" --num-shards "$NUM_SHARDS" --resume \
             --allow-failures --max-new-records 300
         status=$?

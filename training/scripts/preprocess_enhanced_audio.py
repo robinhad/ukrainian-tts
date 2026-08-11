@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import time
+from dataclasses import replace
 from pathlib import Path
 
 import pandas as pd
@@ -16,7 +17,11 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT.parent))
 
-from training.audio_enhancement.pipeline import EnhancementConfig, EnhancedAudioProcessor
+from training.audio_enhancement.pipeline import (
+    EnhancementConfig,
+    EnhancedAudioProcessor,
+)
+from training.audio_enhancement.postprocess import load_config
 
 
 def json_default(value: object) -> object:
@@ -33,6 +38,8 @@ def main() -> int:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--output-records", type=Path, required=True)
     parser.add_argument("--model-cache", type=Path, required=True)
+    parser.add_argument("--postprocess-config", type=Path)
+    parser.add_argument("--ffmpeg", default="auto")
     parser.add_argument("--shard-index", type=int, default=0)
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--limit", type=int)
@@ -79,8 +86,15 @@ def main() -> int:
     rows = frame.to_dict(orient="records")[args.shard_index :: args.num_shards]
     if args.limit is not None:
         rows = rows[: args.limit]
-    config = EnhancementConfig()
-    processor = EnhancedAudioProcessor(config, args.model_cache)
+    config = replace(
+        EnhancementConfig(),
+        final_postprocess=load_config(args.postprocess_config),
+    )
+    processor = EnhancedAudioProcessor(
+        config,
+        args.model_cache,
+        ffmpeg_binary=args.ffmpeg,
+    )
     args.output_records.parent.mkdir(parents=True, exist_ok=True)
 
     completed = 0
@@ -110,30 +124,21 @@ def main() -> int:
                 existing.add(prior["utterance_id"])
                 prior_terminal.append(prior)
     pending = [row for row in rows if str(row["utterance_id"]) not in existing]
-    has_more = (
-        args.max_new_records is not None
-        and len(pending) > args.max_new_records
-    )
+    has_more = args.max_new_records is not None and len(pending) > args.max_new_records
     if args.max_new_records is not None:
         pending = pending[: args.max_new_records]
     with args.output_records.open(mode, encoding="utf-8") as stream:
         for prior in prior_terminal:
-            stream.write(
-                json.dumps(prior, ensure_ascii=False, sort_keys=True) + "\n"
-            )
+            stream.write(json.dumps(prior, ensure_ascii=False, sort_keys=True) + "\n")
         for row in pending:
             utterance_id = str(row["utterance_id"])
             if utterance_id in existing:
                 continue
             target = args.output_root / f"{utterance_id}.wav"
             record = dict(row)
-            record["enhancement_attempts"] = (
-                prior_attempts.get(utterance_id, 0) + 1
-            )
+            record["enhancement_attempts"] = prior_attempts.get(utterance_id, 0) + 1
             record["source_qc_flags"] = record.get("qc_flags")
-            record["canonical_raw_audio_path"] = str(
-                Path(row["audio_path"]).resolve()
-            )
+            record["canonical_raw_audio_path"] = str(Path(row["audio_path"]).resolve())
             try:
                 if target.is_file():
                     try:

@@ -16,6 +16,8 @@ GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | pas
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
 ENHANCEMENT_NUM_SHARDS=${ENHANCEMENT_NUM_SHARDS:-}
 MAX_SHARD_RESTARTS=${MAX_SHARD_RESTARTS:-10}
+POSTPROCESS_CONFIG=${POSTPROCESS_CONFIG:-"${ROOT}/conf/audio_postprocess.yaml"}
+FFMPEG_BINARY=${FFMPEG_BINARY:-auto}
 MINIMUM_SEGMENT_SECONDS=2
 MAXIMUM_SEGMENT_SECONDS=20
 VOA_PIPELINE_VERSION=${VOA_PIPELINE_VERSION:-v4-c050-d20-g050-defer-long}
@@ -155,6 +157,7 @@ run_shard() {
             --output-root "${DATA_ROOT}/processed_24k" \
             --output-records "${DATA_ROOT}/enhanced_records/records-${shard}.jsonl" \
             --model-cache "${ROOT}/vendor/deepfilternet-cache" \
+            --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
             --shard-index "$shard" --num-shards "$NUM_SHARDS" --resume \
             --allow-failures --retry-failures --maximum-attempts 2 \
             --max-new-records 300

@@ -9,7 +9,7 @@ import os
 import sys
 import tempfile
 import time
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +33,7 @@ from training.audio_enhancement.review_pipeline import (
     write_float_wav,
     write_json,
 )
-
+from training.audio_enhancement.postprocess import load_config
 
 SIDON_CODE_COMMIT = "c8cde2b24e4c77c599ad43a9871140cdc9beeffa"
 SIDON_MODEL_REVISION = "b3b02d8bbd55fdbc410e6e46e76ef95ace4fbf52"
@@ -69,7 +69,9 @@ class DeepFilterBackend:
             "DeepFilterNet3", post_filter=False, log_file=None, log_level="WARNING"
         )
 
-    def process(self, audio: np.ndarray, sample_rate: int) -> dict[str, tuple[np.ndarray, int]]:
+    def process(
+        self, audio: np.ndarray, sample_rate: int
+    ) -> dict[str, tuple[np.ndarray, int]]:
         tensor = to_tensor(audio)
         if sample_rate != 48_000:
             tensor = AF.resample(tensor, sample_rate, 48_000)
@@ -102,8 +104,16 @@ class SidonBackend:
         }
         feature_path = hf_hub_download(filename="feature_extractor_cuda.pt", **kwargs)
         decoder_path = hf_hub_download(filename="decoder_cuda.pt", **kwargs)
-        self.feature = torch.jit.load(feature_path, map_location=self.device).to(self.device).eval()
-        self.decoder = torch.jit.load(decoder_path, map_location=self.device).to(self.device).eval()
+        self.feature = (
+            torch.jit.load(feature_path, map_location=self.device)
+            .to(self.device)
+            .eval()
+        )
+        self.decoder = (
+            torch.jit.load(decoder_path, map_location=self.device)
+            .to(self.device)
+            .eval()
+        )
         self.preprocessor = SeamlessM4TFeatureExtractor.from_pretrained(
             "facebook/w2v-bert-2.0",
             revision=W2V_BERT_MODEL_REVISION,
@@ -115,7 +125,9 @@ class SidonBackend:
         }
 
     @torch.inference_mode()
-    def process(self, audio: np.ndarray, sample_rate: int) -> dict[str, tuple[np.ndarray, int]]:
+    def process(
+        self, audio: np.ndarray, sample_rate: int
+    ) -> dict[str, tuple[np.ndarray, int]]:
         waveform = to_tensor(audio)
         maximum = waveform.abs().max().clamp(min=1e-7)
         waveform = 0.9 * waveform / maximum
@@ -171,14 +183,17 @@ class ResembleBackend:
 
         self.device = torch.device(device)
         self.inference = inference
-        run_dir = Path(
-            snapshot_download(
-                "ResembleAI/resemble-enhance",
-                revision=RESEMBLE_MODEL_REVISION,
-                allow_patterns=["enhancer_stage2/*"],
-                cache_dir=str(cache),
+        run_dir = (
+            Path(
+                snapshot_download(
+                    "ResembleAI/resemble-enhance",
+                    revision=RESEMBLE_MODEL_REVISION,
+                    allow_patterns=["enhancer_stage2/*"],
+                    cache_dir=str(cache),
+                )
             )
-        ) / "enhancer_stage2"
+            / "enhancer_stage2"
+        )
         hp = HParams.load(run_dir)
         model = Enhancer(hp)
         weights = run_dir / "ds/G/default/mp_rank_00_model_states.pt"
@@ -190,7 +205,9 @@ class ResembleBackend:
         self.weight_hash = sha256(weights)
 
     @torch.inference_mode()
-    def process(self, audio: np.ndarray, sample_rate: int) -> dict[str, tuple[np.ndarray, int]]:
+    def process(
+        self, audio: np.ndarray, sample_rate: int
+    ) -> dict[str, tuple[np.ndarray, int]]:
         waveform = torch.from_numpy(np.asarray(audio, dtype=np.float32).copy())
         denoised, denoised_sr = self.inference(
             model=self.model.denoiser,
@@ -249,7 +266,9 @@ class MossFormerBackend:
         self.weight_hash = sha256(checkpoint)
 
     @torch.inference_mode()
-    def process(self, audio: np.ndarray, sample_rate: int) -> dict[str, tuple[np.ndarray, int]]:
+    def process(
+        self, audio: np.ndarray, sample_rate: int
+    ) -> dict[str, tuple[np.ndarray, int]]:
         tensor = to_tensor(audio)
         if sample_rate != 48_000:
             tensor = AF.resample(tensor, sample_rate, 48_000)
@@ -301,6 +320,8 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--model-cache", type=Path, required=True)
+    parser.add_argument("--postprocess-config", type=Path)
+    parser.add_argument("--ffmpeg", default="auto")
     parser.add_argument(
         "--limit",
         type=int,
@@ -324,10 +345,13 @@ def main() -> int:
         parser.error("--num-shards must be at least 1")
     if not 0 <= args.shard_index < args.num_shards:
         parser.error("--shard-index must be in the selected shard range")
-    config = (
-        SidonDeessOnlyConfig()
-        if args.backend == "sidon_deess_only"
-        else ReviewProcessingConfig()
+    config = replace(
+        (
+            SidonDeessOnlyConfig()
+            if args.backend == "sidon_deess_only"
+            else ReviewProcessingConfig()
+        ),
+        final_postprocess=load_config(args.postprocess_config),
     )
     args.model_cache.mkdir(parents=True, exist_ok=True)
     backend = BACKENDS[args.backend](args.device, args.model_cache)
@@ -362,7 +386,9 @@ def main() -> int:
             if set(outputs) != set(targets):
                 raise RuntimeError(f"backend profile mismatch: {sorted(outputs)}")
             for profile, (waveform, output_rate) in outputs.items():
-                with tempfile.TemporaryDirectory(prefix="uktts-review-backend-") as temporary:
+                with tempfile.TemporaryDirectory(
+                    prefix="uktts-review-backend-"
+                ) as temporary:
                     intermediate = Path(temporary) / "backend.wav"
                     write_float_wav(intermediate, waveform, output_rate)
                     if isinstance(config, SidonDeessOnlyConfig):
@@ -370,6 +396,7 @@ def main() -> int:
                             intermediate,
                             targets[profile],
                             config,
+                            ffmpeg_binary=args.ffmpeg,
                         )
                         loudness = {"applied": False}
                     else:
@@ -377,12 +404,14 @@ def main() -> int:
                             intermediate,
                             targets[profile],
                             config,
+                            ffmpeg_binary=args.ffmpeg,
                         )
                         postprocessing = {
                             "post_highpass_applied": True,
                             "loudness_normalization_applied": True,
                             "compression_applied": False,
-                            "limiting_applied": False,
+                            "declicking_applied": True,
+                            "limiting_applied": True,
                         }
                 check = inspect_wav(targets[profile])
                 gate_errors = list(check["errors"])
@@ -403,13 +432,12 @@ def main() -> int:
                     "audio_sha256": sha256(targets[profile]),
                     "compression_applied": False,
                     "deessing_applied": True,
-                    "post_highpass_applied": postprocessing[
-                        "post_highpass_applied"
-                    ],
+                    "post_highpass_applied": postprocessing["post_highpass_applied"],
                     "loudness_normalization_applied": postprocessing[
                         "loudness_normalization_applied"
                     ],
-                    "limiting_applied": False,
+                    "declicking_applied": True,
+                    "limiting_applied": True,
                     "processing_config_hash": config.digest,
                     "processing_config": asdict(config),
                     "backend": backend.identity,
@@ -463,7 +491,12 @@ def main() -> int:
     }
     summary_path = args.summary or args.output / f"backend_{args.backend}_summary.json"
     write_json(summary_path, summary)
-    print(json.dumps({key: value for key, value in summary.items() if key != "failed_records"}, indent=2))
+    print(
+        json.dumps(
+            {key: value for key, value in summary.items() if key != "failed_records"},
+            indent=2,
+        )
+    )
     return 0 if not failures else 1
 
 

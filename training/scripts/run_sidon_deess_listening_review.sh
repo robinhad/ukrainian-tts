@@ -10,6 +10,8 @@ PYTHON="${ROOT}/.venv-audio-review/bin/python"
 DATA_PYTHON="${ROOT}/.venv/bin/python"
 RESOURCE_LOG="${ROOT}/reports/sidon_deess_listening_resources.csv"
 MIN_FREE_GIB=${MIN_FREE_GIB:-30}
+POSTPROCESS_CONFIG=${POSTPROCESS_CONFIG:-"${ROOT}/conf/audio_postprocess.yaml"}
+FFMPEG_BINARY=${FFMPEG_BINARY:-auto}
 runner_pid=$$
 mapfile -t GPU_UUIDS < <(nvidia-smi --query-gpu=uuid --format=csv,noheader)
 
@@ -57,6 +59,7 @@ for shard in 0 1; do
     "$PYTHON" "${ROOT}/scripts/run_enhancement_review_backend.py" \
         --backend sidon_deess_only --selection "$SELECTION" --output "$OUTPUT" \
         --device cuda:0 --model-cache "$MODEL_CACHE" \
+        --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
         --num-shards 2 --shard-index "$shard" \
         --summary "${OUTPUT}/backend_sidon_deess_only_shard_${shard}.json" \
         >"${ROOT}/reports/sidon_deess_listening_shard_${shard}.log" 2>&1 &

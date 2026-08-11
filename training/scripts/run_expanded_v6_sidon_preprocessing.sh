@@ -9,6 +9,8 @@ OUTPUT="${ROOT}/data/expanded_v6_sidon_deess_novoa/audio_24k"
 RESULT_ROOT="${ROOT}/reports/expanded_v6_sidon_deess_novoa_processing"
 STATUS="${ROOT}/reports/expanded_v6_sidon_deess_novoa_preparation_status.jsonl"
 MODEL_CACHE="${ROOT}/vendor/audio-enhancement-review-models/sidon"
+POSTPROCESS_CONFIG=${POSTPROCESS_CONFIG:-"${ROOT}/conf/audio_postprocess.yaml"}
+FFMPEG_BINARY=${FFMPEG_BINARY:-auto}
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
 WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
@@ -42,6 +44,7 @@ run_pass() {
         CUDA_VISIBLE_DEVICES="${GPUS[$gpu_index]}" "$PYTHON" "${ROOT}/scripts/preprocess_sidon_deess_audio.py" \
             --manifest "$BASE" --input-audio-manifest "$INPUT" --output-root "$OUTPUT" \
             --output-results "${results[$index]}" --model-cache "$MODEL_CACHE" \
+            --postprocess-config "$POSTPROCESS_CONFIG" --ffmpeg "$FFMPEG_BINARY" \
             --device cuda:0 --num-shards "$TOTAL_WORKERS" --shard-index "$index" --maximum-attempts 2 --resume \
             >>"${logs[$index]}" 2>&1 &
         pids+=("$!")

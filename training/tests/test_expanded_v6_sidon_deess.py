@@ -5,17 +5,23 @@ import numpy as np
 import soundfile as sf
 
 from training.audio_enhancement.review_pipeline import SidonDeessOnlyConfig, sha256
-from training.scripts.build_expanded_v6_sidon_deess_novoa import PROFILE, PROFILE_HASH, SPLIT_MAP
+from training.scripts.build_expanded_v6_sidon_deess_novoa import (
+    PROFILE,
+    PROFILE_HASH,
+    SPLIT_MAP,
+)
 from training.scripts.preprocess_sidon_deess_audio import output_is_valid
 
 
 def test_profile_has_only_requested_processing() -> None:
     assert PROFILE["sidon"] is True
     assert PROFILE["deessing"] is True
+    assert PROFILE["declicking"] is True
     assert PROFILE["post_highpass"] is False
     assert PROFILE["compression"] is False
     assert PROFILE["loudness_normalization"] is False
-    assert PROFILE["limiting"] is False
+    assert PROFILE["limiting"] is True
+    assert PROFILE["format"] == "WAV/PCM_24"
     assert len(PROFILE_HASH) == 64
     assert set(SPLIT_MAP.values()) == {
         "expanded_v6_sidon_deess_novoa_train",
@@ -30,7 +36,7 @@ def test_resume_requires_physical_valid_wav_and_matching_source(tmp_path: Path) 
     audio = np.zeros(2400, dtype=np.float32)
     audio[100:300] = 0.1
     sf.write(source, audio, 24_000, subtype="PCM_16")
-    sf.write(target, audio, 24_000, subtype="PCM_16")
+    sf.write(target, audio, 24_000, subtype="PCM_24")
     config = SidonDeessOnlyConfig()
     metadata = {
         "status": "PASS",
@@ -63,8 +69,8 @@ def test_preparation_exposes_both_gpus_before_resource_probe() -> None:
 
 def test_pipeline_monitor_has_a_thirty_minute_maximum() -> None:
     source = Path("training/scripts/monitor_expanded_v6_pipeline.py").read_text()
-    assert 'default=1800' in source
-    assert 'args.interval_seconds <= 1800' in source
+    assert "default=1800" in source
+    assert "args.interval_seconds <= 1800" in source
 
 
 def test_training_launcher_uses_the_project_python() -> None:
@@ -73,4 +79,6 @@ def test_training_launcher_uses_the_project_python() -> None:
     ).read_text()
     assert 'PYTHON="${ROOT}/.venv/bin/python"' in source
     assert 'python "${ROOT}/scripts/monitor_expanded_v5_disk.py"' not in source
-    assert 'python "${ROOT}/scripts/preserve_validation_best_checkpoints.py"' not in source
+    assert (
+        'python "${ROOT}/scripts/preserve_validation_best_checkpoints.py"' not in source
+    )

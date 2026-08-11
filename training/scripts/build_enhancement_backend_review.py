@@ -24,7 +24,6 @@ from training.audio_enhancement.review_pipeline import (
     write_json,
 )
 
-
 EXPECTED_DATASETS = {
     "common_voice_available_uk",
     "fleurs_uk",
@@ -55,7 +54,9 @@ def select_rows(v3: pd.DataFrame, v4: pd.DataFrame, count: int) -> pd.DataFrame:
     previous = v3[["utterance_id", "audio_path"]].rename(
         columns={"audio_path": "historical_dfn_path"}
     )
-    eligible = train.merge(previous, on="utterance_id", how="inner", validate="one_to_one")
+    eligible = train.merge(
+        previous, on="utterance_id", how="inner", validate="one_to_one"
+    )
     found = set(map(str, eligible["source_id"].unique()))
     if found != EXPECTED_DATASETS:
         raise ValueError(f"dataset mismatch: found={sorted(found)}")
@@ -118,7 +119,7 @@ def prepare(args: argparse.Namespace) -> int:
         }
         for profile in ("trim_only", "historical_dfn3_compressed"):
             path = Path(record[profile])
-            check = inspect_wav(path)
+            check = inspect_wav(path, require_pcm24=False)
             write_json(
                 path.with_suffix(".wav.json"),
                 {
@@ -135,7 +136,11 @@ def prepare(args: argparse.Namespace) -> int:
     with selection.open("w", encoding="utf-8") as stream:
         for record in records:
             stream.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
-    print(json.dumps({"status": "PASS", "records": len(records), "selection": str(selection)}))
+    print(
+        json.dumps(
+            {"status": "PASS", "records": len(records), "selection": str(selection)}
+        )
+    )
     return 0
 
 
@@ -148,7 +153,9 @@ def write_tsv(path: Path, rows: list[dict], fields: list[str]) -> None:
     with path.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields, delimiter="\t")
         writer.writeheader()
-        writer.writerows({field: row.get(field, "") for field in fields} for row in rows)
+        writer.writerows(
+            {field: row.get(field, "") for field in fields} for row in rows
+        )
 
 
 def finalize(args: argparse.Namespace) -> int:
@@ -171,33 +178,65 @@ def finalize(args: argparse.Namespace) -> int:
             path = args.output / record["dataset"] / profile / name
             item[profile] = str(path.relative_to(args.output))
             if not path.is_file() or path.is_symlink():
-                errors.append({"profile": profile, "path": str(path), "error": "missing or symlink"})
+                errors.append(
+                    {
+                        "profile": profile,
+                        "path": str(path),
+                        "error": "missing or symlink",
+                    }
+                )
                 profiles[profile]["errors"] += 1
                 continue
-            check = inspect_wav(path)
+            check = inspect_wav(
+                path,
+                require_pcm24=profile
+                not in {"trim_only", "historical_dfn3_compressed"},
+            )
             profiles[profile]["files"] += 1
             profiles[profile]["errors"] += len(check["errors"])
             for error in check["errors"]:
                 errors.append({"profile": profile, "path": str(path), "error": error})
             metadata = path.with_suffix(".wav.json")
             if not metadata.is_file():
-                errors.append({"profile": profile, "path": str(metadata), "error": "missing metadata"})
+                errors.append(
+                    {
+                        "profile": profile,
+                        "path": str(metadata),
+                        "error": "missing metadata",
+                    }
+                )
                 profiles[profile]["errors"] += 1
                 continue
             try:
                 details = json.loads(metadata.read_text(encoding="utf-8"))
             except (OSError, ValueError) as error:
                 errors.append(
-                    {"profile": profile, "path": str(metadata), "error": f"invalid metadata: {error}"}
+                    {
+                        "profile": profile,
+                        "path": str(metadata),
+                        "error": f"invalid metadata: {error}",
+                    }
                 )
                 profiles[profile]["errors"] += 1
                 continue
             expected_compression = profile == "historical_dfn3_compressed"
             if details.get("status") != "PASS":
-                errors.append({"profile": profile, "path": str(metadata), "error": "metadata status is not PASS"})
+                errors.append(
+                    {
+                        "profile": profile,
+                        "path": str(metadata),
+                        "error": "metadata status is not PASS",
+                    }
+                )
                 profiles[profile]["errors"] += 1
             if details.get("compression_applied") is not expected_compression:
-                errors.append({"profile": profile, "path": str(metadata), "error": "compression policy mismatch"})
+                errors.append(
+                    {
+                        "profile": profile,
+                        "path": str(metadata),
+                        "error": "compression policy mismatch",
+                    }
+                )
                 profiles[profile]["errors"] += 1
             if profile not in {"trim_only", "historical_dfn3_compressed"}:
                 expected_config_hash = (
@@ -206,15 +245,22 @@ def finalize(args: argparse.Namespace) -> int:
                     else config.digest
                 )
                 if details.get("processing_config_hash") != expected_config_hash:
-                    errors.append({"profile": profile, "path": str(metadata), "error": "processing config mismatch"})
+                    errors.append(
+                        {
+                            "profile": profile,
+                            "path": str(metadata),
+                            "error": "processing config mismatch",
+                        }
+                    )
                     profiles[profile]["errors"] += 1
             if profile == "sidon_deess_only":
                 expected_flags = {
                     "compression_applied": False,
+                    "declicking_applied": True,
                     "deessing_applied": True,
                     "post_highpass_applied": False,
                     "loudness_normalization_applied": False,
-                    "limiting_applied": False,
+                    "limiting_applied": True,
                 }
                 for key, expected in expected_flags.items():
                     if details.get(key) is not expected:
@@ -232,19 +278,42 @@ def finalize(args: argparse.Namespace) -> int:
                     output_i = float(second_pass["output_i"])
                     output_tp = float(second_pass["output_tp"])
                 except (KeyError, TypeError, ValueError):
-                    errors.append({"profile": profile, "path": str(metadata), "error": "missing loudness result"})
+                    errors.append(
+                        {
+                            "profile": profile,
+                            "path": str(metadata),
+                            "error": "missing loudness result",
+                        }
+                    )
                     profiles[profile]["errors"] += 1
                 else:
                     if abs(output_i - config.target_lufs) > 1.0:
-                        errors.append({"profile": profile, "path": str(metadata), "error": f"loudness={output_i}"})
+                        errors.append(
+                            {
+                                "profile": profile,
+                                "path": str(metadata),
+                                "error": f"loudness={output_i}",
+                            }
+                        )
                         profiles[profile]["errors"] += 1
                     if output_tp > config.target_true_peak_db + 0.05:
-                        errors.append({"profile": profile, "path": str(metadata), "error": f"true_peak={output_tp}"})
+                        errors.append(
+                            {
+                                "profile": profile,
+                                "path": str(metadata),
+                                "error": f"true_peak={output_tp}",
+                            }
+                        )
                         profiles[profile]["errors"] += 1
         rows.append(item)
 
     manifest_fields = [
-        "dataset", "item", "utterance_id", "duration_seconds", "text", *PROFILES
+        "dataset",
+        "item",
+        "utterance_id",
+        "duration_seconds",
+        "text",
+        *PROFILES,
     ]
     write_tsv(args.output / "manifest.tsv", rows, manifest_fields)
     feedback_fields = list(manifest_fields)
@@ -317,7 +386,11 @@ The automatic validation status is `{report['status']}`. Automatic validation
 does not measure naturalness.
 """
     (args.output / "README.md").write_text(readme, encoding="utf-8")
-    print(json.dumps({key: value for key, value in report.items() if key != "errors"}, indent=2))
+    print(
+        json.dumps(
+            {key: value for key, value in report.items() if key != "errors"}, indent=2
+        )
+    )
     return 0 if not errors else 1
 
 
@@ -332,17 +405,20 @@ def main() -> int:
     parser.add_argument(
         "--v4-manifest",
         type=Path,
-        default=REPOSITORY_ROOT / "training/data/expanded_v4_trim_only/manifests/all.parquet",
+        default=REPOSITORY_ROOT
+        / "training/data/expanded_v4_trim_only/manifests/all.parquet",
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=REPOSITORY_ROOT / "training/eval/generated/per_dataset_train_audio_enhancement_review_v2",
+        default=REPOSITORY_ROOT
+        / "training/eval/generated/per_dataset_train_audio_enhancement_review_v2",
     )
     parser.add_argument(
         "--report",
         type=Path,
-        default=REPOSITORY_ROOT / "training/reports/per_dataset_train_audio_enhancement_review_v2.json",
+        default=REPOSITORY_ROOT
+        / "training/reports/per_dataset_train_audio_enhancement_review_v2.json",
     )
     parser.add_argument("--count-per-dataset", type=int, default=10)
     args = parser.parse_args()

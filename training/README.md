@@ -12,16 +12,62 @@ processing profile.
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 
+## Final de-clicking and peak limiting
+
+Each new speech-enhancement run uses one final FFmpeg stage. The stage uses
+32-bit planar floating-point audio for the filters. It does not set a sample
+rate or a channel count. Thus, it keeps these properties from its enhanced
+input. An earlier model-specific stage can still make a 24 kHz mono signal.
+
+The final filter graph is:
+
+```text
+aformat=sample_fmts=fltp,adeclick=w=55:o=75:a=2:t=4:b=2,alimiter=limit=0.891251:attack=5:release=80:level=false:latency=true
+```
+
+The stage writes a PCM 24-bit WAV. It writes a temporary file in the output
+directory. It validates the temporary file and then renames it atomically. It
+does not permit the source path as the output path.
+
+The default configuration is
+`training/conf/audio_postprocess.yaml`. A pipeline command accepts
+`--postprocess-config` and `--ffmpeg`. The value `auto` uses the static FFmpeg
+7.0.2 binary from the pinned `imageio-ffmpeg` package. You can also set
+`UKTTS_FFMPEG` or give an explicit FFmpeg path. FFmpeg must have the
+`alimiter` `latency` option.
+
+Process one enhanced file:
+
+```bash
+training/.venv/bin/python training/scripts/declick_and_limit_audio.py file \
+  --config training/conf/audio_postprocess.yaml \
+  --input enhanced.wav --output final.wav --report final.json
+```
+
+Process a directory and keep its directory structure:
+
+```bash
+training/.venv/bin/python training/scripts/declick_and_limit_audio.py batch \
+  --config training/conf/audio_postprocess.yaml \
+  --input-dir enhanced --output-dir final --recursive \
+  --report final/batch-report.json
+```
+
+The CLI also has one option for each filter value. A CLI value has priority
+over the configuration file. Use `--overwrite` only when the command can
+replace an existing output. The command never changes an input file.
+
 ## Expanded-v6 Sidon and de-essing iteration
 
 This iteration trains for 100,000 new optimizer steps. It loads model weights
 from the expanded-v5 best mel checkpoint at epoch 81. It makes new optimizer,
 scheduler, epoch, and step states.
 
-The corpus has 74,156 non-VOA utterances. The training audio uses the existing
-boundary-trimmed input, Sidon, and light de-essing. It does not use a second
-high-pass filter, DeepFilterNet, compression, loudness normalization, or a
-limiter. Sidon has a fixed internal 50 Hz input filter.
+The completed 2026-08-11 corpus has 74,156 non-VOA utterances. That corpus uses
+the boundary-trimmed input, Sidon, and light de-essing. It predates the final
+de-click and limiter stage. A new preprocessing run adds the final stage and
+uses a new configuration hash. It does not change the completed corpus.
+Sidon has a fixed internal 50 Hz input filter.
 
 Run these commands in sequence:
 
@@ -182,6 +228,8 @@ The pipeline applies these audio operations to each training copy:
 4. Apply light de-essing.
 5. Apply gentle compression.
 6. Apply two-pass EBU R128 normalization.
+7. Apply the final de-click and peak-limit graph.
+8. Encode the final WAV as PCM 24-bit.
 
 See `training/reports/audio_enhancement_steps.md` for the exact sequence,
 filter values, output format, and validation rules.
