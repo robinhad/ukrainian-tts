@@ -1,5 +1,7 @@
 import subprocess
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -10,6 +12,7 @@ from training.scripts.build_expanded_v7_declick_limited import (
     V7_NAME,
     profile,
 )
+from training.scripts.monitor_expanded_v7_pipeline import phase, statistics_progress
 
 ROOT = Path(__file__).resolve().parents[1]
 FILTER_CHAIN = (
@@ -59,6 +62,40 @@ def test_v7_training_uses_both_gpus_and_v6_epoch94() -> None:
     assert BEST_SHA256 in script
     assert "--use_amp false" in script
     assert "--batch_bins ${BATCH_BINS}" in script
+
+
+def test_monitor_detects_statistics_before_training() -> None:
+    processes = (
+        "python3 -m espnet2.bin.gan_tts_train --collect_stats true "
+        "--output_dir stats.1"
+    )
+
+    assert phase(processes, True) == "statistics"
+
+
+def test_monitor_reports_observed_statistics_progress(tmp_path: Path) -> None:
+    logdir = (
+        tmp_path
+        / f"exp_{V7_NAME}/tts_stats_raw_phn_espeak_ng_ukrainian/logdir"
+    )
+    logdir.mkdir(parents=True)
+    (logdir / "train.1.scp").write_text("a\nb\nc\n", encoding="utf-8")
+    (logdir / "valid.1.scp").write_text("d\ne\n", encoding="utf-8")
+    (logdir / "stats.1.log").write_text(
+        "2026-08-12 00:00:00 INFO: Niter: 1\n"
+        "2026-08-12 00:00:05 INFO: Niter: 3\n",
+        encoding="utf-8",
+    )
+    now = datetime(2026, 8, 12, 0, 0, 10, tzinfo=ZoneInfo("Europe/Kyiv"))
+
+    result = statistics_progress(tmp_path, now)
+
+    assert result is not None
+    assert result["processed"] == 3
+    assert result["total"] == 5
+    assert result["progress_percent"] == 60.0
+    assert result["rate_utterances_per_second"] == 0.3
+    assert result["eta_kyiv"] == "2026-08-12T00:00:16.666667+03:00"
 
 
 def test_direct_raw_data_keeps_pcm24_paths(tmp_path: Path) -> None:

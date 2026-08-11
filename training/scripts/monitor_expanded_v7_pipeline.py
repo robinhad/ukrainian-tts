@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import time
@@ -36,6 +37,8 @@ def phase(processes: str, active: bool) -> str:
         return "complete_or_failed"
     if "evaluate_expanded_v7_declick_limited" in processes:
         return "milestone_evaluation"
+    if "espnet2.bin.gan_tts_train --collect_stats true" in processes:
+        return "statistics"
     if "espnet2.bin.gan_tts_train" in processes or "torchrun" in processes:
         return "training"
     if "run_expanded_v7_declick_limited_smoke" in processes:
@@ -47,6 +50,61 @@ def phase(processes: str, active: bool) -> str:
     if "declick_and_limit_audio.py" in processes:
         return "declick_and_peak_limit"
     return "initializing_or_transition"
+
+
+def count_lines(path: Path) -> int:
+    with path.open("rb") as stream:
+        return sum(1 for _ in stream)
+
+
+def statistics_progress(root: Path, now: datetime) -> dict | None:
+    logdir = (
+        root
+        / f"exp_{NAME}/tts_stats_raw_phn_espeak_ng_ukrainian/logdir"
+    )
+    logs = sorted(logdir.glob("stats.*.log"))
+    shape_files = sorted(logdir.glob("train.*.scp")) + sorted(
+        logdir.glob("valid.*.scp")
+    )
+    if not logs or not shape_files:
+        return None
+
+    processed = 0
+    first_timestamp: datetime | None = None
+    timestamp_pattern = re.compile(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})")
+    niter_pattern = re.compile(r"Niter:\s*(\d+)")
+    for path in logs:
+        content = path.read_text(encoding="utf-8", errors="replace")
+        iterations = [int(value) for value in niter_pattern.findall(content)]
+        if iterations:
+            processed += max(iterations)
+        match = timestamp_pattern.search(content)
+        if match:
+            timestamp = datetime.strptime(
+                match.group(1), "%Y-%m-%d %H:%M:%S"
+            ).replace(tzinfo=ZoneInfo("Europe/Kyiv"))
+            first_timestamp = (
+                timestamp
+                if first_timestamp is None
+                else min(first_timestamp, timestamp)
+            )
+
+    total = sum(count_lines(path) for path in shape_files)
+    processed = min(processed, total)
+    rate = 0.0
+    eta: datetime | None = None
+    if first_timestamp is not None:
+        elapsed = max((now - first_timestamp).total_seconds(), 1.0)
+        rate = processed / elapsed
+        if rate > 0:
+            eta = now + timedelta(seconds=(total - processed) / rate)
+    return {
+        "processed": processed,
+        "total": total,
+        "progress_percent": round(100 * processed / total, 4) if total else 0.0,
+        "rate_utterances_per_second": round(rate, 4),
+        "eta_kyiv": eta.isoformat() if eta else None,
+    }
 
 
 def gpu() -> list[dict]:
@@ -121,6 +179,7 @@ def main() -> int:
         training = latest_jsonl(
             args.root / f"reports/training_status_{NAME}_100k.jsonl"
         )
+        statistics = statistics_progress(args.root, now)
         if current_phase == "declick_and_peak_limit":
             remaining = (TOTAL_AUDIO - count) / rate if rate > 0 else 3600
             phase_eta = now + timedelta(seconds=max(remaining, 0))
@@ -133,6 +192,11 @@ def main() -> int:
             phase_eta = now + timedelta(hours=2)
             total_eta = now + timedelta(hours=26)
             eta_basis = "v6_runtime_estimate"
+        elif current_phase == "statistics" and statistics:
+            phase_eta = statistics.get("eta_kyiv")
+            if phase_eta:
+                total_eta = datetime.fromisoformat(phase_eta) + timedelta(hours=26)
+            eta_basis = "observed_statistics_rate_plus_26h_downstream_estimate"
         elif current_phase == "smoke_training_or_inference":
             phase_eta = now + timedelta(hours=1)
             total_eta = now + timedelta(hours=24)
@@ -168,6 +232,7 @@ def main() -> int:
                 total_eta.isoformat() if isinstance(total_eta, datetime) else None
             ),
             "eta_basis": eta_basis,
+            "statistics": statistics,
             "training": training,
         }
         with args.status.open("a", encoding="utf-8") as stream:
