@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from training.scripts.preprocess_training_cascade_audio import (
+    Cascade,
     PROFILE,
     PROFILE_HASH,
     PROFILE_NAME,
@@ -69,3 +70,7 @@ def test_v8_trusted_restart_matches_recorded_output(tmp_path: Path) -> None:
     assert not trusted_restart_output_is_valid(
         target, source, {"audio_sha256": "different-hash"}
     )
+
+
+def test_v8_cascade_has_a_recorded_degenerate_output_fallback() -> None:
+    assert callable(Cascade.process_without_clearervoice)

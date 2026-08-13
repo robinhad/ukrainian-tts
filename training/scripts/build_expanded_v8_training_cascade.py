@@ -80,11 +80,17 @@ def main() -> int:
         "channels",
         "format",
         "processing_attempts",
+        "degenerate_output_fallback",
     ]
+    if "degenerate_output_fallback" not in results:
+        results["degenerate_output_fallback"] = False
     frame = base.drop(
         columns=[name for name in result_columns[1:] if name in base],
         errors="ignore",
     ).merge(results[result_columns], on="utterance_id", validate="one_to_one")
+    frame["degenerate_output_fallback"] = frame[
+        "degenerate_output_fallback"
+    ].fillna(False).astype(bool)
     unknown = sorted(set(frame["split"]) - set(SPLIT_MAP))
     if unknown:
         raise SystemExit(f"The base manifest has unexpected splits: {unknown}")
@@ -133,6 +139,9 @@ def main() -> int:
         "profile": PROFILE,
         "profile_hash": PROFILE_HASH,
         "voa_records": 0,
+        "degenerate_output_fallback_records": int(
+            frame["degenerate_output_fallback"].sum()
+        ),
         "splits": {
             str(split): {
                 "records": int(len(part)),

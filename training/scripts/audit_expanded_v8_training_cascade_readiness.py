@@ -88,12 +88,14 @@ def main() -> int:
     token_hash = hashlib.sha256(token_path.read_bytes()).hexdigest() if token_path.is_file() else None
     stats_files = list(stats_path.rglob("*.npz")) if stats_path.is_dir() else []
     voa = int(frame["source_id"].astype(str).str.contains("voa", case=False).sum()) if len(frame) else -1
+    fallback_count = int(frame.get("degenerate_output_fallback", pd.Series(dtype=bool)).fillna(False).astype(bool).sum())
     gates = [
         gate("Disk reserve", free > 30, f"{free:.2f} GiB is free. The threshold is 30 GiB.", args.workspace),
         gate("Dataset build", bool(build and build.get("status") == "PASS"), "The build report must have PASS status.", build_path),
         gate("Expected corpus", len(frame) == EXPECTED_RECORDS and counts == EXPECTED_SPLITS and 90 < hours < 94, f"The corpus has {len(frame)} records and {hours:.6f} hours.", manifest),
         gate("VOA exclusion", voa == 0, f"The corpus has {voa} VOA records.", manifest),
         gate("Processing profile and PCM24", profile_ok, "The requested cascade and final PCM24 format must be present.", manifest),
+        gate("Degenerate-output fallback limit", 0 <= fallback_count <= 100, f"The corpus has {fallback_count} recorded fallback files.", manifest),
         gate("Dataset validation", bool(validation and validation.get("status") == "PASS"), "The validator must have PASS status.", validation_path),
         gate("Exact 50/50 embeddings", bool(embedding and embedding.get("status") == "PASS" and emb_counts == {"clean": 37_078, "raw": 37_078} and embedding.get("reused_raw_vectors") == 37_078 and embedding.get("recomputed_clean_vectors") == 37_078 and archive_records == EXPECTED_RECORDS and len(hybrid) == EXPECTED_RECORDS), f"Embedding counts are {emb_counts}. Archive records: {archive_records}.", embedding_path),
         gate("Token list", token_hash == EXPECTED_TOKEN_SHA256, f"The token-list SHA-256 is {token_hash}.", token_path),
@@ -105,6 +107,7 @@ def main() -> int:
         "manifest_records": len(frame),
         "duration_hours": round(hours, 7),
         "voa_records": voa,
+        "degenerate_output_fallback_records": fallback_count,
         "free_disk_gib": round(free, 2),
         "gates": gates,
     }

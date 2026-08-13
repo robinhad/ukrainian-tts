@@ -64,3 +64,9 @@ control prevents CPU memory growth during a long ClearerVoice run.
 Each worker also reloads its models after 128 new files. This reload puts a
 fixed limit on host-memory retention. The worker resumes from recorded hashes.
 The final audit verifies the full corpus again.
+
+If the full cascade output is below the EBU R128 integrated-loudness gate, the
+worker records a degenerate-output fallback. For that file, it starts from the
+clean boundary-trimmed input at Sidon. It then applies de-essing, de-clicking,
+limiting, DeepFilterNet3, RNNoise85, and source loudness matching. This control
+prevents a near-silent training file. The manifest records each fallback.

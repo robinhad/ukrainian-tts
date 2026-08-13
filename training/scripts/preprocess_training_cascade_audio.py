@@ -204,6 +204,19 @@ class Cascade:
         rnnoise = rnnoise_channel(deepfilter, 24_000, self.rnnoise_binary)
         return resample_channel(rnnoise, 24_000, sample_rate)
 
+    @torch.inference_mode()
+    def process_without_clearervoice(
+        self, audio: np.ndarray, sample_rate: int
+    ) -> np.ndarray:
+        """Bypass a degenerate ClearerVoice result and keep later stages."""
+        sidon, sidon_rate = self.sidon.process(audio, sample_rate)[
+            "sidon_no_compression"
+        ]
+        postprocessed = deess_declick_limit_channel(sidon, sidon_rate)
+        deepfilter = self.deepfilter.channel(postprocessed, 24_000)
+        rnnoise = rnnoise_channel(deepfilter, 24_000, self.rnnoise_binary)
+        return resample_channel(rnnoise, 24_000, sample_rate)
+
 
 def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -322,9 +335,22 @@ def main() -> int:
                 input_lufs = measure_lufs(audio, sample_rate)
                 output = cascade.process(audio[:, 0], sample_rate)  # type: ignore[union-attr]
                 output = fit_sample_count(output[:, None], expected_frames)
-                matched, loudness = match_loudness_and_prevent_clipping(
-                    output, sample_rate, input_lufs
-                )
+                degenerate_output_fallback = False
+                try:
+                    matched, loudness = match_loudness_and_prevent_clipping(
+                        output, sample_rate, input_lufs
+                    )
+                except RuntimeError as error:
+                    if "invalid integrated loudness" not in str(error):
+                        raise
+                    output = cascade.process_without_clearervoice(  # type: ignore[union-attr]
+                        audio[:, 0], sample_rate
+                    )
+                    output = fit_sample_count(output[:, None], expected_frames)
+                    matched, loudness = match_loudness_and_prevent_clipping(
+                        output, sample_rate, input_lufs
+                    )
+                    degenerate_output_fallback = True
                 atomic_write_pcm24(target, matched, sample_rate)
                 check = inspect_output(target, expected_frames)
                 if check["errors"]:
@@ -344,6 +370,12 @@ def main() -> int:
                     "input_metrics": waveform_metrics(audio, sample_rate, lufs=input_lufs),
                     "output_metrics": waveform_metrics(decoded, sample_rate, lufs=output_lufs),
                     "loudness_match": loudness,
+                    "degenerate_output_fallback": degenerate_output_fallback,
+                    "fallback_path": (
+                        "Sidon then de-ess, de-click, limiter, DeepFilterNet3, and RNNoise85"
+                        if degenerate_output_fallback
+                        else None
+                    ),
                     "elapsed_seconds": time.monotonic() - started,
                 }
                 write_json_atomic(target.with_suffix(".wav.json"), metadata)
@@ -359,6 +391,7 @@ def main() -> int:
                     "processing_config_hash": PROFILE_HASH,
                     "processing_status": "ok",
                     "processing_attempts": attempts,
+                    "degenerate_output_fallback": degenerate_output_fallback,
                     "elapsed_seconds": metadata["elapsed_seconds"],
                 }
                 completed += 1
