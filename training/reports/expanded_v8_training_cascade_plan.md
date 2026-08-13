@@ -61,3 +61,6 @@ workers on each GPU processed only 1.1 to 1.6 files per second because of model
 contention. Thus, the pipeline uses the faster eight-worker total.
 Each worker releases unused host allocations after eight new files. This
 control prevents CPU memory growth during a long ClearerVoice run.
+Each worker also reloads its models after 128 new files. This reload puts a
+fixed limit on host-memory retention. The worker resumes from recorded hashes.
+The final audit verifies the full corpus again.

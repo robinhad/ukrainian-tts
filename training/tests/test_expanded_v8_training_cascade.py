@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from training.scripts.preprocess_training_cascade_audio import (
     PROFILE,
     PROFILE_HASH,
     PROFILE_NAME,
     release_host_memory,
+    trusted_restart_output_is_valid,
 )
 
 
@@ -42,3 +46,26 @@ def test_v8_profile_uses_float_filters_and_pcm24_output() -> None:
 
 def test_v8_worker_can_release_unused_host_memory() -> None:
     assert isinstance(release_host_memory(), bool)
+
+
+def test_v8_trusted_restart_matches_recorded_output(tmp_path: Path) -> None:
+    source = tmp_path / "source.wav"
+    target = tmp_path / "output.wav"
+    target.write_bytes(b"x" * 45)
+    target.with_suffix(".wav.json").write_text(
+        json.dumps(
+            {
+                "status": "PASS",
+                "profile_hash": PROFILE_HASH,
+                "source": str(source.resolve()),
+                "output_sha256": "recorded-hash",
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert trusted_restart_output_is_valid(
+        target, source, {"audio_sha256": "recorded-hash"}
+    )
+    assert not trusted_restart_output_is_valid(
+        target, source, {"audio_sha256": "different-hash"}
+    )

@@ -8,6 +8,7 @@ import ctypes
 import gc
 import hashlib
 import json
+import os
 import sys
 import tempfile
 import time
@@ -146,6 +147,26 @@ def output_is_valid(target: Path, source: Path, expected_frames: int) -> bool:
         return False
 
 
+def trusted_restart_output_is_valid(
+    target: Path, source: Path, prior: dict[str, Any]
+) -> bool:
+    """Use recorded hashes after an in-process restart in the same run."""
+    metadata_path = target.with_suffix(".wav.json")
+    if target.is_symlink() or not target.is_file() or not metadata_path.is_file():
+        return False
+    try:
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        return (
+            metadata.get("status") == "PASS"
+            and metadata.get("profile_hash") == PROFILE_HASH
+            and metadata.get("source") == str(source.resolve())
+            and metadata.get("output_sha256") == prior.get("audio_sha256")
+            and target.stat().st_size > 44
+        )
+    except (OSError, TypeError, ValueError):
+        return False
+
+
 class Cascade:
     """Load the four neural stages once for one worker."""
 
@@ -212,6 +233,12 @@ def main() -> int:
         default=8,
         help="Release unused host allocations after this many processed files.",
     )
+    parser.add_argument(
+        "--maximum-new-files-per-process",
+        type=int,
+        default=128,
+        help="Reload models after this many new files to bound host memory.",
+    )
     parser.add_argument("--limit", type=int)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--allow-failures", action="store_true")
@@ -222,6 +249,8 @@ def main() -> int:
         parser.error("--limit must be positive")
     if args.memory_trim_interval < 1:
         parser.error("--memory-trim-interval must be positive")
+    if args.maximum_new_files_per_process < 1:
+        parser.error("--maximum-new-files-per-process must be positive")
 
     base = pd.read_parquet(args.manifest, columns=["utterance_id"])
     inputs = pd.read_parquet(
@@ -238,20 +267,34 @@ def main() -> int:
     if args.limit is not None:
         rows = rows.head(args.limit)
     prior = read_prior(args.output_results) if args.resume else {}
+    trusted_self_restart = os.environ.get("UKTTS_CASCADE_SELF_RESTART") == "1"
     terminal: dict[str, dict[str, Any]] = {}
     pending: list[tuple[str, Path, int, int]] = []
     for row in rows.itertuples(index=False):
         identifier = str(row.utterance_id)
         source = Path(str(row.audio_path))
         target = args.output_root / f"{identifier}.wav"
-        info = sf.info(source)
         old = prior.get(identifier)
         attempts = int(old.get("processing_attempts", 0)) if old else 0
+        trusted = bool(
+            trusted_self_restart
+            and old
+            and old.get("processing_status") == "ok"
+            and trusted_restart_output_is_valid(target, source, old)
+        )
+        if trusted:
+            terminal[identifier] = old
+            continue
+        info = sf.info(source)
         if old and old.get("processing_status") == "ok" and output_is_valid(
             target, source, info.frames
         ):
             terminal[identifier] = old
-        elif old and old.get("processing_status") == "failed" and attempts >= args.maximum_attempts:
+        elif (
+            old
+            and old.get("processing_status") == "failed"
+            and attempts >= args.maximum_attempts
+        ):
             terminal[identifier] = old
         else:
             pending.append((identifier, source, attempts + 1, int(info.frames)))
@@ -261,6 +304,7 @@ def main() -> int:
     args.output_results.parent.mkdir(parents=True, exist_ok=True)
     completed = 0
     failures = 0
+    restart_required = False
     started_all = time.monotonic()
     with args.output_results.open("w", encoding="utf-8") as stream:
         for identifier in sorted(terminal):
@@ -346,6 +390,25 @@ def main() -> int:
             audio = output = matched = decoded = None
             if (completed + failures) % args.memory_trim_interval == 0:
                 release_host_memory()
+            if completed + failures >= args.maximum_new_files_per_process:
+                restart_required = completed + failures < len(pending)
+                if restart_required:
+                    print(
+                        json.dumps(
+                            {
+                                "event": "worker_model_reload",
+                                "processed_now": completed + failures,
+                                "shard": args.shard_index,
+                            },
+                            sort_keys=True,
+                        ),
+                        flush=True,
+                    )
+                    break
+    if restart_required:
+        release_host_memory()
+        os.environ["UKTTS_CASCADE_SELF_RESTART"] = "1"
+        os.execv(sys.executable, [sys.executable, *sys.argv])
     summary = {
         "status": "PASS" if failures == 0 else "FAIL",
         "shard_index": args.shard_index,
