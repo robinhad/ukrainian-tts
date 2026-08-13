@@ -141,6 +141,7 @@ dmypy.json
 training/releases/
 training/vendor/nemo-cache/
 training/vendor/audio-enhancement-review-models/
+training/vendor/rnnoise-src/
 
 # gradio
 gradio_queue.db
