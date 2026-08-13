@@ -289,6 +289,12 @@ def main() -> int:
         target = args.output_root / f"{identifier}.wav"
         old = prior.get(identifier)
         attempts = int(old.get("processing_attempts", 0)) if old else 0
+        retryable_degenerate = bool(
+            old
+            and old.get("processing_status") == "failed"
+            and "invalid integrated loudness"
+            in str(old.get("processing_error", ""))
+        )
         trusted = bool(
             trusted_self_restart
             and old
@@ -307,6 +313,7 @@ def main() -> int:
             old
             and old.get("processing_status") == "failed"
             and attempts >= args.maximum_attempts
+            and not (retryable_degenerate and attempts == args.maximum_attempts)
         ):
             terminal[identifier] = old
         else:
