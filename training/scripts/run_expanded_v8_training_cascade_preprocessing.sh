@@ -12,7 +12,7 @@ STATUS="${ROOT}/reports/${NAME}_preparation_status.jsonl"
 CACHE="${ROOT}/vendor/audio-enhancement-review-models"
 RNNOISE="${ROOT}/vendor/rnnoise-src/examples/rnnoise_demo"
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
-WORKERS_PER_GPU=${WORKERS_PER_GPU:-8}
+WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
 EXPECTED=74156
 
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"

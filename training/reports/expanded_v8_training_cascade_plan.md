@@ -55,6 +55,7 @@ pipeline status at intervals of not more than 30 minutes. Each record includes
 GPU use, power, VRAM, temperature, free disk space, progress, and a Kyiv ETA.
 Preserve 25K, 50K, 75K, and 100K model files.
 
-The preprocessing uses eight persistent workers on each GPU. An eight-worker
-calibration used less than 10 GiB on each GPU and left sufficient RAM and CPU
-capacity. The 16-worker setting increases GPU work and keeps a VRAM reserve.
+The preprocessing uses four persistent workers on each GPU. This setting
+processed approximately 2.7 files per second in calibration. A test with eight
+workers on each GPU processed only 1.1 to 1.6 files per second because of model
+contention. Thus, the pipeline uses the faster eight-worker total.
