@@ -4,6 +4,7 @@ from training.scripts.preprocess_training_cascade_audio import (
     PROFILE,
     PROFILE_HASH,
     PROFILE_NAME,
+    release_host_memory,
 )
 
 
@@ -37,3 +38,7 @@ def test_v8_profile_uses_float_filters_and_pcm24_output() -> None:
     assert PROFILE["output_format"] == "WAV/PCM_24"
     assert PROFILE["output_sample_rate"] == 24_000
     assert PROFILE["output_channels"] == 1
+
+
+def test_v8_worker_can_release_unused_host_memory() -> None:
+    assert isinstance(release_host_memory(), bool)

@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
+import gc
 import hashlib
 import json
 import sys
@@ -74,6 +76,19 @@ PROFILE = {
 PROFILE_HASH = hashlib.sha256(
     json.dumps(PROFILE, sort_keys=True, separators=(",", ":")).encode()
 ).hexdigest()
+
+_MALLOC_TRIM = getattr(ctypes.CDLL(None), "malloc_trim", None)
+if _MALLOC_TRIM is not None:
+    _MALLOC_TRIM.argtypes = [ctypes.c_size_t]
+    _MALLOC_TRIM.restype = ctypes.c_int
+
+
+def release_host_memory() -> bool:
+    """Return unused CPU allocations to the operating system when possible."""
+    gc.collect()
+    if _MALLOC_TRIM is None:
+        return False
+    return bool(_MALLOC_TRIM(0))
 
 
 def read_prior(path: Path) -> dict[str, dict[str, Any]]:
@@ -191,6 +206,12 @@ def main() -> int:
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--shard-index", type=int, default=0)
     parser.add_argument("--maximum-attempts", type=int, default=2)
+    parser.add_argument(
+        "--memory-trim-interval",
+        type=int,
+        default=8,
+        help="Release unused host allocations after this many processed files.",
+    )
     parser.add_argument("--limit", type=int)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--allow-failures", action="store_true")
@@ -199,6 +220,8 @@ def main() -> int:
         parser.error("the shard index must be inside the shard count")
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be positive")
+    if args.memory_trim_interval < 1:
+        parser.error("--memory-trim-interval must be positive")
 
     base = pd.read_parquet(args.manifest, columns=["utterance_id"])
     inputs = pd.read_parquet(
@@ -245,6 +268,7 @@ def main() -> int:
         for identifier, source, attempts, expected_frames in pending:
             target = args.output_root / f"{identifier}.wav"
             started = time.monotonic()
+            audio = output = matched = decoded = None
             try:
                 audio, sample_rate = sf.read(source, always_2d=True, dtype="float32")
                 if sample_rate != 24_000 or audio.shape[1] != 1:
@@ -319,6 +343,9 @@ def main() -> int:
                 ),
                 flush=True,
             )
+            audio = output = matched = decoded = None
+            if (completed + failures) % args.memory_trim_interval == 0:
+                release_host_memory()
     summary = {
         "status": "PASS" if failures == 0 else "FAIL",
         "shard_index": args.shard_index,

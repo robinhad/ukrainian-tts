@@ -59,3 +59,5 @@ The preprocessing uses four persistent workers on each GPU. This setting
 processed approximately 2.7 files per second in calibration. A test with eight
 workers on each GPU processed only 1.1 to 1.6 files per second because of model
 contention. Thus, the pipeline uses the faster eight-worker total.
+Each worker releases unused host allocations after eight new files. This
+control prevents CPU memory growth during a long ClearerVoice run.
