@@ -34,6 +34,10 @@ checkpoint, gates, and monitoring policy. Preprocessing uses four persistent
 workers on each GPU. A 16-worker calibration was slower because of model
 contention.
 
+After training, the pipeline audits the final checkpoint, exports TensorBoard
+metrics, audits monitor continuity, evaluates the 25K, 50K, 75K, and 100K
+milestones, and makes a five-voice 100K listening set.
+
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 

@@ -48,10 +48,6 @@ if (( train_status || monitor_status || milestone_status || disk_status || best_
     echo "Training chain failed: ${train_status} ${monitor_status} ${milestone_status} ${disk_status} ${best_status}" >&2
     exit 1
 fi
-for label in 25k 50k 75k 100k; do
-    if [[ -s "${TTS_EXP}/milestones/${label}.pth" ]]; then
-        TTS_EXP="$TTS_EXP" \
-            "${ROOT}/scripts/evaluate_expanded_v8_training_cascade_milestone.sh" "$label"
-    fi
-done
+TTS_EXP="$TTS_EXP" STATUS="$STATUS" \
+    "${ROOT}/scripts/finalize_expanded_v8_training_cascade_100k.sh" "$TARGET"
 echo "The v8 100K training and milestone evaluation chain is complete."
