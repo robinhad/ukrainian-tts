@@ -33,6 +33,11 @@ from training.audio_enhancement.fair_comparison import (
     sha256,
     waveform_metrics,
 )
+from training.audio_enhancement.postprocess import (
+    DeClickLimiterConfig,
+    resolve_ffmpeg_binary,
+    validate_ffmpeg,
+)
 from training.scripts.run_enhancement_review_backend import (
     MOSS_CODE_COMMIT,
     MOSS_MODEL_REVISION,
@@ -58,9 +63,25 @@ SUFFIXES = {
     "clearervoice_sidon_deepfilternet3_rnnoise85": (
         "_clearervoice_sidon_deepfilternet3_rnnoise85.wav"
     ),
+    "training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85": (
+        "_training_clearervoice_sidon_deess_declick_limit_"
+        "deepfilternet3_rnnoise85.wav"
+    ),
 }
 RNNOISE_COMMIT = "70f1d256acd4b34a572f999a05c87bf00b67730d"
 RNNOISE_MODEL_SHA256 = "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37"
+TRAINING_LISTENING_ORDER = [
+    "existing boundary trim",
+    "MossFormer2_SE_48K",
+    "Sidon",
+    "light de-essing",
+    "FFmpeg adeclick",
+    "FFmpeg alimiter",
+    "DeepFilterNet3",
+    "Xiph RNNoise85",
+    "PCM 24-bit encoding",
+]
+DEESSER_FILTER = "deesser=i=0.15:m=0.25:f=0.50:s=o"
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -146,6 +167,54 @@ def rnnoise_channel(audio: np.ndarray, sample_rate: int, binary: Path) -> np.nda
     wet = fit_sample_count(wet[:, None], len(dry_48k))[:, 0]
     mixed = 0.85 * wet + 0.15 * dry_48k
     return resample_channel(mixed, 48_000, sample_rate)
+
+
+def deess_declick_limit_channel(
+    audio: np.ndarray,
+    sample_rate: int,
+    *,
+    output_sample_rate: int = 24_000,
+) -> np.ndarray:
+    """Apply training de-essing, de-clicking, and limiting in float32."""
+    ffmpeg = resolve_ffmpeg_binary("auto")
+    validate_ffmpeg(ffmpeg)
+    limiter = DeClickLimiterConfig()
+    filter_chain = f"{DEESSER_FILTER},{limiter.filter_chain}"
+    with tempfile.TemporaryDirectory(
+        prefix="uktts-training-listen-post-"
+    ) as temporary:
+        source = Path(temporary) / "source.wav"
+        target = Path(temporary) / "target.wav"
+        sf.write(
+            source,
+            np.asarray(audio, dtype=np.float32),
+            sample_rate,
+            subtype="FLOAT",
+        )
+        subprocess.run(
+            [
+                ffmpeg,
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-y",
+                "-i",
+                str(source),
+                "-af",
+                filter_chain,
+                "-ar",
+                str(output_sample_rate),
+                "-c:a",
+                "pcm_f32le",
+                str(target),
+            ],
+            check=True,
+        )
+        result, result_rate = sf.read(target, dtype="float32", always_2d=True)
+    if result_rate != output_sample_rate or result.shape[1] != 1:
+        raise RuntimeError("the training post-process stage changed stream properties")
+    return result[:, 0]
 
 
 class DeepFilterDefaultBackend:
@@ -384,6 +453,72 @@ def make_backend(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
                 "cascade_input_mix": 0.15,
             },
         }
+    if (
+        args.backend
+        == "training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85"
+    ):
+        if not args.rnnoise_binary.is_file():
+            raise FileNotFoundError(args.rnnoise_binary)
+        clearervoice = MossFormerBackend(
+            args.device,
+            args.model_cache / "mossformer2",
+        )
+        sidon = SidonBackend(
+            args.device,
+            args.model_cache / "sidon",
+        )
+        deepfilter = DeepFilterDefaultBackend(
+            args.model_cache / "deepfilternet"
+        )
+        limiter = DeClickLimiterConfig()
+        return (
+            clearervoice,
+            sidon,
+            deepfilter,
+            args.rnnoise_binary.resolve(),
+        ), {
+            "name": "Training-style ClearerVoice and Sidon cascade",
+            "order": TRAINING_LISTENING_ORDER,
+            "intermediate_loudness_matching": False,
+            "final_loudness_matching": True,
+            "boundary_trim": {
+                "applied_in_input_revision": True,
+                "applied_again": False,
+            },
+            "clearervoice": {
+                **clearervoice.identity,
+                "code_license": "Apache-2.0",
+                "model_license": "Apache-2.0",
+            },
+            "sidon": {
+                **sidon.identity,
+                "code_license": "MIT",
+                "model_license": "MIT",
+            },
+            "deessing": {"filter": DEESSER_FILTER},
+            "declick_peak_limit": {
+                "filter": limiter.filter_chain,
+                "float32_intermediate": True,
+            },
+            "deepfilternet3": {
+                "name": "DeepFilterNet3",
+                "version": "0.5.6",
+                "settings": (
+                    "default pretrained; post-filter off; no attenuation limit"
+                ),
+                "code_license": "MIT OR Apache-2.0",
+                "model_license": "MIT OR Apache-2.0",
+            },
+            "rnnoise85": {
+                "name": "Xiph RNNoise",
+                "code_commit": RNNOISE_COMMIT,
+                "model_archive_sha256": RNNOISE_MODEL_SHA256,
+                "code_license": "BSD-3-Clause",
+                "model_license": "BSD-3-Clause",
+                "wet_mix": 0.85,
+                "cascade_input_mix": 0.15,
+            },
+        }
     if args.backend == "rnnoise85":
         if not args.rnnoise_binary.is_file():
             raise FileNotFoundError(args.rnnoise_binary)
@@ -473,6 +608,23 @@ def backend_channel(
             rnnoise_binary,
         )
         return resample_channel(result, sidon_rate, sample_rate)
+    if (
+        backend_name
+        == "training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85"
+    ):
+        clearervoice, sidon, deepfilter, rnnoise_binary = backend
+        outputs = clearervoice.process(audio, sample_rate)
+        intermediate, intermediate_rate = outputs["mossformer2_no_compression"]
+        sidon_outputs = sidon.process(intermediate, intermediate_rate)
+        sidon_result, sidon_rate = sidon_outputs["sidon_no_compression"]
+        postprocessed = deess_declick_limit_channel(sidon_result, sidon_rate)
+        deepfilter_result = deepfilter.channel(postprocessed, 24_000)
+        result = rnnoise_channel(
+            deepfilter_result,
+            24_000,
+            rnnoise_binary,
+        )
+        return resample_channel(result, 24_000, sample_rate)
     outputs = backend.process(audio, sample_rate)
     result, result_rate = outputs["mossformer2_no_compression"]
     return resample_channel(result, result_rate, sample_rate)
@@ -541,9 +693,15 @@ def process(args: argparse.Namespace) -> int:
                 "processing": {
                     "resample_only_for_model": True,
                     "returned_to_original_sample_rate": True,
-                    "silence_trim": False,
+                    "silence_trim": (
+                        "inherited from input revision"
+                        if args.backend.startswith("training_")
+                        else False
+                    ),
                     "vad_removal": False,
-                    "declick": False,
+                    "declick": bool(args.backend.startswith("training_")),
+                    "deessing": bool(args.backend.startswith("training_")),
+                    "limiting": bool(args.backend.startswith("training_")),
                     "normalization": "linear match to original integrated loudness",
                     "output_encoding": "PCM_24",
                 },
@@ -675,9 +833,9 @@ def finalize(args: argparse.Namespace) -> int:
 This document uses ASD-STE100 Simplified Technical English style. An approved
 STE checker did not certify this document.
 
-This directory has 10 input WAV files and 10 matched outputs for each input.
+This directory has 10 input WAV files and 11 matched outputs for each input.
 The input selection includes VOA. The output file suffix identifies the model.
-Listen to the input first. Then listen to all 10 outputs for the same item.
+Listen to the input first. Then listen to all 11 outputs for the same item.
 
 The process matches each output loudness to its input loudness. It keeps the
 exact input sample rate, channel count, duration, and sample count. All outputs
@@ -688,8 +846,11 @@ Use `manifest.tsv` to identify each item. Use `metrics.tsv` to compare HNR,
 noise floor, peak, loudness, duration, and sample count. Each output also has a
 `.wav.json` file with complete processing metadata.
 
-The process does not add de-clicking, silence trim, VAD removal, a high-pass
-filter, de-essing, compression, or dynamic loudness normalization.
+Profiles 1 through 10 do not add de-clicking, silence trim, VAD removal, a
+high-pass filter, de-essing, compression, or dynamic loudness normalization.
+The training-style profile uses the boundary trim in the input revision. It
+adds light de-essing, de-clicking, and peak limiting at the requested point.
+It does not use VAD removal, compression, or dynamic loudness normalization.
 """
     (args.output / "README.md").write_text(readme, encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

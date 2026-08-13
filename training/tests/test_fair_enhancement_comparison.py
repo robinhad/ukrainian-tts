@@ -12,7 +12,10 @@ from training.audio_enhancement.fair_comparison import (
     noise_floor_dbfs,
     waveform_metrics,
 )
-from training.scripts.run_fair_enhancement_comparison import SUFFIXES
+from training.scripts.run_fair_enhancement_comparison import (
+    SUFFIXES,
+    TRAINING_LISTENING_ORDER,
+)
 
 
 def test_comparison_has_both_resemble_modes() -> None:
@@ -46,6 +49,28 @@ def test_comparison_has_four_stage_cascade() -> None:
     assert SUFFIXES["clearervoice_sidon_deepfilternet3_rnnoise85"] == (
         "_clearervoice_sidon_deepfilternet3_rnnoise85.wav"
     )
+
+
+def test_comparison_has_training_style_cascade() -> None:
+    name = (
+        "training_clearervoice_sidon_deess_declick_limit_"
+        "deepfilternet3_rnnoise85"
+    )
+    assert SUFFIXES[name] == (
+        "_training_clearervoice_sidon_deess_declick_limit_"
+        "deepfilternet3_rnnoise85.wav"
+    )
+    assert TRAINING_LISTENING_ORDER == [
+        "existing boundary trim",
+        "MossFormer2_SE_48K",
+        "Sidon",
+        "light de-essing",
+        "FFmpeg adeclick",
+        "FFmpeg alimiter",
+        "DeepFilterNet3",
+        "Xiph RNNoise85",
+        "PCM 24-bit encoding",
+    ]
 
 
 def test_fit_sample_count_crops_and_pads() -> None:

@@ -9,14 +9,14 @@ The comparison uses 10 random records from the `expanded_v4_trim_only` train
 split. The fixed random seed is `20260813`. The process must include at least
 one VOA record. This data revision is the latest processed training revision
 that includes VOA and has no prior speech denoiser. Thus, it is a fair input
-for the 10 enhancement profiles.
+for the 11 enhancement profiles.
 
 The process copies each input WAV to the comparison directory. It does not
 change or replace a training file.
 
 ## Processing Controls
 
-The process uses these 10 profiles:
+The process uses these 11 profiles:
 
 1. `rnnoise85` uses 85 percent Xiph RNNoise output and 15 percent input audio.
 2. `deepfilternet3` uses the default DeepFilterNet3 pretrained model. It does
@@ -46,6 +46,13 @@ The process uses these 10 profiles:
     and default DeepFilterNet3 in this order. It then uses 85 percent Xiph
     RNNoise output and 15 percent DeepFilterNet3 output. The process applies
     loudness matching only after RNNoise.
+11. `training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85`
+    uses the existing boundary-trimmed input. It then uses ClearerVoice, Sidon,
+    light de-essing, de-clicking, peak limiting, default DeepFilterNet3, and
+    RNNoise85 in this order. RNNoise85 uses 85 percent RNNoise output and 15
+    percent DeepFilterNet3 input. De-essing, de-clicking, and limiting keep a
+    float32 intermediate. The process applies loudness matching only after
+    RNNoise85. It writes the final output as PCM 24-bit.
 
 A model can resample audio only when its input rate requires this operation.
 The process returns the result to the input sample rate. It then restores the
@@ -54,9 +61,10 @@ exact input sample count and channel count.
 The process measures the input integrated loudness with FFmpeg EBU R128. It
 applies a linear gain to match each output to this input value. It caps this
 gain when the output can exceed -0.1 dBFS. It does not use dynamic loudness
-normalization. It does not add de-clicking, silence trim, VAD removal, a
-post-processing high-pass filter, de-essing, or compression. Sidon keeps its
-model-internal 50 Hz input filter.
+normalization. Profiles 1 through 10 do not add de-clicking, silence trim, VAD
+removal, a post-processing high-pass filter, de-essing, or compression.
+Profile 11 adds the specified light de-essing, de-clicking, and peak limiting.
+Sidon keeps its model-internal 50 Hz input filter.
 
 All final outputs are PCM 24-bit WAV files. The metadata records HNR, the
 estimated noise floor, the peak, integrated loudness, duration, sample count,
@@ -118,14 +126,14 @@ training/scripts/run_random_fair_enhancement_comparison.sh
 The run completed on 2026-08-13. The automatic validation status is PASS.
 
 - The random selection has 10 input files. Seven files are from VOA.
-- The directory has 100 enhanced output files and 100 metadata files.
-- All 100 output files use PCM 24-bit encoding.
+- The directory has 110 enhanced output files and 110 metadata files.
+- All 110 output files use PCM 24-bit encoding.
 - All output files have the same sample rate, channel count, duration, and
   sample count as the matched input.
 - The maximum absolute loudness difference is 0.14 LU. The peak-safe gain cap
   caused this value and prevented clipping.
 - The directory has no symbolic links.
-- The complete training test suite has 150 passed tests.
+- The complete training test suite has 151 passed tests.
 
 Resemble Enhance ran on GPU 0. Its maximum measured power was 296.03 W.
 ClearerVoice ran on GPU 1. Its maximum measured power was 121.24 W. See
@@ -150,6 +158,11 @@ The ClearerVoice, Sidon, DeepFilterNet3, and RNNoise85 cascade used GPU 0 for
 the first three models. Its maximum measured power was 146.51 W. See
 `random_training_enhancement_comparison_v1_clearervoice_sidon_deepfilternet3_rnnoise85_gpu_power.csv`
 for this power log. RNNoise used the CPU.
+The training-style cascade used GPU 0 for ClearerVoice, Sidon, and
+DeepFilterNet3. Its maximum measured power was 165.44 W. Its mean measured
+power was 114.75 W. See
+`random_training_enhancement_comparison_v1_training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_gpu_power.csv`
+for this power log. FFmpeg and RNNoise used the CPU.
 
 The output directory is
 `training/eval/generated/random_training_enhancement_comparison_v1`.
