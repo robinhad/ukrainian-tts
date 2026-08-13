@@ -36,6 +36,12 @@ def test_comparison_has_clearervoice_sidon_rnnoise_cascade() -> None:
     )
 
 
+def test_comparison_has_clearervoice_sidon_deepfilter_cascade() -> None:
+    assert SUFFIXES["clearervoice_sidon_deepfilternet3"] == (
+        "_clearervoice_sidon_deepfilternet3.wav"
+    )
+
+
 def test_fit_sample_count_crops_and_pads() -> None:
     source = np.arange(10, dtype=np.float32)[:, None]
     assert fit_sample_count(source, 6).shape == (6, 1)

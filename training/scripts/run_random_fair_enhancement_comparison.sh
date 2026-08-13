@@ -49,6 +49,10 @@ CUDA_VISIBLE_DEVICES=0 "${ROOT}/.venv-audio-review/bin/python" "$RUNNER" process
     --backend clearervoice_sidon_rnnoise85 \
     --selection "$OUTPUT/selection.jsonl" --output "$OUTPUT" \
     --model-cache "$CACHE" --device cuda:0
+"${ROOT}/.venv-audio-review/bin/python" "$RUNNER" process \
+    --backend clearervoice_sidon_deepfilternet3 \
+    --selection "$OUTPUT/selection.jsonl" --output "$OUTPUT" \
+    --model-cache "$CACHE" --device cuda:0
 
 "${ROOT}/.venv/bin/python" "$RUNNER" finalize \
     --selection "$OUTPUT/selection.jsonl" --output "$OUTPUT" --report "$REPORT"

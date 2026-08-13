@@ -52,6 +52,9 @@ SUFFIXES = {
     "clearervoice_resemble_enhance": "_clearervoice_resemble_enhance.wav",
     "clearervoice_sidon": "_clearervoice_sidon.wav",
     "clearervoice_sidon_rnnoise85": "_clearervoice_sidon_rnnoise85.wav",
+    "clearervoice_sidon_deepfilternet3": (
+        "_clearervoice_sidon_deepfilternet3.wav"
+    ),
 }
 RNNOISE_COMMIT = "70f1d256acd4b34a572f999a05c87bf00b67730d"
 RNNOISE_MODEL_SHA256 = "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37"
@@ -283,6 +286,42 @@ def make_backend(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
                 "cascade_input_mix": 0.15,
             },
         }
+    if args.backend == "clearervoice_sidon_deepfilternet3":
+        clearervoice = MossFormerBackend(
+            args.device,
+            args.model_cache / "mossformer2",
+        )
+        sidon = SidonBackend(
+            args.device,
+            args.model_cache / "sidon",
+        )
+        deepfilter = DeepFilterDefaultBackend(
+            args.model_cache / "deepfilternet"
+        )
+        return (clearervoice, sidon, deepfilter), {
+            "name": "ClearerVoice then Sidon then DeepFilterNet3",
+            "order": ["MossFormer2_SE_48K", "Sidon", "DeepFilterNet3"],
+            "intermediate_loudness_matching": False,
+            "clearervoice": {
+                **clearervoice.identity,
+                "code_license": "Apache-2.0",
+                "model_license": "Apache-2.0",
+            },
+            "sidon": {
+                **sidon.identity,
+                "code_license": "MIT",
+                "model_license": "MIT",
+            },
+            "deepfilternet3": {
+                "name": "DeepFilterNet3",
+                "version": "0.5.6",
+                "settings": (
+                    "default pretrained; post-filter off; no attenuation limit"
+                ),
+                "code_license": "MIT OR Apache-2.0",
+                "model_license": "MIT OR Apache-2.0",
+            },
+        }
     if args.backend == "rnnoise85":
         if not args.rnnoise_binary.is_file():
             raise FileNotFoundError(args.rnnoise_binary)
@@ -350,6 +389,14 @@ def backend_channel(
         sidon_outputs = sidon.process(intermediate, intermediate_rate)
         sidon_result, sidon_rate = sidon_outputs["sidon_no_compression"]
         result = rnnoise_channel(sidon_result, sidon_rate, rnnoise_binary)
+        return resample_channel(result, sidon_rate, sample_rate)
+    if backend_name == "clearervoice_sidon_deepfilternet3":
+        clearervoice, sidon, deepfilter = backend
+        outputs = clearervoice.process(audio, sample_rate)
+        intermediate, intermediate_rate = outputs["mossformer2_no_compression"]
+        sidon_outputs = sidon.process(intermediate, intermediate_rate)
+        sidon_result, sidon_rate = sidon_outputs["sidon_no_compression"]
+        result = deepfilter.channel(sidon_result, sidon_rate)
         return resample_channel(result, sidon_rate, sample_rate)
     outputs = backend.process(audio, sample_rate)
     result, result_rate = outputs["mossformer2_no_compression"]
@@ -553,9 +600,9 @@ def finalize(args: argparse.Namespace) -> int:
 This document uses ASD-STE100 Simplified Technical English style. An approved
 STE checker did not certify this document.
 
-This directory has 10 input WAV files and eight matched outputs for each input.
+This directory has 10 input WAV files and nine matched outputs for each input.
 The input selection includes VOA. The output file suffix identifies the model.
-Listen to the input first. Then listen to all eight outputs for the same item.
+Listen to the input first. Then listen to all nine outputs for the same item.
 
 The process matches each output loudness to its input loudness. It keeps the
 exact input sample rate, channel count, duration, and sample count. All outputs
