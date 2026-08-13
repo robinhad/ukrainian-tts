@@ -9,6 +9,29 @@ is separate from the legacy multi-speaker inference code. It does not use a
 verbalizer or a separate stress model. Each versioned iteration fixes its audio
 processing profile.
 
+## Expanded-v8 training-cascade iteration
+
+The v8 pipeline starts from the clean boundary-trimmed input for the current
+74,156-file non-VOA corpus. It applies ClearerVoice, Sidon, light de-essing,
+de-clicking, peak limiting, DeepFilterNet3, and RNNoise85 in this order. It
+then applies a peak-safe linear loudness match and writes PCM 24-bit WAV files.
+It does not use compression, dynamic loudness normalization, VAD removal, or
+a second boundary trim.
+
+The training starts from the v7 epoch 93 validation-mel best checkpoint. It
+makes new optimizer and scheduler states and runs for 100,000 new steps on two
+RTX 3090 cards. Start the complete pipeline with this command:
+
+```bash
+setsid training/scripts/run_expanded_v8_training_cascade_pipeline.sh \
+  > training/reports/expanded_v8_training_cascade_pipeline.log 2>&1 &
+```
+
+The preprocessing and training monitors write records every 15 minutes. The
+end-to-end monitor writes a record every 30 minutes. See
+`training/reports/expanded_v8_training_cascade_plan.md` for the fixed process,
+checkpoint, gates, and monitoring policy.
+
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 

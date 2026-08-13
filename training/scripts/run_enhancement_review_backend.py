@@ -247,8 +247,17 @@ class MossFormerBackend:
     profiles = ("mossformer2_no_compression",)
 
     def __init__(self, device: str, cache: Path) -> None:
-        del device
         os.environ["HF_HOME"] = str(cache.resolve())
+        requested_device = torch.device(device)
+        if requested_device.type == "cuda":
+            requested_index = requested_device.index or 0
+            torch.cuda.set_device(requested_index)
+            from clearvoice.networks import SpeechModel
+
+            original_get_free_gpu = SpeechModel.get_free_gpu
+            SpeechModel.get_free_gpu = lambda _self: requested_index
+        else:
+            original_get_free_gpu = None
         from clearvoice import ClearVoice
 
         previous_directory = Path.cwd()
@@ -260,6 +269,8 @@ class MossFormerBackend:
             )
         finally:
             os.chdir(previous_directory)
+            if original_get_free_gpu is not None:
+                SpeechModel.get_free_gpu = original_get_free_gpu
         checkpoint = cache / "checkpoints/MossFormer2_SE_48K/last_best_checkpoint.pt"
         if not checkpoint.is_file():
             raise FileNotFoundError(f"MossFormer2 checkpoint is missing: {checkpoint}")
