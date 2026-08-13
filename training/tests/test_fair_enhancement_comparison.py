@@ -20,6 +20,12 @@ def test_comparison_has_both_resemble_modes() -> None:
     assert SUFFIXES["resemble_enhance"] == "_resemble_enhance.wav"
 
 
+def test_comparison_has_clearervoice_resemble_cascade() -> None:
+    assert SUFFIXES["clearervoice_resemble_enhance"] == (
+        "_clearervoice_resemble_enhance.wav"
+    )
+
+
 def test_fit_sample_count_crops_and_pads() -> None:
     source = np.arange(10, dtype=np.float32)[:, None]
     assert fit_sample_count(source, 6).shape == (6, 1)
