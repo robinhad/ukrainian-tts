@@ -54,3 +54,7 @@ Write preprocessing and training records every 15 minutes. Write an end-to-end
 pipeline status at intervals of not more than 30 minutes. Each record includes
 GPU use, power, VRAM, temperature, free disk space, progress, and a Kyiv ETA.
 Preserve 25K, 50K, 75K, and 100K model files.
+
+The preprocessing uses eight persistent workers on each GPU. An eight-worker
+calibration used less than 10 GiB on each GPU and left sufficient RAM and CPU
+capacity. The 16-worker setting increases GPU work and keeps a VRAM reserve.

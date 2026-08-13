@@ -30,7 +30,8 @@ setsid training/scripts/run_expanded_v8_training_cascade_pipeline.sh \
 The preprocessing and training monitors write records every 15 minutes. The
 end-to-end monitor writes a record every 30 minutes. See
 `training/reports/expanded_v8_training_cascade_plan.md` for the fixed process,
-checkpoint, gates, and monitoring policy.
+checkpoint, gates, and monitoring policy. Preprocessing uses eight persistent
+workers on each GPU after an eight-worker resource calibration.
 
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.

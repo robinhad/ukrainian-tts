@@ -12,7 +12,7 @@ STATUS="${ROOT}/reports/${NAME}_preparation_status.jsonl"
 CACHE="${ROOT}/vendor/audio-enhancement-review-models"
 RNNOISE="${ROOT}/vendor/rnnoise-src/examples/rnnoise_demo"
 GPU_UUIDS=${GPU_UUIDS:-$(nvidia-smi --query-gpu=uuid --format=csv,noheader | paste -sd, -)}
-WORKERS_PER_GPU=${WORKERS_PER_GPU:-4}
+WORKERS_PER_GPU=${WORKERS_PER_GPU:-8}
 EXPECTED=74156
 
 IFS=, read -r -a GPUS <<< "$GPU_UUIDS"
@@ -20,8 +20,8 @@ if (( ${#GPUS[@]} != 2 )); then
     echo "This process requires exactly two GPU UUIDs." >&2
     exit 2
 fi
-if (( WORKERS_PER_GPU < 1 || WORKERS_PER_GPU > 4 )); then
-    echo "WORKERS_PER_GPU must be from 1 to 4." >&2
+if (( WORKERS_PER_GPU < 1 || WORKERS_PER_GPU > 8 )); then
+    echo "WORKERS_PER_GPU must be from 1 to 8." >&2
     exit 2
 fi
 if [[ ! -x "$RNNOISE" ]]; then
