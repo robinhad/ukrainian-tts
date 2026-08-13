@@ -9,14 +9,14 @@ The comparison uses 10 random records from the `expanded_v4_trim_only` train
 split. The fixed random seed is `20260813`. The process must include at least
 one VOA record. This data revision is the latest processed training revision
 that includes VOA and has no prior speech denoiser. Thus, it is a fair input
-for the seven enhancement profiles.
+for the eight enhancement profiles.
 
 The process copies each input WAV to the comparison directory. It does not
 change or replace a training file.
 
 ## Processing Controls
 
-The process uses these seven profiles:
+The process uses these eight profiles:
 
 1. `rnnoise85` uses 85 percent Xiph RNNoise output and 15 percent input audio.
 2. `deepfilternet3` uses the default DeepFilterNet3 pretrained model. It does
@@ -34,6 +34,10 @@ The process uses these seven profiles:
    `MossFormer2_SE_48K` model. It sends this direct result to Sidon. Sidon uses
    its fixed internal 50 Hz input filter. The process applies loudness matching
    only after Sidon.
+8. `clearervoice_sidon_rnnoise85` first uses the default pretrained
+   `MossFormer2_SE_48K` model. It sends this direct result to Sidon. It then
+   uses 85 percent Xiph RNNoise output and 15 percent Sidon output. The process
+   applies loudness matching only after RNNoise.
 
 A model can resample audio only when its input rate requires this operation.
 The process returns the result to the input sample rate. It then restores the
@@ -106,13 +110,13 @@ training/scripts/run_random_fair_enhancement_comparison.sh
 The run completed on 2026-08-13. The automatic validation status is PASS.
 
 - The random selection has 10 input files. Seven files are from VOA.
-- The directory has 70 enhanced output files and 70 metadata files.
-- All 70 output files use PCM 24-bit encoding.
+- The directory has 80 enhanced output files and 80 metadata files.
+- All 80 output files use PCM 24-bit encoding.
 - All output files have the same sample rate, channel count, duration, and
   sample count as the matched input.
 - The maximum absolute loudness difference is 0.02 LU.
 - The directory has no symbolic links.
-- The complete training test suite has 147 passed tests.
+- The complete training test suite has 148 passed tests.
 
 Resemble Enhance ran on GPU 0. Its maximum measured power was 296.03 W.
 ClearerVoice ran on GPU 1. Its maximum measured power was 121.24 W. See
@@ -125,6 +129,10 @@ The ClearerVoice and Sidon cascade used GPU 0. Its maximum measured power was
 164.05 W. See
 `random_training_enhancement_comparison_v1_clearervoice_sidon_gpu_power.csv`
 for this power log.
+The ClearerVoice, Sidon, and RNNoise85 cascade used GPU 0 for the first two
+models. Its maximum measured power was 169.71 W. See
+`random_training_enhancement_comparison_v1_clearervoice_sidon_rnnoise85_gpu_power.csv`
+for this power log. RNNoise used the CPU.
 
 The output directory is
 `training/eval/generated/random_training_enhancement_comparison_v1`.
