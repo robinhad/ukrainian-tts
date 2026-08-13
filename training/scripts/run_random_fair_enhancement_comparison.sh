@@ -34,6 +34,9 @@ CUDA_VISIBLE_DEVICES=1 "${ROOT}/.venv-audio-review/bin/python" "$RUNNER" process
 clearvoice_pid=$!
 wait "$resemble_pid"
 wait "$clearvoice_pid"
+CUDA_VISIBLE_DEVICES=0 "${ROOT}/.venv-audio-review/bin/python" "$RUNNER" process \
+    --backend resemble_denoise --selection "$OUTPUT/selection.jsonl" \
+    --output "$OUTPUT" --model-cache "$CACHE/resemble" --device cuda:0
 
 "${ROOT}/.venv/bin/python" "$RUNNER" finalize \
     --selection "$OUTPUT/selection.jsonl" --output "$OUTPUT" --report "$REPORT"

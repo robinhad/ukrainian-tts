@@ -45,6 +45,7 @@ from training.scripts.run_enhancement_review_backend import (
 SUFFIXES = {
     "rnnoise85": "_rnnoise85.wav",
     "deepfilternet3": "_deepfilternet3.wav",
+    "resemble_denoise": "_resemble_denoise.wav",
     "resemble_enhance": "_resemble_enhance.wav",
     "clearervoice": "_clearervoice.wav",
 }
@@ -171,14 +172,22 @@ def make_backend(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
             "code_license": "MIT OR Apache-2.0",
             "model_license": "MIT OR Apache-2.0",
         }
-    if args.backend == "resemble_enhance":
+    if args.backend in {"resemble_denoise", "resemble_enhance"}:
         backend = ResembleBackend(args.device, args.model_cache)
-        return backend, {
+        identity = {
             **backend.identity,
             "code_license": "MIT",
             "model_license": "MIT",
-            "mode": "full enhancement",
+            "mode": (
+                "denoise only"
+                if args.backend == "resemble_denoise"
+                else "full enhancement"
+            ),
         }
+        if args.backend == "resemble_denoise":
+            identity.pop("full_enhancement", None)
+            identity["denoise_only"] = True
+        return backend, identity
     if args.backend == "clearervoice":
         backend = MossFormerBackend(args.device, args.model_cache)
         return backend, {
@@ -211,11 +220,22 @@ def backend_channel(
         return rnnoise_channel(audio, sample_rate, backend)
     if backend_name == "deepfilternet3":
         return backend.channel(audio, sample_rate)
+    if backend_name in {"resemble_denoise", "resemble_enhance"}:
+        waveform = torch.from_numpy(np.asarray(audio, dtype=np.float32).copy())
+        model = (
+            backend.model.denoiser
+            if backend_name == "resemble_denoise"
+            else backend.model
+        )
+        result, result_rate = backend.inference(
+            model=model,
+            dwav=waveform,
+            sr=sample_rate,
+            device=backend.device,
+        )
+        return resample_channel(result.cpu().numpy(), int(result_rate), sample_rate)
     outputs = backend.process(audio, sample_rate)
-    if backend_name == "resemble_enhance":
-        result, result_rate = outputs["resemble_full_no_compression"]
-    else:
-        result, result_rate = outputs["mossformer2_no_compression"]
+    result, result_rate = outputs["mossformer2_no_compression"]
     return resample_channel(result, result_rate, sample_rate)
 
 
@@ -416,9 +436,9 @@ def finalize(args: argparse.Namespace) -> int:
 This document uses ASD-STE100 Simplified Technical English style. An approved
 STE checker did not certify this document.
 
-This directory has 10 input WAV files and four matched outputs for each input.
+This directory has 10 input WAV files and five matched outputs for each input.
 The input selection includes VOA. The output file suffix identifies the model.
-Listen to the input first. Then listen to all four outputs for the same item.
+Listen to the input first. Then listen to all five outputs for the same item.
 
 The process matches each output loudness to its input loudness. It keeps the
 exact input sample rate, channel count, duration, and sample count. All outputs

@@ -12,6 +12,12 @@ from training.audio_enhancement.fair_comparison import (
     noise_floor_dbfs,
     waveform_metrics,
 )
+from training.scripts.run_fair_enhancement_comparison import SUFFIXES
+
+
+def test_comparison_has_both_resemble_modes() -> None:
+    assert SUFFIXES["resemble_denoise"] == "_resemble_denoise.wav"
+    assert SUFFIXES["resemble_enhance"] == "_resemble_enhance.wav"
 
 
 def test_fit_sample_count_crops_and_pads() -> None:
