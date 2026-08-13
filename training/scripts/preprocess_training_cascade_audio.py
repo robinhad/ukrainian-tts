@@ -217,6 +217,25 @@ class Cascade:
         rnnoise = rnnoise_channel(deepfilter, 24_000, self.rnnoise_binary)
         return resample_channel(rnnoise, 24_000, sample_rate)
 
+    @torch.inference_mode()
+    def process_with_pre_deepfilter_gain(
+        self, audio: np.ndarray, sample_rate: int, target_lufs: float
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        """Raise a sub-gate intermediate signal before the noise suppressors."""
+        clear, clear_rate = self.clearervoice.process(audio, sample_rate)[
+            "mossformer2_no_compression"
+        ]
+        sidon, sidon_rate = self.sidon.process(clear, clear_rate)[
+            "sidon_no_compression"
+        ]
+        postprocessed = deess_declick_limit_channel(sidon, sidon_rate)
+        stabilized, gain = match_loudness_and_prevent_clipping(
+            postprocessed[:, None], 24_000, target_lufs
+        )
+        deepfilter = self.deepfilter.channel(stabilized[:, 0], 24_000)
+        rnnoise = rnnoise_channel(deepfilter, 24_000, self.rnnoise_binary)
+        return resample_channel(rnnoise, 24_000, sample_rate), gain
+
 
 def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -294,6 +313,7 @@ def main() -> int:
             and old.get("processing_status") == "failed"
             and "invalid integrated loudness"
             in str(old.get("processing_error", ""))
+            and attempts <= args.maximum_attempts + 1
         )
         trusted = bool(
             trusted_self_restart
@@ -313,7 +333,7 @@ def main() -> int:
             old
             and old.get("processing_status") == "failed"
             and attempts >= args.maximum_attempts
-            and not (retryable_degenerate and attempts == args.maximum_attempts)
+            and not retryable_degenerate
         ):
             terminal[identifier] = old
         else:
@@ -343,6 +363,8 @@ def main() -> int:
                 output = cascade.process(audio[:, 0], sample_rate)  # type: ignore[union-attr]
                 output = fit_sample_count(output[:, None], expected_frames)
                 degenerate_output_fallback = False
+                fallback_path = None
+                pre_deepfilter_loudness_match = None
                 try:
                     matched, loudness = match_loudness_and_prevent_clipping(
                         output, sample_rate, input_lufs
@@ -350,14 +372,37 @@ def main() -> int:
                 except RuntimeError as error:
                     if "invalid integrated loudness" not in str(error):
                         raise
-                    output = cascade.process_without_clearervoice(  # type: ignore[union-attr]
-                        audio[:, 0], sample_rate
-                    )
-                    output = fit_sample_count(output[:, None], expected_frames)
-                    matched, loudness = match_loudness_and_prevent_clipping(
-                        output, sample_rate, input_lufs
-                    )
-                    degenerate_output_fallback = True
+                    try:
+                        output = cascade.process_without_clearervoice(  # type: ignore[union-attr]
+                            audio[:, 0], sample_rate
+                        )
+                        output = fit_sample_count(output[:, None], expected_frames)
+                        matched, loudness = match_loudness_and_prevent_clipping(
+                            output, sample_rate, input_lufs
+                        )
+                        degenerate_output_fallback = True
+                        fallback_path = (
+                            "Sidon then de-ess, de-click, limiter, "
+                            "DeepFilterNet3, and RNNoise85"
+                        )
+                    except RuntimeError as second_error:
+                        if "invalid integrated loudness" not in str(second_error):
+                            raise
+                        output, pre_deepfilter_loudness_match = (
+                            cascade.process_with_pre_deepfilter_gain(  # type: ignore[union-attr]
+                                audio[:, 0], sample_rate, input_lufs
+                            )
+                        )
+                        output = fit_sample_count(output[:, None], expected_frames)
+                        matched, loudness = match_loudness_and_prevent_clipping(
+                            output, sample_rate, input_lufs
+                        )
+                        degenerate_output_fallback = True
+                        fallback_path = (
+                            "ClearerVoice, Sidon, de-ess, de-click, limiter, "
+                            "peak-safe pre-DeepFilterNet3 gain, DeepFilterNet3, "
+                            "and RNNoise85"
+                        )
                 atomic_write_pcm24(target, matched, sample_rate)
                 check = inspect_output(target, expected_frames)
                 if check["errors"]:
@@ -378,11 +423,8 @@ def main() -> int:
                     "output_metrics": waveform_metrics(decoded, sample_rate, lufs=output_lufs),
                     "loudness_match": loudness,
                     "degenerate_output_fallback": degenerate_output_fallback,
-                    "fallback_path": (
-                        "Sidon then de-ess, de-click, limiter, DeepFilterNet3, and RNNoise85"
-                        if degenerate_output_fallback
-                        else None
-                    ),
+                    "fallback_path": fallback_path,
+                    "pre_deepfilter_loudness_match": pre_deepfilter_loudness_match,
                     "elapsed_seconds": time.monotonic() - started,
                 }
                 write_json_atomic(target.with_suffix(".wav.json"), metadata)

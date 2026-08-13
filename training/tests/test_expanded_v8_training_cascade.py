@@ -74,3 +74,4 @@ def test_v8_trusted_restart_matches_recorded_output(tmp_path: Path) -> None:
 
 def test_v8_cascade_has_a_recorded_degenerate_output_fallback() -> None:
     assert callable(Cascade.process_without_clearervoice)
+    assert callable(Cascade.process_with_pre_deepfilter_gain)
