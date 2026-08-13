@@ -9,14 +9,14 @@ The comparison uses 10 random records from the `expanded_v4_trim_only` train
 split. The fixed random seed is `20260813`. The process must include at least
 one VOA record. This data revision is the latest processed training revision
 that includes VOA and has no prior speech denoiser. Thus, it is a fair input
-for the six enhancement profiles.
+for the seven enhancement profiles.
 
 The process copies each input WAV to the comparison directory. It does not
 change or replace a training file.
 
 ## Processing Controls
 
-The process uses these six profiles:
+The process uses these seven profiles:
 
 1. `rnnoise85` uses 85 percent Xiph RNNoise output and 15 percent input audio.
 2. `deepfilternet3` uses the default DeepFilterNet3 pretrained model. It does
@@ -30,6 +30,10 @@ The process uses these six profiles:
    `MossFormer2_SE_48K` model. It sends this direct result to the complete
    Resemble Enhance model. It applies loudness matching only after the second
    model.
+7. `clearervoice_sidon` first uses the default pretrained
+   `MossFormer2_SE_48K` model. It sends this direct result to Sidon. Sidon uses
+   its fixed internal 50 Hz input filter. The process applies loudness matching
+   only after Sidon.
 
 A model can resample audio only when its input rate requires this operation.
 The process returns the result to the input sample rate. It then restores the
@@ -38,8 +42,9 @@ exact input sample count and channel count.
 The process measures the input integrated loudness with FFmpeg EBU R128. It
 applies a linear gain to match each output to this input value. It caps this
 gain when the output can exceed -0.1 dBFS. It does not use dynamic loudness
-normalization. It does not use de-clicking, silence trim, VAD removal, a
-high-pass filter, de-essing, or compression.
+normalization. It does not add de-clicking, silence trim, VAD removal, a
+post-processing high-pass filter, de-essing, or compression. Sidon keeps its
+model-internal 50 Hz input filter.
 
 All final outputs are PCM 24-bit WAV files. The metadata records HNR, the
 estimated noise floor, the peak, integrated loudness, duration, sample count,
@@ -61,6 +66,9 @@ The selected implementations and models permit commercial use:
 - ClearerVoice code and the `MossFormer2_SE_48K` model use Apache-2.0. The code
   commit is `6b3774dc79c46ae8bed2a4fa5f706f0ac8c75c61`. The model revision is
   `eff8c97925c8bec812af707814b3e5d777fd4503`.
+- Sidon code and model use MIT. The code commit is
+  `c8cde2b24e4c77c599ad43a9871140cdc9beeffa`. The model revision is
+  `b3b02d8bbd55fdbc410e6e76ef95ace4fbf52`.
 
 License sources:
 
@@ -70,6 +78,8 @@ License sources:
 - <https://huggingface.co/ResembleAI/resemble-enhance>
 - <https://github.com/modelscope/ClearerVoice-Studio/blob/main/LICENSE>
 - <https://huggingface.co/alibabasglab/MossFormer2_SE_48K>
+- <https://github.com/sarulab-speech/Sidon>
+- <https://huggingface.co/sarulab-speech/sidon-v0.1>
 
 ## Commands
 
@@ -96,13 +106,13 @@ training/scripts/run_random_fair_enhancement_comparison.sh
 The run completed on 2026-08-13. The automatic validation status is PASS.
 
 - The random selection has 10 input files. Seven files are from VOA.
-- The directory has 60 enhanced output files and 60 metadata files.
-- All 60 output files use PCM 24-bit encoding.
+- The directory has 70 enhanced output files and 70 metadata files.
+- All 70 output files use PCM 24-bit encoding.
 - All output files have the same sample rate, channel count, duration, and
   sample count as the matched input.
 - The maximum absolute loudness difference is 0.02 LU.
 - The directory has no symbolic links.
-- The complete training test suite has 144 passed tests.
+- The complete training test suite has 147 passed tests.
 
 Resemble Enhance ran on GPU 0. Its maximum measured power was 296.03 W.
 ClearerVoice ran on GPU 1. Its maximum measured power was 121.24 W. See
@@ -111,6 +121,10 @@ The ClearerVoice and Resemble Enhance cascade used GPU 0. Its maximum measured
 power was 277.92 W. See
 `random_training_enhancement_comparison_v1_cascade_gpu_power.csv` for this
 power log.
+The ClearerVoice and Sidon cascade used GPU 0. Its maximum measured power was
+164.05 W. See
+`random_training_enhancement_comparison_v1_clearervoice_sidon_gpu_power.csv`
+for this power log.
 
 The output directory is
 `training/eval/generated/random_training_enhancement_comparison_v1`.

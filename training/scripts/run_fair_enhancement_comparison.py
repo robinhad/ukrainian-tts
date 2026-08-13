@@ -40,6 +40,7 @@ from training.scripts.run_enhancement_review_backend import (
     RESEMBLE_MODEL_REVISION,
     MossFormerBackend,
     ResembleBackend,
+    SidonBackend,
 )
 
 SUFFIXES = {
@@ -49,6 +50,7 @@ SUFFIXES = {
     "resemble_enhance": "_resemble_enhance.wav",
     "clearervoice": "_clearervoice.wav",
     "clearervoice_resemble_enhance": "_clearervoice_resemble_enhance.wav",
+    "clearervoice_sidon": "_clearervoice_sidon.wav",
 }
 RNNOISE_COMMIT = "70f1d256acd4b34a572f999a05c87bf00b67730d"
 RNNOISE_MODEL_SHA256 = "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37"
@@ -221,6 +223,30 @@ def make_backend(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
                 "mode": "full enhancement",
             },
         }
+    if args.backend == "clearervoice_sidon":
+        clearervoice = MossFormerBackend(
+            args.device,
+            args.model_cache / "mossformer2",
+        )
+        sidon = SidonBackend(
+            args.device,
+            args.model_cache / "sidon",
+        )
+        return (clearervoice, sidon), {
+            "name": "ClearerVoice then Sidon",
+            "order": ["MossFormer2_SE_48K", "Sidon"],
+            "intermediate_loudness_matching": False,
+            "clearervoice": {
+                **clearervoice.identity,
+                "code_license": "Apache-2.0",
+                "model_license": "Apache-2.0",
+            },
+            "sidon": {
+                **sidon.identity,
+                "code_license": "MIT",
+                "model_license": "MIT",
+            },
+        }
     if args.backend == "rnnoise85":
         if not args.rnnoise_binary.is_file():
             raise FileNotFoundError(args.rnnoise_binary)
@@ -274,6 +300,13 @@ def backend_channel(
             device=resemble.device,
         )
         return resample_channel(result.cpu().numpy(), int(result_rate), sample_rate)
+    if backend_name == "clearervoice_sidon":
+        clearervoice, sidon = backend
+        outputs = clearervoice.process(audio, sample_rate)
+        intermediate, intermediate_rate = outputs["mossformer2_no_compression"]
+        sidon_outputs = sidon.process(intermediate, intermediate_rate)
+        result, result_rate = sidon_outputs["sidon_no_compression"]
+        return resample_channel(result, result_rate, sample_rate)
     outputs = backend.process(audio, sample_rate)
     result, result_rate = outputs["mossformer2_no_compression"]
     return resample_channel(result, result_rate, sample_rate)
@@ -476,9 +509,9 @@ def finalize(args: argparse.Namespace) -> int:
 This document uses ASD-STE100 Simplified Technical English style. An approved
 STE checker did not certify this document.
 
-This directory has 10 input WAV files and six matched outputs for each input.
+This directory has 10 input WAV files and seven matched outputs for each input.
 The input selection includes VOA. The output file suffix identifies the model.
-Listen to the input first. Then listen to all six outputs for the same item.
+Listen to the input first. Then listen to all seven outputs for the same item.
 
 The process matches each output loudness to its input loudness. It keeps the
 exact input sample rate, channel count, duration, and sample count. All outputs
