@@ -8,6 +8,8 @@ from training.scripts.preprocess_training_cascade_audio import (
     PROFILE,
     PROFILE_HASH,
     PROFILE_NAME,
+    read_prior,
+    recover_existing_result,
     release_host_memory,
     trusted_restart_output_is_valid,
 )
@@ -75,3 +77,17 @@ def test_v8_trusted_restart_matches_recorded_output(tmp_path: Path) -> None:
 def test_v8_cascade_has_a_recorded_degenerate_output_fallback() -> None:
     assert callable(Cascade.process_without_clearervoice)
     assert callable(Cascade.process_with_pre_deepfilter_gain)
+
+
+def test_v8_prior_reader_ignores_an_interrupted_null_tail(tmp_path: Path) -> None:
+    path = tmp_path / "results.jsonl"
+    path.write_bytes(b'{"utterance_id":"one","processing_status":"ok"}\n' + b"\0" * 64)
+    assert read_prior(path) == {
+        "one": {"utterance_id": "one", "processing_status": "ok"}
+    }
+
+
+def test_v8_recovery_requires_a_verified_sidecar(tmp_path: Path) -> None:
+    assert recover_existing_result(
+        "missing", tmp_path / "missing.wav", tmp_path / "source.wav", 1
+    ) is None

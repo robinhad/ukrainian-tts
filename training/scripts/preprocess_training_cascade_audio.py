@@ -95,12 +95,21 @@ def release_host_memory() -> bool:
 def read_prior(path: Path) -> dict[str, dict[str, Any]]:
     if not path.is_file():
         return {}
-    return {
-        str(row["utterance_id"]): row
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-        for row in [json.loads(line)]
-    }
+    rows: dict[str, dict[str, Any]] = {}
+    for line_number, line in enumerate(
+        path.read_text(encoding="utf-8").splitlines(), start=1
+    ):
+        stripped = line.strip()
+        if not stripped or not stripped.strip("\x00"):
+            continue
+        try:
+            row = json.loads(stripped)
+        except json.JSONDecodeError as error:
+            raise RuntimeError(
+                f"invalid prior result at {path}:{line_number}: {error}"
+            ) from error
+        rows[str(row["utterance_id"])] = row
+    return rows
 
 
 def inspect_output(path: Path, expected_frames: int) -> dict[str, Any]:
@@ -145,6 +154,34 @@ def output_is_valid(target: Path, source: Path, expected_frames: int) -> bool:
         )
     except (OSError, RuntimeError, TypeError, ValueError):
         return False
+
+
+def recover_existing_result(
+    identifier: str, target: Path, source: Path, expected_frames: int
+) -> dict[str, Any] | None:
+    """Recover a result row from a fully verified WAV and sidecar."""
+    if not output_is_valid(target, source, expected_frames):
+        return None
+    metadata = json.loads(target.with_suffix(".wav.json").read_text(encoding="utf-8"))
+    check = inspect_output(target, expected_frames)
+    return {
+        "utterance_id": identifier,
+        "source_audio_path": str(source.resolve()),
+        "audio_path": str(target.resolve()),
+        "audio_sha256": metadata["output_sha256"],
+        "duration": check["duration"],
+        "sample_rate": check["sample_rate"],
+        "channels": check["channels"],
+        "format": check["format"],
+        "processing_config_hash": PROFILE_HASH,
+        "processing_status": "ok",
+        "processing_attempts": int(metadata.get("processing_attempts", 1)),
+        "degenerate_output_fallback": bool(
+            metadata.get("degenerate_output_fallback", False)
+        ),
+        "elapsed_seconds": metadata.get("elapsed_seconds"),
+        "recovered_after_interruption": True,
+    }
 
 
 def trusted_restart_output_is_valid(
@@ -325,6 +362,13 @@ def main() -> int:
             terminal[identifier] = old
             continue
         info = sf.info(source)
+        if args.resume and old is None:
+            recovered = recover_existing_result(
+                identifier, target, source, int(info.frames)
+            )
+            if recovered is not None:
+                terminal[identifier] = recovered
+                continue
         if old and old.get("processing_status") == "ok" and output_is_valid(
             target, source, info.frames
         ):
@@ -425,6 +469,7 @@ def main() -> int:
                     "degenerate_output_fallback": degenerate_output_fallback,
                     "fallback_path": fallback_path,
                     "pre_deepfilter_loudness_match": pre_deepfilter_loudness_match,
+                    "processing_attempts": attempts,
                     "elapsed_seconds": time.monotonic() - started,
                 }
                 write_json_atomic(target.with_suffix(".wav.json"), metadata)
