@@ -78,6 +78,9 @@ PROFILE_HASH = hashlib.sha256(
     json.dumps(PROFILE, sort_keys=True, separators=(",", ":")).encode()
 ).hexdigest()
 
+SUBGATE_CONDITIONING_LUFS = -30.0
+PEAK_CEILING_DBFS = -0.1
+
 _MALLOC_TRIM = getattr(ctypes.CDLL(None), "malloc_trim", None)
 if _MALLOC_TRIM is not None:
     _MALLOC_TRIM.argtypes = [ctypes.c_size_t]
@@ -184,6 +187,43 @@ def recover_existing_result(
     }
 
 
+def match_loudness_with_subgate_bootstrap(
+    audio: np.ndarray, sample_rate: int, target_lufs: float
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Use peak-safe linear gain when an EBU measurement is below its gate."""
+    try:
+        return match_loudness_and_prevent_clipping(audio, sample_rate, target_lufs)
+    except RuntimeError as error:
+        if "invalid integrated loudness" not in str(error):
+            raise
+    waveform = np.asarray(audio, dtype=np.float32)
+    if not waveform.size or not np.isfinite(waveform).all() or not np.any(waveform):
+        raise RuntimeError("the sub-gate waveform is invalid")
+    peak = float(np.max(np.abs(waveform)))
+    rms = float(np.sqrt(np.mean(np.square(waveform, dtype=np.float64))))
+    ceiling = 10.0 ** (PEAK_CEILING_DBFS / 20.0)
+    desired_rms = 10.0 ** (SUBGATE_CONDITIONING_LUFS / 20.0)
+    bootstrap_gain = min(
+        desired_rms / max(rms, 1e-12), ceiling / max(peak, 1e-12)
+    )
+    bootstrapped = waveform * np.float32(bootstrap_gain)
+    matched, metadata = match_loudness_and_prevent_clipping(
+        bootstrapped, sample_rate, target_lufs
+    )
+    metadata.update(
+        {
+            "method": "subgate_bootstrap_then_linear_gain_with_peak_safe_cap",
+            "subgate_bootstrap_gain_db": 20.0
+            * np.log10(max(bootstrap_gain, 1e-12)),
+            "subgate_input_peak": peak,
+            "subgate_input_rms": rms,
+            "total_applied_gain_db": metadata["applied_gain_db"]
+            + 20.0 * np.log10(max(bootstrap_gain, 1e-12)),
+        }
+    )
+    return matched, metadata
+
+
 def trusted_restart_output_is_valid(
     target: Path, source: Path, prior: dict[str, Any]
 ) -> bool:
@@ -266,9 +306,12 @@ class Cascade:
             "sidon_no_compression"
         ]
         postprocessed = deess_declick_limit_channel(sidon, sidon_rate)
-        stabilized, gain = match_loudness_and_prevent_clipping(
-            postprocessed[:, None], 24_000, target_lufs
+        conditioning_lufs = max(target_lufs, SUBGATE_CONDITIONING_LUFS)
+        stabilized, gain = match_loudness_with_subgate_bootstrap(
+            postprocessed[:, None], 24_000, conditioning_lufs
         )
+        gain["source_target_lufs"] = target_lufs
+        gain["conditioning_target_lufs"] = conditioning_lufs
         deepfilter = self.deepfilter.channel(stabilized[:, 0], 24_000)
         rnnoise = rnnoise_channel(deepfilter, 24_000, self.rnnoise_binary)
         return resample_channel(rnnoise, 24_000, sample_rate), gain
@@ -438,7 +481,7 @@ def main() -> int:
                             )
                         )
                         output = fit_sample_count(output[:, None], expected_frames)
-                        matched, loudness = match_loudness_and_prevent_clipping(
+                        matched, loudness = match_loudness_with_subgate_bootstrap(
                             output, sample_rate, input_lufs
                         )
                         degenerate_output_fallback = True

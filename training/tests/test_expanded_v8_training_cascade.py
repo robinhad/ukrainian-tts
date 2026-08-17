@@ -3,11 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
+
 from training.scripts.preprocess_training_cascade_audio import (
     Cascade,
     PROFILE,
     PROFILE_HASH,
     PROFILE_NAME,
+    match_loudness_with_subgate_bootstrap,
     read_prior,
     recover_existing_result,
     release_host_memory,
@@ -91,3 +94,16 @@ def test_v8_recovery_requires_a_verified_sidecar(tmp_path: Path) -> None:
     assert recover_existing_result(
         "missing", tmp_path / "missing.wav", tmp_path / "source.wav", 1
     ) is None
+
+
+def test_v8_subgate_loudness_uses_peak_safe_linear_bootstrap() -> None:
+    time = np.arange(24_000, dtype=np.float32) / 24_000.0
+    waveform = (1e-7 * np.sin(2.0 * np.pi * 220.0 * time))[:, None]
+    output, metadata = match_loudness_with_subgate_bootstrap(
+        waveform, 24_000, -47.0
+    )
+    assert metadata["method"] == (
+        "subgate_bootstrap_then_linear_gain_with_peak_safe_cap"
+    )
+    assert np.isfinite(output).all()
+    assert 0.0 < float(np.max(np.abs(output))) < 1.0
