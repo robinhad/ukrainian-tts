@@ -63,9 +63,16 @@ run_pass() {
         --workspace "$ROOT" --status "$STATUS" --interval-seconds 900 \
         --minimum-free-gib 30 &
     monitor=$!
+    "$ROOT/.venv/bin/python" "$ROOT/scripts/monitor_expanded_v9_duration_progress.py" \
+        --manifest "$BASE" --results "${results[@]}" \
+        --worker-pids "${pids[@]}" --workspace "$ROOT" \
+        --status "${ROOT}/reports/${NAME}_duration_status.jsonl" \
+        --start-status "$STATUS" --interval-seconds 900 &
+    duration_monitor=$!
     failed=0
     for pid in "${pids[@]}"; do wait "$pid" || failed=1; done
     wait "$monitor" || failed=1
+    wait "$duration_monitor" || failed=1
     echo "Cascade pass ${attempt} finished with status ${failed}."
     return "$failed"
 }

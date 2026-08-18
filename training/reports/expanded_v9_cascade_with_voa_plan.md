@@ -51,7 +51,9 @@ The initial `batch_bins` value is 2,000,000. The run preserves checkpoints at
 
 The training monitor writes iteration, metrics, GPU power, GPU memory, disk
 space, and a Kyiv ETA every 15 minutes. The full-pipeline monitor writes a
-record every 30 minutes. The disk threshold is 30 GiB.
+record every 30 minutes. A second preparation monitor calculates its ETA from
+processed audio hours. This method accounts for differences in file duration
+between data sources. The disk threshold is 30 GiB.
 
 ## Start command
 

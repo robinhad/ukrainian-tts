@@ -31,7 +31,9 @@ setsid training/scripts/run_expanded_v9_with_voa_pipeline.sh \
 The preparation and training monitors write records every 15 minutes. The
 pipeline monitor writes a record every 30 minutes. All monitors include GPU
 power data and a Kyiv ETA when rate data is available. The disk threshold is
-30 GiB. See `training/reports/expanded_v9_cascade_with_voa_plan.md` for the
+30 GiB. The preparation process also writes a duration-aware ETA. This ETA
+uses processed audio hours and does not assume that all files have the same
+duration. See `training/reports/expanded_v9_cascade_with_voa_plan.md` for the
 fixed data, processing, initialization, and gate rules.
 
 ## Expanded-v8 training-cascade iteration

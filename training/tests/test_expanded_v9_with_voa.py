@@ -13,6 +13,7 @@ from training.scripts.build_expanded_v9_with_voa import (
     SPLIT_MAP,
 )
 from training.scripts.prepare_hybrid_embeddings import assign_variants
+from training.scripts.monitor_expanded_v9_duration_progress import make_record
 from training.scripts.preprocess_training_cascade_audio import (
     PROFILE_HASH as V8_PROFILE_HASH,
 )
@@ -78,3 +79,17 @@ def test_v9_training_is_scratch_and_targets_500k() -> None:
 def test_v9_keeps_the_exact_embedding_split() -> None:
     audit = (ROOT / "scripts/audit_expanded_v9_with_voa_readiness.py").read_text()
     assert 'EXPECTED_EMBEDDINGS = {"raw": 104_433, "clean": 104_434}' in audit
+
+
+def test_v9_duration_monitor_uses_audio_seconds(tmp_path: Path) -> None:
+    durations = {"short": 2.0, "long": 18.0}
+    results = {"short": {"utterance_id": "short", "processing_status": "ok"}}
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+
+    started = datetime.now(ZoneInfo("Europe/Kyiv")) - timedelta(seconds=10)
+    record = make_record(durations, results, started, tmp_path)
+    assert record["processed_records"] == 1
+    assert record["record_progress_percent"] == 50.0
+    assert record["duration_progress_percent"] == 10.0
+    assert record["failed"] == 0
