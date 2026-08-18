@@ -73,3 +73,6 @@ After all gates pass, the finalizer runs the full test suite. It writes the
 measured final status to `training/reports/final_status.md`. It commits only
 the selected small reports. It uses `codex <codex@openai.com>` as the commit
 author. It then pushes the commit to the `autotrain` branch.
+The default GitHub token file is `/home/ballvan/Projects/tts-token.txt`. Set
+`TTS_GITHUB_TOKEN_FILE` to use a different token file. The helper does not
+write the token to a Git remote or a report.

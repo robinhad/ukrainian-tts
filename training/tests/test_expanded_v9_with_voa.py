@@ -89,6 +89,8 @@ def test_v9_finalizer_writes_and_publishes_verified_results() -> None:
     assert "ASD-STE100 Simplified Technical English" in writer
     assert "GIT_AUTHOR_NAME=codex" in publisher
     assert "git -C \"$REPOSITORY\" push origin autotrain" in publisher
+    assert "TTS_GITHUB_TOKEN_FILE" in publisher
+    assert "GIT_ASKPASS" in publisher
 
 
 def test_v9_keeps_the_exact_embedding_split() -> None:

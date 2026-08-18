@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 REPOSITORY=$(cd "${ROOT}/.." && pwd)
 NAME=expanded_v9_cascade_with_voa
+TOKEN_FILE=${TTS_GITHUB_TOKEN_FILE:-/home/ballvan/Projects/tts-token.txt}
 
 if [[ "$(git -C "$REPOSITORY" branch --show-current)" != autotrain ]]; then
     echo "The active branch is not autotrain." >&2
@@ -41,4 +42,11 @@ if ! git -C "$REPOSITORY" diff --cached --quiet; then
         git -C "$REPOSITORY" commit -m \
         "Publish expanded v9 scratch 500k results"
 fi
-git -C "$REPOSITORY" push origin autotrain
+if [[ ! -s "$TOKEN_FILE" ]]; then
+    echo "The GitHub token file does not exist: ${TOKEN_FILE}" >&2
+    exit 2
+fi
+TTS_GITHUB_TOKEN_FILE="$TOKEN_FILE" \
+GIT_ASKPASS="${ROOT}/scripts/git_askpass_from_token.sh" \
+GIT_TERMINAL_PROMPT=0 \
+    git -C "$REPOSITORY" push origin autotrain
