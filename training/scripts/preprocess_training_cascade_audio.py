@@ -48,35 +48,51 @@ from training.scripts.run_fair_enhancement_comparison import (
     rnnoise_channel,
 )
 
-PROFILE_NAME = (
+DEFAULT_PROFILE_NAME = (
     "expanded_v8_clearervoice_sidon_deess_declick_limit_"
     "deepfilternet3_rnnoise85_novoa"
 )
-PROFILE = {
-    "name": PROFILE_NAME,
-    "order": TRAINING_LISTENING_ORDER,
-    "input": "boundary-trimmed mono 24 kHz PCM WAV",
-    "clearervoice_model": "MossFormer2_SE_48K",
-    "sidon": True,
-    "sidon_internal_input_highpass_hz": 50,
-    "deesser_filter": DEESSER_FILTER,
-    "declick_limiter_filter": DeClickLimiterConfig().filter_chain,
-    "deepfilternet_model": "DeepFilterNet3",
-    "deepfilternet_settings": "default pretrained; post-filter off; no attenuation limit",
-    "rnnoise_commit": RNNOISE_COMMIT,
-    "rnnoise_model_sha256": RNNOISE_MODEL_SHA256,
-    "rnnoise_wet_mix": 0.85,
-    "rnnoise_cascade_input_mix": 0.15,
-    "loudness_match": "linear gain to source integrated loudness with -0.1 dBFS cap",
-    "dynamic_loudness_normalization": False,
-    "compression": False,
-    "output_sample_rate": 24_000,
-    "output_channels": 1,
-    "output_format": "WAV/PCM_24",
-}
-PROFILE_HASH = hashlib.sha256(
-    json.dumps(PROFILE, sort_keys=True, separators=(",", ":")).encode()
-).hexdigest()
+
+
+def make_profile(name: str) -> dict[str, Any]:
+    """Return the fixed cascade profile with a versioned corpus name."""
+    return {
+        "name": name,
+        "order": TRAINING_LISTENING_ORDER,
+        "input": "boundary-trimmed mono 24 kHz PCM WAV",
+        "clearervoice_model": "MossFormer2_SE_48K",
+        "sidon": True,
+        "sidon_internal_input_highpass_hz": 50,
+        "deesser_filter": DEESSER_FILTER,
+        "declick_limiter_filter": DeClickLimiterConfig().filter_chain,
+        "deepfilternet_model": "DeepFilterNet3",
+        "deepfilternet_settings": (
+            "default pretrained; post-filter off; no attenuation limit"
+        ),
+        "rnnoise_commit": RNNOISE_COMMIT,
+        "rnnoise_model_sha256": RNNOISE_MODEL_SHA256,
+        "rnnoise_wet_mix": 0.85,
+        "rnnoise_cascade_input_mix": 0.15,
+        "loudness_match": (
+            "linear gain to source integrated loudness with -0.1 dBFS cap"
+        ),
+        "dynamic_loudness_normalization": False,
+        "compression": False,
+        "output_sample_rate": 24_000,
+        "output_channels": 1,
+        "output_format": "WAV/PCM_24",
+    }
+
+
+def get_profile_hash(profile: dict[str, Any]) -> str:
+    return hashlib.sha256(
+        json.dumps(profile, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+PROFILE_NAME = DEFAULT_PROFILE_NAME
+PROFILE = make_profile(PROFILE_NAME)
+PROFILE_HASH = get_profile_hash(PROFILE)
 
 SUBGATE_CONDITIONING_LUFS = -30.0
 PEAK_CEILING_DBFS = -0.1
@@ -354,7 +370,16 @@ def main() -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--allow-failures", action="store_true")
+    parser.add_argument(
+        "--profile-name",
+        default=DEFAULT_PROFILE_NAME,
+        help="Set a versioned corpus name without changing the fixed audio chain.",
+    )
     args = parser.parse_args()
+    global PROFILE_NAME, PROFILE, PROFILE_HASH
+    PROFILE_NAME = args.profile_name
+    PROFILE = make_profile(PROFILE_NAME)
+    PROFILE_HASH = get_profile_hash(PROFILE)
     if args.num_shards < 1 or not 0 <= args.shard_index < args.num_shards:
         parser.error("the shard index must be inside the shard count")
     if args.limit is not None and args.limit < 1:

@@ -9,6 +9,31 @@ is separate from the legacy multi-speaker inference code. It does not use a
 verbalizer or a separate stress model. Each versioned iteration fixes its audio
 processing profile.
 
+## Expanded-v9 VOA-inclusive scratch iteration
+
+The v9 pipeline uses 208,867 retained utterances and approximately 469.76
+hours. It includes 134,711 VOA utterances. It applies the same fixed audio
+cascade as v8 to all files. It calculates all speaker embeddings again. It
+uses pre-enhancement audio for 104,433 files and final audio for 104,434 files.
+
+The pipeline makes a new token list and new speech, pitch, and energy
+statistics. It runs a scratch smoke gate. It then trains a new JETS model from
+random weights for 500,000 iterations on two RTX 3090 cards. It does not load
+an earlier checkpoint.
+
+Start the complete process with this command:
+
+```bash
+setsid training/scripts/run_expanded_v9_with_voa_pipeline.sh \
+  > training/reports/expanded_v9_cascade_with_voa_pipeline.log 2>&1 &
+```
+
+The preparation and training monitors write records every 15 minutes. The
+pipeline monitor writes a record every 30 minutes. All monitors include GPU
+power data and a Kyiv ETA when rate data is available. The disk threshold is
+30 GiB. See `training/reports/expanded_v9_cascade_with_voa_plan.md` for the
+fixed data, processing, initialization, and gate rules.
+
 ## Expanded-v8 training-cascade iteration
 
 The v8 pipeline starts from the clean boundary-trimmed input for the current
