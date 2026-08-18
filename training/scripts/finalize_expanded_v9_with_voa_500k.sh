@@ -33,4 +33,10 @@ for label in "${MILESTONES[@]}"; do
 done
 TTS_EXP="$TTS_EXP" \
     "${ROOT}/scripts/generate_five_voice_expanded_v9_eval.sh" "$FINAL_LABEL"
+TEST_LOG="${ROOT}/reports/${NAME}_tests.log"
+python -m pytest -q "${ROOT}/tests" | tee "$TEST_LOG"
+python "${ROOT}/scripts/write_expanded_v9_final_status.py" \
+    --root "$ROOT" --experiment "$TTS_EXP" --test-log "$TEST_LOG" \
+    --output "${ROOT}/reports/final_status.md"
+"${ROOT}/scripts/publish_expanded_v9_results.sh"
 echo "The VOA-inclusive v9 scratch ${FINAL_LABEL} finalization is complete."

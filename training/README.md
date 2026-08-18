@@ -36,6 +36,11 @@ uses processed audio hours and does not assume that all files have the same
 duration. See `training/reports/expanded_v9_cascade_with_voa_plan.md` for the
 fixed data, processing, initialization, and gate rules.
 
+The v9 finalizer runs the full test suite after the 500K evaluations. It makes
+`training/reports/final_status.md`. It then commits the selected final reports
+as `codex` and pushes them to the `autotrain` branch. A failed gate stops this
+publication step.
+
 ## Expanded-v8 training-cascade iteration
 
 The v8 pipeline starts from the clean boundary-trimmed input for the current

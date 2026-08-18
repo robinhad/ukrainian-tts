@@ -68,3 +68,8 @@ setsid training/scripts/run_expanded_v9_with_voa_pipeline.sh \
 The scripts write results atomically where the audio processor supports this
 operation. They preserve source audio and manifests. The deleted derived audio
 copies can be made again from these preserved inputs.
+
+After all gates pass, the finalizer runs the full test suite. It writes the
+measured final status to `training/reports/final_status.md`. It commits only
+the selected small reports. It uses `codex <codex@openai.com>` as the commit
+author. It then pushes the commit to the `autotrain` branch.

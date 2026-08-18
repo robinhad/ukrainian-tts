@@ -76,6 +76,21 @@ def test_v9_training_is_scratch_and_targets_500k() -> None:
     assert "launch_expanded_v9_with_voa_training.sh\" 500000" in pipeline
 
 
+def test_v9_finalizer_writes_and_publishes_verified_results() -> None:
+    finalizer = (ROOT / "scripts/finalize_expanded_v9_with_voa_500k.sh").read_text()
+    writer = (ROOT / "scripts/write_expanded_v9_final_status.py").read_text()
+    publisher = (ROOT / "scripts/publish_expanded_v9_results.sh").read_text()
+    assert "write_expanded_v9_final_status.py" in finalizer
+    assert "publish_expanded_v9_results.sh" in finalizer
+    assert '"${ROOT}/tests"' in finalizer
+    assert 'MILESTONES = ("25k", "50k", "75k", "100k", "200k", "300k", "400k", "500k")' in writer
+    assert 'expected_embeddings = {"raw": 104_433, "clean": 104_434}' in writer
+    assert 'checkpoint.get("reported_steps") != 500_000' in writer
+    assert "ASD-STE100 Simplified Technical English" in writer
+    assert "GIT_AUTHOR_NAME=codex" in publisher
+    assert "git -C \"$REPOSITORY\" push origin autotrain" in publisher
+
+
 def test_v9_keeps_the_exact_embedding_split() -> None:
     audit = (ROOT / "scripts/audit_expanded_v9_with_voa_readiness.py").read_text()
     assert 'EXPECTED_EMBEDDINGS = {"raw": 104_433, "clean": 104_434}' in audit
