@@ -53,7 +53,10 @@ The training monitor writes iteration, metrics, GPU power, GPU memory, disk
 space, and a Kyiv ETA every 15 minutes. The full-pipeline monitor writes a
 record every 30 minutes. A second preparation monitor calculates its ETA from
 processed audio hours. This method accounts for differences in file duration
-between data sources. The disk threshold is 30 GiB.
+between data sources. The end-to-end estimate uses this duration-aware value.
+It adds 114 hours for the remaining ESPnet preparation, scratch training, and
+evaluation until direct training measurements become available. The disk
+threshold is 30 GiB.
 
 ## Start command
 

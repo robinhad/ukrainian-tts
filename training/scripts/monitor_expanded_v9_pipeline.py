@@ -110,28 +110,35 @@ def main() -> int:
         current_phase = phase(commands(), running)
         processed = result_count(args.root)
         prep = latest(args.root / f"reports/{NAME}_preparation_status.jsonl")
+        duration_progress = latest(
+            args.root / f"reports/{NAME}_duration_status.jsonl"
+        )
         training = latest(args.root / f"reports/training_status_{NAME}_500k.jsonl")
         phase_eta = None
         total_eta = None
         eta_basis = "not_available"
         if current_phase == "audio_preprocessing":
-            phase_eta = prep.get("eta_kyiv") if prep else None
+            phase_eta = (
+                duration_progress.get("eta_kyiv")
+                if duration_progress
+                else prep.get("eta_kyiv") if prep else None
+            )
             if phase_eta:
                 total_eta = (
-                    datetime.fromisoformat(phase_eta) + timedelta(hours=128)
+                    datetime.fromisoformat(phase_eta) + timedelta(hours=114)
                 ).isoformat()
-            eta_basis = "observed_file_rate_plus_128h_downstream_estimate"
+            eta_basis = "observed_audio_duration_rate_plus_114h_downstream_estimate"
         elif current_phase in {
             "manifests_embeddings_tokens_or_statistics",
             "statistics",
             "speaker_embeddings",
         }:
             phase_eta = (now + timedelta(hours=8)).isoformat()
-            total_eta = (now + timedelta(hours=128)).isoformat()
+            total_eta = (now + timedelta(hours=114)).isoformat()
             eta_basis = "prior_pipeline_runtime_estimate"
         elif current_phase == "smoke_training_or_inference":
             phase_eta = (now + timedelta(hours=1)).isoformat()
-            total_eta = (now + timedelta(hours=121)).isoformat()
+            total_eta = (now + timedelta(hours=111)).isoformat()
             eta_basis = "prior_pipeline_runtime_estimate"
         elif current_phase == "training" and training:
             phase_eta = training.get("eta_kyiv")
@@ -159,6 +166,7 @@ def main() -> int:
             "total_eta_kyiv": total_eta,
             "eta_basis": eta_basis,
             "preprocessing": prep,
+            "duration_progress": duration_progress,
             "training": training,
         }
         with args.status.open("a", encoding="utf-8") as stream:
