@@ -70,3 +70,24 @@ worker records a degenerate-output fallback. For that file, it starts from the
 clean boundary-trimmed input at Sidon. It then applies de-essing, de-clicking,
 limiting, DeepFilterNet3, RNNoise85, and source loudness matching. This control
 prevents a near-silent training file. The manifest records each fallback.
+
+## Result
+
+The complete pipeline finished at 15:45:47 Kyiv time on 2026-08-18. It wrote
+74,156 physical PCM24 WAV files and retained 92.266 hours. Nine files used the
+recorded quiet-output fallback. Dataset validation, the exact 50/50 embedding
+check, the token list, statistics, the 100-step smoke run, and smoke inference
+all passed.
+
+JETS completed 100,000 new optimizer steps on two RTX 3090 cards. The run had
+no NaN, OOM, critical runtime error, or thermal slowdown condition. The
+minimum measured free space was 42.19 GiB. The training monitor wrote samples
+at a maximum interval of 15.011 minutes.
+
+The final validation mel loss is 36.408. The best validation mel loss is
+35.994 at epoch 97. The best alignment loss is 3.959 at epoch 88. The best
+generator loss is 56.409 at epoch 17. The pipeline preserved these model
+files and the 25K, 50K, 75K, and 100K milestone files.
+
+Each milestone made 1,418 evaluation WAV files. All 5,672 files passed. The
+five-voice listening export also passed. Human listening has not started.

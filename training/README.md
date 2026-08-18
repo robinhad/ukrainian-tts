@@ -38,6 +38,10 @@ After training, the pipeline audits the final checkpoint, exports TensorBoard
 metrics, audits monitor continuity, evaluates the 25K, 50K, 75K, and 100K
 milestones, and makes a five-voice 100K listening set.
 
+The 100K run completed on 2026-08-18. All automatic gates passed. See
+`training/reports/final_status.md` for the measured results and artifact paths.
+Human listening is the next release gate.
+
 The project documents use ASD-STE100 Simplified Technical English style. No
 approved STE checker has certified these documents.
 

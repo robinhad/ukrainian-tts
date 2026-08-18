@@ -49,3 +49,36 @@ All critical cycle 1 gates have `PASS`.
 The 100K training and automatic evaluation are complete. The automatic gates
 have `PASS`. Release promotion is not ready because human listening has
 `NOT RUN`.
+
+## Expanded-v8 training-cascade 100K gate
+
+| Gate | Status | Evidence | Artifact | Next action |
+|---|---|---|---|---|
+| Source corpus | PASS | The corpus has 74,156 records, 92.266 hours, and no VOA records. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_full_dataset.json` | Preserve the manifest and profile hash. |
+| Processing profile | PASS | The pipeline used ClearerVoice, Sidon, de-essing, de-clicking, limiting, DeepFilterNet3, RNNoise85, and a peak-safe loudness match. | `training/data/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/manifests/all.parquet` | Do not change the order for this model. |
+| PCM24 and physical output | PASS | All 74,156 final paths refer to physical mono 24 kHz PCM24 WAV files. | `training/data/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/audio_24k/` | Preserve the files outside Git. |
+| Degenerate-output control | PASS | Nine files used the recorded fallback. No final file was too quiet or clipped. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_full_dataset.json` | Review these files during listening. |
+| Dataset validation | PASS | All 74,156 records passed. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_full_validation.json` | Repeat after a data change. |
+| Exact 50/50 embeddings | PASS | 37,078 raw vectors and 37,078 clean vectors exist. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_full_hybrid_embeddings.json` | Preserve the assignment and ECAPA revision. |
+| Frontend | PASS | eSpeak-ng 1.52.0 made non-empty Ukrainian phonemes. | `training/vendor/ESPEAK_NG_VERSION` | Reject version drift. |
+| Token list | PASS | The SHA-256 is `dc4ea2634513b87e2e70b27d9545f5dd14cea91dd99391f615a24ded5ee964f2`. | `training/dump_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/token_list/phn_espeak_ng_ukrainian/tokens.txt` | Preserve it with the model. |
+| Statistics | PASS | ESPnet made 252 required statistics files. | `training/exp_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/tts_stats_raw_phn_espeak_ng_ukrainian/` | Preserve them with the model. |
+| Dual-GPU smoke run | PASS | The smoke run completed 100 new steps. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_smoke_checkpoint.json` | Preserve the report. |
+| Smoke inference | PASS | All 1,418 smoke WAV files passed. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_smoke_inference.json` | Preserve the report. |
+| Dual-GPU full run | PASS | Training completed 100,000 new steps with exit status 0. | `training/exp_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/tts_jets_uk_24k_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_from_v7e93_100k/train.log` | Use listening results for selection. |
+| Runtime health | PASS | No NaN, OOM, or critical runtime error occurred. | `training/reports/training_status_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_100k.jsonl` | Preserve the log. |
+| Monitor interval | PASS | The largest measured training interval was 15.011 minutes. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_training_monitor_summary.json` | Keep the 30-minute limit. |
+| GPU memory | PASS | The training log reports 20.715 GiB peak cached memory. | `training/exp_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/tts_jets_uk_24k_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_from_v7e93_100k/train.log` | Keep the tested batch size. |
+| GPU temperature | PASS | The sampled maximum values are 85 and 76 degrees C. No thermal slowdown occurred. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_training_monitor_summary.json` | Keep the 90-degree stop limit. |
+| Disk reserve | PASS | The minimum measured reserve was 42.19 GiB. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_training_monitor_summary.json` | Keep the 30 GiB limit. |
+| 100K checkpoint | PASS | The counters are 100,000 and all 549 model tensors are finite. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_100k_checkpoint.json` | Preserve the file outside Git. |
+| Milestone match | PASS | The 100K model matches the checkpoint model exactly. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_100k_checkpoint.json` | Preserve its SHA-256. |
+| Validation-best checkpoints | PASS | The pipeline kept the best generator, mel, and alignment epochs. | `training/exp_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa/tts_jets_uk_24k_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_from_v7e93_100k/best_checkpoints/validation_best.json` | Compare them by listening. |
+| Fixed-set inference | PASS | All 5,672 WAV files passed. | `training/reports/expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_inference_*k.json` | Preserve the reports. |
+| Five-voice inference | PASS | Five physical WAV files and metadata passed. | `training/eval/generated/five_voice_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_100k/` | Start human listening. |
+| Full tests | PASS | All 159 tests passed. | `training/tests/` | Repeat after a code change. |
+| Human listening | NOT RUN | Automatic tests do not measure naturalness. | `training/eval/generated/five_voice_expanded_v8_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85_novoa_100k/` | Check rasp, metallic sound, and robotic sound. |
+
+The v8 100K training and automatic evaluation are complete. All automatic
+gates have `PASS`. Release promotion is not ready because human listening has
+`NOT RUN`.
