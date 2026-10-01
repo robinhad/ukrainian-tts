@@ -37,6 +37,7 @@ def main():
     process.add_argument('--output', type=Path, required=True)
     process.add_argument('--device', default='cuda')
     process.add_argument('--resume', action='store_true')
+    process.add_argument('--cpu-workers', type=int, default=4)
     args = parser.parse_args()
     if args.command == 'select':
         from .selection import select
@@ -53,7 +54,7 @@ def main():
                                 if (v := getattr(args, k)) is not None}, args.output)
     elif args.command == 'process':
         from .processing import process
-        process(args.panel, args.profile, args.output, args.device, args.resume)
+        process(args.panel, args.profile, args.output, args.device, args.resume, args.cpu_workers)
 
 
 if __name__ == '__main__':

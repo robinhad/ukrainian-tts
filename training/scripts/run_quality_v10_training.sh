@@ -14,6 +14,7 @@ TTS_EXP=${TTS_EXP:-"${EXP_DIR}/tts_jets_quality_v10_100k"}
 STEPS=${STEPS:-100000}
 BATCH_BINS=${BATCH_BINS:-4000000}
 WORKERS=${WORKERS:-8}
+USE_TF32=${USE_TF32:-false}
 ITERS_PER_EPOCH=${ITERS_PER_EPOCH:-1000}
 if (( STEPS < 1 || ITERS_PER_EPOCH < 1 || STEPS % ITERS_PER_EPOCH != 0 )); then
   echo 'STEPS must be a positive multiple of ITERS_PER_EPOCH.' >&2
@@ -37,7 +38,7 @@ if [[ -n "${INIT_CHECKPOINT:-}" ]]; then
 fi
 "${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" \
   --stage 7 --stop_stage 7 --tts_exp "$TTS_EXP" \
-  --train_args "--max_epoch $((STEPS / ITERS_PER_EPOCH)) --num_iters_per_epoch ${ITERS_PER_EPOCH} --batch_bins ${BATCH_BINS} --num_workers ${WORKERS} --accum_grad 1 --use_amp false --cudnn_benchmark false --keep_nbest_models 3 --num_att_plot 0 --resume ${RESUME:-false} ${INIT_ARGS}" &
+  --train_args "--max_epoch $((STEPS / ITERS_PER_EPOCH)) --num_iters_per_epoch ${ITERS_PER_EPOCH} --batch_bins ${BATCH_BINS} --num_workers ${WORKERS} --accum_grad 1 --use_amp false --use_tf32 ${USE_TF32} --cudnn_benchmark false --keep_nbest_models 3 --num_att_plot 0 --resume ${RESUME:-false} ${INIT_ARGS}" &
 TRAIN_PID=$!
 WATCH_PID=""
 if (( ITERS_PER_EPOCH == 1000 )); then

@@ -5,6 +5,8 @@ import argparse
 import json
 import shutil
 import time
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -14,7 +16,7 @@ import yaml
 from .common import digest, file_hash, read_rows, write_json, write_tables
 
 
-def process(panel, profile_path, output, device='cuda', resume=False):
+def process(panel, profile_path, output, device='cuda', resume=False, cpu_workers=4):
     from training.audio_enhancement.fair_comparison import (
         atomic_write_pcm24, fit_sample_count, match_loudness_and_prevent_clipping, measure_lufs)
     from training.scripts.run_fair_enhancement_comparison import make_backend, backend_channel
@@ -24,6 +26,10 @@ def process(panel, profile_path, output, device='cuda', resume=False):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     rows = read_rows(panel)
+    if cpu_workers < 1:
+        raise ValueError('cpu_workers must be positive')
+    if len({r['utterance_id'] for r in rows}) != len(rows):
+        raise ValueError('Processing panel contains duplicate IDs')
     if not rows or any('voa' in str(r['source_id']).lower() for r in rows):
         raise ValueError('Processing requires a non-empty non-VOA panel')
     wet = float(profile.get('wet', 1.0))
@@ -55,34 +61,8 @@ def process(panel, profile_path, output, device='cuda', resume=False):
         name: file_hash(root / name) for name in ['quality/processing.py',
         'quality/devices.py', 'scripts/run_enhancement_review_backend.py',
         'scripts/run_fair_enhancement_comparison.py']}}
-    results = []
-    for row in rows:
-        if shutil.disk_usage(output).free < 30 * 1024**3:
-            raise RuntimeError('Disk reserve below 30 GiB')
-        source = Path(row.get('processing_audio_path') or row['audio_path'])
-        input_hash = file_hash(source)
-        if (row.get('processing_input_sha256') or row.get('reference_sha256', input_hash)) != input_hash:
-            raise ValueError('Frozen input changed')
-        target = output / f"{row['utterance_id']}.wav"
-        metadata = output / f"{row['utterance_id']}.json"
-        key = digest([input_hash, profile, identity])
-        if resume and target.is_file() and metadata.is_file():
-            old = json.loads(metadata.read_text())
-            if old['key'] == key and old['output_sha256'] == file_hash(target):
-                results.append(old)
-                continue
-        started = time.monotonic()
-        audio, rate = sf.read(source, dtype='float32', always_2d=True)
-        if rate != 24000 or audio.shape[1] != 1:
-            raise ValueError('Processing inputs must be canonical mono 24 kHz audio')
-        if backend_name == 'identity':
-            enhanced = audio.copy()
-        elif backend_name == 'sidon':
-            result, result_rate = backend.process(audio[:, 0], rate)['sidon_no_compression']
-            from .backends import resample
-            enhanced = resample(np.asarray(result).reshape(-1), result_rate, rate)[:, None]
-        else:
-            enhanced = backend_channel(backend_name, backend, audio[:, 0], rate)[:, None]
+    def finish(row, audio, enhanced, rate, target, metadata, input_hash, key, started, model_seconds):
+        post_started = time.monotonic()
         raw_output_frames = len(enhanced)
         enhanced = fit_sample_count(enhanced, len(audio))
         if not np.isfinite(enhanced).all() or not np.any(enhanced):
@@ -99,9 +79,60 @@ def process(panel, profile_path, output, device='cuda', resume=False):
                 'output_path': str(target.resolve()), 'input_frames': len(audio),
                 'processor_output_frames': raw_output_frames, 'output_frames': len(mixed),
                 'processor_duration_changed': raw_output_frames != len(audio),
+                'model_seconds': model_seconds,
+                'cpu_postprocess_seconds': time.monotonic() - post_started,
+                'cpu_postprocess_workers': cpu_workers,
                 'loudness_match': loudness, 'elapsed_seconds': time.monotonic() - started}
         write_json(metadata, item)
-        results.append(item)
+        return item
+
+    results, pending = [], deque()
+
+    def collect():
+        results.append(pending.popleft().result())
         write_json(output / 'progress.json', {'completed': len(results), 'expected': len(rows)})
+
+    # Keep GPU model calls on one thread: some enhancement models have mutable
+    # recurrent state. Overlap their execution with bounded CPU loudness/I/O work.
+    with ThreadPoolExecutor(max_workers=cpu_workers) as pool:
+        for row in rows:
+            while pending and pending[0].done():
+                collect()
+            if shutil.disk_usage(output).free < 30 * 1024**3:
+                raise RuntimeError('Disk reserve below 30 GiB')
+            source = Path(row.get('processing_audio_path') or row['audio_path'])
+            input_hash = file_hash(source)
+            if (row.get('processing_input_sha256') or row.get('reference_sha256', input_hash)) != input_hash:
+                raise ValueError('Frozen input changed')
+            target = output / f"{row['utterance_id']}.wav"
+            metadata = output / f"{row['utterance_id']}.json"
+            key = digest([input_hash, profile, identity])
+            if resume and target.is_file() and metadata.is_file():
+                old = json.loads(metadata.read_text())
+                if old['key'] == key and old['output_sha256'] == file_hash(target):
+                    results.append(old)
+                    continue
+            started = time.monotonic()
+            audio, rate = sf.read(source, dtype='float32', always_2d=True)
+            if rate != 24000 or audio.shape[1] != 1:
+                raise ValueError('Processing inputs must be canonical mono 24 kHz audio')
+            model_started = time.monotonic()
+            if backend_name == 'identity':
+                enhanced = audio.copy()
+            elif backend_name == 'sidon':
+                result, result_rate = backend.process(audio[:, 0], rate)['sidon_no_compression']
+                from .backends import resample
+                enhanced = resample(np.asarray(result).reshape(-1), result_rate, rate)[:, None]
+            else:
+                enhanced = backend_channel(backend_name, backend, audio[:, 0], rate)[:, None]
+            model_seconds = time.monotonic() - model_started
+            pending.append(pool.submit(finish, row, audio, enhanced, rate, target, metadata,
+                                       input_hash, key, started, model_seconds))
+            if len(pending) >= cpu_workers * 2:
+                collect()
+        while pending:
+            collect()
+    results.sort(key=lambda item: item['utterance_id'])
+    write_json(output / 'progress.json', {'completed': len(results), 'expected': len(rows)})
     write_tables(output, 'processing', results)
     return results

@@ -224,6 +224,13 @@ including frozen TorchScript weight constants, are checked and recorded. A CPU
 model fallback fails processing. The bundled RNNoise executable is CPU-only,
 so its profiles are excluded from this GPU processing iteration. Decoding,
 resampling, loudness matching, and non-model signal filters run on CPU.
+CPU loudness matching and WAV writes overlap GPU inference through a bounded
+worker queue (`process --cpu-workers`, default 4). Model calls stay sequential
+to preserve recurrent state, and worker failures propagate to the pipeline.
+The sweep also accepts `--profile-workers 2` to run independent processing and
+scoring trials concurrently within one GPU allocation. Each trial writes to its
+own directory and `command.log`. Compare throughput, power, and free unified
+memory before increasing concurrency; the default remains one trial.
 `combinations.jsonl/.csv` records the measured metric vector for each profile.
 `search_report.json` lists non-dominated profiles. It does not select one.
 Extend the sweep around the best reviewed combinations (for example with
@@ -241,13 +248,15 @@ sbatch training/slurm/quality.sbatch bash training/scripts/prepare_quality_v10.s
 # After preparation succeeds:
 sbatch training/slurm/quality.sbatch python -m training.scripts.calibrate_quality_v10
 # Read calibration/recommended.json; set the measured values:
-export BATCH_BINS=4000000 WORKERS=8
+export BATCH_BINS=4000000 WORKERS=8 USE_TF32=false
 sbatch training/slurm/train_quality_v10.sbatch
 ```
 
 The numerical batch example is a starting point, not a measured recommendation.
-Calibration tries real JETS training batches and records runtime, power, and
-available unified memory. It uses batch-bin throughput, with power as a tie
+Calibration tries real JETS training batches, worker counts, and TF32 settings,
+and records runtime, power, and available unified memory. It extracts training
+time from the checkpoint reporter, excluding setup and validation from the
+throughput comparison. It uses batch-bin throughput, with power as a tie
 breaker, and a 100 W reference. It does not change the hardware power limit.
 Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.
 

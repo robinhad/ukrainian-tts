@@ -87,6 +87,31 @@ bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
 was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
 and Parakeet content metrics. Processing selection and 100K training are pending.
 
+The original baseline and base-conversion control completed on all 800 panel
+items with zero scoring errors. The following are equal-source mean whole-file
+scores; CER/WER are mean per-file rates, not pooled corpus rates.
+
+| Processing | SigMOS overall | Speech | Noise | Coloration | Discontinuity | Audiobox PQ | Whisper WER | Parakeet WER | ECAPA |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Native original | 2.997 | 3.457 | 3.765 | 3.528 | 3.960 | 6.786 | 16.142% | 13.370% | 1.000 |
+| Base mono/24 kHz/trim | 2.923 | 3.478 | 3.722 | 3.455 | 4.085 | 6.705 | 16.108% | 13.438% | 0.954 |
+
+Base conversion has mixed effects and is not an enhancement result. Its mean
+duration ratio to the untrimmed native original is 0.824. Subsequent model
+effects must also be compared against this control. Full per-source aggregates
+and pooled error rates are in [processing CSV](quality_v10_processing.csv) and
+[JSONL](quality_v10_processing.jsonl). Enhancement trials and refinement remain
+in progress; no winner has been selected.
+
+Sequential short-file scoring drew approximately 37–39 W with 42–56% sampled
+GPU utilization during the observed control phase. GPU placement alone does
+not saturate these small inference workloads. CPU postprocessing now overlaps
+model inference; one-worker and four-worker identity outputs were byte-identical
+in tests, and worker failures correctly propagated. A two-trial concurrent
+sweep is being measured. This is an execution experiment, not a demonstrated
+throughput gain. The updated suite passed 186 tests. All 80,751 records also
+passed the frontend and structural dataset preflight.
+
 ## Remaining work
 
 Finish the processing sweep and refinements, record measured comparisons and the stopping decision,
