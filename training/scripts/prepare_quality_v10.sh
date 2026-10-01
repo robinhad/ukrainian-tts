@@ -34,4 +34,7 @@ MANIFEST="$MANIFEST_DIR/all.parquet" RAW_MANIFEST="$RAW_MANIFEST" \
   REPORT="${ROOT}/quality_runs/v10/embeddings.json" \
   OUTPUT_MANIFEST="${ROOT}/data/quality_v10/hybrid_manifest/all.parquet" \
   "${ROOT}/scripts/extract_hybrid_embeddings.sh"
-"$RECIPE" --stage 4 --stop_stage 6 --nj "${SLURM_CPUS_PER_TASK:-8}"
+# The recipe automatically consumes cached pitch/energy in stage 7. Avoid
+# repeating CPU pitch extraction in every optimizer iteration.
+"$RECIPE" --stage 4 --stop_stage 6 --nj "${SLURM_CPUS_PER_TASK:-8}" \
+  --write_collected_feats true

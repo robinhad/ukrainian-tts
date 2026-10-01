@@ -235,6 +235,24 @@ An optional profile field, `input_peak_dbfs: -3`, peak-normalizes the model inpu
 The processor reverses that input gain before wet/dry blending and final loudness
 matching. This is an experimental processing setting and must be compared on the
 fixed panel before use; it is disabled by default.
+
+For faster local refinements, freeze a smaller source-balanced subset of the
+processing panel and derive its reference scores from completed measurements:
+
+```bash
+python -m training.quality.refine_panel \
+  --parent training/quality_runs/v10/panels/processing.jsonl \
+  --output training/quality_runs/v10/refinement --per-source 20 \
+  --reports training/quality_runs/v10/search/original \
+    training/quality_runs/v10/search/identity_wet1/quality
+```
+
+This selects training items only, verifies measured audio hashes, and recomputes
+aggregates from the selected per-file and segment scores. Derived reports record
+their parent provenance and do not pretend the models were rerun. Evaluate new
+profiles with `refinement/processing.jsonl`, compare with `refinement/references`,
+then confirm promising settings on the full 800-item processing panel before
+selection. The held-out checkpoint panel remains unchanged.
 The sweep also accepts `--profile-workers 2` to run independent processing and
 scoring trials concurrently within one GPU allocation. Each trial writes to its
 own directory and `command.log`. Compare throughput, power, and free unified
@@ -262,7 +280,8 @@ sbatch training/slurm/train_quality_v10.sbatch
 
 The numerical batch example is a starting point, not a measured recommendation.
 Calibration tries real JETS training batches, worker counts, and TF32 settings,
-and records runtime, power, and available unified memory. It extracts training
+and records runtime, power, and available unified memory. Preparation caches
+pitch and energy so training can avoid repeated CPU extraction. Calibration extracts training
 time from the checkpoint reporter, excluding setup and validation from the
 throughput comparison. It uses batch-bin throughput, with power as a tie
 breaker, and a 100 W reference. It does not change the hardware power limit.
