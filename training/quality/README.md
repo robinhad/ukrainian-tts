@@ -227,6 +227,10 @@ resampling, loudness matching, and non-model signal filters run on CPU.
 CPU loudness matching and WAV writes overlap GPU inference through a bounded
 worker queue (`process --cpu-workers`, default 4). Model calls stay sequential
 to preserve recurrent state, and worker failures propagate to the pipeline.
+If an input or enhanced signal falls below the EBU loudness measurement gate,
+normalization applies only the peak cap and records `below_measurement_gate`.
+The file remains in the evaluation, exposing suppression in the content and
+quality metrics; an undefined loudness measurement never causes an unlimited gain.
 The sweep also accepts `--profile-workers 2` to run independent processing and
 scoring trials concurrently within one GPU allocation. Each trial writes to its
 own directory and `command.log`. Compare throughput, power, and free unified

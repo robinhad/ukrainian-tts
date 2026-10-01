@@ -112,6 +112,13 @@ sweep is being measured. This is an execution experiment, not a demonstrated
 throughput gain. The updated suite passed 186 tests. All 80,751 records also
 passed the frontend and structural dataset preflight.
 
+The initial full-strength DeepFilterNet trial encountered an output below the
+EBU loudness measurement gate. On that FLEURS item, input RMS was 0.003880 and
+output RMS was 0.00000658 (about 55 dB lower). Undefined integrated loudness now
+leaves the output unamplified, subject only to the peak cap, and records an
+explicit status. The item stays in the panel for content and quality scoring.
+This is a single-file failure mode, not an aggregate verdict on the model.
+
 ## Remaining work
 
 Finish the processing sweep and refinements, record measured comparisons and the stopping decision,
