@@ -10,7 +10,7 @@
   "configuration_status": "recovery_training_in_progress",
   "limitations": [
     "The 50-update cache policy passed a 1000-update diagnostic but later reached the memory reserve during epoch six.",
-    "The recovery policy releases unused cache every 10 updates; it completed 10000 resumed updates with a valid 15000-step checkpoint. This does not guarantee the remaining epochs will fit.",
+    "The recovery policy releases unused cache every 10 updates; it completed 15000 resumed updates with a valid 20000-step checkpoint. This does not guarantee the remaining epochs will fit.",
     "The saved 5000-update checkpoint passed both optimizer-count and finite, matching-weight checks before recovery.",
     "Batch bins/s is a work proxy and calibration power means include initialization and validation."
   ],
@@ -31,14 +31,14 @@
     }
   ],
   "resume_steps": 5000,
-  "validated_recovery_updates": 10000,
-  "audited_steps": 15000,
+  "validated_recovery_updates": 15000,
+  "audited_steps": 20000,
   "optimizer_steps_by_optimizer": [
     [
-      15000
+      20000
     ],
     [
-      15000
+      20000
     ]
   ],
   "minimum_sampled_available_gib": 55.90428161621094

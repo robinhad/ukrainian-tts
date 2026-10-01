@@ -495,6 +495,17 @@ seconds for training and 43.41 seconds for validation. Validation generator loss
 was 66.672 and mel loss 49.995; these losses do not establish perceptual quality.
 Checkpoint audio evaluation remains pending after training.
 
+The 20K checkpoint also passed both optimizer-count and finite, matching-weight
+checks. Every saved recovery checkpoint through 20K passed its audit, and all
+541 Adam counters remain on CPU. Across 15,000 resumed updates, 1,500 cache
+releases preserved live allocations; peak live/reserved allocations remained
+27.03/54.84 GiB. The 405 one-minute samples through this save show mean power
+51.15 W, maximum 58.94 W, mean GPU utilization 85.62%, minimum sampled available
+memory 55.90 GiB, and no alerts. Epoch twenty took 1,571.12 seconds for training
+and 43.39 seconds for validation. Validation generator/mel losses were
+64.953/46.717, compared with 66.672/49.995 at 15K. These remain training
+diagnostics; perceptual checkpoint metrics are pending.
+
 ## Original-audio score distributions
 
 The original-audio baseline contains 800 recordings, exactly 100 from each of

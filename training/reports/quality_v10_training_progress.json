@@ -1,52 +1,52 @@
 {
   "status": "training_in_progress",
   "target_steps": 100000,
-  "audited_steps": 15000,
+  "audited_steps": 20000,
   "checkpoint_audit": {
-    "epoch": 15,
+    "epoch": 20,
     "expected_optimizers": 2,
-    "expected_steps": 15000,
+    "expected_steps": 20000,
     "model_artifact": {
       "different_keys": [],
       "matches_checkpoint_model": true,
       "missing_keys": [],
       "model_tensor_count": 549,
       "nonfinite_model_tensors": [],
-      "sha256": "44dea39f44a4e174b12efae4b709ed2e798d6034c3ac6ce0b6c2f4c776f8233c",
+      "sha256": "322e398b29e50f25ab2ccce8525e0a6c7ca32ddf91e3704c8c84c558c2b8adb6",
       "unexpected_keys": []
     },
     "model_tensor_count": 549,
     "nonfinite_model_tensors": [],
     "optimizer_count": 2,
     "optimizer_steps": [
-      15000
+      20000
     ],
     "optimizer_steps_by_optimizer": [
       [
-        15000
+        20000
       ],
       [
-        15000
+        20000
       ]
     ],
-    "reported_steps": 15000,
+    "reported_steps": 20000,
     "status": "PASS"
   },
-  "completed_epochs": 15,
+  "completed_epochs": 20,
   "resume_steps": 5000,
   "resumed_run_telemetry_through_checkpoint": {
-    "samples": 271,
+    "samples": 405,
     "interval_seconds": 60,
-    "mean_power_watts": 51.10428044280443,
+    "mean_power_watts": 51.15237037037037,
     "maximum_power_watts": 58.94,
-    "mean_gpu_utilization_percent": 85.34686346863468,
+    "mean_gpu_utilization_percent": 85.61975308641975,
     "minimum_sampled_available_memory_gib": 55.90428161621094,
-    "minimum_sampled_free_disk_gib": 54.54849624633789,
+    "minimum_sampled_free_disk_gib": 54.34064483642578,
     "alert_samples": 0
   },
   "cache_maintenance": {
     "interval_updates": 10,
-    "releases": 1000,
+    "releases": 1500,
     "all_live_allocations_unchanged": true,
     "peak_live_allocated_gib": 27.034698963165283,
     "peak_reserved_gib": 54.83984375
@@ -60,7 +60,7 @@
     }
   ],
   "notes": [
-    "Telemetry covers the cache10 recovery from 5000 through 15000 saved updates, including initialization and validation.",
+    "Telemetry covers the cache10 recovery from 5000 through 20000 saved updates, including initialization and validation.",
     "Minimum available memory is from one-minute telemetry, not the one-second guard minimum.",
     "The counter fix and shorter cache interval changed together; this is not an isolated optimizer throughput experiment.",
     "These training and development losses are not perceptual audio-quality measurements.",
