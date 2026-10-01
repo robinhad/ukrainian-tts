@@ -1,0 +1,31 @@
+{
+  "epoch": 2,
+  "expected_optimizers": 2,
+  "expected_steps": 2000,
+  "model_artifact": {
+    "different_keys": [],
+    "matches_checkpoint_model": true,
+    "missing_keys": [],
+    "model_tensor_count": 549,
+    "nonfinite_model_tensors": [],
+    "sha256": "f199f5b76fac7cc00fa7f2ebe1f4fc9714f4684c68744964e5ead223aeb5cf22",
+    "unexpected_keys": []
+  },
+  "model_tensor_count": 549,
+  "nonfinite_model_tensors": [],
+  "optimizer_count": 2,
+  "optimizer_steps": [
+    2000
+  ],
+  "optimizer_steps_by_optimizer": [
+    [
+      2000
+    ],
+    [
+      2000
+    ]
+  ],
+  "reported_steps": 2000,
+  "status": "PASS",
+  "purpose": "Confirm optimizer continuity and finite matching model artifacts after resuming the validated 1000-update checkpoint."
+}

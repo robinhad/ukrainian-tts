@@ -420,6 +420,11 @@ checkpoint hash was verified before resuming. The failed initial attempt and
 the completed diagnostic remain separately preserved. The 24 GiB guard remains
 active; one successful epoch does not guarantee all remaining updates will fit.
 
+The next saved checkpoint also passed its audit: both optimizers reached exactly
+2,000 updates, all model tensors were finite, and the epoch artifact matched the
+checkpoint. This verifies optimizer continuity across the restart. Training
+continued into epoch three. See the [resume audit](quality_v10_training_resume_validation.json).
+
 ## Remaining work
 
 Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See
