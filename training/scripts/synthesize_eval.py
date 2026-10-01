@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 
@@ -52,6 +53,12 @@ def main() -> int:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--inference-log", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--quality-panel", type=Path, default=os.getenv("UKTTS_QUALITY_PANEL"))
+    parser.add_argument("--quality-config", type=Path,
+                        default=os.getenv("UKTTS_QUALITY_CONFIG", "training/conf/quality.yaml"))
+    parser.add_argument("--quality-original", type=Path, default=os.getenv("UKTTS_QUALITY_ORIGINAL"))
+    parser.add_argument("--quality-previous", type=Path, default=os.getenv("UKTTS_QUALITY_PREVIOUS"))
+    parser.add_argument("--quality-best", type=Path, default=os.getenv("UKTTS_QUALITY_BEST"))
     args = parser.parse_args()
 
     frame = pd.read_parquet(args.manifest).set_index("utterance_id")
@@ -134,6 +141,21 @@ def main() -> int:
         encoding="utf-8",
     )
     print(json.dumps({key: value for key, value in report.items() if key != "records"}, indent=2))
+    if args.quality_panel and not errors:
+        import yaml
+        from training.quality.backends import Models
+        from training.quality.evaluate import evaluate
+        from training.quality.compare import compare
+
+        quality_config = yaml.safe_load(args.quality_config.read_text())
+        quality_output = args.output.with_suffix("").with_name(args.output.stem + "_quality")
+        evaluate(args.quality_panel, quality_output, args.checkpoint.stem, quality_config,
+                 Models(quality_config["models"]), args.wav_dir, args.checkpoint,
+                 args.config, resume=True, allow_extra_wavs=True)
+        if args.quality_original:
+            compare(quality_output, {key: value for key, value in {
+                "original": args.quality_original, "previous": args.quality_previous,
+                "best": args.quality_best}.items() if value is not None}, quality_output)
     return 0 if not errors else 1
 
 

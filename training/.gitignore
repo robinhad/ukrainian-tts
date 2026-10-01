@@ -8,6 +8,9 @@ exp_full_trimmed/
 dump_smoke_trimmed/
 exp_smoke_trimmed/
 .venv/
+.venv-quality/
+vendor/quality-models/
+quality_runs/
 activate.sh
 vendor/espnet-src/
 vendor/espeak-ng-src/

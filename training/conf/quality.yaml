@@ -1,0 +1,26 @@
+schema_version: 1
+selection_mode: report_only
+segment_seconds: 3.0
+segment_stride_seconds: 1.5
+worst_segments: 3
+models:
+  device: cuda
+  sigmos_dir: training/vendor/quality-models/SIG-Challenge/ICASSP2024/sigmos
+  audiobox_checkpoint: training/vendor/quality-models/audiobox.pt
+  whisper: large-v3
+  whisper_cache: training/vendor/quality-models/whisper
+  ecapa: speechbrain/spkrec-ecapa-voxceleb
+  ecapa_revision: 0f99f2d0ebe89ac095bcc5903c4dd8f72b367286
+  ecapa_cache: training/vendor/quality-models/ecapa
+thresholds:
+  clip_amplitude: 0.999
+  duration_relative_change: 0.15
+  hf_cutoff_hz: 6000
+  hf_ratio: 0.45
+  hf_excess_db: 12.0
+  hf_floor_dbfs: -45.0
+  # Uncalibrated values: annotate only. Never discard files or promote models.
+  minimum: {sigmos_overall: 3.0, sigmos_speech: 3.0, sigmos_noise: 3.0,
+            sigmos_coloration: 3.0, sigmos_discontinuity: 3.0,
+            audiobox_pq: 5.0, ecapa_similarity: 0.65}
+  maximum: {cer: 0.15, wer: 0.30}
