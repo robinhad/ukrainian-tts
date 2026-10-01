@@ -167,3 +167,15 @@ identity_lufsminus23,identity_wet1,parakeet_cer,160,8,0.000660835688955012,-0.00
 identity_lufsminus23,identity_wet1,parakeet_wer,160,8,0.003949127320419693,-0.003281013544188862,0.01347477069040892,2000,777,paired_within_source_bootstrap,report_only
 identity_lufsminus23,identity_wet1,ecapa_similarity,160,8,-5.470216274261475e-06,-1.623447984457016e-05,5.951616913080202e-07,2000,777,paired_within_source_bootstrap,report_only
 identity_lufsminus23,identity_wet1,hf_burst_count,160,8,0.525,0.225,0.86875,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,sigmos_overall,160,8,0.2612980455160141,0.19893590942025183,0.3228427835926413,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,sigmos_speech,160,8,0.21548117995262145,0.15728172469884158,0.27638603679835794,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,sigmos_noise,160,8,0.5423617616295815,0.44661666586995125,0.633614950068295,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,sigmos_coloration,160,8,0.036371102929115294,-0.033675392754375935,0.10774374071508641,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,sigmos_discontinuity,160,8,-0.014684249460697175,-0.07358203023672104,0.04618376474827515,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,audiobox_pq,160,8,0.7611734166741371,0.6633881193399429,0.8587233178317546,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,cer,160,8,0.008814467543791182,-0.004198475896367697,0.021961605909307323,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,wer,160,8,0.030119219537400856,0.0073205144162245125,0.053671523254435055,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,parakeet_cer,160,8,0.00025481835178399785,-0.011216839306498248,0.010199469586916716,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,parakeet_wer,160,8,0.00779616100092718,-0.010267297797136584,0.02689513590708527,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,ecapa_similarity,160,8,-0.15104571972042322,-0.16230339403264224,-0.14036447908729313,2000,777,paired_within_source_bootstrap,report_only
+legacy_v8_exact,identity_wet1,hf_burst_count,160,8,0.54375,0.16875,0.90625,2000,777,paired_within_source_bootstrap,report_only

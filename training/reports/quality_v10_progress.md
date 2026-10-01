@@ -121,9 +121,9 @@ duration ratio to the untrimmed native original is 0.824. Subsequent model
 effects must also be compared against this control. Full per-source aggregates
 and pooled error rates are in [processing CSV](quality_v10_processing.csv) and
 [JSONL](quality_v10_processing.jsonl). The initial sweep and two full-panel
-confirmations are complete; no winner
-has been selected. The exact historical training cascade remains unmeasured
-with this metric suite.
+confirmations are complete; no winner has been selected. The historical training
+cascade has completed the 160-item screening below; its 800-item comparison is
+still running.
 
 Against the base-conversion control, the 50% blend improved mean SigMOS overall
 by 0.0549 (95% interval 0.0457–0.0636) and Audiobox PQ by 0.0797
@@ -209,6 +209,7 @@ Reference rows reuse verified measurements of the same selected recordings.
 |---|---:|---:|---:|---:|---:|
 | Base control | 2.924 | 6.724 | 14.46% | 13.91% | 0.949 |
 | Base control, -23 LUFS | 2.931 | 6.716 | 14.34% | 14.31% | 0.949 |
+| Historical v8/v9 recipe, including RNNoise85 and fallbacks | 3.185 | 7.485 | 17.48% | 14.69% | 0.798 |
 | DeepFilterNet, -6 dBFS input, full | 3.113 | 6.989 | 15.69% | 14.82% | 0.922 |
 | DeepFilterNet, -3 dBFS input, full (reference) | 3.122 | 6.982 | 16.50% | 14.83% | 0.922 |
 | DeepFilterNet, 0 dBFS input, full | 3.128 | 6.983 | 17.56% | 14.95% | 0.920 |
@@ -245,7 +246,7 @@ method is applied to the 160-item subset in
 [JSONL](quality_v10_paired_refinement.jsonl); these exploratory intervals do not
 calibrate acceptance thresholds.
 
-## Historical pipeline comparison gap
+## Historical pipeline comparison
 
 The repository's v8/v9 training cascade is ClearVoice, Sidon, light de-essing,
 FFmpeg de-clicking and peak limiting, DeepFilterNet3, RNNoise85, and peak-safe
@@ -260,11 +261,20 @@ historical fallbacks. It is therefore not a reproduction of the previous
 training pipeline. Its scores cannot establish an improvement over that
 pipeline. The bundled RNNoise implementation is CPU-only. CPU stages are
 permitted, and the unnecessary restriction has been removed. The complete
-historical recipe is now running on the matched 160-item panel, including
-its production fallbacks. Its RNNoise archive matches the pinned checksum;
-the other three neural stages have verified GPU tensor placement. A full
-800-item historical baseline will follow. No historical score is claimed
-until scoring completes. Training selection remains open.
+historical recipe has completed processing and scoring on the matched 160-item
+panel with zero errors. Its RNNoise archive matches the pinned checksum, and
+the other three neural stages have verified GPU tensor placement. One item
+required the production fallback that conditions the signal before DeepFilterNet.
+The reproducible launcher checks source/output hashes and processing coverage.
+All 194 tests pass after removing the unnecessary CPU-stage restriction.
+
+On these same 160 items, the historical recipe improves SigMOS overall and
+Audiobox PQ substantially, but Whisper WER is 17.48% versus the control's
+14.46%, and ECAPA similarity falls from 0.949 to 0.798. Parakeet WER is 14.69%
+versus 13.91%. Mean burst count rises from 2.075 to 2.619. The results show a
+perceived-quality/content/speaker tradeoff; they do not establish that either
+recipe is best on every metric. The full 800-item historical baseline is running.
+Training selection remains open until that comparison is reviewed.
 
 ## Remaining work
 
