@@ -1,0 +1,14 @@
+numpy==1.26.4
+pandas==2.3.1
+pyarrow==21.0.0
+soundfile==0.13.1
+librosa==0.11.0
+onnxruntime==1.22.1
+PyYAML==6.0.2
+speechbrain==1.1.0
+huggingface-hub==0.34.3
+imageio-ffmpeg==0.6.0
+pytest==8.4.1
+av==16.0.1
+audiobox-aesthetics @ git+https://github.com/facebookresearch/audiobox-aesthetics.git@2618e9d451b456e9328b39495b5e6234678aa550
+openai-whisper @ git+https://github.com/openai/whisper.git@86098128c0b4f24f0e2aa2994de830614b474227

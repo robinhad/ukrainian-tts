@@ -25,7 +25,13 @@ class Models:
         import whisper
         from audiobox_aesthetics.infer import initialize_predictor
         from speechbrain.inference.speaker import EncoderClassifier
+        from speechbrain.utils.fetching import FetchConfig
 
+        config = dict(config)
+        repository = Path(__file__).resolve().parents[2]
+        for key in ('sigmos_dir', 'audiobox_checkpoint', 'whisper_cache', 'ecapa_cache'):
+            if not Path(config[key]).is_absolute():
+                config[key] = str(repository / config[key])
         self.torch = torch
         self.device = config['device']
         if self.device.startswith('cuda') and not torch.cuda.is_available():
@@ -42,7 +48,7 @@ class Models:
         self.whisper = whisper.load_model(config['whisper'], device=self.device,
                                           download_root=config['whisper_cache'])
         self.ecapa = EncoderClassifier.from_hparams(
-            source=config['ecapa'], revision=config['ecapa_revision'],
+            source=config['ecapa'], fetch_config=FetchConfig(revision=config['ecapa_revision']),
             savedir=config['ecapa_cache'], run_opts={'device': self.device})
         self.identity = {
             'sigmos_code_sha256': file_hash(root / 'sigmos.py'),

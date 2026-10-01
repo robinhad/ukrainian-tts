@@ -110,3 +110,15 @@ def test_v9_duration_monitor_uses_audio_seconds(tmp_path: Path) -> None:
     assert record["record_progress_percent"] == 50.0
     assert record["duration_progress_percent"] == 10.0
     assert record["failed"] == 0
+
+
+def test_gpu_monitor_accepts_unified_memory_na(monkeypatch):
+    from types import SimpleNamespace
+    from training.scripts import monitor_expanded_v9_duration_progress as monitor
+    monkeypatch.setattr(monitor.subprocess, "run", lambda *a, **k: SimpleNamespace(
+        stdout="0, 95, [N/A], 85.0, [N/A], 65\n"))
+    row = monitor.gpu_status()[0]
+    assert row["memory_used_mib"] is None
+    assert row["power_limit_w"] is None
+    assert row["power_utilization_percent"] is None
+    assert row["power_w"] == 85.0

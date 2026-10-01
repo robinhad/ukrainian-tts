@@ -10,6 +10,13 @@ exp_smoke_trimmed/
 .venv/
 .venv-quality/
 vendor/quality-models/
+vendor/enhancement-models/
+vendor/rnnoise/
+vendor/rustup/
+vendor/rustup-init
+vendor/cargo/
+dump_quality*/
+exp_quality*/
 quality_runs/
 activate.sh
 vendor/espnet-src/

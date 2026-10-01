@@ -133,3 +133,91 @@ These tests use synthetic signals and explicit test doubles. They validate
 data isolation, diagnostics, output formats, coverage, cache invalidation, and
 paired comparisons. They are not evidence of learned-model accuracy or of a
 completed real audio experiment.
+
+## Environment and SLURM execution
+
+Install PyTorch/torchaudio 2.9.1 from the CUDA wheel index compatible with the
+allocated GPU. The training bootstrap accepts `TORCH_INDEX_URL`; it preserves
+SLURM's `CUDA_VISIBLE_DEVICES`. ARM builds of DeepFilterNet need Cargo/Rust.
+Then run `bash training/scripts/bootstrap_quality.sh`. SigMOS code is pinned
+to a commit, its ONNX model is checked against its Git LFS SHA-256, and the
+Audiobox checkpoint hash is recorded. Whisper and ECAPA identities are saved
+in each evaluation. The FFmpeg executable is local to the environment.
+
+The existing enhancement adapters additionally need ClearerVoice, Transformers,
+DeepFilterNet, and the pinned RNNoise executable. Their model identities are
+recorded per processed file. `setup_enhancement_review_env.sh` describes the
+historical separate enhancement environment; choose CUDA wheels appropriate
+for the current GPU instead of assuming the old machine's setup.
+
+Reconstruct the downloaded corpus without a denoiser:
+
+```bash
+python -m training.scripts.materialize_non_voa --workers 8
+python -m training.quality select --manifest training/data/quality_v10_raw/all.parquet \
+  --output training/quality_runs/v10/panels --per-source 100
+```
+
+The reconstruction preserves native decoded audio until the 24 kHz conversion,
+uses the existing boundary-trim algorithm, and writes PCM24. It removes exact
+audio and normalized-text duplicates and uses fixed global text groups for
+96/2/2 train/dev/eval splits. These are newly reconstructed splits, not a claim
+to reproduce the old host's manifest. Downloaded originals remain preserved.
+
+Submit GPU work from the repository root (the default SLURM partition is used):
+
+```bash
+mkdir -p training/quality_runs
+sbatch training/slurm/quality.sbatch python -m training.quality.search \
+  --panel training/quality_runs/v10/panels/processing.jsonl \
+  --output training/quality_runs/v10/search
+```
+
+The search compares an unprocessed control, individual processors, and cascades,
+including the previous training cascade. It also tests a 50 percent dry mix.
+`combinations.jsonl/.csv` records the measured metric vector for each profile.
+`search_report.json` lists non-dominated profiles. It does not select one.
+Extend the sweep around the best reviewed combinations (for example with
+`--wet 0.25 0.75`) and repeat until the tested refinements show no meaningful
+improvement. Review the per-source and worst-window results as well as the mean.
+Record the tested search space and the stopping decision. Finishing one finite
+sweep is not proof of a global optimum. Keep checkpoint holdout out of this
+processing search.
+
+After reviewing and freezing a profile:
+
+```bash
+export PROFILE="$PWD/training/quality_runs/v10/search/PROFILE_NAME/profile.yaml"
+sbatch training/slurm/quality.sbatch bash training/scripts/prepare_quality_v10.sh
+# After preparation succeeds:
+sbatch training/slurm/quality.sbatch python -m training.scripts.calibrate_quality_v10
+# Read calibration/recommended.json; set the measured values:
+export BATCH_BINS=4000000 WORKERS=8
+sbatch training/slurm/train_quality_v10.sbatch
+```
+
+The numerical batch example is a starting point, not a measured recommendation.
+Calibration tries real JETS training batches and records runtime, power, and
+available unified memory. It uses batch-bin throughput, with power as a tie
+breaker, and a 100 W reference. It does not change the hardware power limit.
+Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.
+
+The default run starts from random weights and trains 100,000 steps. The
+preparation uses new statistics/tokens and recomputes the established 50/50
+raw/processed speaker embeddings. `INIT_CHECKPOINT` is optional and must be
+compatible with the new tokens/architecture. Every 1,000-step epoch is a
+checkpoint boundary. Milestones at 25K/50K/75K/100K are preserved, audited, and
+evaluated after training. Set `UKTTS_QUALITY_BEST` to an explicitly reviewed
+quality result directory to include the best baseline; previous checkpoints
+are chained automatically. No quality threshold can promote or reject them.
+
+Each submitted command has a durable command log, 60-second telemetry, a current
+status JSON, and a completion summary under the ignored run directory. Check
+`squeue`, the command log, status, and progress at least every 30 minutes while
+the pipeline is running. A failed command exits nonzero. Resume only the same
+run with unchanged provenance; correct the failure before resubmission.
+
+For a rebuilt eSpeak runtime, `verify_local_frontend.py` checks all 550 committed
+regression cases before accepting a local data hash. V10 scripts use that
+ignored, verified pin. The global historical pin is not overwritten. A new
+hash never permits different phonemes through this verification step.

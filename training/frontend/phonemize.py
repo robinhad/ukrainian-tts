@@ -80,7 +80,10 @@ def validate_pinned_config(config: FrontendConfig) -> None:
     """Fail closed when inference would use a different frontend snapshot."""
 
     version_file = TRAINING_ROOT / "vendor" / "ESPEAK_NG_VERSION"
-    hash_file = TRAINING_ROOT / "vendor" / "ESPEAK_NG_DATA_HASH"
+    hash_file = Path(os.environ.get("UKTTS_ESPEAK_DATA_HASH_FILE",
+                                   str(TRAINING_ROOT / "vendor" / "ESPEAK_NG_DATA_HASH")))
+    if "UKTTS_ESPEAK_DATA_HASH_FILE" in os.environ and not hash_file.is_file():
+        raise RuntimeError("The explicitly selected eSpeak data hash file is missing")
     if not version_file.exists() or not hash_file.exists():
         return
     expected_version = version_file.read_text(encoding="utf-8").strip()

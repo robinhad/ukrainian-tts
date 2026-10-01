@@ -30,6 +30,7 @@ FIELDS = [
     "embedding_audio_path", "diarization_model", "asr_model",
     "asr_language", "asr_mean_confidence",
     "speaker_stratum_id",
+    "channels", "format", "processing_profile_sha256",
 ]
 
 _WORKER_FRONTEND: UkrainianPhonemizer | None = None

@@ -55,7 +55,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--quality-panel", type=Path, default=os.getenv("UKTTS_QUALITY_PANEL"))
     parser.add_argument("--quality-config", type=Path,
-                        default=os.getenv("UKTTS_QUALITY_CONFIG", "training/conf/quality.yaml"))
+                        default=os.getenv("UKTTS_QUALITY_CONFIG", str(Path(__file__).resolve().parents[1] / "conf/quality.yaml")))
     parser.add_argument("--quality-original", type=Path, default=os.getenv("UKTTS_QUALITY_ORIGINAL"))
     parser.add_argument("--quality-previous", type=Path, default=os.getenv("UKTTS_QUALITY_PREVIOUS"))
     parser.add_argument("--quality-best", type=Path, default=os.getenv("UKTTS_QUALITY_BEST"))

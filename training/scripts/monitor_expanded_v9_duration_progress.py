@@ -57,6 +57,12 @@ def load_start(path: Path, fallback: datetime) -> datetime:
 
 
 def gpu_status() -> list[dict]:
+    def numeric(value):
+        try:
+            return float(value)
+        except ValueError:
+            return None
+
     query = "index,utilization.gpu,memory.used,power.draw,power.limit,temperature.gpu"
     output = subprocess.run(
         ["nvidia-smi", f"--query-gpu={query}", "--format=csv,noheader,nounits"],
@@ -72,12 +78,15 @@ def gpu_status() -> list[dict]:
         rows.append(
             {
                 "index": int(index),
-                "utilization_percent": float(utilization),
-                "memory_used_mib": float(memory),
-                "power_w": float(power),
-                "power_limit_w": float(limit),
-                "power_utilization_percent": round(100 * float(power) / float(limit), 1),
-                "temperature_c": float(temperature),
+                "utilization_percent": numeric(utilization),
+                "memory_used_mib": numeric(memory),
+                "power_w": numeric(power),
+                "power_limit_w": numeric(limit),
+                "power_utilization_percent": (
+                    round(100 * numeric(power) / numeric(limit), 1)
+                    if numeric(power) is not None and numeric(limit) else None
+                ),
+                "temperature_c": numeric(temperature),
             }
         )
     return rows
