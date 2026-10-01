@@ -87,14 +87,16 @@ bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
 was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
 and Parakeet content metrics. Processing selection and 100K training are pending.
 
-The original baseline and base-conversion control completed on all 800 panel
-items with zero scoring errors. The following are equal-source mean whole-file
+The original baseline, base-conversion control, and both initial DeepFilterNet
+trials completed on all 800 panel items with zero scoring errors. The following are equal-source mean whole-file
 scores; CER/WER are mean per-file rates, not pooled corpus rates.
 
 | Processing | SigMOS overall | Speech | Noise | Coloration | Discontinuity | Audiobox PQ | Whisper WER | Parakeet WER | ECAPA |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | Native original | 2.997 | 3.457 | 3.765 | 3.528 | 3.960 | 6.786 | 16.142% | 13.370% | 1.000 |
 | Base mono/24 kHz/trim | 2.923 | 3.478 | 3.722 | 3.455 | 4.085 | 6.705 | 16.108% | 13.438% | 0.954 |
+| DeepFilterNet, 50% blend | 2.978 | 3.516 | 3.851 | 3.481 | 4.102 | 6.784 | 15.931% | 13.549% | 0.951 |
+| DeepFilterNet, full strength | 3.108 | 3.624 | 4.121 | 3.526 | 4.121 | 6.953 | 20.234% | 15.297% | 0.905 |
 
 Base conversion has mixed effects and is not an enhancement result. Its mean
 duration ratio to the untrimmed native original is 0.824. Subsequent model
@@ -102,6 +104,20 @@ effects must also be compared against this control. Full per-source aggregates
 and pooled error rates are in [processing CSV](quality_v10_processing.csv) and
 [JSONL](quality_v10_processing.jsonl). Enhancement trials and refinement remain
 in progress; no winner has been selected.
+
+Against the base-conversion control, the 50% blend improved mean SigMOS overall
+by 0.0549 (95% interval 0.0457–0.0636) and Audiobox PQ by 0.0797
+(0.0736–0.0855). Neither ASR's WER difference excluded zero. Full strength
+improved SigMOS overall by 0.1852 but worsened Whisper WER by 4.126 percentage
+points (2.850–5.509) and Parakeet WER by 1.858 points (0.787–2.946). The blend is
+promising for refinement; full strength shows a content-preservation tradeoff.
+Speaker similarity also declined, so quality gains alone do not establish a winner.
+
+Intervals use 2,000 paired bootstrap resamples within each of the eight sources,
+seed 777, and equal-source means. They describe this fixed panel and are
+exploratory, without adjustment for multiple trials. They are not calibrated
+selection thresholds. See [paired CSV](quality_v10_paired_processing.csv) and
+[JSONL](quality_v10_paired_processing.jsonl).
 
 Sequential short-file scoring drew approximately 37–39 W with 42–56% sampled
 GPU utilization during the observed control phase. GPU placement alone does
@@ -118,6 +134,10 @@ output RMS was 0.00000658 (about 55 dB lower). Undefined integrated loudness now
 leaves the output unamplified, subject only to the peak cap, and records an
 explicit status. The item stays in the panel for content and quality scoring.
 This is a single-file failure mode, not an aggregate verdict on the model.
+
+The separate 88-item held-out original baseline also completed with all requested
+metrics and zero errors. Its recordings remain excluded from processing tuning
+and model training; checkpoint outputs will be compared with these references.
 
 ## Remaining work
 
