@@ -1,0 +1,19 @@
+{
+  "batch_bins": 4000000,
+  "workers": 8,
+  "use_tf32": false,
+  "minimum_available_gib": 24.0,
+  "power_reference_watts": 100,
+  "criterion": "batch-bin throughput during training; power breaks ties within 5 percent",
+  "note": "No power cap change. Batch bins/s is a work proxy, not measured audio samples/s.",
+  "completed_valid_trials": 8,
+  "failed_trials": 2,
+  "validation_steps": 100,
+  "long_run_memory_validated": false,
+  "limitations": [
+    "Only 100 updates per optimizer were validated by successful calibration trials; long-run stability remains under observation.",
+    "The failed eight-million-bin trial was stopped by an earlier external memory guard; subsequent supervision enforces a 24 GiB reserve every second.",
+    "The second eight-million-bin trial was canceled; its remaining two configurations were skipped.",
+    "Calibration power means include startup and validation."
+  ]
+}

@@ -332,8 +332,8 @@ lifetimes, two CPU postprocessing workers per process, and one CPU math thread
 per process. Dependent calibration and training jobs are re-chained to this run. Successful preparation
 releases the calibration job; successful calibration releases the 100,000-step
 training job, which reads the measured recommendation. A failure blocks dependent
-jobs. Training has not started yet. Milestone evaluation follows the completed
-training run.
+jobs. Training has now started with the measured configuration described below.
+Milestone evaluation follows the completed training run.
 
 ## Full-corpus processing outcome
 
@@ -383,11 +383,22 @@ or skipped. This is a resource failure, not a completed timing measurement.
 The supervisor now checks memory every second independently of GPU telemetry,
 uses a 24 GiB reserve for calibration/full training, and kills remaining process
 group members after a two-second grace period. All 203 tests pass, including a
-descendant that ignores SIGTERM. An intermediate six-million-bin trial is being
-compared with the eight retained successful trials. The 100K run remains
-dependent on the completed recommendation.
+descendant that ignores SIGTERM. The intermediate six-million-bin trial also
+crossed the reserve (23.97 GiB available) and was stopped. Its incomplete run is
+excluded from throughput selection. The recommendation selected four million
+batch bins, eight data workers, FP32, and TF32 disabled. It measured 157.31 seconds
+for 100 training updates, 2.543 million batch bins/s, mean sampled power 48.62 W,
+and maximum sampled power 57.18 W. Batch bins/s is a work proxy, not a measured
+audio-sample rate; power averages include initialization and validation.
+
+The 100,000-step run has started with that configuration and the 24 GiB reserve.
+The successful calibration trials establish 100-update behavior only; memory
+stability over a longer run is still being monitored. See the full
+[calibration CSV](quality_v10_training_calibration.csv),
+[JSONL](quality_v10_training_calibration.jsonl), and
+[configuration decision](quality_v10_training_configuration.json).
 
 ## Remaining work
 
-Finish training calibration, complete the 100K run, and compare its checkpoints. See
+Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See
 [run instructions](../quality/README.md).
