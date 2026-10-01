@@ -53,6 +53,8 @@ def main() -> int:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--inference-log", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--duration-warning-min", type=float, default=0.1)
+    parser.add_argument("--duration-warning-max", type=float, default=30.0)
     parser.add_argument("--quality-panel", type=Path, default=os.getenv("UKTTS_QUALITY_PANEL"))
     parser.add_argument("--quality-config", type=Path,
                         default=os.getenv("UKTTS_QUALITY_CONFIG", str(Path(__file__).resolve().parents[1] / "conf/quality.yaml")))
@@ -60,6 +62,8 @@ def main() -> int:
     parser.add_argument("--quality-previous", type=Path, default=os.getenv("UKTTS_QUALITY_PREVIOUS"))
     parser.add_argument("--quality-best", type=Path, default=os.getenv("UKTTS_QUALITY_BEST"))
     args = parser.parse_args()
+    if not 0 <= args.duration_warning_min <= args.duration_warning_max:
+        parser.error("Duration warning bounds must be nonnegative and ordered")
 
     frame = pd.read_parquet(args.manifest).set_index("utterance_id")
     timings = inference_timings(args.inference_log)
@@ -89,12 +93,12 @@ def main() -> int:
             errors.append(f"{utterance_id}: non-finite samples")
         peak = float(np.max(np.abs(waveform))) if waveform.size else 0.0
         if peak == 0.0:
-            errors.append(f"{utterance_id}: all-zero waveform")
+            flags.append("all_zero_waveform")
         if peak >= 0.999:
             flags.append("possible_clipping")
         duration = info.frames / sample_rate if sample_rate else 0.0
-        if not 0.1 <= duration <= 30.0:
-            errors.append(f"{utterance_id}: anomalous duration={duration:.3f}")
+        if not args.duration_warning_min <= duration <= args.duration_warning_max:
+            flags.append("anomalous_duration")
         generation_seconds, rtf = timings.get(utterance_id, (None, None))
         row = frame.loc[utterance_id]
         phonemes = row["espeak_phonemes"]
@@ -130,6 +134,9 @@ def main() -> int:
         "wav_count": len(records),
         "errors": errors,
         "clipping_warnings": sum("possible_clipping" in x["warnings"] for x in records),
+        "duration_warnings": sum("anomalous_duration" in x["warnings"] for x in records),
+        "silence_warnings": sum("all_zero_waveform" in x["warnings"] for x in records),
+        "duration_warning_bounds": [args.duration_warning_min, args.duration_warning_max],
         "duration_min": min((x["duration"] for x in records), default=0.0),
         "duration_max": max((x["duration"] for x in records), default=0.0),
         "rtf_median": float(np.median(rtfs)) if rtfs else None,

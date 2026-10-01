@@ -140,7 +140,13 @@ export UKTTS_QUALITY_BEST=/absolute/path/to/reviewed_best_quality
 The same values can be passed as `--quality-*` arguments to
 `training/scripts/synthesize_eval.py`. Quality output is saved beside the
 existing structural evaluation report, with `_quality` appended. Structural
-errors stop scoring. Threshold flags do not fail the checkpoint.
+errors stop scoring. Threshold flags do not fail the checkpoint. Silent but
+nonempty WAVs and unusual durations are warnings and still reach the quality
+evaluator. The synthesis report's absolute duration warning bounds default to
+0.1–30 seconds and can be changed with `--duration-warning-min` and
+`--duration-warning-max`. Relative duration-change flags use the quality YAML.
+Empty files, nonfinite samples, wrong audio format, and missing IDs remain
+structural errors.
 
 ## Validation
 
