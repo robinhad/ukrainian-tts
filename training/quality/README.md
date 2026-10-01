@@ -229,10 +229,10 @@ sbatch training/slurm/quality.sbatch python -m training.quality.search \
 
 The search compares a base-conversion control, individual GPU processors, and
 GPU model cascades. It also tests a 50 percent dry mix. Loaded tensor devices,
-including frozen TorchScript weight constants, are checked and recorded. A CPU
-model fallback fails processing. The bundled RNNoise executable is CPU-only,
-so its profiles are excluded from this GPU processing iteration. Decoding,
-resampling, loudness matching, and non-model signal filters run on CPU.
+including frozen TorchScript weight constants, are checked and recorded.
+GPU-capable neural stages must stay on GPU. The bundled RNNoise executable
+runs on CPU and is permitted, as are CPU decoding, resampling, loudness
+matching, and non-model signal filters.
 CPU loudness matching and WAV writes overlap GPU inference through a bounded
 worker queue (`process --cpu-workers`, default 4). Model calls stay sequential
 to preserve recurrent state, and worker failures propagate to the pipeline.
@@ -267,6 +267,36 @@ their parent provenance and do not pretend the models were rerun. Evaluate new
 profiles with `refinement/processing.jsonl`, compare with `refinement/references`,
 then confirm promising settings on the full 800-item processing panel before
 selection. The held-out checkpoint panel remains unchanged.
+To evaluate the complete historical v8/v9 training recipe, including its DSP,
+RNNoise85, and production fallbacks for outputs below the loudness gate:
+
+```bash
+sbatch training/slurm/quality.sbatch bash training/scripts/evaluate_legacy_quality.sh
+```
+
+The default uses the fixed 160-item refinement panel and matching references.
+ClearVoice, Sidon, and DeepFilterNet run on GPU; RNNoise runs on CPU. Two
+processing workers share the allocation. The launcher checks frozen audio hashes
+and the RNNoise archive checksum, records code/binary hashes and model devices,
+and preserves the previous recipe's fallback behavior. This reproduces the
+historical processing recipe in the current environment, without claiming
+byte identity with files produced by an earlier environment.
+
+For the complete 800-item comparison, set all panel and reference paths together:
+
+```bash
+PANEL=training/quality_runs/v10/panels/processing.jsonl \
+OUTPUT_DIR=training/quality_runs/v10/search/legacy_v8_exact \
+ORIGINAL_REPORT=training/quality_runs/v10/search/original \
+CONTROL_REPORT=training/quality_runs/v10/search/identity_wet1/quality \
+sbatch training/slurm/quality.sbatch bash training/scripts/evaluate_legacy_quality.sh
+```
+
+`PROCESS_WORKERS` sets concurrency (default 2); `QUALITY_CONFIG` selects the
+frozen metric configuration. Historical reports use the same per-file, segment,
+aggregate, and comparison formats as the other profiles. The generic three-model
+cascade does not include all these historical stages and is a separate trial.
+
 The sweep also accepts `--profile-workers 2` to run independent processing and
 scoring trials concurrently within one GPU allocation. Each trial writes to its
 own directory and `command.log`. Compare throughput, power, and free unified

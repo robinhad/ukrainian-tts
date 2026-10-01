@@ -104,3 +104,21 @@ def test_optional_output_loudness_with_real_meter_preserves_duration_and_peak(tm
     assert sr == rate and len(actual) == len(audio)
     assert abs(measure_lufs(actual, sr) + 23) < .1
     assert np.max(np.abs(actual)) < 10 ** (-.1 / 20)
+
+
+def test_cpu_rnnoise_is_allowed_and_device_is_reported(tmp_path, monkeypatch):
+    from training.quality import processing
+    source = tmp_path / 'input.wav'
+    sf.write(source, np.linspace(-.1, .1, 2400), 24000, subtype='PCM_24')
+    write_tables(tmp_path, 'panel', [{'utterance_id': 'one', 'source_id': 'a', 'audio_path': str(source)}])
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: rnnoise85\nmodel_cache: unused\n')
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.make_backend',
+                        lambda args: (tmp_path / 'rnnoise', {'name': 'RNNoise85'}))
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.backend_channel',
+                        lambda name, backend, audio, rate: audio)
+    monkeypatch.setattr(processing, 'match_loudness_for_reporting',
+                        lambda audio, reference, rate, target: (audio, {}))
+    rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out', device='cpu')
+    assert rows[0]['backend_identity']['model_devices'] == {'rnnoise': ['cpu']}
+    assert rows[0]['input_frames'] == rows[0]['output_frames'] == 2400

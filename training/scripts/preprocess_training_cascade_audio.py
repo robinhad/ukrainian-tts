@@ -269,7 +269,12 @@ class Cascade:
         self.sidon = SidonBackend(device, cache / "sidon")
         self.deepfilter = DeepFilterDefaultBackend(cache / "deepfilternet")
         self.rnnoise_binary = rnnoise_binary.resolve(strict=True)
+        from training.quality.devices import require_gpu_models
+        model_devices = require_gpu_models((self.clearervoice, self.sidon, self.deepfilter))
+        model_devices['rnnoise'] = ['cpu']
+        print(json.dumps({'model_devices': model_devices}), flush=True)
         self.identity = {
+            "model_devices": model_devices,
             "clearervoice": self.clearervoice.identity,
             "sidon": self.sidon.identity,
             "deepfilternet3": {

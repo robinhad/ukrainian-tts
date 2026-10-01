@@ -83,8 +83,9 @@ the model revision recorded in its processing provenance.
 
 The enhancement adapters verify CUDA tensor placement, including constants in
 frozen TorchScript models. DeepFilterNet, Sidon, ClearVoice, and their combined
-pipeline passed real-audio GPU checks. CPU-only RNNoise profiles are excluded
-from the current sweep following the GPU-processing requirement.
+pipeline passed real-audio GPU checks. RNNoise was initially excluded because
+the GPU preference was interpreted too strictly. CPU stages are permitted;
+RNNoise now runs on CPU while GPU-capable neural stages remain on GPU.
 
 SigMOS also runs its neural operations on CUDA. A runtime profile verified
 CUDA convolutions, GRU, and dense layers; CPU work was limited to integer shape
@@ -257,11 +258,13 @@ or conditioning the signal before DeepFilterNet. See the
 The current three-model cascade omits the intermediate DSP, RNNoise, and these
 historical fallbacks. It is therefore not a reproduction of the previous
 training pipeline. Its scores cannot establish an improvement over that
-pipeline. The bundled RNNoise neural implementation is CPU-only and was excluded
-under the current GPU-model requirement. Inputs for a matched 160-item historical
-comparison are prepared; execution awaits clarification of whether the exact
-historical baseline may use CPU RNNoise. All other neural stages can use GPU.
-No historical-comparison score is claimed yet. Training selection remains open.
+pipeline. The bundled RNNoise implementation is CPU-only. CPU stages are
+permitted, and the unnecessary restriction has been removed. The complete
+historical recipe is now running on the matched 160-item panel, including
+its production fallbacks. Its RNNoise archive matches the pinned checksum;
+the other three neural stages have verified GPU tensor placement. A full
+800-item historical baseline will follow. No historical score is claimed
+until scoring completes. Training selection remains open.
 
 ## Remaining work
 

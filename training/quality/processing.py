@@ -63,10 +63,7 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         input_peak_dbfs = float(input_peak_dbfs)
         if backend_name == 'identity' or not -30 <= input_peak_dbfs <= 0:
             raise ValueError('input_peak_dbfs requires an enhancement model and a value in [-30, 0]')
-    if 'rnnoise' in backend_name:
-        raise ValueError('The bundled RNNoise executable runs its neural model on CPU; '
-                         'select a GPU enhancement profile for this iteration')
-    if backend_name != 'identity':
+    if backend_name not in {'identity', 'rnnoise85'}:
         import torch
         if not device.startswith('cuda') or not torch.cuda.is_available():
             raise RuntimeError('Enhancement models require a SLURM GPU allocation')
@@ -82,8 +79,11 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     root = Path(__file__).resolve().parents[1]
     if backend is not None:
         from .devices import require_gpu_models
-        identity = {**identity, 'model_devices': require_gpu_models(backend)}
-        print(f'GPU enhancement models verified: {identity["model_devices"]}', flush=True)
+        devices = {} if backend_name == 'rnnoise85' else require_gpu_models(backend)
+        if 'rnnoise' in backend_name:
+            devices['rnnoise'] = ['cpu']
+        identity = {**identity, 'model_devices': devices}
+        print(f'Enhancement model devices verified: {devices}', flush=True)
     identity = {**identity, 'adapter_hashes': {
         name: file_hash(root / name) for name in ['quality/processing.py',
         'quality/devices.py', 'scripts/run_enhancement_review_backend.py',
