@@ -70,8 +70,8 @@ All scoring models, including pinned Parakeet TDT 0.6B v3 in a separate NeMo
 environment, completed a two-file Ukrainian smoke evaluation with no errors.
 All eight processing paths also completed a two-file smoke sweep. These checks
 verify model execution and report generation, not representative corpus quality.
-The source-balanced experiment remains necessary. No processing winner or
-audio-quality improvement is claimed yet.
+The smoke checks establish execution, not audio-quality improvement. The
+source-balanced findings below support the subsequent processing review.
 
 Preparation profiling compared eight threads with eight worker processes on
 512 source records: 10.98 seconds versus 1.04 seconds, with identical output
@@ -108,6 +108,8 @@ scores; CER/WER are mean per-file rates, not pooled corpus rates.
 | Sidon, full strength | 3.152 | 3.738 | 4.260 | 3.461 | 4.183 | 7.443 | 16.700% | 14.309% | 0.815 |
 | ClearVoice, 50% blend | 2.956 | 3.501 | 3.813 | 3.473 | 4.103 | 6.755 | 15.864% | 13.383% | 0.952 |
 | ClearVoice, full strength | 3.024 | 3.553 | 3.982 | 3.506 | 4.130 | 6.851 | 16.229% | 13.189% | 0.939 |
+| ClearVoice → Sidon, 50% blend | 3.045 | 3.636 | 4.036 | 3.437 | 4.164 | 7.025 | 17.664% | 14.010% | 0.852 |
+| ClearVoice → Sidon, full strength | 3.151 | 3.733 | 4.266 | 3.462 | 4.173 | 7.446 | 16.976% | 14.338% | 0.815 |
 
 Base conversion has mixed effects and is not an enhancement result. Its mean
 duration ratio to the untrimmed native original is 0.824. Subsequent model
@@ -136,7 +138,9 @@ by 0.147 relative to the control, with both mean ASR WERs close to the control.
 Its speaker similarity is 0.939 and mean burst count is 1.920, versus control
 values 0.954 and 1.940. It is a promising tradeoff for further review, not an
 automatically promoted winner. The refinement plan also tests a 75% ClearVoice
-blend and full strength with a common -23 LUFS final target.
+blend and full strength with a common -23 LUFS final target. Adding ClearVoice
+before Sidon yields nearly the same quality and speaker scores as Sidon alone;
+the added model does not resolve that tradeoff.
 
 Intervals use 2,000 paired bootstrap resamples within each of the eight sources,
 seed 777, and equal-source means. They describe this fixed panel and are
@@ -203,20 +207,32 @@ Reference rows reuse verified measurements of the same selected recordings.
 | DeepFilterNet, 0 dBFS input, full | 3.128 | 6.983 | 17.56% | 14.95% | 0.920 |
 | DeepFilterNet, -3 dBFS input, 75% | 3.034 | 6.883 | 14.30% | 13.57% | 0.943 |
 | DeepFilterNet, -3 dBFS input, 50% | 2.997 | 6.818 | 14.43% | 13.39% | 0.948 |
+| DeepFilterNet, -3 dBFS input, 50%, -23 LUFS | 3.005 | 6.815 | 14.39% | 13.95% | 0.948 |
+| ClearVoice, 75% | 2.993 | 6.806 | 14.17% | 13.26% | 0.945 |
 | ClearVoice, full (reference) | 3.031 | 6.875 | 15.44% | 13.72% | 0.932 |
+| ClearVoice, full, -23 LUFS | 3.038 | 6.877 | 15.47% | 14.00% | 0.932 |
 
 Changing the full-strength input peak does not remove the content-preservation
 tradeoff. Gentler blends are more promising: the normalized 75% candidate is
-queued for full 800-item confirmation. Level normalization alone shows no clear
+queued for full 800-item confirmation together with the 75% ClearVoice blend. Level normalization alone shows no clear
 benefit: quality scores are mixed and
 Parakeet WER rises slightly. Mean burst flags increase from 2.075 to 2.600;
 uniform gain can cross the detector's fixed energy floor, so this does not
 establish that normalization created new relative high-frequency bursts.
-Denoising with a fixed final level and ClearVoice refinements remain in progress.
+The fixed-level 50% DeepFilterNet blend likewise does not show a clear benefit
+over its matched-level counterpart. The full-strength ClearVoice final-level
+trial likewise yields small mixed changes. All eight initially declared
+160-item refinements completed without scoring errors. One nearby DeepFilterNet
+setting (-6 dBFS input, 75% blend) remains in progress; the lower input level had
+helped content preservation in the earlier full-strength screening.
 These screening means do not trigger automatic selection.
 All component scores and source aggregates are in
 [refinement CSV](quality_v10_refinement.csv) and
-[JSONL](quality_v10_refinement.jsonl).
+[JSONL](quality_v10_refinement.jsonl). The same within-source paired bootstrap
+method is applied to the 160-item subset in
+[paired refinement CSV](quality_v10_paired_refinement.csv) and
+[JSONL](quality_v10_paired_refinement.jsonl); these exploratory intervals do not
+calibrate acceptance thresholds.
 
 ## Remaining work
 
