@@ -1,0 +1,13 @@
+{
+  "target_steps": 100000,
+  "milestones": [
+    {
+      "steps": 25000,
+      "weight_sha256": "564a92349de181e3139e70b7b7ab845f6fb96d54607d0220e307699b6b8b53e1",
+      "bytes": 333962805,
+      "checkpoint_audit": "PASS",
+      "preserved_weight_matches_audited_artifact": true,
+      "audio_evaluation_status": "pending_after_training"
+    }
+  ]
+}

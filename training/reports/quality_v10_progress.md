@@ -506,6 +506,20 @@ and 43.39 seconds for validation. Validation generator/mel losses were
 64.953/46.717, compared with 66.672/49.995 at 15K. These remain training
 diagnostics; perceptual checkpoint metrics are pending.
 
+The first audio-evaluation milestone, 25K, is now preserved. Its SHA-256 matches
+the independently audited 25K weight artifact, and both optimizers reached
+exactly 25,000 updates. Every saved recovery checkpoint through 25K passed its
+audit. Across 20,000 resumed updates, all 2,000 cache releases preserved live
+allocations, with unchanged peak live/reserved allocations of 27.03/54.84 GiB.
+The 539 one-minute samples through this save show mean power 51.17 W, maximum
+58.94 W, mean GPU utilization 86.47%, minimum sampled available memory
+53.58 GiB, and no alerts. Epoch twenty-five took 1,566.10 seconds for training
+and 42.95 seconds for validation. Validation generator/mel losses were
+64.393/45.735, compared with 64.953/46.717 at 20K. Audio-quality scores for this
+milestone remain pending after the 100K run. The
+[milestone record](quality_v10_checkpoint_milestones.json) identifies the
+preserved artifact without publishing weights or runtime paths.
+
 ## Original-audio score distributions
 
 The original-audio baseline contains 800 recordings, exactly 100 from each of
