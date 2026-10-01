@@ -455,9 +455,21 @@ was saved; the complete 5K checkpoint still passed the optimizer and model audit
 This demonstrates why the earlier successful full-epoch diagnostic was not a
 long-run guarantee. The stopped run and a hash-verified checkpoint copy are
 preserved separately. Recovery resumes from 5K with unused-cache release every
-10 updates and the tested Adam counter-device fix. Sustained validation of this
-new interval is pending; the 24 GiB guard, batch size, workers, and precision
-remain unchanged.
+10 updates and the tested Adam counter-device fix. The 24 GiB guard, batch size,
+workers, and precision remain unchanged.
+
+The recovery completed epoch six and saved a valid 6K checkpoint. Both
+optimizers reached exactly 6,000 updates; all 549 model tensors were finite and
+matched the weight-only artifact. Checkpoint storage now confirms all 541 Adam
+step counters are on CPU. Training the 1,000 resumed updates took 1,639.66 seconds,
+with 46.02 seconds of validation. All 100 cache releases preserved live
+allocations; peak live allocation was 27.03 GiB and peak reserved allocation
+47.64 GiB. The 29 one-minute telemetry samples through the save show minimum
+available memory 76.46 GiB, mean power 48.72 W, maximum 57.48 W, and no alerts.
+This is one completed recovery epoch, not a guarantee for the remaining run.
+The two policy changes were applied together, so these measurements cannot
+isolate the optimizer fix's effect on total throughput. See the updated
+[6K progress record](quality_v10_training_progress.json) and epoch tables.
 
 ## Remaining work
 

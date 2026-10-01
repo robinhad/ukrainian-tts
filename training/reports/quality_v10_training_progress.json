@@ -1,51 +1,69 @@
 {
   "status": "training_in_progress",
   "target_steps": 100000,
-  "audited_steps": 5000,
+  "audited_steps": 6000,
   "checkpoint_audit": {
-    "epoch": 5,
+    "epoch": 6,
     "expected_optimizers": 2,
-    "expected_steps": 5000,
+    "expected_steps": 6000,
     "model_artifact": {
       "different_keys": [],
       "matches_checkpoint_model": true,
       "missing_keys": [],
       "model_tensor_count": 549,
       "nonfinite_model_tensors": [],
-      "sha256": "d23eab175bb772b59f451f72f9249a20247c65dea870e804439b683f92c55a76",
+      "sha256": "00f224da7303a00b52e2241bf4cbdb3f2c3530f57409722e19678fa3e0c655e7",
       "unexpected_keys": []
     },
     "model_tensor_count": 549,
     "nonfinite_model_tensors": [],
     "optimizer_count": 2,
     "optimizer_steps": [
-      5000
+      6000
     ],
     "optimizer_steps_by_optimizer": [
       [
-        5000
+        6000
       ],
       [
-        5000
+        6000
       ]
     ],
-    "reported_steps": 5000,
+    "reported_steps": 6000,
     "status": "PASS"
   },
-  "completed_epochs": 5,
+  "completed_epochs": 6,
+  "resume_steps": 5000,
   "resumed_run_telemetry_through_checkpoint": {
-    "samples": 105,
+    "samples": 29,
     "interval_seconds": 60,
-    "mean_power_watts": 51.845238095238095,
-    "maximum_power_watts": 57.04,
-    "mean_gpu_utilization_percent": 86.84761904761905,
-    "minimum_sampled_available_memory_gib": 41.155670166015625,
-    "minimum_sampled_free_disk_gib": 55.49830627441406,
+    "mean_power_watts": 48.72344827586207,
+    "maximum_power_watts": 57.48,
+    "mean_gpu_utilization_percent": 77.86206896551724,
+    "minimum_sampled_available_memory_gib": 76.46187210083008,
+    "minimum_sampled_free_disk_gib": 54.55667495727539,
     "alert_samples": 0
   },
+  "cache_maintenance": {
+    "interval_updates": 10,
+    "releases": 100,
+    "all_live_allocations_unchanged": true,
+    "peak_live_allocated_gib": 27.027803421020508,
+    "peak_reserved_gib": 47.64453125
+  },
+  "optimizer_step_devices": [
+    {
+      "cpu": 427
+    },
+    {
+      "cpu": 114
+    }
+  ],
   "notes": [
-    "Telemetry covers the resumed run through the 5000-step checkpoint and includes validation/checkpoint overhead.",
+    "Telemetry covers the cache10 recovery from 5000 through 6000 saved updates, including initialization and validation.",
+    "Minimum available memory is from one-minute telemetry, not the one-second guard minimum.",
+    "The counter fix and shorter cache interval changed together; this is not an isolated optimizer throughput experiment.",
     "These training and development losses are not perceptual audio-quality measurements.",
-    "Milestone audio-quality evaluation remains pending; the requested 100000-step run is not complete."
+    "Milestone audio-quality evaluation and the requested 100000-step run remain unfinished."
   ]
 }

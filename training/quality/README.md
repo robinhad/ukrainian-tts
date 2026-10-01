@@ -395,8 +395,9 @@ over at least a full training epoch before treating it as a sustained-memory
 result. The independent available-memory guard remains enabled. The 50-update
 policy subsequently crossed the reserve during epoch six. The active recovery
 uses `UKTTS_CUDA_CACHE_INTERVAL=10` with `CALIBRATION_FILE` unset, preserving
-four million batch bins and eight workers. This shorter interval is under
-sustained validation; the earlier calibration does not certify it.
+four million batch bins and eight workers. It completed the recovery epoch
+from 5K to a verified 6K checkpoint; monitoring continues because a successful
+epoch does not guarantee later memory stability.
 
 On resume, the bootstrap also restores CPU scalar step counters for ordinary
 Adam/AdamW. ESPnet loads checkpoint tensors onto CUDA, but PyTorch deliberately
