@@ -3,6 +3,8 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "${ROOT}/.."
 source "${ROOT}/activate.sh"
+export OMP_NUM_THREADS=${PROCESS_CPU_THREADS:-1}
+export MKL_NUM_THREADS=$OMP_NUM_THREADS OPENBLAS_NUM_THREADS=$OMP_NUM_THREADS
 python -m training.scripts.verify_local_frontend
 export UKTTS_ESPEAK_DATA_HASH_FILE="${ROOT}/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.prepare_ecapa_for_training
@@ -14,7 +16,8 @@ export DUMP_DIR="${ROOT}/dump_quality_v10" EXP_DIR="${ROOT}/exp_quality_v10"
 PROFILE=${PROFILE:?Set PROFILE to the reviewed processing profile YAML}
 RAW_MANIFEST=${RAW_MANIFEST:-"${ROOT}/data/quality_v10_raw/all.parquet"}
 python -m training.quality process --panel "$RAW_MANIFEST" --profile "$PROFILE" \
-  --output "${ROOT}/data/quality_v10/audio_24k" --resume
+  --output "${ROOT}/data/quality_v10/audio_24k" --resume \
+  --model-workers "${PROCESS_MODEL_WORKERS:-1}" --cpu-workers "${PROCESS_CPU_WORKERS:-2}"
 python -m training.scripts.build_quality_v10_manifest --manifest "$RAW_MANIFEST" \
   --processed "${ROOT}/data/quality_v10/audio_24k" --profile "$PROFILE" \
   --output "${ROOT}/data/quality_v10/records.jsonl"

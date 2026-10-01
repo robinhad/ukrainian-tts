@@ -91,7 +91,7 @@ SigMOS also runs its neural operations on CUDA. A runtime profile verified
 CUDA convolutions, GRU, and dense layers; CPU work was limited to integer shape
 bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
 was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
-and Parakeet content metrics. Processing selection and 100K training are pending.
+and Parakeet content metrics. Processing selection is documented below; 100K training is pending.
 
 The original baseline, base-conversion control, initial DeepFilterNet, Sidon, and ClearVoice
 trials, and the first input-normalization refinement completed on all 800 panel
@@ -115,15 +115,15 @@ scores; CER/WER are mean per-file rates, not pooled corpus rates.
 | ClearVoice → Sidon → DeepFilterNet, full strength | 3.196 | 3.765 | 4.304 | 3.470 | 4.142 | 7.528 | 17.682% | 13.788% | 0.811 |
 | DeepFilterNet, -3 dBFS input, 75% blend | 3.024 | 3.551 | 3.946 | 3.498 | 4.121 | 6.850 | 15.983% | 13.409% | 0.945 |
 | ClearVoice, 75% blend | 2.982 | 3.521 | 3.878 | 3.486 | 4.121 | 6.790 | 15.663% | 13.323% | 0.949 |
+| Historical v8/v9 recipe, complete | 3.164 | 3.700 | 4.265 | 3.457 | 4.056 | 7.495 | 17.796% | 13.732% | 0.799 |
 
 Base conversion has mixed effects and is not an enhancement result. Its mean
 duration ratio to the untrimmed native original is 0.824. Subsequent model
 effects must also be compared against this control. Full per-source aggregates
 and pooled error rates are in [processing CSV](quality_v10_processing.csv) and
 [JSONL](quality_v10_processing.jsonl). The initial sweep and two full-panel
-confirmations are complete; no winner has been selected. The historical training
-cascade has completed the 160-item screening below; its 800-item comparison is
-still running.
+confirmations and the full historical baseline are complete. The reviewed
+processing choice is documented below.
 
 Against the base-conversion control, the 50% blend improved mean SigMOS overall
 by 0.0549 (95% interval 0.0457–0.0636) and Audiobox PQ by 0.0797
@@ -160,8 +160,7 @@ GPU utilization during the observed control phase. GPU placement alone does
 not saturate these small inference workloads. CPU postprocessing now overlaps
 model inference; one-worker and four-worker identity outputs were byte-identical
 in tests, and worker failures correctly propagated. A two-trial concurrent
-sweep is being measured. This is an execution experiment, not a demonstrated
-throughput gain. The updated suite passed 186 tests. All 80,751 records also
+sweep completed. That experiment did not isolate its throughput gain. The updated suite passed 186 tests. All 80,751 records also
 passed the frontend and structural dataset preflight.
 
 The initial full-strength DeepFilterNet trial encountered an output below the
@@ -191,7 +190,7 @@ reports are derived from the complete 800-item measurements after audio-hash
 verification. Promising refinements must be confirmed on the full processing
 panel. The updated test suite passes 192 tests. Preparation now enables the
 recipe's existing feature cache so training can reuse pitch and energy instead
-of recomputing them on CPU every iteration; full-corpus preparation is pending.
+of recomputing them on CPU every iteration; full-corpus preparation is underway.
 The declared local refinement grid tests input peaks of -6, -3, and 0 dBFS;
 50%, 75%, and full wet strength; and a common final target of -23 LUFS with
 and without denoising. Only specified combinations are evaluated, not the full
@@ -273,12 +272,63 @@ Audiobox PQ substantially, but Whisper WER is 17.48% versus the control's
 14.46%, and ECAPA similarity falls from 0.949 to 0.798. Parakeet WER is 14.69%
 versus 13.91%. Mean burst count rises from 2.075 to 2.619. The results show a
 perceived-quality/content/speaker tradeoff; they do not establish that either
-recipe is best on every metric. The full 800-item historical baseline is running.
-Training selection remains open until that comparison is reviewed.
+recipe is best on every metric. The full 800-item baseline also completed with zero errors and two recorded
+fallbacks. Whisper WER is 17.796%, Parakeet WER 13.732%, ECAPA similarity 0.799,
+and mean burst count 2.185. Against the control, the paired Whisper WER
+difference is +1.688 percentage points (95% interval 0.625–2.753); the ECAPA
+difference is -0.154 (interval -0.159 to -0.149). The larger panel confirms
+the preservation tradeoff despite substantially higher perceived-quality scores.
+
+## Reviewed processing choice
+
+Use [the frozen profile](../conf/quality_v10_processing.yaml): DeepFilterNet3,
+input peak normalized to -3 dBFS, input gain reversed after enhancement, 75%
+processed audio plus 25% original canonical audio, and peak-safe source loudness
+matching. There is no additional trim, fixed loudness target, or HNR rejection.
+See the [decision record](quality_v10_processing_decision.json).
+
+On 800 files, SigMOS overall improves by 0.101 versus the canonical control
+(95% paired interval 0.087–0.114) and Audiobox PQ by 0.146 (0.135–0.156).
+Both quality means improve in every source. Whisper and Parakeet WER are
+15.983% and 13.409%; both differences from control have intervals spanning zero.
+ECAPA similarity is 0.945, a -0.0082 cost versus control. This is a fidelity/quality
+tradeoff, not a claim of maximizing every score or proving ASR equivalence.
+The historical cascade has larger quality-score gains but much larger speaker
+loss and worse Whisper WER. ClearVoice at 75% is a gentler alternative with
+smaller quality gains; it did not improve SigMOS overall in two clean TTS sources.
+
+The initial sweep, nine local refinements, two full-panel confirmations, and
+complete historical recipe have been reviewed. Nearby input peaks and fixed
+final loudness did not improve the chosen tradeoff. This is the stopping point
+for the declared experiments; no global optimum is claimed. Selection is a
+manual configuration review. Threshold flags remain report-only and do not
+reject recordings or automatically promote checkpoints. Held-out recordings
+were not used for this choice.
+
+A processing-throughput check on the fixed 160-file panel measured 3.10, 5.51,
+10.58, and 15.59 files/s between the first and last completed outputs for one,
+two, four, and eight independent model workers. End-to-end times, including
+startup, were 55.28, 35.20, 20.14, and 15.15 seconds. Every output at every worker
+count was byte-identical to the already scored audio. Eight workers are selected;
+the observed steady-output rate is about five times the one-worker rate on this
+panel. These short trials do not establish full-corpus throughput. Mean sampled
+GPU power remained only 12–16 W, so faster preprocessing does not imply GPU
+saturation. See [throughput CSV](quality_v10_processing_throughput.csv) and
+[JSONL](quality_v10_processing_throughput.jsonl). Each model process has independent
+state; merged reports require complete unique coverage, and any worker failure
+aborts the run. All 195 tests pass, including parallel identity/resume/failure checks.
+
+Full-corpus preparation uses eight model workers, two CPU postprocessing workers
+per process, and one CPU math thread per process. The initial serial pass was
+stopped for this benchmark; downstream jobs are being re-chained to the faster
+preparation run. Successful preparation
+releases the calibration job; successful calibration releases the 100,000-step
+training job, which reads the measured recommendation. A failure blocks dependent
+jobs. Training has not started yet. Milestone evaluation follows the completed
+training run.
 
 ## Remaining work
 
-Resolve the historical comparison, record the processing choice and stopping
-decision, then process the full corpus. Prepare embeddings/statistics, calibrate training,
+Finish full-corpus processing and embeddings/statistics, calibrate training,
 complete the 100K run, and compare its checkpoints. See
 [run instructions](../quality/README.md).

@@ -1,0 +1,6 @@
+# Reviewed on the fixed source-balanced v10 panels.
+# See training/reports/quality_v10_processing_decision.json.
+backend: deepfilternet3
+input_peak_dbfs: -3
+model_cache: training/vendor/enhancement-models
+wet: 0.75

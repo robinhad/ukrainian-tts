@@ -35,7 +35,8 @@ def match_loudness_for_reporting(audio, reference, rate, target_lufs=None):
             'report_only': True}
 
 
-def process(panel, profile_path, output, device='cuda', resume=False, cpu_workers=4):
+def process(panel, profile_path, output, device='cuda', resume=False, cpu_workers=4,
+            num_shards=1, shard_index=0):
     from training.audio_enhancement.fair_comparison import (
         atomic_write_pcm24, fit_sample_count)
     from training.scripts.run_fair_enhancement_comparison import make_backend, backend_channel
@@ -45,12 +46,17 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     rows = read_rows(panel)
+    if not 1 <= num_shards <= len(rows) or not 0 <= shard_index < num_shards:
+        raise ValueError('Invalid processing shard count or index')
     if cpu_workers < 1:
         raise ValueError('cpu_workers must be positive')
     if len({r['utterance_id'] for r in rows}) != len(rows):
         raise ValueError('Processing panel contains duplicate IDs')
     if not rows or any('voa' in str(r['source_id']).lower() for r in rows):
         raise ValueError('Processing requires a non-empty non-VOA panel')
+    rows = rows[shard_index::num_shards]
+    suffix = f'-shard-{shard_index}' if num_shards > 1 else ''
+    progress_path = output / f'progress{suffix}.json'
     wet = float(profile.get('wet', 1.0))
     if not 0 <= wet <= 1:
         raise ValueError('wet must be in [0, 1]')
@@ -118,7 +124,7 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
 
     def collect():
         results.append(pending.popleft().result())
-        write_json(output / 'progress.json', {'completed': len(results), 'expected': len(rows)})
+        write_json(progress_path, {'completed': len(results), 'expected': len(rows)})
 
     # Keep GPU model calls on one thread: some enhancement models have mutable
     # recurrent state. Overlap their execution with bounded CPU loudness/I/O work.
@@ -169,6 +175,6 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         while pending:
             collect()
     results.sort(key=lambda item: item['utterance_id'])
-    write_json(output / 'progress.json', {'completed': len(results), 'expected': len(rows)})
-    write_tables(output, 'processing', results)
+    write_json(progress_path, {'completed': len(results), 'expected': len(rows)})
+    write_tables(output, f'processing{suffix}', results)
     return results

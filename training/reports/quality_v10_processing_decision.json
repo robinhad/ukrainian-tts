@@ -1,0 +1,121 @@
+{
+  "profile": "deepfilternet3_peakminus3_wet0.75",
+  "profile_file": "training/conf/quality_v10_processing.yaml",
+  "profile_sha256": "29f9358da52e0ee53efc6f1857aad37932421ad5c0c19b4567a6bb4c05d41e65",
+  "selection_method": "manual review of quality, content, speaker and signal tradeoffs",
+  "threshold_policy": "report_only",
+  "quality_based_utterance_rejection": false,
+  "hnr_rejection": false,
+  "processing_panel_sha256": "77433af47887bf0b9317e394486362d70b928eb9d9f602e5a5f120548dda4a62",
+  "processing_files": 800,
+  "files_per_source": 100,
+  "refinement_files": 160,
+  "refinement_files_per_source": 20,
+  "full_panel_profiles": [
+    "clearervoice_sidon_deepfilternet3_wet0.5",
+    "clearervoice_sidon_deepfilternet3_wet1",
+    "clearervoice_sidon_wet0.5",
+    "clearervoice_sidon_wet1",
+    "clearervoice_wet0.5",
+    "clearervoice_wet0.75",
+    "clearervoice_wet1",
+    "deepfilternet3_peakminus3_wet0.75",
+    "deepfilternet3_peakminus3_wet1",
+    "deepfilternet3_wet0.5",
+    "deepfilternet3_wet1",
+    "identity_wet1",
+    "legacy_v8_exact",
+    "sidon_wet0.5",
+    "sidon_wet1"
+  ],
+  "deltas_against_canonical_control": [
+    {
+      "metric": "sigmos_overall",
+      "mean_delta": 0.10094524055719375,
+      "ci95_low": 0.0874943538978696,
+      "ci95_high": 0.11410302551090717
+    },
+    {
+      "metric": "sigmos_speech",
+      "mean_delta": 0.07267550259828567,
+      "ci95_low": 0.05932184436172247,
+      "ci95_high": 0.08629215524345636
+    },
+    {
+      "metric": "sigmos_noise",
+      "mean_delta": 0.22438104271888734,
+      "ci95_low": 0.20299618768692015,
+      "ci95_high": 0.24534771285206078
+    },
+    {
+      "metric": "sigmos_coloration",
+      "mean_delta": 0.04333600610494614,
+      "ci95_low": 0.027364064164459707,
+      "ci95_high": 0.058873571999371044
+    },
+    {
+      "metric": "sigmos_discontinuity",
+      "mean_delta": 0.035980353951454165,
+      "ci95_low": 0.020571279883384704,
+      "ci95_high": 0.05150267902016639
+    },
+    {
+      "metric": "audiobox_pq",
+      "mean_delta": 0.14560730755329132,
+      "ci95_low": 0.13472056053578854,
+      "ci95_high": 0.15551254522800445
+    },
+    {
+      "metric": "cer",
+      "mean_delta": -0.00016395443836527288,
+      "ci95_low": -0.0037593556409503265,
+      "ci95_high": 0.002973713767545134
+    },
+    {
+      "metric": "wer",
+      "mean_delta": -0.0012518254637304562,
+      "ci95_low": -0.007164764869418507,
+      "ci95_high": 0.004142545584494839
+    },
+    {
+      "metric": "parakeet_cer",
+      "mean_delta": -0.0004116293684199007,
+      "ci95_low": -0.004150394567037807,
+      "ci95_high": 0.003853199022789718
+    },
+    {
+      "metric": "parakeet_wer",
+      "mean_delta": -0.00029158287753144635,
+      "ci95_low": -0.004478989750842982,
+      "ci95_high": 0.004176295912523843
+    },
+    {
+      "metric": "ecapa_similarity",
+      "mean_delta": -0.008203811198472976,
+      "ci95_low": -0.009287097683176398,
+      "ci95_high": -0.007104965399950743
+    },
+    {
+      "metric": "hf_burst_count",
+      "mean_delta": 0.035,
+      "ci95_low": -0.00125,
+      "ci95_high": 0.07375
+    }
+  ],
+  "rationale": [
+    "SigMOS overall and Audiobox PQ improve in each of the eight source means.",
+    "Both aggregate ASR WER differences have paired exploratory intervals spanning zero.",
+    "The speaker-similarity cost is much smaller than the historical cascade, whose Whisper WER worsens.",
+    "This profile balances fidelity and quality; it does not maximize every perceptual score."
+  ],
+  "stopping_reason": "Initial finite sweep, nine local refinements, two larger-panel confirmations, and the complete historical recipe reviewed. Nearby input peaks and fixed output loudness did not improve the selected tradeoff.",
+  "global_optimum_claimed": false,
+  "heldout_used_for_selection": false,
+  "next_steps": [
+    "full-corpus processing",
+    "embeddings and cached pitch/energy statistics",
+    "real-training calibration",
+    "100000-step training",
+    "held-out milestone evaluation"
+  ]
+}

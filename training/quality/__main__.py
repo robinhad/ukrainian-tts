@@ -38,6 +38,9 @@ def main():
     process.add_argument('--device', default='cuda')
     process.add_argument('--resume', action='store_true')
     process.add_argument('--cpu-workers', type=int, default=4)
+    process.add_argument('--model-workers', type=int, default=1)
+    process.add_argument('--num-shards', type=int, default=1)
+    process.add_argument('--shard-index', type=int, default=0)
     args = parser.parse_args()
     if args.command == 'select':
         from .selection import select
@@ -53,8 +56,16 @@ def main():
         compare(args.candidate, {k: v for k in ('original', 'previous', 'best')
                                 if (v := getattr(args, k)) is not None}, args.output)
     elif args.command == 'process':
+        if args.model_workers != 1:
+            if args.num_shards != 1 or args.shard_index != 0:
+                parser.error('--model-workers cannot be combined with manual sharding')
+            from .parallel_processing import process_parallel
+            process_parallel(args.panel, args.profile, args.output, args.device,
+                             args.resume, args.cpu_workers, args.model_workers)
+            return
         from .processing import process
-        process(args.panel, args.profile, args.output, args.device, args.resume, args.cpu_workers)
+        process(args.panel, args.profile, args.output, args.device, args.resume,
+                args.cpu_workers, args.num_shards, args.shard_index)
 
 
 if __name__ == '__main__':

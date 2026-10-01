@@ -122,3 +122,25 @@ def test_cpu_rnnoise_is_allowed_and_device_is_reported(tmp_path, monkeypatch):
     rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out', device='cpu')
     assert rows[0]['backend_identity']['model_devices'] == {'rnnoise': ['cpu']}
     assert rows[0]['input_frames'] == rows[0]['output_frames'] == 2400
+
+
+def test_independent_model_workers_merge_and_propagate_failures(tmp_path):
+    from training.quality.parallel_processing import process_parallel
+    source = tmp_path / 'input.wav'
+    sf.write(source, np.linspace(-.1, .1, 2400), 24000, subtype='PCM_24')
+    rows = [{'utterance_id': f'item{i}', 'source_id': 'a', 'audio_path': str(source)} for i in range(4)]
+    write_tables(tmp_path, 'panel', rows)
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: identity\n')
+    serial = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'serial', device='cpu')
+    parallel = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu')
+    assert [r['output_sha256'] for r in parallel] == [r['output_sha256'] for r in serial]
+    resumed = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu', resume=True)
+    assert [r['output_sha256'] for r in resumed] == [r['output_sha256'] for r in serial]
+    zero = tmp_path / 'zero.wav'
+    sf.write(zero, np.zeros(2400), 24000)
+    rows[0]['audio_path'] = str(zero)
+    write_tables(tmp_path, 'bad_panel', rows)
+    with pytest.raises(RuntimeError, match='Processing worker failed'):
+        process_parallel(tmp_path / 'bad_panel.jsonl', profile, tmp_path / 'failed', device='cpu')
+    assert not (tmp_path / 'failed/processing.jsonl').exists()
