@@ -317,12 +317,16 @@ export PROFILE="$PWD/training/quality_runs/v10/search/PROFILE_NAME/profile.yaml"
 sbatch training/slurm/quality.sbatch bash training/scripts/prepare_quality_v10.sh
 # After preparation succeeds:
 sbatch training/slurm/quality.sbatch python -m training.scripts.calibrate_quality_v10
-# Read calibration/recommended.json; set the measured values:
-export BATCH_BINS=4000000 WORKERS=8 USE_TF32=false
+# After calibration succeeds, consume its measured recommendation:
+CALIBRATION_FILE="$PWD/training/quality_runs/v10/calibration/recommended.json" \
 sbatch training/slurm/train_quality_v10.sbatch
 ```
 
-The numerical batch example is a starting point, not a measured recommendation.
+`CALIBRATION_FILE` overrides `BATCH_BINS`, `WORKERS`, and `USE_TF32` with
+validated values from the completed calibration. Without it, those environment
+variables or the script defaults apply. Calibration trials ignore an inherited
+recommendation so each declared setting is actually measured. SLURM
+`afterok` dependencies can chain these jobs after the profile review.
 Calibration tries real JETS training batches, worker counts, and TF32 settings,
 and records runtime, power, and available unified memory. Preparation caches
 pitch and energy so training can avoid repeated CPU extraction. A trial qualifies

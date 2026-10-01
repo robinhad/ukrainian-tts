@@ -57,6 +57,8 @@ def main():
                    'USE_TF32': tf32,
                    'STEPS': str(args.steps), 'ITERS_PER_EPOCH': str(args.steps),
                    'TTS_EXP': str(experiment.resolve())}
+            # An earlier recommendation must not override the trial under test.
+            env.pop('CALIBRATION_FILE', None)
             if experiment.exists():
                 raise ValueError(f'Use a new calibration directory; existing trial: {name}')
             result = subprocess.run([sys.executable, '-m', 'training.quality.supervise',

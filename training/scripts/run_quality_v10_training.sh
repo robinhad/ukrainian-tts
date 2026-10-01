@@ -4,6 +4,20 @@ ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "${ROOT}/.."
 : "${SLURM_JOB_ID:?Run training inside a SLURM GPU allocation}"
 source "${ROOT}/activate.sh"
+if [[ -n "${CALIBRATION_FILE:-}" ]]; then
+  calibration_settings=$(python - "$CALIBRATION_FILE" <<'PY'
+import json
+import sys
+with open(sys.argv[1]) as stream:
+    values = json.load(stream)
+bins, workers, tf32 = (values[k] for k in ('batch_bins', 'workers', 'use_tf32'))
+if type(bins) is not int or bins < 1 or type(workers) is not int or workers < 1 or type(tf32) is not bool:
+    raise ValueError('Invalid measured training configuration')
+print(bins, workers, str(tf32).lower())
+PY
+  )
+  read -r BATCH_BINS WORKERS USE_TF32 <<< "$calibration_settings"
+fi
 export UKTTS_ESPEAK_DATA_HASH_FILE="${ROOT}/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 export GPU_COUNT=1
 export TRAIN_SET=quality_v10_train VALID_SET=quality_v10_dev TEST_SETS=quality_v10_eval
