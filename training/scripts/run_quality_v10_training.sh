@@ -42,6 +42,8 @@ mkdir -p "$TTS_EXP"
 git rev-parse HEAD > "$TTS_EXP/training_git_commit.txt"
 printf '%s\n' "$STEPS" > "$TTS_EXP/target_iterations.txt"
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-4}
+# Keep CPU math limits consistent between the calibration and training launchers.
+export MKL_NUM_THREADS=$OMP_NUM_THREADS OPENBLAS_NUM_THREADS=$OMP_NUM_THREADS
 export PYTORCH_ALLOC_CONF=${PYTORCH_ALLOC_CONF:-expandable_segments:True}
 # Scratch training is the default. An initializer must be explicitly supplied
 # and have matching tokens/architecture; optimizer and scheduler start fresh.

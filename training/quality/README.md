@@ -355,6 +355,8 @@ are finite. Training time comes from the checkpoint reporter, excluding setup an
 throughput comparison. It uses batch-bin throughput, with power as a tie
 breaker, and a 100 W reference. It does not change the hardware power limit.
 Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.
+The training runner applies the same `OMP_NUM_THREADS` limit to OpenMP, MKL,
+and OpenBLAS in calibration and full training; the default is four.
 
 The environment bootstrap disables cuDNN benchmarking in the parallel speaker
 extractor: variable audio lengths otherwise trigger repeated kernel searches.
