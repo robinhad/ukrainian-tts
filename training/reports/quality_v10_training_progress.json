@@ -1,0 +1,51 @@
+{
+  "status": "training_in_progress",
+  "target_steps": 100000,
+  "audited_steps": 5000,
+  "checkpoint_audit": {
+    "epoch": 5,
+    "expected_optimizers": 2,
+    "expected_steps": 5000,
+    "model_artifact": {
+      "different_keys": [],
+      "matches_checkpoint_model": true,
+      "missing_keys": [],
+      "model_tensor_count": 549,
+      "nonfinite_model_tensors": [],
+      "sha256": "d23eab175bb772b59f451f72f9249a20247c65dea870e804439b683f92c55a76",
+      "unexpected_keys": []
+    },
+    "model_tensor_count": 549,
+    "nonfinite_model_tensors": [],
+    "optimizer_count": 2,
+    "optimizer_steps": [
+      5000
+    ],
+    "optimizer_steps_by_optimizer": [
+      [
+        5000
+      ],
+      [
+        5000
+      ]
+    ],
+    "reported_steps": 5000,
+    "status": "PASS"
+  },
+  "completed_epochs": 5,
+  "resumed_run_telemetry_through_checkpoint": {
+    "samples": 105,
+    "interval_seconds": 60,
+    "mean_power_watts": 51.845238095238095,
+    "maximum_power_watts": 57.04,
+    "mean_gpu_utilization_percent": 86.84761904761905,
+    "minimum_sampled_available_memory_gib": 41.155670166015625,
+    "minimum_sampled_free_disk_gib": 55.49830627441406,
+    "alert_samples": 0
+  },
+  "notes": [
+    "Telemetry covers the resumed run through the 5000-step checkpoint and includes validation/checkpoint overhead.",
+    "These training and development losses are not perceptual audio-quality measurements.",
+    "Milestone audio-quality evaluation remains pending; the requested 100000-step run is not complete."
+  ]
+}

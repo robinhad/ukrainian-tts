@@ -425,6 +425,17 @@ The next saved checkpoint also passed its audit: both optimizers reached exactly
 checkpoint. This verifies optimizer continuity across the restart. Training
 continued into epoch three. See the [resume audit](quality_v10_training_resume_validation.json).
 
+At 5,000 updates, both optimizer counters and the finite, matching model artifacts
+passed another checkpoint audit. The resumed-run telemetry through that save
+contains 105 one-minute samples: mean GPU power 51.85 W, maximum 57.04 W,
+mean utilization 86.85%, and minimum sampled available memory 41.16 GiB, with no
+alerts. These averages include validation and checkpoint overhead; they differ
+from individual training samples near 95–96% utilization. The 100K target and
+milestone audio scoring remain unfinished. See the
+[5K progress record](quality_v10_training_progress.json) and completed-epoch
+[CSV](quality_v10_training_epochs.csv) / [JSONL](quality_v10_training_epochs.jsonl).
+The exported training/development losses are not perceptual audio-quality scores.
+
 ## Remaining work
 
 Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See
