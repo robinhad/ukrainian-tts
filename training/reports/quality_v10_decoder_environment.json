@@ -1,0 +1,61 @@
+{
+  "purpose": "corpus_reconstruction_and_native_reference_decode",
+  "python_version": "3.12.3",
+  "packages": {
+    "av": "19.0.0",
+    "numpy": "1.26.4",
+    "soundfile": "0.14.0",
+    "pandas": "2.3.1",
+    "pyarrow": "25.0.1",
+    "scipy": "1.17.1",
+    "PyYAML": "6.0.3",
+    "huggingface-hub": "0.34.3"
+  },
+  "ffmpeg_libraries": {
+    "libavutil": [
+      61,
+      1,
+      102
+    ],
+    "libavcodec": [
+      63,
+      1,
+      102
+    ],
+    "libavformat": [
+      63,
+      1,
+      102
+    ],
+    "libavdevice": [
+      63,
+      1,
+      102
+    ],
+    "libavfilter": [
+      12,
+      1,
+      102
+    ],
+    "libswscale": [
+      10,
+      1,
+      102
+    ],
+    "libswresample": [
+      7,
+      1,
+      102
+    ]
+  },
+  "libsndfile": "1.2.2",
+  "implementation_sha256": {
+    "scripts/materialize_non_voa.py": "ca8ba6b56cdc3cef8c70715066600310f353bf97b9b8547185712d4fcd38b9af",
+    "scripts/prepare_audio.py": "4ab927bb88c23b7587bf43496f0bbcf7a2bc3f3edaa890cb84f541898daac81a",
+    "quality/references.py": "bd0683ccdcf3579ba50c6d67fd1d10e22d85393528be6b1745fe3ee318bdb06a"
+  },
+  "canonical_sample_rate": 24000,
+  "canonical_channels": 1,
+  "canonical_encoding": "PCM_24",
+  "note": "Recorded reconstruction environment; existing verified WAV caches were reused across worker implementation changes."
+}

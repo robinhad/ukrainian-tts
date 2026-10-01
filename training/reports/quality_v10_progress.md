@@ -28,6 +28,11 @@ requested. The reconstructed corpus contains **80,751 recordings / 110.272 hours
 Downloads total **14.845 GB**, and retained mono 24 kHz PCM24 files total
 **28.586 GB** (decimal units). These counts use the new reconstruction and
 deduplication policy; they do not reproduce the previous iteration's filters.
+The reconstruction and native reference decoder used the recorded isolated CPU
+environment: PyAV 19.0.0, SoundFile 0.14.0, and libsndfile 1.2.2. Its dependency
+pins are separate from the scoring environment. See
+[decoder provenance](quality_v10_decoder_environment.json); cross-version audio
+byte identity is not assumed.
 
 | Source | Recordings | Hours |
 |---|---:|---:|
@@ -87,7 +92,7 @@ bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
 was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
 and Parakeet content metrics. Processing selection and 100K training are pending.
 
-The original baseline, base-conversion control, initial DeepFilterNet and Sidon
+The original baseline, base-conversion control, initial DeepFilterNet, Sidon, and ClearVoice
 trials, and the first input-normalization refinement completed on all 800 panel
 items with zero scoring errors. The following are equal-source mean whole-file
 scores; CER/WER are mean per-file rates, not pooled corpus rates.
@@ -101,6 +106,8 @@ scores; CER/WER are mean per-file rates, not pooled corpus rates.
 | DeepFilterNet, -3 dBFS input, full strength | 3.124 | 3.633 | 4.127 | 3.534 | 4.130 | 6.947 | 18.429% | 13.671% | 0.921 |
 | Sidon, 50% blend | 3.043 | 3.635 | 4.031 | 3.438 | 4.164 | 7.026 | 17.590% | 14.075% | 0.851 |
 | Sidon, full strength | 3.152 | 3.738 | 4.260 | 3.461 | 4.183 | 7.443 | 16.700% | 14.309% | 0.815 |
+| ClearVoice, 50% blend | 2.956 | 3.501 | 3.813 | 3.473 | 4.103 | 6.755 | 15.864% | 13.383% | 0.952 |
+| ClearVoice, full strength | 3.024 | 3.553 | 3.982 | 3.506 | 4.130 | 6.851 | 16.229% | 13.189% | 0.939 |
 
 Base conversion has mixed effects and is not an enhancement result. Its mean
 duration ratio to the untrimmed native original is 0.824. Subsequent model
@@ -123,6 +130,13 @@ and 2.384 at full strength. The full-strength mean Whisper CER is 13.320%; one
 very short UA-SER item has CER ratio 55.75 (5,575%) from a long recognition error and remains in
 the report. Pooled CER/WER and per-file scores are provided alongside these means
 to expose the effect of short-reference outliers. No quality-based rejection is applied.
+
+ClearVoice full strength improves mean SigMOS overall by 0.102 and Audiobox PQ
+by 0.147 relative to the control, with both mean ASR WERs close to the control.
+Its speaker similarity is 0.939 and mean burst count is 1.920, versus control
+values 0.954 and 1.940. It is a promising tradeoff for further review, not an
+automatically promoted winner. The refinement plan also tests a 75% ClearVoice
+blend and full strength with a common -23 LUFS final target.
 
 Intervals use 2,000 paired bootstrap resamples within each of the eight sources,
 seed 777, and equal-source means. They describe this fixed panel and are

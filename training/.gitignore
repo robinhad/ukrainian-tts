@@ -9,6 +9,7 @@ dump_smoke_trimmed/
 exp_smoke_trimmed/
 .venv/
 .venv-quality/
+.venv-data/
 vendor/quality-models/
 vendor/enhancement-models/
 vendor/rnnoise/

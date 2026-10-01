@@ -194,8 +194,11 @@ the full experiment; successful imports alone do not validate model execution.
 Reconstruct the downloaded corpus without a denoiser:
 
 ```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m training.scripts.materialize_non_voa --workers 8
-python -m training.quality select --manifest training/data/quality_v10_raw/all.parquet \
+python3 -m venv training/.venv-data
+training/.venv-data/bin/pip install -r training/requirements-data.in
+DATA_PYTHON="$PWD/training/.venv-data/bin/python"
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$DATA_PYTHON" -m training.scripts.materialize_non_voa --workers 8
+"$DATA_PYTHON" -m training.quality select --manifest training/data/quality_v10_raw/all.parquet \
   --output training/quality_runs/v10/panels --per-source 100 \
   --downloads training/data/non_voa_downloads/downloads.json
 ```
@@ -208,6 +211,12 @@ to reproduce the old host's manifest. Downloaded originals remain preserved.
 Conversion uses separate worker processes, with one decoder thread per file.
 Verified per-file caches survive interruption; rerunning the command reconstructs
 the complete manifest with the same deduplication and split policy.
+The recorded corpus uses PyAV 19.0.0 and SoundFile 0.14.0 in the isolated CPU
+decoder environment; the scoring environment has separate dependency pins.
+See [decoder environment](../reports/quality_v10_decoder_environment.json) for
+library versions and implementation hashes. Preserve the frozen audio hashes
+for comparisons. If changing decoder versions, reconstruct into a fresh output
+directory instead of mixing new outputs with existing per-file caches.
 
 Submit GPU work from the repository root (the default SLURM partition is used):
 
