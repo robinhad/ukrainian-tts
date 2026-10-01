@@ -7,10 +7,10 @@
   "power_reference_watts": 100,
   "criterion": "batch-bin throughput during training; power breaks ties within 5 percent",
   "note": "No power cap change. Batch bins/s is a work proxy, not measured audio samples/s.",
-  "configuration_status": "recovery_one_epoch_validated_training_in_progress",
+  "configuration_status": "recovery_training_in_progress",
   "limitations": [
     "The 50-update cache policy passed a 1000-update diagnostic but later reached the memory reserve during epoch six.",
-    "The recovery policy releases unused cache every 10 updates; it completed 1000 resumed updates with a valid 6000-step checkpoint. This does not guarantee the remaining epochs will fit.",
+    "The recovery policy releases unused cache every 10 updates; it completed 5000 resumed updates with a valid 10000-step checkpoint. This does not guarantee the remaining epochs will fit.",
     "The saved 5000-update checkpoint passed both optimizer-count and finite, matching-weight checks before recovery.",
     "Batch bins/s is a work proxy and calibration power means include initialization and validation."
   ],
@@ -31,15 +31,15 @@
     }
   ],
   "resume_steps": 5000,
-  "validated_recovery_updates": 1000,
-  "audited_steps": 6000,
+  "validated_recovery_updates": 5000,
+  "audited_steps": 10000,
   "optimizer_steps_by_optimizer": [
     [
-      6000
+      10000
     ],
     [
-      6000
+      10000
     ]
   ],
-  "minimum_sampled_available_gib": 76.46187210083008
+  "minimum_sampled_available_gib": 60.36043167114258
 }

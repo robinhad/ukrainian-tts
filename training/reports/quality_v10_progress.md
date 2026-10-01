@@ -432,7 +432,7 @@ mean utilization 86.85%, and minimum sampled available memory 41.16 GiB, with no
 alerts. These averages include validation and checkpoint overhead; they differ
 from individual training samples near 95–96% utilization. The 100K target and
 milestone audio scoring remain unfinished. See the
-[5K progress record](quality_v10_training_progress.json) and completed-epoch
+[progress record](quality_v10_training_progress.json) and completed-epoch
 [CSV](quality_v10_training_epochs.csv) / [JSONL](quality_v10_training_epochs.jsonl).
 The exported training/development losses are not perceptual audio-quality scores.
 
@@ -469,7 +469,21 @@ available memory 76.46 GiB, mean power 48.72 W, maximum 57.48 W, and no alerts.
 This is one completed recovery epoch, not a guarantee for the remaining run.
 The two policy changes were applied together, so these measurements cannot
 isolate the optimizer fix's effect on total throughput. See the updated
-[6K progress record](quality_v10_training_progress.json) and epoch tables.
+[progress record](quality_v10_training_progress.json) and epoch tables.
+
+Training has now reached a verified 10K checkpoint. Every saved checkpoint from
+6K through 10K passed the independent audit: both optimizers have the exact
+expected step count, all model tensors are finite, and each weight-only artifact
+matches the resumable checkpoint. All 541 Adam counters remain on CPU. Across
+5,000 recovery updates, 500 cache releases preserved live allocations; peak
+live allocation was 27.03 GiB and peak reserved allocation 54.84 GiB. The 137
+one-minute telemetry samples through the 10K save have no alerts, minimum
+available memory 60.36 GiB, mean power 50.95 W, maximum 58.94 W, and mean GPU
+utilization 84.86%. These samples include initialization, validation, and saving.
+Epoch ten took 1,574.42 seconds for training and 43.06 seconds for validation.
+The full run and milestone audio-quality evaluation remain unfinished. Updated
+measurements are in the [progress record](quality_v10_training_progress.json)
+and [epoch CSV](quality_v10_training_epochs.csv).
 
 ## Remaining work
 

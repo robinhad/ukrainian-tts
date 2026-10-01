@@ -1,55 +1,55 @@
 {
   "status": "training_in_progress",
   "target_steps": 100000,
-  "audited_steps": 6000,
+  "audited_steps": 10000,
   "checkpoint_audit": {
-    "epoch": 6,
+    "epoch": 10,
     "expected_optimizers": 2,
-    "expected_steps": 6000,
+    "expected_steps": 10000,
     "model_artifact": {
       "different_keys": [],
       "matches_checkpoint_model": true,
       "missing_keys": [],
       "model_tensor_count": 549,
       "nonfinite_model_tensors": [],
-      "sha256": "00f224da7303a00b52e2241bf4cbdb3f2c3530f57409722e19678fa3e0c655e7",
+      "sha256": "f7d0d539b0536d70d85c396dbcb9945b0efb512163f38df5adea9c3a600ce73a",
       "unexpected_keys": []
     },
     "model_tensor_count": 549,
     "nonfinite_model_tensors": [],
     "optimizer_count": 2,
     "optimizer_steps": [
-      6000
+      10000
     ],
     "optimizer_steps_by_optimizer": [
       [
-        6000
+        10000
       ],
       [
-        6000
+        10000
       ]
     ],
-    "reported_steps": 6000,
+    "reported_steps": 10000,
     "status": "PASS"
   },
-  "completed_epochs": 6,
+  "completed_epochs": 10,
   "resume_steps": 5000,
   "resumed_run_telemetry_through_checkpoint": {
-    "samples": 29,
+    "samples": 137,
     "interval_seconds": 60,
-    "mean_power_watts": 48.72344827586207,
-    "maximum_power_watts": 57.48,
-    "mean_gpu_utilization_percent": 77.86206896551724,
-    "minimum_sampled_available_memory_gib": 76.46187210083008,
-    "minimum_sampled_free_disk_gib": 54.55667495727539,
+    "mean_power_watts": 50.95496350364964,
+    "maximum_power_watts": 58.94,
+    "mean_gpu_utilization_percent": 84.86131386861314,
+    "minimum_sampled_available_memory_gib": 60.36043167114258,
+    "minimum_sampled_free_disk_gib": 54.5550651550293,
     "alert_samples": 0
   },
   "cache_maintenance": {
     "interval_updates": 10,
-    "releases": 100,
+    "releases": 500,
     "all_live_allocations_unchanged": true,
-    "peak_live_allocated_gib": 27.027803421020508,
-    "peak_reserved_gib": 47.64453125
+    "peak_live_allocated_gib": 27.031500816345215,
+    "peak_reserved_gib": 54.83984375
   },
   "optimizer_step_devices": [
     {
@@ -60,7 +60,7 @@
     }
   ],
   "notes": [
-    "Telemetry covers the cache10 recovery from 5000 through 6000 saved updates, including initialization and validation.",
+    "Telemetry covers the cache10 recovery from 5000 through 10000 saved updates, including initialization and validation.",
     "Minimum available memory is from one-minute telemetry, not the one-second guard minimum.",
     "The counter fix and shorter cache interval changed together; this is not an isolated optimizer throughput experiment.",
     "These training and development losses are not perceptual audio-quality measurements.",
