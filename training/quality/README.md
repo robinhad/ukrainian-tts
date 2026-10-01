@@ -295,8 +295,9 @@ sbatch training/slurm/train_quality_v10.sbatch
 The numerical batch example is a starting point, not a measured recommendation.
 Calibration tries real JETS training batches, worker counts, and TF32 settings,
 and records runtime, power, and available unified memory. Preparation caches
-pitch and energy so training can avoid repeated CPU extraction. Calibration extracts training
-time from the checkpoint reporter, excluding setup and validation from the
+pitch and energy so training can avoid repeated CPU extraction. A trial qualifies
+only if both GAN optimizers completed the requested updates and model weights
+are finite. Training time comes from the checkpoint reporter, excluding setup and validation from the
 throughput comparison. It uses batch-bin throughput, with power as a tie
 breaker, and a 100 W reference. It does not change the hardware power limit.
 Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.

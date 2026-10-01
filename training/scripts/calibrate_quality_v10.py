@@ -14,6 +14,29 @@ from itertools import product
 from training.quality.common import write_json, write_tables
 
 
+def checkpoint_measurements(path, expected_steps):
+    import torch
+    payload = torch.load(path, map_location='cpu', weights_only=False)
+    reporter = payload['reporter']
+    training = reporter['stats'][reporter['epoch']]['train']
+    seconds = training['time'].total_seconds()
+    optimizers = payload.get('optimizers', [])
+    per_optimizer = [{int(state['step']) for state in optimizer.get('state', {}).values()
+                      if isinstance(state, dict) and 'step' in state} for optimizer in optimizers]
+    steps = set().union(*per_optimizer)
+    model = payload.get('model', {})
+    nonfinite = [name for name, tensor in model.items() if torch.is_tensor(tensor)
+                 and (tensor.is_floating_point() or tensor.is_complex())
+                 and not torch.isfinite(tensor).all()]
+    valid = (training['total_count'] == expected_steps and len(optimizers) == 2
+             and all(s == {expected_steps} for s in per_optimizer)
+             and bool(model) and not nonfinite and seconds > 0)
+    return {'training_seconds': seconds, 'optimizer_steps': sorted(steps),
+            'optimizer_count': len(optimizers), 'nonfinite_model_tensors': nonfinite,
+            'optimizer_steps_by_optimizer': [sorted(s) for s in per_optimizer],
+            'checkpoint_valid': valid}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--batch-bins', type=int, nargs='+', default=[2000000, 4000000, 8000000])
@@ -45,21 +68,18 @@ def main():
                 log += (experiment / 'train.log').read_text(errors='replace')
             failed = bool(re.search(r'CUDA out of memory|\bNaN\b|Traceback', log, re.I))
             elapsed = summary['elapsed_seconds']
-            training_seconds = None
+            measured = {'training_seconds': None, 'optimizer_steps': [], 'optimizer_count': 0,
+                        'optimizer_steps_by_optimizer': [],
+                        'nonfinite_model_tensors': [], 'checkpoint_valid': False}
             checkpoint = experiment / 'checkpoint.pth'
             if result.returncode == 0 and checkpoint.exists():
-                import torch
-                payload = torch.load(checkpoint, map_location='cpu', weights_only=False)
-                reporter = payload['reporter']
-                training = reporter['stats'][reporter['epoch']]['train']
-                training_seconds = training['time'].total_seconds()
-                failed |= training['total_count'] != args.steps
-                del payload
+                measured = checkpoint_measurements(checkpoint, args.steps)
+            training_seconds = measured['training_seconds']
             # Larger batches do more work; report bins/s as a separate throughput proxy.
             rows.append({'batch_bins': bins, 'workers': workers, 'steps': args.steps,
                          'use_tf32': tf32 == 'true',
-                         'success': result.returncode == 0 and not failed and bool(training_seconds),
-                         'training_seconds': training_seconds,
+                         'success': result.returncode == 0 and not failed and measured['checkpoint_valid'],
+                         **measured,
                          'training_steps_per_second': args.steps / training_seconds if training_seconds else None,
                          'batch_bins_per_training_second': bins * args.steps / training_seconds if training_seconds else None,
                          'steps_per_second': args.steps / elapsed,
