@@ -1,0 +1,75 @@
+{
+  "trial": {
+    "batch_bins": 4000000,
+    "workers": 8,
+    "steps": 1000,
+    "use_tf32": false,
+    "cuda_cache_interval": 50,
+    "success": true,
+    "training_seconds": 1574.956613,
+    "optimizer_steps": [
+      1000
+    ],
+    "optimizer_count": 2,
+    "nonfinite_model_tensors": [],
+    "optimizer_steps_by_optimizer": [
+      [
+        1000
+      ],
+      [
+        1000
+      ]
+    ],
+    "checkpoint_valid": true,
+    "training_steps_per_second": 0.6349381257526743,
+    "batch_bins_per_training_second": 2539752.503010697,
+    "steps_per_second": 0.6057542046685613,
+    "batch_bins_per_second": 2423016.8186742454,
+    "returncode": 0,
+    "elapsed_seconds": 1650.8345997319993,
+    "samples": 328,
+    "power_mean_watts": 51.175626911314986,
+    "power_max_watts": 59.46,
+    "power_reference_watts": 100,
+    "maximum_check_interval_seconds": 5,
+    "minimum_free_disk_gib": 57.36874771118164,
+    "minimum_available_unified_memory_gib": 41.83463668823242,
+    "memory_reserve_gib": 24.0,
+    "termination": null
+  },
+  "checkpoint_audit": {
+    "epoch": 1,
+    "expected_optimizers": 2,
+    "expected_steps": 1000,
+    "model_artifact": {
+      "different_keys": [],
+      "matches_checkpoint_model": true,
+      "missing_keys": [],
+      "model_tensor_count": 549,
+      "nonfinite_model_tensors": [],
+      "sha256": "e25160fa716215e87c77f7058f476423230a7b94269579b328500f6e05ce6717",
+      "unexpected_keys": []
+    },
+    "model_tensor_count": 549,
+    "nonfinite_model_tensors": [],
+    "optimizer_count": 2,
+    "optimizer_steps": [
+      1000
+    ],
+    "optimizer_steps_by_optimizer": [
+      [
+        1000
+      ],
+      [
+        1000
+      ]
+    ],
+    "reported_steps": 1000,
+    "status": "PASS"
+  },
+  "cache_releases": 20,
+  "live_allocations_unchanged_at_every_release": true,
+  "maximum_reserved_gib": 67.734375,
+  "maximum_live_allocated_gib": 26.15165376663208,
+  "limitation": "One 1000-update epoch validates this observed workload; the remaining 99000 updates still require monitoring."
+}

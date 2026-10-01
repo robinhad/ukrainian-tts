@@ -399,12 +399,26 @@ trials therefore did not establish sustained memory stability. See the full
 [JSONL](quality_v10_training_calibration.jsonl), and
 [configuration decision](quality_v10_training_configuration.json).
 
-A 1,000-update diagnostic now releases unused CUDA allocator cache every 50
+A 1,000-update diagnostic released unused CUDA allocator cache every 50
 complete GAN updates. At the first release, reserved memory fell from 47.46 to
 8.81 GiB while live tensors remained at 3.70 GiB; peak live allocation was
 17.63 GiB. This supports allocator retention as a contributor to the growth.
-The diagnostic must complete its full epoch and checkpoint audit before the
-100K run restarts. The 24 GiB guard remains active.
+The diagnostic completed its full epoch and checkpoint audit successfully.
+Both optimizers reached exactly 1,000 updates, all 549 model tensors were finite,
+and the weight-only artifact exactly matched the checkpoint model. Across all
+20 releases, live allocation was unchanged. Peak live allocation was 26.15 GiB,
+peak reserved allocation 67.73 GiB, and minimum available memory 41.83 GiB.
+Training took 1,574.96 seconds (1.575 seconds/update); the complete supervised
+trial took 27.51 minutes. Mean sampled GPU power was 51.18 W, maximum 59.46 W.
+See the [memory and checkpoint audit](quality_v10_training_memory_validation.json)
+and per-release [CSV](quality_v10_training_cache_releases.csv) /
+[JSONL](quality_v10_training_cache_releases.jsonl).
+
+The 100K run has resumed from this audited 1,000-update checkpoint, preserving
+both optimizers and schedulers, with cache release every 50 updates. The copied
+checkpoint hash was verified before resuming. The failed initial attempt and
+the completed diagnostic remain separately preserved. The 24 GiB guard remains
+active; one successful epoch does not guarantee all remaining updates will fit.
 
 ## Remaining work
 
