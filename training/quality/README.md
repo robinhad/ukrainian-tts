@@ -378,10 +378,16 @@ Only trials with verified updates in both optimizers and sufficient memory
 qualify. `combined_trials.jsonl/.csv` retains the old and new measurements used
 for the recommendation. Point `CALIBRATION_FILE` at that new recommendation.
 
+Calibration now defaults to 1,000 updates per trial and releases unused CUDA
+cache every 50 updates. Use `--steps` and `--cuda-cache-interval` to override
+those measurements explicitly. Prior trials must match both settings; a short
+trial or an earlier cache policy cannot silently become the new recommendation.
+
 Short calibration trials do not establish long-run memory stability. The first
 full run exhausted its reserve after the last logged 330 updates despite passing
-100-update calibration. `UKTTS_CUDA_CACHE_INTERVAL` optionally releases unused
-PyTorch allocator blocks between complete GAN updates (zero disables it). Each
+100-update calibration. `UKTTS_CUDA_CACHE_INTERVAL` releases unused PyTorch
+allocator blocks between complete GAN updates (default 50 in the V10 launcher;
+zero disables it). Each
 release logs live, reserved, and peak GPU memory before and after; it does not
 discard live tensors. Calibration records this setting and carries it into the
 recommendation so full training uses the measured configuration. Validate it

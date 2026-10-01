@@ -1,8 +1,17 @@
 from datetime import timedelta
 
 import torch
+import pytest
 
-from training.scripts.calibrate_quality_v10 import checkpoint_measurements
+from training.scripts.calibrate_quality_v10 import checkpoint_measurements, validate_prior_trials
+
+
+def test_prior_calibration_requires_matching_duration_and_memory_policy():
+    validate_prior_trials([{'steps': 1000, 'cuda_cache_interval': 50}], 1000, 50)
+    with pytest.raises(ValueError, match='same number of steps'):
+        validate_prior_trials([{'steps': 100, 'cuda_cache_interval': 50}], 1000, 50)
+    with pytest.raises(ValueError, match='same CUDA cache interval'):
+        validate_prior_trials([{'steps': 1000}], 1000, 50)
 
 
 def test_calibration_rejects_skipped_updates_nonfinite_weights_and_missing_optimizer(tmp_path):

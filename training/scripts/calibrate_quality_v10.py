@@ -49,21 +49,31 @@ def choose_trial(rows, minimum_available_gib=24, steps=100):
     return max(near, key=lambda r: r['power_mean_watts'] or 0)
 
 
+def validate_prior_trials(rows, steps, cuda_cache_interval):
+    if any(row['steps'] != steps for row in rows):
+        raise ValueError('Prior trials must use the same number of steps')
+    if any(row.get('cuda_cache_interval', 0) != cuda_cache_interval for row in rows):
+        raise ValueError('Prior trials must use the same CUDA cache interval')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--batch-bins', type=int, nargs='+', default=[2000000, 4000000, 8000000])
     parser.add_argument('--workers', type=int, nargs='+', default=[4, 8])
-    parser.add_argument('--steps', type=int, default=100)
+    parser.add_argument('--steps', type=int, default=1000)
+    parser.add_argument('--cuda-cache-interval', type=int,
+                        default=int(os.getenv('UKTTS_CUDA_CACHE_INTERVAL', '50')))
     parser.add_argument('--tf32', choices=['false', 'true'], nargs='+', default=['false', 'true'])
     parser.add_argument('--output', type=Path, default=Path('training/quality_runs/v10/calibration'))
     parser.add_argument('--prior-trials', type=Path, action='append', default=[])
     parser.add_argument('--minimum-available-gib', type=float, default=24)
     args = parser.parse_args()
+    if args.steps < 1 or args.cuda_cache_interval < 0:
+        parser.error('Steps must be positive and CUDA cache interval nonnegative')
     if not os.getenv('SLURM_JOB_ID'):
         raise RuntimeError('Run calibration in a SLURM GPU allocation')
     prior = [row for path in args.prior_trials for row in read_rows(path)]
-    if any(row['steps'] != args.steps for row in prior):
-        raise ValueError('Prior trials must use the same number of steps')
+    validate_prior_trials(prior, args.steps, args.cuda_cache_interval)
     rows = []
     for bins in args.batch_bins:
         for workers, tf32 in product(args.workers, args.tf32):
@@ -73,6 +83,7 @@ def main():
             env = {**os.environ, 'BATCH_BINS': str(bins), 'WORKERS': str(workers),
                    'USE_TF32': tf32,
                    'STEPS': str(args.steps), 'ITERS_PER_EPOCH': str(args.steps),
+                   'UKTTS_CUDA_CACHE_INTERVAL': str(args.cuda_cache_interval),
                    'TTS_EXP': str(experiment.resolve())}
             # An earlier recommendation must not override the trial under test.
             env.pop('CALIBRATION_FILE', None)

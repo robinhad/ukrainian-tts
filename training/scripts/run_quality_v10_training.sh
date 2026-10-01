@@ -20,7 +20,7 @@ PY
   )
   read -r BATCH_BINS WORKERS USE_TF32 UKTTS_CUDA_CACHE_INTERVAL <<< "$calibration_settings"
 fi
-export UKTTS_CUDA_CACHE_INTERVAL=${UKTTS_CUDA_CACHE_INTERVAL:-0}
+export UKTTS_CUDA_CACHE_INTERVAL=${UKTTS_CUDA_CACHE_INTERVAL:-50}
 export UKTTS_ESPEAK_DATA_HASH_FILE="${ROOT}/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 export GPU_COUNT=1
 export TRAIN_SET=quality_v10_train VALID_SET=quality_v10_dev TEST_SETS=quality_v10_eval
