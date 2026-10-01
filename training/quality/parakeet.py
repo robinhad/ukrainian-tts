@@ -33,6 +33,7 @@ class Parakeet:
         self.identity = {'repo': config['repo'], 'revision': config['revision'],
                          'checkpoint_sha256': file_hash(self.checkpoint), 'packages': packages,
                          'worker_sha256': file_hash(Path(__file__)), 'sample_rate': 16000,
+                         'device': device,
                          'language': 'automatic', 'decoding': 'checkpoint_default',
                          'batch_size': self.batch_size}
 
@@ -94,7 +95,11 @@ def main():
 
     request = json.loads(args.request.read_text())
     model = ASRModel.restore_from(request['checkpoint'], map_location=request['device'], strict=True)
+    model.to(request['device'])
     model.eval()
+    if request['device'].startswith('cuda'):
+        from .devices import require_gpu_models
+        print(f'Parakeet GPU model verified: {require_gpu_models(model)}', flush=True)
     batch_size = request['batch_size']
     for start in range(0, len(request['jobs']), batch_size):
         jobs, audio = [], []

@@ -3,7 +3,7 @@ pandas==2.3.1
 pyarrow==21.0.0
 soundfile==0.13.1
 librosa==0.11.0
-onnxruntime==1.22.1
+onnxruntime-gpu==1.30.0
 PyYAML==6.0.2
 speechbrain==1.1.0
 huggingface-hub==0.34.3

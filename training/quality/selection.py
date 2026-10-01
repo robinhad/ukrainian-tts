@@ -24,7 +24,7 @@ def balanced(rows, count, seed):
             for row in sorted(groups[source], key=lambda x: digest([seed, x['utterance_id']]))[:size]]
 
 
-def select(manifest: Path, output: Path, per_source=100, seed=777):
+def select(manifest: Path, output: Path, per_source=100, seed=777, downloads=None):
     if not 1 <= per_source <= 100:
         raise ValueError('per_source must be between 1 and 100')
     if output.exists() and any(output.iterdir()):
@@ -53,12 +53,17 @@ def select(manifest: Path, output: Path, per_source=100, seed=777):
                and normalize_text(r['text']) not in texts and r['reference_sha256'] not in hashes]
     panels = {'processing': balanced(train, per_source, seed),
               'heldout': balanced(heldout, per_source, seed)}
+    if downloads is not None:
+        from .references import recover
+        recover(panels, downloads, output)
     # Write only JSON-native, portable fields; preserve the original source recordings.
     for name, panel in panels.items():
         clean = [{k: r.get(k) for k in ('utterance_id', 'source_id', 'speaker_id', 'text',
-                                      'split', 'audio_path', 'reference_sha256')} for r in panel]
+                                      'split', 'audio_path', 'reference_sha256', 'reference_kind',
+                                      'processing_audio_path', 'processing_input_sha256')} for r in panel]
         write_tables(output, name, clean)
     report = {'schema_version': 1, 'seed': seed, 'per_source_cap': per_source,
+              'reference_kind': 'native_untrimmed_decoded_recording' if downloads else 'manifest_audio',
               'manifest_sha256': file_hash(manifest), 'non_voa_records': len(rows),
               'heldout_overlap_excluded': sum(partition(r) in {'eval', 'test'} for r in rows) - len(heldout),
               'panels': {name: {'records': len(panel), 'sources': sorted({r['source_id'] for r in panel}),

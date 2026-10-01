@@ -21,7 +21,8 @@ Freeze two panels from a canonical, unenhanced manifest with existing splits:
 
 ```bash
 python -m training.quality select --manifest /path/to/all.parquet \
-  --output training/quality_runs/v10/panels --per-source 100
+  --output training/quality_runs/v10/panels --per-source 100 \
+  --downloads training/data/non_voa_downloads/downloads.json
 ```
 
 The processing panel uses the training split. The checkpoint panel uses only
@@ -33,6 +34,14 @@ counts, and panel hashes are frozen. Existing panels cannot be overwritten.
 Keep the complete held-out split out of training; a panel is a measurement
 subset, not a new training split. This is utterance/text holdout, not a claim
 that speakers are unseen.
+
+For this downloaded corpus, `--downloads` recovers the selected original
+recordings at their native sample rate, channel count, and untrimmed boundaries
+as float WAV references. The panel separately binds canonical 24 kHz processing
+inputs by hash. Thus original/checkpoint comparisons include effects of boundary
+trimming and resampling, and the identity processor measures that base conversion.
+For an external manifest without the download registry, omit `--downloads`;
+its existing audio files become the references, as recorded in `selection.json`.
 
 ## Metrics
 
@@ -154,6 +163,13 @@ to a commit, its ONNX model is checked against its Git LFS SHA-256, and the
 Audiobox checkpoint hash is recorded. Whisper and ECAPA identities are saved
 in each evaluation. The FFmpeg executable is local to the environment.
 
+SigMOS uses the ONNX Runtime GPU distribution. The bootstrap removes the CPU
+distribution because both share the same Python namespace. Runtime profiling
+checks that neural operations run on CUDA; integer tensor-shape bookkeeping may
+run on CPU. Its placement counts are recorded in model provenance. Whisper,
+Audiobox, ECAPA, and Parakeet also verify GPU tensor placement. CUDA installation
+or model-placement failures stop the job rather than producing CPU model scores.
+
 Install the isolated, pinned NeMo environment for Parakeet as well:
 
 ```bash
@@ -168,8 +184,8 @@ caches bind model identity to audio bytes. A failed worker fails evaluation;
 there is no silent fallback to Whisper. Existing reports without Parakeet must
 be regenerated in a new result directory before comparison with enabled runs.
 
-The enhancement adapters additionally need ClearerVoice, Transformers,
-DeepFilterNet, and the pinned RNNoise executable. With Cargo/Rust on `PATH`, run
+The enhancement adapters additionally need ClearerVoice, Transformers, and
+DeepFilterNet. With Cargo/Rust on `PATH`, run
 `bash training/scripts/bootstrap_quality_processing.sh` after the quality
 bootstrap. It accepts `TORCH_INDEX_URL` and records processor identities per
 processed file. Run a small processing sweep to verify actual inference before
@@ -180,7 +196,8 @@ Reconstruct the downloaded corpus without a denoiser:
 ```bash
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m training.scripts.materialize_non_voa --workers 8
 python -m training.quality select --manifest training/data/quality_v10_raw/all.parquet \
-  --output training/quality_runs/v10/panels --per-source 100
+  --output training/quality_runs/v10/panels --per-source 100 \
+  --downloads training/data/non_voa_downloads/downloads.json
 ```
 
 The reconstruction preserves native decoded audio until the 24 kHz conversion,
@@ -201,8 +218,12 @@ sbatch training/slurm/quality.sbatch python -m training.quality.search \
   --output training/quality_runs/v10/search
 ```
 
-The search compares an unprocessed control, individual processors, and cascades,
-including the previous training cascade. It also tests a 50 percent dry mix.
+The search compares a base-conversion control, individual GPU processors, and
+GPU model cascades. It also tests a 50 percent dry mix. Loaded tensor devices,
+including frozen TorchScript weight constants, are checked and recorded. A CPU
+model fallback fails processing. The bundled RNNoise executable is CPU-only,
+so its profiles are excluded from this GPU processing iteration. Decoding,
+resampling, loudness matching, and non-model signal filters run on CPU.
 `combinations.jsonl/.csv` records the measured metric vector for each profile.
 `search_report.json` lists non-dominated profiles. It does not select one.
 Extend the sweep around the best reviewed combinations (for example with

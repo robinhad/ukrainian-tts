@@ -195,3 +195,29 @@ def test_parakeet_cache_binds_audio_bytes_and_model(tmp_path, monkeypatch):
     adapter.identity = {'model_hash': 'second'}
     adapter.transcribe_files(records, None, tmp_path)
     assert len(calls) == 3
+
+
+def test_native_references_preserve_original_rate_channels_and_boundaries(tmp_path, monkeypatch):
+    import hashlib
+    import io
+    from training.quality.references import recover
+
+    native = np.zeros((16000, 2), dtype=np.float32)
+    native[4000:12000, 0] = .125
+    native[4000:12000, 1] = -.25
+    encoded = io.BytesIO()
+    sf.write(encoded, native, 16000, format='WAV', subtype='FLOAT')
+    content = encoded.getvalue()
+    row = {'utterance_id': 'one', 'source_id': 'a', 'audio_path': 'canonical.wav',
+           'reference_sha256': 'canonical_hash', 'audio_sha256_source': hashlib.sha256(content).hexdigest()}
+    downloads = tmp_path / 'downloads.json'
+    downloads.write_text(json.dumps({'a': {}}))
+    monkeypatch.setattr('training.scripts.materialize_non_voa.input_rows',
+                        lambda source: iter([{'audio': {'bytes': content}}]))
+    recover({'processing': [row], 'heldout': []}, downloads, tmp_path)
+    restored, rate = sf.read(row['audio_path'], dtype='float32', always_2d=True)
+    assert rate == 16000
+    assert np.array_equal(restored, native)
+    assert row['processing_audio_path'] == 'canonical.wav'
+    assert row['processing_input_sha256'] == 'canonical_hash'
+    assert row['reference_sha256'] == file_hash(row['audio_path'])

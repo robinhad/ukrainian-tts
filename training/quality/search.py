@@ -13,9 +13,7 @@ from .common import read_rows, write_json, write_tables
 from .evaluate import QUALITY_METRICS
 
 BACKENDS = ['identity', 'deepfilternet3', 'sidon', 'clearervoice',
-            'clearervoice_sidon', 'clearervoice_sidon_deepfilternet3',
-            'clearervoice_sidon_rnnoise85',
-            'training_clearervoice_sidon_deess_declick_limit_deepfilternet3_rnnoise85']
+            'clearervoice_sidon', 'clearervoice_sidon_deepfilternet3']
 
 
 def run(command):

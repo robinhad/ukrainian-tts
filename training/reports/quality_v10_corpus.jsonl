@@ -1,0 +1,8 @@
+{"source_id": "common_voice_available_uk", "recordings": 41180, "hours": 44.02325518518518, "download_bytes": 2027380085, "retained_pcm24_bytes": 11412639664}
+{"source_id": "fleurs_uk", "recordings": 1897, "hours": 5.607866666666666, "download_bytes": 2769906439, "retained_pcm24_bytes": 1453642508}
+{"source_id": "opentts_lada", "recordings": 5266, "hours": 4.904228148148149, "download_bytes": 201227120, "retained_pcm24_bytes": 1271407640}
+{"source_id": "opentts_mykyta", "recordings": 1417, "hours": 1.410284074074074, "download_bytes": 195385677, "retained_pcm24_bytes": 365607980}
+{"source_id": "opentts_tetiana", "recordings": 1568, "hours": 1.617443703703704, "download_bytes": 164030844, "retained_pcm24_bytes": 419310400}
+{"source_id": "tg_voices_uk", "recordings": 618, "hours": 0.6138665740740741, "download_bytes": 564583865, "retained_pcm24_bytes": 159141408}
+{"source_id": "ua_ser", "recordings": 470, "hours": 0.3479729861111111, "download_bytes": 63055460, "retained_pcm24_bytes": 90215438}
+{"source_id": "ukr_dialects", "recordings": 28335, "hours": 51.74717395833333, "download_bytes": 8859666414, "retained_pcm24_bytes": 13414114246}

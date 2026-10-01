@@ -30,6 +30,14 @@ def process(panel, profile_path, output, device='cuda', resume=False):
     if not 0 <= wet <= 1:
         raise ValueError('wet must be in [0, 1]')
     backend_name = profile['backend']
+    if 'rnnoise' in backend_name:
+        raise ValueError('The bundled RNNoise executable runs its neural model on CPU; '
+                         'select a GPU enhancement profile for this iteration')
+    if backend_name != 'identity':
+        import torch
+        if not device.startswith('cuda') or not torch.cuda.is_available():
+            raise RuntimeError('Enhancement models require a SLURM GPU allocation')
+        torch.cuda.set_device(torch.device(device).index or 0)
     identity, backend = {'name': backend_name}, None
     if backend_name == 'sidon':
         backend = SidonBackend(device, Path(profile['model_cache']) / 'sidon')
@@ -39,16 +47,21 @@ def process(panel, profile_path, output, device='cuda', resume=False):
             backend=backend_name, device=device, model_cache=Path(profile['model_cache']),
             rnnoise_binary=Path(profile.get('rnnoise_binary', 'training/vendor/rnnoise/examples/rnnoise_demo'))))
     root = Path(__file__).resolve().parents[1]
+    if backend is not None:
+        from .devices import require_gpu_models
+        identity = {**identity, 'model_devices': require_gpu_models(backend)}
+        print(f'GPU enhancement models verified: {identity["model_devices"]}', flush=True)
     identity = {**identity, 'adapter_hashes': {
         name: file_hash(root / name) for name in ['quality/processing.py',
-        'scripts/run_enhancement_review_backend.py', 'scripts/run_fair_enhancement_comparison.py']}}
+        'quality/devices.py', 'scripts/run_enhancement_review_backend.py',
+        'scripts/run_fair_enhancement_comparison.py']}}
     results = []
     for row in rows:
         if shutil.disk_usage(output).free < 30 * 1024**3:
             raise RuntimeError('Disk reserve below 30 GiB')
-        source = Path(row['audio_path'])
+        source = Path(row.get('processing_audio_path') or row['audio_path'])
         input_hash = file_hash(source)
-        if row.get('reference_sha256', input_hash) != input_hash:
+        if (row.get('processing_input_sha256') or row.get('reference_sha256', input_hash)) != input_hash:
             raise ValueError('Frozen input changed')
         target = output / f"{row['utterance_id']}.wav"
         metadata = output / f"{row['utterance_id']}.json"

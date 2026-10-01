@@ -3,6 +3,8 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "${ROOT}/.."
 PYTHON=${QUALITY_PYTHON:-"${ROOT}/.venv/bin/python"}
+# CPU and GPU distributions share an import namespace and must not coexist.
+uv pip uninstall --python "$PYTHON" onnxruntime
 uv pip install --python "$PYTHON" -r "${ROOT}/requirements-quality.in" \
   --constraint <(printf '%s\n' 'torch==2.9.1' 'torchaudio==2.9.1')
 "$PYTHON" - <<'PY'

@@ -23,9 +23,30 @@ experiments and refinement review are complete.
 
 ## Execution findings
 
-All eight source downloads completed at their recorded revisions. No VOA source
-was requested. The corpus is being reconstructed; its measured size and counts
-must be reported after completion rather than copied from the previous run.
+All eight source downloads and reconstruction completed. No VOA source was
+requested. The reconstructed corpus contains **80,751 recordings / 110.272 hours**.
+Downloads total **14.845 GB**, and retained mono 24 kHz PCM24 files total
+**28.586 GB** (decimal units). These counts use the new reconstruction and
+deduplication policy; they do not reproduce the previous iteration's filters.
+
+| Source | Recordings | Hours |
+|---|---:|---:|
+| Common Voice | 41,180 | 44.023 |
+| Ukrainian dialects | 28,335 | 51.747 |
+| OpenTTS Lada | 5,266 | 4.904 |
+| FLEURS Ukrainian | 1,897 | 5.608 |
+| OpenTTS Tetiana | 1,568 | 1.617 |
+| OpenTTS Mykyta | 1,417 | 1.410 |
+| Telegram voices | 618 | 0.614 |
+| UA-SER | 470 | 0.348 |
+
+There are 77,468 training, 1,595 development, and 1,688 evaluation recordings.
+The fixed processing panel contains 800 recordings (100 per source); the fixed
+checkpoint panel contains 88 (11 per source, limited by the smallest held-out
+source). The entire evaluation split remains excluded from training. Panels
+retain native, untrimmed originals as references and separately bind canonical
+processing inputs. No train/dev overlap was found among eligible held-out items.
+See [corpus CSV](quality_v10_corpus.csv) and [JSONL](quality_v10_corpus.jsonl).
 
 The training environment built successfully. An ARM DeepFilterNet dependency
 required a local Rust toolchain. The GPU matrix-operation smoke test passed
@@ -55,10 +76,20 @@ The training encoder was separately loaded from pinned local ECAPA files and
 produced finite 192-dimensional embeddings. ClearVoice now explicitly fetches
 the model revision recorded in its processing provenance.
 
+The enhancement adapters verify CUDA tensor placement, including constants in
+frozen TorchScript models. DeepFilterNet, Sidon, ClearVoice, and their combined
+pipeline passed real-audio GPU checks. CPU-only RNNoise profiles are excluded
+from the current sweep following the GPU-processing requirement.
+
+SigMOS also runs its neural operations on CUDA. A runtime profile verified
+CUDA convolutions, GRU, and dense layers; CPU work was limited to integer shape
+bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
+was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
+and Parakeet content metrics. Processing selection and 100K training are pending.
+
 ## Remaining work
 
-Finish corpus reconstruction and real scoring validation. Run the processing
-sweep and refinements, record measured comparisons and the stopping decision,
+Finish the processing sweep and refinements, record measured comparisons and the stopping decision,
 then process the full corpus. Prepare embeddings/statistics, calibrate training,
 complete the 100K run, and compare its checkpoints. See
 [run instructions](../quality/README.md).

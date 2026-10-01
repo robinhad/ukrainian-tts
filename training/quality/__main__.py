@@ -14,6 +14,7 @@ def main():
     select.add_argument('--output', type=Path, required=True)
     select.add_argument('--per-source', type=int, default=100)
     select.add_argument('--seed', type=int, default=777)
+    select.add_argument('--downloads', type=Path, help='Pinned download registry for native original references')
     evaluate = sub.add_parser('evaluate')
     evaluate.add_argument('--panel', type=Path, required=True)
     evaluate.add_argument('--wav-dir', type=Path)
@@ -39,7 +40,7 @@ def main():
     args = parser.parse_args()
     if args.command == 'select':
         from .selection import select
-        select(args.manifest, args.output, args.per_source, args.seed)
+        select(args.manifest, args.output, args.per_source, args.seed, args.downloads)
     elif args.command == 'evaluate':
         from .backends import Models
         from .evaluate import evaluate
