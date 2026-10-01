@@ -2,31 +2,33 @@
   "batch_bins": 4000000,
   "workers": 8,
   "use_tf32": false,
-  "cuda_cache_interval": 50,
+  "cuda_cache_interval": 10,
   "minimum_available_gib": 24.0,
   "power_reference_watts": 100,
   "criterion": "batch-bin throughput during training; power breaks ties within 5 percent",
   "note": "No power cap change. Batch bins/s is a work proxy, not measured audio samples/s.",
-  "configuration_status": "validated_one_epoch_training_in_progress",
-  "validated_steps": 1000,
-  "optimizer_steps_by_optimizer": [
-    [
-      1000
-    ],
-    [
-      1000
-    ]
-  ],
-  "minimum_observed_available_gib": 41.83463668823242,
-  "previous_attempt": {
-    "cuda_cache_interval": 0,
-    "last_logged_step": 330,
-    "minimum_available_gib": 19.159988403320312,
-    "status": "stopped_by_memory_reserve_guard"
-  },
+  "configuration_status": "recovery_training_in_progress_not_yet_epoch_validated",
   "limitations": [
-    "The original grid compared 100-update trials; this configuration subsequently completed a 1000-update memory-validation epoch.",
-    "This is not evidence that all remaining 99000 updates are complete or guaranteed to fit memory.",
+    "The 50-update cache policy passed a 1000-update diagnostic but later reached the memory reserve during epoch six.",
+    "The recovery policy releases unused cache every 10 updates; sustained validation is pending.",
+    "The saved 5000-update checkpoint passed both optimizer-count and finite, matching-weight checks before recovery.",
     "Batch bins/s is a work proxy and calibration power means include initialization and validation."
-  ]
+  ],
+  "previous_attempts": [
+    {
+      "cuda_cache_interval": 0,
+      "last_logged_step": 330,
+      "minimum_available_gib": 19.159988403320312,
+      "status": "stopped_by_memory_reserve_guard"
+    },
+    {
+      "cuda_cache_interval": 50,
+      "last_logged_step": 5880,
+      "saved_steps": 5000,
+      "minimum_available_gib": 23.703231811523438,
+      "status": "stopped_by_memory_reserve_guard",
+      "completed_diagnostic_updates": 1000
+    }
+  ],
+  "resume_steps": 5000
 }

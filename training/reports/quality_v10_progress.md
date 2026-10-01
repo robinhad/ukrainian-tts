@@ -444,9 +444,20 @@ test with 541 small tensors measured 6.26 ms/update with CPU counters versus
 the allocation with training and is not a full-training throughput comparison.
 The resume patch restores the counter device expected by PyTorch, leaving moment
 tensors on CUDA. A real GPU checkpoint-load test verifies identical subsequent
-updates and preserves CUDA counters for capturable/fused modes. Deployment to
-the main run is planned at the next saved checkpoint boundary. See the
+updates and preserves CUDA counters for capturable/fused modes. The fix is enabled
+in the recovery resume described below. See the
 [counter measurements](quality_v10_optimizer_counter_benchmark.json).
+
+The 50-update cache policy later reached the 24 GiB memory reserve during epoch
+six, after the last logged 5,880 updates (23.70 GiB available at termination).
+The independent guard stopped training and memory recovered. No 6K checkpoint
+was saved; the complete 5K checkpoint still passed the optimizer and model audit.
+This demonstrates why the earlier successful full-epoch diagnostic was not a
+long-run guarantee. The stopped run and a hash-verified checkpoint copy are
+preserved separately. Recovery resumes from 5K with unused-cache release every
+10 updates and the tested Adam counter-device fix. Sustained validation of this
+new interval is pending; the 24 GiB guard, batch size, workers, and precision
+remain unchanged.
 
 ## Remaining work
 

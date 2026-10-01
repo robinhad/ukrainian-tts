@@ -392,7 +392,11 @@ release logs live, reserved, and peak GPU memory before and after; it does not
 discard live tensors. Calibration records this setting and carries it into the
 recommendation so full training uses the measured configuration. Validate it
 over at least a full training epoch before treating it as a sustained-memory
-result. The independent available-memory guard remains enabled.
+result. The independent available-memory guard remains enabled. The 50-update
+policy subsequently crossed the reserve during epoch six. The active recovery
+uses `UKTTS_CUDA_CACHE_INTERVAL=10` with `CALIBRATION_FILE` unset, preserving
+four million batch bins and eight workers. This shorter interval is under
+sustained validation; the earlier calibration does not certify it.
 
 On resume, the bootstrap also restores CPU scalar step counters for ordinary
 Adam/AdamW. ESPnet loads checkpoint tensors onto CUDA, but PyTorch deliberately
