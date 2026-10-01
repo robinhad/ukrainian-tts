@@ -10,7 +10,7 @@ experiments and refinement review are complete.
 ## Implemented
 
 - SigMOS overall, speech, noise, coloration, and discontinuity; Audiobox PQ.
-- Whisper Ukrainian CER/WER against supplied transcripts; ECAPA similarity to
+- Whisper and Parakeet Ukrainian CER/WER against supplied transcripts; ECAPA similarity to
   original recordings.
 - Clipping, duration change, and local high-frequency burst diagnostics.
 - Whole-file scores, overlapping windows, and worst windows per metric.
@@ -19,7 +19,7 @@ experiments and refinement review are complete.
 - Report-only thresholds. No HNR rejection and no automatic quality promotion.
 - Pinned-source downloads, canonical PCM24 reconstruction, processing sweep,
   SLURM launchers, real-training calibration, milestone preservation, and
-  60-second operational telemetry.
+  operational telemetry every 5 seconds for quality jobs and 60 for training.
 
 ## Execution findings
 
@@ -37,10 +37,15 @@ The local eSpeak build has a different language-data fingerprint. All 550
 committed phoneme cases matched exactly. A separate verified runtime pin keeps
 this local fingerprint out of Git and preserves the historical pin.
 
-The training test suite currently reports 166 passed and 8 skipped. The skipped
-tests use the historical frontend data fingerprint; the explicit local frontend
-verification separately passed all 550 cases. Real scoring-model integration
-is under test. No processing winner or audio-quality improvement is claimed yet.
+The complete training test suite passes with the verified local frontend pin.
+The explicit frontend verification also passed all 550 reference cases.
+
+All scoring models, including pinned Parakeet TDT 0.6B v3 in a separate NeMo
+environment, completed a two-file Ukrainian smoke evaluation with no errors.
+All eight processing paths also completed a two-file smoke sweep. These checks
+verify model execution and report generation, not representative corpus quality.
+The source-balanced experiment remains necessary. No processing winner or
+audio-quality improvement is claimed yet.
 
 ## Remaining work
 

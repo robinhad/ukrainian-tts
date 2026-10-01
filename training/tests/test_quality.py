@@ -10,7 +10,7 @@ import yaml
 
 from training.quality.common import file_hash, read_rows, write_tables
 from training.quality.compare import compare
-from training.quality.evaluate import evaluate, QUALITY_METRICS
+from training.quality.evaluate import aggregate, evaluate, QUALITY_METRICS
 from training.quality.metrics import content_scores, signal_scores, windows
 from training.quality.selection import select
 
@@ -21,6 +21,13 @@ CONFIG = yaml.safe_load((Path(__file__).parents[1] / 'conf/quality.yaml').read_t
 class FakeModels:
     """Only exercises orchestration; never used to report real quality results."""
     identity = {'test_backend': True}
+
+    @property
+    def parakeet(self):
+        return self
+
+    def transcribe_files(self, records, wav_dir, output):
+        return {r['utterance_id']: 'Привіт' for r in records}
 
     def quality(self, audio, rate):
         return dict.fromkeys(QUALITY_METRICS, float(3 + np.std(audio)))
@@ -81,10 +88,15 @@ def test_evaluation_resume_comparison_and_report_only(tmp_path):
     evaluate(path, reference, 'original', CONFIG, FakeModels())
     evaluate(path, current, '25k', CONFIG, FakeModels(), wavs)
     assert read_rows(current / 'per_file.jsonl')[0]['wer'] == 0
+    if CONFIG['models'].get('parakeet'):
+        assert read_rows(current / 'per_file.jsonl')[0]['parakeet_wer'] == .5
+        assert read_rows(current / 'per_file.jsonl')[0]['parakeet_text'] == 'Привіт'
     assert read_rows(current / 'segments.jsonl')[0]['content_score_status'].startswith('not_scored')
     assert (current / 'aggregate.csv').exists()
     summary = compare(current, {'original': reference, 'previous': reference, 'best': reference}, current)
     assert any(r['mean_delta'] > 0 for r in summary if r['metric'] == 'sigmos_overall')
+    if CONFIG['models'].get('parakeet'):
+        assert any(r['metric'] == 'parakeet_wer' and r['mean_delta'] == 0 for r in summary)
     assert json.loads((current / 'comparison.json').read_text())['automatic_promotion'] is False
     evaluate(path, current, '25k', CONFIG, FakeModels(), wavs, resume=True)
     with pytest.raises(ValueError, match='provenance'):
@@ -134,3 +146,52 @@ def test_balanced_frozen_non_voa_selection_and_leakage(tmp_path):
         select(tmp_path / 'input.jsonl', output)
     with pytest.raises(ValueError):
         select(tmp_path / 'input.jsonl', tmp_path / 'other', per_source=101)
+
+
+def test_parakeet_corpus_rates_and_missing_transcript():
+    rows = [{'source_id': 'a', **{f'parakeet_{k}': v for k, v in
+             content_scores(reference, hypothesis).items()}}
+            for reference, hypothesis in [('один два', 'один'), ('три', 'три'), ('', 'чотири')]]
+    scores = {r['metric']: r['mean'] for r in aggregate(rows) if r['source_id'] == 'all'}
+    assert scores['corpus_parakeet_wer'] == pytest.approx(1 / 3)
+    assert scores['parakeet_wer'] == .25
+
+
+def test_parakeet_failure_is_not_a_successful_evaluation(tmp_path):
+    path, _, _ = panel(tmp_path)
+    model = FakeModels()
+    model.transcribe_files = lambda *args: {'one': RuntimeError('ASR failed')}
+    config = {**CONFIG, 'models': {**CONFIG['models'], 'parakeet': {'enabled': True}}}
+    with pytest.raises(RuntimeError, match='1 files failed'):
+        evaluate(path, tmp_path / 'failed', 'failed', config, model)
+    assert json.loads((tmp_path / 'failed/run.json').read_text())['status'] == 'incomplete'
+
+
+def test_parakeet_cache_binds_audio_bytes_and_model(tmp_path, monkeypatch):
+    from training.quality.common import write_json
+    from training.quality.parakeet import Parakeet
+
+    path, original, waveform = panel(tmp_path)
+    adapter = Parakeet.__new__(Parakeet)
+    adapter.identity = {'model_hash': 'first'}
+    adapter.python, adapter.checkpoint = Path('python'), Path('test.nemo')
+    adapter.device, adapter.batch_size = 'cpu', 2
+    calls = []
+
+    def worker(command, **kwargs):
+        request = json.loads(Path(command[-1]).read_text())
+        calls.append(request)
+        for job in request['jobs']:
+            write_json(Path(job['cache']), {'key': job['key'], 'text': 'Привіт'})
+
+    monkeypatch.setattr('training.quality.parakeet.subprocess.run', worker)
+    records = read_rows(path)
+    for _ in range(2):
+        assert adapter.transcribe_files(records, None, tmp_path)['one'] == 'Привіт'
+    assert len(calls) == 1
+    sf.write(original, waveform * .5, 24000)
+    adapter.transcribe_files(records, None, tmp_path)
+    assert len(calls) == 2
+    adapter.identity = {'model_hash': 'second'}
+    adapter.transcribe_files(records, None, tmp_path)
+    assert len(calls) == 3

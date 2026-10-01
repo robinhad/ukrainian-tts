@@ -11,8 +11,57 @@ from .metrics import content_scores, cosine, flags, signal_scores, windows
 
 QUALITY_METRICS = ['sigmos_overall', 'sigmos_speech', 'sigmos_noise', 'sigmos_coloration',
                    'sigmos_discontinuity', 'audiobox_pq']
-COMPARE_METRICS = QUALITY_METRICS + ['cer', 'wer', 'ecapa_similarity', 'clipping_fraction',
+COMPARE_METRICS = QUALITY_METRICS + ['cer', 'wer', 'parakeet_cer', 'parakeet_wer',
+                                   'ecapa_similarity', 'clipping_fraction',
                                    'duration_ratio', 'hf_burst_count']
+
+
+def transcribe_panel(records, wav_dir, output, run_key, models, batch_size):
+    """Bounded ASR batches; each cached hypothesis is tied to actual audio bytes."""
+    if batch_size < 1:
+        raise ValueError('asr_batch_size must be positive')
+    hypotheses = {}
+    for start in range(0, len(records), batch_size):
+        jobs = []
+        for record in records[start:start + batch_size]:
+            identifier = record['utterance_id']
+            path = Path(wav_dir) / f'{identifier}.wav' if wav_dir else Path(record['audio_path'])
+            cache_path = output / 'asr_cache' / f'{digest(identifier)}.json'
+            try:
+                key = digest([run_key, file_hash(path)])
+                if cache_path.exists():
+                    cache = json.loads(cache_path.read_text())
+                    if cache['key'] == key:
+                        hypotheses[identifier] = cache['text']
+                        continue
+                audio, rate = sf.read(path, dtype='float32', always_2d=True)
+                if not audio.size or not np.isfinite(audio).all():
+                    raise ValueError('Invalid ASR audio')
+                jobs.append((identifier, audio.mean(axis=1), rate, cache_path, key))
+            except Exception as error:
+                hypotheses[identifier] = error
+        if not jobs:
+            continue
+        try:
+            clips = [(j[1], j[2]) for j in jobs]
+            texts = (models.transcribe_batch(clips) if hasattr(models, 'transcribe_batch') else
+                     [models.transcribe(a, r) for a, r in clips])
+            if len(texts) != len(jobs):
+                raise ValueError('ASR batch returned incorrect coverage')
+            for job, text in zip(jobs, texts):
+                hypotheses[job[0]] = text
+                write_json(job[3], {'key': job[4], 'text': text})
+        except Exception:
+            # One problematic utterance must not hide successful measurements of others.
+            for identifier, audio, rate, cache_path, key in jobs:
+                try:
+                    text = models.transcribe(audio, rate)
+                    hypotheses[identifier] = text
+                    write_json(cache_path, {'key': key, 'text': text})
+                except Exception as error:
+                    hypotheses[identifier] = error
+        write_json(output / 'asr_progress.json', {'processed': len(hypotheses), 'expected': len(records)})
+    return hypotheses
 
 
 def aggregate(rows):
@@ -30,10 +79,13 @@ def aggregate(rows):
                            'p05': float(np.percentile(values, 5)) if values else None,
                            'p95': float(np.percentile(values, 95)) if values else None})
         for metric, numerator, denominator in [('cer', 'character_errors', 'reference_characters'),
-                                                ('wer', 'word_errors', 'reference_words')]:
-            total = sum(r.get(denominator, 0) for r in items)
+                                                ('wer', 'word_errors', 'reference_words'),
+                                                ('parakeet_cer', 'parakeet_character_errors', 'parakeet_reference_characters'),
+                                                ('parakeet_wer', 'parakeet_word_errors', 'parakeet_reference_words')]:
+            transcribed = [r for r in items if r.get(denominator, 0) > 0]
+            total = sum(r[denominator] for r in transcribed)
             result.append({'source_id': group, 'metric': f'corpus_{metric}', 'count': total,
-                           'mean': sum(r.get(numerator, 0) for r in items) / total if total else None})
+                           'mean': sum(r[numerator] for r in transcribed) / total if total else None})
     for metric in COMPARE_METRICS:
         values = [r['mean'] for r in result if r['source_id'] != 'all'
                   and r['metric'] == metric and r['mean'] is not None]
@@ -72,6 +124,9 @@ def evaluate(panel, output, label, config, models, wav_dir=None, checkpoint=None
             raise ValueError('Existing report has different provenance or --resume was not set')
     output.mkdir(parents=True, exist_ok=True)
     write_json(metadata_path, {**provenance, 'run_key': run_key, 'status': 'running'})
+    parakeet = (models.parakeet.transcribe_files(records, wav_dir, output)
+                if config['models'].get('parakeet') else None)
+    hypotheses = transcribe_panel(records, wav_dir, output, run_key, models, config.get('asr_batch_size', 1))
     rows, segment_rows, errors = [], [], []
     thresholds = config['thresholds']
     for record in records:
@@ -98,17 +153,33 @@ def evaluate(panel, output, label, config, models, wav_dir=None, checkpoint=None
             mono, reference_mono = audio.mean(axis=1), original.mean(axis=1)
             reference_embedding = models.embedding(reference_mono, original_rate)
             quality = models.quality(mono, rate)
-            hypothesis = models.transcribe(mono, rate)
+            hypothesis = hypotheses[identifier]
+            if isinstance(hypothesis, Exception):
+                raise hypothesis
             metrics = {**signal, **quality, **content_scores(record['text'], hypothesis),
                        'duration_ratio': (len(audio) / rate) / (len(original) / original_rate),
                        'ecapa_similarity': cosine(models.embedding(mono, rate), reference_embedding)}
+            if parakeet is not None:
+                if isinstance(parakeet[identifier], Exception):
+                    raise parakeet[identifier]
+                metrics.update({f'parakeet_{k}': v for k, v in
+                                content_scores(record['text'], parakeet[identifier]).items()})
             if any(not np.isfinite(metrics[k]) for k in QUALITY_METRICS + ['ecapa_similarity']):
                 raise ValueError('Model returned non-finite scores')
             segments = []
-            for index, (start, end) in enumerate(windows(len(audio), rate, config['segment_seconds'],
-                                                        config['segment_stride_seconds'])):
+            spans = windows(len(audio), rate, config['segment_seconds'], config['segment_stride_seconds'])
+            crops = [mono[start:end] for start, end in spans]
+            segment_quality = []
+            batch_size = config.get('quality_segment_batch_size', 1)
+            if batch_size < 1:
+                raise ValueError('quality_segment_batch_size must be positive')
+            for start in range(0, len(crops), batch_size):
+                batch = crops[start:start + batch_size]
+                segment_quality.extend(models.quality_many(batch, rate) if hasattr(models, 'quality_many')
+                                       else [models.quality(crop, rate) for crop in batch])
+            for index, (start, end) in enumerate(spans):
                 crop = mono[start:end]
-                values = {**models.quality(crop, rate),
+                values = {**segment_quality[index],
                           **signal_scores(audio[start:end], rate, thresholds),
                           'ecapa_similarity': cosine(models.embedding(crop, rate), reference_embedding)}
                 if any(not np.isfinite(values[k]) for k in QUALITY_METRICS + ['ecapa_similarity']):
@@ -125,6 +196,7 @@ def evaluate(panel, output, label, config, models, wav_dir=None, checkpoint=None
                               [:config['worst_segments']]] for metric in QUALITY_METRICS + ['ecapa_similarity']}
             row = {'utterance_id': identifier, 'source_id': record['source_id'], 'label': label,
                    'text': record['text'], 'whisper_text': hypothesis,
+                   'parakeet_text': parakeet[identifier] if parakeet is not None else None,
                    'audio_path': str(candidate_path.resolve()), 'audio_sha256': candidate_hash,
                    'reference_sha256': reference_hash, 'sample_rate': rate, 'channels': audio.shape[1],
                    **metrics, 'flags': flags(metrics, thresholds), 'worst_segments': worst}

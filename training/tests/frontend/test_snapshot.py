@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -28,6 +29,12 @@ def test_snapshot_matches(tmp_path):
             )
         except (ImportError, RuntimeError) as error:
             pytest.skip(f"frontend dependencies are not bootstrapped: {error}")
+        # An explicitly verified local build can have a different data fingerprint.
+        # All phonemes and all other frontend settings must still match exactly.
+        if os.getenv("UKTTS_ESPEAK_DATA_HASH_FILE"):
+            expected["frontend_config"]["espeak_data_hash"] = Path(
+                os.environ["UKTTS_ESPEAK_DATA_HASH_FILE"]
+            ).read_text().strip()
         assert current == expected
 
 

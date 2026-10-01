@@ -11,7 +11,7 @@ if [[ ! -x "${VENV}/bin/python" ]]; then
 fi
 uv pip install --python "${VENV}/bin/python" \
     torch==2.9.1 torchaudio==2.9.1 \
-    --index-url https://download.pytorch.org/whl/cu128
+    --index-url "${TORCH_INDEX_URL:-https://download.pytorch.org/whl/cu128}"
 uv pip install --python "${VENV}/bin/python" \
     -r "${ROOT}/requirements-nemo.in"
 "${VENV}/bin/python" -c "import nemo; print(nemo.__version__)"

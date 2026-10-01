@@ -33,6 +33,7 @@ class Models:
             if not Path(config[key]).is_absolute():
                 config[key] = str(repository / config[key])
         self.torch = torch
+        self.whisper_module = whisper
         self.device = config['device']
         if self.device.startswith('cuda') and not torch.cuda.is_available():
             raise RuntimeError('CUDA requested but unavailable; use a SLURM GPU allocation')
@@ -57,6 +58,7 @@ class Models:
             'whisper_model': config['whisper'],
             'whisper_sha256': file_hash(Path(config['whisper_cache']) / f"{config['whisper']}.pt"),
             'whisper_language': 'uk', 'whisper_temperature': 0,
+            'whisper_decoder': 'greedy_no_timestamps_batched_under_30s_v1',
             'ecapa_source': config['ecapa'], 'ecapa_revision': config['ecapa_revision'],
             'ecapa_files': {p.name: file_hash(p) for p in sorted(Path(config['ecapa_cache']).glob('*'))
                             if p.is_file()},
@@ -64,25 +66,48 @@ class Models:
                          ('torch', 'torchaudio', 'onnxruntime', 'audiobox-aesthetics',
                           'openai-whisper', 'speechbrain')},
         }
+        if config.get('parakeet'):
+            from .parakeet import Parakeet
+            self.parakeet = Parakeet(config['parakeet'], self.device)
+            self.identity['parakeet'] = self.parakeet.identity
 
     def quality(self, audio, rate):
+        return self.quality_many([audio], rate)[0]
+
+    def quality_many(self, audios, rate):
         # Official SigMOS frontend uses FFT resampling. Do not replace it with a proxy.
-        mos = self.sigmos.run(np.asarray(audio, dtype=np.float32), sr=rate)
+        scores = [self.sigmos.run(np.asarray(audio, dtype=np.float32), sr=rate) for audio in audios]
         mapping = {'MOS_OVRL': 'overall', 'MOS_SIG': 'speech', 'MOS_NOISE': 'noise',
                    'MOS_COL': 'coloration', 'MOS_DISC': 'discontinuity',
                    'MOS_LOUD': 'loudness', 'MOS_REVERB': 'reverb'}
         with self.torch.inference_mode():
             pq = self.audiobox.forward([{'path': self.torch.from_numpy(audio.copy()).unsqueeze(0),
-                                        'sample_rate': rate}])[0]['PQ']
-        return {**{f'sigmos_{name}': float(mos[key]) for key, name in mapping.items()},
-                'audiobox_pq': float(pq)}
+                                        'sample_rate': rate} for audio in audios])
+        return [{**{f'sigmos_{name}': float(mos[key]) for key, name in mapping.items()},
+                 'audiobox_pq': float(aes['PQ'])} for mos, aes in zip(scores, pq)]
 
     def transcribe(self, audio, rate):
+        if len(audio) / rate <= 30:
+            return self.transcribe_batch([(audio, rate)])[0]
         result = self.whisper.transcribe(resample(audio, rate, 16000), language='uk',
                                          task='transcribe', temperature=0,
                                          condition_on_previous_text=False,
                                          fp16=self.device.startswith('cuda'), verbose=None)
         return result['text']
+
+    def transcribe_batch(self, clips):
+        if any(len(audio) / rate > 30 for audio, rate in clips):
+            return [self.transcribe(audio, rate) for audio, rate in clips]
+        whisper = self.whisper_module
+        mel = self.torch.stack([whisper.log_mel_spectrogram(
+            whisper.pad_or_trim(resample(audio, rate, 16000)), n_mels=self.whisper.dims.n_mels)
+            for audio, rate in clips]).to(self.device)
+        options = whisper.DecodingOptions(language='uk', task='transcribe', temperature=0,
+                                           without_timestamps=True,
+                                           fp16=self.device.startswith('cuda'))
+        with self.torch.inference_mode():
+            results = whisper.decode(self.whisper, mel, options)
+        return [r.text for r in results]
 
     def embedding(self, audio, rate):
         tensor = self.torch.from_numpy(resample(audio, rate, 16000)).unsqueeze(0).to(self.device)

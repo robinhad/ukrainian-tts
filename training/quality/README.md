@@ -48,6 +48,15 @@ The same evaluator handles processing outputs and synthesized checkpoint WAVs:
   punctuation/whitespace cleanup, and removal of stress marks. Digits are kept;
   there is no number verbalizer. CER excludes spaces. Corpus error rates use
   total edits divided by total reference characters/words.
+- [NVIDIA Parakeet TDT 0.6B v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3):
+  an additional multilingual ASR check supporting Ukrainian, with automatic
+  language detection and the pinned checkpoint's default decoding. Audio is
+  resampled to 16 kHz mono. `parakeet_text`, `parakeet_cer`, `parakeet_wer`, and
+  edit/reference counts are saved separately; `cer`/`wer` remain Whisper scores.
+  Both ASR systems use identical transcript normalization. Per-source,
+  source-macro, corpus-weighted rates, and checkpoint deltas include Parakeet.
+  Missing reference text has no CER/WER and contributes no corpus edits.
+  ASR errors measure intelligibility and recognizer behavior, not acoustic MOS.
 - [SpeechBrain ECAPA](https://huggingface.co/speechbrain/spkrec-ecapa-voxceleb):
   cosine similarity to the original recording. This is speaker preservation,
   not proof of speaker identity.
@@ -144,11 +153,26 @@ to a commit, its ONNX model is checked against its Git LFS SHA-256, and the
 Audiobox checkpoint hash is recorded. Whisper and ECAPA identities are saved
 in each evaluation. The FFmpeg executable is local to the environment.
 
-The existing enhancement adapters additionally need ClearerVoice, Transformers,
-DeepFilterNet, and the pinned RNNoise executable. Their model identities are
-recorded per processed file. `setup_enhancement_review_env.sh` describes the
-historical separate enhancement environment; choose CUDA wheels appropriate
-for the current GPU instead of assuming the old machine's setup.
+Install the isolated, pinned NeMo environment for Parakeet as well:
+
+```bash
+bash training/scripts/bootstrap_nemo_env.sh
+```
+
+It accepts the same `TORCH_INDEX_URL` override. The quality configuration pins
+Parakeet's model revision and names its Python executable and cache. Evaluation
+downloads that revision if absent, records the checkpoint hash and NeMo source
+revision, and invokes one batched NeMo worker per panel. Per-file transcription
+caches bind model identity to audio bytes. A failed worker fails evaluation;
+there is no silent fallback to Whisper. Existing reports without Parakeet must
+be regenerated in a new result directory before comparison with enabled runs.
+
+The enhancement adapters additionally need ClearerVoice, Transformers,
+DeepFilterNet, and the pinned RNNoise executable. With Cargo/Rust on `PATH`, run
+`bash training/scripts/bootstrap_quality_processing.sh` after the quality
+bootstrap. It accepts `TORCH_INDEX_URL` and records processor identities per
+processed file. Run a small processing sweep to verify actual inference before
+the full experiment; successful imports alone do not validate model execution.
 
 Reconstruct the downloaded corpus without a denoiser:
 
@@ -211,7 +235,8 @@ evaluated after training. Set `UKTTS_QUALITY_BEST` to an explicitly reviewed
 quality result directory to include the best baseline; previous checkpoints
 are chained automatically. No quality threshold can promote or reject them.
 
-Each submitted command has a durable command log, 60-second telemetry, a current
+Each submitted command has a durable command log, 5-second quality-job telemetry
+(60 seconds for training), a current
 status JSON, and a completion summary under the ignored run directory. Check
 `squeue`, the command log, status, and progress at least every 30 minutes while
 the pipeline is running. A failed command exits nonzero. Resume only the same

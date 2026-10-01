@@ -18,4 +18,4 @@ export OPENBLAS_NUM_THREADS=4
 export PYTHONUNBUFFERED=1
 RUN_DIR=${RUN_DIR:-training/quality_runs/v10}
 exec python -m training.quality.supervise --output "$RUN_DIR/jobs/${SLURM_JOB_ID}" \
-  --interval 60 -- "$@"
+  --interval 5 -- "$@"

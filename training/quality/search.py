@@ -61,6 +61,8 @@ def main():
     # Show non-dominated observed profiles without hiding quality/content tradeoffs.
     higher = QUALITY_METRICS + ['ecapa_similarity']
     lower = ['cer', 'wer', 'clipping_fraction', 'hf_burst_count']
+    if yaml.safe_load(args.config.read_text())['models'].get('parakeet'):
+        lower += ['parakeet_cer', 'parakeet_wer']
     def dominates(a, b):
         deltas = [a[k] - b[k] for k in higher] + [b[k] - a[k] for k in lower]
         return all(x >= -1e-6 for x in deltas) and any(x > 1e-6 for x in deltas)
