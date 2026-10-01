@@ -235,6 +235,11 @@ An optional profile field, `input_peak_dbfs: -3`, peak-normalizes the model inpu
 The processor reverses that input gain before wet/dry blending and final loudness
 matching. This is an experimental processing setting and must be compared on the
 fixed panel before use; it is disabled by default.
+Profiles can also set `output_lufs: -23` to test a common final loudness target
+instead of matching each input recording. This remains linear gain with a peak
+cap; the report records when the peak cap prevents reaching the target. The
+option also supports `backend: identity` to isolate level normalization from
+model effects. Without this field, final loudness matches the original input.
 
 For faster local refinements, freeze a smaller source-balanced subset of the
 processing panel and derive its reference scores from completed measurements:

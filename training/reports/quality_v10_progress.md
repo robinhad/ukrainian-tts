@@ -87,8 +87,9 @@ bookkeeping. The largest absolute CPU/GPU score difference on two smoke files
 was 0.0000012. The GPU sweep uses a frozen quality configuration with Whisper
 and Parakeet content metrics. Processing selection and 100K training are pending.
 
-The original baseline, base-conversion control, and initial DeepFilterNet and
-Sidon trials completed on all 800 panel items with zero scoring errors. The following are equal-source mean whole-file
+The original baseline, base-conversion control, initial DeepFilterNet and Sidon
+trials, and the first input-normalization refinement completed on all 800 panel
+items with zero scoring errors. The following are equal-source mean whole-file
 scores; CER/WER are mean per-file rates, not pooled corpus rates.
 
 | Processing | SigMOS overall | Speech | Noise | Coloration | Discontinuity | Audiobox PQ | Whisper WER | Parakeet WER | ECAPA |
@@ -97,6 +98,7 @@ scores; CER/WER are mean per-file rates, not pooled corpus rates.
 | Base mono/24 kHz/trim | 2.923 | 3.478 | 3.722 | 3.455 | 4.085 | 6.705 | 16.108% | 13.438% | 0.954 |
 | DeepFilterNet, 50% blend | 2.978 | 3.516 | 3.851 | 3.481 | 4.102 | 6.784 | 15.931% | 13.549% | 0.951 |
 | DeepFilterNet, full strength | 3.108 | 3.624 | 4.121 | 3.526 | 4.121 | 6.953 | 20.234% | 15.297% | 0.905 |
+| DeepFilterNet, -3 dBFS input, full strength | 3.124 | 3.633 | 4.127 | 3.534 | 4.130 | 6.947 | 18.429% | 13.671% | 0.921 |
 | Sidon, 50% blend | 3.043 | 3.635 | 4.031 | 3.438 | 4.164 | 7.026 | 17.590% | 14.075% | 0.851 |
 | Sidon, full strength | 3.152 | 3.738 | 4.260 | 3.461 | 4.183 | 7.443 | 16.700% | 14.309% | 0.815 |
 
@@ -118,7 +120,7 @@ Speaker similarity also declined, so quality gains alone do not establish a winn
 Sidon improves mean quality scores more, but reduces speaker similarity markedly.
 Mean high-frequency burst counts rise from 1.940 in the control to 2.130 at 50%
 and 2.384 at full strength. The full-strength mean Whisper CER is 13.320%; one
-very short UA-SER item has CER 55.75 from a long recognition error and remains in
+very short UA-SER item has CER ratio 55.75 (5,575%) from a long recognition error and remains in
 the report. Pooled CER/WER and per-file scores are provided alongside these means
 to expose the effect of short-reference outliers. No quality-based rejection is applied.
 
@@ -148,9 +150,11 @@ A refinement now peak-normalizes DeepFilterNet input to -3 dBFS, reverses that
 input gain before blending, and retains the same final loudness target. On the
 same quiet FLEURS item, this applied 26.19 dB of input gain and produced output
 RMS 0.003874, versus input RMS 0.003880. The enhanced signal needed only 0.19 dB
-of final loudness correction. The normalization/blending test passed, but the
-800-item content and quality evaluation is still running; level preservation
-alone does not establish content or perceptual quality improvement.
+of final loudness correction. The full-panel scores above retain the quality
+gain and improve content preservation compared with unnormalized full strength.
+However, Whisper WER still exceeds the base control by 2.321 percentage points
+(95% interval 1.425–3.287), and speaker similarity remains lower. Input
+normalization alone therefore does not resolve the full-strength tradeoff.
 
 The separate 88-item held-out original baseline also completed with all requested
 metrics and zero errors. Its recordings remain excluded from processing tuning
@@ -163,6 +167,12 @@ verification. Promising refinements must be confirmed on the full processing
 panel. The updated test suite passes 190 tests. Preparation now enables the
 recipe's existing feature cache so training can reuse pitch and energy instead
 of recomputing them on CPU every iteration; full-corpus preparation is pending.
+The declared local refinement grid tests input peaks of -6, -3, and 0 dBFS;
+50%, 75%, and full wet strength; and a common final target of -23 LUFS with
+and without denoising. Only specified combinations are evaluated, not the full
+Cartesian product. The final-loudness option passed a real-meter test for target
+level, duration preservation, and peak safety. It remains an experiment until
+the panel scores are reviewed.
 
 ## Remaining work
 

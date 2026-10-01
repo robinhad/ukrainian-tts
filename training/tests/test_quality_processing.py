@@ -81,10 +81,26 @@ def test_normalized_model_output_returns_to_original_scale_before_blending(tmp_p
     monkeypatch.setattr('training.quality.devices.require_gpu_models', lambda backend: {'test': ['cuda:0']})
     monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.make_backend', lambda args: (object(), {}))
     monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.backend_channel', enhance)
-    monkeypatch.setattr(processing, 'match_loudness_for_reporting', lambda audio, reference, rate: (audio, {}))
+    monkeypatch.setattr(processing, 'match_loudness_for_reporting', lambda audio, reference, rate, target: (audio, {}))
     rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out')
     actual, _ = sf.read(rows[0]['output_path'])
     assert seen == pytest.approx([10 ** (-3 / 20)])
     # The model halves the wet signal; mixing half wet and half dry gives 0.75.
     assert np.max(np.abs(actual - original * .75)) <= 1.3e-7
     assert rows[0]['model_input_gain_db'] > 50
+
+
+def test_optional_output_loudness_with_real_meter_preserves_duration_and_peak(tmp_path):
+    from training.audio_enhancement.fair_comparison import measure_lufs
+    rate = 24000
+    audio = .002 * np.sin(2 * np.pi * 440 * np.arange(rate * 2) / rate)
+    source = tmp_path / 'quiet.wav'
+    sf.write(source, audio, rate, subtype='PCM_24')
+    write_tables(tmp_path, 'panel', [{'utterance_id': 'quiet', 'source_id': 'a', 'audio_path': str(source)}])
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: identity\noutput_lufs: -23\n')
+    rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out', device='cpu')
+    actual, sr = sf.read(rows[0]['output_path'])
+    assert sr == rate and len(actual) == len(audio)
+    assert abs(measure_lufs(actual, sr) + 23) < .1
+    assert np.max(np.abs(actual)) < 10 ** (-.1 / 20)

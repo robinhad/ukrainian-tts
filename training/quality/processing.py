@@ -16,11 +16,12 @@ import yaml
 from .common import digest, file_hash, read_rows, write_json, write_tables
 
 
-def match_loudness_for_reporting(audio, reference, rate):
+def match_loudness_for_reporting(audio, reference, rate, target_lufs=None):
     from training.audio_enhancement.fair_comparison import (
         match_loudness_and_prevent_clipping, measure_lufs, PEAK_CEILING_DBFS)
     try:
-        return match_loudness_and_prevent_clipping(audio, rate, measure_lufs(reference, rate))
+        target = measure_lufs(reference, rate) if target_lufs is None else float(target_lufs)
+        return match_loudness_and_prevent_clipping(audio, rate, target)
     except RuntimeError as error:
         if str(error) != 'invalid integrated loudness: -inf':
             raise
@@ -54,6 +55,9 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     if not 0 <= wet <= 1:
         raise ValueError('wet must be in [0, 1]')
     backend_name = profile['backend']
+    output_lufs = profile.get('output_lufs')
+    if output_lufs is not None and not -40 <= float(output_lufs) <= -10:
+        raise ValueError('output_lufs must be in [-40, -10]')
     input_peak_dbfs = profile.get('input_peak_dbfs')
     if input_peak_dbfs is not None:
         input_peak_dbfs = float(input_peak_dbfs)
@@ -93,8 +97,8 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         mixed = wet * enhanced + (1 - wet) * audio
         # Preserve the no-processing control exactly, apart from PCM24 encoding.
         loudness = None
-        if backend_name != 'identity':
-            mixed, loudness = match_loudness_for_reporting(mixed, audio, rate)
+        if backend_name != 'identity' or output_lufs is not None:
+            mixed, loudness = match_loudness_for_reporting(mixed, audio, rate, output_lufs)
         atomic_write_pcm24(target, mixed, rate)
         item = {'utterance_id': row['utterance_id'], 'source_id': row['source_id'],
                 'key': key, 'profile': profile, 'backend_identity': identity,
