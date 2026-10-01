@@ -368,8 +368,16 @@ Larger batches did not improve throughput in the exploratory test. A bootstrap
 patch now disables this repeated kernel search while retaining the existing batch
 size, weights, precision, and padding. See [isolated benchmark results](quality_v10_embedding_benchmark.json).
 
+Preparation is now complete. The final resumed pass, including repeated manifest
+validation, embeddings, and statistics, finished successfully in 16.82 minutes.
+All 80,751 speaker vectors have 192 finite elements and a nonzero norm. Feature, pitch,
+and energy caches cover all 77,468 training and 1,595 development utterances;
+their aggregate statistics are finite. See the [preparation audit](quality_v10_preparation.json).
+The 12-trial real-training calibration has started. Its first trial completed
+100 updates in each GAN optimizer with finite checkpoint weights. The 100K run
+remains dependent on the completed calibration recommendation.
+
 ## Remaining work
 
-Finish manifest preparation and embeddings/statistics, calibrate training,
-complete the 100K run, and compare its checkpoints. See
+Finish training calibration, complete the 100K run, and compare its checkpoints. See
 [run instructions](../quality/README.md).

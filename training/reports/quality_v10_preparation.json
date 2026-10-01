@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "processed_manifest": {
+    "records": 80751,
+    "voa_records": 0,
+    "hours": 110.2720912962963,
+    "processing_profile_sha256": "29f9358da52e0ee53efc6f1857aad37932421ad5c0c19b4567a6bb4c05d41e65"
+  },
+  "dataset_validation": {
+    "clipping_files": 0,
+    "duration_hours": 110.2720912962963,
+    "duration_max": 20.0,
+    "duration_median": 3.9546666666666668,
+    "duration_min": 2.0,
+    "errors": [],
+    "splits": {
+      "quality_v10_dev": 1595,
+      "quality_v10_eval": 1688,
+      "quality_v10_train": 77468
+    },
+    "status": "PASS",
+    "utterances": 80751
+  },
+  "speaker_vectors": {
+    "quality_v10_train": {
+      "records": 77468,
+      "invalid_count": 0,
+      "norm_min": 189.76759338378906,
+      "norm_max": 481.47216796875
+    },
+    "quality_v10_dev": {
+      "records": 1595,
+      "invalid_count": 0,
+      "norm_min": 204.76576232910156,
+      "norm_max": 427.0659484863281
+    },
+    "quality_v10_eval": {
+      "records": 1688,
+      "invalid_count": 0,
+      "norm_min": 209.40740966796875,
+      "norm_max": 429.75244140625
+    }
+  },
+  "feature_cache": {
+    "train": {
+      "feats_records": 77468,
+      "pitch_records": 77468,
+      "energy_records": 77468,
+      "feats_lengths_stats.npz": "finite",
+      "energy_stats.npz": "finite",
+      "energy_lengths_stats.npz": "finite",
+      "feats_stats.npz": "finite",
+      "pitch_lengths_stats.npz": "finite",
+      "pitch_stats.npz": "finite"
+    },
+    "valid": {
+      "feats_records": 1595,
+      "pitch_records": 1595,
+      "energy_records": 1595,
+      "feats_lengths_stats.npz": "finite",
+      "energy_stats.npz": "finite",
+      "energy_lengths_stats.npz": "finite",
+      "feats_stats.npz": "finite",
+      "pitch_lengths_stats.npz": "finite",
+      "pitch_stats.npz": "finite"
+    }
+  },
+  "post_processing_preparation": {
+    "returncode": 0,
+    "elapsed_seconds": 1009.2322213159932,
+    "samples": 201,
+    "power_mean_watts": 27.7831,
+    "power_max_watts": 49.81,
+    "power_reference_watts": 100,
+    "maximum_check_interval_seconds": 5,
+    "minimum_free_disk_gib": 68.58379364013672,
+    "minimum_available_unified_memory_gib": 94.93868255615234
+  }
+}
