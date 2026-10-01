@@ -110,13 +110,19 @@ scores; CER/WER are mean per-file rates, not pooled corpus rates.
 | ClearVoice, full strength | 3.024 | 3.553 | 3.982 | 3.506 | 4.130 | 6.851 | 16.229% | 13.189% | 0.939 |
 | ClearVoice → Sidon, 50% blend | 3.045 | 3.636 | 4.036 | 3.437 | 4.164 | 7.025 | 17.664% | 14.010% | 0.852 |
 | ClearVoice → Sidon, full strength | 3.151 | 3.733 | 4.266 | 3.462 | 4.173 | 7.446 | 16.976% | 14.338% | 0.815 |
+| ClearVoice → Sidon → DeepFilterNet, 50% blend | 3.052 | 3.642 | 4.037 | 3.436 | 4.147 | 7.044 | 17.553% | 14.218% | 0.853 |
+| ClearVoice → Sidon → DeepFilterNet, full strength | 3.196 | 3.765 | 4.304 | 3.470 | 4.142 | 7.528 | 17.682% | 13.788% | 0.811 |
+| DeepFilterNet, -3 dBFS input, 75% blend | 3.024 | 3.551 | 3.946 | 3.498 | 4.121 | 6.850 | 15.983% | 13.409% | 0.945 |
+| ClearVoice, 75% blend | 2.982 | 3.521 | 3.878 | 3.486 | 4.121 | 6.790 | 15.663% | 13.323% | 0.949 |
 
 Base conversion has mixed effects and is not an enhancement result. Its mean
 duration ratio to the untrimmed native original is 0.824. Subsequent model
 effects must also be compared against this control. Full per-source aggregates
 and pooled error rates are in [processing CSV](quality_v10_processing.csv) and
-[JSONL](quality_v10_processing.jsonl). Enhancement trials and refinement remain
-in progress; no winner has been selected.
+[JSONL](quality_v10_processing.jsonl). The initial sweep and two full-panel
+confirmations are complete; no winner
+has been selected. The exact historical training cascade remains unmeasured
+with this metric suite.
 
 Against the base-conversion control, the 50% blend improved mean SigMOS overall
 by 0.0549 (95% interval 0.0457–0.0636) and Audiobox PQ by 0.0797
@@ -215,10 +221,9 @@ Reference rows reuse verified measurements of the same selected recordings.
 
 Changing the full-strength input peak does not remove the content-preservation
 tradeoff. Gentler blends are more promising: the normalized 75% candidate is
-undergoing full 800-item confirmation, with the 75% ClearVoice blend also
-queued for confirmation. Level normalization alone shows no clear
-benefit: quality scores are mixed and
-Parakeet WER rises slightly. Mean burst flags increase from 2.075 to 2.600;
+now evaluated on all 800 items, alongside the 75% ClearVoice blend. The
+full-panel values are in the earlier table. Level normalization alone shows
+no clear benefit: quality scores are mixed and Parakeet WER rises slightly. Mean burst flags increase from 2.075 to 2.600;
 uniform gain can cross the detector's fixed energy floor, so this does not
 establish that normalization created new relative high-frequency bursts.
 The fixed-level 50% DeepFilterNet blend likewise does not show a clear benefit
@@ -239,9 +244,28 @@ method is applied to the 160-item subset in
 [JSONL](quality_v10_paired_refinement.jsonl); these exploratory intervals do not
 calibrate acceptance thresholds.
 
+## Historical pipeline comparison gap
+
+The repository's v8/v9 training cascade is ClearVoice, Sidon, light de-essing,
+FFmpeg de-clicking and peak limiting, DeepFilterNet3, RNNoise85, and peak-safe
+source loudness matching. The production script also has recorded fallbacks
+for outputs below the loudness measurement gate, including bypassing ClearVoice
+or conditioning the signal before DeepFilterNet. See the
+[v8 process](expanded_v8_training_cascade_plan.md) and
+[implementation](../scripts/preprocess_training_cascade_audio.py).
+
+The current three-model cascade omits the intermediate DSP, RNNoise, and these
+historical fallbacks. It is therefore not a reproduction of the previous
+training pipeline. Its scores cannot establish an improvement over that
+pipeline. The bundled RNNoise neural implementation is CPU-only and was excluded
+under the current GPU-model requirement. Inputs for a matched 160-item historical
+comparison are prepared; execution awaits clarification of whether the exact
+historical baseline may use CPU RNNoise. All other neural stages can use GPU.
+No historical-comparison score is claimed yet. Training selection remains open.
+
 ## Remaining work
 
-Finish the processing sweep and refinements, record measured comparisons and the stopping decision,
-then process the full corpus. Prepare embeddings/statistics, calibrate training,
+Resolve the historical comparison, record the processing choice and stopping
+decision, then process the full corpus. Prepare embeddings/statistics, calibrate training,
 complete the 100K run, and compare its checkpoints. See
 [run instructions](../quality/README.md).
