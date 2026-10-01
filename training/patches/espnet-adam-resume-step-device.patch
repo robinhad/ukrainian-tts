@@ -1,0 +1,11 @@
+diff --git a/espnet2/train/trainer.py b/espnet2/train/trainer.py
+--- a/espnet2/train/trainer.py
++++ b/espnet2/train/trainer.py
+@@ -158,0 +159,7 @@
++        # Loading the entire checkpoint onto CUDA also moves Adam's scalar
++        # counters, although non-capturable/non-fused Adam hosts them on CPU.
++        from training.quality.optimizer_state import restore_adam_step_devices
++
++        moved_steps = restore_adam_step_devices(optimizers)
++        logging.info("Restored %d Adam step counters to CPU", moved_steps)
++

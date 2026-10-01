@@ -436,6 +436,18 @@ milestone audio scoring remain unfinished. See the
 [CSV](quality_v10_training_epochs.csv) / [JSONL](quality_v10_training_epochs.jsonl).
 The exported training/development losses are not perceptual audio-quality scores.
 
+Inspection of checkpoint storage found a resume-related performance issue:
+all 541 AdamW step counters were on CPU before resuming but on CUDA afterward,
+despite both capturable and fused modes being disabled. A synthetic optimizer-only
+test with 541 small tensors measured 6.26 ms/update with CPU counters versus
+22.81 ms/update with CUDA counters, with identical final parameters. It shared
+the allocation with training and is not a full-training throughput comparison.
+The resume patch restores the counter device expected by PyTorch, leaving moment
+tensors on CUDA. A real GPU checkpoint-load test verifies identical subsequent
+updates and preserves CUDA counters for capturable/fused modes. Deployment to
+the main run is planned at the next saved checkpoint boundary. See the
+[counter measurements](quality_v10_optimizer_counter_benchmark.json).
+
 ## Remaining work
 
 Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See

@@ -1,0 +1,119 @@
+{
+  "trials": [
+    {
+      "step_device": "cpu",
+      "updates": 10,
+      "seconds": 0.06535274200723507
+    },
+    {
+      "step_device": "cuda",
+      "updates": 10,
+      "seconds": 0.2725867300032405
+    },
+    {
+      "step_device": "cuda",
+      "updates": 10,
+      "seconds": 0.23941130199818872
+    },
+    {
+      "step_device": "cpu",
+      "updates": 10,
+      "seconds": 0.06695515998580959
+    },
+    {
+      "step_device": "cpu",
+      "updates": 10,
+      "seconds": 0.05554738300270401
+    },
+    {
+      "step_device": "cuda",
+      "updates": 10,
+      "seconds": 0.17233015700185206
+    }
+  ],
+  "parameters": 541,
+  "elements_per_parameter": 64,
+  "maximum_parameter_difference": 0.0,
+  "optimizer_steps": {
+    "cpu": [
+      31
+    ],
+    "cuda": [
+      31
+    ]
+  },
+  "gpu_reserved_gib": 0.00390625,
+  "limitation": "Synthetic optimizer-only test sharing the allocation with training; not an isolated full-training throughput measurement.",
+  "seconds_per_update": {
+    "cpu": 0.006261842833191622,
+    "cuda": 0.02281093963344271
+  },
+  "checkpoint_counter_devices": [
+    {
+      "phase": "initial_1000",
+      "optimizers": [
+        {
+          "step_storage_devices": {
+            "cpu": 427
+          },
+          "groups": [
+            {
+              "capturable": false,
+              "fused": null,
+              "foreach": null
+            }
+          ]
+        },
+        {
+          "step_storage_devices": {
+            "cpu": 114
+          },
+          "groups": [
+            {
+              "capturable": false,
+              "fused": null,
+              "foreach": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phase": "resumed_5000",
+      "optimizers": [
+        {
+          "step_storage_devices": {
+            "cuda:0": 427
+          },
+          "groups": [
+            {
+              "capturable": false,
+              "fused": null,
+              "foreach": null
+            }
+          ]
+        },
+        {
+          "step_storage_devices": {
+            "cuda:0": 114
+          },
+          "groups": [
+            {
+              "capturable": false,
+              "fused": null,
+              "foreach": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "gpu_integration_validation": {
+    "passed": true,
+    "counter_count": 541,
+    "restored_cpu_counters": true,
+    "moments_remain_on_cuda": true,
+    "resumed_and_uninterrupted_updates_identical": true,
+    "capturable_and_fused_counters_remain_on_cuda": true
+  }
+}

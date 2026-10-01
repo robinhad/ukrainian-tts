@@ -394,6 +394,17 @@ recommendation so full training uses the measured configuration. Validate it
 over at least a full training epoch before treating it as a sustained-memory
 result. The independent available-memory guard remains enabled.
 
+On resume, the bootstrap also restores CPU scalar step counters for ordinary
+Adam/AdamW. ESPnet loads checkpoint tensors onto CUDA, but PyTorch deliberately
+keeps those counters on CPU when neither `capturable` nor `fused` is enabled.
+Keeping them on CUDA adds synchronization during each optimizer update. The
+patch changes counter placement only; moment tensors remain on the parameter
+device, and capturable/fused modes retain their CUDA counters. A GPU integration
+test verifies resumed updates against uninterrupted updates. Run it inside a
+SLURM allocation with `UKTTS_TEST_GPU=1 python -m pytest -q
+training/tests/test_optimizer_state.py`. Normal CPU test runs skip that explicit
+GPU integration case.
+
 The environment bootstrap disables cuDNN benchmarking in the parallel speaker
 extractor: variable audio lengths otherwise trigger repeated kernel searches.
 The batch size remains eight. An isolated 160-file comparison verified the speed
