@@ -62,7 +62,7 @@ def main():
     parser.add_argument('--workers', type=int, nargs='+', default=[4, 8])
     parser.add_argument('--steps', type=int, default=1000)
     parser.add_argument('--cuda-cache-interval', type=int,
-                        default=int(os.getenv('UKTTS_CUDA_CACHE_INTERVAL', '50')))
+                        default=int(os.getenv('UKTTS_CUDA_CACHE_INTERVAL', '10')))
     parser.add_argument('--tf32', choices=['false', 'true'], nargs='+', default=['false', 'true'])
     parser.add_argument('--output', type=Path, default=Path('training/quality_runs/v10/calibration'))
     parser.add_argument('--prior-trials', type=Path, action='append', default=[])
