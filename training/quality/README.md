@@ -356,6 +356,12 @@ throughput comparison. It uses batch-bin throughput, with power as a tie
 breaker, and a 100 W reference. It does not change the hardware power limit.
 Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.
 
+The environment bootstrap disables cuDNN benchmarking in the parallel speaker
+extractor: variable audio lengths otherwise trigger repeated kernel searches.
+The batch size remains eight. An isolated 160-file comparison verified the speed
+change and near-identical vectors; see
+[embedding measurements](../reports/quality_v10_embedding_benchmark.json).
+
 The default run starts from random weights and trains 100,000 steps. The
 preparation uses new statistics/tokens and recomputes the established 50/50
 raw/processed speaker embeddings. `INIT_CHECKPOINT` is optional and must be

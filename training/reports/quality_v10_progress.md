@@ -350,10 +350,23 @@ stayed above 94.39 GiB. The job then failed during JSONL export because Parquet
 list fields were NumPy arrays. Audio files and their verified hashes were intact.
 The manifest exporter now preserves those arrays as JSON lists and writes
 atomically, with regression coverage for real Parquet input and failed exports.
-All 198 training tests pass. Strict serialization succeeds for all 80,751 source records. Preparation resumes
-from the processed audio and repeats the full input/output/profile audit before
-building embeddings and statistics. Calibration and training remain dependent
-on successful preparation.
+All 198 training tests pass. Strict serialization succeeds for all 80,751 source
+records. The resumed full input/output/profile audit, manifest export, phoneme
+generation, and dataset validation passed. All 80,751 recordings remain present,
+with zero clipped files and no validation errors. Calibration and training remain
+dependent on successful embedding and statistics preparation.
+
+Embedding extraction initially enabled cuDNN benchmarking for changing audio
+lengths. On the fixed 160-file training refinement panel, isolated fresh processes
+took 13.714 seconds with benchmarking enabled and 1.514 seconds with it disabled,
+both at batch size eight. These timings cover model forward work after audio
+loading/resampling, not end-to-end preparation. The minimum cross-process vector
+cosine similarity was 0.99999970, with maximum absolute element difference 0.04237;
+all vectors were finite. They are numerically close, not byte-identical. Sequential
+tests in one process reuse a kernel cache and obscure the initial search cost.
+Larger batches did not improve throughput in the exploratory test. A bootstrap
+patch now disables this repeated kernel search while retaining the existing batch
+size, weights, precision, and padding. See [isolated benchmark results](quality_v10_embedding_benchmark.json).
 
 ## Remaining work
 

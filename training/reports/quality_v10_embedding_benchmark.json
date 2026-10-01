@@ -1,0 +1,37 @@
+{
+  "panel_records": 160,
+  "records_per_source": 20,
+  "panel_sha256": "2a26ce4b4ce8f88d91c88fa4ad482b21e1c9878f738fe5d7417ad5265103b18f",
+  "scope": "ECAPA model forward after input loading and resampling; excludes model loading and full pipeline I/O",
+  "trials": [
+    {
+      "cudnn_benchmark": true,
+      "batch_size": 8,
+      "records": 160,
+      "seconds": 13.713998492996325,
+      "files_per_second": 11.666911009339199,
+      "all_finite": true,
+      "isolated_fresh_process": true
+    },
+    {
+      "cudnn_benchmark": false,
+      "batch_size": 8,
+      "records": 160,
+      "seconds": 1.5142967590072658,
+      "files_per_second": 105.65960671070306,
+      "all_finite": true,
+      "isolated_fresh_process": true
+    }
+  ],
+  "fresh_process_parity": {
+    "all_finite": true,
+    "max_absolute_difference": 0.04236602783203125,
+    "minimum_cosine_similarity": 0.9999997019767761,
+    "mean_cosine_similarity": 1.0
+  },
+  "selected": {
+    "batch_size": 8,
+    "cudnn_benchmark": false
+  },
+  "observation": "Sequential settings in one process share a cuDNN kernel cache; compare isolated fresh processes."
+}

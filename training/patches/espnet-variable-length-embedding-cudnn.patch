@@ -1,0 +1,8 @@
+diff --git a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+--- a/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
++++ b/egs2/TEMPLATE/asr1/pyscripts/utils/extract_spk_embed_parallel.py
+@@ -27 +27,3 @@
+-torch.backends.cudnn.benchmark = True
++# Audio batches have varying lengths. Avoid a kernel search for every new shape.
++# Keep model weights, precision, padding, and batch size unchanged.
++torch.backends.cudnn.benchmark = False
