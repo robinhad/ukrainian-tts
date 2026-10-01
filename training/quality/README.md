@@ -436,3 +436,19 @@ For a rebuilt eSpeak runtime, `verify_local_frontend.py` checks all 550 committe
 regression cases before accepting a local data hash. V10 scripts use that
 ignored, verified pin. The global historical pin is not overwritten. A new
 hash never permits different phonemes through this verification step.
+
+To summarize the original-audio score distributions without rerunning models:
+
+```bash
+python training/scripts/report_source_quality_distribution.py \
+  --input training/quality_runs/v10/search/original/per_file.jsonl \
+  --output-prefix training/reports/quality_v10_source_mos_distribution
+```
+
+This writes whole-file percentiles by source and across the sample to CSV/JSONL,
+histogram bins to separate CSV/JSONL files, and cumulative distribution plots to
+PNG/PDF. The V10 baseline contains 800 recordings, exactly 100 per source. Its
+pooled distribution weights sources equally, rather than by their full-corpus
+proportions. SigMOS scores use 1–5 and Audiobox PQ uses 1–10; higher is better.
+These are model estimates and descriptive summaries, not calibrated rejection
+thresholds.

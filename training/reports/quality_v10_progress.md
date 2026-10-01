@@ -485,6 +485,56 @@ The full run and milestone audio-quality evaluation remain unfinished. Updated
 measurements are in the [progress record](quality_v10_training_progress.json)
 and [epoch CSV](quality_v10_training_epochs.csv).
 
+The verified 15K checkpoint extends recovery to 10,000 updates. Every saved
+checkpoint from 6K through 15K passed the optimizer and finite-model audit.
+All 1,000 cache releases preserved live allocations, with peak live allocation
+27.03 GiB and peak reserved allocation 54.84 GiB. Across 271 one-minute samples,
+mean GPU power was 51.10 W, maximum 58.94 W, mean utilization 85.35%, and minimum
+sampled available memory 55.90 GiB, with no alerts. Epoch fifteen took 1,553.41
+seconds for training and 43.41 seconds for validation. Validation generator loss
+was 66.672 and mel loss 49.995; these losses do not establish perceptual quality.
+Checkpoint audio evaluation remains pending after training.
+
+## Original-audio score distributions
+
+The original-audio baseline contains 800 recordings, exactly 100 from each of
+eight non-VOA sources. It describes that balanced sample, not all 80,751 corpus
+recordings or their source proportions. Whole-file model estimates are:
+
+| Metric | Mean | P5 | P25 | Median | P75 | P95 |
+|---|---:|---:|---:|---:|---:|---:|
+| SigMOS overall | 3.00 | 2.10 | 2.62 | 3.01 | 3.40 | 3.86 |
+| SigMOS speech | 3.46 | 2.48 | 3.04 | 3.49 | 3.86 | 4.37 |
+| SigMOS noise | 3.77 | 2.28 | 3.35 | 3.94 | 4.30 | 4.67 |
+| SigMOS coloration | 3.53 | 2.69 | 3.20 | 3.56 | 3.88 | 4.31 |
+| SigMOS discontinuity | 3.96 | 3.15 | 3.69 | 4.00 | 4.27 | 4.63 |
+| Audiobox PQ | 6.79 | 4.79 | 6.25 | 7.02 | 7.58 | 7.87 |
+
+SigMOS uses 1–5; [Audiobox PQ uses 1–10](https://arxiv.org/html/2502.05139v1).
+Higher is better. P5–P95 spans the middle 90% of observations. Overall SigMOS is
+below 2.5 for 19.5% of this sample and at least 4.0 for 2.875%; these are
+descriptive ranges, not rejection thresholds.
+
+| Source (100 recordings each) | Overall mean | Overall P5–P95 | PQ mean |
+|---|---:|---:|---:|
+| Mykyta | 3.64 | 3.14–4.16 | 7.76 |
+| Tetiana | 3.54 | 3.13–4.01 | 7.68 |
+| FLEURS | 3.02 | 2.35–3.65 | 6.70 |
+| Lada | 2.98 | 2.53–3.39 | 7.48 |
+| Common Voice | 2.93 | 2.20–3.69 | 5.84 |
+| TG voices | 2.84 | 2.12–3.63 | 6.37 |
+| Ukrainian dialects | 2.67 | 2.06–3.32 | 6.30 |
+| UA-SER | 2.37 | 1.58–3.01 | 6.14 |
+
+The [percentile CSV](quality_v10_source_mos_distribution.csv) and
+[JSONL](quality_v10_source_mos_distribution.jsonl) retain all six metrics for
+every source. [Histogram counts](quality_v10_source_mos_distribution_bins.csv)
+and cumulative plots ([PNG](quality_v10_source_mos_distribution.png),
+[PDF](quality_v10_source_mos_distribution.pdf)) show the pooled distributions.
+The 54 summary rows match the existing aggregate counts, means, medians, and
+P5/P95 values; each histogram totals 800. See the
+[reproduction command](../quality/README.md).
+
 ## Remaining work
 
 Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See
