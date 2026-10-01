@@ -11,9 +11,12 @@
   "validation_steps": 100,
   "long_run_memory_validated": false,
   "limitations": [
-    "Only 100 updates per optimizer were validated by successful calibration trials; long-run stability remains under observation.",
+    "100-update calibration passed, but the full run crossed its memory reserve after the last logged 330 updates. A longer cache-reclamation diagnostic is required before restarting.",
     "The failed eight-million-bin trial was stopped by an earlier external memory guard; subsequent supervision enforces a 24 GiB reserve every second.",
     "The second eight-million-bin trial was canceled; its remaining two configurations were skipped.",
     "Calibration power means include startup and validation."
-  ]
+  ],
+  "configuration_status": "failed_sustained_memory_validation",
+  "full_run_last_logged_step": 330,
+  "full_run_minimum_available_gib": 19.159988403320312
 }

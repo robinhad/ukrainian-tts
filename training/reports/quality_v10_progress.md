@@ -391,12 +391,20 @@ for 100 training updates, 2.543 million batch bins/s, mean sampled power 48.62 W
 and maximum sampled power 57.18 W. Batch bins/s is a work proxy, not a measured
 audio-sample rate; power averages include initialization and validation.
 
-The 100,000-step run has started with that configuration and the 24 GiB reserve.
-The successful calibration trials establish 100-update behavior only; memory
-stability over a longer run is still being monitored. See the full
+The first 100,000-step attempt started with that configuration and the 24 GiB
+reserve, but was stopped after the last logged 330 updates when available memory
+dropped to 19.16 GiB. Resources recovered. The successful short calibration
+trials therefore did not establish sustained memory stability. See the full
 [calibration CSV](quality_v10_training_calibration.csv),
 [JSONL](quality_v10_training_calibration.jsonl), and
 [configuration decision](quality_v10_training_configuration.json).
+
+A 1,000-update diagnostic now releases unused CUDA allocator cache every 50
+complete GAN updates. At the first release, reserved memory fell from 47.46 to
+8.81 GiB while live tensors remained at 3.70 GiB; peak live allocation was
+17.63 GiB. This supports allocator retention as a contributor to the growth.
+The diagnostic must complete its full epoch and checkpoint audit before the
+100K run restarts. The 24 GiB guard remains active.
 
 ## Remaining work
 

@@ -99,6 +99,7 @@ def main():
             # Larger batches do more work; report bins/s as a separate throughput proxy.
             rows.append({'batch_bins': bins, 'workers': workers, 'steps': args.steps,
                          'use_tf32': tf32 == 'true',
+                         'cuda_cache_interval': int(env.get('UKTTS_CUDA_CACHE_INTERVAL', '0')),
                          'success': result.returncode == 0 and not failed and measured['checkpoint_valid'],
                          **measured,
                          'training_steps_per_second': args.steps / training_seconds if training_seconds else None,
@@ -112,6 +113,7 @@ def main():
     write_json(args.output / 'recommended.json', {
         'batch_bins': chosen['batch_bins'], 'workers': chosen['workers'],
         'use_tf32': chosen['use_tf32'],
+        'cuda_cache_interval': chosen.get('cuda_cache_interval', 0),
         'minimum_available_gib': args.minimum_available_gib,
         'power_reference_watts': 100, 'criterion': 'batch-bin throughput during training; power breaks ties within 5 percent',
         'note': 'No power cap change. Batch bins/s is a work proxy, not measured audio samples/s.',

@@ -378,6 +378,16 @@ Only trials with verified updates in both optimizers and sufficient memory
 qualify. `combined_trials.jsonl/.csv` retains the old and new measurements used
 for the recommendation. Point `CALIBRATION_FILE` at that new recommendation.
 
+Short calibration trials do not establish long-run memory stability. The first
+full run exhausted its reserve after the last logged 330 updates despite passing
+100-update calibration. `UKTTS_CUDA_CACHE_INTERVAL` optionally releases unused
+PyTorch allocator blocks between complete GAN updates (zero disables it). Each
+release logs live, reserved, and peak GPU memory before and after; it does not
+discard live tensors. Calibration records this setting and carries it into the
+recommendation so full training uses the measured configuration. Validate it
+over at least a full training epoch before treating it as a sustained-memory
+result. The independent available-memory guard remains enabled.
+
 The environment bootstrap disables cuDNN benchmarking in the parallel speaker
 extractor: variable audio lengths otherwise trigger repeated kernel searches.
 The batch size remains eight. An isolated 160-file comparison verified the speed

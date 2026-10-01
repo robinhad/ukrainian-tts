@@ -34,7 +34,8 @@ for patch in \
     "${ROOT}/patches/espnet-espeak-ng-ukrainian.patch" \
     "${ROOT}/patches/espnet-speechbrain-variable-batch.patch" \
     "${ROOT}/patches/espnet-speaker-embedding-audio-pipe.patch" \
-    "${ROOT}/patches/espnet-variable-length-embedding-cudnn.patch"
+    "${ROOT}/patches/espnet-variable-length-embedding-cudnn.patch" \
+    "${ROOT}/patches/espnet-gan-cuda-cache.patch"
 do
     if ! git -C "${ESPNET_SRC}" apply --unidiff-zero --reverse --check "${patch}" >/dev/null 2>&1; then
         git -C "${ESPNET_SRC}" apply --unidiff-zero --check "${patch}"

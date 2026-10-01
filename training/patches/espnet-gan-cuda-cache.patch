@@ -1,0 +1,16 @@
+diff --git a/espnet2/train/gan_trainer.py b/espnet2/train/gan_trainer.py
+--- a/espnet2/train/gan_trainer.py
++++ b/espnet2/train/gan_trainer.py
+@@ -8,0 +9 @@
++import os
+@@ -124,0 +126,3 @@
++        cuda_cache_interval = int(os.getenv("UKTTS_CUDA_CACHE_INTERVAL", "0"))
++        if cuda_cache_interval < 0:
++            raise ValueError("UKTTS_CUDA_CACHE_INTERVAL must be nonnegative")
+@@ -315,0 +320,6 @@
++            if ngpu > 0 and cuda_cache_interval and iiter % cuda_cache_interval == 0:
++                # Both GAN optimizer updates are complete. Retain live tensors;
++                # release only unused allocator blocks on unified-memory systems.
++                from training.quality.cuda_memory import release_cuda_cache
++
++                release_cuda_cache(iiter)
