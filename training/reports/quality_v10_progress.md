@@ -206,6 +206,7 @@ Reference rows reuse verified measurements of the same selected recordings.
 | DeepFilterNet, -3 dBFS input, full (reference) | 3.122 | 6.982 | 16.50% | 14.83% | 0.922 |
 | DeepFilterNet, 0 dBFS input, full | 3.128 | 6.983 | 17.56% | 14.95% | 0.920 |
 | DeepFilterNet, -3 dBFS input, 75% | 3.034 | 6.883 | 14.30% | 13.57% | 0.943 |
+| DeepFilterNet, -6 dBFS input, 75% | 3.035 | 6.882 | 14.66% | 13.74% | 0.943 |
 | DeepFilterNet, -3 dBFS input, 50% | 2.997 | 6.818 | 14.43% | 13.39% | 0.948 |
 | DeepFilterNet, -3 dBFS input, 50%, -23 LUFS | 3.005 | 6.815 | 14.39% | 13.95% | 0.948 |
 | ClearVoice, 75% | 2.993 | 6.806 | 14.17% | 13.26% | 0.945 |
@@ -214,7 +215,8 @@ Reference rows reuse verified measurements of the same selected recordings.
 
 Changing the full-strength input peak does not remove the content-preservation
 tradeoff. Gentler blends are more promising: the normalized 75% candidate is
-queued for full 800-item confirmation together with the 75% ClearVoice blend. Level normalization alone shows no clear
+undergoing full 800-item confirmation, with the 75% ClearVoice blend also
+queued for confirmation. Level normalization alone shows no clear
 benefit: quality scores are mixed and
 Parakeet WER rises slightly. Mean burst flags increase from 2.075 to 2.600;
 uniform gain can cross the detector's fixed energy floor, so this does not
@@ -222,9 +224,12 @@ establish that normalization created new relative high-frequency bursts.
 The fixed-level 50% DeepFilterNet blend likewise does not show a clear benefit
 over its matched-level counterpart. The full-strength ClearVoice final-level
 trial likewise yields small mixed changes. All eight initially declared
-160-item refinements completed without scoring errors. One nearby DeepFilterNet
-setting (-6 dBFS input, 75% blend) remains in progress; the lower input level had
-helped content preservation in the earlier full-strength screening.
+160-item refinements completed without scoring errors. A ninth nearby
+DeepFilterNet setting (-6 dBFS input, 75% blend) also completed: quality scores
+were essentially unchanged from -3 dBFS, with slightly higher WERs for both
+recognizers. Thus the lower input level's earlier benefit at full strength did
+not carry over to the gentler blend. The tested local refinements now support
+proceeding to full-panel confirmation; they do not establish a global optimum.
 These screening means do not trigger automatic selection.
 All component scores and source aggregates are in
 [refinement CSV](quality_v10_refinement.csv) and
