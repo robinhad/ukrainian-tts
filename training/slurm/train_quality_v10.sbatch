@@ -14,4 +14,6 @@ export PATH="$PWD/training/.venv/bin:$PATH"
 export PYTHONPATH="$PWD:${PYTHONPATH:-}"
 export PYTHONUNBUFFERED=1
 exec python -m training.quality.supervise --output training/quality_runs/v10/training \
-  --interval 60 -- bash training/scripts/run_quality_v10_training.sh
+  --interval 60 --minimum-available-gib "${TRAIN_MIN_AVAILABLE_GIB:-24}" \
+  --activity-log "${TTS_EXP:-$PWD/training/exp_quality_v10/tts_jets_quality_v10_100k}/train.log" \
+  -- bash training/scripts/run_quality_v10_training.sh

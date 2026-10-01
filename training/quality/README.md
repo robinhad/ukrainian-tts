@@ -358,6 +358,20 @@ Unified CPU/GPU memory is one budget; do not add nominal host RAM and VRAM.
 The training runner applies the same `OMP_NUM_THREADS` limit to OpenMP, MKL,
 and OpenBLAS in calibration and full training; the default is four.
 
+Calibration defaults to a 24 GiB available-memory reserve, configurable with
+`--minimum-available-gib`. Its supervisor checks memory every second independently
+of GPU telemetry and terminates the trial's process group if the reserve is
+breached, escalating after two seconds to clean up descendants. A stopped trial
+cannot become the recommendation. Full training uses the same guard, configured
+by `TRAIN_MIN_AVAILABLE_GIB` (default 24). The actual training log also counts as
+activity, avoiding false stall alerts when the launcher itself is quiet.
+
+To refine a completed calibration without repeating successful trials, use a
+new `--output` directory and pass `--prior-trials` with an earlier `trials.jsonl`.
+Only trials with verified updates in both optimizers and sufficient memory
+qualify. `combined_trials.jsonl/.csv` retains the old and new measurements used
+for the recommendation. Point `CALIBRATION_FILE` at that new recommendation.
+
 The environment bootstrap disables cuDNN benchmarking in the parallel speaker
 extractor: variable audio lengths otherwise trigger repeated kernel searches.
 The batch size remains eight. An isolated 160-file comparison verified the speed

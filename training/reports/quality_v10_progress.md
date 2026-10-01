@@ -373,9 +373,19 @@ validation, embeddings, and statistics, finished successfully in 16.82 minutes.
 All 80,751 speaker vectors have 192 finite elements and a nonzero norm. Feature, pitch,
 and energy caches cover all 77,468 training and 1,595 development utterances;
 their aggregate statistics are finite. See the [preparation audit](quality_v10_preparation.json).
-The 12-trial real-training calibration has started. Its first trial completed
-100 updates in each GAN optimizer with finite checkpoint weights. The 100K run
-remains dependent on the completed calibration recommendation.
+Eight calibration trials at two and four million batch bins completed 100
+updates in both GAN optimizers with finite checkpoint weights. The first
+eight-million-bin trial depleted the memory reserve and was stopped. Its final
+telemetry sampled only 0.074 GiB available while termination was taking effect;
+resources recovered afterward. The remaining trials at that size were stopped
+or skipped. This is a resource failure, not a completed timing measurement.
+
+The supervisor now checks memory every second independently of GPU telemetry,
+uses a 24 GiB reserve for calibration/full training, and kills remaining process
+group members after a two-second grace period. All 203 tests pass, including a
+descendant that ignores SIGTERM. An intermediate six-million-bin trial is being
+compared with the eight retained successful trials. The 100K run remains
+dependent on the completed recommendation.
 
 ## Remaining work
 

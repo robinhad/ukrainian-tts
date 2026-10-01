@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from itertools import product
 
-from training.quality.common import write_json, write_tables
+from training.quality.common import read_rows, write_json, write_tables
 
 
 def checkpoint_measurements(path, expected_steps):
@@ -37,6 +37,18 @@ def checkpoint_measurements(path, expected_steps):
             'checkpoint_valid': valid}
 
 
+def choose_trial(rows, minimum_available_gib=24, steps=100):
+    successful = [r for r in rows if r['success'] and r['checkpoint_valid']
+                  and r['optimizer_count'] == 2
+                  and r['optimizer_steps_by_optimizer'] == [[steps], [steps]]
+                  and r['minimum_available_unified_memory_gib'] >= minimum_available_gib]
+    if not successful:
+        raise RuntimeError('No successful calibration; inspect trial logs')
+    fastest = max(successful, key=lambda r: r['batch_bins_per_training_second'])
+    near = [r for r in successful if r['batch_bins_per_training_second'] >= .95 * fastest['batch_bins_per_training_second']]
+    return max(near, key=lambda r: r['power_mean_watts'] or 0)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--batch-bins', type=int, nargs='+', default=[2000000, 4000000, 8000000])
@@ -44,9 +56,14 @@ def main():
     parser.add_argument('--steps', type=int, default=100)
     parser.add_argument('--tf32', choices=['false', 'true'], nargs='+', default=['false', 'true'])
     parser.add_argument('--output', type=Path, default=Path('training/quality_runs/v10/calibration'))
+    parser.add_argument('--prior-trials', type=Path, action='append', default=[])
+    parser.add_argument('--minimum-available-gib', type=float, default=24)
     args = parser.parse_args()
     if not os.getenv('SLURM_JOB_ID'):
         raise RuntimeError('Run calibration in a SLURM GPU allocation')
+    prior = [row for path in args.prior_trials for row in read_rows(path)]
+    if any(row['steps'] != args.steps for row in prior):
+        raise ValueError('Prior trials must use the same number of steps')
     rows = []
     for bins in args.batch_bins:
         for workers, tf32 in product(args.workers, args.tf32):
@@ -62,7 +79,9 @@ def main():
             if experiment.exists():
                 raise ValueError(f'Use a new calibration directory; existing trial: {name}')
             result = subprocess.run([sys.executable, '-m', 'training.quality.supervise',
-                                     '--output', str(output), '--interval', '5', '--',
+                                     '--output', str(output), '--interval', '5',
+                                     '--minimum-available-gib', str(args.minimum_available_gib),
+                                     '--activity-log', str(experiment / 'train.log'), '--',
                                      'bash', 'training/scripts/run_quality_v10_training.sh'], env=env)
             summary = json.loads((output / 'summary.json').read_text())
             log = (output / 'command.log').read_text(errors='replace')
@@ -87,16 +106,13 @@ def main():
                          'steps_per_second': args.steps / elapsed,
                          'batch_bins_per_second': bins * args.steps / elapsed, **summary})
             write_tables(args.output, 'trials', rows)
-    successful = [r for r in rows if r['success'] and r['minimum_available_unified_memory_gib'] >= 8]
-    if not successful:
-        raise RuntimeError('No successful calibration; inspect trial logs')
-    fastest = max(successful, key=lambda r: r['batch_bins_per_training_second'])
-    # Similar throughput: prefer the configuration that sustains more useful GPU work.
-    near = [r for r in successful if r['batch_bins_per_training_second'] >= .95 * fastest['batch_bins_per_training_second']]
-    chosen = max(near, key=lambda r: r['power_mean_watts'] or 0)
+    combined = prior + rows
+    write_tables(args.output, 'combined_trials', combined)
+    chosen = choose_trial(combined, args.minimum_available_gib, args.steps)
     write_json(args.output / 'recommended.json', {
         'batch_bins': chosen['batch_bins'], 'workers': chosen['workers'],
         'use_tf32': chosen['use_tf32'],
+        'minimum_available_gib': args.minimum_available_gib,
         'power_reference_watts': 100, 'criterion': 'batch-bin throughput during training; power breaks ties within 5 percent',
         'note': 'No power cap change. Batch bins/s is a work proxy, not measured audio samples/s.',
     })
