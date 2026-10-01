@@ -61,3 +61,30 @@ def test_suppressed_output_is_preserved_for_quality_reporting(monkeypatch):
     monkeypatch.setattr('training.audio_enhancement.fair_comparison.measure_lufs', broken)
     with pytest.raises(RuntimeError, match='FFmpeg did not return'):
         match_loudness_for_reporting(audio, audio, 24000)
+
+
+def test_normalized_model_output_returns_to_original_scale_before_blending(tmp_path, monkeypatch):
+    from training.quality import processing
+    import torch
+    source = tmp_path / 'quiet.wav'
+    sf.write(source, np.linspace(-.001, .001, 2400), 24000, subtype='PCM_24')
+    original, _ = sf.read(source)
+    write_tables(tmp_path, 'panel', [{'utterance_id': 'quiet', 'source_id': 'a', 'audio_path': str(source)}])
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: deepfilternet3\nwet: 0.5\ninput_peak_dbfs: -3\nmodel_cache: unused\n')
+    seen = []
+    def enhance(name, backend, audio, rate):
+        seen.append(float(np.max(np.abs(audio))))
+        return audio * .5
+    monkeypatch.setattr(torch.cuda, 'is_available', lambda: True)
+    monkeypatch.setattr(torch.cuda, 'set_device', lambda device: None)
+    monkeypatch.setattr('training.quality.devices.require_gpu_models', lambda backend: {'test': ['cuda:0']})
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.make_backend', lambda args: (object(), {}))
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.backend_channel', enhance)
+    monkeypatch.setattr(processing, 'match_loudness_for_reporting', lambda audio, reference, rate: (audio, {}))
+    rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out')
+    actual, _ = sf.read(rows[0]['output_path'])
+    assert seen == pytest.approx([10 ** (-3 / 20)])
+    # The model halves the wet signal; mixing half wet and half dry gives 0.75.
+    assert np.max(np.abs(actual - original * .75)) <= 1.3e-7
+    assert rows[0]['model_input_gain_db'] > 50

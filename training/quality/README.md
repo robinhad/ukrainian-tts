@@ -231,6 +231,10 @@ If an input or enhanced signal falls below the EBU loudness measurement gate,
 normalization applies only the peak cap and records `below_measurement_gate`.
 The file remains in the evaluation, exposing suppression in the content and
 quality metrics; an undefined loudness measurement never causes an unlimited gain.
+An optional profile field, `input_peak_dbfs: -3`, peak-normalizes the model input.
+The processor reverses that input gain before wet/dry blending and final loudness
+matching. This is an experimental processing setting and must be compared on the
+fixed panel before use; it is disabled by default.
 The sweep also accepts `--profile-workers 2` to run independent processing and
 scoring trials concurrently within one GPU allocation. Each trial writes to its
 own directory and `command.log`. Compare throughput, power, and free unified

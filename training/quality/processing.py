@@ -54,6 +54,11 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     if not 0 <= wet <= 1:
         raise ValueError('wet must be in [0, 1]')
     backend_name = profile['backend']
+    input_peak_dbfs = profile.get('input_peak_dbfs')
+    if input_peak_dbfs is not None:
+        input_peak_dbfs = float(input_peak_dbfs)
+        if backend_name == 'identity' or not -30 <= input_peak_dbfs <= 0:
+            raise ValueError('input_peak_dbfs requires an enhancement model and a value in [-30, 0]')
     if 'rnnoise' in backend_name:
         raise ValueError('The bundled RNNoise executable runs its neural model on CPU; '
                          'select a GPU enhancement profile for this iteration')
@@ -79,7 +84,7 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         name: file_hash(root / name) for name in ['quality/processing.py',
         'quality/devices.py', 'scripts/run_enhancement_review_backend.py',
         'scripts/run_fair_enhancement_comparison.py']}}
-    def finish(row, audio, enhanced, rate, target, metadata, input_hash, key, started, model_seconds):
+    def finish(row, audio, enhanced, rate, target, metadata, input_hash, key, started, model_seconds, input_gain):
         post_started = time.monotonic()
         raw_output_frames = len(enhanced)
         enhanced = fit_sample_count(enhanced, len(audio))
@@ -98,6 +103,7 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
                 'processor_output_frames': raw_output_frames, 'output_frames': len(mixed),
                 'processor_duration_changed': raw_output_frames != len(audio),
                 'model_seconds': model_seconds,
+                'model_input_gain_db': float(20 * np.log10(input_gain)),
                 'cpu_postprocess_seconds': time.monotonic() - post_started,
                 'cpu_postprocess_workers': cpu_workers,
                 'loudness_match': loudness, 'elapsed_seconds': time.monotonic() - started}
@@ -136,18 +142,24 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
                 raise ValueError('Processing inputs must be canonical mono 24 kHz audio')
             if not audio.size or not np.isfinite(audio).all() or not np.any(audio):
                 raise ValueError(f"Invalid processing input: {row['utterance_id']}")
+            input_gain = (10 ** (input_peak_dbfs / 20) / float(np.max(np.abs(audio)))
+                          if input_peak_dbfs is not None else 1.)
+            model_audio = audio * np.float32(input_gain) if input_peak_dbfs is not None else audio
             model_started = time.monotonic()
             if backend_name == 'identity':
                 enhanced = audio.copy()
             elif backend_name == 'sidon':
-                result, result_rate = backend.process(audio[:, 0], rate)['sidon_no_compression']
+                result, result_rate = backend.process(model_audio[:, 0], rate)['sidon_no_compression']
                 from .backends import resample
                 enhanced = resample(np.asarray(result).reshape(-1), result_rate, rate)[:, None]
             else:
-                enhanced = backend_channel(backend_name, backend, audio[:, 0], rate)[:, None]
+                enhanced = backend_channel(backend_name, backend, model_audio[:, 0], rate)[:, None]
+            if input_peak_dbfs is not None:
+                # Blend in the original amplitude domain, not the normalized one.
+                enhanced = enhanced / np.float32(input_gain)
             model_seconds = time.monotonic() - model_started
             pending.append(pool.submit(finish, row, audio, enhanced, rate, target, metadata,
-                                       input_hash, key, started, model_seconds))
+                                       input_hash, key, started, model_seconds, input_gain))
             if len(pending) >= cpu_workers * 2:
                 collect()
         while pending:

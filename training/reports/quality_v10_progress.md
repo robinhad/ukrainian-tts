@@ -135,6 +135,14 @@ leaves the output unamplified, subject only to the peak cap, and records an
 explicit status. The item stays in the panel for content and quality scoring.
 This is a single-file failure mode, not an aggregate verdict on the model.
 
+A refinement now peak-normalizes DeepFilterNet input to -3 dBFS, reverses that
+input gain before blending, and retains the same final loudness target. On the
+same quiet FLEURS item, this applied 26.19 dB of input gain and produced output
+RMS 0.003874, versus input RMS 0.003880. The enhanced signal needed only 0.19 dB
+of final loudness correction. The normalization/blending test passed, but the
+800-item content and quality evaluation is still running; level preservation
+alone does not establish content or perceptual quality improvement.
+
 The separate 88-item held-out original baseline also completed with all requested
 metrics and zero errors. Its recordings remain excluded from processing tuning
 and model training; checkpoint outputs will be compared with these references.
