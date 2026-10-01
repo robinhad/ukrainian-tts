@@ -20,6 +20,7 @@ def main() -> int:
         help="Optional weight-only milestone that must equal the checkpoint model.",
     )
     parser.add_argument("--expected-steps", type=int, required=True)
+    parser.add_argument("--expected-optimizers", type=int, default=2)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -28,12 +29,13 @@ def main() -> int:
     epoch = int(reporter.get("epoch", 0))
     stats = reporter.get("stats", {}).get(epoch, {})
     reported_steps = int(stats.get("train", {}).get("total_count", 0))
-    optimizer_steps = {
-        int(state["step"])
-        for optimizer in payload.get("optimizers", [])
-        for state in optimizer.get("state", {}).values()
-        if isinstance(state, dict) and "step" in state
-    }
+    optimizers = payload.get("optimizers", [])
+    steps_by_optimizer = [
+        {int(state["step"]) for state in optimizer.get("state", {}).values()
+         if isinstance(state, dict) and "step" in state}
+        for optimizer in optimizers
+    ]
+    optimizer_steps = set().union(*steps_by_optimizer)
     model = payload.get("model", {})
     nonfinite = [
         name
@@ -82,7 +84,10 @@ def main() -> int:
     status = (
         "PASS"
         if reported_steps == args.expected_steps
-        and optimizer_steps == {args.expected_steps}
+        and len(optimizers) == args.expected_optimizers
+        and args.expected_optimizers > 0
+        and all(steps == {args.expected_steps} for steps in steps_by_optimizer)
+        and bool(model)
         and not nonfinite
         and model_artifact_matches
         else "FAIL"
@@ -94,6 +99,9 @@ def main() -> int:
         "reported_steps": reported_steps,
         "expected_steps": args.expected_steps,
         "optimizer_steps": sorted(optimizer_steps),
+        "optimizer_steps_by_optimizer": [sorted(steps) for steps in steps_by_optimizer],
+        "optimizer_count": len(optimizers),
+        "expected_optimizers": args.expected_optimizers,
         "model_tensor_count": sum(torch.is_tensor(value) for value in model.values()),
         "nonfinite_model_tensors": nonfinite,
         "model_artifact": model_artifact_report,

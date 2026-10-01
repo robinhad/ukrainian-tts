@@ -178,7 +178,7 @@ A fixed 160-item refinement panel contains 20 training recordings per source,
 selected independently of measured scores with seed 778. Matching reference
 reports are derived from the complete 800-item measurements after audio-hash
 verification. Promising refinements must be confirmed on the full processing
-panel. The updated test suite passes 190 tests. Preparation now enables the
+panel. The updated test suite passes 192 tests. Preparation now enables the
 recipe's existing feature cache so training can reuse pitch and energy instead
 of recomputing them on CPU every iteration; full-corpus preparation is pending.
 The declared local refinement grid tests input peaks of -6, -3, and 0 dBFS;
@@ -197,6 +197,7 @@ Reference rows reuse verified measurements of the same selected recordings.
 | Processing | SigMOS overall | Audiobox PQ | Whisper WER | Parakeet WER | ECAPA |
 |---|---:|---:|---:|---:|---:|
 | Base control | 2.924 | 6.724 | 14.46% | 13.91% | 0.949 |
+| Base control, -23 LUFS | 2.931 | 6.716 | 14.34% | 14.31% | 0.949 |
 | DeepFilterNet, -6 dBFS input, full | 3.113 | 6.989 | 15.69% | 14.82% | 0.922 |
 | DeepFilterNet, -3 dBFS input, full (reference) | 3.122 | 6.982 | 16.50% | 14.83% | 0.922 |
 | DeepFilterNet, 0 dBFS input, full | 3.128 | 6.983 | 17.56% | 14.95% | 0.920 |
@@ -206,8 +207,13 @@ Reference rows reuse verified measurements of the same selected recordings.
 
 Changing the full-strength input peak does not remove the content-preservation
 tradeoff. Gentler blends are more promising: the normalized 75% candidate is
-queued for full 800-item confirmation. Final-level and ClearVoice refinements
-remain in progress. These screening means do not trigger automatic selection.
+queued for full 800-item confirmation. Level normalization alone shows no clear
+benefit: quality scores are mixed and
+Parakeet WER rises slightly. Mean burst flags increase from 2.075 to 2.600;
+uniform gain can cross the detector's fixed energy floor, so this does not
+establish that normalization created new relative high-frequency bursts.
+Denoising with a fixed final level and ClearVoice refinements remain in progress.
+These screening means do not trigger automatic selection.
 All component scores and source aggregates are in
 [refinement CSV](quality_v10_refinement.csv) and
 [JSONL](quality_v10_refinement.jsonl).

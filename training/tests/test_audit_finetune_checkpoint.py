@@ -15,7 +15,8 @@ def test_audit_finetune_checkpoint_passes_new_step_state(tmp_path: Path) -> None
     torch.save(
         {
             "model": {"generator.weight": torch.ones(2)},
-            "optimizers": [{"state": {0: {"step": torch.tensor(100)}}}],
+            "optimizers": [{"state": {0: {"step": torch.tensor(100)}}},
+                           {"state": {0: {"step": torch.tensor(100)}}}],
             "reporter": {
                 "epoch": 1,
                 "stats": {1: {"train": {"total_count": 100}}},
@@ -51,7 +52,8 @@ def test_audit_finetune_checkpoint_checks_weight_only_artifact(
     torch.save(
         {
             "model": model,
-            "optimizers": [{"state": {0: {"step": torch.tensor(100)}}}],
+            "optimizers": [{"state": {0: {"step": torch.tensor(100)}}},
+                           {"state": {0: {"step": torch.tensor(100)}}}],
             "reporter": {
                 "epoch": 1,
                 "stats": {1: {"train": {"total_count": 100}}},
@@ -78,3 +80,20 @@ def test_audit_finetune_checkpoint_checks_weight_only_artifact(
     report = json.loads(output.read_text(encoding="utf-8"))
     assert report["status"] == "PASS"
     assert report["model_artifact"]["matches_checkpoint_model"] is True
+
+
+def test_audit_rejects_missing_optimizer_updates(tmp_path: Path) -> None:
+    checkpoint = tmp_path / "checkpoint.pth"
+    output = tmp_path / "report.json"
+    torch.save({"model": {"weight": torch.ones(1)},
+                "optimizers": [{"state": {0: {"step": torch.tensor(100)}}},
+                               {"state": {}}],
+                "reporter": {"epoch": 1, "stats": {1: {"train": {"total_count": 100}}}}},
+               checkpoint)
+    result = subprocess.run([sys.executable, str(SCRIPT), "--checkpoint", str(checkpoint),
+                             "--expected-steps", "100", "--output", str(output)],
+                            capture_output=True, text=True)
+    assert result.returncode == 1
+    report = json.loads(output.read_text())
+    assert report["status"] == "FAIL"
+    assert report["optimizer_steps_by_optimizer"] == [[100], []]
