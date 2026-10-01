@@ -247,6 +247,16 @@ class MossFormerBackend:
     profiles = ("mossformer2_no_compression",)
 
     def __init__(self, device: str, cache: Path) -> None:
+        from huggingface_hub import snapshot_download
+
+        # ClearVoice otherwise downloads moving main and can silently leave an
+        # uninitialized model after download failure. Prepare the declared revision.
+        snapshot_download(
+            repo_id="alibabasglab/MossFormer2_SE_48K",
+            revision=MOSS_MODEL_REVISION,
+            local_dir=str(cache / "checkpoints/MossFormer2_SE_48K"),
+            allow_patterns=["last_best_checkpoint", "*.pt"],
+        )
         os.environ["HF_HOME"] = str(cache.resolve())
         requested_device = torch.device(device)
         if requested_device.type == "cuda":

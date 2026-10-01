@@ -47,6 +47,14 @@ verify model execution and report generation, not representative corpus quality.
 The source-balanced experiment remains necessary. No processing winner or
 audio-quality improvement is claimed yet.
 
+Preparation profiling compared eight threads with eight worker processes on
+512 source records: 10.98 seconds versus 1.04 seconds, with identical output
+audio hashes and rejection results. Reconstruction now uses spawned worker
+processes and one decoder thread per file. Existing verified caches are reused.
+The training encoder was separately loaded from pinned local ECAPA files and
+produced finite 192-dimensional embeddings. ClearVoice now explicitly fetches
+the model revision recorded in its processing provenance.
+
 ## Remaining work
 
 Finish corpus reconstruction and real scoring validation. Run the processing

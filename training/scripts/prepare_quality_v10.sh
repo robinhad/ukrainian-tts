@@ -5,6 +5,7 @@ cd "${ROOT}/.."
 source "${ROOT}/activate.sh"
 python -m training.scripts.verify_local_frontend
 export UKTTS_ESPEAK_DATA_HASH_FILE="${ROOT}/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
+python -m training.scripts.prepare_ecapa_for_training
 export GPU_COUNT=1
 export TRAIN_SET=quality_v10_train VALID_SET=quality_v10_dev TEST_SETS=quality_v10_eval
 export DATA_SETS="$TRAIN_SET $VALID_SET $TEST_SETS"

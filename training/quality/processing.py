@@ -38,6 +38,10 @@ def process(panel, profile_path, output, device='cuda', resume=False):
         backend, identity = make_backend(argparse.Namespace(
             backend=backend_name, device=device, model_cache=Path(profile['model_cache']),
             rnnoise_binary=Path(profile.get('rnnoise_binary', 'training/vendor/rnnoise/examples/rnnoise_demo'))))
+    root = Path(__file__).resolve().parents[1]
+    identity = {**identity, 'adapter_hashes': {
+        name: file_hash(root / name) for name in ['quality/processing.py',
+        'scripts/run_enhancement_review_backend.py', 'scripts/run_fair_enhancement_comparison.py']}}
     results = []
     for row in rows:
         if shutil.disk_usage(output).free < 30 * 1024**3:

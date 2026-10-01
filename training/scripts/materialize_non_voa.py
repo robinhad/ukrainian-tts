@@ -8,6 +8,7 @@ import csv
 import hashlib
 import io
 import json
+import multiprocessing
 import shutil
 from collections import Counter
 from pathlib import Path
@@ -25,6 +26,7 @@ from training.scripts.prepare_audio import trim_silence
 
 def decode(content):
     with av.open(io.BytesIO(content)) as container:
+        container.streams.audio[0].codec_context.thread_count = 1
         resampler = av.AudioResampler(format='fltp', layout='mono', rate=24000)
         frames = [part.to_ndarray().T for frame in container.decode(audio=0)
                   for part in resampler.resample(frame)]
@@ -110,12 +112,17 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('training/data/quality_v10_raw'))
     parser.add_argument('--workers', type=int, default=8)
     args = parser.parse_args()
+    if args.workers < 1:
+        parser.error('--workers must be positive')
     downloads = json.loads(args.downloads.read_text())
     if len(downloads) != 8 or any('voa' in name for name in downloads):
         raise ValueError('Wait for all eight non-VOA sources to finish downloading')
     args.output.mkdir(parents=True, exist_ok=True)
     rows, rejected, seen_audio, seen_text = [], Counter(), set(), set()
-    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
+    # Python frame conversion/normalization contends on the GIL in a thread pool.
+    # Spawn also avoids forking initialized PyArrow/FFmpeg thread pools.
+    with concurrent.futures.ProcessPoolExecutor(
+            max_workers=args.workers, mp_context=multiprocessing.get_context('spawn')) as pool:
         for source_id, source in downloads.items():
             iterator = iter(input_rows(source))
             while True:

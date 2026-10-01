@@ -44,7 +44,7 @@ The same evaluator handles processing outputs and synthesized checkpoint WAVs:
   production quality (PQ).
 - [Whisper](https://github.com/openai/whisper): Ukrainian transcription with
   fixed language and decoding settings. CER/WER compare against the supplied
-  human transcript. Normalization uses NFC, lowercase, standardized apostrophes,
+  source transcript. Normalization uses NFC, lowercase, standardized apostrophes,
   punctuation/whitespace cleanup, and removal of stress marks. Digits are kept;
   there is no number verbalizer. CER excludes spaces. Corpus error rates use
   total edits divided by total reference characters/words.
@@ -69,9 +69,10 @@ All learned quality scores and ECAPA similarity are also calculated on
 overlapping 3-second windows, including the file tail. Each file lists its
 worst three windows for each metric. Local times are relative to the candidate
 audio. Windows from synthesized and original speech are not time-aligned.
-Segment CER/WER is deliberately unavailable without time-aligned human text;
+Segment CER/WER is deliberately unavailable without time-aligned reference text;
 the whole transcript must not be compared to a short crop. Short windows and
 all uncalibrated thresholds need human review.
+CER/WER also depend on the accuracy of the supplied source transcripts.
 
 ## Run evaluation and comparisons
 
@@ -177,7 +178,7 @@ the full experiment; successful imports alone do not validate model execution.
 Reconstruct the downloaded corpus without a denoiser:
 
 ```bash
-python -m training.scripts.materialize_non_voa --workers 8
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m training.scripts.materialize_non_voa --workers 8
 python -m training.quality select --manifest training/data/quality_v10_raw/all.parquet \
   --output training/quality_runs/v10/panels --per-source 100
 ```
@@ -187,6 +188,9 @@ uses the existing boundary-trim algorithm, and writes PCM24. It removes exact
 audio and normalized-text duplicates and uses fixed global text groups for
 96/2/2 train/dev/eval splits. These are newly reconstructed splits, not a claim
 to reproduce the old host's manifest. Downloaded originals remain preserved.
+Conversion uses separate worker processes, with one decoder thread per file.
+Verified per-file caches survive interruption; rerunning the command reconstructs
+the complete manifest with the same deduplication and split policy.
 
 Submit GPU work from the repository root (the default SLURM partition is used):
 
