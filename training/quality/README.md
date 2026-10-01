@@ -335,6 +335,13 @@ CALIBRATION_FILE="$PWD/training/quality_runs/v10/calibration/recommended.json" \
 sbatch training/slurm/train_quality_v10.sbatch
 ```
 
+If audio processing completed but a later preparation stage failed, resubmit
+the preparation command with `SKIP_AUDIO_PROCESSING=true`. This skips loading
+the enhancement models again; the manifest builder still verifies every input
+and output hash, PCM24 format, and frozen processing profile before proceeding.
+It preserves Parquet array fields in JSONL and publishes the manifest atomically.
+Reattach pending SLURM dependencies to the replacement preparation job.
+
 `CALIBRATION_FILE` overrides `BATCH_BINS`, `WORKERS`, and `USE_TF32` with
 validated values from the completed calibration. Without it, those environment
 variables or the script defaults apply. Calibration trials ignore an inherited

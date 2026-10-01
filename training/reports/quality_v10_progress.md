@@ -335,8 +335,28 @@ training job, which reads the measured recommendation. A failure blocks dependen
 jobs. Training has not started yet. Milestone evaluation follows the completed
 training run.
 
+## Full-corpus processing outcome
+
+The selected profile completed all **80,751 recordings / 110.272 hours** on the
+eight non-VOA sources. Every output preserves the canonical input frame count.
+All model-device records report CUDA, with one processing-adapter version.
+The peak-safe loudness cap applied to 7,065 files. One very quiet Telegram
+recording fell below the loudness measurement gate and retained the documented
+peak-cap-only fallback; it was not rejected.
+
+The monitored processing and subsequent manifest-audit attempt took 82.55 minutes,
+with mean sampled GPU power 19.21 W and maximum 24.69 W. Available unified memory
+stayed above 94.39 GiB. The job then failed during JSONL export because Parquet
+list fields were NumPy arrays. Audio files and their verified hashes were intact.
+The manifest exporter now preserves those arrays as JSON lists and writes
+atomically, with regression coverage for real Parquet input and failed exports.
+All 198 training tests pass. Strict serialization succeeds for all 80,751 source records. Preparation resumes
+from the processed audio and repeats the full input/output/profile audit before
+building embeddings and statistics. Calibration and training remain dependent
+on successful preparation.
+
 ## Remaining work
 
-Finish full-corpus processing and embeddings/statistics, calibrate training,
+Finish manifest preparation and embeddings/statistics, calibrate training,
 complete the 100K run, and compare its checkpoints. See
 [run instructions](../quality/README.md).
