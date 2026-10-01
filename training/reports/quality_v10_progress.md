@@ -188,6 +188,30 @@ Cartesian product. The final-loudness option passed a real-meter test for target
 level, duration preservation, and peak safety. It remains an experiment until
 the panel scores are reviewed.
 
+## Refinement screening (160 recordings)
+
+These means use the separate fixed 20-per-source screening subset. Compare rows
+within this table; its composition differs from the full 800-item panel above.
+Reference rows reuse verified measurements of the same selected recordings.
+
+| Processing | SigMOS overall | Audiobox PQ | Whisper WER | Parakeet WER | ECAPA |
+|---|---:|---:|---:|---:|---:|
+| Base control | 2.924 | 6.724 | 14.46% | 13.91% | 0.949 |
+| DeepFilterNet, -6 dBFS input, full | 3.113 | 6.989 | 15.69% | 14.82% | 0.922 |
+| DeepFilterNet, -3 dBFS input, full (reference) | 3.122 | 6.982 | 16.50% | 14.83% | 0.922 |
+| DeepFilterNet, 0 dBFS input, full | 3.128 | 6.983 | 17.56% | 14.95% | 0.920 |
+| DeepFilterNet, -3 dBFS input, 75% | 3.034 | 6.883 | 14.30% | 13.57% | 0.943 |
+| DeepFilterNet, -3 dBFS input, 50% | 2.997 | 6.818 | 14.43% | 13.39% | 0.948 |
+| ClearVoice, full (reference) | 3.031 | 6.875 | 15.44% | 13.72% | 0.932 |
+
+Changing the full-strength input peak does not remove the content-preservation
+tradeoff. Gentler blends are more promising: the normalized 75% candidate is
+queued for full 800-item confirmation. Final-level and ClearVoice refinements
+remain in progress. These screening means do not trigger automatic selection.
+All component scores and source aggregates are in
+[refinement CSV](quality_v10_refinement.csv) and
+[JSONL](quality_v10_refinement.jsonl).
+
 ## Remaining work
 
 Finish the processing sweep and refinements, record measured comparisons and the stopping decision,
