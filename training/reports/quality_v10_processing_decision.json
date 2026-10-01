@@ -117,5 +117,13 @@
     "real-training calibration",
     "100000-step training",
     "held-out milestone evaluation"
-  ]
+  ],
+  "execution": {
+    "model_workers": 8,
+    "cpu_workers_per_process": 2,
+    "cpu_math_threads_per_process": 1,
+    "maximum_files_per_model_process": 64,
+    "output_identity_validation_files": 800,
+    "different_outputs_from_scored_profile": 0
+  }
 }

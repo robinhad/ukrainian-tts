@@ -133,14 +133,18 @@ def test_independent_model_workers_merge_and_propagate_failures(tmp_path):
     profile = tmp_path / 'profile.yaml'
     profile.write_text('backend: identity\n')
     serial = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'serial', device='cpu')
-    parallel = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu')
+    parallel = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu', chunk_size=1)
     assert [r['output_sha256'] for r in parallel] == [r['output_sha256'] for r in serial]
-    resumed = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu', resume=True)
+    resumed = process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'parallel', device='cpu', resume=True, chunk_size=1)
     assert [r['output_sha256'] for r in resumed] == [r['output_sha256'] for r in serial]
+    with pytest.raises(RuntimeError, match='memory below'):
+        process_parallel(tmp_path / 'panel.jsonl', profile, tmp_path / 'low_memory',
+                         device='cpu', minimum_available_gib=1e9)
+    assert not (tmp_path / 'low_memory/processing.jsonl').exists()
     zero = tmp_path / 'zero.wav'
     sf.write(zero, np.zeros(2400), 24000)
     rows[0]['audio_path'] = str(zero)
     write_tables(tmp_path, 'bad_panel', rows)
     with pytest.raises(RuntimeError, match='Processing worker failed'):
-        process_parallel(tmp_path / 'bad_panel.jsonl', profile, tmp_path / 'failed', device='cpu')
+        process_parallel(tmp_path / 'bad_panel.jsonl', profile, tmp_path / 'failed', device='cpu', chunk_size=1)
     assert not (tmp_path / 'failed/processing.jsonl').exists()

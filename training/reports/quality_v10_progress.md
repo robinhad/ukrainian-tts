@@ -316,12 +316,20 @@ GPU power remained only 12–16 W, so faster preprocessing does not imply GPU
 saturation. See [throughput CSV](quality_v10_processing_throughput.csv) and
 [JSONL](quality_v10_processing_throughput.jsonl). Each model process has independent
 state; merged reports require complete unique coverage, and any worker failure
-aborts the run. All 195 tests pass, including parallel identity/resume/failure checks.
+aborts the run. These initial short measurements used long-lived workers. All 195 tests pass, including parallel identity/resume/failure checks.
 
-Full-corpus preparation uses eight model workers, two CPU postprocessing workers
-per process, and one CPU math thread per process. The initial serial pass was
-stopped for this benchmark; downstream jobs are being re-chained to the faster
-preparation run. Successful preparation
+The subsequent long-lived-worker corpus pass showed growing memory retention
+and was stopped before exhausting memory. Production now bounds each model
+process to 64 files and releases unused host allocations every eight files.
+A complete 800-file validation of this configuration finished processing and
+byte-identity verification in 62.77 seconds, with no output differences and no
+memory-reserve breach. See the [validation record](quality_v10_bounded_processing_validation.json).
+This full-panel validation supersedes the short throughput experiment for the
+production execution configuration.
+
+Full-corpus preparation uses eight independent model processes with 64-file
+lifetimes, two CPU postprocessing workers per process, and one CPU math thread
+per process. Dependent calibration and training jobs are re-chained to this run. Successful preparation
 releases the calibration job; successful calibration releases the 100,000-step
 training job, which reads the measured recommendation. A failure blocks dependent
 jobs. Training has not started yet. Milestone evaluation follows the completed

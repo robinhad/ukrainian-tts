@@ -237,11 +237,16 @@ CPU loudness matching and WAV writes overlap GPU inference through a bounded
 worker queue (`process --cpu-workers`, default 4). Model calls stay sequential
 to preserve recurrent state, and worker failures propagate to the pipeline.
 `--model-workers` can run independent model processes on disjoint input shards.
-Each process owns its model state and writes separate progress and result files;
-the parent audits complete coverage before merging the report. Benchmark worker
+Each process owns its model state and exits after a bounded chunk (default
+64 files, `--chunk-size`) to release retained native allocations. Unused host
+allocations are also released every eight completed files. Chunks have separate
+progress and result files; the parent audits complete coverage before merging
+the report. `--minimum-available-gib` stops processing before the configured
+available-memory reserve is exhausted. Benchmark worker
 counts and verify output identity before increasing concurrency. Preparation
 accepts `PROCESS_MODEL_WORKERS`, `PROCESS_CPU_WORKERS`, and
-`PROCESS_CPU_THREADS` (defaults 1, 2, and 1).
+`PROCESS_CPU_THREADS` (defaults 1, 2, and 1), plus `PROCESS_CHUNK_SIZE`
+and `PROCESS_MIN_AVAILABLE_GIB` (defaults 64 and 4).
 If an input or enhanced signal falls below the EBU loudness measurement gate,
 normalization applies only the peak cap and records `below_measurement_gate`.
 The file remains in the evaluation, exposing suppression in the content and
@@ -320,6 +325,8 @@ After reviewing and freezing a profile:
 
 ```bash
 export PROFILE="$PWD/training/conf/quality_v10_processing.yaml"
+export PROCESS_MODEL_WORKERS=8 PROCESS_CPU_WORKERS=2 PROCESS_CPU_THREADS=1
+export PROCESS_CHUNK_SIZE=64
 sbatch training/slurm/quality.sbatch bash training/scripts/prepare_quality_v10.sh
 # After preparation succeeds:
 sbatch training/slurm/quality.sbatch python -m training.scripts.calibrate_quality_v10

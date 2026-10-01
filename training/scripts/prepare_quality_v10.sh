@@ -17,7 +17,9 @@ PROFILE=${PROFILE:?Set PROFILE to the reviewed processing profile YAML}
 RAW_MANIFEST=${RAW_MANIFEST:-"${ROOT}/data/quality_v10_raw/all.parquet"}
 python -m training.quality process --panel "$RAW_MANIFEST" --profile "$PROFILE" \
   --output "${ROOT}/data/quality_v10/audio_24k" --resume \
-  --model-workers "${PROCESS_MODEL_WORKERS:-1}" --cpu-workers "${PROCESS_CPU_WORKERS:-2}"
+  --model-workers "${PROCESS_MODEL_WORKERS:-1}" --cpu-workers "${PROCESS_CPU_WORKERS:-2}" \
+  --chunk-size "${PROCESS_CHUNK_SIZE:-64}" \
+  --minimum-available-gib "${PROCESS_MIN_AVAILABLE_GIB:-4}"
 python -m training.scripts.build_quality_v10_manifest --manifest "$RAW_MANIFEST" \
   --processed "${ROOT}/data/quality_v10/audio_24k" --profile "$PROFILE" \
   --output "${ROOT}/data/quality_v10/records.jsonl"

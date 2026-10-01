@@ -36,7 +36,7 @@ def match_loudness_for_reporting(audio, reference, rate, target_lufs=None):
 
 
 def process(panel, profile_path, output, device='cuda', resume=False, cpu_workers=4,
-            num_shards=1, shard_index=0):
+            num_shards=1, shard_index=0, report_tag=None):
     from training.audio_enhancement.fair_comparison import (
         atomic_write_pcm24, fit_sample_count)
     from training.scripts.run_fair_enhancement_comparison import make_backend, backend_channel
@@ -55,7 +55,11 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     if not rows or any('voa' in str(r['source_id']).lower() for r in rows):
         raise ValueError('Processing requires a non-empty non-VOA panel')
     rows = rows[shard_index::num_shards]
-    suffix = f'-shard-{shard_index}' if num_shards > 1 else ''
+    if report_tag is not None:
+        import re
+        if not re.fullmatch(r'[a-zA-Z0-9_-]+', report_tag):
+            raise ValueError('Invalid processing report tag')
+    suffix = f'-{report_tag}' if report_tag else (f'-shard-{shard_index}' if num_shards > 1 else '')
     progress_path = output / f'progress{suffix}.json'
     wet = float(profile.get('wet', 1.0))
     if not 0 <= wet <= 1:
@@ -125,6 +129,16 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     def collect():
         results.append(pending.popleft().result())
         write_json(progress_path, {'completed': len(results), 'expected': len(rows)})
+        if len(results) % 8 == 0:
+            # Native CPU allocators can retain large resampling workspaces.
+            import ctypes
+            import gc
+            gc.collect()
+            trim = getattr(ctypes.CDLL(None), 'malloc_trim', None)
+            if trim is not None:
+                trim.argtypes = [ctypes.c_size_t]
+                trim.restype = ctypes.c_int
+                trim(0)
 
     # Keep GPU model calls on one thread: some enhancement models have mutable
     # recurrent state. Overlap their execution with bounded CPU loudness/I/O work.
