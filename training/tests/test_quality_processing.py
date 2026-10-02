@@ -106,6 +106,31 @@ def test_optional_output_loudness_with_real_meter_preserves_duration_and_peak(tm
     assert np.max(np.abs(actual)) < 10 ** (-.1 / 20)
 
 
+def test_per_recording_seed_is_independent_of_model_call_order(tmp_path, monkeypatch):
+    import torch
+    from training.quality import processing
+    source = tmp_path / 'input.wav'
+    sf.write(source, np.linspace(-.1, .1, 2400), 24000, subtype='PCM_24')
+    rows = [{'utterance_id': name, 'source_id': 'a', 'audio_path': str(source)}
+            for name in ['one', 'two', 'three']]
+    write_tables(tmp_path, 'forward', rows)
+    write_tables(tmp_path, 'reverse', rows[::-1])
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: deepfilternet3\nmodel_cache: unused\nrandom_seed: 777\n')
+    monkeypatch.setattr(torch.cuda, 'is_available', lambda: True)
+    monkeypatch.setattr(torch.cuda, 'set_device', lambda device: None)
+    monkeypatch.setattr('training.quality.devices.require_gpu_models', lambda backend: {})
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.make_backend', lambda args: (object(), {}))
+    monkeypatch.setattr('training.scripts.run_fair_enhancement_comparison.backend_channel',
+                        lambda name, backend, audio, rate: audio + torch.rand(len(audio)).numpy() * .01)
+    monkeypatch.setattr(processing, 'match_loudness_for_reporting', lambda audio, *args: (audio, {}))
+    forward = process(tmp_path / 'forward.jsonl', profile, tmp_path / 'one', cpu_workers=1)
+    reverse = process(tmp_path / 'reverse.jsonl', profile, tmp_path / 'two', cpu_workers=2)
+    assert {r['utterance_id']: r['output_sha256'] for r in forward} == {
+        r['utterance_id']: r['output_sha256'] for r in reverse}
+    assert len({r['output_sha256'] for r in forward}) == 3
+
+
 def test_cpu_rnnoise_is_allowed_and_device_is_reported(tmp_path, monkeypatch):
     from training.quality import processing
     source = tmp_path / 'input.wav'

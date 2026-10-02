@@ -14,7 +14,9 @@ from .common import file_hash
 
 
 def decode_native(content):
-    with av.open(io.BytesIO(content)) as container:
+    # Some source containers have malformed text tags. Their audio remains
+    # decodable; replacing invalid metadata bytes does not alter PCM samples.
+    with av.open(io.BytesIO(content), metadata_errors='replace') as container:
         container.streams.audio[0].codec_context.thread_count = 1
         resampler = av.AudioResampler(format='fltp')
         frames, rate = [], None

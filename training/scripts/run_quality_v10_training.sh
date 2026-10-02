@@ -23,10 +23,10 @@ fi
 export UKTTS_CUDA_CACHE_INTERVAL=${UKTTS_CUDA_CACHE_INTERVAL:-10}
 export UKTTS_ESPEAK_DATA_HASH_FILE="${ROOT}/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 export GPU_COUNT=1
-export TRAIN_SET=quality_v10_train VALID_SET=quality_v10_dev TEST_SETS=quality_v10_eval
+export TRAIN_SET=${TRAIN_SET:-quality_v10_train} VALID_SET=${VALID_SET:-quality_v10_dev} TEST_SETS=${TEST_SETS:-quality_v10_eval}
 export DATA_SETS="$TRAIN_SET $VALID_SET $TEST_SETS"
-export MANIFEST_DIR="${ROOT}/data/quality_v10/manifests"
-export DUMP_DIR="${ROOT}/dump_quality_v10" EXP_DIR="${ROOT}/exp_quality_v10"
+export MANIFEST_DIR=${MANIFEST_DIR:-"${ROOT}/data/quality_v10/manifests"}
+export DUMP_DIR=${DUMP_DIR:-"${ROOT}/dump_quality_v10"} EXP_DIR=${EXP_DIR:-"${ROOT}/exp_quality_v10"}
 TTS_EXP=${TTS_EXP:-"${EXP_DIR}/tts_jets_quality_v10_100k"}
 STEPS=${STEPS:-100000}
 BATCH_BINS=${BATCH_BINS:-4000000}
@@ -72,9 +72,12 @@ set -e
 if [[ -n "$WATCH_PID" ]]; then wait "$WATCH_PID"; fi
 trap - TERM INT EXIT
 (( STATUS == 0 )) || exit "$STATUS"
-if (( STEPS == 100000 && ITERS_PER_EPOCH == 1000 )); then
+if (( ITERS_PER_EPOCH == 1000 )); then
   python -m training.scripts.audit_finetune_checkpoint --checkpoint "$TTS_EXP/checkpoint.pth" \
-    --expected-steps 100000 --model-artifact "$TTS_EXP/milestones/100k.pth" \
-    --output "${ROOT}/quality_runs/v10/checkpoint_100k.json"
-  TTS_EXP="$TTS_EXP" bash "${ROOT}/scripts/evaluate_quality_v10_checkpoints.sh"
+    --expected-steps "$STEPS" --model-artifact "$TTS_EXP/$((STEPS / ITERS_PER_EPOCH))epoch.pth" \
+    --output "${QUALITY_RUN_DIR:-${ROOT}/quality_runs/v10}/checkpoint_${STEPS}.json"
+  if [[ "${RUN_CHECKPOINT_EVAL:-true}" == true ]] && (( STEPS == 50000 || STEPS == 100000 )); then
+    if (( STEPS == 50000 )); then export MILESTONES=${MILESTONES:-"25k 50k"}; fi
+    TTS_EXP="$TTS_EXP" bash "${ROOT}/scripts/evaluate_quality_v10_checkpoints.sh"
+  fi
 fi

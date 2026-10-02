@@ -7,6 +7,7 @@ import shutil
 import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import nullcontext
 from pathlib import Path
 
 import numpy as np
@@ -62,6 +63,14 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     suffix = f'-{report_tag}' if report_tag else (f'-shard-{shard_index}' if num_shards > 1 else '')
     progress_path = output / f'progress{suffix}.json'
     wet = float(profile.get('wet', 1.0))
+    random_seed = profile.get('random_seed')
+    if random_seed is not None and (type(random_seed) is not int or random_seed < 0):
+        raise ValueError('random_seed must be a nonnegative integer')
+    torchscript_optimize = profile.get('torchscript_optimize')
+    if torchscript_optimize is not None:
+        if type(torchscript_optimize) is not bool:
+            raise ValueError('torchscript_optimize must be a boolean')
+        import torch
     if not 0 <= wet <= 1:
         raise ValueError('wet must be in [0, 1]')
     backend_name = profile['backend']
@@ -169,15 +178,28 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
             input_gain = (10 ** (input_peak_dbfs / 20) / float(np.max(np.abs(audio)))
                           if input_peak_dbfs is not None else 1.)
             model_audio = audio * np.float32(input_gain) if input_peak_dbfs is not None else audio
+            if random_seed is not None:
+                # ClearVoice's Kaldi frontend adds random dither. Seed each file
+                # independently so chunk sizes and worker order cannot change it.
+                import random
+                import torch
+                seed = int(digest([random_seed, row['utterance_id']])[:8], 16)
+                random.seed(seed)
+                np.random.seed(seed)
+                torch.manual_seed(seed)
             model_started = time.monotonic()
-            if backend_name == 'identity':
-                enhanced = audio.copy()
-            elif backend_name == 'sidon':
-                result, result_rate = backend.process(model_audio[:, 0], rate)['sidon_no_compression']
-                from .backends import resample
-                enhanced = resample(np.asarray(result).reshape(-1), result_rate, rate)[:, None]
-            else:
-                enhanced = backend_channel(backend_name, backend, model_audio[:, 0], rate)[:, None]
+            # The profiled TorchScript executor can change Sidon numerics after
+            # its first call. A profile can disable that optimization explicitly.
+            with (torch.jit.optimized_execution(torchscript_optimize)
+                  if torchscript_optimize is not None else nullcontext()):
+                if backend_name == 'identity':
+                    enhanced = audio.copy()
+                elif backend_name == 'sidon':
+                    result, result_rate = backend.process(model_audio[:, 0], rate)['sidon_no_compression']
+                    from .backends import resample
+                    enhanced = resample(np.asarray(result).reshape(-1), result_rate, rate)[:, None]
+                else:
+                    enhanced = backend_channel(backend_name, backend, model_audio[:, 0], rate)[:, None]
             if input_peak_dbfs is not None:
                 # Blend in the original amplitude domain, not the normalized one.
                 enhanced = enhanced / np.float32(input_gain)

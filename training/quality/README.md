@@ -506,3 +506,56 @@ uses original utterance/source keys before anonymizing the exported identifiers.
 Positive and negative counts use any nonzero difference, not a calibrated
 meaningful-change threshold. Median individual change differs from the
 difference between the two groups' medians.
+
+## V11: user-selected corpus and 50K training
+
+V11 applies the full ClearVoice → Sidon → DeepFilterNet3 cascade, compares each
+output's overall SigMOS with its native original, and chooses the processed
+version only when its score is strictly higher. Ties keep the original. The
+chosen score must be at least 3.5. This explicit corpus-selection policy does
+not change the report-only checkpoint thresholds or introduce HNR rejection.
+
+```bash
+sbatch training/slurm/quality_v11.sbatch
+```
+
+The pipeline streams the existing pinned non-VOA downloads, processes bounded
+chunks on CUDA, scores both versions with the official CUDA SigMOS model, and
+stores only retained audio plus all decisions under `training/data/quality_v11`.
+It checks input/output hashes and code/profile provenance on resume. Interrupted
+chunks can be regenerated; completed, hash-verified decisions are reused.
+`PROCESS_MODEL_WORKERS` and `PROCESS_CHUNK_SIZE` control throughput and memory.
+Temporary chunk files are removed after their decisions are saved. Existing
+V10 artifacts are preserved.
+
+The V11 processing profile pins a per-recording random seed for ClearVoice's
+Kaldi feature dither and disables the profiled TorchScript optimization that
+changed Sidon numerics after its first call. These settings make the new
+outputs repeatable; the earlier unseeded sweep remains historical evidence,
+not a cache of scores to reuse for newly generated audio.
+
+Original winners retain native timing and are converted to mono 24 kHz PCM24
+for the model. Their rendered audio is scored again and any drop below 3.5 is
+reported separately; selection uses the measured native-original/cascade
+comparison. The pipeline exports actual retained counts, hours, source and
+split summaries, and Ukrainian letter coverage.
+
+Train/dev assignments remain disjoint and are filtered. The complete original
+evaluation split remains fixed, including the existing 88-recording quality
+panel, so evaluation is not restricted to high-scoring recordings. The
+`records.jsonl` file describes all passing recordings; `training_records.jsonl`
+contains filtered train/dev plus that fixed evaluation population.
+
+Preparation rebuilds manifests, ECAPA embeddings, pitch/energy and feature
+statistics. Training starts from scratch in `exp_quality_v11/tts_jets_quality_v11_50k`
+for 50,000 updates with 4M batch bins, 8 loader workers, FP32, and unused-CUDA-cache
+release every 10 GAN updates. A separate one-second memory guard enforces a
+24 GiB available-memory reserve. Durable telemetry is sampled every minute.
+The 25K and 50K weights are preserved, the final optimizer counters/weights are
+audited, and both checkpoints receive the existing held-out audio evaluation
+(SigMOS, Audiobox PQ, Whisper/Parakeet, ECAPA, signal and worst-segment reports).
+
+Monitor `data/quality_v11/progress.json`, `quality_runs/v11/pipeline/status.json`,
+and `quality_runs/v11/training/status.json`. Selection progress includes an ETA
+in Europe/Kyiv time once completed chunks provide a throughput estimate. Check
+the SLURM job and logs at least every 30 minutes throughout the run.

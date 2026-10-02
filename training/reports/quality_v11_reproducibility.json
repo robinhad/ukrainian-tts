@@ -1,0 +1,41 @@
+{
+  "original_smoke_files": 16,
+  "maximum_original_sigmos_difference": 0.0,
+  "maximum_unseeded_processed_sigmos_difference_from_previous_sweep": 0.23693609237670898,
+  "repeatability_probe": [
+    {
+      "pass": 0,
+      "score": 3.0661215782165527,
+      "max_abs_difference_by_stage": null
+    },
+    {
+      "pass": 1,
+      "score": 3.0661215782165527,
+      "max_abs_difference_by_stage": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pass": 2,
+      "score": 3.0661215782165527,
+      "max_abs_difference_by_stage": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "stage_order": [
+    "ClearVoice",
+    "Sidon",
+    "DeepFilterNet3"
+  ],
+  "scope": "Three repeated GPU passes of one diagnostic recording; broader worker-count comparison pending.",
+  "processing_controls": {
+    "random_seed": 777,
+    "seed_scope": "per_recording",
+    "torchscript_optimize": false
+  }
+}

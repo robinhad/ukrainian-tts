@@ -1,0 +1,7 @@
+# Full-strength cascade measured on the fixed V10 panel.
+backend: clearervoice_sidon_deepfilternet3
+model_cache: training/vendor/enhancement-models
+rnnoise_binary: training/vendor/rnnoise/examples/rnnoise_demo
+wet: 1.0
+random_seed: 777
+torchscript_optimize: false
