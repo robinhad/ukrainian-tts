@@ -112,7 +112,7 @@ def main():
     fig.text(.09, .90, 'Completed 800-recording pilot · 100 per source before filtering', fontsize=12)
     fig.text(.09, .055, 'Choose full-cascade audio only if SigMOS improves; otherwise keep native original. '
              'Then retain ≥3.5.', fontsize=10)
-    fig.text(.09, .026, 'Sample results; full-corpus selection is still running. '
+    fig.text(.09, .026, 'Sample results, not a full-corpus selection. '
              'Equal source sampling differs from full-corpus proportions.', fontsize=10)
     fig.subplots_adjust(left=.1, right=.97, top=.84, bottom=.14, hspace=.16)
     for extension in ('png', 'pdf'):

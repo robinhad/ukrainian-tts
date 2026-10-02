@@ -1,6 +1,6 @@
 {
-  "checked_kyiv": "2026-10-02T07:22:48+03:00",
-  "status": "selection_in_progress",
+  "checked_kyiv": "2026-10-02T07:46:00+03:00",
+  "status": "stopped_by_user_audio_deleted",
   "training_started": false,
   "scope": "Completed atomic decisions only; source order is sequential, so this is not a representative full-corpus sample.",
   "expected_recordings": 80751,
@@ -56,5 +56,15 @@
     "p95": 7.703199999999992
   },
   "run_key": "2430eeb2b876f8c007e3ef892b28cff1c0a90e3d3d74ea4539b053e7136ba924",
-  "checkpoint_uploads_enabled": false
+  "checkpoint_uploads_enabled": false,
+  "deleted_audio_files": 6287,
+  "deleted_audio_bundles": 2,
+  "deleted_bytes": 2735431724,
+  "source_recordings_preserved": true,
+  "historical_v10_evaluations_preserved": true,
+  "evaluation_metrics_preserved": true,
+  "resume_requires_regenerating_audio": true,
+  "snapshot_note": "Score/count statistics are the earlier saved snapshot, not final full-corpus results.",
+  "completed_decisions_at_stop": 26240,
+  "metrics_snapshot_kyiv": "2026-10-02T07:22:48+03:00"
 }

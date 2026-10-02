@@ -549,6 +549,15 @@ flowchart LR
   gate, the documented fallback only limits peaks; it does not amplify the
   suppressed signal. CPU loudness measurement and file I/O accompany CUDA
   model inference.
+- Inside the cascade, ClearVoice uses `MossFormer2_SE_48K` on audio resampled
+  to 48 kHz. Sidon scales its input peak to 0.9, applies a 50 Hz high-pass filter,
+  resamples to 16 kHz for feature extraction, and synthesizes 48 kHz output.
+  Its adapter adds 1.5 seconds of tail padding, uses 10 ms padding at chunk
+  boundaries, removes the decoder's final 20 ms per chunk, then crops to the
+  intended duration. DeepFilterNet3 runs at 48 kHz with padding enabled,
+  post-filter disabled, and no attenuation limit. Output returns to 24 kHz.
+  Intermediate stages do not perform LUFS matching; final output matching is
+  the separate step described above.
 - The competing original is decoded from pinned source bytes with its native
   timing. SigMOS uses its mono signal at the native input rate through the
   official scorer. When this version wins, only channel count, sample rate,
@@ -625,8 +634,13 @@ winners and 123 original winners; selected median SigMOS is 3.708.
 
 The builder checks each file against the checksum recorded during evaluation
 and copies it without conversion. This listening set matches the historical
-pilot chart; the ongoing full-corpus V11 selection is a separate run. Generated
+pilot chart; full-corpus V11 selection is a separate run. Generated
 pages, audio, transcripts, and archives remain under the ignored runtime tree.
+
+The V11 run was subsequently stopped at the user's request and its generated
+audio, embedded preview, and listening archive were deleted. The command above
+is a reproduction procedure; those generated listening artifacts are no longer
+present. Source recordings and historical V10 evaluations remain available.
 
 ## W&B training metrics
 

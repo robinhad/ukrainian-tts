@@ -1,9 +1,16 @@
 # V11: selected non-VOA corpus and 50K training
 
+**Status: stopped at user request before training.** The scheduler pipeline was
+cancelled, and 6,287 V11-generated audio files plus two audio-containing listening
+bundles were deleted (2.735 GB total). This includes production outputs,
+temporary audio, benchmark copies, and listening copies. Source recordings,
+historical V10 evaluations, and V11 evaluation records were preserved. Existing
+decisions now refer to deleted audio; any future run must regenerate its audio.
+
 The requested policy is to run ClearVoice → Sidon → DeepFilterNet3 at full
 strength, select its output only when overall SigMOS exceeds the native
-original, and retain the chosen item only at SigMOS ≥3.5. Training will start
-from scratch for 50,000 updates. The stopped V10 checkpoint remains preserved.
+original, and retain the chosen item only at SigMOS ≥3.5. The run was configured
+to train from scratch for 50,000 updates. The stopped V10 checkpoint remains preserved.
 
 The complete 80,751-recording corpus will be measured. The earlier estimate of
 about 28–29.5 retained hours is provisional; the full run reports actual counts,
@@ -90,4 +97,6 @@ median 3.634 and mean 3.671. After rendering as training audio, 73 retained item
 score below 3.5; the native-original selection policy remains unchanged.
 This snapshot covers only the first source being processed and must not be
 extrapolated directly to the complete eight-source corpus. Training has not
-started at this snapshot; processing and monitoring continue.
+started at this snapshot. Processing and monitoring were subsequently stopped
+at the user's request; generated audio was deleted. These recorded quality
+statistics remain historical evidence, not an available training dataset.
