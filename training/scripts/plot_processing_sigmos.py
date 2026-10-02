@@ -25,8 +25,8 @@ LABELS = {
     'legacy_v8_exact': 'Historical v8/v9 · complete recipe',
 }
 POLICY_LABELS = {
-    'per_item_best': 'Per-item best: original / full cascade  [800]',
-    'per_item_best_ge3_5': 'Per-item best + ≥3.5 filter  [267 retained]',
+    'per_item_best': 'Best: native / full cascade  [800]',
+    'per_item_best_ge3_5': 'Best: native + ≥3.5 filter',
 }
 
 
@@ -36,6 +36,8 @@ def main():
     parser.add_argument('--selection', type=Path, required=True,
                         help='Matched original/cascade per-item score CSV')
     parser.add_argument('--output-prefix', type=Path, required=True)
+    parser.add_argument('--normalized-selection', type=Path,
+                        help='Normalized-original/cascade selector CSV; adds three rows')
     args = parser.parse_args()
     with args.input.open() as stream:
         rows = [r for r in csv.DictReader(stream)
@@ -68,9 +70,41 @@ def main():
     if not retained:
         raise ValueError('The filter retained no recordings')
     labels = {**LABELS, **POLICY_LABELS}
-    labels['per_item_best_ge3_5'] = f'Per-item best + ≥3.5 filter  [{len(retained)} retained]'
+    labels['per_item_best_ge3_5'] = f'Best: native + ≥3.5  [{len(retained)} retained]'
     for profile, values in [('per_item_best', best), ('per_item_best_ge3_5', retained)]:
         rows.append({'profile': profile, 'count': len(values), 'median': median(values)})
+    new_profiles = set()
+    normalized_retained = []
+    if args.normalized_selection:
+        with args.normalized_selection.open() as stream:
+            normalized_rows = list(csv.DictReader(stream))
+        old_by_id = {r['sample_id']: r for r in selected}
+        if (len(normalized_rows) != 800 or len({r['sample_id'] for r in normalized_rows}) != 800
+                or {r['sample_id'] for r in normalized_rows} != set(old_by_id)):
+            raise ValueError('Normalized selection must match the same 800 recordings')
+        normalized_scores, normalized_best = [], []
+        for row in normalized_rows:
+            old = old_by_id[row['sample_id']]
+            a, b = float(row['normalized_sigmos_overall']), float(row['processed_sigmos_overall'])
+            if not all(math.isfinite(x) and 1 <= x <= 5 for x in (a, b)):
+                raise ValueError('Invalid normalized selection score')
+            if row['source_id'] != old['source_id'] or b != float(old['processed_sigmos_overall']):
+                raise ValueError('Cascade scores or sources differ between comparisons')
+            if float(row['selected_sigmos_overall']) != max(a, b):
+                raise ValueError('Selected score is not the per-item maximum')
+            normalized_scores.append(a)
+            normalized_best.append(max(a, b))
+        normalized_retained = [x for x in normalized_best if x >= 3.5]
+        if not normalized_retained:
+            raise ValueError('Normalized selection retains no recordings')
+        for profile, label, values in [
+            ('normalized_original', 'Normalized original', normalized_scores),
+            ('normalized_per_item_best', 'Best: normalized / full cascade  [800]', normalized_best),
+            ('normalized_per_item_best_ge3_5', f'Best: normalized + ≥3.5  [{len(normalized_retained)} retained]', normalized_retained),
+        ]:
+            labels[profile] = label
+            new_profiles.add(profile)
+            rows.append({'profile': profile, 'count': len(values), 'median': median(values)})
     rows.sort(key=lambda r: r['median'], reverse=True)
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
     with args.output_prefix.with_suffix('.csv').open('w', newline='') as stream:
@@ -96,12 +130,12 @@ def main():
         'axes.edgecolor': '#666666', 'axes.linewidth': .6,
         'xtick.color': '#555555', 'ytick.color': '#333333',
     })
-    fig, ax = plt.subplots(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(13, 9 if new_profiles else 8))
     for index, row in enumerate(rows):
-        selected = row['profile'] in POLICY_LABELS
+        selected = row['profile'] in (new_profiles or POLICY_LABELS)
         original = row['profile'] == 'original'
         color = '#285b80' if selected else '#333333' if original else '#666666'
-        marker = 's' if row['profile'] == 'per_item_best_ge3_5' else 'D' if original else 'o'
+        marker = 's' if row['profile'].endswith('_ge3_5') else 'D' if original else 'o'
         ax.plot(row['median'], index, marker, color=color, markersize=6)
         ax.annotate(f"{row['median']:.3f}", (row['median'], index),
                     xytext=(9, 0), textcoords='offset points', va='center', color=color,
@@ -110,7 +144,7 @@ def main():
     ax.text(baseline, -1, f'Original {baseline:.3f}', ha='center', fontsize=10)
     ax.set_yticks(range(len(rows)), [labels[r['profile']] for r in rows])
     for label, row in zip(ax.get_yticklabels(), rows):
-        if row['profile'] in POLICY_LABELS:
+        if row['profile'] in (new_profiles or POLICY_LABELS):
             label.set_color('#285b80')
     ax.tick_params(axis='y', length=0, pad=12)
     ax.tick_params(axis='x', direction='in', length=3)
@@ -120,12 +154,17 @@ def main():
     ax.set_ylim(len(rows) - .3, -1.6)
     ax.spines['bottom'].set_bounds(low, high)
     ax.set_xlabel('Median overall SigMOS · higher is better (1–5 scale; zoomed axis)', labelpad=12)
-    fig.text(.04, .95, f'Median SigMOS: {baseline:.3f} original → {median(best):.3f} best → '
-             f'{median(retained):.3f} filtered', fontsize=19)
-    fig.text(.04, .91, 'Completed pilot · 100 recordings per source · all rows use 800 recordings except the filtered row', fontsize=11)
+    title = (f'Median SigMOS: {median(normalized_scores):.3f} normalized → {median(normalized_best):.3f} best → '
+             f'{median(normalized_retained):.3f} filtered' if new_profiles else
+             f'Median SigMOS: {baseline:.3f} original → {median(best):.3f} best → {median(retained):.3f} filtered')
+    fig.text(.04, .95, title, fontsize=19)
+    fig.text(.04, .91, 'Fixed pilot · 100 recordings per source · 800 recordings per row except the two filtered subsets'
+             if new_profiles else 'Fixed pilot · 100 recordings per source · 800 recordings per row except the filtered subset', fontsize=11)
     fig.text(.04, .065, 'DF3 = DeepFilterNet3. Percentages indicate enhanced-audio blend; remainder is dry audio.', fontsize=10)
-    fig.text(.04, .038, f'Filtered row retains {len(retained)}/800 recordings ({len(retained) / 8:.1f}%). '
-             'Its median describes a smaller, higher-scoring population.', fontsize=10)
+    foot = (f'≥3.5 retains {len(normalized_retained)}/800 with normalized originals; {len(retained)}/800 with native originals. '
+            'Filtered medians describe smaller populations.' if new_profiles else
+            f'Filtered row retains {len(retained)}/800 recordings ({len(retained) / 8:.1f}%). Its median describes a smaller population.')
+    fig.text(.04, .038, foot, fontsize=10)
     fig.subplots_adjust(left=.39, right=.98, top=.86, bottom=.17)
     for extension in ['png', 'pdf']:
         fig.savefig(args.output_prefix.with_suffix('.' + extension), dpi=170)

@@ -75,6 +75,9 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         raise ValueError('wet must be in [0, 1]')
     backend_name = profile['backend']
     output_lufs = profile.get('output_lufs')
+    match_input_loudness = profile.get('match_input_loudness', False)
+    if type(match_input_loudness) is not bool:
+        raise ValueError('match_input_loudness must be a boolean')
     if output_lufs is not None and not -40 <= float(output_lufs) <= -10:
         raise ValueError('output_lufs must be in [-40, -10]')
     input_peak_dbfs = profile.get('input_peak_dbfs')
@@ -116,7 +119,7 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         mixed = wet * enhanced + (1 - wet) * audio
         # Preserve the no-processing control exactly, apart from PCM24 encoding.
         loudness = None
-        if backend_name != 'identity' or output_lufs is not None:
+        if backend_name != 'identity' or output_lufs is not None or match_input_loudness:
             mixed, loudness = match_loudness_for_reporting(mixed, audio, rate, output_lufs)
         atomic_write_pcm24(target, mixed, rate)
         item = {'utterance_id': row['utterance_id'], 'source_id': row['source_id'],

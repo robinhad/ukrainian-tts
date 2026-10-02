@@ -106,6 +106,23 @@ def test_optional_output_loudness_with_real_meter_preserves_duration_and_peak(tm
     assert np.max(np.abs(actual)) < 10 ** (-.1 / 20)
 
 
+@pytest.mark.parametrize('amplitude', [.2, .999])
+def test_normalized_original_matches_input_loudness_and_caps_peak(tmp_path, amplitude):
+    rate = 24000
+    source = tmp_path / 'input.wav'
+    sf.write(source, amplitude * np.sin(2 * np.pi * 440 * np.arange(rate * 2) / rate), rate, subtype='PCM_24')
+    original, _ = sf.read(source, dtype='float32')
+    write_tables(tmp_path, 'panel', [{'utterance_id': 'item', 'source_id': 'a', 'audio_path': str(source)}])
+    profile = tmp_path / 'profile.yaml'
+    profile.write_text('backend: identity\nmatch_input_loudness: true\n')
+    rows = process(tmp_path / 'panel.jsonl', profile, tmp_path / 'out', device='cpu')
+    actual, sr = sf.read(rows[0]['output_path'])
+    expected_gain = min(1, 10 ** (-.1 / 20) / np.max(np.abs(original)))
+    assert rows[0]['loudness_match'] is not None
+    assert sr == rate and len(actual) == len(original)
+    assert np.max(np.abs(actual - original * expected_gain)) < 2e-7
+
+
 def test_per_recording_seed_is_independent_of_model_call_order(tmp_path, monkeypatch):
     import torch
     from training.quality import processing

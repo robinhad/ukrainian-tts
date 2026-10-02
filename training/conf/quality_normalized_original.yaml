@@ -1,0 +1,5 @@
+# Canonical mono/24 kHz/boundary-trimmed audio, with the cascade's finalization.
+# Match the input's own LUFS, subject to the existing -0.1 dBFS peak ceiling.
+backend: identity
+wet: 1.0
+match_input_loudness: true

@@ -642,6 +642,98 @@ audio, embedded preview, and listening archive were deleted. The command above
 is a reproduction procedure; those generated listening artifacts are no longer
 present. Source recordings and historical V10 evaluations remain available.
 
+## Normalized original and revised selector
+
+The normalized-original category uses the same frozen 800-recording panel
+(100 per non-VOA source) and canonical inputs as the enhancement comparison:
+
+1. Decode to mono and resample to 24 kHz.
+2. Trim boundary silence with the existing 40 dB relative threshold,
+   1,024-sample frame, 256-sample hop, and 100 ms padding; preserve interior pauses.
+   Reuse the frozen canonical files, so trimming is not applied twice.
+3. Skip the three model stages: ClearVoice, Sidon, and DeepFilterNet3
+   (steps 4, 5, and 6 of the previous pipeline).
+4. Preserve the canonical sample count. Match each canonical input's own
+   integrated LUFS using linear gain, capped at −0.1 dBFS sample peak, and save
+   mono 24 kHz PCM24. Below the loudness measurement gate, use the existing
+   peak-only fallback. This is input-loudness matching, **not a common LUFS
+   target**. An unchanged input generally receives unity gain.
+5. Score the final saved files with all seven official SigMOS outputs on CUDA.
+6. Compare each normalized file with its matching full-cascade file
+   (ClearVoice → Sidon → DF3, 100% wet), the highest-median processing method
+   in the existing comparison. Choose the cascade only if its overall SigMOS
+   is strictly higher; ties choose normalized original.
+7. Retain the chosen file if its overall SigMOS is **≥3.5**. Copy it unchanged;
+   do not resample, trim, or normalize after scoring. There is no HNR rejection.
+
+The selector checks source/recording keys, native reference hashes, canonical
+input hashes, scored audio hashes, processing metadata, format, and sample
+counts. The cutoff is configurable with `--threshold`. It is the explicitly
+requested dataset-selection rule, not a calibrated checkpoint rejection rule.
+
+Run from the repository root with the existing environment, downloaded official
+SigMOS model, frozen panel, and historical cascade audio/metrics available:
+
+```bash
+sbatch training/slurm/normalized_original.sbatch
+```
+
+This runs processing/selection tests, renders and scores normalized originals,
+copies retained audio, exports sanitized CSV/JSONL reports, and updates the
+median chart. It does not launch full-corpus processing or training. Runtime
+files are under `training/quality_runs/normalized_original/`; scoring progress
+includes a Kyiv ETA. The no-model rendering stage uses CPU workers; SigMOS
+convolutional and recurrent inference is verified on CUDA. The historical
+cascade scores are reused only after verifying the exact scored files.
+
+To rerun only selection with a different cutoff or another matched score pair:
+
+```bash
+python -m training.scripts.select_normalized_best \
+  --normalized training/quality_runs/normalized_original/per_file.jsonl \
+  --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
+  --output training/quality_runs/normalized_original/selection \
+  --threshold 3.5 --copy-audio
+```
+
+Use a new output directory when changing the input pair or threshold. The
+chart's two filtered comparisons are explicitly fixed at ≥3.5.
+
+Completed panel results (2026-10-02):
+
+| Category | Items | Median overall SigMOS |
+| --- | ---: | ---: |
+| Native original, historical comparison | 800 | 3.0142 |
+| Normalized original | 800 | 2.9219 |
+| Full cascade | 800 | 3.2204 |
+| Best of normalized original / cascade | 800 | 3.2764 |
+| Best of normalized original / cascade, ≥3.5 | 239 | 3.7005 |
+| Best of native original / cascade, ≥3.5, historical | 267 | 3.7082 |
+
+The revised selector chooses 579 cascade and 221 normalized files before
+filtering. After filtering it retains 159 cascade and 80 normalized originals,
+**239/800 (29.875%), totaling 0.353213 hours (21.19 minutes)**. Every source
+remains represented. This source-balanced panel is not a full-corpus yield
+estimate. Peak limiting changes 33 normalized files; 767 remain byte-identical
+to their canonical input. The normalized median equals the earlier base
+mono/24 kHz/trim median, while native-original scoring differs because it used
+untrimmed native-rate recordings. Filtered medians describe smaller populations.
+
+The updated [median chart](../reports/quality_v10_processing_median_sigmos.png)
+shows all processing variants and both selection policies. The
+`quality_normalized_original_per_file`, `quality_normalized_original_summary`,
+and `quality_normalized_original_selection` CSV/JSONL files in
+`training/reports/` contain sanitized per-file scores, all seven metric
+summaries (overall and per source), and every selection decision. Raw audio,
+transcripts, and local paths stay in the ignored runtime directory. The
+retained exact WAV copies are in
+`training/quality_runs/normalized_original/selection/audio_24k/`.
+
+Validation: 12 processing/selector tests passed under SLURM, all 800 files were
+scored, all 1,600 candidate hashes and processing inputs were checked, and all
+239 retained copies matched their scored hashes. The previous full-corpus run
+remains stopped.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to

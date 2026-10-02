@@ -1,6 +1,8 @@
 profile,label,count,median_sigmos_overall,difference_from_original
-per_item_best_ge3_5,Per-item best + ≥3.5 filter  [267 retained],267,3.708209276199341,0.6939743757247925
-per_item_best,Per-item best: original / full cascade  [800],800,3.305045962333679,0.29081106185913086
+per_item_best_ge3_5,Best: native + ≥3.5  [267 retained],267,3.708209276199341,0.6939743757247925
+normalized_per_item_best_ge3_5,Best: normalized + ≥3.5  [239 retained],239,3.700507879257202,0.6862729787826538
+per_item_best,Best: native / full cascade  [800],800,3.305045962333679,0.29081106185913086
+normalized_per_item_best,Best: normalized / full cascade  [800],800,3.276412606239319,0.2621777057647705
 clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%  [V11 cascade],800,3.2204296588897705,0.20619475841522217
 legacy_v8_exact,Historical v8/v9 · complete recipe,800,3.172455072402954,0.15822017192840576
 clearervoice_sidon_wet1,ClearVoice → Sidon · 100%,800,3.1703203916549683,0.15608549118041992
@@ -17,3 +19,4 @@ deepfilternet3_wet0.5,DF3 · 50%,800,2.978423833847046,-0.03581106662750244
 clearervoice_wet0.75,ClearVoice · 75%,800,2.9691641330718994,-0.045070767402648926
 clearervoice_wet0.5,ClearVoice · 50%,800,2.947598457336426,-0.06663644313812256
 identity_wet1,Base mono / 24 kHz / trim,800,2.921891689300537,-0.09234321117401123
+normalized_original,Normalized original,800,2.921891689300537,-0.09234321117401123
