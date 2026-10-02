@@ -68,8 +68,10 @@ increases from 9.625% to 11.236%.
 
 These aggregate similarities combine two effects: retained items had longer
 native originals (mean 6.249 s), and choosing the processed version where it
-improved quality removed an average 0.474 s across the retained items. Original
-winners keep their native timing. The sample contains 100 items per source
+improved quality removed an average 0.474 s across the retained items. This
+reduction comes from the canonical input's boundary silence trim; enhancement
+outputs are fitted to that canonical sample count. Original winners keep their
+native timing. The sample contains 100 items per source
 before filtering, so its length distribution does not represent full-corpus
 source proportions. These are the earlier pilot scores, not final V11 results.
 

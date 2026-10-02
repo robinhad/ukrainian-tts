@@ -515,6 +515,44 @@ version only when its score is strictly higher. Ties keep the original. The
 chosen score must be at least 3.5. This explicit corpus-selection policy does
 not change the report-only checkpoint thresholds or introduce HNR rejection.
 
+The audio path is:
+
+```mermaid
+flowchart LR
+    A[Native source recording] --> B[Score native original]
+    A --> C[Mono 24 kHz and boundary silence trim]
+    C --> D[ClearVoice → Sidon → DeepFilterNet3]
+    D --> E[Fit input sample count and match loudness]
+    E --> F[Score processed candidate]
+    B --> G[Choose higher overall SigMOS]
+    F --> G
+    G --> H[Keep score ≥3.5]
+    H --> I[Selected mono 24 kHz PCM24 training audio]
+```
+
+- The processed branch starts from the existing canonical non-VOA input.
+  Canonicalization uses mono 24 kHz audio, trims only leading/trailing low-RMS
+  frames at 40 dB below peak frame RMS, and keeps 100 ms safety padding at each
+  boundary. Frames are 1,024 samples with a 256-sample hop. Interior pauses are
+  preserved. The initial corpus keeps valid, non-silent canonical clips of
+  2–20 seconds, after transcript validation and deduplication.
+- The cascade uses `wet: 1.0` in
+  [`quality_v11_processing.yaml`](../conf/quality_v11_processing.yaml). After
+  enhancement, output is cropped or zero-padded to the canonical input sample
+  count. A linear gain targets that input's measured integrated LUFS, capped
+  at a −0.1 dBFS sample peak. If integrated loudness is below the measurement
+  gate, the documented fallback only limits peaks; it does not amplify the
+  suppressed signal. CPU loudness measurement and file I/O accompany CUDA
+  model inference.
+- The competing original is decoded from pinned source bytes with its native
+  timing. SigMOS uses its mono signal at the native input rate through the
+  official scorer. When this version wins, only channel count, sample rate,
+  and PCM encoding are converted for training; the boundary trim is not used.
+- Thus, a duration reduction relative to a native original comes from selecting
+  the branch with the pre-existing boundary trim. The enhancement output itself
+  has exactly the canonical input duration. Original winners retain native
+  timing, subject only to sample-rate rounding.
+
 ```bash
 sbatch training/slurm/quality_v11.sbatch
 ```
