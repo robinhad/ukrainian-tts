@@ -20,8 +20,10 @@ python -m training.scripts.select_normalized_best \
   --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
   --output training/quality_runs/normalized_original/selection --threshold 3.5 --copy-audio
 python -m training.scripts.report_normalized_original
+python -m training.scripts.report_bruteforce_sigmos
 python training/scripts/plot_processing_sigmos.py \
   --input training/reports/quality_v10_processing.csv \
   --selection training/reports/quality_v10_best_of_original_and_cascade_selection.csv \
   --normalized-selection training/reports/quality_normalized_original_selection.csv \
+  --brute-force-selection training/reports/quality_bruteforce_selection.csv \
   --output-prefix training/reports/quality_v10_processing_median_sigmos

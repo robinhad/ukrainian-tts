@@ -1,6 +1,8 @@
 profile,label,count,median_sigmos_overall,difference_from_original
+brute_force_best_ge3_5,Brute-force best + ≥3.5  [365 retained],365,3.761352062225342,0.7471171617507935
 per_item_best_ge3_5,Best: native + ≥3.5  [267 retained],267,3.708209276199341,0.6939743757247925
 normalized_per_item_best_ge3_5,Best: normalized + ≥3.5  [239 retained],239,3.700507879257202,0.6862729787826538
+brute_force_best,Brute-force best · 17 variants  [800],800,3.4491729736328125,0.43493807315826416
 per_item_best,Best: native / full cascade  [800],800,3.305045962333679,0.29081106185913086
 normalized_per_item_best,Best: normalized / full cascade  [800],800,3.276412606239319,0.2621777057647705
 clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%  [V11 cascade],800,3.2204296588897705,0.20619475841522217

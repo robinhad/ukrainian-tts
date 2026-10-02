@@ -38,6 +38,8 @@ def main():
     parser.add_argument('--output-prefix', type=Path, required=True)
     parser.add_argument('--normalized-selection', type=Path,
                         help='Normalized-original/cascade selector CSV; adds three rows')
+    parser.add_argument('--brute-force-selection', type=Path,
+                        help='Per-item maximum across all 17 scored variants; adds two rows')
     args = parser.parse_args()
     with args.input.open() as stream:
         rows = [r for r in csv.DictReader(stream)
@@ -105,6 +107,38 @@ def main():
             labels[profile] = label
             new_profiles.add(profile)
             rows.append({'profile': profile, 'count': len(values), 'median': median(values)})
+    brute_profiles = set()
+    if args.brute_force_selection:
+        with args.brute_force_selection.open() as stream:
+            brute_rows = list(csv.DictReader(stream))
+        old_by_id = {r['sample_id']: r for r in selected}
+        if (len(brute_rows) != 800 or len({r['sample_id'] for r in brute_rows}) != 800
+                or {r['sample_id'] for r in brute_rows} != set(old_by_id)):
+            raise ValueError('Brute-force selection must match the 800-recording panel')
+        variants = set(LABELS) | {'normalized_original'}
+        for row in brute_rows:
+            scores = {name: float(row[name + '_sigmos_overall']) for name in variants}
+            if not all(math.isfinite(x) and 1 <= x <= 5 for x in scores.values()):
+                raise ValueError('Invalid brute-force score')
+            if (float(row['selected_sigmos_overall']) != max(scores.values())
+                    or scores[row['selected_variant']] != max(scores.values())):
+                raise ValueError('Brute-force selection is not the maximum')
+            old = old_by_id[row['sample_id']]
+            if row['source_id'] != old['source_id'] or scores['original'] != float(old['original_sigmos_overall']):
+                raise ValueError('Brute-force reference mismatch')
+        for variant in variants:
+            expected = next((r['median'] for r in rows if r['profile'] == variant), None)
+            if expected is not None and not math.isclose(median(float(r[variant + '_sigmos_overall']) for r in brute_rows), expected, abs_tol=1e-10):
+                raise ValueError('Brute-force scores do not match plotted variant')
+        brute_best = [float(r['selected_sigmos_overall']) for r in brute_rows]
+        brute_retained = [x for x in brute_best if x >= 3.5]
+        for profile, label, values in [
+            ('brute_force_best', 'Brute-force best · 17 variants  [800]', brute_best),
+            ('brute_force_best_ge3_5', f'Brute-force best + ≥3.5  [{len(brute_retained)} retained]', brute_retained),
+        ]:
+            labels[profile] = label
+            brute_profiles.add(profile)
+            rows.append({'profile': profile, 'count': len(values), 'median': median(values)})
     rows.sort(key=lambda r: r['median'], reverse=True)
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
     with args.output_prefix.with_suffix('.csv').open('w', newline='') as stream:
@@ -130,9 +164,9 @@ def main():
         'axes.edgecolor': '#666666', 'axes.linewidth': .6,
         'xtick.color': '#555555', 'ytick.color': '#333333',
     })
-    fig, ax = plt.subplots(figsize=(13, 9 if new_profiles else 8))
+    fig, ax = plt.subplots(figsize=(14, 10 if brute_profiles else 9 if new_profiles else 8))
     for index, row in enumerate(rows):
-        selected = row['profile'] in (new_profiles or POLICY_LABELS)
+        selected = row['profile'] in (brute_profiles or new_profiles or POLICY_LABELS)
         original = row['profile'] == 'original'
         color = '#285b80' if selected else '#333333' if original else '#666666'
         marker = 's' if row['profile'].endswith('_ge3_5') else 'D' if original else 'o'
@@ -144,26 +178,29 @@ def main():
     ax.text(baseline, -1, f'Original {baseline:.3f}', ha='center', fontsize=10)
     ax.set_yticks(range(len(rows)), [labels[r['profile']] for r in rows])
     for label, row in zip(ax.get_yticklabels(), rows):
-        if row['profile'] in (new_profiles or POLICY_LABELS):
+        if row['profile'] in (brute_profiles or new_profiles or POLICY_LABELS):
             label.set_color('#285b80')
     ax.tick_params(axis='y', length=0, pad=12)
     ax.tick_params(axis='x', direction='in', length=3)
     low, high = rows[-1]['median'], rows[0]['median']
     ax.set_xlim(low - .02, high + .065)
-    ax.set_xticks([3.0, 3.2, 3.4, 3.6])
+    ax.set_xticks([x / 10 for x in range(10, 51, 2) if low - .02 <= x / 10 <= high + .065])
     ax.set_ylim(len(rows) - .3, -1.6)
     ax.spines['bottom'].set_bounds(low, high)
     ax.set_xlabel('Median overall SigMOS · higher is better (1–5 scale; zoomed axis)', labelpad=12)
     title = (f'Median SigMOS: {median(normalized_scores):.3f} normalized → {median(normalized_best):.3f} best → '
              f'{median(normalized_retained):.3f} filtered' if new_profiles else
              f'Median SigMOS: {baseline:.3f} original → {median(best):.3f} best → {median(retained):.3f} filtered')
+    if brute_profiles:
+        title = f'Brute-force selection: {median(brute_best):.3f} median SigMOS → {median(brute_retained):.3f} after ≥3.5'
     fig.text(.04, .95, title, fontsize=19)
-    fig.text(.04, .91, 'Fixed pilot · 100 recordings per source · 800 recordings per row except the two filtered subsets'
-             if new_profiles else 'Fixed pilot · 100 recordings per source · 800 recordings per row except the filtered subset', fontsize=11)
+    fig.text(.04, .91, 'Fixed pilot · 100 recordings per source · 800 recordings per row except labeled filtered subsets', fontsize=11)
     fig.text(.04, .065, 'DF3 = DeepFilterNet3. Percentages indicate enhanced-audio blend; remainder is dry audio.', fontsize=10)
     foot = (f'≥3.5 retains {len(normalized_retained)}/800 with normalized originals; {len(retained)}/800 with native originals. '
             'Filtered medians describe smaller populations.' if new_profiles else
             f'Filtered row retains {len(retained)}/800 recordings ({len(retained) / 8:.1f}%). Its median describes a smaller population.')
+    if brute_profiles:
+        foot = f'Brute-force includes native and normalized originals; ≥3.5 retains {len(brute_retained)}/800 ({len(brute_retained) / 8:.1f}%). Filtered medians describe smaller populations.'
     fig.text(.04, .038, foot, fontsize=10)
     fig.subplots_adjust(left=.39, right=.98, top=.86, bottom=.17)
     for extension in ['png', 'pdf']:

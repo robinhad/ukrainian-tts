@@ -753,6 +753,50 @@ scored, all 1,600 candidate hashes and processing inputs were checked, and all
 239 retained copies matched their scored hashes. The previous full-corpus run
 remains stopped.
 
+## Brute-force per-item selection across all processing variants
+
+The chart also includes each recording's maximum overall SigMOS across all
+**17 scored variants**: the 16 historical variants (including native original
+and the base mono/24 kHz/trim control), plus normalized original. It selects
+one existing variant per recording, not a new model cascade or an average of
+variant scores. Selection ties prefer normalized original, then native original,
+then alphabetically sorted processing names. The ≥3.5 cutoff is inclusive.
+
+All 13,600 scores cover the same 800 recording/source keys and native-reference
+hashes. Every variant's median is checked against the existing chart data.
+This is a comparison of saved scores; audio is not reprocessed or converted.
+Native-original winners retain their native timing and sample rate in this
+comparison. It is a panel result, not a full-corpus selection or training run.
+
+| Category | Items | Median overall SigMOS |
+| --- | ---: | ---: |
+| Brute-force best, all 17 variants | 800 | 3.449173 |
+| Brute-force best + ≥3.5 | 365 | 3.761352 |
+
+The filter retains **45.625%** of the panel, totaling **0.573473 hours
+(34.41 minutes)** in the selected variants, with all eight sources represented.
+That is 126 more recordings than the normalized-original/full-cascade selector.
+The filtered median describes this smaller population. Since overall SigMOS
+also determines the winner, a higher selected score is not independent
+confirmation of perceived quality or content preservation.
+
+Rebuild the sanitized decisions and chart from the repository root:
+
+```bash
+python -m training.scripts.report_bruteforce_sigmos
+python training/scripts/plot_processing_sigmos.py \
+  --input training/reports/quality_v10_processing.csv \
+  --selection training/reports/quality_v10_best_of_original_and_cascade_selection.csv \
+  --normalized-selection training/reports/quality_normalized_original_selection.csv \
+  --brute-force-selection training/reports/quality_bruteforce_selection.csv \
+  --output-prefix training/reports/quality_v10_processing_median_sigmos
+```
+
+`training/reports/quality_bruteforce_selection.csv` and `.jsonl` store all 17
+scores for each opaque recording ID, the winning variant and audio hash, and
+the retain/reject decision. `quality_bruteforce_summary.json` records medians,
+winner/source counts, tie-breaking order, and input score-file hashes.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to
