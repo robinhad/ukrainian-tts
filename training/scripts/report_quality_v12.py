@@ -8,6 +8,11 @@ import numpy as np
 
 from training.quality.common import file_hash, read_rows, write_json, write_tables
 
+SIGMOS_FIELDS = {'MOS_OVRL': 'sigmos_overall', 'MOS_SIG': 'sigmos_speech',
+                 'MOS_NOISE': 'sigmos_noise', 'MOS_COL': 'sigmos_coloration',
+                 'MOS_DISC': 'sigmos_discontinuity', 'MOS_LOUD': 'sigmos_loudness',
+                 'MOS_REVERB': 'sigmos_reverb'}
+
 
 def distribution(values):
     values = np.asarray(values, dtype=float)
@@ -39,6 +44,7 @@ def main():
         }
     assert len(boundaries) == len(rows)
     for row in rows:
+        assert row['sigmos_overall'] == row['processed_scores']['MOS_OVRL']
         row.update(boundaries[row['sample_id']])
     sources = ['all'] + sorted({r['source_id'] for r in rows})
     summaries = []
@@ -59,7 +65,10 @@ def main():
                               'mfa_flags': dict(Counter(flag for r in subset for flag in r['mfa_flags'])),
                               'sigmos_dimensions': {name: distribution([r['processed_scores'][name] for r in subset])
                                                     for name in sorted(items[0]['processed_scores'])}})
-    write_tables(args.output, 'quality_v12_scores', rows)
+    public = [{**{key: value for key, value in row.items() if key != 'processed_scores'},
+               **{name: row['processed_scores'][key] for key, name in SIGMOS_FIELDS.items()}}
+              for row in rows]
+    write_tables(args.output, 'quality_v12_scores', public)
     write_tables(args.output, 'quality_v12_distribution', summaries)
     write_json(args.output / 'quality_v12_summary.json', {
         'status': 'complete', 'run_key': complete['run_key'],
