@@ -585,5 +585,17 @@ P5/P95 values; each histogram totals 800. See the
 
 ## Remaining work
 
-Complete the 100K run, verify sustained memory stability, and compare its checkpoints. See
-[run instructions](../quality/README.md).
+Training is stopped at the user's request. The 100K target and checkpoint audio
+comparisons remain incomplete. See [run instructions](../quality/README.md)
+if a later run is authorized.
+
+## Training stopped at user request
+
+On 2 October 2026 at 05:21 Kyiv, the active training job was cancelled at
+the user’s request. The final logged update was 32,730. The latest saved
+resumable checkpoint contains 32,000 updates; both optimizer counters and
+all 549 model tensors passed the checkpoint integrity audit. Progress after
+the 32K save was not preserved. The 25K milestone and existing checkpoints
+remain on disk. Training processes exited, and monitoring helpers were stopped.
+The 100K target was not reached and checkpoint audio evaluation did not start.
+There is no active training ETA.

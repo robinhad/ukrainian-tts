@@ -1,54 +1,54 @@
 {
-  "status": "training_in_progress",
+  "status": "stopped_by_user",
   "target_steps": 100000,
-  "audited_steps": 30000,
+  "audited_steps": 32000,
   "checkpoint_audit": {
-    "epoch": 30,
+    "epoch": 32,
     "expected_optimizers": 2,
-    "expected_steps": 30000,
+    "expected_steps": 32000,
     "model_artifact": {
       "different_keys": [],
       "matches_checkpoint_model": true,
       "missing_keys": [],
       "model_tensor_count": 549,
       "nonfinite_model_tensors": [],
-      "sha256": "ba6640d78eacea542ff01afd1958c12c457b3d63fbb0817733d61fc5eba6dc5a",
+      "sha256": "4a8dac7105302f506315bc1da6370a9214c57e6c86e1ba4e8bdf2dd735fb26e4",
       "unexpected_keys": []
     },
     "model_tensor_count": 549,
     "nonfinite_model_tensors": [],
     "optimizer_count": 2,
     "optimizer_steps": [
-      30000
+      32000
     ],
     "optimizer_steps_by_optimizer": [
       [
-        30000
+        32000
       ],
       [
-        30000
+        32000
       ]
     ],
-    "reported_steps": 30000,
+    "reported_steps": 32000,
     "status": "PASS"
   },
-  "completed_epochs": 30,
+  "completed_epochs": 32,
   "resume_steps": 5000,
   "resumed_run_telemetry_through_checkpoint": {
-    "samples": 673,
+    "samples": 727,
     "interval_seconds": 60,
-    "mean_power_watts": 50.95962852897474,
+    "mean_power_watts": 51.040550206327374,
     "maximum_power_watts": 58.94,
-    "mean_gpu_utilization_percent": 86.2332838038633,
+    "mean_gpu_utilization_percent": 86.5433287482806,
     "minimum_sampled_available_memory_gib": 50.392784118652344,
     "minimum_sampled_free_disk_gib": 53.650672912597656,
     "alert_samples": 0
   },
   "cache_maintenance": {
     "interval_updates": 10,
-    "releases": 2500,
+    "releases": 2700,
     "all_live_allocations_unchanged": true,
-    "peak_live_allocated_gib": 27.034698963165283,
+    "peak_live_allocated_gib": 27.036202907562256,
     "peak_reserved_gib": 55.623046875
   },
   "optimizer_step_devices": [
@@ -60,10 +60,15 @@
     }
   ],
   "notes": [
-    "Telemetry covers the cache10 recovery from 5000 through 30000 saved updates, including initialization and validation.",
+    "Telemetry covers the cache10 recovery from 5000 through 32000 saved updates, including initialization and validation.",
     "Minimum available memory is from one-minute telemetry, not the one-second guard minimum.",
     "The counter fix and shorter cache interval changed together; this is not an isolated optimizer throughput experiment.",
     "These training and development losses are not perceptual audio-quality measurements.",
-    "Milestone audio-quality evaluation and the requested 100000-step run remain unfinished."
-  ]
+    "Stopped at the user\u2019s request. The 100000-step target and checkpoint audio-quality evaluation were not completed.",
+    "The final logged update was 32730; the latest saved resumable checkpoint contains 32000 updates. In-memory progress after that checkpoint was not saved."
+  ],
+  "last_logged_steps": 32730,
+  "resumable_steps": 32000,
+  "stopped_at_kyiv": "2026-10-02T05:21+03:00",
+  "checkpoint_audio_evaluation_status": "not_started"
 }
