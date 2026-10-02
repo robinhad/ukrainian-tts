@@ -729,6 +729,25 @@ transcripts, and local paths stay in the ignored runtime directory. The
 retained exact WAV copies are in
 `training/quality_runs/normalized_original/selection/audio_24k/`.
 
+Build the listening page for this revised selection:
+
+```bash
+python training/scripts/build_selected_audio_listening.py \
+  --original training/quality_runs/normalized_original/per_file.jsonl \
+  --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
+  --baseline normalized \
+  --selection training/quality_runs/normalized_original/selection/selection.jsonl \
+  --output training/quality_runs/normalized_original/listening
+```
+
+Open `preview.html` in that output directory for 32 embedded examples (four per
+source), or `index.html` for all 239 retained recordings. Filter by source or
+selected version: normalized original versus full cascade. Cards show the
+transcript and both scores. `listening_set.zip` includes both pages and all
+selected WAVs. The builder verifies every decision against the selector's
+JSONL and checks the chosen audio hash before copying it without conversion.
+These generated listening files remain local and ignored by Git.
+
 Validation: 12 processing/selector tests passed under SLURM, all 800 files were
 scored, all 1,600 candidate hashes and processing inputs were checked, and all
 239 retained copies matched their scored hashes. The previous full-corpus run
