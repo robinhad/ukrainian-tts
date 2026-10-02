@@ -25,7 +25,7 @@ def process_parallel(panel, profile, output, device='cuda', resume=False,
     logs.mkdir(parents=True, exist_ok=True)
     tasks = []
     fields = ('utterance_id', 'source_id', 'audio_path', 'reference_sha256',
-              'processing_audio_path', 'processing_input_sha256')
+              'processing_audio_path', 'processing_input_sha256', 'boundary_method', 'mfa_status')
     for index, start in enumerate(range(0, len(rows), chunk_size)):
         tag = f'chunk-{index}'
         subset = [{key: row[key] for key in fields if key in row}

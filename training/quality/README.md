@@ -832,7 +832,53 @@ original has priority; this does not mean it never improves the score.
 also include equal/worse counts and improvement counts against normalized
 original. These are objective SigMOS comparisons, not listener judgments.
 
-## MFA boundary-trimming pilot
+## Active processing comparison: MFA boundaries for every method
+
+The active comparison uses **MFA for all processing inputs**, replacing the
+energy-based boundary trimming in the historical V10/V11 experiments below.
+Run it on the same fixed 800 recordings (100 from each of eight non-VOA sources):
+
+```bash
+sbatch training/slurm/mfa_processing_sweep.sbatch
+```
+
+Pass any site-specific scheduler account through `sbatch --account=...`; do not
+add local scheduler details to the repository. This entry point requires the
+completed MFA alignment and boundary audit described below. It does not launch
+full-corpus processing or training.
+
+`prepare_mfa_processing.py` verifies source, alignment, and reference hashes,
+then crops the untrimmed mono 24 kHz PCM24 input at the audited MFA frame
+boundaries **without applying gain**. All 16 profiles in
+`conf/quality_mfa_sweep.yaml` consume that identical crop. The 100 ms boundary
+padding and alignment safeguards are shared: 710 accepted alignments are cut;
+90 flagged items retain their entire recording. There is no energy-trim
+fallback and no interior-silence removal. The normalized-original profile
+matches its own integrated loudness with a −0.1 dBFS peak cap; enhancement
+profiles match their final mixture to the same MFA-cut input's loudness.
+This is input loudness preservation, not a single global LUFS target.
+
+The base identity control only encodes the MFA crop. Modern enhancement
+profiles pin per-item seed 777 and disable the profiled TorchScript executor.
+The legacy cascade retains its existing DSP and degenerate-output fallback
+recipe, with MFA replacing its input trim. It is not an exact reproduction
+of the old energy-trimmed waveform or its unseeded stochastic inference.
+
+Six bounded workers run enhancement and SigMOS on the GPU; native DSP and
+RNNoise use the CPU. The run enforces memory/disk reserves, stops on worker
+failure, and emits progress, GPU power/utilization, and approximate Kyiv ETA
+every minute. On resume, audio and score caches are checked against hashes.
+Runtime inputs, audio, per-file processing metadata, all seven whole-file
+SigMOS scores, and worker logs live under
+`training/quality_runs/mfa_processing/`. This sweep recomputes **SigMOS**;
+the earlier full MFA evaluation contains Audiobox, ASR, speaker and segment
+diagnostics and is not relabeled as an evaluation of these new outputs.
+
+Historical energy-based entry points and reports below are retained for
+reproducibility only. Use this MFA entry point for new processing comparisons;
+do not feed the old energy-trimmed canonical WAVs to a new enhancement run.
+
+## MFA boundary-trimming pilot (historical comparison)
 
 The MFA experiment starts from the **800 frozen native, untrimmed recordings**,
 not from already trimmed training copies. It compares transcript-guided phone

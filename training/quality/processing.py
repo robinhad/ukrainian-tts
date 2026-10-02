@@ -47,6 +47,10 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     rows = read_rows(panel)
+    if profile.get('boundary_method') == 'mfa' and any(
+            row.get('boundary_method') != 'mfa' or row.get('mfa_status') not in
+            {'mfa_aligned', 'review_preserved_untrimmed'} for row in rows):
+        raise ValueError('This profile requires audited MFA processing inputs')
     if not 1 <= num_shards <= len(rows) or not 0 <= shard_index < num_shards:
         raise ValueError('Invalid processing shard count or index')
     if cpu_workers < 1:
@@ -124,6 +128,8 @@ def process(panel, profile_path, output, device='cuda', resume=False, cpu_worker
         atomic_write_pcm24(target, mixed, rate)
         item = {'utterance_id': row['utterance_id'], 'source_id': row['source_id'],
                 'key': key, 'profile': profile, 'backend_identity': identity,
+                'boundary_method': row.get('boundary_method', 'historical_unspecified'),
+                'mfa_status': row.get('mfa_status'),
                 'input_sha256': input_hash, 'output_sha256': file_hash(target),
                 'output_path': str(target.resolve()), 'input_frames': len(audio),
                 'processor_output_frames': raw_output_frames, 'output_frames': len(mixed),

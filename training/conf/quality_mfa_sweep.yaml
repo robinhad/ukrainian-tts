@@ -1,0 +1,24 @@
+# Every method consumes the same audited MFA crop. No energy trimming.
+defaults:
+  boundary_method: mfa
+  model_cache: training/vendor/enhancement-models
+  rnnoise_binary: training/vendor/rnnoise/examples/rnnoise_demo
+  random_seed: 777
+  torchscript_optimize: false
+profiles:
+  identity_wet1: {backend: identity, wet: 1}
+  normalized_original: {backend: identity, wet: 1, match_input_loudness: true}
+  deepfilternet3_wet0.5: {backend: deepfilternet3, wet: 0.5}
+  deepfilternet3_wet1: {backend: deepfilternet3, wet: 1}
+  deepfilternet3_peakminus3_wet1: {backend: deepfilternet3, wet: 1, input_peak_dbfs: -3}
+  deepfilternet3_peakminus3_wet0.75: {backend: deepfilternet3, wet: 0.75, input_peak_dbfs: -3}
+  clearervoice_wet0.5: {backend: clearervoice, wet: 0.5}
+  clearervoice_wet0.75: {backend: clearervoice, wet: 0.75}
+  clearervoice_wet1: {backend: clearervoice, wet: 1}
+  sidon_wet0.5: {backend: sidon, wet: 0.5}
+  sidon_wet1: {backend: sidon, wet: 1}
+  clearervoice_sidon_wet0.5: {backend: clearervoice_sidon, wet: 0.5}
+  clearervoice_sidon_wet1: {backend: clearervoice_sidon, wet: 1}
+  clearervoice_sidon_deepfilternet3_wet0.5: {backend: clearervoice_sidon_deepfilternet3, wet: 0.5}
+  clearervoice_sidon_deepfilternet3_wet1: {backend: clearervoice_sidon_deepfilternet3, wet: 1}
+  legacy_cascade: {backend: legacy_cascade, wet: 1}
