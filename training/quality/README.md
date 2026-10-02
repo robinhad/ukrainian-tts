@@ -97,6 +97,24 @@ MFA boundary guards. A 32-item SLURM smoke run covered all eight sources; its
 16 frozen pilot items reproduced identical processed PCM24 hashes and SigMOS
 scores. Full-corpus yield and training results will be recorded after completion.
 
+Full-run throughput tuning on 2026-10-02 compared consecutive Common Voice
+chunks of 2,048 files. Times include enhancement, SigMOS scoring and durable
+decisions, with the next chunk's MFA work overlapped. Audio seconds per second
+accounts for varying recording lengths; these are operational measurements on
+different chunks, not a paired benchmark of identical inputs.
+
+| Model workers | Files per worker lifetime | Measured chunks | Audio seconds / wall second |
+| --- | --- | --- | --- |
+| **12 (selected)** | **64** | **5** | **16.0309** |
+| 16 | 32 | 1 | 14.7552 |
+| 16 | 64 | 1 | 15.5564 |
+
+The higher-concurrency settings did not improve observed throughput. The run
+returned to 12 workers with 64-file lifetimes, preserving all 14,336 completed
+decisions across these trials. Inputs, processing method, seeds and score
+threshold were unchanged. Per-chunk timings and audio totals are stored in
+`training/reports/quality_v12_processing_throughput.{csv,jsonl}`.
+
 ## Fixed data
 
 Download the eight sources at the revisions already recorded in this branch:

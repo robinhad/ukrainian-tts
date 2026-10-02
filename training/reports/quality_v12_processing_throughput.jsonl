@@ -1,0 +1,7 @@
+{"workers": 12, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 481.0, "audio_seconds": 7733.132833333333, "files_per_second": 4.257796257796258, "audio_seconds_per_second": 16.077199237699237}
+{"workers": 12, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 476.0, "audio_seconds": 7656.623125, "files_per_second": 4.302521008403361, "audio_seconds_per_second": 16.085342699579833}
+{"workers": 12, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 469.0, "audio_seconds": 7545.884791666666, "files_per_second": 4.366737739872068, "audio_seconds_per_second": 16.0893065920398}
+{"workers": 12, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 473.0, "audio_seconds": 7540.553166666667, "files_per_second": 4.3298097251585626, "audio_seconds_per_second": 15.941972868217054}
+{"workers": 12, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 465.0, "audio_seconds": 7420.884541666666, "files_per_second": 4.404301075268817, "audio_seconds_per_second": 15.958891487455196}
+{"workers": 16, "worker_lifetime_files": 32, "items": 2048, "wall_seconds": 508.0, "audio_seconds": 7495.622916666666, "files_per_second": 4.031496062992126, "audio_seconds_per_second": 14.755163221784777}
+{"workers": 16, "worker_lifetime_files": 64, "items": 2048, "wall_seconds": 465.0, "audio_seconds": 7233.7045, "files_per_second": 4.404301075268817, "audio_seconds_per_second": 15.55635376344086}
