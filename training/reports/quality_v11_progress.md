@@ -48,3 +48,11 @@ counts are reported separately so they are not mistaken for a guarantee about
 the rendered training waveform.
 
 Run instructions and artifact locations are in the [quality README](../quality/README.md).
+
+Training and validation scalar metrics are configured for the `ukrainian-tts`
+W&B project, under run name `quality-v11-50k`. Authentication and run creation
+were verified before training. The uploader polls local TensorBoard scalars
+every 30 seconds and preserves optimizer iteration numbers. Model checkpoints,
+audio, source files, machine metadata, and console logs are not uploaded.
+Native ESPnet model logging is explicitly disabled. Scalar filtering, resume
+cursors, and same-step epoch updates passed the uploader regression checks.

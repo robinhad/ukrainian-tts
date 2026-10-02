@@ -559,3 +559,21 @@ Monitor `data/quality_v11/progress.json`, `quality_runs/v11/pipeline/status.json
 and `quality_runs/v11/training/status.json`. Selection progress includes an ETA
 in Europe/Kyiv time once completed chunks provide a throughput estimate. Check
 the SLURM job and logs at least every 30 minutes throughout the run.
+
+## W&B training metrics
+
+The V11 launcher uploads numeric training and validation TensorBoard scalars to
+the `ukrainian-tts` W&B project every 30 seconds, using optimizer iterations as
+`training_step`. The run is named `quality-v11-50k`. Set `WANDB_PROJECT`,
+`WANDB_NAME`, or `WANDB_ENTITY` before submission to override these defaults;
+credentials come from the existing W&B login or `WANDB_API_KEY` environment.
+`WANDB_METRICS=true` enables the same uploader for other training iterations.
+
+The uploader reads only scalar events. It does not upload model checkpoints,
+audio, source code, console logs, or training configuration files. Native ESPnet
+W&B integration and model logging are explicitly disabled. Automatic W&B code,
+machine metadata, and system-stat collection are disabled. Checkpoints and
+TensorBoard files remain local. The ignored experiment directory stores the W&B
+run ID, URL, and export cursors so a resumed training run continues the same run.
+Authentication is checked before training starts; the uploader flushes its final
+metrics when training exits.

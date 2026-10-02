@@ -55,9 +55,18 @@ if [[ -n "${INIT_CHECKPOINT:-}" ]]; then
   [[ -f "$INIT_CHECKPOINT" ]] || exit 2
   INIT_ARGS="--init_param ${INIT_CHECKPOINT}:::normalize,pitch_normalize,energy_normalize --ignore_init_mismatch false"
 fi
-"${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" \
+METRICS_RUNNER=()
+if [[ "$TRAIN_SET" == quality_v11_train ]]; then
+  WANDB_METRICS=${WANDB_METRICS:-true}
+fi
+if [[ "${WANDB_METRICS:-false}" == true ]]; then
+  METRICS_RUNNER=(python -m training.quality.wandb_metrics
+    --events "$TTS_EXP/tensorboard" --state "$TTS_EXP/wandb_metrics/state.json"
+    --project "${WANDB_PROJECT:-ukrainian-tts}" --name "${WANDB_NAME:-quality-v11-50k}" --)
+fi
+"${METRICS_RUNNER[@]}" "${ROOT}/espnet_recipe/run_expanded_v6_sidon_deess_novoa.sh" \
   --stage 7 --stop_stage 7 --tts_exp "$TTS_EXP" \
-  --train_args "--max_epoch $((STEPS / ITERS_PER_EPOCH)) --num_iters_per_epoch ${ITERS_PER_EPOCH} --batch_bins ${BATCH_BINS} --num_workers ${WORKERS} --accum_grad 1 --use_amp false --use_tf32 ${USE_TF32} --cudnn_benchmark false --keep_nbest_models 3 --num_att_plot 0 --resume ${RESUME:-false} ${INIT_ARGS}" &
+  --train_args "--max_epoch $((STEPS / ITERS_PER_EPOCH)) --num_iters_per_epoch ${ITERS_PER_EPOCH} --batch_bins ${BATCH_BINS} --num_workers ${WORKERS} --accum_grad 1 --use_amp false --use_tf32 ${USE_TF32} --cudnn_benchmark false --keep_nbest_models 3 --num_att_plot 0 --use_tensorboard true --use_wandb false --wandb_model_log_interval -1 --resume ${RESUME:-false} ${INIT_ARGS}" &
 TRAIN_PID=$!
 WATCH_PID=""
 if (( ITERS_PER_EPOCH == 1000 )); then

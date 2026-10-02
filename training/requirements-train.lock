@@ -6,6 +6,8 @@ aiohttp==3.14.2
     # via fsspec
 aiosignal==1.4.0
     # via aiohttp
+annotated-types==0.8.0
+    # via pydantic
 appdirs==1.4.4
     # via deepfilternet
 async-timeout==5.0.1
@@ -21,11 +23,15 @@ audioread==3.1.0
 babel==2.18.0
     # via csvw
 certifi==2026.7.22
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
 cffi==2.1.0
     # via soundfile
 charset-normalizer==3.4.9
     # via requests
+click==8.5.0
+    # via wandb
 coverage==7.15.2
     # via pytest-cov
 csvw==4.1.0
@@ -66,6 +72,10 @@ fsspec==2025.3.0
     #   datasets
     #   huggingface-hub
     #   torch
+gitdb==4.0.12
+    # via gitpython
+gitpython==3.2.0
+    # via wandb
 hf-xet==1.5.2
     # via huggingface-hub
 huggingface-hub==0.34.3
@@ -193,6 +203,7 @@ packaging==23.2
     #   pooch
     #   pytest
     #   speechbrain
+    #   wandb
 pandas==2.3.1
     # via
     #   -r training/requirements-train.in
@@ -200,7 +211,9 @@ pandas==2.3.1
 phonemizer==3.3.0
     # via -r training/requirements-train.in
 platformdirs==4.11.0
-    # via pooch
+    # via
+    #   pooch
+    #   wandb
 pluggy==1.6.0
     # via
     #   pytest
@@ -211,12 +224,18 @@ propcache==0.5.2
     # via
     #   aiohttp
     #   yarl
+protobuf==6.33.6
+    # via wandb
 pyarrow==21.0.0
     # via
     #   -r training/requirements-train.in
     #   datasets
 pycparser==3.0
     # via cffi
+pydantic==2.13.5
+    # via wandb
+pydantic-core==2.46.5
+    # via pydantic
 pygments==2.20.0
     # via pytest
 pyparsing==3.3.2
@@ -241,6 +260,7 @@ pyyaml==6.0.2
     #   datasets
     #   huggingface-hub
     #   hyperpyyaml
+    #   wandb
 rdflib==7.6.0
     # via csvw
 referencing==0.37.0
@@ -256,6 +276,7 @@ requests==2.34.2
     #   huggingface-hub
     #   pooch
     #   speechbrain
+    #   wandb
 resampy==0.4.3
     # via -r training/requirements-train.in
 rfc3986==1.5.0
@@ -279,10 +300,14 @@ segments==2.4.0
     # via phonemizer
 sentencepiece==0.2.1
     # via speechbrain
+sentry-sdk==2.71.0
+    # via wandb
 setuptools==83.0.0
     # via torch
 six==1.17.0
     # via python-dateutil
+smmap==5.0.3
+    # via gitdb
 soundfile==0.13.1
     # via
     #   -r training/requirements-train.in
@@ -326,15 +351,25 @@ typing-extensions==4.15.0
     #   librosa
     #   multidict
     #   phonemizer
+    #   pydantic
+    #   pydantic-core
     #   referencing
     #   torch
     #   typeguard
+    #   typing-inspection
+    #   wandb
+typing-inspection==0.4.4
+    # via pydantic
 tzdata==2026.3
     # via pandas
 uritemplate==4.2.0
     # via csvw
 urllib3==2.7.0
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
+wandb==0.25.1
+    # via -r training/requirements-train.in
 xxhash==3.8.1
     # via datasets
 yarl==1.24.5
