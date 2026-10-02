@@ -1,4 +1,6 @@
 profile,label,count,median_sigmos_overall,difference_from_original
+per_item_best_ge3_5,Per-item best + ≥3.5 filter  [267 retained],267,3.708209276199341,0.6939743757247925
+per_item_best,Per-item best: original / full cascade  [800],800,3.305045962333679,0.29081106185913086
 clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%  [V11 cascade],800,3.2204296588897705,0.20619475841522217
 legacy_v8_exact,Historical v8/v9 · complete recipe,800,3.172455072402954,0.15822017192840576
 clearervoice_sidon_wet1,ClearVoice → Sidon · 100%,800,3.1703203916549683,0.15608549118041992

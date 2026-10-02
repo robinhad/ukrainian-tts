@@ -458,14 +458,17 @@ To plot median overall SigMOS across the 16 full-panel preprocessing variants:
 ```bash
 python training/scripts/plot_processing_sigmos.py \
   --input training/reports/quality_v10_processing.csv \
+  --selection training/reports/quality_v10_best_of_original_and_cascade_selection.csv \
   --output-prefix training/reports/quality_v10_processing_median_sigmos
 ```
 
-This writes a ranked dot plot to PNG/PDF and its values to CSV. Each variant
-covers the same 800 recordings. The original baseline and full cascade used by
-V11 are marked; the earlier V10 training recipe is labeled separately. The
-smaller refinement panels are excluded. These are historical sweep scores,
-before per-item selection or the ≥3.5 cutoff. The chart uses
+This writes a ranked dot plot to PNG/PDF and its values to CSV. The 16 processing
+variants and the per-item best policy cover the same 800 recordings. A separate,
+explicitly labeled ≥3.5-filtered policy row covers 267 retained recordings.
+The original baseline is marked, and both policy rows are highlighted. The
+earlier V10 training recipe and V11 full cascade are labeled separately. The
+smaller refinement panels are excluded. These are historical pilot scores;
+the filtered median describes a different population. The chart uses
 a zoomed score axis and reports medians, rather than means or paired changes.
 
 To compare the original and highest-median method as matched histograms:
