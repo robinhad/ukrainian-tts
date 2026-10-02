@@ -86,6 +86,9 @@ every 30 minutes. Training starts only after successful full processing and
 dataset validation. Its input binding prevents reuse of a checkpoint with a
 changed corpus/configuration; resubmitting the training job resumes only the
 same V12 experiment. Checkpoints remain under `training/exp_quality_v12/`.
+The preparation audit also hashes the waveforms, embedding archives,
+normalization statistics and collected feature arrays, so replacing data at
+an unchanged path cannot silently alter a resumed run.
 
 W&B project **`ukrainian-tts`**, run **`quality-v12-mfa-best-ge3.5-50k`**, receives
 numeric training/validation metrics only. Model, audio, code and machine metadata

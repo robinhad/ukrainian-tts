@@ -29,6 +29,7 @@ def main():
         assert row['split'] == original_by_id[row['utterance_id']]['split'].replace('quality_v10_', 'quality_v12_')
         assert row['boundary_method'] == 'mfa' and 'voa' not in row['source_id'].lower()
         assert row['sigmos_overall'] >= 3.5 or row['split'].endswith('_eval')
+        assert file_hash(row['audio_path']) == row['audio_sha256'], 'Training waveform changed'
     assert {r['utterance_id'] for r in read_rows('training/quality_runs/v10/panels/heldout.jsonl')} <= heldout
     inputs = {'run_key': run['run_key'], 'records_sha256': file_hash(data / 'records.jsonl'),
               'target_steps': 50000, 'embedding_policy': 'processed_audio_only',
@@ -45,7 +46,18 @@ def main():
         for split in ['train', 'dev', 'eval']:
             artifacts.extend(Path('training/dump_quality_v12') / name / ('quality_v12_' + split) / filename
                              for name, filename in [('raw', 'wav.scp'), ('xvector', 'xvector.scp')])
-        state = {'inputs': inputs, 'files': {str(p): file_hash(p) for p in artifacts}}
+            archives = list((Path('training/dump_quality_v12/xvector') / ('quality_v12_' + split)).rglob('*.ark'))
+            assert archives, 'Missing speaker embedding archive'
+            artifacts.extend(archives)
+        stats = Path('training/exp_quality_v12/tts_stats_raw_phn_espeak_ng_ukrainian')
+        for phase in ['train', 'valid']:
+            for name in ['feats', 'pitch', 'energy']:
+                artifacts.append(stats / phase / (name + '_stats.npz'))
+                index = stats / phase / 'collect_feats' / (name + '.scp')
+                artifacts.append(index)
+                artifacts.extend(Path(line.split(maxsplit=1)[1]) for line in index.read_text().splitlines() if line.strip())
+            artifacts.extend(stats / phase / name for name in ['speech_shape', 'text_shape.phn', 'spembs_shape'])
+        state = {'inputs': inputs, 'files': {str(p): file_hash(p) for p in sorted(set(artifacts))}}
         assert json.loads((reports / 'dataset_validation.json').read_text())['status'] == 'PASS'
         assert json.loads((reports / 'embeddings.json').read_text())['status'] == 'PASS'
         prepared = reports / 'prepared.json'
