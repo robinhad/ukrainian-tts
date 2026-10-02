@@ -12,30 +12,46 @@ import statistics
 import zipfile
 
 from plot_individual_sigmos_changes import SOURCES, read_panel
+from plot_processing_sigmos import LABELS
 
 
 def page(rows, *, preview, baseline='native'):
     baseline_label = 'Normalized original' if baseline == 'normalized' else 'Native original'
     baseline_variant = 'normalized_original' if baseline == 'normalized' else 'original'
     variant_labels = {baseline_variant: baseline_label, 'processed': 'Full cascade'}
+    if baseline == 'brute_force':
+        variant_labels = {**LABELS, 'normalized_original': 'Normalized original'}
     cards = []
     for row in rows:
         source = SOURCES[row['source_id']]
+        comparison = (f"native original {row['original_score']:.3f} / selected {row['selected_score']:.3f}"
+                      if baseline == 'brute_force' else
+                      f"{baseline_label.lower()} {row['original_score']:.3f} / full cascade {row['processed_score']:.3f}")
+        reference_player = (f'<p>Native original</p><audio controls preload="none" aria-label="Native original {html.escape(source)} recording">'
+                            f'<source src="{html.escape(row["reference_url"], quote=True)}" type="audio/wav"></audio><p>Selected version</p>'
+                            if 'reference_url' in row else '')
         cards.append(f'''<article data-source="{html.escape(row['source_id'])}"
 data-variant="{row['selected_variant']}">
 <h2>{html.escape(source)} <span>{row['selected_score']:.3f} SigMOS</span></h2>
 <p class="meta">Selected: <strong>{variant_labels[row['selected_variant']]}</strong> · {row['seconds']:.2f} s
-· {baseline_label.lower()} {row['original_score']:.3f} / full cascade {row['processed_score']:.3f}</p>
+· {comparison}</p>
 <p lang="uk">{html.escape(row['text'])}</p>
+{reference_player}
 <audio controls preload="none" aria-label="Selected {html.escape(source)} recording">
 <source src="{html.escape(row['url'], quote=True)}" type="audio/wav"></audio>
 <p class="id">{row['sample_id']}</p></article>''')
     options = ''.join(f'<option value="{html.escape(k)}">{html.escape(v)}</option>' for k, v in SOURCES.items())
     subtitle = (f'{len(rows)} examples · up to four per source across retained score ranges. Audio is embedded for offline playback.'
                 if preview else f'All {len(rows)} retained recordings from the completed 800-recording pilot.')
+    title = 'Brute-force best + SigMOS ≥3.5' if baseline == 'brute_force' else 'Per-item best + SigMOS ≥3.5'
+    description = ('Compare the native original with the highest-scoring version across all 17 variants. Every selected score is at least 3.5. These are labeled listening comparisons, not a blind test.'
+                   if baseline == 'brute_force' else
+                   f'Each player contains the chosen audio: full-cascade processing if its overall SigMOS is higher, otherwise the {baseline_label.lower()}. Every selected score is at least 3.5.')
+    variants = (sorted({r['selected_variant'] for r in rows}) if baseline == 'brute_force' else [baseline_variant, 'processed'])
+    variant_options = ''.join(f'<option value="{html.escape(v)}">{html.escape(variant_labels[v])}</option>' for v in variants)
     return '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Per-item best + SigMOS ≥3.5 — listening</title>
+<title>''' + title + ''' — listening</title>
 <style>
 :root{color-scheme:light dark;--bg:#fffff8;--fg:#222;--muted:#666;--rule:#ccc;--accent:#285b80}
 @media(prefers-color-scheme:dark){:root{--bg:#151515;--fg:#ddd;--muted:#aaa;--rule:#555;--accent:#8dbadd}}
@@ -45,17 +61,17 @@ h2 span{float:right;color:var(--accent)}.meta,.id{color:var(--muted);font-size:1
 article{border-top:1px solid var(--rule);padding:18px 0}article[hidden]{display:none}audio{width:100%;max-width:640px}
 nav{display:flex;flex-wrap:wrap;gap:18px;margin:24px 0}label{display:grid;gap:5px}select{font:inherit;padding:6px;max-width:100%;color:var(--fg);background:var(--bg);border:1px solid var(--rule)}
 @media(max-width:500px){body{padding:16px}h1{font-size:26px}h2 span{float:none;display:block}nav{display:block}label{margin:12px 0}}
-</style><h1>Per-item best + SigMOS ≥3.5</h1><p>''' + subtitle + '''</p>
-<p>Each player contains the chosen audio: full-cascade processing if its overall SigMOS is higher, otherwise the ''' + baseline_label.lower() + '''. Every selected score is at least 3.5.</p>
+</style><h1>''' + title + '''</h1><p>''' + subtitle + '''</p>
+<p>''' + description + '''</p>
 <p class="meta">Full cascade: ClearVoice → Sidon → DeepFilterNet3. These are the exact scored files from the completed 800-recording pilot.</p>
 ''' + ('<p>Normalized original: mono, 24 kHz, boundary silence trimmed, input loudness matched with a −0.1 dBFS peak cap; no enhancement models.</p>' if baseline == 'normalized' else '') + '''
 <p><a href="''' + ('index.html">All retained recordings' if preview else 'preview.html">Embedded audio preview') + '''</a> · <a href="listening_set.zip">Download listening set</a></p>
 <nav aria-label="Recording filters"><label>Source<select id="source"><option value="">All sources</option>''' + options + '''</select></label>
-<label>Selected version<select id="variant"><option value="">Both versions</option><option value="''' + baseline_variant + '''">''' + baseline_label + ''' winners</option><option value="processed">Full cascade winners</option></select></label></nav>
+<label>Selected version<select id="variant"><option value="">All versions</option>''' + variant_options + '''</select></label></nav>
 <p id="count" aria-live="polite"></p><main>''' + '\n'.join(cards) + '''</main>
 <script>
 const source=document.getElementById('source'),variant=document.getElementById('variant'),cards=[...document.querySelectorAll('article')];
-function filter(){let n=0;cards.forEach(c=>{c.hidden=!!((source.value&&c.dataset.source!==source.value)||(variant.value&&c.dataset.variant!==variant.value));if(!c.hidden)n++;else c.querySelector('audio').pause()});document.getElementById('count').textContent=n+' recordings shown'}
+function filter(){let n=0;cards.forEach(c=>{c.hidden=!!((source.value&&c.dataset.source!==source.value)||(variant.value&&c.dataset.variant!==variant.value));if(!c.hidden)n++;else c.querySelectorAll('audio').forEach(a=>a.pause())});document.getElementById('count').textContent=n+' recordings shown'}
 source.addEventListener('change',filter);variant.addEventListener('change',filter);
 document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO')document.querySelectorAll('audio').forEach(a=>{if(a!==e.target)a.pause()})},true);filter();
 </script></html>'''

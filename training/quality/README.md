@@ -797,6 +797,41 @@ scores for each opaque recording ID, the winning variant and audio hash, and
 the retain/reject decision. `quality_bruteforce_summary.json` records medians,
 winner/source counts, tie-breaking order, and input score-file hashes.
 
+### Brute-force listening comparisons and improvement counts
+
+```bash
+python training/scripts/build_bruteforce_listening.py
+python training/scripts/plot_processing_improvement_counts.py
+```
+
+The listening output is `training/quality_runs/brute_force/listening/`:
+`index.html` contains all **365 retained recordings**, with a native-original
+player and selected-version player for each item. `preview.html` embeds
+**32 pairs**, four per source across the retained score range, for offline
+playback. Filter by source or winning method; cards show transcripts and
+original/selected overall SigMOS. These are labeled listening comparisons,
+not a randomized blind test or human MOS results. Native winners play the
+same audio in both players. Timing and loudness remain exactly as scored.
+`listening_set.zip` packages the pages and 730 hash-verified audio copies.
+Generated audio and pages stay local and ignored by Git.
+
+The [improvement-count chart](../reports/quality_processing_improvement_counts.png)
+shows three counts per method: strictly higher overall SigMOS than native
+original, winner among all 800 items, and winner among the 365 retained items.
+Improvement counts overlap across methods; winner counts assign each item
+exactly once using the documented tie-breaking order. Equal scores are not
+improvements. The native original has zero improvements against itself.
+
+The full cascade improves SigMOS on **501/800** items, followed by Sidon 100%
+on **471**, and ClearVoice → Sidon 100% on **466**. The full cascade wins
+97 items overall and 46 after filtering. Native original wins 157 overall
+and 82 after filtering. The base trim control wins zero ties because normalized
+original has priority; this does not mean it never improves the score.
+
+`quality_processing_improvement_counts.csv` and `.jsonl` in `training/reports/`
+also include equal/worse counts and improvement counts against normalized
+original. These are objective SigMOS comparisons, not listener judgments.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to

@@ -1,0 +1,18 @@
+profile,label,evaluated,improved_vs_native,equal_to_native,worse_vs_native,improved_vs_normalized,selected_all,selected_ge3_5
+clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%,800,501,0,299,579,97,46
+sidon_wet1,Sidon · 100%,800,471,0,329,534,72,28
+clearervoice_sidon_wet1,ClearVoice → Sidon · 100%,800,466,0,334,536,49,26
+deepfilternet3_peakminus3_wet1,DF3 · −3 dBFS input · 100%,800,465,0,335,586,64,26
+legacy_v8_exact,Historical v8/v9 · complete recipe,800,462,0,338,555,121,31
+deepfilternet3_wet1,DF3 · 100%,800,461,0,339,568,51,28
+clearervoice_sidon_deepfilternet3_wet0.5,ClearVoice → Sidon → DF3 · 50%,800,422,0,378,501,43,21
+deepfilternet3_peakminus3_wet0.75,DF3 · −3 dBFS input · 75%,800,422,0,378,539,19,7
+sidon_wet0.5,Sidon · 50%,800,416,0,384,483,29,16
+clearervoice_sidon_wet0.5,ClearVoice → Sidon · 50%,800,413,0,387,486,31,16
+clearervoice_wet1,ClearVoice · 100%,800,388,0,412,491,31,17
+deepfilternet3_wet0.5,DF3 · 50%,800,387,0,413,513,9,5
+clearervoice_wet0.75,ClearVoice · 75%,800,376,0,424,471,3,2
+clearervoice_wet0.5,ClearVoice · 50%,800,360,0,440,461,6,2
+identity_wet1,Base mono / 24 kHz / trim,800,317,0,483,10,0,0
+normalized_original,Normalized original,800,317,0,483,0,18,12
+original,Native original,800,0,800,0,483,157,82
