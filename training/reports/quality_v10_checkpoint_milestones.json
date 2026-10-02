@@ -7,7 +7,8 @@
       "bytes": 333962805,
       "checkpoint_audit": "PASS",
       "preserved_weight_matches_audited_artifact": true,
-      "audio_evaluation_status": "pending_after_training"
+      "audio_evaluation_status": "pending_after_training",
+      "last_verified_at_training_steps": 30000
     }
   ]
 }

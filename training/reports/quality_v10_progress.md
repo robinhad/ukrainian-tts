@@ -520,6 +520,17 @@ milestone remain pending after the 100K run. The
 [milestone record](quality_v10_checkpoint_milestones.json) identifies the
 preserved artifact without publishing weights or runtime paths.
 
+Training reached a verified 30K checkpoint, and the preserved 25K milestone
+still matches its recorded hash and size. All saved recovery checkpoints through
+30K passed their audits. Across 25,000 resumed updates, 2,500 cache releases
+preserved live allocations; peak live/reserved allocations were 27.03/55.62 GiB.
+The 673 one-minute samples through this save show mean power 50.96 W, maximum
+58.94 W, mean GPU utilization 86.23%, minimum sampled available memory
+50.39 GiB, and no alerts. Epoch thirty took 1,585.45 seconds for training and
+43.48 seconds for validation. Validation generator/mel losses were
+62.050/43.749, compared with 64.393/45.735 at 25K. Perceptual checkpoint
+evaluation remains pending after the 100K run.
+
 ## Original-audio score distributions
 
 The original-audio baseline contains 800 recordings, exactly 100 from each of
