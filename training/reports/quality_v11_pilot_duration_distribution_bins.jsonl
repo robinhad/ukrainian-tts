@@ -1,0 +1,12 @@
+{"count": 147, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 0.0, "percent": 18.375, "upper_seconds_exclusive": 3.0}
+{"count": 222, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 3.0, "percent": 27.75, "upper_seconds_exclusive": 5.0}
+{"count": 354, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 5.0, "percent": 44.25, "upper_seconds_exclusive": 10.0}
+{"count": 59, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 10.0, "percent": 7.375, "upper_seconds_exclusive": 15.0}
+{"count": 18, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 15.0, "percent": 2.25, "upper_seconds_exclusive": 20.0}
+{"count": 0, "group": "Before \u00b7 native originals", "lower_seconds_inclusive": 20.0, "percent": 0.0, "upper_seconds_exclusive": null}
+{"count": 49, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 0.0, "percent": 18.352059925093634, "upper_seconds_exclusive": 3.0}
+{"count": 75, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 3.0, "percent": 28.089887640449437, "upper_seconds_exclusive": 5.0}
+{"count": 113, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 5.0, "percent": 42.32209737827716, "upper_seconds_exclusive": 10.0}
+{"count": 24, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 10.0, "percent": 8.98876404494382, "upper_seconds_exclusive": 15.0}
+{"count": 6, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 15.0, "percent": 2.247191011235955, "upper_seconds_exclusive": 20.0}
+{"count": 0, "group": "After \u00b7 selected score \u22653.5", "lower_seconds_inclusive": 20.0, "percent": 0.0, "upper_seconds_exclusive": null}

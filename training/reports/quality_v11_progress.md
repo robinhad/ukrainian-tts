@@ -56,3 +56,25 @@ every 30 seconds and preserves optimizer iteration numbers. Model checkpoints,
 audio, source files, machine metadata, and console logs are not uploaded.
 Native ESPnet model logging is explicitly disabled. Scalar filtering, resume
 cursors, and same-step epoch updates passed the uploader regression checks.
+
+## Duration comparison on the completed pilot
+
+Using the earlier completed 800-recording, source-balanced evaluation, choosing
+the higher overall SigMOS and retaining scores ≥3.5 leaves 267 recordings.
+Native-original duration versus selected duration has mean 5.759 → 5.775 s,
+median 5.280 → 5.280 s, middle 50% 3.416–6.903 → 3.403–6.990 s, and
+5th–95th percentile 2.303–12.240 → 2.323–12.702 s. The share at least 10 s
+increases from 9.625% to 11.236%.
+
+These aggregate similarities combine two effects: retained items had longer
+native originals (mean 6.249 s), and choosing the processed version where it
+improved quality removed an average 0.474 s across the retained items. Original
+winners keep their native timing. The sample contains 100 items per source
+before filtering, so its length distribution does not represent full-corpus
+source proportions. These are the earlier pilot scores, not final V11 results.
+
+The [duration chart](quality_v11_pilot_duration_distribution.png),
+[summary CSV](quality_v11_pilot_duration_distribution.csv), and
+[duration bands](quality_v11_pilot_duration_distribution_bins.csv) are generated
+by `training/scripts/report_selected_duration_distribution.py`. The same
+reports are available as PDF/JSONL, with opaque per-item duration exports.
