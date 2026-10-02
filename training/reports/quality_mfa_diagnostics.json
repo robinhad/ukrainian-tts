@@ -1,0 +1,61 @@
+{
+  "count": 800,
+  "status_counts": {
+    "mfa_aligned": 710,
+    "review_preserved_untrimmed": 90
+  },
+  "flags": {
+    "large_boundary_removal": 64,
+    "unknown_phone": 26,
+    "unsupported_transcript_tokens": 26,
+    "short_speech_span": 2
+  },
+  "removed_seconds": 865.8874166666667,
+  "padding_ms": 100,
+  "max_removed_fraction": 0.5,
+  "fallback": "preserve_untrimmed_mono_24k_then_peak_safe_finalization",
+  "input_metrics_sha256": {
+    "mfa_trim": "84fc8756d250d774860c6ff4cc9ebdd6df78a135969eacec3ca761efe2d1986e",
+    "energy_trim": "80e23ddbb6c0cda87b7e80dd2721aea94e8fb330523b26dd311dc8c7c5e6c606",
+    "native_original": "689ddc226ce96e32e44d721e6c1c9cde0ef1be4a8f11df18bc572d3ae6ce9c56"
+  },
+  "improved_vs_energy": 334,
+  "improved_vs_native": 296,
+  "retained_ge3_5": 105,
+  "status_metrics": {
+    "mfa_aligned": {
+      "count": 710,
+      "median_sigmos_overall": 2.8710275888442993,
+      "median_energy_sigmos_overall": 2.922530770301819,
+      "improved_vs_energy": 300
+    },
+    "review_preserved_untrimmed": {
+      "count": 90,
+      "median_sigmos_overall": 2.9536675214767456,
+      "median_energy_sigmos_overall": 2.9185619354248047,
+      "improved_vs_energy": 34
+    }
+  },
+  "mfa_assets_config_sha256": "acad52db3420aebaf01f1420dc388a5086ea775853b238b5352b8f8be5b3a2ec",
+  "alignment_config_sha256": "976c4d54dafa4c47d89eee1fc21922e5f188d39f5730ca617ae62a2ef7dab9fb",
+  "boundary_code_sha256": "6cac104c02befbb382cccd5b958bc2dd52bd7e65bffcc198e556207a88801595",
+  "mfa_version": "2.2.17",
+  "mfa_trim_corpus_errors": {
+    "cer": 0.05610339361044684,
+    "wer": 0.15543219666931007,
+    "parakeet_cer": 0.04454953381519198,
+    "parakeet_wer": 0.12846946867565423
+  },
+  "energy_trim_corpus_errors": {
+    "cer": 0.05467931321707822,
+    "wer": 0.1526566217287867,
+    "parakeet_cer": 0.04409275331165865,
+    "parakeet_wer": 0.1293946603224954
+  },
+  "native_original_corpus_errors": {
+    "cer": 0.05451809656877234,
+    "wer": 0.15239228125826065,
+    "parakeet_cer": 0.04465701158072924,
+    "parakeet_wer": 0.12873380914618027
+  }
+}

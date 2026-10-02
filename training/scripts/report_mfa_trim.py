@@ -59,6 +59,17 @@ def main():
                         'improved_vs_energy': sum(r['sigmos_overall'] > r['energy_sigmos_overall'] for r in public),
                         'improved_vs_native': sum(r['sigmos_overall'] > r['native_sigmos_overall'] for r in public),
                         'retained_ge3_5': sum(r['sigmos_overall'] >= 3.5 for r in public)})
+    diagnostics['status_metrics'] = {}
+    for status in sorted({r['status'] for r in public}):
+        subset = [r for r in public if r['status'] == status]
+        diagnostics['status_metrics'][status] = {
+            'count': len(subset), 'median_sigmos_overall': float(np.median([r['sigmos_overall'] for r in subset])),
+            'median_energy_sigmos_overall': float(np.median([r['energy_sigmos_overall'] for r in subset])),
+            'improved_vs_energy': sum(r['sigmos_overall'] > r['energy_sigmos_overall'] for r in subset)}
+    diagnostics['mfa_assets_config_sha256'] = file_hash('training/conf/quality_mfa_assets.json')
+    diagnostics['alignment_config_sha256'] = file_hash('training/conf/quality_mfa_alignment.yaml')
+    diagnostics['boundary_code_sha256'] = file_hash('training/quality/mfa_trim.py')
+    diagnostics['mfa_version'] = '2.2.17'
     for label, panel in panels.items():
         diagnostics[label + '_corpus_errors'] = {
             metric: sum(r[numerator] for r in panel.values()) / sum(r[denominator] for r in panel.values())

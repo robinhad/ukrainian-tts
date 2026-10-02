@@ -907,6 +907,52 @@ labeled diagnostic listening set, not a human MOS study.
 The old brute-force result remains a frozen **17-variant** comparison; the
 MFA experiment is shown separately until its boundary behavior is reviewed.
 
+Completed 800-item results (2026-10-02):
+
+| Metric | Current energy trim | MFA trim + finalization |
+| --- | ---: | ---: |
+| Median overall SigMOS | 2.92189 | 2.90549 |
+| Median SigMOS speech | 3.48346 | 3.46679 |
+| Median SigMOS noise | 3.84887 | 3.88863 |
+| Median SigMOS coloration | 3.46366 | 3.47128 |
+| Median SigMOS discontinuity | 4.12490 | 4.10567 |
+| Median Audiobox PQ | 6.88481 | 6.90347 |
+| Median ECAPA similarity to native original | 0.98955 | 0.98554 |
+| Corpus Whisper CER / WER | 5.468% / 15.266% | 5.610% / 15.543% |
+| Corpus Parakeet CER / WER | 4.409% / 12.939% | 4.455% / 12.847% |
+| Items with overall SigMOS ≥3.5 | 105 | 105 |
+
+All 800 alignments exported successfully. Boundary guards accepted **710**;
+**90** review cases preserved their entire untrimmed waveform before peak-safe
+finalization. Flags overlap: 64 proposed removals over 50%, 26 unknown-phone
+cases, 26 unsupported-token cases, and 2 short speech spans. These 90 cases
+remain in all reported scores, rather than being dropped from the denominator.
+
+MFA improves overall SigMOS over energy trimming on **334/800** recordings,
+and over native originals on **296/800**. On the 710 accepted alignments alone,
+the matched medians are **2.87103 MFA vs. 2.92253 energy trim**. The panel does
+not support promoting MFA as a blanket replacement: its overall/speech SigMOS
+and Whisper content scores are slightly worse, while noise/PQ and Parakeet WER
+are slightly better. Listening and boundary review remain necessary before
+full-corpus use.
+
+The original panel totals 1.279734 hours. Current energy trim totals 1.058670
+hours; MFA's guarded output totals 1.039210 hours, removing 865.887 seconds
+from native recordings. No full-corpus extrapolation is made. The energy
+control bypasses final loudness/peak matching, whereas MFA uses the same
+finalization policy as normalized original; normalized original also has
+median overall SigMOS 2.92189. Zero clipping flags in MFA output reflect that
+peak cap, not a benefit attributable to alignment alone.
+
+Validation: 10 boundary tests passed; all 800 rendered files were verified
+against their exact contiguous input span and documented gain/PCM24 rounding.
+Reapplying the old energy trimmer to the new untrimmed alignment inputs exactly
+reproduced all 800 old canonical waveforms, ruling out a decode/resampling
+change in the comparison. Full GPU evaluation completed **800/800 with zero
+errors**, including worst-segment reports. Public paired scores and summaries
+are `training/reports/quality_mfa_per_file.{csv,jsonl}`,
+`quality_mfa_summary.{csv,jsonl}`, and `quality_mfa_diagnostics.json`.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to

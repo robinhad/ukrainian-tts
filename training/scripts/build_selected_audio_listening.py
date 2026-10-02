@@ -33,6 +33,7 @@ def page(rows, *, preview, baseline='native'):
                             f'<source src="{html.escape(row["reference_url"], quote=True)}" type="audio/wav"></audio><p>Selected version</p>'
                             if 'reference_url' in row else '')
         if 'energy_url' in row:
+            reference_player = reference_player.removesuffix('<p>Selected version</p>')
             reference_player += (f'<p>Current energy trim · {row["energy_score"]:.3f} SigMOS</p>'
                                  f'<audio controls preload="none" aria-label="Current energy trim"><source src="{html.escape(row["energy_url"], quote=True)}" type="audio/wav"></audio>'
                                  '<p>MFA trim</p>')
@@ -62,6 +63,7 @@ data-variant="{row['selected_variant']}">
         description = 'Compare native original, current energy trim, and MFA boundary trim with 100 ms padding. Review cases preserve untrimmed audio. Scores and labels are visible; this is not a blind test.'
     variants = (sorted({r['selected_variant'] for r in rows}) if baseline in {'brute_force', 'mfa'} else [baseline_variant, 'processed'])
     variant_options = ''.join(f'<option value="{html.escape(v)}">{html.escape(variant_labels[v])}</option>' for v in variants)
+    navigation = ('index.html">Local audio page' if baseline == 'mfa' else 'index.html">All retained recordings') if preview else 'preview.html">Embedded audio preview'
     return '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>''' + title + ''' — listening</title>
@@ -78,7 +80,7 @@ nav{display:flex;flex-wrap:wrap;gap:18px;margin:24px 0}label{display:grid;gap:5p
 <p>''' + description + '''</p>
 <p class="meta">''' + ('These are the exact scored files from the completed 800-recording pilot.' if baseline == 'mfa' else 'Full cascade: ClearVoice → Sidon → DeepFilterNet3. These are the exact scored files from the completed 800-recording pilot.') + '''</p>
 ''' + ('<p>Normalized original: mono, 24 kHz, boundary silence trimmed, input loudness matched with a −0.1 dBFS peak cap; no enhancement models.</p>' if baseline == 'normalized' else '') + '''
-<p><a href="''' + ('index.html">All retained recordings' if preview else 'preview.html">Embedded audio preview') + '''</a> · <a href="listening_set.zip">Download listening set</a></p>
+<p><a href="''' + navigation + '''</a> · <a href="listening_set.zip">Download listening set</a></p>
 <nav aria-label="Recording filters"><label>Source<select id="source"><option value="">All sources</option>''' + options + '''</select></label>
 <label>Selected version<select id="variant"><option value="">All versions</option>''' + variant_options + '''</select></label></nav>
 <p id="count" aria-live="polite"></p><main>''' + '\n'.join(cards) + '''</main>
