@@ -479,3 +479,20 @@ This checks identical 800-item coverage and writes PNG/PDF with shared axes and
 0.2-point bins, plus summary and histogram CSV/JSONL. Threshold counts use exact
 per-file scores, independently of histogram bins. Only aggregate values are
 exported; private paths and transcripts are omitted.
+
+To visualize individual original-to-cascade changes:
+
+```bash
+python training/scripts/plot_individual_sigmos_changes.py \
+  --original training/quality_runs/v10/search/original/per_file.jsonl \
+  --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
+  --output-prefix training/reports/quality_v10_individual_sigmos_changes
+```
+
+The PNG/PDF pairs a before/after scatter plot with individual changes by source.
+CSV/JSONL exports contain opaque sample identifiers, sources, scores, and signed
+changes; separate summaries report per-source and pooled statistics. Matching
+uses original utterance/source keys before anonymizing the exported identifiers.
+Positive and negative counts use any nonzero difference, not a calibrated
+meaningful-change threshold. Median individual change differs from the
+difference between the two groups' medians.

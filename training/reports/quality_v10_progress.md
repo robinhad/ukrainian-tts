@@ -555,6 +555,18 @@ every recording. [Summary CSV](quality_v10_original_vs_cascade.csv),
 [bin counts](quality_v10_original_vs_cascade_bins.csv), and
 [PDF](quality_v10_original_vs_cascade.pdf) preserve the comparison.
 
+The [individual-change plot](quality_v10_individual_sigmos_changes.png) pairs
+each original recording with its full-cascade result. Of 800 items, 501 (62.625%)
+have higher overall SigMOS and 299 (37.375%) have lower scores. The median paired
+change is +0.135, the mean is +0.199, and the middle 90% spans −0.608 to +1.159.
+These counts use any nonzero difference, without a calibrated meaningful-change
+threshold. Median changes by source are +0.597 for UA-SER, +0.391 for TG voices,
++0.375 for Ukrainian dialects, +0.194 for FLEURS, +0.119 for Common Voice,
+−0.068 for Lada, −0.104 for Mykyta, and −0.129 for Tetiana. The
+[per-recording CSV](quality_v10_individual_sigmos_changes.csv) contains opaque
+sample identifiers and scores; the [summary CSV](quality_v10_individual_sigmos_changes_summary.csv)
+and [PDF](quality_v10_individual_sigmos_changes.pdf) preserve the source breakdown.
+
 The original-audio baseline contains 800 recordings, exactly 100 from each of
 eight non-VOA sources. It describes that balanced sample, not all 80,751 corpus
 recordings or their source proportions. Whole-file model estimates are:
