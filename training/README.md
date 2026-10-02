@@ -9,6 +9,10 @@ The current preprocessing comparison uses shared MFA boundary cuts for every
 method; see the [MFA sweep instructions](quality/README.md#active-processing-comparison-mfa-boundaries-for-every-method).
 Historical energy-trimmed recipes below are retained for reproduction.
 
+The [V12 full-corpus run](quality/README.md#full-corpus-mfa-best-method-run-v12-50k-steps)
+applies the best single MFA cascade, retains processed train/dev audio with
+SigMOS ≥3.5, and trains a fresh model for 50K steps with metrics-only W&B logging.
+
 See [Audio Enhancement Backend Review](reports/audio_enhancement_backend_review.md)
 for the matched source-audio comparison of DeepFilterNet3, Sidon, Resemble
 Enhance, and MossFormer2_SE_48K.

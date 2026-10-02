@@ -65,6 +65,17 @@ and `complete.json`. `progress.json` reports completion and a measured ETA in
 `Europe/Kyiv`. An ETA appears after the first complete chunk. Scratch output,
 audio, models and machine-specific paths stay ignored.
 
+After processing completes, export portable per-item scores, all-source and
+per-source distributions (including standard deviation and duration quantiles),
+retained hours and Ukrainian alphabet coverage with:
+
+```bash
+training/.venv/bin/python -m training.scripts.report_quality_v12
+```
+
+This writes `training/reports/quality_v12_scores.{csv,jsonl}`,
+`quality_v12_distribution.{csv,jsonl}`, and `quality_v12_summary.json`.
+
 Both SLURM launchers run the supervisor at 60-second intervals, recording
 process state, GPU utilization/power, memory, free disk and log activity under
 `training/quality_runs/v12/`. Inspect those records and the active log at least
