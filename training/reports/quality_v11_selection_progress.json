@@ -1,0 +1,60 @@
+{
+  "checked_kyiv": "2026-10-02T06:44:59+03:00",
+  "status": "selection_in_progress",
+  "training_started": false,
+  "scope": "Completed atomic decisions only; source order is sequential, so this is not a representative full-corpus sample.",
+  "expected_recordings": 80751,
+  "completed_decisions": 10304,
+  "completed_by_source": {
+    "common_voice_available_uk": 10304
+  },
+  "retained": 1897,
+  "retained_hours": 2.5236655555555556,
+  "retained_selected_variants": {
+    "original": 754,
+    "processed": 1143
+  },
+  "retained_rendered_score_below_3_5": 44,
+  "native_original_sigmos": {
+    "mean": 2.9544325144672245,
+    "p05": 2.24212247133255,
+    "p25": 2.6972172260284424,
+    "median": 2.9670357704162598,
+    "p75": 3.22941654920578,
+    "p95": 3.605005264282227
+  },
+  "processed_sigmos": {
+    "mean": 3.1237272638943256,
+    "p05": 2.5732477068901063,
+    "p25": 2.911899507045746,
+    "median": 3.1321849822998047,
+    "p75": 3.3469526171684265,
+    "p95": 3.6600241541862486
+  },
+  "retained_selected_sigmos": {
+    "mean": 3.6702611308130515,
+    "p05": 3.513050985336304,
+    "p25": 3.5626444816589355,
+    "median": 3.6362836360931396,
+    "p75": 3.736168146133423,
+    "p95": 3.9417677402496336
+  },
+  "native_original_duration_seconds": {
+    "mean": 4.898198757763976,
+    "p05": 2.92,
+    "p25": 3.66,
+    "median": 4.62,
+    "p75": 5.88,
+    "p95": 7.86
+  },
+  "retained_duration_seconds": {
+    "mean": 4.789244069583553,
+    "p05": 2.3653333333333335,
+    "p25": 3.534666666666667,
+    "median": 4.58,
+    "p75": 5.864,
+    "p95": 7.796799999999998
+  },
+  "run_key": "2430eeb2b876f8c007e3ef892b28cff1c0a90e3d3d74ea4539b053e7136ba924",
+  "checkpoint_uploads_enabled": false
+}

@@ -78,3 +78,14 @@ The [duration chart](quality_v11_pilot_duration_distribution.png),
 [duration bands](quality_v11_pilot_duration_distribution_bins.csv) are generated
 by `training/scripts/report_selected_duration_distribution.py`. The same
 reports are available as PDF/JSONL, with opaque per-item duration exports.
+
+## Full-corpus selection progress
+
+The [progress snapshot](quality_v11_selection_progress.json) records 10,304
+completed Common Voice decisions, retaining 1,897 recordings (2.524 hours):
+1,143 processed winners and 754 original winners. Retained selected SigMOS has
+median 3.636 and mean 3.670. After rendering as training audio, 44 retained items
+score below 3.5; the native-original selection policy remains unchanged.
+This snapshot covers only the first source being processed and must not be
+extrapolated directly to the complete eight-source corpus. Training has not
+started at this snapshot; processing and monitoring continue.
