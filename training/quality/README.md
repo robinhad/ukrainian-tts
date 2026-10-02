@@ -132,9 +132,10 @@ remain unfiltered and contribute a separate 2.09777 processed hours.
 All per-item scores and per-source distributions are exported in the portable
 reports above.
 
-Training is in progress. The first five completed epochs (5,000 of 50,000
+Training is in progress. The first ten completed epochs (10,000 of 50,000
 steps) passed without nonfinite losses or resource alerts. Validation mel
-loss decreased from **66.61093** at 1K to **53.85093** at 5K. These are model
+loss decreased from **66.61093** at 1K to **53.85093** at 5K and **49.77389**
+at 10K; its lowest observed value so far is **49.35898** at 9K. These are model
 losses, not audio-quality MOS measurements. Paired epoch summaries are in
 `training/reports/quality_v12_training_epochs.{csv,jsonl}`. Export an updated
 snapshot from TensorBoard with:
