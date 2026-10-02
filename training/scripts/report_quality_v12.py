@@ -27,6 +27,19 @@ def main():
     assert complete['status'] == 'complete'
     rows = read_rows(args.input / 'scores.jsonl')
     assert len(rows) == complete['evaluated']
+    boundaries = {}
+    for path in (args.input / 'decisions').glob('*.json'):
+        decision = json.loads(path.read_text())
+        assert decision['run_key'] == complete['run_key']
+        audit = decision['mfa']
+        boundaries[decision['sample_id']] = {
+            'input_duration_seconds': audit['input_frames'] / 24000,
+            'removed_seconds': (audit['input_frames'] - audit['output_frames']) / 24000,
+            'mfa_flags': audit['flags'],
+        }
+    assert len(boundaries) == len(rows)
+    for row in rows:
+        row.update(boundaries[row['sample_id']])
     sources = ['all'] + sorted({r['source_id'] for r in rows})
     summaries = []
     for source in sources:
@@ -37,9 +50,13 @@ def main():
                               ('heldout_unfiltered', [r for r in items if r['heldout']])]:
             summaries.append({'source_id': source, 'population': label, 'items': len(subset),
                               'hours': sum(r['duration_seconds'] for r in subset) / 3600,
+                              'input_hours': sum(r['input_duration_seconds'] for r in subset) / 3600,
                               'sigmos_overall': distribution([r['sigmos_overall'] for r in subset]),
                               'duration_seconds': distribution([r['duration_seconds'] for r in subset]),
+                              'input_duration_seconds': distribution([r['input_duration_seconds'] for r in subset]),
+                              'removed_seconds': distribution([r['removed_seconds'] for r in subset]),
                               'mfa_status': dict(Counter(r['mfa_status'] for r in subset)),
+                              'mfa_flags': dict(Counter(flag for r in subset for flag in r['mfa_flags'])),
                               'sigmos_dimensions': {name: distribution([r['processed_scores'][name] for r in subset])
                                                     for name in sorted(items[0]['processed_scores'])}})
     write_tables(args.output, 'quality_v12_scores', rows)

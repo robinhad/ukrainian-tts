@@ -75,6 +75,9 @@ training/.venv/bin/python -m training.scripts.report_quality_v12
 
 This writes `training/reports/quality_v12_scores.{csv,jsonl}`,
 `quality_v12_distribution.{csv,jsonl}`, and `quality_v12_summary.json`.
+The distributions include both untrimmed input and processed durations for
+each population, plus removed seconds and overlapping MFA review flags, so
+boundary changes can be distinguished from the effect of quality filtering.
 
 Both SLURM launchers run the supervisor at 60-second intervals, recording
 process state, GPU utilization/power, memory, free disk and log activity under
