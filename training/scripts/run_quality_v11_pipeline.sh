@@ -8,7 +8,7 @@ export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export QUALITY_RUN_DIR="${ROOT}/quality_runs/v11"
 mkdir -p "$QUALITY_RUN_DIR"
 python -m training.scripts.select_quality_v11 \
-  --workers "${PROCESS_MODEL_WORKERS:-2}" --chunk-size "${PROCESS_CHUNK_SIZE:-128}"
+  --workers "${PROCESS_MODEL_WORKERS:-8}" --chunk-size "${PROCESS_CHUNK_SIZE:-64}"
 bash "${ROOT}/scripts/prepare_quality_v11.sh"
 export TRAIN_SET=quality_v11_train VALID_SET=quality_v11_dev TEST_SETS=quality_v11_eval
 export MANIFEST_DIR="${ROOT}/data/quality_v11/manifests"

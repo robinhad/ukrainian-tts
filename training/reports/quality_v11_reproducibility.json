@@ -32,7 +32,7 @@
     "Sidon",
     "DeepFilterNet3"
   ],
-  "scope": "Three repeated GPU passes of one diagnostic recording; broader worker-count comparison pending.",
+  "scope": "Three repeated GPU passes of one diagnostic recording, plus identical retained audio hashes and processed SigMOS on all 256 benchmark items with 4 and 8 workers.",
   "processing_controls": {
     "random_seed": 777,
     "seed_scope": "per_recording",

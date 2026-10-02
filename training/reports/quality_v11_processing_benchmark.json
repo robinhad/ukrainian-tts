@@ -1,0 +1,31 @@
+{
+  "files": 256,
+  "max_processed_sigmos_difference_between_worker_counts": 0.0,
+  "changed_decisions": 0,
+  "different_retained_files": 0,
+  "trials": [
+    {
+      "workers": 4,
+      "chunk_size": 32,
+      "elapsed_seconds": 100.84698567099986,
+      "files_per_second": 2.538499274883303,
+      "power_mean_watts": 32.433499999999995,
+      "power_max_watts": 43.44,
+      "minimum_available_memory_gib": 97.77851867675781,
+      "returncode": 0
+    },
+    {
+      "workers": 8,
+      "chunk_size": 32,
+      "elapsed_seconds": 85.72252074399148,
+      "files_per_second": 2.986379749197281,
+      "power_mean_watts": 36.65882352941177,
+      "power_max_watts": 50.8,
+      "minimum_available_memory_gib": 81.58548736572266,
+      "returncode": 0
+    }
+  ],
+  "selected_workers": 8,
+  "production_chunk_size": 64,
+  "limitation": "Short balanced benchmark; production duration/source mix and longer process lifetimes can change throughput and memory use."
+}

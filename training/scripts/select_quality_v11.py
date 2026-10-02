@@ -133,6 +133,9 @@ def finish(args, rows):
                    for split in sorted({d['record']['split'] for d in retained})}})
     write_json(args.output / 'complete.json', {'status': 'complete', 'run_key': args.run_key,
                'evaluated': len(rows), 'retained': len(retained), 'hours': groups[0]['hours']})
+    now = datetime.now(ZoneInfo('Europe/Kyiv')).isoformat(timespec='seconds')
+    write_json(args.output / 'progress.json', {'status': 'complete', 'checked_kyiv': now,
+               'completed': len(rows), 'expected': len(rows), 'workers': 0, 'eta_kyiv': now})
 
 
 def run(args):
@@ -271,8 +274,8 @@ def main():
     parser.add_argument('--sigmos-dir', type=Path, default=Path('training/vendor/quality-models/SIG-Challenge/ICASSP2024/sigmos'))
     parser.add_argument('--output', type=Path, default=Path('training/data/quality_v11'))
     parser.add_argument('--threshold', type=float, default=3.5)
-    parser.add_argument('--workers', type=int, default=2)
-    parser.add_argument('--chunk-size', type=int, default=128)
+    parser.add_argument('--workers', type=int, default=8)
+    parser.add_argument('--chunk-size', type=int, default=64)
     parser.add_argument('--limit', type=int, default=0)
     parser.add_argument('--worker-panel', type=Path)
     parser.add_argument('--run-key')

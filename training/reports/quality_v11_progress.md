@@ -31,7 +31,20 @@ A larger benchmark caught malformed UTF-8 container tags. Native decoding now
 replaces invalid metadata bytes while leaving decoded PCM unchanged; a real
 malformed-tag regression fixture verifies this behavior. The relevant 23
 pipeline tests passed in the GPU allocation, and the additional metadata test
-passed separately. A 256-recording, eight-source benchmark is comparing four
-and eight workers before the full run. Training has not started yet.
+passed separately. The 256-recording, eight-source benchmark completed in
+100.85 seconds with four workers and 85.72 seconds with eight workers. All 256
+processed scores, selection decisions and retained audio hashes matched exactly
+between worker counts. Eight workers reached 50.8 W peak power with at least
+81.6 GiB available memory. See the [benchmark report](quality_v11_processing_benchmark.json).
+Production uses eight workers with 64-file lifetimes, preserving a 24 GiB
+available-memory guard. The longer production lifetimes and corpus source mix
+may change throughput and memory use. Training starts after full-corpus selection
+and preparation complete.
+
+In the benchmark, 19 of 93 retained items had rendered 24 kHz scores below 3.5
+after choosing their higher-scoring native originals. These remain retained
+under the requested native-original selection rule; the output scores and
+counts are reported separately so they are not mistaken for a guarantee about
+the rendered training waveform.
 
 Run instructions and artifact locations are in the [quality README](../quality/README.md).
