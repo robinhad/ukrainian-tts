@@ -13,4 +13,4 @@ export PATH="$PWD/training/.venv/bin:$PWD/training/quality_runs/mfa_trim/tools/e
 export PYTHONPATH="$PWD:${PYTHONPATH:-}"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 PYTHONUNBUFFERED=1
 python -m training.scripts.prepare_mfa_processing
-python -m training.scripts.run_mfa_processing_sweep --workers "${PROCESS_WORKERS:-6}"
+python -m training.scripts.run_mfa_processing_sweep --workers "${PROCESS_WORKERS:-12}"

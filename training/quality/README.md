@@ -869,7 +869,8 @@ The legacy cascade retains its existing DSP and degenerate-output fallback
 recipe, with MFA replacing its input trim. It is not an exact reproduction
 of the old energy-trimmed waveform or its unseeded stochastic inference.
 
-Six bounded workers run enhancement and SigMOS on the GPU; native DSP and
+The SLURM launcher defaults to 12 bounded workers (override `PROCESS_WORKERS`)
+running enhancement and SigMOS on the GPU; native DSP and
 RNNoise use the CPU. The run enforces memory/disk reserves, stops on worker
 failure, and emits progress, GPU power/utilization, and approximate Kyiv ETA
 every minute. On resume, audio and score caches are checked against hashes.
@@ -901,6 +902,69 @@ selection remains report-only.
 Historical energy-based entry points and reports below are retained for
 reproducibility only. Use this MFA entry point for new processing comparisons;
 do not feed the old energy-trimmed canonical WAVs to a new enhancement run.
+
+### Completed MFA sweep results
+
+All **16 × 800 = 12,800** processed recordings completed and received all seven
+whole-file SigMOS scores. Each method has the same 800-item panel; selection
+rows have the counts shown. No training or full-corpus processing was started.
+
+[Median ± SD chart](../reports/quality_mfa_processing_median_sigmos.png) ·
+[PDF](../reports/quality_mfa_processing_median_sigmos.pdf) ·
+[all metrics by method and source](../reports/quality_mfa_processing_summary.csv) ·
+[per-file scores](../reports/quality_mfa_processing_per_file.csv) ·
+[selection decisions](../reports/quality_mfa_processing_selection.csv)
+
+| Method | Items | Median overall SigMOS | Population SD |
+|---|---:|---:|---:|
+| Native original | 800 | 3.01423 | 0.55825 |
+| MFA crop only | 800 | 2.90549 | 0.53897 |
+| Normalized original | 800 | 2.90549 | 0.53898 |
+| DF3 · 50% | 800 | 2.95398 | 0.50008 |
+| DF3 · 100% | 800 | 3.07477 | 0.44824 |
+| DF3 · −3 dBFS input · 100% | 800 | 3.06980 | 0.43377 |
+| DF3 · −3 dBFS input · 75% | 800 | 2.99594 | 0.47209 |
+| ClearVoice · 50% | 800 | 2.91382 | 0.50174 |
+| ClearVoice · 75% | 800 | 2.94383 | 0.47972 |
+| ClearVoice · 100% | 800 | 3.00691 | 0.45596 |
+| Sidon · 50% | 800 | 3.02982 | 0.47748 |
+| Sidon · 100% | 800 | 3.12138 | 0.42316 |
+| ClearVoice → Sidon · 50% | 800 | 3.05390 | 0.46734 |
+| ClearVoice → Sidon · 100% | 800 | 3.14003 | 0.40875 |
+| ClearVoice → Sidon → DF3 · 50% | 800 | 3.06087 | 0.46933 |
+| ClearVoice → Sidon → DF3 · 100% | 800 | 3.16157 | 0.40077 |
+| Legacy cascade (MFA input) | 800 | 3.13916 | 0.35890 |
+| Best per item: normalized / full cascade | 800 | 3.22735 | 0.40189 |
+| Best per item + ≥3.5 | 206 | 3.70974 | 0.20223 |
+| Brute force (all 16 MFA variants) | 800 | 3.37825 | 0.36428 |
+| Brute force + ≥3.5 | 307 | 3.73888 | 0.20348 |
+
+The best single enhancement is **ClearVoice → Sidon → DeepFilterNet3 at 100% wet**:
+median **3.16157**, SD **0.40077**. Choosing it versus normalized original per
+item gives median **3.22735**; the ≥3.5 filter retains **206 recordings**,
+**0.298838 hours** (17.93 minutes). The cascade wins 550/800 comparisons and
+normalized original wins or ties 250/800. Among retained items, the split is
+117 cascade / 89 normalized original.
+
+Brute force over all 16 MFA variants gives median **3.37825**, SD **0.36428**.
+Its ≥3.5 subset contains **307 recordings**, **0.439582 hours** (26.37 minutes),
+with median **3.73888**, SD **0.20348**. These are observed pilot durations,
+not extrapolations to the full dataset. Native untrimmed audio is a reference
+only and cannot win either selector.
+
+All scored output hashes and shared MFA input hashes were checked. Every
+processed output preserves the MFA input frame count. All 208 worker tasks
+used the same SigMOS code and weights. Normalized-original audio and scores
+exactly match the earlier MFA baseline for all 800 recordings. The 26 relevant
+boundary, processing, provenance, and selection/statistics tests passed.
+
+The sweep used 12 concurrent workers after a cache-preserving concurrency
+adjustment. Sampled GPU utilization during the modern cascades was about
+88–96%; those samples drew roughly 44–50 W. Power did not reach 100 W.
+No worker failed. Native DSP/RNNoise remained on CPU; enhancement models and
+SigMOS were verified on CUDA. Historical/new enhancement differences should
+not be attributed solely to trimming: the new modern profiles also pin the
+per-item seed and TorchScript execution mode. Historical reports are preserved.
 
 ## MFA boundary-trimming pilot (historical comparison)
 

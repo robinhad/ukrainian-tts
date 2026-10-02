@@ -44,6 +44,15 @@ def report(run, config_path, native_path, output):
     completed = json.loads((run / 'complete.json').read_text())
     if completed['status'] != 'complete' or completed['profiles'] != names:
         raise ValueError('Sweep is not complete')
+    scorer_identities = set()
+    for task_path in (run / 'workers').glob('*.task.json'):
+        done = json.loads(task_path.with_suffix('.done.json').read_text())
+        if done['task_sha256'] != file_hash(task_path):
+            raise ValueError('Worker task changed after scoring')
+        identity = done['sigmos_identity']
+        scorer_identities.add((identity['code_sha256'], identity['model_sha256']))
+    if len(scorer_identities) != 1:
+        raise ValueError('Workers did not use the same SigMOS code and weights')
     panel = read_rows(run / 'panel.jsonl')
     expected = {r['utterance_id']: r for r in panel}
     if (len(expected) != 800 or len(panel) != 800
@@ -51,6 +60,9 @@ def report(run, config_path, native_path, output):
         raise ValueError('Expected the same balanced 800-item panel')
     profiles, public = {}, []
     for name in ['original'] + names:
+        if name != 'original' and yaml.safe_load((run / name / 'profile.yaml').read_text()) != {
+                **config['defaults'], **config['profiles'][name]}:
+            raise ValueError('Executed profile differs from the declared comparison')
         rows = read_rows(native_path if name == 'original' else run / name / 'per_file.jsonl')
         indexed = {r['utterance_id']: r for r in rows}
         if len(indexed) != len(rows) or indexed.keys() != expected.keys():
@@ -63,7 +75,7 @@ def report(run, config_path, native_path, output):
             if file_hash(path) != row['audio_sha256']:
                 raise ValueError('Scored audio changed')
             if name != 'original' and (row['processing_input_sha256'] != source['processing_input_sha256']
-                                      or row['boundary_method'] != 'mfa'):
+                                      or row['boundary_method'] != 'mfa' or row['profile'] != name):
                 raise ValueError('Methods did not use the same MFA input')
             row['sample_id'] = source['sample_id']
             metrics = {k: float(v) for k, v in row.items() if k.startswith('sigmos_')}
@@ -98,6 +110,8 @@ def report(run, config_path, native_path, output):
                    'selection_candidates': names, 'native_reference_excluded_from_selectors': True,
                    'mfa_status_counts': dict(Counter(r['mfa_status'] for r in panel)),
                    'profile_config_sha256': file_hash(config_path),
+                   'sigmos_code_sha256': next(iter(scorer_identities))[0],
+                   'sigmos_model_sha256': next(iter(scorer_identities))[1],
                    'panel_sha256': file_hash(run / 'panel.jsonl'),
                    'policies': {}}
     for policy in ['normalized_best', 'brute_force']:
@@ -140,7 +154,7 @@ def plot(rows, best_method, prefix):
                          'savefig.facecolor': '#fffff8', 'axes.spines.top': False,
                          'axes.spines.right': False, 'axes.grid': False})
     fig, ax = plt.subplots(figsize=(16, 10.5))
-    fig.subplots_adjust(left=.405, right=.84, bottom=.11, top=.85)
+    fig.subplots_adjust(left=.405, right=.84, bottom=.145, top=.85)
     for row, y in zip(ordered, positions):
         color = '#4e79a7' if row['profile'] in {best_method, 'brute_force_ge3_5'} else '#666666'
         ax.errorbar(row['median'], y, xerr=row['stddev_population'], fmt='o', markersize=4,

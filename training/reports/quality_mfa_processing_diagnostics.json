@@ -1,0 +1,86 @@
+{
+  "selection_mode": "report_only",
+  "best_single_enhancement": "clearervoice_sidon_deepfilternet3_wet1",
+  "raw_variants": 16,
+  "items_per_raw_variant": 800,
+  "standard_deviation": "population SD across recordings, ddof=0; not a confidence interval",
+  "selection_candidates": [
+    "identity_wet1",
+    "normalized_original",
+    "deepfilternet3_wet0.5",
+    "deepfilternet3_wet1",
+    "deepfilternet3_peakminus3_wet1",
+    "deepfilternet3_peakminus3_wet0.75",
+    "clearervoice_wet0.5",
+    "clearervoice_wet0.75",
+    "clearervoice_wet1",
+    "sidon_wet0.5",
+    "sidon_wet1",
+    "clearervoice_sidon_wet0.5",
+    "clearervoice_sidon_wet1",
+    "clearervoice_sidon_deepfilternet3_wet0.5",
+    "clearervoice_sidon_deepfilternet3_wet1",
+    "legacy_cascade"
+  ],
+  "native_reference_excluded_from_selectors": true,
+  "mfa_status_counts": {
+    "mfa_aligned": 710,
+    "review_preserved_untrimmed": 90
+  },
+  "profile_config_sha256": "6c69d1caa6fa3cf36a1bda7379df7d4631522418e307fd2de003e3f9ee2d4ac5",
+  "sigmos_code_sha256": "e6883ee45d29b3f7e81b393e5e33aa1db9e7f18137e0bab8fdd49f1f2447ca27",
+  "sigmos_model_sha256": "f939dcc1945055a435565b4369e27dafd0f87df3cea4e2ff6eb81225e52cc53b",
+  "panel_sha256": "f1b0e2df42577b678f72a85b7deaee667edd03bd13c8ef0ea93285cc34e8c5c2",
+  "policies": {
+    "normalized_best": {
+      "retained_ge3_5": 206,
+      "retained_hours": 0.2988377662037037,
+      "winner_counts_all": {
+        "normalized_original": 250,
+        "clearervoice_sidon_deepfilternet3_wet1": 550
+      },
+      "winner_counts_retained": {
+        "clearervoice_sidon_deepfilternet3_wet1": 117,
+        "normalized_original": 89
+      }
+    },
+    "brute_force": {
+      "retained_ge3_5": 307,
+      "retained_hours": 0.4395818171296296,
+      "winner_counts_all": {
+        "normalized_original": 42,
+        "clearervoice_sidon_deepfilternet3_wet1": 108,
+        "sidon_wet1": 84,
+        "sidon_wet0.5": 47,
+        "deepfilternet3_peakminus3_wet0.75": 18,
+        "legacy_cascade": 145,
+        "deepfilternet3_wet1": 75,
+        "clearervoice_sidon_wet1": 57,
+        "deepfilternet3_peakminus3_wet1": 71,
+        "clearervoice_wet0.5": 5,
+        "clearervoice_sidon_deepfilternet3_wet0.5": 54,
+        "clearervoice_wet1": 39,
+        "clearervoice_sidon_wet0.5": 34,
+        "clearervoice_wet0.75": 7,
+        "deepfilternet3_wet0.5": 14
+      },
+      "winner_counts_retained": {
+        "sidon_wet1": 40,
+        "sidon_wet0.5": 25,
+        "legacy_cascade": 37,
+        "normalized_original": 25,
+        "clearervoice_wet0.5": 2,
+        "deepfilternet3_wet1": 30,
+        "deepfilternet3_peakminus3_wet1": 33,
+        "clearervoice_sidon_wet1": 18,
+        "clearervoice_sidon_deepfilternet3_wet1": 40,
+        "clearervoice_wet0.75": 3,
+        "clearervoice_sidon_deepfilternet3_wet0.5": 14,
+        "clearervoice_sidon_wet0.5": 13,
+        "deepfilternet3_peakminus3_wet0.75": 7,
+        "clearervoice_wet1": 11,
+        "deepfilternet3_wet0.5": 9
+      }
+    }
+  }
+}
