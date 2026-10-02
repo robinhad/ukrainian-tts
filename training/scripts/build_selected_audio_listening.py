@@ -16,20 +16,29 @@ from plot_processing_sigmos import LABELS
 
 
 def page(rows, *, preview, baseline='native'):
-    baseline_label = 'Normalized original' if baseline == 'normalized' else 'Native original'
+    mfa_brute_force = baseline == 'mfa_brute_force'
+    baseline_label = 'Normalized original' if baseline == 'normalized' or mfa_brute_force else 'Native original'
     baseline_variant = 'normalized_original' if baseline == 'normalized' else 'original'
     variant_labels = {baseline_variant: baseline_label, 'processed': 'Full cascade'}
     if baseline == 'brute_force':
         variant_labels = {**LABELS, 'normalized_original': 'Normalized original'}
     if baseline == 'mfa':
         variant_labels = {'mfa_trim': 'MFA boundary trim / normalize'}
+    if mfa_brute_force:
+        variant_labels = {k: v.replace('  [V10 training]', '').replace('  [V11 cascade]', '')
+                          for k, v in LABELS.items()}
+        variant_labels.update(normalized_original='Normalized original · MFA',
+                              identity_wet1='MFA crop only', legacy_cascade='Legacy cascade · MFA input')
     cards = []
     for row in rows:
         source = SOURCES[row['source_id']]
         comparison = (f"native original {row['original_score']:.3f} / selected {row['selected_score']:.3f}"
-                      if baseline in {'brute_force', 'mfa'} else
+                      if baseline in {'brute_force', 'mfa', 'mfa_brute_force'} else
                       f"{baseline_label.lower()} {row['original_score']:.3f} / full cascade {row['processed_score']:.3f}")
-        reference_player = (f'<p>Native original</p><audio controls preload="none" aria-label="Native original {html.escape(source)} recording">'
+        if mfa_brute_force:
+            comparison = (f"normalized original {row['original_score']:.3f} / selected {row['selected_score']:.3f}"
+                          f" / change {row['selected_score'] - row['original_score']:+.3f}")
+        reference_player = (f'<p>{baseline_label}</p><audio controls preload="none" aria-label="{baseline_label} {html.escape(source)} recording">'
                             f'<source src="{html.escape(row["reference_url"], quote=True)}" type="audio/wav"></audio><p>Selected version</p>'
                             if 'reference_url' in row else '')
         if 'energy_url' in row:
@@ -40,7 +49,7 @@ def page(rows, *, preview, baseline='native'):
         review = ('<p class="meta">Review: ' + html.escape(', '.join(row['review_flags'])) +
                   ' · untrimmed audio preserved</p>' if row.get('review_flags') else '')
         cards.append(f'''<article data-source="{html.escape(row['source_id'])}"
-data-variant="{row['selected_variant']}">
+data-variant="{row['selected_variant']}" data-score="{row['selected_score']}">
 <h2>{html.escape(source)} <span>{row['selected_score']:.3f} SigMOS</span></h2>
 <p class="meta">Selected: <strong>{variant_labels[row['selected_variant']]}</strong> · {row['seconds']:.2f} s
 · {comparison}</p>
@@ -61,9 +70,20 @@ data-variant="{row['selected_variant']}">
         title = 'MFA boundary trimming — listening comparison'
         subtitle = f'{len(rows)} examples · four per source, emphasizing large trims and review cases. No SigMOS cutoff.'
         description = 'Compare native original, current energy trim, and MFA boundary trim with 100 ms padding. Review cases preserve untrimmed audio. Scores and labels are visible; this is not a blind test.'
-    variants = (sorted({r['selected_variant'] for r in rows}) if baseline in {'brute_force', 'mfa'} else [baseline_variant, 'processed'])
+    if mfa_brute_force:
+        title = 'MFA brute-force selection — listening'
+        subtitle = (f'{len(rows)} embedded examples · up to four per source across the retained score range. Audio works offline.'
+                    if preview else f'All {len(rows)} recordings from the completed source-balanced pilot. The ≥3.5 filter is selected initially.')
+        description = ('Compare normalized original with the highest overall SigMOS version across all 16 MFA-based variants. '
+                       'Both players use the same MFA boundaries; flagged alignments preserve untrimmed audio. '
+                       'Scores and method names are visible; this is a labeled comparison, not a blind test.')
+    variants = (sorted({r['selected_variant'] for r in rows}) if baseline in {'brute_force', 'mfa', 'mfa_brute_force'} else [baseline_variant, 'processed'])
     variant_options = ''.join(f'<option value="{html.escape(v)}">{html.escape(variant_labels[v])}</option>' for v in variants)
     navigation = ('index.html">Local audio page' if baseline == 'mfa' else 'index.html">All retained recordings') if preview else 'preview.html">Embedded audio preview'
+    if mfa_brute_force and preview:
+        navigation = 'index.html">All 800 recordings and score filter'
+    score_filter = ('<label>Selected SigMOS<select id="minimum"><option value="3.5" selected>≥3.5</option>'
+                    '<option value="0">All scores</option></select></label>' if mfa_brute_force else '')
     return '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>''' + title + ''' — listening</title>
@@ -82,12 +102,12 @@ nav{display:flex;flex-wrap:wrap;gap:18px;margin:24px 0}label{display:grid;gap:5p
 ''' + ('<p>Normalized original: mono, 24 kHz, boundary silence trimmed, input loudness matched with a −0.1 dBFS peak cap; no enhancement models.</p>' if baseline == 'normalized' else '') + '''
 <p><a href="''' + navigation + '''</a> · <a href="listening_set.zip">Download listening set</a></p>
 <nav aria-label="Recording filters"><label>Source<select id="source"><option value="">All sources</option>''' + options + '''</select></label>
-<label>Selected version<select id="variant"><option value="">All versions</option>''' + variant_options + '''</select></label></nav>
+<label>Selected version<select id="variant"><option value="">All versions</option>''' + variant_options + '''</select></label>''' + score_filter + '''</nav>
 <p id="count" aria-live="polite"></p><main>''' + '\n'.join(cards) + '''</main>
 <script>
-const source=document.getElementById('source'),variant=document.getElementById('variant'),cards=[...document.querySelectorAll('article')];
-function filter(){let n=0;cards.forEach(c=>{c.hidden=!!((source.value&&c.dataset.source!==source.value)||(variant.value&&c.dataset.variant!==variant.value));if(!c.hidden)n++;else c.querySelectorAll('audio').forEach(a=>a.pause())});document.getElementById('count').textContent=n+' recordings shown'}
-source.addEventListener('change',filter);variant.addEventListener('change',filter);
+const source=document.getElementById('source'),variant=document.getElementById('variant'),minimum=document.getElementById('minimum'),cards=[...document.querySelectorAll('article')];
+function filter(){let n=0;cards.forEach(c=>{c.hidden=!!((source.value&&c.dataset.source!==source.value)||(variant.value&&c.dataset.variant!==variant.value)||(minimum&&Number(c.dataset.score)<Number(minimum.value)));if(!c.hidden)n++;else c.querySelectorAll('audio').forEach(a=>a.pause())});document.getElementById('count').textContent=n+' of '+cards.length+' recordings shown'}
+source.addEventListener('change',filter);variant.addEventListener('change',filter);if(minimum)minimum.addEventListener('change',filter);
 document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO')document.querySelectorAll('audio').forEach(a=>{if(a!==e.target)a.pause()})},true);filter();
 </script></html>'''
 

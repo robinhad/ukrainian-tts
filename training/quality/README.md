@@ -966,6 +966,35 @@ SigMOS were verified on CUDA. Historical/new enhancement differences should
 not be attributed solely to trimming: the new modern profiles also pin the
 per-item seed and TorchScript execution mode. Historical reports are preserved.
 
+### MFA brute-force listening page
+
+Build paired comparisons from the exact scored files and published decisions:
+
+```bash
+training/.venv/bin/python training/scripts/build_mfa_bruteforce_listening.py
+```
+
+The output is `training/quality_runs/mfa_processing/listening/`:
+
+- `index.html` contains all **800** pairs. Its initial ≥3.5 filter shows **307**
+  recordings; choose **All scores** to hear the rest. Source and winning-method
+  filters combine with the score filter.
+- Each pair compares **normalized original with MFA boundaries** against the
+  highest-scoring version across all **16 MFA variants**. It displays the
+  Ukrainian transcript, winning method, original/selected SigMOS, score change,
+  duration, and alignment-review flags. The 90 flagged alignments remain
+  untrimmed in both versions. Native untrimmed audio is not a selection candidate.
+- `preview.html` embeds **32 pairs**, four per source spanning the retained
+  score range, for playback from a single HTML file.
+- `listening_set.zip` packages both pages, the decisions/report, and **1,600**
+  WAV copies. Extract it and open `index.html` for offline playback.
+
+The builder checks every per-item maximum and exact-tie preference against the
+saved scores, verifies the shared MFA input/reference hashes, and hash-checks
+every copied WAV. It does not reprocess or normalize the listening audio.
+These are labeled comparisons, not a blind listening test. Pages, transcripts,
+audio and archives remain local and ignored by Git.
+
 ## MFA boundary-trimming pilot (historical comparison)
 
 The MFA experiment starts from the **800 frozen native, untrimmed recordings**,
