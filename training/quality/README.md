@@ -603,6 +603,31 @@ and `quality_runs/v11/training/status.json`. Selection progress includes an ETA
 in Europe/Kyiv time once completed chunks provide a throughput estimate. Check
 the SLURM job and logs at least every 30 minutes throughout the run.
 
+## Listen to the per-item selection + ≥3.5 pilot
+
+Generate a browser listening set from the exact files scored in the completed
+800-recording pilot:
+
+```bash
+python training/scripts/build_selected_audio_listening.py \
+  --original training/quality_runs/v10/search/original/per_file.jsonl \
+  --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
+  --output training/quality_runs/v11/listening_selected_pilot
+```
+
+Open `preview.html` in a browser for 32 embedded clips, four per source spread
+across the retained score range. It is self-contained and works offline. Open
+`index.html` for all 267 retained clips, or extract `listening_set.zip` and open
+its `index.html`. Keep the extracted `audio` directory beside that page.
+Source/version filters, transcripts, both scores, and the selected version are
+shown. Each player contains only the chosen audio. The set contains 144 processed
+winners and 123 original winners; selected median SigMOS is 3.708.
+
+The builder checks each file against the checksum recorded during evaluation
+and copies it without conversion. This listening set matches the historical
+pilot chart; the ongoing full-corpus V11 selection is a separate run. Generated
+pages, audio, transcripts, and archives remain under the ignored runtime tree.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to
