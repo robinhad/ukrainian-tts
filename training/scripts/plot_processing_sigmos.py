@@ -11,7 +11,7 @@ LABELS = {
     'deepfilternet3_wet0.5': 'DF3 · 50%',
     'deepfilternet3_wet1': 'DF3 · 100%',
     'deepfilternet3_peakminus3_wet1': 'DF3 · −3 dBFS input · 100%',
-    'deepfilternet3_peakminus3_wet0.75': 'DF3 · −3 dBFS input · 75%  [selected]',
+    'deepfilternet3_peakminus3_wet0.75': 'DF3 · −3 dBFS input · 75%  [V10 training]',
     'clearervoice_wet0.5': 'ClearVoice · 50%',
     'clearervoice_wet0.75': 'ClearVoice · 75%',
     'clearervoice_wet1': 'ClearVoice · 100%',
@@ -20,10 +20,10 @@ LABELS = {
     'clearervoice_sidon_wet0.5': 'ClearVoice → Sidon · 50%',
     'clearervoice_sidon_wet1': 'ClearVoice → Sidon · 100%',
     'clearervoice_sidon_deepfilternet3_wet0.5': 'ClearVoice → Sidon → DF3 · 50%',
-    'clearervoice_sidon_deepfilternet3_wet1': 'ClearVoice → Sidon → DF3 · 100%',
+    'clearervoice_sidon_deepfilternet3_wet1': 'ClearVoice → Sidon → DF3 · 100%  [V11 cascade]',
     'legacy_v8_exact': 'Historical v8/v9 · complete recipe',
 }
-SELECTED = 'deepfilternet3_peakminus3_wet0.75'
+SELECTED = 'clearervoice_sidon_deepfilternet3_wet1'
 
 
 def main():
@@ -95,7 +95,7 @@ def main():
     fig.text(.04, .95, f"Full cascade leads median overall SigMOS at {high:.3f}", fontsize=19)
     fig.text(.04, .91, 'Same 800 non-VOA recordings per variant · 100 per source · whole-file scores', fontsize=11)
     fig.text(.04, .065, 'DF3 = DeepFilterNet3. Percentages indicate enhanced-audio blend; remainder is dry audio.', fontsize=10)
-    fig.text(.04, .038, 'Selected recipe also balances content and speaker preservation. Smaller refinement panels are excluded.', fontsize=10)
+    fig.text(.04, .038, 'Earlier sweep, before per-item selection or ≥3.5 filtering. Full-corpus V11 scoring is still running.', fontsize=10)
     fig.subplots_adjust(left=.39, right=.98, top=.86, bottom=.17)
     for extension in ['png', 'pdf']:
         fig.savefig(args.output_prefix.with_suffix('.' + extension), dpi=170)

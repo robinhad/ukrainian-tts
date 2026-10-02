@@ -462,8 +462,10 @@ python training/scripts/plot_processing_sigmos.py \
 ```
 
 This writes a ranked dot plot to PNG/PDF and its values to CSV. Each variant
-covers the same 800 recordings. The original baseline and selected training
-recipe are marked; the smaller refinement panels are excluded. The chart uses
+covers the same 800 recordings. The original baseline and full cascade used by
+V11 are marked; the earlier V10 training recipe is labeled separately. The
+smaller refinement panels are excluded. These are historical sweep scores,
+before per-item selection or the ≥3.5 cutoff. The chart uses
 a zoomed score axis and reports medians, rather than means or paired changes.
 
 To compare the original and highest-median method as matched histograms:

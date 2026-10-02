@@ -1,5 +1,5 @@
 profile,label,count,median_sigmos_overall,difference_from_original
-clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%,800,3.2204296588897705,0.20619475841522217
+clearervoice_sidon_deepfilternet3_wet1,ClearVoice → Sidon → DF3 · 100%  [V11 cascade],800,3.2204296588897705,0.20619475841522217
 legacy_v8_exact,Historical v8/v9 · complete recipe,800,3.172455072402954,0.15822017192840576
 clearervoice_sidon_wet1,ClearVoice → Sidon · 100%,800,3.1703203916549683,0.15608549118041992
 sidon_wet1,Sidon · 100%,800,3.158408284187317,0.14417338371276855
@@ -8,7 +8,7 @@ deepfilternet3_wet1,DF3 · 100%,800,3.106109142303467,0.09187424182891846
 clearervoice_sidon_deepfilternet3_wet0.5,ClearVoice → Sidon → DF3 · 50%,800,3.0949223041534424,0.08068740367889404
 clearervoice_sidon_wet0.5,ClearVoice → Sidon · 50%,800,3.067782998085022,0.05354809761047363
 sidon_wet0.5,Sidon · 50%,800,3.0558425188064575,0.04160761833190918
-deepfilternet3_peakminus3_wet0.75,DF3 · −3 dBFS input · 75%  [selected],800,3.0381444692611694,0.023909568786621094
+deepfilternet3_peakminus3_wet0.75,DF3 · −3 dBFS input · 75%  [V10 training],800,3.0381444692611694,0.023909568786621094
 clearervoice_wet1,ClearVoice · 100%,800,3.0166043043136597,0.002369403839111328
 original,Native original,800,3.0142349004745483,0.0
 deepfilternet3_wet0.5,DF3 · 50%,800,2.978423833847046,-0.03581106662750244
