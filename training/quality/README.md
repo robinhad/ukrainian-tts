@@ -4,6 +4,11 @@ Run all commands from the repository root. The evaluator measures quality. It
 does not reject recordings or select checkpoints. All threshold flags are
 report-only. HNR is not a metric or a rejection condition in this evaluator.
 
+For new preprocessing comparisons, use the
+[MFA sweep](#active-processing-comparison-mfa-boundaries-for-every-method).
+It replaces energy-based trimming for every current processing variant.
+Older versioned commands and measurements below document historical runs.
+
 ## Fixed data
 
 Download the eight sources at the revisions already recorded in this branch:
@@ -873,6 +878,25 @@ SigMOS scores, and worker logs live under
 `training/quality_runs/mfa_processing/`. This sweep recomputes **SigMOS**;
 the earlier full MFA evaluation contains Audiobox, ASR, speaker and segment
 diagnostics and is not relabeled as an evaluation of these new outputs.
+
+After successful completion, publish the sanitized tables and figure:
+
+```bash
+training/.venv/bin/python -m training.scripts.report_mfa_processing
+```
+
+Outputs are `training/reports/quality_mfa_processing_*`: per-file scores,
+aggregate statistics by method/source/metric, per-item selections, diagnostic
+JSON, and the median overall SigMOS chart in PNG/PDF. The figure shows
+**median ± population standard deviation** (`ddof=0`); SD describes variation
+between recordings and is not a confidence interval for the median. Native
+untrimmed audio appears only as a reference. Both selectors use MFA variants
+exclusively: normalized original versus the enhancement method with the best
+panel median, and brute-force maximum over all 16 MFA variants. Exact ties
+prefer normalized original, then alphabetical method name. Each selector has
+an inclusive ≥3.5 row with its own retained count. These selected/filtered
+scores describe in-sample metric optimization, not held-out model quality;
+selection remains report-only.
 
 Historical energy-based entry points and reports below are retained for
 reproducibility only. Use this MFA entry point for new processing comparisons;

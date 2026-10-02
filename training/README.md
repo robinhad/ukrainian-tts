@@ -5,6 +5,10 @@ see [quality evaluation](quality/README.md). This adds SigMOS, Audiobox PQ,
 Whisper CER/WER, ECAPA similarity, and local signal diagnostics to the existing
 milestone evaluator. It does not use HNR rejection.
 
+The current preprocessing comparison uses shared MFA boundary cuts for every
+method; see the [MFA sweep instructions](quality/README.md#active-processing-comparison-mfa-boundaries-for-every-method).
+Historical energy-trimmed recipes below are retained for reproduction.
+
 See [Audio Enhancement Backend Review](reports/audio_enhancement_backend_review.md)
 for the matched source-audio comparison of DeepFilterNet3, Sidon, Resemble
 Enhance, and MossFormer2_SE_48K.

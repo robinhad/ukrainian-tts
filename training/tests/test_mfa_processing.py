@@ -66,3 +66,18 @@ def test_mfa_profile_rejects_historical_energy_inputs(tmp_path):
     profile.write_text('backend: identity\nboundary_method: mfa\n')
     with pytest.raises(ValueError, match='requires audited MFA'):
         process(panel, profile, tmp_path / 'output', device='cpu')
+
+
+def test_population_sd_and_selectors_do_not_use_native_reference():
+    from training.scripts.report_mfa_processing import selections, summarize
+    summary = summarize([1., 2., 3., 4.])
+    assert summary['median'] == 2.5
+    assert summary['stddev_population'] == pytest.approx(np.sqrt(1.25))
+    common = {'sample_id': 'a', 'source_id': 's', 'duration_seconds': 2., 'audio_sha256': 'hash'}
+    profiles = {name: {'a': {**common, 'sigmos_overall': score}} for name, score in
+                [('original', 5.), ('normalized_original', 3.5), ('enhancement', 3.5), ('other', 3.6)]}
+    selected = selections(profiles, ['normalized_original', 'enhancement', 'other'], 'enhancement', 3.5)
+    assert selected[0]['selected_profile'] == 'normalized_original'
+    assert selected[0]['retained'] is True  # Inclusive threshold and normalized-first exact tie.
+    assert selected[1]['selected_profile'] == 'other'
+    assert selected[1]['sigmos_overall'] == 3.6
