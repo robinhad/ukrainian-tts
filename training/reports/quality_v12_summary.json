@@ -1,0 +1,161 @@
+{
+  "status": "complete",
+  "run_key": "f4cf065d4b289f554a0b8c50741bc58fe83634c03020e0137318763894d3a2ea",
+  "profile": "MFA + ClearVoice → Sidon → DeepFilterNet3 (100% wet)",
+  "threshold": 3.5,
+  "threshold_scope": "train/dev only; fixed heldout unfiltered",
+  "scores_sha256": "617b559dbd722f6cc458face77966aa523863999a5c9e24fb3363c1c6b5d5b58",
+  "coverage": {
+    "training_letters": {
+      "а": 52292,
+      "б": 12610,
+      "в": 30735,
+      "г": 8706,
+      "ґ": 94,
+      "д": 19852,
+      "е": 28340,
+      "є": 3269,
+      "ж": 5998,
+      "з": 12699,
+      "и": 38633,
+      "і": 31478,
+      "ї": 3552,
+      "й": 7711,
+      "к": 21692,
+      "л": 23736,
+      "м": 17200,
+      "н": 34533,
+      "о": 55163,
+      "п": 13639,
+      "р": 22758,
+      "с": 22745,
+      "т": 30797,
+      "у": 20707,
+      "ф": 742,
+      "х": 5946,
+      "ц": 4991,
+      "ч": 7513,
+      "ш": 5513,
+      "щ": 4482,
+      "ь": 9508,
+      "ю": 5039,
+      "я": 13793
+    },
+    "missing_training_letters": [],
+    "splits": {
+      "quality_v12_train": 10187,
+      "quality_v12_eval": 1688,
+      "quality_v12_dev": 196
+    }
+  },
+  "retention": [
+    {
+      "source_id": "all",
+      "evaluated": 80751,
+      "train_dev_retained": 10383,
+      "train_dev_hours": 16.840181828703706,
+      "heldout_preserved": 1688,
+      "median_retained_sigmos": 3.6316566467285156,
+      "alignment_status": {
+        "mfa_aligned": 75972,
+        "review_preserved_untrimmed": 4779
+      }
+    },
+    {
+      "source_id": "common_voice_available_uk",
+      "evaluated": 41180,
+      "train_dev_retained": 3885,
+      "train_dev_hours": 4.257500752314815,
+      "heldout_preserved": 878,
+      "median_retained_sigmos": 3.611194372177124,
+      "alignment_status": {
+        "mfa_aligned": 39345,
+        "review_preserved_untrimmed": 1835
+      }
+    },
+    {
+      "source_id": "fleurs_uk",
+      "evaluated": 1897,
+      "train_dev_retained": 362,
+      "train_dev_hours": 1.1202197916666667,
+      "heldout_preserved": 32,
+      "median_retained_sigmos": 3.651541829109192,
+      "alignment_status": {
+        "mfa_aligned": 1471,
+        "review_preserved_untrimmed": 426
+      }
+    },
+    {
+      "source_id": "opentts_lada",
+      "evaluated": 5266,
+      "train_dev_retained": 92,
+      "train_dev_hours": 0.10471405092592592,
+      "heldout_preserved": 115,
+      "median_retained_sigmos": 3.566501021385193,
+      "alignment_status": {
+        "mfa_aligned": 3871,
+        "review_preserved_untrimmed": 1395
+      }
+    },
+    {
+      "source_id": "opentts_mykyta",
+      "evaluated": 1417,
+      "train_dev_retained": 592,
+      "train_dev_hours": 0.621022638888889,
+      "heldout_preserved": 30,
+      "median_retained_sigmos": 3.6790047883987427,
+      "alignment_status": {
+        "mfa_aligned": 1400,
+        "review_preserved_untrimmed": 17
+      }
+    },
+    {
+      "source_id": "opentts_tetiana",
+      "evaluated": 1568,
+      "train_dev_retained": 566,
+      "train_dev_hours": 0.6730567708333334,
+      "heldout_preserved": 37,
+      "median_retained_sigmos": 3.6516366004943848,
+      "alignment_status": {
+        "mfa_aligned": 1268,
+        "review_preserved_untrimmed": 300
+      }
+    },
+    {
+      "source_id": "tg_voices_uk",
+      "evaluated": 618,
+      "train_dev_retained": 89,
+      "train_dev_hours": 0.10170559027777779,
+      "heldout_preserved": 14,
+      "median_retained_sigmos": 3.6240627765655518,
+      "alignment_status": {
+        "mfa_aligned": 602,
+        "review_preserved_untrimmed": 16
+      }
+    },
+    {
+      "source_id": "ua_ser",
+      "evaluated": 470,
+      "train_dev_retained": 32,
+      "train_dev_hours": 0.023286666666666664,
+      "heldout_preserved": 11,
+      "median_retained_sigmos": 3.6544480323791504,
+      "alignment_status": {
+        "mfa_aligned": 433,
+        "review_preserved_untrimmed": 37
+      }
+    },
+    {
+      "source_id": "ukr_dialects",
+      "evaluated": 28335,
+      "train_dev_retained": 4765,
+      "train_dev_hours": 9.93867556712963,
+      "heldout_preserved": 571,
+      "median_retained_sigmos": 3.642298460006714,
+      "alignment_status": {
+        "mfa_aligned": 27582,
+        "review_preserved_untrimmed": 753
+      }
+    }
+  ]
+}

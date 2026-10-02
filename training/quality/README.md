@@ -101,7 +101,36 @@ Preflight validation: 18 focused tests passed, including threshold inclusivity,
 held-out preservation, stable split-specific alignment chunks on resume, and
 MFA boundary guards. A 32-item SLURM smoke run covered all eight sources; its
 16 frozen pilot items reproduced identical processed PCM24 hashes and SigMOS
-scores. Full-corpus yield and training results will be recorded after completion.
+scores. The completed full-corpus run reproduced identical waveform hashes and
+overall SigMOS scores for **all 800** frozen pilot items.
+
+Full processing completed on 2026-10-02. All 80,751 recordings were scored;
+75,972 received MFA boundary cuts and 4,779 retained their complete boundaries
+with review flags. Before filtering, processed audio totals 103.61172 hours,
+with overall SigMOS median **3.11425** and population standard deviation
+**0.35369**. The decoded, untrimmed inputs total 126.38546 hours; this differs
+from historical energy-trimmed corpus durations.
+
+The ≥3.5 threshold retains **10,383 train/dev items (16.84018 hours)**:
+10,187 training items and 196 development items. Their overall SigMOS median
+is **3.63166**, mean **3.67003**, and population standard deviation **0.14717**.
+Median retained duration is 4.73 seconds. Training transcripts cover all 33
+Ukrainian letters, including 94 occurrences of ґ. The 1,688 held-out items
+remain unfiltered and contribute a separate 2.09777 processed hours.
+
+| Source | Retained train/dev items | Hours | Median overall SigMOS |
+| --- | ---: | ---: | ---: |
+| Common Voice | 3,885 | 4.25750 | 3.61119 |
+| FLEURS | 362 | 1.12022 | 3.65154 |
+| OpenTTS Lada | 92 | 0.10471 | 3.56650 |
+| OpenTTS Mykyta | 592 | 0.62102 | 3.67900 |
+| OpenTTS Tetiana | 566 | 0.67306 | 3.65164 |
+| Telegram voices | 89 | 0.10171 | 3.62406 |
+| UA SER | 32 | 0.02329 | 3.65445 |
+| Ukrainian dialects | 4,765 | 9.93868 | 3.64230 |
+
+All per-item scores and per-source distributions are exported in the portable
+reports above. Training results will be recorded after the 50K run completes.
 
 Full-run throughput tuning on 2026-10-02 compared consecutive Common Voice
 chunks of 2,048 files. Times include enhancement, SigMOS scoring and durable
