@@ -567,6 +567,18 @@ threshold. Median changes by source are +0.597 for UA-SER, +0.391 for TG voices,
 sample identifiers and scores; the [summary CSV](quality_v10_individual_sigmos_changes_summary.csv)
 and [PDF](quality_v10_individual_sigmos_changes.pdf) preserve the source breakdown.
 
+The [per-item best plot](quality_v10_best_of_original_and_cascade.png) applies
+the requested hypothetical rule: use processed audio when its overall SigMOS
+is higher, otherwise keep original audio. It chooses 501 processed items and
+299 originals. Mean overall SigMOS becomes 3.311, median 3.305, and the middle
+90% spans 2.679–3.941. There are 267/800 (33.375%) scores at or above 3.5 and
+30/800 (3.75%) at or above 4.0. Every chosen score is at least its original by
+construction; this is not independent validation of the selection rule or
+evidence that other quality metrics improve. Audio and training inputs remain
+unchanged. [Summary CSV](quality_v10_best_of_original_and_cascade.csv),
+[per-item choices](quality_v10_best_of_original_and_cascade_selection.csv), and
+[PDF](quality_v10_best_of_original_and_cascade.pdf) preserve the result.
+
 The original-audio baseline contains 800 recordings, exactly 100 from each of
 eight non-VOA sources. It describes that balanced sample, not all 80,751 corpus
 recordings or their source proportions. Whole-file model estimates are:

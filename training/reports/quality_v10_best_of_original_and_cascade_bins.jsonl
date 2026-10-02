@@ -1,0 +1,40 @@
+{"count": 0, "group": "Original", "lower_inclusive": 1.0, "percent": 0.0, "upper": 1.2, "upper_inclusive": false}
+{"count": 2, "group": "Original", "lower_inclusive": 1.2, "percent": 0.25, "upper": 1.4, "upper_inclusive": false}
+{"count": 6, "group": "Original", "lower_inclusive": 1.4, "percent": 0.75, "upper": 1.6, "upper_inclusive": false}
+{"count": 6, "group": "Original", "lower_inclusive": 1.6, "percent": 0.75, "upper": 1.8, "upper_inclusive": false}
+{"count": 18, "group": "Original", "lower_inclusive": 1.8, "percent": 2.25, "upper": 2.0, "upper_inclusive": false}
+{"count": 35, "group": "Original", "lower_inclusive": 2.0, "percent": 4.375, "upper": 2.2, "upper_inclusive": false}
+{"count": 65, "group": "Original", "lower_inclusive": 2.2, "percent": 8.125, "upper": 2.4000000000000004, "upper_inclusive": false}
+{"count": 63, "group": "Original", "lower_inclusive": 2.4000000000000004, "percent": 7.875, "upper": 2.6, "upper_inclusive": false}
+{"count": 92, "group": "Original", "lower_inclusive": 2.6, "percent": 11.5, "upper": 2.8, "upper_inclusive": false}
+{"count": 100, "group": "Original", "lower_inclusive": 2.8, "percent": 12.5, "upper": 3.0, "upper_inclusive": false}
+{"count": 110, "group": "Original", "lower_inclusive": 3.0, "percent": 13.75, "upper": 3.2, "upper_inclusive": false}
+{"count": 101, "group": "Original", "lower_inclusive": 3.2, "percent": 12.625, "upper": 3.4000000000000004, "upper_inclusive": false}
+{"count": 91, "group": "Original", "lower_inclusive": 3.4000000000000004, "percent": 11.375, "upper": 3.6, "upper_inclusive": false}
+{"count": 55, "group": "Original", "lower_inclusive": 3.6, "percent": 6.875, "upper": 3.8000000000000003, "upper_inclusive": false}
+{"count": 33, "group": "Original", "lower_inclusive": 3.8000000000000003, "percent": 4.125, "upper": 4.0, "upper_inclusive": false}
+{"count": 18, "group": "Original", "lower_inclusive": 4.0, "percent": 2.25, "upper": 4.2, "upper_inclusive": false}
+{"count": 4, "group": "Original", "lower_inclusive": 4.2, "percent": 0.5, "upper": 4.4, "upper_inclusive": false}
+{"count": 0, "group": "Original", "lower_inclusive": 4.4, "percent": 0.0, "upper": 4.6, "upper_inclusive": false}
+{"count": 1, "group": "Original", "lower_inclusive": 4.6, "percent": 0.125, "upper": 4.800000000000001, "upper_inclusive": false}
+{"count": 0, "group": "Original", "lower_inclusive": 4.800000000000001, "percent": 0.0, "upper": 5.0, "upper_inclusive": true}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 1.0, "percent": 0.0, "upper": 1.2, "upper_inclusive": false}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 1.2, "percent": 0.0, "upper": 1.4, "upper_inclusive": false}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 1.4, "percent": 0.0, "upper": 1.6, "upper_inclusive": false}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 1.6, "percent": 0.0, "upper": 1.8, "upper_inclusive": false}
+{"count": 1, "group": "Per-item best", "lower_inclusive": 1.8, "percent": 0.125, "upper": 2.0, "upper_inclusive": false}
+{"count": 4, "group": "Per-item best", "lower_inclusive": 2.0, "percent": 0.5, "upper": 2.2, "upper_inclusive": false}
+{"count": 5, "group": "Per-item best", "lower_inclusive": 2.2, "percent": 0.625, "upper": 2.4000000000000004, "upper_inclusive": false}
+{"count": 14, "group": "Per-item best", "lower_inclusive": 2.4000000000000004, "percent": 1.75, "upper": 2.6, "upper_inclusive": false}
+{"count": 51, "group": "Per-item best", "lower_inclusive": 2.6, "percent": 6.375, "upper": 2.8, "upper_inclusive": false}
+{"count": 103, "group": "Per-item best", "lower_inclusive": 2.8, "percent": 12.875, "upper": 3.0, "upper_inclusive": false}
+{"count": 147, "group": "Per-item best", "lower_inclusive": 3.0, "percent": 18.375, "upper": 3.2, "upper_inclusive": false}
+{"count": 138, "group": "Per-item best", "lower_inclusive": 3.2, "percent": 17.25, "upper": 3.4000000000000004, "upper_inclusive": false}
+{"count": 135, "group": "Per-item best", "lower_inclusive": 3.4000000000000004, "percent": 16.875, "upper": 3.6, "upper_inclusive": false}
+{"count": 119, "group": "Per-item best", "lower_inclusive": 3.6, "percent": 14.875, "upper": 3.8000000000000003, "upper_inclusive": false}
+{"count": 53, "group": "Per-item best", "lower_inclusive": 3.8000000000000003, "percent": 6.625, "upper": 4.0, "upper_inclusive": false}
+{"count": 25, "group": "Per-item best", "lower_inclusive": 4.0, "percent": 3.125, "upper": 4.2, "upper_inclusive": false}
+{"count": 4, "group": "Per-item best", "lower_inclusive": 4.2, "percent": 0.5, "upper": 4.4, "upper_inclusive": false}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 4.4, "percent": 0.0, "upper": 4.6, "upper_inclusive": false}
+{"count": 1, "group": "Per-item best", "lower_inclusive": 4.6, "percent": 0.125, "upper": 4.800000000000001, "upper_inclusive": false}
+{"count": 0, "group": "Per-item best", "lower_inclusive": 4.800000000000001, "percent": 0.0, "upper": 5.0, "upper_inclusive": true}

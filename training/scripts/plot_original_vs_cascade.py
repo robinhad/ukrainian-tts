@@ -2,6 +2,7 @@
 """Compare overall SigMOS distributions on a matched original/cascade panel."""
 import argparse
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 
@@ -15,6 +16,8 @@ def main():
     parser.add_argument('--original', type=Path, required=True)
     parser.add_argument('--processed', type=Path, required=True)
     parser.add_argument('--output-prefix', type=Path, required=True)
+    parser.add_argument('--keep-original-if-worse', action='store_true',
+                        help='Plot max(original, processed) for each matched recording')
     args = parser.parse_args()
     groups = []
     panel = None
@@ -27,10 +30,25 @@ def main():
         if panel is not None and identifiers != panel:
             raise ValueError('The groups must contain the same recordings')
         panel = identifiers
-        values = np.asarray([r['sigmos_overall'] for r in rows], dtype=float)
+        keyed = {(r['utterance_id'], r['source_id']): r for r in rows}
+        values = np.asarray([keyed[key]['sigmos_overall'] for key in sorted(panel)], dtype=float)
         if not np.isfinite(values).all() or np.any((values < 1) | (values > 5)):
             raise ValueError('Expected finite overall SigMOS scores in [1, 5]')
         groups.append((label, values))
+
+    if args.keep_original_if_worse:
+        original, processed = groups[0][1], groups[1][1]
+        take_processed = processed > original
+        selected = np.where(take_processed, processed, original)
+        groups[1] = ('Per-item best', selected)
+        selection = [{
+            'sample_id': hashlib.sha256(json.dumps((key[1], key[0])).encode()).hexdigest()[:16],
+            'source_id': key[1], 'original_sigmos_overall': float(before),
+            'processed_sigmos_overall': float(after), 'selected_sigmos_overall': float(best),
+            'selected_variant': 'processed' if use_processed else 'original',
+        } for key, before, after, best, use_processed in
+            zip(sorted(panel), original, processed, selected, take_processed)]
+        tables(args.output_prefix.with_name(args.output_prefix.name + '_selection'), selection)
 
     edges = np.linspace(1, 5, 21)
     bins, summaries = [], []
@@ -86,10 +104,18 @@ def main():
     axes[-1].set_xlim(1, 5)
     axes[-1].set_xticks([1.5, 2, 2.5, 3, 3.5, 4, 4.5])
     axes[-1].set_xlabel('Overall SigMOS · higher is better (1–5 scale)', labelpad=10)
-    fig.text(.08, .95, 'The full cascade raises the median but reduces the ≥4.0 share', fontsize=19)
-    fig.text(.08, .905, 'Original vs. ClearVoice → Sidon → DeepFilterNet3, full strength', fontsize=12)
-    fig.text(.08, .87, 'Same 800 non-VOA recordings · 100 per source · identical 0.2-point bins and axes', fontsize=11)
-    fig.text(.08, .035, 'Whole-file model estimates. Equal-source sample; not weighted by full-corpus source proportions.', fontsize=10)
+    if args.keep_original_if_worse:
+        fig.text(.08, .95, f"Keeping the higher score raises median SigMOS to {summaries[1]['median']:.3f}", fontsize=19)
+        fig.text(.08, .905, 'Per recording: use full-cascade audio if its overall SigMOS is higher; otherwise use original', fontsize=12)
+        fig.text(.08, .87, f'{int(take_processed.sum())} processed + {int((~take_processed).sum())} original · '
+                 'same 800 recordings · identical bins and axes', fontsize=11)
+        fig.text(.08, .055, 'Full cascade: ClearVoice → Sidon → DeepFilterNet3, full strength. 100 recordings per source.', fontsize=10)
+        fig.text(.08, .025, 'Hypothetical selection using these measured scores; no audio or training data changed.', fontsize=10)
+    else:
+        fig.text(.08, .95, 'The full cascade raises the median but reduces the ≥4.0 share', fontsize=19)
+        fig.text(.08, .905, 'Original vs. ClearVoice → Sidon → DeepFilterNet3, full strength', fontsize=12)
+        fig.text(.08, .87, 'Same 800 non-VOA recordings · 100 per source · identical 0.2-point bins and axes', fontsize=11)
+        fig.text(.08, .035, 'Whole-file model estimates. Equal-source sample; not weighted by full-corpus source proportions.', fontsize=10)
     fig.subplots_adjust(left=.1, right=.97, top=.82, bottom=.14, hspace=.18)
     for extension in ['png', 'pdf']:
         fig.savefig(args.output_prefix.with_suffix('.' + extension), dpi=170)

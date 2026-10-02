@@ -480,6 +480,16 @@ This checks identical 800-item coverage and writes PNG/PDF with shared axes and
 per-file scores, independently of histogram bins. Only aggregate values are
 exported; private paths and transcripts are omitted.
 
+For a hypothetical per-item selection that uses the cascade only when its
+overall SigMOS exceeds the original, add `--keep-original-if-worse` and use
+`--output-prefix training/reports/quality_v10_best_of_original_and_cascade`.
+This plots `max(original, processed)` after matching recording identifiers;
+ties retain original audio. Additional `_selection.csv`/`_selection.jsonl`
+files contain opaque sample identifiers, both scores, the chosen score, and
+the chosen variant. This report does not modify audio, manifests, or training.
+The selection is evaluated using the same score that drives the choice, so its
+non-decreasing SigMOS is guaranteed by construction, not independent validation.
+
 To visualize individual original-to-cascade changes:
 
 ```bash
