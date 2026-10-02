@@ -1,0 +1,36 @@
+# Isolated legacy MFA runtime; no Kalpy dependency. Install SoX separately if
+# conda-forge has no build for the target platform. Install MFA with --no-deps
+# after solving this environment; baumwelch/ngram training tools are not used.
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - kaldi=*=*cpu*
+  - pynini
+  - numpy<2
+  - librosa
+  - pysoundfile
+  - tqdm
+  - requests
+  - pyyaml
+  - dataclassy
+  - ffmpeg
+  - scipy
+  - scikit-learn<1.3
+  - hdbscan
+  - praatio=6.0.0
+  - biopython=1.79
+  - sqlalchemy>=2
+  - pgvector-python
+  - psycopg2
+  - postgresql
+  - sqlite
+  - click
+  - rich
+  - rich-click
+  - setuptools<81
+  - setuptools_scm
+  - joblib=1.3.2
+  - kneed
+  - matplotlib
+  - seaborn
+  - pip

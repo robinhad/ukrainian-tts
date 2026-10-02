@@ -40,6 +40,7 @@ def main():
                         help='Normalized-original/cascade selector CSV; adds three rows')
     parser.add_argument('--brute-force-selection', type=Path,
                         help='Per-item maximum across all 17 scored variants; adds two rows')
+    parser.add_argument('--mfa-metrics', type=Path, help='Sanitized MFA per-file CSV; adds the boundary-trim variant')
     args = parser.parse_args()
     with args.input.open() as stream:
         rows = [r for r in csv.DictReader(stream)
@@ -139,6 +140,20 @@ def main():
             labels[profile] = label
             brute_profiles.add(profile)
             rows.append({'profile': profile, 'count': len(values), 'median': median(values)})
+    mfa_profiles = set()
+    if args.mfa_metrics:
+        with args.mfa_metrics.open() as stream:
+            mfa_rows = list(csv.DictReader(stream))
+        if (len(mfa_rows) != 800 or len({r['sample_id'] for r in mfa_rows}) != 800
+                or {r['sample_id'] for r in mfa_rows} != {r['sample_id'] for r in selected}):
+            raise ValueError('MFA results must match the same 800-recording panel')
+        mfa_scores = [float(r['sigmos_overall']) for r in mfa_rows]
+        if not all(math.isfinite(x) and 1 <= x <= 5 for x in mfa_scores):
+            raise ValueError('Invalid MFA SigMOS')
+        mfa_review = sum(r['status'] != 'mfa_aligned' for r in mfa_rows)
+        labels['mfa_trim'] = 'MFA boundary trim / normalize · 100 ms'
+        mfa_profiles.add('mfa_trim')
+        rows.append({'profile': 'mfa_trim', 'count': len(mfa_scores), 'median': median(mfa_scores)})
     rows.sort(key=lambda r: r['median'], reverse=True)
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
     with args.output_prefix.with_suffix('.csv').open('w', newline='') as stream:
@@ -166,7 +181,7 @@ def main():
     })
     fig, ax = plt.subplots(figsize=(14, 10 if brute_profiles else 9 if new_profiles else 8))
     for index, row in enumerate(rows):
-        selected = row['profile'] in (brute_profiles or new_profiles or POLICY_LABELS)
+        selected = row['profile'] in (mfa_profiles or brute_profiles or new_profiles or POLICY_LABELS)
         original = row['profile'] == 'original'
         color = '#285b80' if selected else '#333333' if original else '#666666'
         marker = 's' if row['profile'].endswith('_ge3_5') else 'D' if original else 'o'
@@ -178,7 +193,7 @@ def main():
     ax.text(baseline, -1, f'Original {baseline:.3f}', ha='center', fontsize=10)
     ax.set_yticks(range(len(rows)), [labels[r['profile']] for r in rows])
     for label, row in zip(ax.get_yticklabels(), rows):
-        if row['profile'] in (brute_profiles or new_profiles or POLICY_LABELS):
+        if row['profile'] in (mfa_profiles or brute_profiles or new_profiles or POLICY_LABELS):
             label.set_color('#285b80')
     ax.tick_params(axis='y', length=0, pad=12)
     ax.tick_params(axis='x', direction='in', length=3)
@@ -193,6 +208,9 @@ def main():
              f'Median SigMOS: {baseline:.3f} original → {median(best):.3f} best → {median(retained):.3f} filtered')
     if brute_profiles:
         title = f'Brute-force selection: {median(brute_best):.3f} median SigMOS → {median(brute_retained):.3f} after ≥3.5'
+    if mfa_profiles:
+        energy = next(r['median'] for r in rows if r['profile'] == 'identity_wet1')
+        title = f'MFA boundary trim: {median(mfa_scores):.3f} median SigMOS vs. {energy:.3f} energy trim'
     fig.text(.04, .95, title, fontsize=19)
     fig.text(.04, .91, 'Fixed pilot · 100 recordings per source · 800 recordings per row except labeled filtered subsets', fontsize=11)
     fig.text(.04, .065, 'DF3 = DeepFilterNet3. Percentages indicate enhanced-audio blend; remainder is dry audio.', fontsize=10)
@@ -201,6 +219,8 @@ def main():
             f'Filtered row retains {len(retained)}/800 recordings ({len(retained) / 8:.1f}%). Its median describes a smaller population.')
     if brute_profiles:
         foot = f'Brute-force includes native and normalized originals; ≥3.5 retains {len(brute_retained)}/800 ({len(brute_retained) / 8:.1f}%). Filtered medians describe smaller populations.'
+    if mfa_profiles:
+        foot = f'MFA: {800 - mfa_review} alignments used; {mfa_review} review cases preserve untrimmed audio. Brute-force remains the earlier 17-variant comparison.'
     fig.text(.04, .038, foot, fontsize=10)
     fig.subplots_adjust(left=.39, right=.98, top=.86, bottom=.17)
     for extension in ['png', 'pdf']:

@@ -1,0 +1,20 @@
+{
+  "acoustic": {
+    "url": "https://github.com/MontrealCorpusTools/mfa-models/releases/download/acoustic-ukrainian_mfa-v2.0.0a/ukrainian_mfa.zip",
+    "sha256": "fad37ae22cdbae990abd79d03acbe449358064f2361404a262af380124a6c13c",
+    "license": "CC-BY-4.0",
+    "version": "2.0.0a"
+  },
+  "dictionary": {
+    "url": "https://github.com/MontrealCorpusTools/mfa-models/releases/download/dictionary-ukrainian_mfa-v2.0.0a/ukrainian_mfa.dict",
+    "sha256": "1a7a2b5dabd76761aa60e9d659f234021a84d6db21c9926e5e448b02a84984c1",
+    "license": "CC-BY-4.0",
+    "version": "2.0.0a"
+  },
+  "g2p": {
+    "url": "https://github.com/MontrealCorpusTools/mfa-models/releases/download/g2p-ukrainian_mfa-v2.0.0a/ukrainian_mfa.zip",
+    "sha256": "edae853342a17ad32865e5c20a99d076d1f91fe76bfba8244ec7676d478c0073",
+    "license": "CC-BY-4.0",
+    "version": "2.0.0a"
+  }
+}

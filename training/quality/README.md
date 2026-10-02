@@ -832,6 +832,81 @@ original has priority; this does not mean it never improves the score.
 also include equal/worse counts and improvement counts against normalized
 original. These are objective SigMOS comparisons, not listener judgments.
 
+## MFA boundary-trimming pilot
+
+The MFA experiment starts from the **800 frozen native, untrimmed recordings**,
+not from already trimmed training copies. It compares transcript-guided phone
+boundaries with the existing energy-based trim. It does not restart training
+or change full-corpus audio.
+
+Commercial-use licensing and attribution are recorded in
+[`training/licenses/MFA.md`](../licenses/MFA.md). MFA **2.2.17** is MIT-licensed;
+the Ukrainian acoustic model, dictionary, and G2P model **v2.0.0a** are published
+under **CC BY 4.0**, which permits commercial use with attribution. The pinned
+download URLs and hashes are in `training/conf/quality_mfa_assets.json`.
+
+The isolated environment avoids Kalpy, which is not needed by this MFA release.
+Create it with conda/micromamba using `training/conf/mfa_environment.yaml`, then
+install `montreal-forced-aligner==2.2.17` using that environment's pip with
+`--no-deps`. Provide SoX on `PATH` (a distribution package is suitable where a
+conda build is unavailable). The launcher defaults to an environment under
+`training/quality_runs/mfa_trim/tools/env`; `MFA_ENV` can override it.
+Keep model/environment files in the ignored runtime tree. Use the matching
+environment's SQLite executable and library together.
+
+```bash
+python -m training.scripts.download_mfa_assets
+python -m training.scripts.prepare_mfa_panel
+sbatch training/slurm/mfa_align.sbatch
+# Once alignment succeeds:
+sbatch training/slurm/mfa_evaluate.sbatch
+# Once evaluation succeeds:
+python -m training.scripts.report_mfa_trim
+python training/scripts/build_mfa_listening.py
+python training/scripts/plot_processing_sigmos.py \
+  --input training/reports/quality_v10_processing.csv \
+  --selection training/reports/quality_v10_best_of_original_and_cascade_selection.csv \
+  --normalized-selection training/reports/quality_normalized_original_selection.csv \
+  --brute-force-selection training/reports/quality_bruteforce_selection.csv \
+  --mfa-metrics training/reports/quality_mfa_per_file.csv \
+  --output-prefix training/reports/quality_v10_processing_median_sigmos
+```
+
+Processing order:
+
+1. Verify each native reference hash; decode to untrimmed mono 24 kHz PCM24.
+2. Normalize transcript case/apostrophes/punctuation for alignment only.
+   Preserve original evaluation transcripts. Generate missing pronunciations
+   using the matching G2P model and append them to a local dictionary copy.
+3. Align with MFA's CPU GMM-HMM model using eight workers, beam 100, retry
+   beam 400, and speaker adaptation. Export phone/word JSON without cleanup
+   so silence and unknown phones remain visible.
+4. Find the first and last non-silence phones. Keep **100 ms** of padding at
+   each boundary, clipped to the available recording. Retain interior pauses.
+5. Preserve the entire untrimmed input and flag it for review if alignment is
+   missing/invalid, contains unknown phones, has unsupported transcript tokens,
+   produces a speech span under 0.5 seconds, or proposes removing over 50%
+   of the recording. These are conservative pilot guardrails, not calibrated
+   quality thresholds. Padding and maximum removal are configurable in
+   `render_mfa_trim.py`. No HNR-based decision is made.
+6. Apply the existing input-LUFS matching and −0.1 dBFS sample-peak cap to the
+   chosen span; save mono 24 kHz PCM24. Do not use enhancement models.
+7. Score the final waveforms with the existing GPU evaluator: all seven
+   SigMOS outputs, Audiobox PQ, Whisper and Parakeet CER/WER, ECAPA similarity,
+   clipping/duration/high-frequency diagnostics, and worst segments. No
+   SigMOS filtering is applied to this comparison, including review cases.
+
+Local alignment JSON, input/output hashes, frame boundaries, per-file review
+flags, expanded dictionary, evaluation metrics, and logs are retained under
+`training/quality_runs/mfa_trim/`. The report exports sanitized paired metrics
+and corpus-level ASR error rates for native original, current energy trim,
+and MFA trim. The listening page includes 32 three-way examples, four per
+source, emphasizing large cuts, review cases, and WER regressions. It is a
+labeled diagnostic listening set, not a human MOS study.
+
+The old brute-force result remains a frozen **17-variant** comparison; the
+MFA experiment is shown separately until its boundary behavior is reviewed.
+
 ## W&B training metrics
 
 The V11 launcher uploads numeric training and validation TensorBoard scalars to
