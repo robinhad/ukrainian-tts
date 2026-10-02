@@ -995,6 +995,25 @@ every copied WAV. It does not reprocess or normalize the listening audio.
 These are labeled comparisons, not a blind listening test. Pages, transcripts,
 audio and archives remain local and ignored by Git.
 
+### Best single MFA method listening page
+
+```bash
+training/.venv/bin/python training/scripts/build_mfa_bruteforce_listening.py --mode best_method
+```
+
+This writes `training/quality_runs/mfa_processing/listening_best_method/`.
+The builder chooses the enhancement method with the highest 800-item median
+overall SigMOS: **ClearVoice → Sidon → DeepFilterNet3 at 100% wet**, median
+**3.16157**. Every processed player uses this one method, including cases that
+score below normalized original. It does not apply per-item fallback.
+
+`index.html` shows all **800** paired comparisons by default, with source and
+optional processed-SigMOS ≥3.5 filters (**153** recordings). `preview.html` embeds **32 pairs**, four
+per source spanning the complete processed-score range. `listening_set.zip`
+contains both pages, metadata, and all 1,600 hash-verified WAV copies. Both
+players share the same MFA boundaries. The brute-force listening set remains
+available separately.
+
 ## MFA boundary-trimming pilot (historical comparison)
 
 The MFA experiment starts from the **800 frozen native, untrimmed recordings**,

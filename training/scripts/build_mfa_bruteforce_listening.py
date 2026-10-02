@@ -1,4 +1,4 @@
-"""Build hash-verified listening pairs for all MFA brute-force selections."""
+"""Build exact MFA listening pairs for brute-force selection or the best single method."""
 import argparse
 import base64
 from collections import Counter
@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import re
 import shutil
+import statistics
 import zipfile
 
 from build_selected_audio_listening import page, read_panel, SOURCES
@@ -16,7 +17,9 @@ def checksum(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def build(run, selection, output):
+def build(run, selection, output, mode='brute_force'):
+    if mode not in {'brute_force', 'best_method'}:
+        raise ValueError('Unknown listening mode')
     completed = json.loads((run / 'complete.json').read_text())
     if completed['status'] != 'complete' or len(completed['profiles']) != 16:
         raise ValueError('Expected the completed 16-variant MFA sweep')
@@ -24,7 +27,13 @@ def build(run, selection, output):
               for name in completed['profiles']}
     original = panels['normalized_original']
     transcripts = {r['sample_id']: r for r in map(json.loads, (run / 'panel.jsonl').read_text().splitlines())}
-    decisions = [r for r in map(json.loads, selection.read_text().splitlines()) if r['policy'] == 'brute_force']
+    best_method = max((name for name in completed['profiles'] if name not in {'identity_wet1', 'normalized_original'}),
+                      key=lambda name: statistics.median(r['sigmos_overall'] for r in panels[name].values()))
+    if mode == 'best_method':
+        decisions = [{**r, 'selected_profile': best_method, 'retained': r['sigmos_overall'] >= 3.5}
+                     for r in panels[best_method].values()]
+    else:
+        decisions = [r for r in map(json.loads, selection.read_text().splitlines()) if r['policy'] == 'brute_force']
     if (len(decisions) != 800 or len({r['sample_id'] for r in decisions}) != 800
             or {r['sample_id'] for r in decisions} != original.keys()
             or transcripts.keys() != original.keys()
@@ -33,7 +42,8 @@ def build(run, selection, output):
     output.mkdir(parents=True, exist_ok=True)
     (output / 'audio').mkdir(exist_ok=True)
     rows = []
-    priority = ['normalized_original'] + sorted(set(panels) - {'normalized_original'})
+    priority = ([best_method] if mode == 'best_method' else
+                ['normalized_original'] + sorted(set(panels) - {'normalized_original'}))
     for decision in decisions:
         identifier = decision['sample_id']
         if not re.fullmatch(r'[0-9a-f]{16}', identifier):
@@ -69,21 +79,26 @@ def build(run, selection, output):
                      'retained': decision['retained'], 'audio_sha256': selected['audio_sha256'],
                      'reference_audio_sha256': baseline['audio_sha256'], **urls})
     rows.sort(key=lambda row: (row['source_id'], row['selected_score'], row['sample_id']))
-    (output / 'index.html').write_text(page(rows, preview=False, baseline='mfa_brute_force'))
+    baseline_mode = 'mfa_best_method' if mode == 'best_method' else 'mfa_brute_force'
+    (output / 'index.html').write_text(page(rows, preview=False, baseline=baseline_mode))
     (output / 'selection.jsonl').write_text(''.join(json.dumps(row, ensure_ascii=False) + '\n' for row in rows))
     preview = []
     for source in SOURCES:
-        candidates = [r for r in rows if r['source_id'] == source and r['retained']]
+        candidates = [r for r in rows if r['source_id'] == source and (mode == 'best_method' or r['retained'])]
         count = min(4, len(candidates))
         for i in range(count):
             row = dict(candidates[round(i * (len(candidates) - 1) / max(1, count - 1))])
             for key in ['url', 'reference_url']:
                 row[key] = 'data:audio/wav;base64,' + base64.b64encode((output / row[key]).read_bytes()).decode()
             preview.append(row)
-    (output / 'preview.html').write_text(page(preview, preview=True, baseline='mfa_brute_force'))
+    (output / 'preview.html').write_text(page(preview, preview=True, baseline=baseline_mode))
     report = {'recordings': len(rows), 'retained_ge3_5': sum(r['retained'] for r in rows),
               'preview_recordings': len(preview), 'audio_files': len(rows) * 2,
-              'comparison': 'normalized_original_MFA_vs_brute_force_MFA',
+              'comparison': f'normalized_original_MFA_vs_{mode}_MFA',
+              'best_single_method': best_method,
+              'median_processed_sigmos': statistics.median(r['selected_score'] for r in rows),
+              'improved_vs_normalized': sum(r['selected_score'] > r['original_score'] for r in rows),
+              'worse_vs_normalized': sum(r['selected_score'] < r['original_score'] for r in rows),
               'selected_variants': dict(Counter(r['selected_variant'] for r in rows)),
               'sources': dict(Counter(r['source_id'] for r in rows)),
               'retained_sources': dict(Counter(r['source_id'] for r in rows if r['retained'])),
@@ -101,9 +116,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, default=Path('training/quality_runs/mfa_processing'))
     parser.add_argument('--selection', type=Path, default=Path('training/reports/quality_mfa_processing_selection.jsonl'))
-    parser.add_argument('--output', type=Path, default=Path('training/quality_runs/mfa_processing/listening'))
+    parser.add_argument('--mode', choices=['brute_force', 'best_method'], default='brute_force')
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
-    print(json.dumps(build(args.run, args.selection, args.output)), flush=True)
+    output = args.output or args.run / ('listening_best_method' if args.mode == 'best_method' else 'listening')
+    print(json.dumps(build(args.run, args.selection, output, args.mode)), flush=True)
 
 
 if __name__ == '__main__':

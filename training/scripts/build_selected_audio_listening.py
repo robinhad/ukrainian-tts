@@ -17,14 +17,17 @@ from plot_processing_sigmos import LABELS
 
 def page(rows, *, preview, baseline='native'):
     mfa_brute_force = baseline == 'mfa_brute_force'
-    baseline_label = 'Normalized original' if baseline == 'normalized' or mfa_brute_force else 'Native original'
+    mfa_best_method = baseline == 'mfa_best_method'
+    mfa_comparison = mfa_brute_force or mfa_best_method
+    candidate_label = 'Processed' if mfa_best_method else 'Selected'
+    baseline_label = 'Normalized original' if baseline == 'normalized' or mfa_comparison else 'Native original'
     baseline_variant = 'normalized_original' if baseline == 'normalized' else 'original'
     variant_labels = {baseline_variant: baseline_label, 'processed': 'Full cascade'}
     if baseline == 'brute_force':
         variant_labels = {**LABELS, 'normalized_original': 'Normalized original'}
     if baseline == 'mfa':
         variant_labels = {'mfa_trim': 'MFA boundary trim / normalize'}
-    if mfa_brute_force:
+    if mfa_comparison:
         variant_labels = {k: v.replace('  [V10 training]', '').replace('  [V11 cascade]', '')
                           for k, v in LABELS.items()}
         variant_labels.update(normalized_original='Normalized original · MFA',
@@ -33,13 +36,13 @@ def page(rows, *, preview, baseline='native'):
     for row in rows:
         source = SOURCES[row['source_id']]
         comparison = (f"native original {row['original_score']:.3f} / selected {row['selected_score']:.3f}"
-                      if baseline in {'brute_force', 'mfa', 'mfa_brute_force'} else
+                      if baseline in {'brute_force', 'mfa', 'mfa_brute_force', 'mfa_best_method'} else
                       f"{baseline_label.lower()} {row['original_score']:.3f} / full cascade {row['processed_score']:.3f}")
-        if mfa_brute_force:
-            comparison = (f"normalized original {row['original_score']:.3f} / selected {row['selected_score']:.3f}"
+        if mfa_comparison:
+            comparison = (f"normalized original {row['original_score']:.3f} / {candidate_label.lower()} {row['selected_score']:.3f}"
                           f" / change {row['selected_score'] - row['original_score']:+.3f}")
         reference_player = (f'<p>{baseline_label}</p><audio controls preload="none" aria-label="{baseline_label} {html.escape(source)} recording">'
-                            f'<source src="{html.escape(row["reference_url"], quote=True)}" type="audio/wav"></audio><p>Selected version</p>'
+                            f'<source src="{html.escape(row["reference_url"], quote=True)}" type="audio/wav"></audio><p>{candidate_label} version</p>'
                             if 'reference_url' in row else '')
         if 'energy_url' in row:
             reference_player = reference_player.removesuffix('<p>Selected version</p>')
@@ -51,12 +54,12 @@ def page(rows, *, preview, baseline='native'):
         cards.append(f'''<article data-source="{html.escape(row['source_id'])}"
 data-variant="{row['selected_variant']}" data-score="{row['selected_score']}">
 <h2>{html.escape(source)} <span>{row['selected_score']:.3f} SigMOS</span></h2>
-<p class="meta">Selected: <strong>{variant_labels[row['selected_variant']]}</strong> · {row['seconds']:.2f} s
+<p class="meta">{candidate_label}: <strong>{variant_labels[row['selected_variant']]}</strong> · {row['seconds']:.2f} s
 · {comparison}</p>
 <p lang="uk">{html.escape(row['text'])}</p>
 {review}
 {reference_player}
-<audio controls preload="none" aria-label="Selected {html.escape(source)} recording">
+<audio controls preload="none" aria-label="{candidate_label} {html.escape(source)} recording">
 <source src="{html.escape(row['url'], quote=True)}" type="audio/wav"></audio>
 <p class="id">{row['sample_id']}</p></article>''')
     options = ''.join(f'<option value="{html.escape(k)}">{html.escape(v)}</option>' for k, v in SOURCES.items())
@@ -77,13 +80,28 @@ data-variant="{row['selected_variant']}" data-score="{row['selected_score']}">
         description = ('Compare normalized original with the highest overall SigMOS version across all 16 MFA-based variants. '
                        'Both players use the same MFA boundaries; flagged alignments preserve untrimmed audio. '
                        'Scores and method names are visible; this is a labeled comparison, not a blind test.')
-    variants = (sorted({r['selected_variant'] for r in rows}) if baseline in {'brute_force', 'mfa', 'mfa_brute_force'} else [baseline_variant, 'processed'])
+    if mfa_best_method:
+        methods = {r['selected_variant'] for r in rows}
+        if len(methods) != 1:
+            raise ValueError('Best-method listening requires one fixed processing method')
+        method_label = variant_labels[next(iter(methods))]
+        title = 'Best single MFA method — listening'
+        subtitle = (f'{len(rows)} embedded examples · four per source across the full score range. Audio works offline.'
+                    if preview else f'All {len(rows)} recordings from the completed source-balanced pilot. All scores are shown initially.')
+        description = (f'Compare normalized original with {method_label}, the enhancement method with the highest '
+                       'median overall SigMOS across the 800-recording panel. Every processed player uses this same method, '
+                       'including files where its score is lower than normalized original. Both versions share MFA boundaries. '
+                       'This is a labeled listening comparison.')
+    variants = (sorted({r['selected_variant'] for r in rows}) if baseline in {'brute_force', 'mfa', 'mfa_brute_force', 'mfa_best_method'} else [baseline_variant, 'processed'])
     variant_options = ''.join(f'<option value="{html.escape(v)}">{html.escape(variant_labels[v])}</option>' for v in variants)
     navigation = ('index.html">Local audio page' if baseline == 'mfa' else 'index.html">All retained recordings') if preview else 'preview.html">Embedded audio preview'
-    if mfa_brute_force and preview:
+    if mfa_comparison and preview:
         navigation = 'index.html">All 800 recordings and score filter'
     score_filter = ('<label>Selected SigMOS<select id="minimum"><option value="3.5" selected>≥3.5</option>'
                     '<option value="0">All scores</option></select></label>' if mfa_brute_force else '')
+    if mfa_best_method:
+        score_filter = ('<label>Processed SigMOS<select id="minimum"><option value="0" selected>All scores</option>'
+                        '<option value="3.5">≥3.5</option></select></label>')
     return '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>''' + title + ''' — listening</title>
