@@ -1,0 +1,20 @@
+{
+  "checkpoint_step": 21000,
+  "checkpoint_sha256": "55c9278f93555df009c0598d2a4889dafef7da07b9f576888aef854e774dbfb2",
+  "config_sha256": "e235096fab6170447f4ab66cc8520d7d7e1193ca64239e1328b67115dd14e4fd",
+  "sample_count": 10,
+  "sources": [
+    "common_voice_available_uk",
+    "fleurs_uk",
+    "opentts_lada",
+    "opentts_mykyta",
+    "opentts_tetiana",
+    "tg_voices_uk",
+    "ua_ser",
+    "ukr_dialects"
+  ],
+  "seed": 777,
+  "selection": "source round-robin, fixed seeded item order",
+  "speaker_conditioning": "processed evaluation reference ECAPA",
+  "postprocessing": "none; PCM24 serialization only"
+}
