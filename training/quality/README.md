@@ -452,3 +452,16 @@ pooled distribution weights sources equally, rather than by their full-corpus
 proportions. SigMOS scores use 1–5 and Audiobox PQ uses 1–10; higher is better.
 These are model estimates and descriptive summaries, not calibrated rejection
 thresholds.
+
+To plot median overall SigMOS across the 16 full-panel preprocessing variants:
+
+```bash
+python training/scripts/plot_processing_sigmos.py \
+  --input training/reports/quality_v10_processing.csv \
+  --output-prefix training/reports/quality_v10_processing_median_sigmos
+```
+
+This writes a ranked dot plot to PNG/PDF and its values to CSV. Each variant
+covers the same 800 recordings. The original baseline and selected training
+recipe are marked; the smaller refinement panels are excluded. The chart uses
+a zoomed score axis and reports medians, rather than means or paired changes.

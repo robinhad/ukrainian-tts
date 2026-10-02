@@ -533,6 +533,18 @@ evaluation remains pending after the 100K run.
 
 ## Original-audio score distributions
 
+The [preprocessing median plot](quality_v10_processing_median_sigmos.png)
+compares all 16 variants on the identical 800-recording panel, with
+[PDF](quality_v10_processing_median_sigmos.pdf) and
+[CSV](quality_v10_processing_median_sigmos.csv) exports. Median overall SigMOS
+is highest for the full ClearVoice → Sidon → DeepFilterNet3 cascade (3.220),
+compared with 3.014 for native originals, 2.922 for the conversion control,
+and 3.038 for the selected −3 dBFS / 75% DeepFilterNet3 recipe. Selection also
+considered content and speaker preservation, so it does not maximize this
+metric alone. All 16 plotted medians were checked against per-file scores,
+including identical utterance/source coverage; the smaller refinement panel
+is excluded.
+
 The original-audio baseline contains 800 recordings, exactly 100 from each of
 eight non-VOA sources. It describes that balanced sample, not all 80,751 corpus
 recordings or their source proportions. Whole-file model estimates are:
