@@ -1,0 +1,8 @@
+# Best single method from the complete MFA sweep; no per-item fallback.
+backend: clearervoice_sidon_deepfilternet3
+boundary_method: mfa
+model_cache: training/vendor/enhancement-models
+rnnoise_binary: training/vendor/rnnoise/examples/rnnoise_demo
+wet: 1.0
+random_seed: 777
+torchscript_optimize: false

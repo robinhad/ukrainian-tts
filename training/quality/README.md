@@ -9,6 +9,83 @@ For new preprocessing comparisons, use the
 It replaces energy-based trimming for every current processing variant.
 Older versioned commands and measurements below document historical runs.
 
+## Full-corpus MFA best-method run (V12, 50K steps)
+
+The authorized V12 run applies the best **single** MFA preprocessing method,
+ClearVoice → Sidon → DeepFilterNet3 at 100% wet, to all 80,751 non-VOA items.
+Its 800-item pilot median overall SigMOS was **3.16157**; 153 pilot items
+scored at least 3.5. These pilot counts are not a full-corpus yield estimate.
+V12 keeps train/dev recordings whose **processed** overall SigMOS is **≥3.5**.
+It does not use the brute-force selector or substitute normalized originals.
+The original 1,688-item evaluation split remains unfiltered; checkpoint quality
+evaluation uses the existing fixed 88-item held-out panel and native recordings.
+
+Processing steps:
+
+1. Recover each original recording from the pinned downloads, matching its
+   compressed-source SHA-256. Decode native audio, then make mono 24 kHz PCM24
+   alignment input without the previous energy trim.
+2. Expand the pinned Ukrainian MFA dictionary with the pinned G2P model. Align
+   source- and split-specific chunks with speaker adaptation. Chunk membership
+   stays fixed across resumes. Reuse frozen pilot alignments only when their
+   input hash matches exactly. See [MFA licenses](../licenses/MFA.md) for MIT
+   tooling and CC-BY-4.0 model attribution.
+3. Cut only boundary silence, with 100 ms padding. Invalid/uncertain alignments,
+   unsupported tokens, speech spans below 0.5 seconds, or proposed removal above
+   50% preserve the complete untrimmed recording and receive review flags.
+4. Run ClearVoice, Sidon and DeepFilterNet3 on GPU; preserve the MFA frame count.
+   Match input loudness and cap sample peaks at −0.1 dBFS. Save mono 24 kHz PCM24.
+5. Score that exact saved waveform with all seven SigMOS outputs on GPU. Apply
+   the inclusive overall-score threshold to train/dev only. No HNR rejection.
+   Persist per-item decisions, source/model/output hashes and boundary audits.
+6. Prepare phonemes, features and ECAPA embeddings from the retained processed
+   audio. Preserve split assignments and verify the held-out population. Train
+   a fresh JETS model for exactly **50,000 optimizer iterations**, saving 25K and
+   50K milestones, then evaluate both through the existing checkpoint evaluator.
+
+Submit from the repository root (add site-specific SLURM options locally):
+
+```bash
+mkdir -p training/quality_runs
+PROCESS_JOB=$(sbatch --parsable training/slurm/quality_v12_process.sbatch)
+sbatch --dependency="afterok:${PROCESS_JOB}" training/slurm/quality_v12_train.sbatch
+```
+
+Downloads must already be present; `training/scripts/download_non_voa.py`
+restores the pinned source files when needed. Processing uses bounded scratch
+chunks and retains only passing train/dev outputs plus every held-out output.
+It resumes durable decisions, checks provenance and waveform hashes, and
+rebuilds only its own unfinished scratch. Models use GPU; MFA and audio I/O use
+CPU with preparation overlapping enhancement. Default model concurrency is 12,
+with worker recycling every 64 files and a 24 GiB available-memory reserve.
+
+Runtime results are under `training/data/quality_v12/`: `scores.{csv,jsonl}`,
+`summary.{csv,jsonl}`, `coverage.json`, `decisions/`, `alignments/`, `run.json`,
+and `complete.json`. `progress.json` reports completion and a measured ETA in
+`Europe/Kyiv`. An ETA appears after the first complete chunk. Scratch output,
+audio, models and machine-specific paths stay ignored.
+
+Both SLURM launchers run the supervisor at 60-second intervals, recording
+process state, GPU utilization/power, memory, free disk and log activity under
+`training/quality_runs/v12/`. Inspect those records and the active log at least
+every 30 minutes. Training starts only after successful full processing and
+dataset validation. Its input binding prevents reuse of a checkpoint with a
+changed corpus/configuration; resubmitting the training job resumes only the
+same V12 experiment. Checkpoints remain under `training/exp_quality_v12/`.
+
+W&B project **`ukrainian-tts`**, run **`quality-v12-mfa-best-ge3.5-50k`**, receives
+numeric training/validation metrics only. Model, audio, code and machine metadata
+uploads remain disabled. Final checkpoint evaluation includes SigMOS, Audiobox
+PQ, Whisper and Parakeet CER/WER, ECAPA similarity, clipping, duration and local
+high-frequency burst diagnostics, whole-file and worst-segment results, and
+checkpoint comparisons. Checkpoint selection remains report-only.
+
+Preflight validation: 18 focused tests passed, including threshold inclusivity,
+held-out preservation, stable split-specific alignment chunks on resume, and
+MFA boundary guards. A 32-item SLURM smoke run covered all eight sources; its
+16 frozen pilot items reproduced identical processed PCM24 hashes and SigMOS
+scores. Full-corpus yield and training results will be recorded after completion.
+
 ## Fixed data
 
 Download the eight sources at the revisions already recorded in this branch:
