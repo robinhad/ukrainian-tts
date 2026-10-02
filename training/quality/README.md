@@ -130,7 +130,27 @@ remain unfiltered and contribute a separate 2.09777 processed hours.
 | Ukrainian dialects | 4,765 | 9.93868 | 3.64230 |
 
 All per-item scores and per-source distributions are exported in the portable
-reports above. Training results will be recorded after the 50K run completes.
+reports above.
+
+Training is in progress. The first five completed epochs (5,000 of 50,000
+steps) passed without nonfinite losses or resource alerts. Validation mel
+loss decreased from **66.61093** at 1K to **53.85093** at 5K. These are model
+losses, not audio-quality MOS measurements. Paired epoch summaries are in
+`training/reports/quality_v12_training_epochs.{csv,jsonl}`. Export an updated
+snapshot from TensorBoard with:
+
+```bash
+training/.venv/bin/python -m training.scripts.report_training_epochs \
+  --events training/exp_quality_v12/tts_jets_quality_v12_50k/tensorboard \
+  --output-prefix training/reports/quality_v12_training_epochs \
+  --through-step 50000
+```
+
+The exporter includes only steps with completed validation and keeps the
+latest training summary at each matching step. Output contains scalar names,
+steps and values, without local paths or machine metadata. At the initial
+1K remote check, W&B contained numeric metrics and no model artifacts.
+Final checkpoint quality measurements follow training completion.
 
 Full-run throughput tuning on 2026-10-02 compared consecutive Common Voice
 chunks of 2,048 files. Times include enhancement, SigMOS scoring and durable
