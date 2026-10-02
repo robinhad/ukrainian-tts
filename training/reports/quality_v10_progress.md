@@ -545,6 +545,16 @@ metric alone. All 16 plotted medians were checked against per-file scores,
 including identical utterance/source coverage; the smaller refinement panel
 is excluded.
 
+The [original-versus-cascade histograms](quality_v10_original_vs_cascade.png)
+use identical bins and axes on this same matched panel. The full cascade raises
+median overall SigMOS from 3.014 to 3.220 and the fraction at or above 3.5 from
+157/800 (19.625%) to 193/800 (24.125%), but reduces the fraction at or above 4.0
+from 23/800 (2.875%) to 7/800 (0.875%). Its middle 90% spans 2.526–3.769, compared
+with 2.100–3.861 for originals. The higher median is not an improvement for
+every recording. [Summary CSV](quality_v10_original_vs_cascade.csv),
+[bin counts](quality_v10_original_vs_cascade_bins.csv), and
+[PDF](quality_v10_original_vs_cascade.pdf) preserve the comparison.
+
 The original-audio baseline contains 800 recordings, exactly 100 from each of
 eight non-VOA sources. It describes that balanced sample, not all 80,751 corpus
 recordings or their source proportions. Whole-file model estimates are:

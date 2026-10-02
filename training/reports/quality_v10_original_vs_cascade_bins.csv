@@ -1,0 +1,41 @@
+group,lower_inclusive,upper,upper_inclusive,count,percent
+Original,1.0,1.2,False,0,0.0
+Original,1.2,1.4,False,2,0.25
+Original,1.4,1.6,False,6,0.75
+Original,1.6,1.8,False,6,0.75
+Original,1.8,2.0,False,18,2.25
+Original,2.0,2.2,False,35,4.375
+Original,2.2,2.4000000000000004,False,65,8.125
+Original,2.4000000000000004,2.6,False,63,7.875
+Original,2.6,2.8,False,92,11.5
+Original,2.8,3.0,False,100,12.5
+Original,3.0,3.2,False,110,13.75
+Original,3.2,3.4000000000000004,False,101,12.625
+Original,3.4000000000000004,3.6,False,91,11.375
+Original,3.6,3.8000000000000003,False,55,6.875
+Original,3.8000000000000003,4.0,False,33,4.125
+Original,4.0,4.2,False,18,2.25
+Original,4.2,4.4,False,4,0.5
+Original,4.4,4.6,False,0,0.0
+Original,4.6,4.800000000000001,False,1,0.125
+Original,4.800000000000001,5.0,True,0,0.0
+Full cascade,1.0,1.2,False,0,0.0
+Full cascade,1.2,1.4,False,0,0.0
+Full cascade,1.4,1.6,False,0,0.0
+Full cascade,1.6,1.8,False,1,0.125
+Full cascade,1.8,2.0,False,1,0.125
+Full cascade,2.0,2.2,False,10,1.25
+Full cascade,2.2,2.4000000000000004,False,11,1.375
+Full cascade,2.4000000000000004,2.6,False,28,3.5
+Full cascade,2.6,2.8,False,76,9.5
+Full cascade,2.8,3.0,False,118,14.75
+Full cascade,3.0,3.2,False,146,18.25
+Full cascade,3.2,3.4000000000000004,False,148,18.5
+Full cascade,3.4000000000000004,3.6,False,125,15.625
+Full cascade,3.6,3.8000000000000003,False,102,12.75
+Full cascade,3.8000000000000003,4.0,False,27,3.375
+Full cascade,4.0,4.2,False,7,0.875
+Full cascade,4.2,4.4,False,0,0.0
+Full cascade,4.4,4.6,False,0,0.0
+Full cascade,4.6,4.800000000000001,False,0,0.0
+Full cascade,4.800000000000001,5.0,True,0,0.0

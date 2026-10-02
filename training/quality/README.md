@@ -465,3 +465,17 @@ This writes a ranked dot plot to PNG/PDF and its values to CSV. Each variant
 covers the same 800 recordings. The original baseline and selected training
 recipe are marked; the smaller refinement panels are excluded. The chart uses
 a zoomed score axis and reports medians, rather than means or paired changes.
+
+To compare the original and highest-median method as matched histograms:
+
+```bash
+python training/scripts/plot_original_vs_cascade.py \
+  --original training/quality_runs/v10/search/original/per_file.jsonl \
+  --processed training/quality_runs/v10/search/clearervoice_sidon_deepfilternet3_wet1/quality/per_file.jsonl \
+  --output-prefix training/reports/quality_v10_original_vs_cascade
+```
+
+This checks identical 800-item coverage and writes PNG/PDF with shared axes and
+0.2-point bins, plus summary and histogram CSV/JSONL. Threshold counts use exact
+per-file scores, independently of histogram bins. Only aggregate values are
+exported; private paths and transcripts are omitted.
