@@ -6,9 +6,36 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import torch
+
+
+def audit_schedulers(payload, expected_epoch, expected_gamma):
+    """Require the saved exponential schedule and optimizer LRs to agree."""
+    schedulers = payload.get("schedulers", [])
+    optimizers = payload.get("optimizers", [])
+    reports = []
+    for scheduler, optimizer in zip(schedulers, optimizers):
+        scheduler = scheduler or {}
+        rates = [group["lr"] for group in optimizer.get("param_groups", [])]
+        bases = scheduler.get("base_lrs", [])
+        saved = scheduler.get("_last_lr", [])
+        valid = (
+            scheduler.get("last_epoch") == expected_epoch
+            and scheduler.get("gamma") == expected_gamma
+            and len(rates) == len(bases) == len(saved) > 0
+            and all(math.isclose(lr, last, rel_tol=1e-10, abs_tol=0)
+                    and math.isclose(lr, base * expected_gamma ** expected_epoch,
+                                     rel_tol=1e-10, abs_tol=0)
+                    for lr, last, base in zip(rates, saved, bases))
+        )
+        reports.append({"last_epoch": scheduler.get("last_epoch"),
+                        "gamma": scheduler.get("gamma"), "learning_rates": rates,
+                        "status": "PASS" if valid else "FAIL"})
+    return (len(schedulers) == len(optimizers) > 0
+            and all(row["status"] == "PASS" for row in reports)), reports
 
 
 def main() -> int:
@@ -21,6 +48,8 @@ def main() -> int:
     )
     parser.add_argument("--expected-steps", type=int, required=True)
     parser.add_argument("--expected-optimizers", type=int, default=2)
+    parser.add_argument("--expected-scheduler-epoch", type=int)
+    parser.add_argument("--expected-scheduler-gamma", type=float, default=0.999875)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -81,6 +110,11 @@ def main() -> int:
             "matches_checkpoint_model": model_artifact_matches,
         }
 
+    scheduler_valid, scheduler_reports = True, None
+    if args.expected_scheduler_epoch is not None:
+        scheduler_valid, scheduler_reports = audit_schedulers(
+            payload, args.expected_scheduler_epoch, args.expected_scheduler_gamma
+        )
     status = (
         "PASS"
         if reported_steps == args.expected_steps
@@ -90,6 +124,7 @@ def main() -> int:
         and bool(model)
         and not nonfinite
         and model_artifact_matches
+        and scheduler_valid
         else "FAIL"
     )
     report = {
@@ -105,6 +140,7 @@ def main() -> int:
         "model_tensor_count": sum(torch.is_tensor(value) for value in model.values()),
         "nonfinite_model_tensors": nonfinite,
         "model_artifact": model_artifact_report,
+        "schedulers": scheduler_reports,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "epoch": 50,
+  "reported_steps": 50000,
+  "optimizer_steps_by_optimizer": [
+    [
+      50000
+    ],
+    [
+      50000
+    ]
+  ],
+  "schedulers": [
+    {
+      "gamma": 0.999875,
+      "last_epoch": 50,
+      "learning_rates": [
+        0.00019875382047998183
+      ],
+      "status": "PASS"
+    },
+    {
+      "gamma": 0.999875,
+      "last_epoch": 50,
+      "learning_rates": [
+        0.00019875382047998183
+      ],
+      "status": "PASS"
+    }
+  ],
+  "target_steps": 100000,
+  "additional_steps": 50000,
+  "model_sha256": "e505141766fa5eb07682a56291415871b00b63b0efa29acb5ac3470ec184dca4",
+  "model_artifact_matches": true,
+  "quality_evaluation": "in progress after initial 50K training"
+}

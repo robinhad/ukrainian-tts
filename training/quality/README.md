@@ -132,11 +132,11 @@ remain unfiltered and contribute a separate 2.09777 processed hours.
 All per-item scores and per-source distributions are exported in the portable
 reports above.
 
-Training is in progress. The first thirty completed epochs (30,000 of 50,000
-steps) passed without nonfinite losses or resource alerts. At 30K, epoch-mean
-training mel loss is **44.64366** and validation mel loss is **45.33163**,
-compared with **66.61093** validation mel loss at 1K. The lowest validation
-mel loss observed so far is **44.20304** at 23K. These are model
+The initial **50,000 steps completed** on 2026-10-03. Both optimizers passed
+the exact-step audit and the 50K milestone matches the full checkpoint model.
+At 50K, epoch-mean training mel loss is **42.63134** and
+validation mel loss is **42.74495**. The lowest validation mel loss
+through 50K is **42.00372** at 42K. These are model
 losses, not audio-quality MOS measurements. Paired epoch summaries are in
 `training/reports/quality_v12_training_epochs.{csv,jsonl}`. Export an updated
 snapshot from TensorBoard with:
@@ -155,6 +155,32 @@ steps and values, without local paths or machine metadata. At the initial
 Final checkpoint quality measurements follow training completion.
 The 25K milestone is preserved, and its SHA-256 matches the epoch-25 model.
 Its portable provenance is in `training/reports/quality_v12_checkpoint_25k.json`.
+
+An additional **50,000 updates (100,000 total)** are configured as a full-state
+continuation. Submit after the initial job, including its checkpoint evaluation:
+
+```bash
+sbatch --dependency="afterok:${TRAIN_JOB_ID:?Set the initial training job ID}" \
+  training/slurm/quality_v12_continue_100k.sbatch
+```
+
+The launcher verifies the original sealed corpus and prepared features, then
+requires a complete 50K checkpoint: both optimizers at 50,000 updates and both
+exponential schedulers at epoch 50 with gamma **0.999875**. Their saved learning
+rate is **0.00019875382048**. ESPnet resumes model, optimizer, reporter and
+scheduler state with `--resume true`; only the stopping limit increases to
+100 epochs. It does not restart the learning-rate schedule. A separate copy of
+the full 50K checkpoint and its configuration is retained before continuation.
+The original experiment directory keeps its historical `_50k` name, and the
+original corpus seal retains its initial 50K target; neither is a new dataset.
+
+W&B continues the same run in `ukrainian-tts`, logging numeric metrics only.
+The continuation preserves 75K and 100K milestones and evaluates both after
+training, starting comparisons from the existing 50K quality report. A failed
+initial job blocks the dependent continuation. This entry-point requires 50K
+state and refuses to silently start fresh. The scheduler audit passed on the
+actual 50K checkpoint; focused tests cover a restored scheduler taking its next
+step and reject reset, missing or inconsistent scheduler state.
 
 Intermediate **8K, 21K, 30K, 42K and 48K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
