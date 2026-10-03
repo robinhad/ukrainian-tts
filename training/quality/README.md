@@ -132,9 +132,9 @@ remain unfiltered and contribute a separate 2.09777 processed hours.
 All per-item scores and per-source distributions are exported in the portable
 reports above.
 
-Training is in progress. The first twenty-five completed epochs (25,000 of 50,000
-steps) passed without nonfinite losses or resource alerts. At 25K, epoch-mean
-training mel loss is **45.50220** and validation mel loss is **45.15530**,
+Training is in progress. The first thirty completed epochs (30,000 of 50,000
+steps) passed without nonfinite losses or resource alerts. At 30K, epoch-mean
+training mel loss is **44.64366** and validation mel loss is **45.33163**,
 compared with **66.61093** validation mel loss at 1K. The lowest validation
 mel loss observed so far is **44.20304** at 23K. These are model
 losses, not audio-quality MOS measurements. Paired epoch summaries are in
