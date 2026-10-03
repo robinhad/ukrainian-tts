@@ -156,7 +156,7 @@ Final checkpoint quality measurements follow training completion.
 The 25K milestone is preserved, and its SHA-256 matches the epoch-25 model.
 Its portable provenance is in `training/reports/quality_v12_checkpoint_25k.json`.
 
-Intermediate **8K and 21K checkpoint listening sets** each contain 10 generated
+Intermediate **8K, 21K and 30K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes
 its transcript, original recording and processed reference. Selection uses seed
@@ -164,10 +164,11 @@ its transcript, original recording and processed reference. Selection uses seed
 quality. ECAPA conditioning matches the processed-reference policy used by the
 checkpoint evaluator. Generated waveforms receive no enhancement or loudness
 normalization. The frozen checkpoint hash is recorded in
-`training/reports/quality_v12_listening_8k.json` and
-`training/reports/quality_v12_listening_21k.json`.
+`training/reports/quality_v12_listening_8k.json`,
+`training/reports/quality_v12_listening_21k.json` and
+`training/reports/quality_v12_listening_30k.json`.
 
-Open `training/quality_runs/v12/listening_21k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_30k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -177,12 +178,12 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/21k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/30k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_21k --step 21000 --count 10
+  --output training/quality_runs/v12/listening_30k --step 30000 --count 10
 ```
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
