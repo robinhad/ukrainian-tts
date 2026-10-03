@@ -132,11 +132,11 @@ remain unfiltered and contribute a separate 2.09777 processed hours.
 All per-item scores and per-source distributions are exported in the portable
 reports above.
 
-Training is in progress. The first twenty completed epochs (20,000 of 50,000
-steps) passed without nonfinite losses or resource alerts. At 20K, epoch-mean
-training mel loss is **46.48848** and validation mel loss is **46.78572**,
+Training is in progress. The first twenty-five completed epochs (25,000 of 50,000
+steps) passed without nonfinite losses or resource alerts. At 25K, epoch-mean
+training mel loss is **45.50220** and validation mel loss is **45.15530**,
 compared with **66.61093** validation mel loss at 1K. The lowest validation
-mel loss observed so far is **44.39614** at 18K. These are model
+mel loss observed so far is **44.20304** at 23K. These are model
 losses, not audio-quality MOS measurements. Paired epoch summaries are in
 `training/reports/quality_v12_training_epochs.{csv,jsonl}`. Export an updated
 snapshot from TensorBoard with:
@@ -153,6 +153,8 @@ latest training summary at each matching step. Output contains scalar names,
 steps and values, without local paths or machine metadata. At the initial
 1K remote check, W&B contained numeric metrics and no model artifacts.
 Final checkpoint quality measurements follow training completion.
+The 25K milestone is preserved, and its SHA-256 matches the epoch-25 model.
+Its portable provenance is in `training/reports/quality_v12_checkpoint_25k.json`.
 
 Intermediate **8K and 21K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts

@@ -1,0 +1,7 @@
+{
+  "steps": 25000,
+  "model_sha256": "d71620b396005353983019717acdb16c97a5a582a62938727e118db728cadbb7",
+  "model_bytes": 333939253,
+  "epoch_artifact_match": true,
+  "quality_evaluation": "pending after 50K training completion"
+}
