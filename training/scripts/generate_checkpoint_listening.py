@@ -66,7 +66,7 @@ audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-tem
 @media(prefers-color-scheme:dark){{:root{{background:#151b17;color:#ebefea}}header p,.meta{{color:#acb9ad}}article{{border-color:#354036}}a{{color:#9ad5ab}}}}
 </style><header><h1>Ukrainian TTS · {step:,} steps</h1>
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
-This is an intermediate checkpoint from the 50,000-step run. Speaker conditioning uses the processed reference.
+This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
 Generated audio is presented without enhancement or loudness normalization.</p></header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
