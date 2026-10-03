@@ -85,7 +85,8 @@ if (( ITERS_PER_EPOCH == 1000 )); then
   python -m training.scripts.audit_finetune_checkpoint --checkpoint "$TTS_EXP/checkpoint.pth" \
     --expected-steps "$STEPS" --model-artifact "$TTS_EXP/$((STEPS / ITERS_PER_EPOCH))epoch.pth" \
     --output "${QUALITY_RUN_DIR:-${ROOT}/quality_runs/v10}/checkpoint_${STEPS}.json"
-  if [[ "${RUN_CHECKPOINT_EVAL:-true}" == true ]] && (( STEPS == 50000 || STEPS == 100000 )); then
+  if [[ "${RUN_CHECKPOINT_EVAL:-true}" == true ]] && \
+     { (( STEPS == 50000 || STEPS == 100000 )) || [[ -n "${MILESTONES:-}" ]]; }; then
     if (( STEPS == 50000 )); then export MILESTONES=${MILESTONES:-"25k 50k"}; fi
     TTS_EXP="$TTS_EXP" bash "${ROOT}/scripts/evaluate_quality_v10_checkpoints.sh"
   fi

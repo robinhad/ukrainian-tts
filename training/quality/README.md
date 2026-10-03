@@ -182,6 +182,26 @@ state and refuses to silently start fresh. The scheduler audit passed on the
 actual 50K checkpoint; focused tests cover a restored scheduler taking its next
 step and reject reset, missing or inconsistent scheduler state.
 
+A further **20,000 updates (100K → 120K total)** use the same continuation
+launcher with `CONTINUE_FROM_STEPS=100000`, `CONTINUE_TO_STEPS=120000` and
+`CONTINUE_MILESTONES=120k`. Queue it after the 100K job, including its evaluation:
+
+```bash
+sbatch --dependency="afterok:${TRAIN_100K_JOB_ID:?Set the 100K training job ID}" \
+  training/slurm/quality_v12_continue_120k.sbatch
+```
+
+At startup, the launcher audits both optimizers at 100,000 updates and both
+schedulers at epoch 100, then saves a separate full-state backup. Training
+continues in the same experiment and W&B metrics run, with the learning-rate
+decay intact. The 120K milestone is preserved and evaluated against the original
+recordings and the 100K results after training. At approximately 2,400 updates
+per hour, this extension takes about **8 hours 20 minutes**, plus evaluation.
+Invalid continuation bounds fail before preparation; a regression check verifies
+that a final milestone outside the historical fixed list survives checkpoint
+pruning. The dependency prevents the extension from starting after a failed
+100K job.
+
 Intermediate **8K, 21K, 30K, 42K, 48K, 60K and 76K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes
