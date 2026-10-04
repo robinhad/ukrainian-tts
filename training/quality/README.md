@@ -215,6 +215,44 @@ execution and exit from those bodies, avoiding later reads at stale file
 offsets. A regression test replaces a watcher's source while it is waiting and
 verifies that it still preserves the final milestone and exits successfully.
 
+Checkpoint evaluation through **100K is complete**: every checkpoint scored
+the same 88 held-out items (11 per source), with zero failures. Full-population
+synthesis also covered all 1,688 evaluation items for each checkpoint. At 100K,
+epoch-mean training mel loss was **39.97288** and validation mel loss was
+**40.23526**; the lowest validation mel loss through 100K was **39.80164** at
+86K. The authorized 100K → 120K continuation retains the existing schedule.
+
+| Checkpoint | Median SigMOS overall | Median Audiobox PQ | Median Whisper CER / WER | Median Parakeet CER / WER | Median ECAPA similarity |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Original recordings | 3.0472 | 7.0241 | 0.0000 / 0.0871 | 0.0000 / 0.0000 | 1.0000 |
+| 25K | 1.9661 | 4.5680 | 0.2140 / 0.5192 | 0.4331 / 1.0000 | 0.2257 |
+| 50K | 2.3592 | 6.1627 | 0.0987 / 0.3333 | 0.0978 / 0.4018 | 0.2651 |
+| 75K | 2.4935 | 7.0789 | 0.0429 / 0.2500 | 0.0413 / 0.2500 | 0.3168 |
+| 100K | 2.5349 | 7.1888 | 0.0282 / 0.2000 | 0.0392 / 0.2222 | 0.3267 |
+
+CER/WER are fractions and these are medians of per-file values. Naturalness,
+recognition and speaker similarity improve across the evaluated checkpoints,
+but 100K still trails the originals on SigMOS and speaker similarity remains
+low. Original ECAPA compares each recording with itself. Audiobox PQ and
+SigMOS use different scales and should not be directly compared. These
+uncalibrated measurements remain report-only and do not automatically select,
+reject or promote checkpoints. No HNR-based rejection is used.
+
+Portable per-file, segment, aggregate and paired-comparison tables are in
+`training/reports/quality_v12_checkpoints/`, as both JSONL and CSV. They retain
+all seven SigMOS dimensions, Audiobox PQ, both ASR metrics, ECAPA, clipping,
+duration changes, local high-frequency burst flags and worst segments. Segment
+ASR is explicitly unscored where no time-aligned reference transcript exists.
+The exporter excludes local paths and transcripts, verifies matching panel IDs
+and reference hashes, and refuses incomplete evaluations. Reproduce with:
+
+```bash
+training/.venv/bin/python -m training.scripts.report_checkpoint_quality \
+  --root training/quality_runs/v12/checkpoints \
+  --output training/reports/quality_v12_checkpoints \
+  --labels original 25k 50k 75k 100k
+```
+
 Intermediate **8K, 21K, 30K, 42K, 48K, 60K, 76K and 100K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes

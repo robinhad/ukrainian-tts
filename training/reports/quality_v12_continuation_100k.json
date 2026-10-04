@@ -32,5 +32,5 @@
   "additional_steps": 50000,
   "model_sha256": "e505141766fa5eb07682a56291415871b00b63b0efa29acb5ac3470ec184dca4",
   "model_artifact_matches": true,
-  "quality_evaluation": "in progress after initial 50K training"
+  "quality_evaluation": "complete for 25K, 50K, 75K and 100K"
 }

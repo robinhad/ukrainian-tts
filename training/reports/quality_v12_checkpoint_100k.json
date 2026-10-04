@@ -30,5 +30,5 @@
   ],
   "model_sha256": "54fd19e9bdf0464e28b405c367e8d8ea11cddbee4ed24379444dc1b93264cd15",
   "model_artifact_matches": true,
-  "quality_evaluation": "recovery evaluation in progress"
+  "quality_evaluation": "complete: 88 fixed held-out items, zero failures"
 }
