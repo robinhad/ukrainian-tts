@@ -49,11 +49,30 @@ def page(rows, step, embedded=False, output=None):
             url = row[key]
             if embedded:
                 url = 'data:audio/wav;base64,' + base64.b64encode((output / url).read_bytes()).decode()
-            players.append(f'<div><label>{label}</label><audio controls preload="none" src="{html.escape(url)}"></audio></div>')
+            quality = row.get('quality', {}).get(key)
+            scores = ''
+            if quality:
+                metrics = [('sigmos_overall', 'SigMOS overall'), ('audiobox_pq', 'Audiobox PQ'),
+                           ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
+                           ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
+                           ('sigmos_loudness', 'Loudness'), ('sigmos_reverb', 'Reverberation')]
+                scores = '<table class="scores"><caption>Whole-file quality</caption><tbody>' + ''.join(
+                    f'<tr><th scope="row">{name}</th><td>{quality[metric]:.3f}</td></tr>'
+                    for metric, name in metrics) + '</tbody></table>'
+            players.append(f'<div><label>{label}</label><audio controls preload="none" src="{html.escape(url)}"></audio>{scores}</div>')
         cards.append(f'<article><div class="meta">{index:02d} · {html.escape(row["source_id"])}'
                      f' · generated {row["duration_seconds"]:.2f}s</div>'
                      f'<p lang="uk">{html.escape(row["text"])}</p>'
                      f'<div class="players">{"".join(players)}</div></article>')
+    quality_note = ('<p>Scores are model predictions for the exact audio below, not human ratings. '
+                    'Higher is better within each metric; SigMOS and Audiobox PQ use different scales. '
+                    'All scores are report-only. <a href="quality.csv">Download CSV</a> · '
+                    '<a href="quality.jsonl">Download JSONL</a></p>'
+                    if any(r.get('quality') for r in rows) else '')
+    if embedded and quality_note:
+        for name, mime in [('quality.csv', 'text/csv'), ('quality.jsonl', 'application/x-ndjson')]:
+            encoded = base64.b64encode((output / name).read_bytes()).decode()
+            quality_note = quality_note.replace(f'href="{name}"', f'download="{name}" href="data:{mime};base64,{encoded}"')
     return f'''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ukrainian TTS · {step:,}-step listening test</title>
@@ -62,15 +81,25 @@ body{{max-width:1100px;margin:40px auto;padding:0 20px}}h1{{font-size:2rem;lette
 header p{{max-width:850px;line-height:1.6;color:#545e56}}article{{padding:24px 0;border-top:1px solid #d5dbd5}}
 .meta{{font-size:.85rem;color:#545e56}}article p{{font-size:1.15rem;line-height:1.6}}
 .players{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}label{{display:block;font-size:.9rem;margin-bottom:9px}}
+.scores{{width:100%;font-size:.85rem;border-collapse:collapse;margin-top:12px;font-variant-numeric:tabular-nums}}.scores caption{{text-align:left;margin-bottom:6px}}.scores th{{text-align:left;font-weight:400}}.scores td{{text-align:right}}.scores th,.scores td{{padding:3px 0}}
 audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-template-columns:1fr}}body{{margin:24px auto}}}}
 @media(prefers-color-scheme:dark){{:root{{background:#151b17;color:#ebefea}}header p,.meta{{color:#acb9ad}}article{{border-color:#354036}}a{{color:#9ad5ab}}}}
 </style><header><h1>Ukrainian TTS · {step:,} steps</h1>
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p></header>
+Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
+
+
+def write_pages(output, rows, step):
+    output.joinpath('index.html').write_text(page(rows, step))
+    output.joinpath('preview.html').write_text(page(rows, step, True, output))
+    with zipfile.ZipFile(output / 'listening_set.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(output.rglob('*')):
+            if path.is_file() and path.suffix != '.zip':
+                archive.write(path, path.relative_to(output))
 
 
 def main():
@@ -80,6 +109,8 @@ def main():
     parser.add_argument('--step', type=int, required=True)
     parser.add_argument('--count', type=int, default=10)
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda')
+    parser.add_argument('--quality-config', type=Path, default=Path('training/conf/quality.yaml'))
+    parser.add_argument('--skip-quality', action='store_true', help='Generate audio without GPU MOS scoring')
     args = parser.parse_args()
     if args.count < 1:
         parser.error('--count must be positive')
@@ -136,12 +167,14 @@ def main():
         'selection': 'source round-robin, fixed seeded item order',
         'speaker_conditioning': 'processed evaluation reference ECAPA',
         'postprocessing': 'none; PCM24 serialization only'}, indent=2) + '\n')
-    args.output.joinpath('index.html').write_text(page(rows, args.step))
-    args.output.joinpath('preview.html').write_text(page(rows, args.step, True, args.output))
-    with zipfile.ZipFile(args.output / 'listening_set.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
-        for path in sorted(args.output.rglob('*')):
-            if path.is_file() and path.suffix != '.zip':
-                archive.write(path, path.relative_to(args.output))
+    del model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    if not args.skip_quality:
+        from training.scripts.score_checkpoint_listening import score_listening
+        score_listening(args.output, args.quality_config)
+    else:
+        write_pages(args.output, rows, args.step)
 
 
 if __name__ == '__main__':

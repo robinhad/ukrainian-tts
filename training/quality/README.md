@@ -339,6 +339,35 @@ python -m training.scripts.generate_checkpoint_listening \
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
 references in both HTML pages (including embedded bytes), and ZIP integrity.
 
+The 127K listening page also displays whole-file **SigMOS overall, speech,
+noise, coloration, discontinuity, loudness and reverberation**, plus **Audiobox
+PQ**, beneath each generated/original/processed player. These are predictions
+for the exact saved WAV bytes, not human ratings. The model adapters use their
+standard resampling without extra loudness normalization. Higher values are
+better within each metric; SigMOS and Audiobox PQ use different scales.
+Scores remain report-only. All 30 waveforms are scored on GPU, with model and
+audio hashes recorded; only the quality models are loaded, without ASR models.
+
+New listening generation includes these scores by default (`--skip-quality`
+explicitly omits them). To add or refresh scores on an existing listening page
+inside a SLURM GPU allocation, without resynthesizing audio:
+
+```bash
+source training/activate.sh
+python -m training.scripts.score_checkpoint_listening \
+  --output training/quality_runs/v12/listening_127k \
+  --config training/conf/quality.yaml
+```
+
+This verifies every saved audio hash, scores all three roles, and rebuilds both
+HTML pages and the ZIP. Per-waveform results are in `quality.{csv,jsonl}` beside
+the page; the standalone preview embeds these downloads as well as the audio.
+Portable 127K scores are also committed as
+`training/reports/quality_v12_listening_127k_scores.{csv,jsonl}`. These ten
+listening items are a subset and do not replace the fixed 88-item checkpoint
+evaluation. Focused tests verify role-specific scores, embedded downloads and
+ZIP contents, and rejection of modified audio before updating reports.
+
 Full-run throughput tuning on 2026-10-02 compared consecutive Common Voice
 chunks of 2,048 files. Times include enhancement, SigMOS scoring and durable
 decisions, with the next chunk's MFA work overlapped. Audio seconds per second
