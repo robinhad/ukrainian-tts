@@ -222,6 +222,13 @@ epoch-mean training mel loss was **39.97288** and validation mel loss was
 **40.23526**; the lowest validation mel loss through 100K was **39.80164** at
 86K. The authorized 100K → 120K continuation retains the existing schedule.
 
+The continuation has reached **105,000 / 120,000 steps**. At 105K, epoch-mean
+training mel loss is **40.12154** and validation mel loss is
+**41.59472**. Its first saved checkpoint after resuming (101K)
+passed the full model, optimizer-step and scheduler-state audit. W&B continues
+the original metrics run with zero uploaded model artifacts.
+
+
 | Checkpoint | Median SigMOS overall | Median Audiobox PQ | Median Whisper CER / WER | Median Parakeet CER / WER | Median ECAPA similarity |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Original recordings | 3.0472 | 7.0241 | 0.0000 / 0.0871 | 0.0000 / 0.0000 | 1.0000 |
