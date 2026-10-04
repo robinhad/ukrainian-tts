@@ -202,6 +202,19 @@ that a final milestone outside the historical fixed list survives checkpoint
 pruning. The dependency prevents the extension from starting after a failed
 100K job.
 
+The 100K training segment completed on 2026-10-04, but its milestone watcher
+exited with a shell read-offset error after its source was edited during the
+run. This prevented the completion audit/evaluation and blocked the dependent
+120K job. The saved 100K model and both optimizer/scheduler states passed a
+separate audit; no training updates were lost. The 100K milestone was recovered
+from the matching epoch artifact. To recover just this evaluation, use
+`training/slurm/quality_v12_evaluate_100k.sbatch` and attach the queued
+continuation to that job's successful completion. Long-running training and
+milestone shell workflows now parse their complete function bodies before
+execution and exit from those bodies, avoiding later reads at stale file
+offsets. A regression test replaces a watcher's source while it is waiting and
+verifies that it still preserves the final milestone and exits successfully.
+
 Intermediate **8K, 21K, 30K, 42K, 48K, 60K and 76K checkpoint listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes

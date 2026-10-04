@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Parse the workflow before waiting so source edits cannot shift Bash offsets.
+main() {
 set -euo pipefail
 
 TRAIN_PID=${1:?Usage: preserve_expanded_v9_milestones.sh TRAIN_PID TARGET_ITERATIONS TTS_EXP}
@@ -43,3 +45,6 @@ while kill -0 "$TRAIN_PID" 2>/dev/null; do
     sleep 30
 done
 preserve_available
+exit 0
+}
+main "$@"

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Parse the entire long-running workflow before execution. Repository edits
+# during training must not shift Bash's read position at the completion tail.
+main() {
 set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "${ROOT}/.."
@@ -91,3 +94,6 @@ if (( ITERS_PER_EPOCH == 1000 )); then
     TTS_EXP="$TTS_EXP" bash "${ROOT}/scripts/evaluate_quality_v10_checkpoints.sh"
   fi
 fi
+exit 0
+}
+main "$@"
