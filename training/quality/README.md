@@ -222,9 +222,9 @@ epoch-mean training mel loss was **39.97288** and validation mel loss was
 **40.23526**; the lowest validation mel loss through 100K was **39.80164** at
 86K. The authorized 100K → 120K continuation retains the existing schedule.
 
-The continuation has reached **110,000 / 120,000 steps**. At 110K, epoch-mean
-training mel loss is **39.47017** and validation mel loss is
-**41.54215**. The lowest validation mel loss through 110K is
+The continuation has reached **115,000 / 120,000 steps**. At 115K, epoch-mean
+training mel loss is **39.50134** and validation mel loss is
+**38.92775**. The lowest validation mel loss through 115K is
 **38.92545** at 107K. Its first saved checkpoint after resuming (101K)
 passed the full model, optimizer-step and scheduler-state audit. W&B continues
 the original metrics run with zero uploaded model artifacts.
