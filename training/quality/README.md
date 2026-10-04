@@ -235,6 +235,25 @@ The same W&B run is marked finished at 120,000 steps, with zero uploaded model
 artifacts. Active monitoring continued through successful training and evaluation;
 the recovered 100K handoff issue above did not recur during the final continuation.
 
+An additional **100,000 updates (120K → 220K total)** are authorized after the
+completed 120K evaluation. Submit once from the repository root:
+
+```bash
+sbatch training/slurm/quality_v12_continue_220k.sbatch
+```
+
+This launcher requires the complete 120K state and matching milestone, verifies
+the sealed dataset, and backs up the full checkpoint before resuming. Both
+optimizers and exponential schedulers continue without reset. It uses the same
+W&B metrics run in `ukrainian-tts`, with model uploads disabled, and retains the
+measured training configuration. It preserves 200K and 220K milestones and
+evaluates both after training against the originals and previous checkpoint,
+starting from the 120K quality report. The supervisor checks resource state and
+log activity every 60 seconds. At the measured rate of approximately 2,400
+updates/hour, the additional training takes about **41 hours 40 minutes**, plus
+preparation and final evaluation. This is a new continuation; the completed
+120K results below remain the last evaluated checkpoint until it finishes.
+
 | Checkpoint | Median SigMOS overall | Median Audiobox PQ | Median Whisper CER / WER | Median Parakeet CER / WER | Median ECAPA similarity |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Original recordings | 3.0472 | 7.0241 | 0.0000 / 0.0871 | 0.0000 / 0.0000 | 1.0000 |
