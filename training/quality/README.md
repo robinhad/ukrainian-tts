@@ -299,7 +299,7 @@ training/.venv/bin/python -m training.scripts.report_checkpoint_quality \
   --labels original 25k 50k 75k 100k 120k
 ```
 
-The **8K, 21K, 30K, 42K, 48K, 60K, 76K, 100K, 120K and 127K listening sets** each contain 10 generated
+The **8K, 21K, 30K, 42K, 48K, 60K, 76K, 100K, 120K, 127K and 131K listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes
 its transcript, original recording and processed reference. Selection uses seed
@@ -315,10 +315,11 @@ normalization. The frozen checkpoint hash is recorded in
 `training/reports/quality_v12_listening_60k.json`,
 `training/reports/quality_v12_listening_76k.json`,
 `training/reports/quality_v12_listening_100k.json`,
-`training/reports/quality_v12_listening_120k.json` and
-`training/reports/quality_v12_listening_127k.json`.
+`training/reports/quality_v12_listening_120k.json`,
+`training/reports/quality_v12_listening_127k.json` and
+`training/reports/quality_v12_listening_131k.json`.
 
-Open `training/quality_runs/v12/listening_127k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_131k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -328,18 +329,18 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/127k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/131k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_127k --step 127000 --count 10
+  --output training/quality_runs/v12/listening_131k --step 131000 --count 10
 ```
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
 references in both HTML pages (including embedded bytes), and ZIP integrity.
 
-The 127K listening page also displays whole-file **SigMOS overall, speech,
+The 127K and 131K listening pages also display whole-file **SigMOS overall, speech,
 noise, coloration, discontinuity, loudness and reverberation**, plus **Audiobox
 PQ**, beneath each generated/original/processed player. These are predictions
 for the exact saved WAV bytes, not human ratings. The model adapters use their
@@ -355,15 +356,16 @@ inside a SLURM GPU allocation, without resynthesizing audio:
 ```bash
 source training/activate.sh
 python -m training.scripts.score_checkpoint_listening \
-  --output training/quality_runs/v12/listening_127k \
+  --output training/quality_runs/v12/listening_131k \
   --config training/conf/quality.yaml
 ```
 
 This verifies every saved audio hash, scores all three roles, and rebuilds both
 HTML pages and the ZIP. Per-waveform results are in `quality.{csv,jsonl}` beside
 the page; the standalone preview embeds these downloads as well as the audio.
-Portable 127K scores are also committed as
-`training/reports/quality_v12_listening_127k_scores.{csv,jsonl}`. These ten
+Portable scores are also committed as
+`training/reports/quality_v12_listening_127k_scores.{csv,jsonl}` and
+`training/reports/quality_v12_listening_131k_scores.{csv,jsonl}`. These ten
 listening items are a subset and do not replace the fixed 88-item checkpoint
 evaluation. Focused tests verify role-specific scores, embedded downloads and
 ZIP contents, and rejection of modified audio before updating reports.
