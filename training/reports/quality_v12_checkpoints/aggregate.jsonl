@@ -878,3 +878,179 @@
 {"checkpoint": "100k", "source_id": "source_macro", "metric": "clipping_fraction", "count": 8, "mean": 0.0}
 {"checkpoint": "100k", "source_id": "source_macro", "metric": "duration_ratio", "count": 8, "mean": 0.7293392550786404}
 {"checkpoint": "100k", "source_id": "source_macro", "metric": "hf_burst_count", "count": 8, "mean": 2.3522727272727275}
+{"checkpoint": "120k", "source_id": "all", "metric": "sigmos_overall", "count": 88, "expected_count": 88, "mean": 2.6010557250543074, "median": 2.5957366228103638, "p05": 2.0442620873451234, "p95": 3.0717860221862794}
+{"checkpoint": "120k", "source_id": "all", "metric": "sigmos_speech", "count": 88, "expected_count": 88, "mean": 3.045731555331837, "median": 3.0695157051086426, "p05": 2.410408318042755, "p95": 3.680868601799011}
+{"checkpoint": "120k", "source_id": "all", "metric": "sigmos_noise", "count": 88, "expected_count": 88, "mean": 3.8745058829134162, "median": 3.907800555229187, "p05": 3.1461993217468263, "p95": 4.477912735939025}
+{"checkpoint": "120k", "source_id": "all", "metric": "sigmos_coloration", "count": 88, "expected_count": 88, "mean": 2.862575138157064, "median": 2.881946086883545, "p05": 2.2441001415252684, "p95": 3.458567917346954}
+{"checkpoint": "120k", "source_id": "all", "metric": "sigmos_discontinuity", "count": 88, "expected_count": 88, "mean": 3.862720410932194, "median": 3.887086272239685, "p05": 3.1665154099464417, "p95": 4.325747609138489}
+{"checkpoint": "120k", "source_id": "all", "metric": "audiobox_pq", "count": 88, "expected_count": 88, "mean": 7.328047389333898, "median": 7.340925455093384, "p05": 6.8412696599960325, "p95": 7.747029566764831}
+{"checkpoint": "120k", "source_id": "all", "metric": "cer", "count": 88, "expected_count": 88, "mean": 0.06186079432407176, "median": 0.02105496453900709, "p05": 0.0, "p95": 0.20896317829457364}
+{"checkpoint": "120k", "source_id": "all", "metric": "wer", "count": 88, "expected_count": 88, "mean": 0.24411695071120204, "median": 0.15476190476190477, "p05": 0.0, "p95": 1.0}
+{"checkpoint": "120k", "source_id": "all", "metric": "parakeet_cer", "count": 88, "expected_count": 88, "mean": 0.09875502362667418, "median": 0.028750826173165895, "p05": 0.0, "p95": 0.3765664160401001}
+{"checkpoint": "120k", "source_id": "all", "metric": "parakeet_wer", "count": 88, "expected_count": 88, "mean": 0.2749598863703142, "median": 0.17914438502673796, "p05": 0.0, "p95": 0.9416666666666652}
+{"checkpoint": "120k", "source_id": "all", "metric": "ecapa_similarity", "count": 88, "expected_count": 88, "mean": 0.3875449760393663, "median": 0.3921818733215332, "p05": 0.21213209107518197, "p95": 0.5835274308919904}
+{"checkpoint": "120k", "source_id": "all", "metric": "clipping_fraction", "count": 88, "expected_count": 88, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "all", "metric": "duration_ratio", "count": 88, "expected_count": 88, "mean": 0.7418101905989422, "median": 0.7228341384863124, "p05": 0.5019658119658119, "p95": 1.0789428815004258}
+{"checkpoint": "120k", "source_id": "all", "metric": "hf_burst_count", "count": 88, "expected_count": 88, "mean": 2.2954545454545454, "median": 2.0, "p05": 0.0, "p95": 6.0}
+{"checkpoint": "120k", "source_id": "all", "metric": "corpus_cer", "count": 4182, "mean": 0.03993304638928742}
+{"checkpoint": "120k", "source_id": "all", "metric": "corpus_wer", "count": 803, "mean": 0.19053549190535493}
+{"checkpoint": "120k", "source_id": "all", "metric": "corpus_parakeet_cer", "count": 4182, "mean": 0.06121472979435677}
+{"checkpoint": "120k", "source_id": "all", "metric": "corpus_parakeet_wer", "count": 803, "mean": 0.21046077210460773}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.665893641385165, "median": 2.715325117111206, "p05": 2.244126319885254, "p95": 3.017228364944458}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 3.0744233564897017, "median": 3.0693819522857666, "p05": 2.7322663068771362, "p95": 3.471391797065735}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 4.004729661074552, "median": 3.999114990234375, "p05": 3.467658042907715, "p95": 4.396335124969482}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.8755169348283247, "median": 2.8724863529205322, "p05": 2.254528522491455, "p95": 3.4431408643722534}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.8688763921911065, "median": 3.7744462490081787, "p05": 3.481380820274353, "p95": 4.395225524902344}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.392600666392934, "median": 7.58537483215332, "p05": 6.857492923736572, "p95": 7.744920492172241}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.037713387175643924, "median": 0.021739130434782608, "p05": 0.0, "p95": 0.1127450980392157}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.1922635445362718, "median": 0.2, "p05": 0.0, "p95": 0.3693181818181818}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.020563396744688933, "median": 0.0, "p05": 0.0, "p95": 0.07352941176470588}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.16152433425160695, "median": 0.18181818181818182, "p05": 0.0, "p95": 0.45}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.37337634509260004, "median": 0.4103032648563385, "p05": 0.2672537863254547, "p95": 0.46757872402668}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.675212807535387, "median": 0.6606451612903226, "p05": 0.5768888888888888, "p95": 0.7719139858674742}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 1.8181818181818181, "median": 2.0, "p05": 0.0, "p95": 4.0}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "corpus_cer", "count": 494, "mean": 0.038461538461538464}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "corpus_wer", "count": 94, "mean": 0.20212765957446807}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "corpus_parakeet_cer", "count": 494, "mean": 0.022267206477732792}
+{"checkpoint": "120k", "source_id": "common_voice_available_uk", "metric": "corpus_parakeet_wer", "count": 94, "mean": 0.18085106382978725}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.507091348821467, "median": 2.482682943344116, "p05": 2.02129065990448, "p95": 2.975750207901001}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 2.998312299901789, "median": 2.9642131328582764, "p05": 2.441965103149414, "p95": 3.535173773765564}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.8783779577775435, "median": 3.8248512744903564, "p05": 3.4309396743774414, "p95": 4.44765830039978}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.665340922095559, "median": 2.8016858100891113, "p05": 2.1550583839416504, "p95": 2.9439526796340942}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.808076164939187, "median": 3.8360698223114014, "p05": 3.432582378387451, "p95": 4.282775640487671}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.261694604700262, "median": 7.268613338470459, "p05": 6.911021947860718, "p95": 7.56502628326416}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.022244939004018673, "median": 0.010752688172043012, "p05": 0.003676470588235294, "p95": 0.06460159938337026}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.13519904931669638, "median": 0.08, "p05": 0.05, "p95": 0.32230392156862747}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.04396163081961837, "median": 0.014388489208633094, "p05": 0.0, "p95": 0.1834811087147536}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.12339275103980989, "median": 0.1, "p05": 0.0, "p95": 0.3402777777777778}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.47894536365162244, "median": 0.4874797761440277, "p05": 0.38541629910469055, "p95": 0.5508743524551392}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.7862375503165716, "median": 0.8071111111111111, "p05": 0.6653716908450127, "p95": 0.8944177974555542}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 4.2727272727272725, "median": 4.0, "p05": 1.0, "p95": 7.5}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "corpus_cer", "count": 1304, "mean": 0.020705521472392636}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "corpus_wer", "count": 208, "mean": 0.13942307692307693}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "corpus_parakeet_cer", "count": 1304, "mean": 0.04294478527607362}
+{"checkpoint": "120k", "source_id": "fleurs_uk", "metric": "corpus_parakeet_wer", "count": 208, "mean": 0.125}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.276478659022938, "median": 2.328507423400879, "p05": 1.7379029989242554, "p95": 2.6591432094573975}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 2.7909678545865146, "median": 2.7759222984313965, "p05": 2.192255139350891, "p95": 3.4327375888824463}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.516471732746471, "median": 3.8789987564086914, "p05": 2.508362054824829, "p95": 4.118488311767578}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.9444017193534155, "median": 2.9603195190429688, "p05": 2.2766202688217163, "p95": 3.6043736934661865}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.6972598379308526, "median": 3.7678022384643555, "p05": 2.826391339302063, "p95": 4.2483367919921875}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.3609608736905185, "median": 7.27992057800293, "p05": 6.8662333488464355, "p95": 7.9039528369903564}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.11338303425403029, "median": 0.1, "p05": 0.0, "p95": 0.20881782945736435}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.5287878787878788, "median": 0.5, "p05": 0.0, "p95": 1.0}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.15231725849282574, "median": 0.17857142857142858, "p05": 0.009433962264150943, "p95": 0.32380952380952377}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.5840220385674931, "median": 0.5, "p05": 0.045454545454545456, "p95": 1.3333333333333335}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.2894445888020776, "median": 0.285418838262558, "p05": 0.17392820864915848, "p95": 0.40633685886859894}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.6526035710082136, "median": 0.5582554517133956, "p05": 0.4994620994620994, "p95": 0.978852180141463}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 2.5454545454545454, "median": 2.0, "p05": 0.0, "p95": 6.0}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "corpus_cer", "count": 345, "mean": 0.10144927536231885}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "corpus_wer", "count": 63, "mean": 0.42857142857142855}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "corpus_parakeet_cer", "count": 345, "mean": 0.1246376811594203}
+{"checkpoint": "120k", "source_id": "opentts_lada", "metric": "corpus_parakeet_wer", "count": 63, "mean": 0.4444444444444444}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.9709066694433037, "median": 3.0047409534454346, "p05": 2.6999454498291016, "p95": 3.2081867456436157}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 3.402927962216464, "median": 3.3600292205810547, "p05": 3.108689308166504, "p95": 3.809632658958435}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.9503624222495337, "median": 4.060712814331055, "p05": 3.394096851348877, "p95": 4.439346790313721}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 3.094703869386153, "median": 3.1127748489379883, "p05": 2.737102508544922, "p95": 3.4639276266098022}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.9432219808751885, "median": 3.9322738647460938, "p05": 3.4958226680755615, "p95": 4.383969068527222}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.490787852894176, "median": 7.542150974273682, "p05": 7.086465120315552, "p95": 7.763779878616333}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.09810132352359276, "median": 0.01639344262295082, "p05": 0.0, "p95": 0.406060606060606}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.341017316017316, "median": 0.3333333333333333, "p05": 0.0, "p95": 1.0}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.13612720073809292, "median": 0.0625, "p05": 0.0, "p95": 0.3977272727272727}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.3435064935064935, "median": 0.3333333333333333, "p05": 0.0, "p95": 0.6666666666666666}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.31152275475588714, "median": 0.31782063841819763, "p05": 0.20774950087070465, "p95": 0.4205479323863983}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.643032452022351, "median": 0.610909090909091, "p05": 0.5237179487179487, "p95": 0.8307818930041152}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 1.8181818181818181, "median": 1.0, "p05": 0.0, "p95": 4.5}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "corpus_cer", "count": 262, "mean": 0.061068702290076333}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "corpus_wer", "count": 51, "mean": 0.29411764705882354}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "corpus_parakeet_cer", "count": 262, "mean": 0.08015267175572519}
+{"checkpoint": "120k", "source_id": "opentts_mykyta", "metric": "corpus_parakeet_wer", "count": 51, "mean": 0.29411764705882354}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.6311658295718106, "median": 2.654468536376953, "p05": 2.20671010017395, "p95": 3.1336828470230103}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 3.0419222008098257, "median": 3.091435670852661, "p05": 2.5110124349594116, "p95": 3.6768321990966797}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.8649395162409004, "median": 3.813971757888794, "p05": 3.314301013946533, "p95": 4.595904111862183}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.8149025440216064, "median": 2.9068477153778076, "p05": 2.3403143882751465, "p95": 3.1876825094223022}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.9047071066769687, "median": 3.9790382385253906, "p05": 3.3180274963378906, "p95": 4.199354648590088}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.373141028664329, "median": 7.355858325958252, "p05": 7.072674989700317, "p95": 7.585355520248413}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.05087066845357886, "median": 0.037037037037037035, "p05": 0.0, "p95": 0.15526315789473683}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.27309458218549126, "median": 0.16666666666666666, "p05": 0.0, "p95": 1.0}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.0698154204905907, "median": 0.037037037037037035, "p05": 0.0, "p95": 0.23421052631578948}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.3110586383313656, "median": 0.16666666666666666, "p05": 0.0, "p95": 0.9444444444444444}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.5204314860430631, "median": 0.5309429168701172, "p05": 0.3933160901069641, "p95": 0.6302812695503235}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.6484829665795884, "median": 0.6418879056047198, "p05": 0.497340930674264, "p95": 0.8540526413272644}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 1.7272727272727273, "median": 1.0, "p05": 0.0, "p95": 4.0}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "corpus_cer", "count": 410, "mean": 0.036585365853658534}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "corpus_wer", "count": 87, "mean": 0.20689655172413793}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "corpus_parakeet_cer", "count": 410, "mean": 0.05365853658536585}
+{"checkpoint": "120k", "source_id": "opentts_tetiana", "metric": "corpus_parakeet_wer", "count": 87, "mean": 0.26436781609195403}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.6406112150712446, "median": 2.6118547916412354, "p05": 2.376713514328003, "p95": 2.9387354850769043}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 3.0673174424604936, "median": 3.048602819442749, "p05": 2.8093961477279663, "p95": 3.424654483795166}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.9680609052831475, "median": 3.965684652328491, "p05": 3.4487686157226562, "p95": 4.3572869300842285}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 3.0602063699202104, "median": 3.021393299102783, "p05": 2.548838973045349, "p95": 3.6439871788024902}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.9186281724409624, "median": 3.89424467086792, "p05": 3.650206208229065, "p95": 4.273888826370239}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.420386834578081, "median": 7.375138282775879, "p05": 7.276738882064819, "p95": 7.682902097702026}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.028684679613472184, "median": 0.0, "p05": 0.0, "p95": 0.12061403508771928}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.13608487472123837, "median": 0.07142857142857142, "p05": 0.0, "p95": 0.44886363636363635}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.055711989997418936, "median": 0.0196078431372549, "p05": 0.0, "p95": 0.20203735144312393}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.22049717958808868, "median": 0.2, "p05": 0.0, "p95": 0.5625}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.36632258512757043, "median": 0.36722531914711, "p05": 0.27804748713970184, "p95": 0.43262729048728943}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.792048003410227, "median": 0.8406505654965614, "p05": 0.5338277283627649, "p95": 0.983523358426375}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 1.7272727272727273, "median": 2.0, "p05": 0.0, "p95": 3.0}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "corpus_cer", "count": 451, "mean": 0.028824833702882482}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "corpus_wer", "count": 91, "mean": 0.14285714285714285}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "corpus_parakeet_cer", "count": 451, "mean": 0.04878048780487805}
+{"checkpoint": "120k", "source_id": "tg_voices_uk", "metric": "corpus_parakeet_wer", "count": 91, "mean": 0.2087912087912088}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.610523288900202, "median": 2.5438194274902344, "p05": 2.1794347763061523, "p95": 3.1508021354675293}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 3.0529263019561768, "median": 3.0794007778167725, "p05": 2.5269540548324585, "p95": 3.6987327337265015}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.944957819851962, "median": 4.020210266113281, "p05": 3.300483465194702, "p95": 4.412634611129761}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.6753113703294233, "median": 2.684337854385376, "p05": 2.310225486755371, "p95": 3.0673751831054688}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.918797189539129, "median": 3.974142074584961, "p05": 3.5762261152267456, "p95": 4.244507789611816}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.3149028257890185, "median": 7.335111618041992, "p05": 7.033914566040039, "p95": 7.534076929092407}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.019790516501042816, "median": 0.0, "p05": 0.0, "p95": 0.08253205128205128}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.06709956709956709, "median": 0.0, "p05": 0.0, "p95": 0.2976190476190476}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.18896822475769845, "median": 0.0, "p05": 0.0, "p95": 1.0136842105263157}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.18831168831168832, "median": 0.0, "p05": 0.0, "p95": 0.75}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.36630171266469086, "median": 0.3333151638507843, "p05": 0.2421051412820816, "p95": 0.546834334731102}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 1.0266233558256965, "median": 1.0344590002141467, "p05": 0.8523161629062013, "p95": 1.2129984472814002}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 2.1818181818181817, "median": 2.0, "p05": 0.5, "p95": 3.5}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "corpus_cer", "count": 385, "mean": 0.01818181818181818}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "corpus_wer", "count": 88, "mean": 0.056818181818181816}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "corpus_parakeet_cer", "count": 385, "mean": 0.12207792207792208}
+{"checkpoint": "120k", "source_id": "ua_ser", "metric": "corpus_parakeet_wer", "count": 88, "mean": 0.14772727272727273}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "sigmos_overall", "count": 11, "expected_count": 11, "mean": 2.505775148218328, "median": 2.4541404247283936, "p05": 2.0513638257980347, "p95": 2.9284099340438843}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "sigmos_speech", "count": 11, "expected_count": 11, "mean": 2.9370550242337314, "median": 2.893059253692627, "p05": 2.4540441036224365, "p95": 3.462721347808838}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "sigmos_noise", "count": 11, "expected_count": 11, "mean": 3.8681470480832187, "median": 3.907930374145508, "p05": 3.452424168586731, "p95": 4.227467060089111}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "sigmos_coloration", "count": 11, "expected_count": 11, "mean": 2.7702173753218218, "median": 2.726959466934204, "p05": 2.326331853866577, "p95": 3.256706714630127}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "sigmos_discontinuity", "count": 11, "expected_count": 11, "mean": 3.8421964428641577, "median": 3.8051228523254395, "p05": 3.108497977256775, "p95": 4.424826622009277}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "audiobox_pq", "count": 11, "expected_count": 11, "mean": 7.00990442796187, "median": 7.13051176071167, "p05": 6.321500062942505, "p95": 7.389449596405029}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "cer", "count": 11, "expected_count": 11, "mean": 0.1240978060671945, "median": 0.04, "p05": 0.0, "p95": 0.5333333333333333}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "wer", "count": 11, "expected_count": 11, "mean": 0.2793887930251566, "median": 0.16666666666666666, "p05": 0.0, "p95": 0.875}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "parakeet_cer", "count": 11, "expected_count": 11, "mean": 0.12257506697245937, "median": 0.028089887640449437, "p05": 0.0, "p95": 0.56}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "parakeet_wer", "count": 11, "expected_count": 11, "mean": 0.2673659673659674, "median": 0.16666666666666666, "p05": 0.0, "p95": 0.875}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "ecapa_similarity", "count": 11, "expected_count": 11, "mean": 0.3940149721774188, "median": 0.42294350266456604, "p05": 0.23691412061452866, "p95": 0.5389393270015717}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "clipping_fraction", "count": 11, "expected_count": 11, "mean": 0.0, "median": 0.0, "p05": 0.0, "p95": 0.0}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "duration_ratio", "count": 11, "expected_count": 11, "mean": 0.710240818093503, "median": 0.6985250737463128, "p05": 0.46772161306630616, "p95": 0.9476144422952933}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "hf_burst_count", "count": 11, "expected_count": 11, "mean": 2.272727272727273, "median": 2.0, "p05": 0.0, "p95": 5.5}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "corpus_cer", "count": 531, "mean": 0.06591337099811675}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "corpus_wer", "count": 121, "mean": 0.2231404958677686}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "corpus_parakeet_cer", "count": 531, "mean": 0.064030131826742}
+{"checkpoint": "120k", "source_id": "ukr_dialects", "metric": "corpus_parakeet_wer", "count": 121, "mean": 0.23140495867768596}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "sigmos_overall", "count": 8, "mean": 2.6010557250543074}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "sigmos_speech", "count": 8, "mean": 3.045731555331837}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "sigmos_noise", "count": 8, "mean": 3.8745058829134162}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "sigmos_coloration", "count": 8, "mean": 2.862575138157064}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "sigmos_discontinuity", "count": 8, "mean": 3.862720410932194}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "audiobox_pq", "count": 8, "mean": 7.328047389333899}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "cer", "count": 8, "mean": 0.06186079432407175}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "wer", "count": 8, "mean": 0.24411695071120204}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "parakeet_cer", "count": 8, "mean": 0.09875502362667418}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "parakeet_wer", "count": 8, "mean": 0.2749598863703142}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "ecapa_similarity", "count": 8, "mean": 0.38754497603936633}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "clipping_fraction", "count": 8, "mean": 0.0}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "duration_ratio", "count": 8, "mean": 0.7418101905989423}
+{"checkpoint": "120k", "source_id": "source_macro", "metric": "hf_burst_count", "count": 8, "mean": 2.2954545454545454}

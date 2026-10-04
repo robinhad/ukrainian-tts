@@ -9,7 +9,7 @@ For new preprocessing comparisons, use the
 It replaces energy-based trimming for every current processing variant.
 Older versioned commands and measurements below document historical runs.
 
-## Full-corpus MFA best-method run (V12, 50K steps)
+## Full-corpus MFA best-method run (V12, completed through 120K steps)
 
 The authorized V12 run applies the best **single** MFA preprocessing method,
 ClearVoice → Sidon → DeepFilterNet3 at 100% wet, to all 80,751 non-VOA items.
@@ -152,7 +152,7 @@ The exporter includes only steps with completed validation and keeps the
 latest training summary at each matching step. Output contains scalar names,
 steps and values, without local paths or machine metadata. At the initial
 1K remote check, W&B contained numeric metrics and no model artifacts.
-Final checkpoint quality measurements follow training completion.
+Final checkpoint quality measurements are recorded below.
 The 25K milestone is preserved, and its SHA-256 matches the epoch-25 model.
 Its portable provenance is in `training/reports/quality_v12_checkpoint_25k.json`.
 
@@ -215,19 +215,25 @@ execution and exit from those bodies, avoiding later reads at stale file
 offsets. A regression test replaces a watcher's source while it is waiting and
 verifies that it still preserves the final milestone and exits successfully.
 
-Checkpoint evaluation through **100K is complete**: every checkpoint scored
+Checkpoint evaluation through **120K is complete**: every checkpoint scored
 the same 88 held-out items (11 per source), with zero failures. Full-population
 synthesis also covered all 1,688 evaluation items for each checkpoint. At 100K,
 epoch-mean training mel loss was **39.97288** and validation mel loss was
 **40.23526**; the lowest validation mel loss through 100K was **39.80164** at
 86K. The authorized 100K → 120K continuation retains the existing schedule.
 
-The continuation has reached **115,000 / 120,000 steps**. At 115K, epoch-mean
-training mel loss is **39.50134** and validation mel loss is
-**38.92775**. The lowest validation mel loss through 115K is
-**38.92545** at 107K. Its first saved checkpoint after resuming (101K)
-passed the full model, optimizer-step and scheduler-state audit. W&B continues
-the original metrics run with zero uploaded model artifacts.
+The final continuation completed **120,000 / 120,000 steps** on 2026-10-04
+at **20:29 Europe/Kyiv**; checkpoint evaluation finished by **20:32**.
+At 120K, epoch-mean training mel loss is **39.38511** and validation mel loss is
+**40.29815**. The lowest validation mel loss through 120K is **38.14852** at
+117K. Both optimizers reached exactly 120,000 updates; both schedulers reached
+epoch 120 with gamma **0.999875** and learning rate **0.00019702220320**.
+The final milestone exactly matches the full checkpoint's finite model weights.
+The first resumed checkpoint (101K) also passed the full-state audit.
+Portable final provenance is in `training/reports/quality_v12_checkpoint_120k.json`.
+The same W&B run is marked finished at 120,000 steps, with zero uploaded model
+artifacts. Active monitoring continued through successful training and evaluation;
+the recovered 100K handoff issue above did not recur during the final continuation.
 
 | Checkpoint | Median SigMOS overall | Median Audiobox PQ | Median Whisper CER / WER | Median Parakeet CER / WER | Median ECAPA similarity |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -236,14 +242,28 @@ the original metrics run with zero uploaded model artifacts.
 | 50K | 2.3592 | 6.1627 | 0.0987 / 0.3333 | 0.0978 / 0.4018 | 0.2651 |
 | 75K | 2.4935 | 7.0789 | 0.0429 / 0.2500 | 0.0413 / 0.2500 | 0.3168 |
 | 100K | 2.5349 | 7.1888 | 0.0282 / 0.2000 | 0.0392 / 0.2222 | 0.3267 |
+| 120K | 2.5957 | 7.3409 | 0.0211 / 0.1548 | 0.0288 / 0.1791 | 0.3922 |
 
 CER/WER are fractions and these are medians of per-file values. Naturalness,
 recognition and speaker similarity improve across the evaluated checkpoints,
-but 100K still trails the originals on SigMOS and speaker similarity remains
+but 120K still trails the originals on SigMOS and speaker similarity remains
 low. Original ECAPA compares each recording with itself. Audiobox PQ and
 SigMOS use different scales and should not be directly compared. These
 uncalibrated measurements remain report-only and do not automatically select,
 reject or promote checkpoints. No HNR-based rejection is used.
+
+Against 100K, 120K has median paired changes of **+0.09242** overall SigMOS,
+**+0.20227** Audiobox PQ and **+0.05262** ECAPA similarity. These paired medians
+need not equal differences between the checkpoint medians in the table.
+Final median SigMOS speech/noise/coloration/discontinuity scores are
+**3.06952 / 3.90780 / 2.88195 / 3.88709**. None of the 88 scored waveforms clips.
+The median duration ratio to native recordings is **0.72283**; that comparison
+includes original boundary silence, so it is not by itself evidence of missing
+speech. Review the ASR results and worst segments alongside duration flags.
+With the current uncalibrated thresholds, 67/88 items flag duration changes,
+71/88 flag local high-frequency bursts, and 88/88 fall below ECAPA 0.65.
+These diagnostics remain unresolved quality limitations requiring listening
+review; successful execution does not mean the model passes those thresholds.
 
 Portable per-file, segment, aggregate and paired-comparison tables are in
 `training/reports/quality_v12_checkpoints/`, as both JSONL and CSV. They retain
@@ -257,10 +277,10 @@ and reference hashes, and refuses incomplete evaluations. Reproduce with:
 training/.venv/bin/python -m training.scripts.report_checkpoint_quality \
   --root training/quality_runs/v12/checkpoints \
   --output training/reports/quality_v12_checkpoints \
-  --labels original 25k 50k 75k 100k
+  --labels original 25k 50k 75k 100k 120k
 ```
 
-Intermediate **8K, 21K, 30K, 42K, 48K, 60K, 76K and 100K checkpoint listening sets** each contain 10 generated
+The **8K, 21K, 30K, 42K, 48K, 60K, 76K, 100K and final 120K listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes
 its transcript, original recording and processed reference. Selection uses seed
@@ -274,10 +294,11 @@ normalization. The frozen checkpoint hash is recorded in
 `training/reports/quality_v12_listening_42k.json`,
 `training/reports/quality_v12_listening_48k.json`,
 `training/reports/quality_v12_listening_60k.json`,
-`training/reports/quality_v12_listening_76k.json` and
-`training/reports/quality_v12_listening_100k.json`.
+`training/reports/quality_v12_listening_76k.json`,
+`training/reports/quality_v12_listening_100k.json` and
+`training/reports/quality_v12_listening_120k.json`.
 
-Open `training/quality_runs/v12/listening_100k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_120k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -287,12 +308,12 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/100k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/120k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_100k --step 100000 --count 10
+  --output training/quality_runs/v12/listening_120k --step 120000 --count 10
 ```
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
