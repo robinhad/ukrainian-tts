@@ -77,4 +77,5 @@ def forecast_html(result):
             '<p>Linear fits assume a constant average gain per step; the logarithmic fit assumes diminishing gains. '
             'These models are unvalidated extrapolations of a small, fluctuating subset, not a guarantee or a scheduling recommendation. '
             'The differences between fits are not statistical confidence bounds; quality could plateau before either target. '
+            'Changing the training dataset requires a new trend assessment. '
             'Confirm progress on the full 88-item panel. No training settings are changed.</p></section>')

@@ -1,0 +1,73 @@
+{
+  "metric": "sigmos_overall",
+  "sample_count": 10,
+  "latest_scored_step": 170000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 10,
+      "first_step": 25000,
+      "last_step": 170000,
+      "slope": 0.0031700834717680367,
+      "intercept": 2.202407256003781,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 282412.71567543194,
+          "additional_steps": 112412.71567543194
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 327379.26873331156,
+          "additional_steps": 157379.26873331156
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 131000,
+      "last_step": 170000,
+      "slope": -0.00020679155445342805,
+      "intercept": 2.7203557832623915,
+      "targets": {
+        "original": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        },
+        "processed": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 10,
+      "first_step": 25000,
+      "last_step": 170000,
+      "slope": 0.2545618985504269,
+      "intercept": 1.3894537299367264,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 820941.6437746899,
+          "additional_steps": 650941.6437746899
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 1437160.798376635,
+          "additional_steps": 1267160.798376635
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+}
