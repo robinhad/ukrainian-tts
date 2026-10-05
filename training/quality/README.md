@@ -349,6 +349,9 @@ standard resampling without extra loudness normalization. Higher values are
 better within each metric; SigMOS and Audiobox PQ use different scales.
 Scores remain report-only. All 30 waveforms are scored on GPU, with model and
 audio hashes recorded; only the quality models are loaded, without ASR models.
+The page header summarizes the median of each quality metric for its ten
+processed references. These medians describe the listening subset, not the
+full processed training corpus.
 
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page

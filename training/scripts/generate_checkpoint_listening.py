@@ -40,6 +40,16 @@ def select(panel, count):
 
 
 def page(rows, step, embedded=False, output=None):
+    metrics = [('sigmos_overall', 'SigMOS overall'), ('audiobox_pq', 'Audiobox PQ'),
+               ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
+               ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
+               ('sigmos_loudness', 'Loudness'), ('sigmos_reverb', 'Reverberation')]
+    processed_summary = ''
+    if rows and all(row.get('quality', {}).get('processed') for row in rows):
+        processed_summary = (f'<table class="scores" style="max-width:420px">'
+                             f'<caption>Processed reference medians · {len(rows)} files on this page</caption><tbody>' + ''.join(
+            f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"]["processed"][metric] for row in rows]):.3f}</td></tr>'
+            for metric, name in metrics) + '</tbody></table>')
     cards = []
     for index, row in enumerate(rows, 1):
         players = []
@@ -52,10 +62,6 @@ def page(rows, step, embedded=False, output=None):
             quality = row.get('quality', {}).get(key)
             scores = ''
             if quality:
-                metrics = [('sigmos_overall', 'SigMOS overall'), ('audiobox_pq', 'Audiobox PQ'),
-                           ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
-                           ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
-                           ('sigmos_loudness', 'Loudness'), ('sigmos_reverb', 'Reverberation')]
                 scores = '<table class="scores"><caption>Whole-file quality</caption><tbody>' + ''.join(
                     f'<tr><th scope="row">{name}</th><td>{quality[metric]:.3f}</td></tr>'
                     for metric, name in metrics) + '</tbody></table>'
@@ -88,7 +94,7 @@ audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-tem
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}</header>
+Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{processed_summary}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 
