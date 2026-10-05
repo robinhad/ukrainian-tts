@@ -40,6 +40,8 @@ def select(panel, count):
 
 
 def page(rows, step, embedded=False, output=None):
+    from training.scripts.listening_dataset_stats import stats_html
+    training_stats = stats_html(output, embedded) if output else ''
     metrics = [('sigmos_overall', 'SigMOS overall'), ('audiobox_pq', 'Audiobox PQ'),
                ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
                ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
@@ -116,6 +118,7 @@ header p{{max-width:850px;line-height:1.6;color:#545e56}}article{{padding:24px 0
 .players{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}label{{display:block;font-size:.9rem;margin-bottom:9px}}
 .scores{{width:100%;font-size:.85rem;border-collapse:collapse;margin-top:12px;font-variant-numeric:tabular-nums}}.scores caption{{text-align:left;margin-bottom:6px}}.scores th{{text-align:left;font-weight:400}}.scores td{{text-align:right}}.scores th,.scores td{{padding:3px 0}}
 .comparison{{min-width:530px;margin:24px 0 12px}}.comparison th,.comparison td{{padding:7px 12px}}.comparison th:first-child{{padding-left:0}}.comparison thead th:not(:first-child){{text-align:right}}.comparison caption{{font-size:1.1rem;font-weight:600}}
+.dataset-plots{{display:grid;grid-template-columns:1fr;gap:16px;max-width:900px}}.data-bars{{width:100%;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.data-bars text{{fill:currentColor;font-size:18px}}.data-bars .bar-title{{font-size:23px}}.hour-bar{{fill:#666}}.training-stats{{margin:28px 0}}.training-stats summary{{cursor:pointer;margin:18px 0}}.training-stats input{{padding:8px;max-width:100%;font:inherit}}.training-stats button{{padding:8px;font:inherit}}.mobile-hours{{display:none;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif;padding:12px}}.mobile-hours ol{{list-style:none;padding:0}}.mobile-hours li{{display:grid;grid-template-columns:1fr auto;gap:5px;margin:15px 0;font-variant-numeric:tabular-nums}}.mobile-hours i{{grid-column:1/-1;height:8px;background:#666}}@media(max-width:600px){{.hours-chart>.data-bars{{display:none}}.mobile-hours{{display:block}}}}@media(prefers-color-scheme:dark){{.data-bars,.mobile-hours{{background:#151515;color:#ddd}}.hour-bar{{fill:#aaa}}.mobile-hours i{{background:#aaa}}}}
 .mos-plots{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}.mos-plot{{width:100%;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.mos-plot text{{fill:currentColor;font-size:16px}}.mos-plot .plot-title{{font-size:20px}}.mos-plot .plot-tick{{font:12px system-ui,sans-serif}}.plot-axis{{stroke:#666;stroke-width:1}}.plot-reference{{stroke:#777;stroke-width:1}}.plot-point{{fill:#666}}.mos-plot .plot-latest{{fill:#a63e25}}.mos-plot .plot-reference-label{{font-size:16px}}@media(max-width:900px){{.mos-plots{{grid-template-columns:1fr}}}}@media(max-width:480px){{.mos-plot text,.mos-plot .plot-reference-label{{font-size:22px}}.mos-plot .plot-tick{{font-size:20px}}.mos-plot .plot-point-label:not(.plot-latest){{display:none}}}}
 @media(prefers-color-scheme:dark){{.mos-plot{{background:#151515;color:#ddd}}.plot-axis,.plot-reference{{stroke:#999}}.plot-point{{fill:#aaa}}.mos-plot .plot-latest{{fill:#e5a084}}}}
 audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-template-columns:1fr}}body{{margin:24px auto}}}}
@@ -124,7 +127,7 @@ audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-tem
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{quality_summary}{comparison_html}</header>
+Generated audio is presented without enhancement or loudness normalization.</p>{training_stats}{quality_note}{quality_summary}{comparison_html}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 
@@ -156,11 +159,18 @@ def main():
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda')
     parser.add_argument('--quality-config', type=Path, default=Path('training/conf/quality.yaml'))
     parser.add_argument('--skip-quality', action='store_true', help='Generate audio without GPU MOS scoring')
+    parser.add_argument('--training-manifest', type=Path, help='Defaults to the training split beside --manifest')
     args = parser.parse_args()
     if args.count < 1:
         parser.error('--count must be positive')
     if args.output.exists() and any(args.output.iterdir()):
         parser.error('--output must be empty to avoid mixing checkpoint samples')
+    import yaml
+    from training.scripts.listening_dataset_stats import write_stats
+    config = yaml.safe_load(args.config.read_text())
+    speech = next(row[0] for row in config['train_data_path_and_name_and_type'] if row[1] == 'speech')
+    training_manifest = args.training_manifest or args.manifest.with_name(Path(speech).parent.name + '.parquet')
+    write_stats(args.output, training_manifest, args.config)
     from kaldiio import load_scp
     import torch
     from espnet2.bin.tts_inference import Text2Speech

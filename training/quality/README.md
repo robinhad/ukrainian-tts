@@ -439,6 +439,33 @@ The page header summarizes the median of each quality metric separately for
 its ten synthesized files and ten processed references. These medians describe the listening subset, not the
 full processed training corpus.
 
+The latest listening page also includes **training-data statistics**: total
+hours, total speaker IDs, hours by dataset and hours by speaker ID. For the
+V12 checkpoint, this is **16.50494 hours, 10,187 training recordings and 8,914
+speaker IDs** across eight sources. Development/evaluation are excluded; the
+16.84018-hour figure elsewhere includes development. Of these IDs, **8,844 are
+recording-level placeholders** (the speaker ID equals the utterance ID), so
+the number of distinct human speakers is unknown. This caveat is displayed
+alongside the count. No speaker identities are inferred from voices.
+
+The dataset plot includes all eight sources. The speaker plot shows the top
+15 IDs; the searchable, paginated table and CSV contain all 8,914. Both plots
+switch to labeled HTML bars on narrow screens and support dark mode. Statistics
+and both CSV exports are embedded in the standalone page and included in the
+ZIP. The portable summary is `training/reports/quality_v12_training_data.json`.
+New listening generation derives the training manifest beside the evaluation
+manifest (or accepts `--training-manifest`) and verifies its recording IDs and
+audio paths against the model configuration's training index. This ensures a
+later filtered-data experiment uses its own corpus statistics. Refresh an
+existing page without resynthesis or MOS inference with:
+
+```bash
+training/.venv/bin/python -m training.scripts.listening_dataset_stats \
+  --output training/quality_runs/v12/listening_171k \
+  --manifest training/data/quality_v12/manifests/quality_v12_train.parquet \
+  --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml
+```
+
 The latest page also includes the SigMOS-versus-training-mel comparison table
 and two scatter plots, with identical axes for the ten listening items and
 the full 88-item panel. Original and processed reference medians are shown
