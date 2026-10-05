@@ -1,0 +1,356 @@
+{
+  "through_step": 192000,
+  "listening_ids": [
+    "common_voice_available_uk_5df6da1d671744faf0228008",
+    "common_voice_available_uk_c02c7293451907b932c31154",
+    "fleurs_uk_780f47de1ad7de01b058a990",
+    "fleurs_uk_ce9eb2666cb7cc32803ed074",
+    "opentts_lada_d678cf4acf3877e75ae20b50",
+    "opentts_mykyta_c2f414fc0fe7a2a70b94b0fc",
+    "opentts_tetiana_940d13e97ac3739264027997",
+    "tg_voices_uk_658efbc1e369460c1629ae86",
+    "ua_ser_be37bb89df5984c587d20c82",
+    "ukr_dialects_d2ba80d943e6a61f32205558"
+  ],
+  "comparison_sha256": "3b651e56284fe92c692eb43499694516c2ab1f9dd3a9d64b5cf7850c66a47c5c",
+  "target": "Median synthesized SigMOS overall on the same 10 listening items",
+  "selection": "Largest absolute Pearson correlation; complete matched-checkpoint cases only",
+  "candidate_scope": "All logged training/validation losses; excludes time, LR, memory, step counters and SigMOS components",
+  "candidate_count": 30,
+  "ranked_count": 30,
+  "excluded_metrics": [],
+  "selected_metric": "valid_generator_var_loss",
+  "ranking": [
+    {
+      "metric": "valid_generator_var_loss",
+      "count": 14,
+      "pearson_r": -0.8161573912861401,
+      "spearman_rho": -0.7406593406593407,
+      "partial_r_controlling_steps": -0.44030697511657685
+    },
+    {
+      "metric": "train_generator_var_energy_loss",
+      "count": 14,
+      "pearson_r": -0.7861618773598702,
+      "spearman_rho": -0.6395604395604396,
+      "partial_r_controlling_steps": -0.2643246783675046
+    },
+    {
+      "metric": "train_generator_var_loss",
+      "count": 14,
+      "pearson_r": -0.7787933328145934,
+      "spearman_rho": -0.6395604395604396,
+      "partial_r_controlling_steps": -0.2366136111178831
+    },
+    {
+      "metric": "train_generator_var_pitch_loss",
+      "count": 14,
+      "pearson_r": -0.7783839345605911,
+      "spearman_rho": -0.6395604395604396,
+      "partial_r_controlling_steps": -0.22567426469032792
+    },
+    {
+      "metric": "train_discriminator_real_loss",
+      "count": 14,
+      "pearson_r": -0.7709681460072754,
+      "spearman_rho": -0.6483516483516484,
+      "partial_r_controlling_steps": -0.20859324653071235
+    },
+    {
+      "metric": "train_generator_g_mel_loss",
+      "count": 14,
+      "pearson_r": -0.7697511070286907,
+      "spearman_rho": -0.6175824175824175,
+      "partial_r_controlling_steps": -0.1680648501597596
+    },
+    {
+      "metric": "train_generator_g_loss",
+      "count": 14,
+      "pearson_r": -0.7691527487993726,
+      "spearman_rho": -0.6175824175824175,
+      "partial_r_controlling_steps": -0.18826078221847817
+    },
+    {
+      "metric": "train_generator_loss",
+      "count": 14,
+      "pearson_r": -0.7686037576331344,
+      "spearman_rho": -0.6175824175824175,
+      "partial_r_controlling_steps": -0.1867078391331667
+    },
+    {
+      "metric": "train_generator_var_dur_loss",
+      "count": 14,
+      "pearson_r": -0.7612184404386156,
+      "spearman_rho": -0.6131868131868132,
+      "partial_r_controlling_steps": -0.2073961931302018
+    },
+    {
+      "metric": "train_generator_g_feat_match_loss",
+      "count": 14,
+      "pearson_r": 0.7565718151784445,
+      "spearman_rho": 0.6395604395604396,
+      "partial_r_controlling_steps": 0.0073646849281378875
+    },
+    {
+      "metric": "train_generator_align_bin_loss",
+      "count": 14,
+      "pearson_r": -0.7472084750946411,
+      "spearman_rho": -0.5736263736263736,
+      "partial_r_controlling_steps": -0.11482556296693046
+    },
+    {
+      "metric": "valid_generator_var_energy_loss",
+      "count": 14,
+      "pearson_r": -0.7466071606917988,
+      "spearman_rho": -0.5912087912087912,
+      "partial_r_controlling_steps": 0.1202195943207559
+    },
+    {
+      "metric": "train_generator_align_loss",
+      "count": 14,
+      "pearson_r": -0.7465726201018915,
+      "spearman_rho": -0.5692307692307692,
+      "partial_r_controlling_steps": -0.12375667087358232
+    },
+    {
+      "metric": "train_generator_g_adv_loss",
+      "count": 14,
+      "pearson_r": 0.738598143608153,
+      "spearman_rho": 0.5868131868131868,
+      "partial_r_controlling_steps": -0.10017154410242562
+    },
+    {
+      "metric": "train_discriminator_loss",
+      "count": 14,
+      "pearson_r": -0.7368878238191406,
+      "spearman_rho": -0.6263736263736264,
+      "partial_r_controlling_steps": 0.03185769440550459
+    },
+    {
+      "metric": "train_generator_align_forwardsum_loss",
+      "count": 14,
+      "pearson_r": -0.7349662860747049,
+      "spearman_rho": -0.5692307692307692,
+      "partial_r_controlling_steps": -0.13443146930000197
+    },
+    {
+      "metric": "valid_generator_align_loss",
+      "count": 14,
+      "pearson_r": -0.7150031245130708,
+      "spearman_rho": -0.7406593406593407,
+      "partial_r_controlling_steps": -0.2489414706565674
+    },
+    {
+      "metric": "valid_generator_align_forwardsum_loss",
+      "count": 14,
+      "pearson_r": -0.7117864065097308,
+      "spearman_rho": -0.6879120879120879,
+      "partial_r_controlling_steps": -0.4498545232875365
+    },
+    {
+      "metric": "valid_generator_align_bin_loss",
+      "count": 14,
+      "pearson_r": -0.6912377790197803,
+      "spearman_rho": -0.5428571428571429,
+      "partial_r_controlling_steps": -0.1577424690000056
+    },
+    {
+      "metric": "valid_generator_g_feat_match_loss",
+      "count": 14,
+      "pearson_r": 0.6395064016301033,
+      "spearman_rho": 0.47252747252747257,
+      "partial_r_controlling_steps": -0.36789271014710007
+    },
+    {
+      "metric": "train_discriminator_fake_loss",
+      "count": 14,
+      "pearson_r": -0.5161822413702093,
+      "spearman_rho": -0.389010989010989,
+      "partial_r_controlling_steps": 0.5025747109058646
+    },
+    {
+      "metric": "valid_generator_g_mel_loss",
+      "count": 14,
+      "pearson_r": -0.4891659402410873,
+      "spearman_rho": -0.2175824175824176,
+      "partial_r_controlling_steps": 0.3086240812810944
+    },
+    {
+      "metric": "valid_generator_g_adv_loss",
+      "count": 14,
+      "pearson_r": 0.4163326255324994,
+      "spearman_rho": 0.3406593406593406,
+      "partial_r_controlling_steps": -0.06994140612668634
+    },
+    {
+      "metric": "valid_generator_loss",
+      "count": 14,
+      "pearson_r": -0.41327222513197304,
+      "spearman_rho": -0.11208791208791209,
+      "partial_r_controlling_steps": 0.26028930458261534
+    },
+    {
+      "metric": "valid_generator_g_loss",
+      "count": 14,
+      "pearson_r": -0.3980585576506045,
+      "spearman_rho": -0.0857142857142857,
+      "partial_r_controlling_steps": 0.2725357834098301
+    },
+    {
+      "metric": "valid_generator_var_dur_loss",
+      "count": 14,
+      "pearson_r": 0.2769526736698212,
+      "spearman_rho": 0.3758241758241759,
+      "partial_r_controlling_steps": -0.05822683753890033
+    },
+    {
+      "metric": "valid_generator_var_pitch_loss",
+      "count": 14,
+      "pearson_r": -0.26465509197545073,
+      "spearman_rho": -0.3186813186813187,
+      "partial_r_controlling_steps": -0.7858753820181509
+    },
+    {
+      "metric": "valid_discriminator_real_loss",
+      "count": 14,
+      "pearson_r": -0.20625127501058388,
+      "spearman_rho": -0.03736263736263736,
+      "partial_r_controlling_steps": 0.04337368763618848
+    },
+    {
+      "metric": "valid_discriminator_loss",
+      "count": 14,
+      "pearson_r": -0.1806871604906917,
+      "spearman_rho": -0.18681318681318684,
+      "partial_r_controlling_steps": -0.10978199841944569
+    },
+    {
+      "metric": "valid_discriminator_fake_loss",
+      "count": 14,
+      "pearson_r": -0.13685125684187166,
+      "spearman_rho": -0.1032967032967033,
+      "partial_r_controlling_steps": -0.11975093431454574
+    }
+  ],
+  "points": [
+    {
+      "step": 25000,
+      "label": "25K",
+      "metric_value": 0.7021322846412659,
+      "train_mel": 45.502197265625,
+      "sigmos_10": 2.237205982208252,
+      "sigmos_88": 1.9661037921905518
+    },
+    {
+      "step": 50000,
+      "label": "50K",
+      "metric_value": 0.6840920448303223,
+      "train_mel": 42.63134002685547,
+      "sigmos_10": 2.3567980527877808,
+      "sigmos_88": 2.359222650527954
+    },
+    {
+      "step": 75000,
+      "label": "75K",
+      "metric_value": 0.6788291931152344,
+      "train_mel": 41.49159240722656,
+      "sigmos_10": 2.5460764169692993,
+      "sigmos_88": 2.4934855699539185
+    },
+    {
+      "step": 100000,
+      "label": "100K",
+      "metric_value": 0.671245276927948,
+      "train_mel": 39.972877502441406,
+      "sigmos_10": 2.3617604970932007,
+      "sigmos_88": 2.5348758697509766
+    },
+    {
+      "step": 120000,
+      "label": "120K",
+      "metric_value": 0.6732648611068726,
+      "train_mel": 39.38511276245117,
+      "sigmos_10": 2.597976326942444,
+      "sigmos_88": 2.5957366228103638
+    },
+    {
+      "step": 127000,
+      "label": "127K",
+      "metric_value": 0.6650174856185913,
+      "train_mel": 39.24536895751953,
+      "sigmos_10": 2.7086492776870728,
+      "sigmos_88": null
+    },
+    {
+      "step": 131000,
+      "label": "131K",
+      "metric_value": 0.6667690873146057,
+      "train_mel": 39.14529037475586,
+      "sigmos_10": 2.7092007398605347,
+      "sigmos_88": null
+    },
+    {
+      "step": 154000,
+      "label": "154K",
+      "metric_value": 0.6723489165306091,
+      "train_mel": 38.44502639770508,
+      "sigmos_10": 2.561514377593994,
+      "sigmos_88": null
+    },
+    {
+      "step": 164000,
+      "label": "164K",
+      "metric_value": 0.6620250940322876,
+      "train_mel": 38.193214416503906,
+      "sigmos_10": 2.9215214252471924,
+      "sigmos_88": null
+    },
+    {
+      "step": 170000,
+      "label": "170K",
+      "metric_value": 0.6646908521652222,
+      "train_mel": 38.035484313964844,
+      "sigmos_10": 2.5611826181411743,
+      "sigmos_88": null
+    },
+    {
+      "step": 171000,
+      "label": "171K",
+      "metric_value": 0.6608168482780457,
+      "train_mel": 38.040645599365234,
+      "sigmos_10": 2.701007604598999,
+      "sigmos_88": null
+    },
+    {
+      "step": 183000,
+      "label": "183K",
+      "metric_value": 0.6610444188117981,
+      "train_mel": 37.79191207885742,
+      "sigmos_10": 2.90705406665802,
+      "sigmos_88": null
+    },
+    {
+      "step": 189000,
+      "label": "189K",
+      "metric_value": 0.6591243147850037,
+      "train_mel": 37.65989685058594,
+      "sigmos_10": 2.683452010154724,
+      "sigmos_88": null
+    },
+    {
+      "step": 192000,
+      "label": "192K",
+      "metric_value": 0.6654452681541443,
+      "train_mel": 37.50468444824219,
+      "sigmos_10": 2.6342592239379883,
+      "sigmos_88": null
+    }
+  ],
+  "step_pearson_r": 0.76915705780272,
+  "panel88": {
+    "count": 5,
+    "pearson_r": -0.9840634618122567
+  },
+  "selection_mode": "report_only",
+  "caveat": "Exploratory maximum over multiple metrics on correlated checkpoints from one run. The same observations select and assess the winner. Not an independently validated predictor. Partial r removes a linear step trend only; the 88-item panel overlaps the listening subset."
+}

@@ -77,6 +77,8 @@ def page(rows, step, embedded=False, output=None):
                            'A dash means unavailable or inapplicable. Later checkpoints are shown when evaluated.</p></section>')
         from training.scripts.listening_comparison import comparison_plots
         comparison_html += comparison_plots(comparison)
+        from training.scripts.listening_metric_correlation import correlation_html
+        comparison_html += correlation_html(output, comparison, embedded)
         from training.scripts.forecast_listening_quality import forecast, forecast_html
         comparison_html += forecast_html(forecast(comparison))
     cards = []

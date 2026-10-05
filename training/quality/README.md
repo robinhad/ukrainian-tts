@@ -484,6 +484,44 @@ snapshot through 192K is stored in
 when their listening item IDs match; it is a measured snapshot, not an
 automatic evaluation of subsequent checkpoints.
 
+The 192K page also ranks **30 logged training/validation losses** against
+median synthesized overall SigMOS on the same ten items at **14 checkpoints
+(25K–192K)**. The winner by absolute Pearson correlation is
+`valid_generator_var_loss`: **r = −0.81616**, Spearman **ρ = −0.74066**.
+This is the weighted sum of duration, pitch and energy prediction losses;
+its 192K value is **0.66545**. Training mel has **r = −0.76975** on exactly
+the same checkpoints. Constant/incomplete candidates are excluded instead
+of receiving a different sample size. Runtime, learning rate, step counters,
+memory and SigMOS's own component scores are outside the candidate set.
+
+The page adds a scatter plot, a fitted line, the selected loss at every
+checkpoint, and a collapsible full ranking with JSON/CSV downloads. The
+ranking is exploratory: the winner is selected and assessed on the same
+observations from a single training run. Removing a linear step trend from
+both variables gives partial **r = −0.44031**; steps alone have
+**r = 0.76916** with SigMOS. The overlapping 88-item panel yields
+**r = −0.98406 across only five checkpoints**, not independent validation.
+No checkpoint selection, scheduler or training behavior changes.
+
+Portable inputs and results are stored as
+`training/reports/quality_v12_metric_correlation{,_epochs}.json` and
+`quality_v12_metric_correlation_{rankings,points}.csv`. After updating a
+page's checkpoint comparison, refresh this analysis and rebuild its bundle:
+
+```bash
+training/.venv/bin/python -m training.scripts.listening_metric_correlation \
+  --comparison training/quality_runs/v12/listening_192k/checkpoint_comparison.json \
+  --events training/exp_quality_v12/tts_jets_quality_v12_50k/tensorboard \
+  --output training/quality_runs/v12/listening_192k
+```
+
+For exact replay, replace `--events ...` with
+`--epochs training/reports/quality_v12_metric_correlation_epochs.json`.
+The collector keeps the last TensorBoard loss event at each matching step
+(the completed epoch summary) and checks training mel against the existing
+comparison. The rendered analysis is bound to the complete comparison's
+hash; stale correlations are rejected when its values change.
+
 The latest page includes conditional step forecasts for reaching the original
 and processed reference medians on the same ten listening items. It compares
 ordinary least-squares linear trends using all scored checkpoints and the
