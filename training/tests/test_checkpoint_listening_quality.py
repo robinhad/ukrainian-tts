@@ -38,7 +38,7 @@ def test_quality_is_bound_to_audio_roles_and_portable(tmp_path):
     assert [r['sigmos_overall'] for r in results] == pytest.approx([.1, .2, .3], abs=1e-6)
     assert [r['audio_sha256'] for r in results] == [row['audio_sha256'][role] for role in ROLES]
     html = (tmp_path / 'preview.html').read_text()
-    assert html.count('SigMOS overall') == 4
+    assert html.count('SigMOS overall') == 5
     for score in ['0.100', '0.200', '0.300']:
         assert f'<td>{score}</td>' in html
     for name in ('quality.csv', 'quality.jsonl'):

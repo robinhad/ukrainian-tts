@@ -44,12 +44,14 @@ def page(rows, step, embedded=False, output=None):
                ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
                ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
                ('sigmos_loudness', 'Loudness'), ('sigmos_reverb', 'Reverberation')]
-    processed_summary = ''
-    if rows and all(row.get('quality', {}).get('processed') for row in rows):
-        processed_summary = (f'<table class="scores" style="max-width:420px">'
-                             f'<caption>Processed reference medians · {len(rows)} files on this page</caption><tbody>' + ''.join(
-            f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"]["processed"][metric] for row in rows]):.3f}</td></tr>'
-            for metric, name in metrics) + '</tbody></table>')
+    summaries = []
+    for role, label in [('synthesis', 'Synthesized audio'), ('processed', 'Processed reference')]:
+        if rows and all(row.get('quality', {}).get(role) for row in rows):
+            summaries.append(f'<table class="scores" style="max-width:420px">'
+                             f'<caption>{label} medians · {len(rows)} files on this page</caption><tbody>' + ''.join(
+                f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"][role][metric] for row in rows]):.3f}</td></tr>'
+                for metric, name in metrics) + '</tbody></table>')
+    quality_summary = '<div class="players">' + ''.join(summaries) + '</div>' if summaries else ''
     cards = []
     for index, row in enumerate(rows, 1):
         players = []
@@ -94,7 +96,7 @@ audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-tem
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{processed_summary}</header>
+Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{quality_summary}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 
