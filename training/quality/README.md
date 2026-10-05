@@ -382,7 +382,7 @@ training/.venv/bin/python -m training.scripts.report_checkpoint_quality \
   --labels original 25k 50k 75k 100k 120k
 ```
 
-The **8K, 21K, 30K, 42K, 48K, 60K, 76K, 100K, 120K, 127K, 131K, 154K, 164K and 170K listening sets** each contain 10 generated
+The **8K, 21K, 30K, 42K, 48K, 60K, 76K, 100K, 120K, 127K, 131K, 154K, 164K, 170K and 171K listening sets** each contain 10 generated
 recordings from the fixed held-out panel, covering all eight sources. The texts
 and reference hashes match across checkpoints. Each example includes
 its transcript, original recording and processed reference. Selection uses seed
@@ -402,10 +402,11 @@ normalization. The frozen checkpoint hash is recorded in
 `training/reports/quality_v12_listening_127k.json`,
 `training/reports/quality_v12_listening_131k.json`,
 `training/reports/quality_v12_listening_154k.json`,
-`training/reports/quality_v12_listening_164k.json` and
-`training/reports/quality_v12_listening_170k.json`.
+`training/reports/quality_v12_listening_164k.json`,
+`training/reports/quality_v12_listening_170k.json` and
+`training/reports/quality_v12_listening_171k.json`.
 
-Open `training/quality_runs/v12/listening_170k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_171k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -415,18 +416,18 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/170k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/171k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_170k --step 170000 --count 10
+  --output training/quality_runs/v12/listening_171k --step 171000 --count 10
 ```
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
 references in both HTML pages (including embedded bytes), and ZIP integrity.
 
-The 127K, 131K, 154K, 164K and 170K listening pages also display whole-file **SigMOS overall, speech,
+The 127K, 131K, 154K, 164K, 170K and 171K listening pages also display whole-file **SigMOS overall, speech,
 noise, coloration, discontinuity, loudness and reverberation**, plus **Audiobox
 PQ**, beneath each generated/original/processed player. These are predictions
 for the exact saved WAV bytes, not human ratings. The model adapters use their
@@ -443,7 +444,7 @@ and two scatter plots, with identical axes for the ten listening items and
 the full 88-item panel. Original and processed reference medians are shown
 as horizontal baselines. Each checkpoint is labeled; unavailable evaluations
 remain blank in the table and are omitted from the plots. The comparison
-snapshot through 170K is stored in
+snapshot through 171K is stored in
 `training/reports/quality_v12_sigmos_vs_mel.json` and bundled as
 `checkpoint_comparison.json`. It is included in newly generated pages only
 when their listening item IDs match; it is a measured snapshot, not an
@@ -454,19 +455,19 @@ and processed reference medians on the same ten listening items. It compares
 ordinary least-squares linear trends using all scored checkpoints and the
 latest four, plus a logarithmic trend using all checkpoints. The independent
 variable is optimizer steps, not training mel loss. Forecast totals and
-additional steps are anchored to the latest scored checkpoint (170K in the
-current snapshot), not the live training position. At 170K the all-checkpoint
-linear fit estimates approximately **282K total** for the original median
-and **327K** for the processed median; the logarithmic fit instead estimates
-**821K** and **1,437K**. The latest-four linear fit has a negative slope and
-therefore reports no supported crossing. This spread is model sensitivity, not a confidence
+additional steps are anchored to the latest scored checkpoint (171K in the
+current snapshot), not the live training position. At 171K the all-checkpoint
+linear fit estimates approximately **289K total** for the original median
+and **335K** for the processed median; the logarithmic fit instead estimates
+**818K** and **1,430K**. The latest-four linear fit estimates **290K** and
+**333K** respectively. This spread is model sensitivity, not a confidence
 interval. The small subset fluctuates, errors across checkpoints are correlated,
 and a quality plateau could prevent reaching either target. Forecasts are
 report-only and do not change the scheduled training stages. They assume
 unchanged training data; the planned ≥4.0 subset switch requires a new trend
 assessment. Exact fits are bundled
 as `quality_forecast.json` and exported to
-`training/reports/quality_v12_listening_170k_forecast.json`.
+`training/reports/quality_v12_listening_171k_forecast.json`.
 
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page
@@ -475,7 +476,7 @@ inside a SLURM GPU allocation, without resynthesizing audio:
 ```bash
 source training/activate.sh
 python -m training.scripts.score_checkpoint_listening \
-  --output training/quality_runs/v12/listening_170k \
+  --output training/quality_runs/v12/listening_171k \
   --config training/conf/quality.yaml
 ```
 
@@ -486,8 +487,9 @@ Portable scores are also committed as
 `training/reports/quality_v12_listening_127k_scores.{csv,jsonl}`,
 `training/reports/quality_v12_listening_131k_scores.{csv,jsonl}`,
 `training/reports/quality_v12_listening_154k_scores.{csv,jsonl}`,
-`training/reports/quality_v12_listening_164k_scores.{csv,jsonl}` and
-`training/reports/quality_v12_listening_170k_scores.{csv,jsonl}`. These ten
+`training/reports/quality_v12_listening_164k_scores.{csv,jsonl}`,
+`training/reports/quality_v12_listening_170k_scores.{csv,jsonl}` and
+`training/reports/quality_v12_listening_171k_scores.{csv,jsonl}`. These ten
 listening items are a subset and do not replace the fixed 88-item checkpoint
 evaluation. Focused tests verify role-specific scores, embedded downloads and
 ZIP contents, and rejection of modified audio before updating reports.
