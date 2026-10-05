@@ -353,6 +353,17 @@ The page header summarizes the median of each quality metric separately for
 its ten synthesized files and ten processed references. These medians describe the listening subset, not the
 full processed training corpus.
 
+The 154K page also includes the SigMOS-versus-training-mel comparison table
+and two scatter plots, with identical axes for the ten listening items and
+the full 88-item panel. Original and processed reference medians are shown
+as horizontal baselines. Each checkpoint is labeled; unavailable evaluations
+remain blank in the table and are omitted from the plots. The comparison
+snapshot through 154K is stored in
+`training/reports/quality_v12_sigmos_vs_mel.json` and bundled as
+`checkpoint_comparison.json`. It is included in newly generated pages only
+when their listening item IDs match; it is a measured snapshot, not an
+automatic evaluation of subsequent checkpoints.
+
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page
 inside a SLURM GPU allocation, without resynthesizing audio:

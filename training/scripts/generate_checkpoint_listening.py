@@ -52,6 +52,29 @@ def page(rows, step, embedded=False, output=None):
                 f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"][role][metric] for row in rows]):.3f}</td></tr>'
                 for metric, name in metrics) + '</tbody></table>')
     quality_summary = '<div class="players">' + ''.join(summaries) + '</div>' if summaries else ''
+    comparison_html = ''
+    comparison_path = output / 'checkpoint_comparison.json' if output else None
+    if comparison_path and comparison_path.exists():
+        comparison = json.loads(comparison_path.read_text())
+        if sorted(row['utterance_id'] for row in rows) != sorted(comparison['listening_ids']):
+            raise ValueError('Checkpoint comparison does not match listening items')
+        def formatted(value):
+            return '—' if value is None else f'{value:.3f}'
+        comparison_rows = ''.join(
+            '<tr><th scope="row">' + html.escape(item['label']) + '</th>' + ''.join(
+                f'<td>{formatted(item[key])}</td>' for key in ('train_mel', 'sigmos_10', 'sigmos_88')) + '</tr>'
+            for item in comparison['rows'])
+        comparison_html = ('<section aria-label="Checkpoint quality comparison"><div style="overflow-x:auto">'
+                           '<table class="scores comparison"><caption>SigMOS versus training mel loss</caption>'
+                           '<thead><tr><th scope="col">Audio / checkpoint</th><th scope="col">Train mel ↓</th>'
+                           '<th scope="col">Median SigMOS<br>Same 10 items ↑</th>'
+                           '<th scope="col">Median SigMOS<br>Full 88 items ↑</th></tr></thead>'
+                           f'<tbody>{comparison_rows}</tbody></table></div>'
+                           '<p>Training mel is the epoch mean; SigMOS is median overall MOS. '
+                           'Original and processed references use the same held-out items, without the ≥3.5 filter. '
+                           'A dash means unavailable or inapplicable. Later checkpoints are shown when evaluated.</p></section>')
+        from training.scripts.listening_comparison import comparison_plots
+        comparison_html += comparison_plots(comparison)
     cards = []
     for index, row in enumerate(rows, 1):
         players = []
@@ -90,19 +113,27 @@ header p{{max-width:850px;line-height:1.6;color:#545e56}}article{{padding:24px 0
 .meta{{font-size:.85rem;color:#545e56}}article p{{font-size:1.15rem;line-height:1.6}}
 .players{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}label{{display:block;font-size:.9rem;margin-bottom:9px}}
 .scores{{width:100%;font-size:.85rem;border-collapse:collapse;margin-top:12px;font-variant-numeric:tabular-nums}}.scores caption{{text-align:left;margin-bottom:6px}}.scores th{{text-align:left;font-weight:400}}.scores td{{text-align:right}}.scores th,.scores td{{padding:3px 0}}
+.comparison{{min-width:530px;margin:24px 0 12px}}.comparison th,.comparison td{{padding:7px 12px}}.comparison th:first-child{{padding-left:0}}.comparison thead th:not(:first-child){{text-align:right}}.comparison caption{{font-size:1.1rem;font-weight:600}}
+.mos-plots{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}.mos-plot{{width:100%;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.mos-plot text{{fill:currentColor;font-size:16px}}.mos-plot .plot-title{{font-size:20px}}.mos-plot .plot-tick{{font:12px system-ui,sans-serif}}.plot-axis{{stroke:#666;stroke-width:1}}.plot-reference{{stroke:#777;stroke-width:1}}.plot-point{{fill:#666}}.mos-plot .plot-latest{{fill:#a63e25}}.mos-plot .plot-reference-label{{font-size:16px}}@media(max-width:900px){{.mos-plots{{grid-template-columns:1fr}}}}@media(max-width:480px){{.mos-plot text,.mos-plot .plot-reference-label{{font-size:22px}}.mos-plot .plot-tick{{font-size:20px}}.mos-plot .plot-point-label:not(.plot-latest){{display:none}}}}
+@media(prefers-color-scheme:dark){{.mos-plot{{background:#151515;color:#ddd}}.plot-axis,.plot-reference{{stroke:#999}}.plot-point{{fill:#aaa}}.mos-plot .plot-latest{{fill:#e5a084}}}}
 audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-template-columns:1fr}}body{{margin:24px auto}}}}
 @media(prefers-color-scheme:dark){{:root{{background:#151b17;color:#ebefea}}header p,.meta{{color:#acb9ad}}article{{border-color:#354036}}a{{color:#9ad5ab}}}}
 </style><header><h1>Ukrainian TTS · {step:,} steps</h1>
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{quality_summary}</header>
+Generated audio is presented without enhancement or loudness normalization.</p>{quality_note}{quality_summary}{comparison_html}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 
 
 def write_pages(output, rows, step):
-    output.joinpath('index.html').write_text(page(rows, step))
+    comparison_source = Path(__file__).resolve().parents[1] / 'reports/quality_v12_sigmos_vs_mel.json'
+    if not (output / 'checkpoint_comparison.json').exists() and comparison_source.exists():
+        comparison = json.loads(comparison_source.read_text())
+        if sorted(row['utterance_id'] for row in rows) == sorted(comparison['listening_ids']):
+            shutil.copyfile(comparison_source, output / 'checkpoint_comparison.json')
+    output.joinpath('index.html').write_text(page(rows, step, output=output))
     output.joinpath('preview.html').write_text(page(rows, step, True, output))
     with zipfile.ZipFile(output / 'listening_set.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(output.rglob('*')):

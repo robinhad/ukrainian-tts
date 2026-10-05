@@ -1,0 +1,77 @@
+{
+  "listening_ids": [
+    "common_voice_available_uk_5df6da1d671744faf0228008",
+    "common_voice_available_uk_c02c7293451907b932c31154",
+    "fleurs_uk_780f47de1ad7de01b058a990",
+    "fleurs_uk_ce9eb2666cb7cc32803ed074",
+    "opentts_lada_d678cf4acf3877e75ae20b50",
+    "opentts_mykyta_c2f414fc0fe7a2a70b94b0fc",
+    "opentts_tetiana_940d13e97ac3739264027997",
+    "tg_voices_uk_658efbc1e369460c1629ae86",
+    "ua_ser_be37bb89df5984c587d20c82",
+    "ukr_dialects_d2ba80d943e6a61f32205558"
+  ],
+  "through_step": 154000,
+  "rows": [
+    {
+      "label": "Original source audio",
+      "train_mel": null,
+      "sigmos_10": 3.0976791381835938,
+      "sigmos_88": 3.047248601913452
+    },
+    {
+      "label": "Processed source audio",
+      "train_mel": null,
+      "sigmos_10": 3.2402268648147583,
+      "sigmos_88": 3.2752106189727783
+    },
+    {
+      "label": "25K",
+      "train_mel": 45.502197265625,
+      "sigmos_10": 2.237205982208252,
+      "sigmos_88": 1.9661037921905518
+    },
+    {
+      "label": "50K",
+      "train_mel": 42.63134002685547,
+      "sigmos_10": 2.3567980527877808,
+      "sigmos_88": 2.359222650527954
+    },
+    {
+      "label": "75K",
+      "train_mel": 41.49159240722656,
+      "sigmos_10": 2.5460764169692993,
+      "sigmos_88": 2.4934855699539185
+    },
+    {
+      "label": "100K",
+      "train_mel": 39.972877502441406,
+      "sigmos_10": 2.3617604970932007,
+      "sigmos_88": 2.5348758697509766
+    },
+    {
+      "label": "120K",
+      "train_mel": 39.38511276245117,
+      "sigmos_10": 2.597976326942444,
+      "sigmos_88": 2.5957366228103638
+    },
+    {
+      "label": "127K",
+      "train_mel": 39.24536895751953,
+      "sigmos_10": 2.7086492776870728,
+      "sigmos_88": null
+    },
+    {
+      "label": "131K",
+      "train_mel": 39.14529037475586,
+      "sigmos_10": 2.7092007398605347,
+      "sigmos_88": null
+    },
+    {
+      "label": "154K",
+      "train_mel": 38.44502639770508,
+      "sigmos_10": 2.561514377593994,
+      "sigmos_88": null
+    }
+  ]
+}
