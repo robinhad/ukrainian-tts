@@ -42,7 +42,8 @@ def comparison_plots(comparison):
             dx, dy = {'25K': (-30, -12), '50K': (10, 20), '75K': (10, -12),
                       '100K': (10, 22), '120K': (20, 16), '127K': (26, -12),
                       '131K': (-24, -32), '154K': (10, 25),
-                      '171K': (40, -12), '183K': (10, 12)}.get(row['label'], (10, -12))
+                      '171K': (40, -12), '183K': (10, 12),
+                      '192K': (10, 30)}.get(row['label'], (10, -12))
             parts.append(f'<text x="{px+dx:.2f}" y="{py+dy:.2f}" class="plot-point-label{highlight}">{label}</text>')
         parts.append('</svg>')
         panels.append(''.join(parts))

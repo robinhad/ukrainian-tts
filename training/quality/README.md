@@ -405,10 +405,11 @@ normalization. The frozen checkpoint hash is recorded in
 `training/reports/quality_v12_listening_164k.json`,
 `training/reports/quality_v12_listening_170k.json`,
 `training/reports/quality_v12_listening_171k.json`,
-`training/reports/quality_v12_listening_183k.json` and
-`training/reports/quality_v12_listening_189k.json`.
+`training/reports/quality_v12_listening_183k.json`,
+`training/reports/quality_v12_listening_189k.json` and
+`training/reports/quality_v12_listening_192k.json`.
 
-Open `training/quality_runs/v12/listening_189k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_192k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -418,22 +419,22 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/189k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/192k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_189k --step 189000 --count 10
+  --output training/quality_runs/v12/listening_192k --step 192000 --count 10
 ```
 
-At 189K, the ten synthesized files have median overall SigMOS **2.68345**
-and Audiobox PQ **7.45442**. Epoch-mean training mel loss is **37.65990**.
+At 192K, the ten synthesized files have median overall SigMOS **2.63426**
+and Audiobox PQ **7.37023**. Epoch-mean training mel loss is **37.50468**.
 The fixed processed-reference median remains **3.24023**.
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
 references in both HTML pages (including embedded bytes), and ZIP integrity.
 
-The 127K, 131K, 154K, 164K, 170K, 171K, 183K and 189K listening pages also display whole-file **SigMOS overall, speech,
+The 127K, 131K, 154K, 164K, 170K, 171K, 183K, 189K and 192K listening pages also display whole-file **SigMOS overall, speech,
 noise, coloration, discontinuity, loudness and reverberation**, plus **Audiobox
 PQ**, beneath each generated/original/processed player. These are predictions
 for the exact saved WAV bytes, not human ratings. The model adapters use their
@@ -467,7 +468,7 @@ existing page without resynthesis or MOS inference with:
 
 ```bash
 training/.venv/bin/python -m training.scripts.listening_dataset_stats \
-  --output training/quality_runs/v12/listening_189k \
+  --output training/quality_runs/v12/listening_192k \
   --manifest training/data/quality_v12/manifests/quality_v12_train.parquet \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml
 ```
@@ -477,7 +478,7 @@ and two scatter plots, with identical axes for the ten listening items and
 the full 88-item panel. Original and processed reference medians are shown
 as horizontal baselines. Each checkpoint is labeled; unavailable evaluations
 remain blank in the table and are omitted from the plots. The comparison
-snapshot through 189K is stored in
+snapshot through 192K is stored in
 `training/reports/quality_v12_sigmos_vs_mel.json` and bundled as
 `checkpoint_comparison.json`. It is included in newly generated pages only
 when their listening item IDs match; it is a measured snapshot, not an
@@ -488,19 +489,19 @@ and processed reference medians on the same ten listening items. It compares
 ordinary least-squares linear trends using all scored checkpoints and the
 latest four, plus a logarithmic trend using all checkpoints. The independent
 variable is optimizer steps, not training mel loss. Forecast totals and
-additional steps are anchored to the latest scored checkpoint (189K in the
-current snapshot), not the live training position. At 189K the all-checkpoint
-linear fit estimates approximately **287K total** for the original median
-and **333K** for the processed median; the logarithmic fit instead estimates
-**693K** and **1,171K**. The latest-four linear fit estimates **229K** and
-**248K** respectively. This spread is model sensitivity, not a confidence
+additional steps are anchored to the latest scored checkpoint (192K in the
+current snapshot), not the live training position. At 192K the all-checkpoint
+linear fit estimates approximately **306K total** for the original median
+and **357K** for the processed median; the logarithmic fit instead estimates
+**780K** and **1,351K**. The latest-four linear fit has no positive trend, so it supplies no
+finite crossing estimate. This spread is model sensitivity, not a confidence
 interval. The small subset fluctuates, errors across checkpoints are correlated,
 and a quality plateau could prevent reaching either target. Forecasts are
 report-only and do not change the scheduled training stages. They assume
 unchanged training data; the planned ≥4.0 subset switch requires a new trend
 assessment. Exact fits are bundled
 as `quality_forecast.json` and exported to
-`training/reports/quality_v12_listening_189k_forecast.json`.
+`training/reports/quality_v12_listening_192k_forecast.json`.
 
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page
@@ -509,7 +510,7 @@ inside a SLURM GPU allocation, without resynthesizing audio:
 ```bash
 source training/activate.sh
 python -m training.scripts.score_checkpoint_listening \
-  --output training/quality_runs/v12/listening_189k \
+  --output training/quality_runs/v12/listening_192k \
   --config training/conf/quality.yaml
 ```
 
