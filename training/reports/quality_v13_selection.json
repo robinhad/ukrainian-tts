@@ -1,0 +1,2582 @@
+{
+  "threshold": 4.0,
+  "metric": "processed_sigmos_overall",
+  "inclusive": true,
+  "training_before": 10187,
+  "training_after": 365,
+  "training_hours": 0.6306946875,
+  "sources": {
+    "common_voice_available_uk": 93,
+    "fleurs_uk": 13,
+    "opentts_lada": 1,
+    "opentts_mykyta": 37,
+    "opentts_tetiana": 20,
+    "tg_voices_uk": 5,
+    "ua_ser": 1,
+    "ukr_dialects": 195
+  },
+  "dev_items_unchanged": 196,
+  "eval_items_unchanged": 1688,
+  "selected": [
+    {
+      "utterance_id": "common_voice_available_uk_002d9df4a509386a1d95127f",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.85,
+      "sigmos_overall": 4.387041091918945,
+      "audio_sha256": "d61c36b50a66004648654fd47013d167961491bb139aca96a32d2eabc8fb731a"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_04ce599343f5e5a7fa44ded4",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.23,
+      "sigmos_overall": 4.1739091873168945,
+      "audio_sha256": "76c431b49b52b33323272fa0c4db0ca60b36943af37ad28d98bf6f36899c99d1"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_05213c46ed92d77600fa85c9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 6.37,
+      "sigmos_overall": 4.17363977432251,
+      "audio_sha256": "b76e16521c794c63f125c550e3c8b2302d7a3b8b42c4e78c20381dc45447b914"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_064a2d187aa6318a6e1aa9c5",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 7.76,
+      "sigmos_overall": 4.122616767883301,
+      "audio_sha256": "f011b39649aaf6d0afca152be4862188ca1a93d78e59783dd02a1c96789832d9"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_0b48111b21fce253a15a0a3e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.29,
+      "sigmos_overall": 4.169332981109619,
+      "audio_sha256": "e22cc3d79baae134a375647f7ec082dc1e561eedd289d43bb3e118250c40aa87"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_0d7f79122f86d2228e2f6cf6",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.48,
+      "sigmos_overall": 4.01331090927124,
+      "audio_sha256": "79109522402c3dc7b9b83c217f202d23c3c0044866e63f74797d61824464d3ce"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_178f2330f6b68b5b632044b3",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.33,
+      "sigmos_overall": 4.152844429016113,
+      "audio_sha256": "d7232c7e8e3957bbea0bdf92069983ad4849b4d4a03e7182d9adaf595e94706a"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_1bacf87df6d6c17cf01628eb",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.34,
+      "sigmos_overall": 4.226489067077637,
+      "audio_sha256": "37858444d15d803ab3c178973ddfdc0b8b49ed293b74da45690aa952507f94b4"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_1cf2a70b151dbb366175d01c",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.620041666666667,
+      "sigmos_overall": 4.170024871826172,
+      "audio_sha256": "4c9e3dc0e0c7b99b58c8bc949aa5b566791f9c398856dbd8936db7ea53ba1cc0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_1dc2278a3213dcc36d44fb40",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.490083333333333,
+      "sigmos_overall": 4.109989643096924,
+      "audio_sha256": "ebde31928e2051ad2f716aa6dc1ce7e310657e531d088333e0752758abbfaddf"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_1dcd22495e259c2f1d47c769",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.55,
+      "sigmos_overall": 4.521355628967285,
+      "audio_sha256": "45058aae0b742ded5a86b4adf761b641c7b128e8be911e10b4b3f0b28fd25685"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_1e46bb0da7b6421ed4d47e49",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.42,
+      "sigmos_overall": 4.010992050170898,
+      "audio_sha256": "56daeb4cddb22eb42baeb9b1cb1bd64579fa935317fb05d24049e1e98da21047"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_21cf0e92cf775d4371598089",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.35,
+      "sigmos_overall": 4.145242691040039,
+      "audio_sha256": "83717b1d1053fc39ad33f61653e972d00daaa7fd4962a06c8681f84df3546bd5"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_282ff50f14565704865b92cb",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.32,
+      "sigmos_overall": 4.025510787963867,
+      "audio_sha256": "5e522b45456d481e92eedff5663561fcb9b1a40877a037912b545a125debfc58"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_2bdd5ad29832db8026e26257",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.43,
+      "sigmos_overall": 4.62540340423584,
+      "audio_sha256": "686b793001dcf8514e51074b1f22e56daaae2e20fbda5731072392038f338831"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_2e7265c7513ff0bcc6e0995f",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.66,
+      "sigmos_overall": 4.074939250946045,
+      "audio_sha256": "54fae609a5632fbbbabe104d6b236ae28b9adfc83c78625061527a9a4120b284"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_3285f939cc43f317a2fdcace",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.26,
+      "sigmos_overall": 4.049130916595459,
+      "audio_sha256": "6404866f97c0ecc10fe3dc21e3391f6c02aa613990b99b5925084faa22498646"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_393e979aed23f648b36ac06e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.4,
+      "sigmos_overall": 4.142156600952148,
+      "audio_sha256": "6d863272041679b20b0f575b8f0a5f2ce5e186dd5292f9597293b337377ac6e4"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_3a8619f394d193e428b7451c",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.89,
+      "sigmos_overall": 4.011259078979492,
+      "audio_sha256": "71d7bade5208ff695ca1424441ed91f73a68bc09e0e6ac3b79261b51c3e2a87b"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_3a87d196e19f3fa69c0c603e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.74,
+      "sigmos_overall": 4.092802047729492,
+      "audio_sha256": "b4297bee9ed449ca9bdcbd54602a72da83b2ecbfe57f4429e6a485e7db7b617a"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_409ddaba1cab82dae9962661",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.14,
+      "sigmos_overall": 4.599071502685547,
+      "audio_sha256": "41fc7ade972607e315faba3ea72a355c1dcef5305bcb0542bc1231f3a6b16561"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_4bb28c31eb8ef8ed441d9770",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.65,
+      "sigmos_overall": 4.012207508087158,
+      "audio_sha256": "1ab8fb73d442683d36784e68b89e44f2a020ec3179cf041896441165d2871df9"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_4f95d72593cf66b083a27fb0",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 6.59,
+      "sigmos_overall": 4.138669967651367,
+      "audio_sha256": "b3145a0ac13467c6128a8cdd679623f75188f3bc1844e37f3043541d049fb4b0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_50c12854db437020cf8be589",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.69,
+      "sigmos_overall": 4.050728797912598,
+      "audio_sha256": "752a145b2cabed845e0c4a0c0df836354fdb3abea31ce6d85e98acfb1b84d850"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_523e5c822fe962542dc3b251",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.38,
+      "sigmos_overall": 4.065115928649902,
+      "audio_sha256": "e113545dfd48146670c731e0f93d34b5896620b62bf020cf42cacdfc7b124827"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_568f61d23c2d5dbe3c42a5ce",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 1.86,
+      "sigmos_overall": 4.215926170349121,
+      "audio_sha256": "f743b65d3b0e52989da3fed91e357a3d477bf12612e727fdca3b99fb098ad379"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_5987aa5c14a938e311fb18a9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.64,
+      "sigmos_overall": 4.047560691833496,
+      "audio_sha256": "c11e7376fa832e57bad753e5997b39cf310323416f9e87167d7aa8927a80433a"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_5bc15ec764852e2487db88ee",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.18,
+      "sigmos_overall": 4.03065299987793,
+      "audio_sha256": "db322459fca8f83a6fd538b564acade4b8ebf618b7d9c7bf1a67c2c528da253c"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_5f71c71deba1c2c463842b68",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.67,
+      "sigmos_overall": 4.102590560913086,
+      "audio_sha256": "e4a0661c620c638e24b2314dd5c0210fed2c24eace407c6e601ac9ed66cc976f"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_617547aa7d29d266bac7d96a",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.21,
+      "sigmos_overall": 4.008311748504639,
+      "audio_sha256": "fdd3c9511735b46669519c930a33a31038f28f02b6260b622865de160d2d1056"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_641241eee7b74fa635a1920b",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.89,
+      "sigmos_overall": 4.008618354797363,
+      "audio_sha256": "caa3bcd3a173f45c964fbce2dad79c2139f30f26fe877747009a435f8b6d5239"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_65a658d03f6ab47ff025b5fa",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.02,
+      "sigmos_overall": 4.022866249084473,
+      "audio_sha256": "9ea4ae61bb88f9573de633ee2e57c8a17e3a4413bbc7a1c4351c24cf4e7f26c2"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_65c04b92c50823ba4116e7ae",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.24,
+      "sigmos_overall": 4.027827262878418,
+      "audio_sha256": "73ca7bb6199c1010d26f1f1de3768671cbfbbcbe8aa06f23e2d572c078aca787"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_6744a08cbda636e8af311493",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.52,
+      "sigmos_overall": 4.0995612144470215,
+      "audio_sha256": "543e51f4f0671ea7e34b4bbea5bf4bd01ad7dcb9a38606f270a38f5c3dc430c8"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_684e2134a7c7e0ed659910b1",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.16,
+      "sigmos_overall": 4.219277381896973,
+      "audio_sha256": "5800aa697cce21e1220aef89a1f64202aaa1430f04e56069e454bb2fd7a9d5ed"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_6a5f191baed2a1468d3e810e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.16,
+      "sigmos_overall": 4.032508373260498,
+      "audio_sha256": "aae68f920c99dbeec2fa26a036be5b941790b2405431a9d1f2f7186ea752dc60"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_6ae24ab75c637859a637d6d0",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.01,
+      "sigmos_overall": 4.227135181427002,
+      "audio_sha256": "7830e7da681637763dc7a7d8c0720fd9c07f28249d8408c5e03091bd23eb04a0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_6f1513d1fca036f38bf63cca",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.95,
+      "sigmos_overall": 4.0219340324401855,
+      "audio_sha256": "cd8cfae515b53388f4e51d242f7cb39ba73cb7844e38026ebabb178536cc95f8"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_74c4eaf646f9843eb99ea160",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.52,
+      "sigmos_overall": 4.068635940551758,
+      "audio_sha256": "c879126ce6275b238cf1ca1689c00f707255fdc3bf64a2a7f68c255b51e0289b"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_761ddbdcc027c26421773dbe",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.85,
+      "sigmos_overall": 4.052950859069824,
+      "audio_sha256": "ba8130aca02ae8aac5d3b73c307ea464ac82615e964af5103d4fcd311ef0dbbf"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_7bcc9c9cbdb2f4bb39716c9e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.01,
+      "sigmos_overall": 4.146248817443848,
+      "audio_sha256": "0b068f010ca160c7df980ae1ba31e22af9b9ccbe7c3b75365b63ccb6e14af4f4"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_7c14c5f76ab015604c522277",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.58,
+      "sigmos_overall": 4.1921491622924805,
+      "audio_sha256": "6a74495022c89451600ca1d354ef0b3280230c8958431e80960349b5e4f2cafa"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_7d9edcf7fe8ffd039a0aa51a",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 1.9500416666666667,
+      "sigmos_overall": 4.225011825561523,
+      "audio_sha256": "9a6f687a93204293294e0a7005e68acbcc5007f3256844ecf0e73dab07c9438b"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_7dc83376895432ef13665bcd",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.99,
+      "sigmos_overall": 4.0040788650512695,
+      "audio_sha256": "600dae9eef3c6b8ea4e24255500de171c9d079194f24d327bfdb1088412976a1"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_7f7b9f9b62bba4c36d5bb0a0",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.76,
+      "sigmos_overall": 4.071882247924805,
+      "audio_sha256": "0315803d0d8d39d5578df3893d38dbbf305d7634d60e32f076b26cfedfa7becc"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_8108d6899f1b0e775c70969a",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.98,
+      "sigmos_overall": 4.0939836502075195,
+      "audio_sha256": "b412dd29bae2a7518f4ded127ea682d4050ca394dbd3026108b0c8d7fb810f52"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_8294351e4811c11b3dcf73fd",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.18,
+      "sigmos_overall": 4.152623176574707,
+      "audio_sha256": "99b9509ae8e8a92e80b356d461463b06a131124ff2683948270f5275658414d2"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_833e72cdc9d32e5d52d5436a",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.55,
+      "sigmos_overall": 4.0213422775268555,
+      "audio_sha256": "732b6a9526f850d3b384e43b4a7557127f0cc75d2364b1ddb5706681190367eb"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_835eeda5e18ac2f637bf7365",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.8,
+      "sigmos_overall": 4.182106018066406,
+      "audio_sha256": "dc395ae39578fcfa616fea03cc0fb51ea1014daf1bcfddf9183f1432c00bce8f"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_87d0ec30ceb23f82540803c3",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.75,
+      "sigmos_overall": 4.005727767944336,
+      "audio_sha256": "f3081218bfedc7206a1ad370db5391b0df77d29a95e8596688a6c77c1b934289"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_88f19912cf8faf282d4b4c47",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.38,
+      "sigmos_overall": 4.112366676330566,
+      "audio_sha256": "f82997059c967b4295fb1b2edb1a083e5c79a78c8939b5258f164725eaea8899"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_8a469ceb3a3bb2b3605c2f97",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.97,
+      "sigmos_overall": 4.159305095672607,
+      "audio_sha256": "2b133f7cdda018ea3714151c1f477ca28d48a878ce60073e719f43b661578e1c"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_8e8e9f6e4cf54d8cf827bbf3",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 1.72,
+      "sigmos_overall": 4.146977424621582,
+      "audio_sha256": "95736d60f83f0f60fc08f25f834a70bcf7e96789a3f35341c1925b63bf40a399"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_8ff8e289735a59838e0b6289",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.6,
+      "sigmos_overall": 4.016095161437988,
+      "audio_sha256": "7fff5e130a3025cb151850fd381889ea16344dc9f2c8f18f31d506f5f6b5b97d"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_91ff1fdd53961b4c17f814d1",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.74,
+      "sigmos_overall": 4.0658721923828125,
+      "audio_sha256": "48b9821dcec49780802be712e111a5dde9f837fe04ec562941253e6623c0be42"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_92ccb4d685182668ac4764b7",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 1.7000416666666667,
+      "sigmos_overall": 4.016666889190674,
+      "audio_sha256": "0e10e28e1da93c1f567d5a1a8e1076125ab77f54a1547de2e3de1425deda9a6c"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_93fb0d236d09c640e1bffa14",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.74,
+      "sigmos_overall": 4.01580810546875,
+      "audio_sha256": "6159e5dc8d9c931e5b176febc61c502972b2d691148f78812cd871394f3bb782"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_95416ed48ef5e598f9757ceb",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.92,
+      "sigmos_overall": 4.308291435241699,
+      "audio_sha256": "9ae302f8e36b70c32f285816ef52a8ffc2234ad688b09bdd4d0cb06ba633c0d0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_9620884011ca22b49a136362",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.75,
+      "sigmos_overall": 4.040340423583984,
+      "audio_sha256": "5f09226c51eb5e3a55f284c497e009f7e6397e97d4ce1cca7a0544e802c67044"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_983dd82c4cf5e4a0bdcdbcbb",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.7900416666666668,
+      "sigmos_overall": 4.10050106048584,
+      "audio_sha256": "4424205d11a646f01c58f8333198173f61cf6f1e7c7c6c88c111ccc5d0280c3b"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_9f579d669da559c683112398",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.57,
+      "sigmos_overall": 4.0056471824646,
+      "audio_sha256": "72938d9dcb7d2757d64376b57b9273213437b10c14a97a0e6b19dcbd824ad0df"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a2cfdbd2790641c86432963f",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.49,
+      "sigmos_overall": 4.069257736206055,
+      "audio_sha256": "12793be2c0c1b281c11ddfe0efd9415514273b600ba45b9e25d7ea74d80c391c"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a3f9eb59bb279f4717a53fd2",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.93,
+      "sigmos_overall": 4.020147800445557,
+      "audio_sha256": "e9cf6a9b72391598ebfb8b61a34fd9621a99d4dc5da96fd84d5d0f062c77ca8f"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a489dc56c25a7501111064f4",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.4500416666666665,
+      "sigmos_overall": 4.1370320320129395,
+      "audio_sha256": "2a55fcb9f43f47a0e3d536f3eca24ef296396424e1c4db49a41902fe8aae6eb7"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a491cecb968c94f03c3799eb",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.8000416666666665,
+      "sigmos_overall": 4.024710655212402,
+      "audio_sha256": "be7b50bf8a9f21d881ba9c5b2585706482125d326cf51ee5b53d1dd50708fd82"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a4dfad66d4ed08087062b905",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.5100416666666665,
+      "sigmos_overall": 4.03951358795166,
+      "audio_sha256": "b0c557d643b89b40931ecc62be1a2e9ea2a88f844c5e3c274721c222ae3b3edd"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_a64578619c9ae3d97bc8f702",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.0,
+      "sigmos_overall": 4.131021499633789,
+      "audio_sha256": "e72a0ac3513c0ec533133745db3683d0cc20d9057584225c416c12c710a6f3fc"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_abc8b8ce58c1f5539ae03c19",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.2500416666666667,
+      "sigmos_overall": 4.590363502502441,
+      "audio_sha256": "05b4489b9c9a831081b2bed1946f686a4cd664b6ecd4ce13aa45924d385f70d8"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_af123424c0160c0616742504",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.37,
+      "sigmos_overall": 4.016645431518555,
+      "audio_sha256": "e18e1fac90976ef81e7bbd9d8f8543ac539f80318f74de5ebf9153875cb69ed0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b0457eeec7c6a5f009030169",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.75,
+      "sigmos_overall": 4.09951639175415,
+      "audio_sha256": "6e7e102b8645beb9338cdbf11c3ca7eeeca0c9d70027d697085fcc27d6b9a205"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b09cdacd29d9f7eee20bf55e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.94,
+      "sigmos_overall": 4.02573823928833,
+      "audio_sha256": "deba8100124624fb90e1bc731907cac214ba5ef899b987f6753995142f8c1bf4"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b2477e9f2dbe1e7b3b04cad9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.09,
+      "sigmos_overall": 4.032946586608887,
+      "audio_sha256": "4efd69282c043127ed0540ab10e365d658b4bb81b4878056ed29dac083be17ec"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b260a5c78a340bde5d8ebc39",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.14,
+      "sigmos_overall": 4.173849105834961,
+      "audio_sha256": "c00bbeb404fe1533c269a4cd76cc71ea05383627d7961534c0954157beb4ea33"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b46112049d8ed863a955418e",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.7800416666666665,
+      "sigmos_overall": 4.102889060974121,
+      "audio_sha256": "b835fc9b374e94b3d9c0815ef75c4c8c02adc0a07db683c858b5929aea7f524f"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_b59a93fb44e35cead57d51f3",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.17,
+      "sigmos_overall": 4.016003608703613,
+      "audio_sha256": "453e961f3049976d76f017589342245035572506671d2b4fab8c80d0811e13b8"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_ba73f01cc1c0d701d2315c6f",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.33,
+      "sigmos_overall": 4.055634498596191,
+      "audio_sha256": "368370dd3f5c34f497377d1d20fc84611be059b2b6cdca81e24e8cd1f92a2433"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_be78cd3352154b6d2eee7dac",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.79,
+      "sigmos_overall": 4.498941898345947,
+      "audio_sha256": "1366c7575fc94e3005856bbb1342ecf6bd5b915f23eea73721b63b957a10f7f6"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_c7a6c4dbaa8c88b286684d44",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.91,
+      "sigmos_overall": 4.277944087982178,
+      "audio_sha256": "4423e7a3f8f14352023a400f7e4c71d18b1afcd18cc88ff0790519719ddd56f9"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_c88d8bf5e58d5ffbb9cd2291",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.98,
+      "sigmos_overall": 4.146827220916748,
+      "audio_sha256": "ad4bdc6cb22d5cbbc1d53d20f3235380bbdb0ba3d8b80797d2a7ef76ea5ec6cb"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_cebda79ef7fd8134d946903c",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.32,
+      "sigmos_overall": 4.027976036071777,
+      "audio_sha256": "4453ebbaf7caea8ec410f9fc3338783fca5007f8ec67fc133daf7daacde0ad6c"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_cf9af3c5b7b73832ab69374c",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.02,
+      "sigmos_overall": 4.139693260192871,
+      "audio_sha256": "dd4b61100ef312f96cd85e7147ba27626c6c68df75fbeb6348517b025648d2af"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_d0e37ee90d49245aa3777b88",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.64,
+      "sigmos_overall": 4.043508529663086,
+      "audio_sha256": "5e6b7b4dba2509ef4c4b3a801a937ca4018b4832989d58946e14ecca1ffb1dc0"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_d1e13526a80568a0429be295",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.3600416666666666,
+      "sigmos_overall": 4.070033550262451,
+      "audio_sha256": "0254049965bd221b6f3d9d62ce067b69ef5e9cdabd42aef65aae0c06f2cad95d"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_d317eb5a347346c9b211e2a9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.24,
+      "sigmos_overall": 4.110369682312012,
+      "audio_sha256": "6594aeb7b22065e1c454545c2bd0ec0e739d3f35b5121499c974766699b94586"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_d5be5125a78af99becabd6fc",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.42,
+      "sigmos_overall": 4.082983016967773,
+      "audio_sha256": "a2e44fe8fb4fbefc7d4dc251dbb8011a557470969e1e60158d55933e3327bb56"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_dcc0d559d04a82adecc49d29",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.88,
+      "sigmos_overall": 4.0775146484375,
+      "audio_sha256": "90e27e0e03e81afc70dab0e85d5bebb09f40eee5756ab10c9717457bb36378ea"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_e244026a43ca50e255890f9d",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.19,
+      "sigmos_overall": 4.211977005004883,
+      "audio_sha256": "a9498c56fa8d166193038f593d5dab468a5ce96d43a4fff6f8c312d6d83a5754"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_e5896536ab1122202827acf9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 2.51,
+      "sigmos_overall": 4.045804023742676,
+      "audio_sha256": "6e210d2073400e83b45b88d98a89d994cc49e38a7efd710963da6e242040833a"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_e865ac002a2617fd4d221521",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 1.61,
+      "sigmos_overall": 4.036617755889893,
+      "audio_sha256": "6b4f74c2a0766d7580c751eb11d63f53376369f757baef3c050126110be26d87"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_ee68bfcabd67a987239442e8",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 6.51,
+      "sigmos_overall": 4.109740734100342,
+      "audio_sha256": "dac14dd3a7282bb6df85cfb0ed4891e47316d8b990bae3b818f71d86ad101322"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_f3f678017514853e92eb6ed9",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 3.19,
+      "sigmos_overall": 4.120838642120361,
+      "audio_sha256": "e599641b9e49e455f984e1875cebb7331815b0660e940c89d24e1814ae2d935f"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_f89d1218912002bb36b360d1",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 5.41,
+      "sigmos_overall": 4.019073963165283,
+      "audio_sha256": "b2336b4cb89ee1f5973ebf5a31d86c6dadc44d72f47cf3b2168985ed67f500d6"
+    },
+    {
+      "utterance_id": "common_voice_available_uk_f8c2cea9a69aca8f7df95f3f",
+      "source_id": "common_voice_available_uk",
+      "duration_seconds": 4.54,
+      "sigmos_overall": 4.011536598205566,
+      "audio_sha256": "75f7732c660b93d91f75a7cf3430df772f776d4863766a69cdac0af8e416c2c9"
+    },
+    {
+      "utterance_id": "fleurs_uk_08ab5f7cbd59b4afba1cf55f",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 7.97,
+      "sigmos_overall": 4.039260387420654,
+      "audio_sha256": "84def517f7ea309a68849195b37e78a6bec093e17f42b3b616c25f16352bfe0d"
+    },
+    {
+      "utterance_id": "fleurs_uk_1a051af0bffea6e0d1d9a168",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 17.82,
+      "sigmos_overall": 4.101144790649414,
+      "audio_sha256": "e026258da371e44292dda82cc5fd8bf684394616508fc74dc145be3c2060803d"
+    },
+    {
+      "utterance_id": "fleurs_uk_4685e4bdd71dc38ef29c0e6e",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 8.93,
+      "sigmos_overall": 4.078649520874023,
+      "audio_sha256": "88521b5cde309d5de0aef8a858705f60dca1d01f9594517a6520b86476f933ca"
+    },
+    {
+      "utterance_id": "fleurs_uk_4bbf41b8d9265904f0161a68",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 14.49,
+      "sigmos_overall": 4.098154067993164,
+      "audio_sha256": "322f98bdf960690aa7a6450e530e705e4fa8ad5043a466fe42db4a80e62e0350"
+    },
+    {
+      "utterance_id": "fleurs_uk_4ee21834139f1aca6530521c",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 17.34,
+      "sigmos_overall": 4.050357341766357,
+      "audio_sha256": "6b3ad762ca650a756d5353a8ca95697f6ae9e4f9a11a472c159e6edbe40435bc"
+    },
+    {
+      "utterance_id": "fleurs_uk_4f2ab7d95b6e52aa601035a5",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 11.0,
+      "sigmos_overall": 4.149695873260498,
+      "audio_sha256": "4c63251f8f591df208b14a6b62b5ae4befd266498e11f7448e59f5ef792afe37"
+    },
+    {
+      "utterance_id": "fleurs_uk_5c9cb11a03acc3c86b5ffc28",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 15.6,
+      "sigmos_overall": 4.1624064445495605,
+      "audio_sha256": "d9d6d5cbff87bcfd7558ea1c405b6fea73018305ff2e06ee6ed6f57aa37e9a63"
+    },
+    {
+      "utterance_id": "fleurs_uk_5db0de948bf68e95ff8db403",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 18.84,
+      "sigmos_overall": 4.062397003173828,
+      "audio_sha256": "fefe2378af9a853a30eadee9d2d6840d2cfadfb146ae4c032d32ff364baef87d"
+    },
+    {
+      "utterance_id": "fleurs_uk_67974839a894284e50de55b2",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 7.51,
+      "sigmos_overall": 4.04646110534668,
+      "audio_sha256": "34a5a5a180d5be160e470c4c6603fd9171ca03d804c1403bda811f4cd929332f"
+    },
+    {
+      "utterance_id": "fleurs_uk_6c043ca5b6a3b78ad0f97735",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 11.190041666666668,
+      "sigmos_overall": 4.044558525085449,
+      "audio_sha256": "5c0395ddba5af8c2381a4a11d43fd63bdbb3a279a55234cd29bcedbece0a7d66"
+    },
+    {
+      "utterance_id": "fleurs_uk_b3923614ff45be999135d777",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 10.83,
+      "sigmos_overall": 4.015237808227539,
+      "audio_sha256": "eb8ae4e4802c5b700cfae50a81f9dad827ff1b1fad121a6c180c41c66ce3ca69"
+    },
+    {
+      "utterance_id": "fleurs_uk_e65789f2f46e4cf1775dd9b7",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 9.3,
+      "sigmos_overall": 4.0523858070373535,
+      "audio_sha256": "43408477591c684027a026fb5313edb35ae97cfd64a7f582a54d78b08bf90796"
+    },
+    {
+      "utterance_id": "fleurs_uk_ee3bfaf6a635c81ac1be9a94",
+      "source_id": "fleurs_uk",
+      "duration_seconds": 7.7800416666666665,
+      "sigmos_overall": 4.003185272216797,
+      "audio_sha256": "3663789af4e70cfb06c7ee7767657dd2f285d7256131572db386e78812affe97"
+    },
+    {
+      "utterance_id": "opentts_lada_41673593b21606b56500b68b",
+      "source_id": "opentts_lada",
+      "duration_seconds": 2.78,
+      "sigmos_overall": 4.125210285186768,
+      "audio_sha256": "1985eb6d8f29b62f0127ccb6690ad923b8c59dd7e2ca479915c32de7c624e90a"
+    },
+    {
+      "utterance_id": "opentts_mykyta_057d2ffc1a167997078218c3",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 5.89,
+      "sigmos_overall": 4.018655776977539,
+      "audio_sha256": "8198fcd31dd8fb3ef91fca63ef49e0e2be9e34fca9a167b374ef154ef6a3e3fb"
+    },
+    {
+      "utterance_id": "opentts_mykyta_0816513d8b6abd5d75300e6c",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 5.2,
+      "sigmos_overall": 4.152853488922119,
+      "audio_sha256": "fab2f763ad416cbf6bd7adecc498b79f076cb6e98dcec262fb4a1b30da2754de"
+    },
+    {
+      "utterance_id": "opentts_mykyta_08e510682e66edbcf3486e98",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.04,
+      "sigmos_overall": 4.822183609008789,
+      "audio_sha256": "bafb3087ced623c5933b1ea766782caab2e0ca544ee8101a76d5d53614756b04"
+    },
+    {
+      "utterance_id": "opentts_mykyta_0cd157eaabd58088c4ae59a3",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.25,
+      "sigmos_overall": 4.298512935638428,
+      "audio_sha256": "1a5da98f5aa14e1372a0ec16675da7745ce7d573c454cd8472343cb9680be02b"
+    },
+    {
+      "utterance_id": "opentts_mykyta_1cc35962bb1cb8777307e259",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.43,
+      "sigmos_overall": 4.040816307067871,
+      "audio_sha256": "01efe7bf39cd69ed081df6cd6618c5d6e7f56223c556fbcd8c622babe2719c3f"
+    },
+    {
+      "utterance_id": "opentts_mykyta_1f85e7a9fb344a3a9db8f4e3",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.91,
+      "sigmos_overall": 4.109164237976074,
+      "audio_sha256": "8c0b5cf67932dc473e7ae870a14061175e722755539335b120c68494f62deaa3"
+    },
+    {
+      "utterance_id": "opentts_mykyta_220c7ed36cef577294c583ec",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.67,
+      "sigmos_overall": 4.023763656616211,
+      "audio_sha256": "06cb43a0996349bcd630bd90cc72eec64f3a47ffd1ae54db2e9e370cf0526213"
+    },
+    {
+      "utterance_id": "opentts_mykyta_3516f0330dfd1e07fd4b7430",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.58,
+      "sigmos_overall": 4.308939456939697,
+      "audio_sha256": "fa1cb3141a56ebc7c23c336c540323b8453373fc339eb0a1af3218b623301ea2"
+    },
+    {
+      "utterance_id": "opentts_mykyta_3f6dfca153e966b85028f080",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 4.12,
+      "sigmos_overall": 4.0505290031433105,
+      "audio_sha256": "987003ec82d6e010fe0148b11c2e490affdbbed8a112ac94c49f585280d381f1"
+    },
+    {
+      "utterance_id": "opentts_mykyta_403cc5ce82b07580b65679e6",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.73,
+      "sigmos_overall": 4.1732635498046875,
+      "audio_sha256": "fbd8b2d114f6adb8f0bf71eb7bf07403314b9475497ff4cdfb2ee92495a171ca"
+    },
+    {
+      "utterance_id": "opentts_mykyta_41dba30233066a1c0fd6c782",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.29,
+      "sigmos_overall": 4.365804672241211,
+      "audio_sha256": "bd5dbf62c1ad3438103d682127d65d433c6359160924816e285606769e6a38e5"
+    },
+    {
+      "utterance_id": "opentts_mykyta_46a96d28237854458f357c95",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.22,
+      "sigmos_overall": 4.545548439025879,
+      "audio_sha256": "a3cf786a0460e6d4cd5f30cd44bbfb848b2e1452a5b75e4d407c4df28e735c74"
+    },
+    {
+      "utterance_id": "opentts_mykyta_515753d5718764ca2c0c6159",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.07,
+      "sigmos_overall": 4.031594276428223,
+      "audio_sha256": "6a2597172eb7cf410334727ff3f186a7b19729266749026e7403371851b68a16"
+    },
+    {
+      "utterance_id": "opentts_mykyta_5f7662afc4c0ceba193d9ac4",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 4.85,
+      "sigmos_overall": 4.0085954666137695,
+      "audio_sha256": "448f39321d5ca9c2746b04cdb103960ec28bb730a8eb2f0eddd1bfed2dcacc9c"
+    },
+    {
+      "utterance_id": "opentts_mykyta_68aa2d26a44a6c8f6e1d47c5",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 7.36,
+      "sigmos_overall": 4.085428237915039,
+      "audio_sha256": "f0bfb9c9155191bda08ef792520b1fffa7c76bedd05983c084c27f1026fddc09"
+    },
+    {
+      "utterance_id": "opentts_mykyta_69f5b16517af449ea3621afb",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.96,
+      "sigmos_overall": 4.237791061401367,
+      "audio_sha256": "8de0c642e8ebc0e5c3dfef5aea55f59ff4b889271a369581b25a1050b8e5421f"
+    },
+    {
+      "utterance_id": "opentts_mykyta_7dec54a1d41471f96e5ffb89",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.79,
+      "sigmos_overall": 4.129675388336182,
+      "audio_sha256": "f21200bbf116ff9346b1a119dbec2ff9e9f61115f2a7f663b9b9e01c40f943fd"
+    },
+    {
+      "utterance_id": "opentts_mykyta_81a3643d899336cf5a49e7c0",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.16,
+      "sigmos_overall": 4.00008487701416,
+      "audio_sha256": "b94b7222ac0d185e27ff6a341a642bb0b72b75218343f6042fbb4ba96cc468b3"
+    },
+    {
+      "utterance_id": "opentts_mykyta_848c17a32b5b5f446f38aa00",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 6.38,
+      "sigmos_overall": 4.042346477508545,
+      "audio_sha256": "fa8fb90c5a0c5561161583ea03943ea19fdae4c5cd44b017cfb442fb7c8910af"
+    },
+    {
+      "utterance_id": "opentts_mykyta_91a808b0059963fe1f72ea24",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.66,
+      "sigmos_overall": 4.104885101318359,
+      "audio_sha256": "4d6ca256977ed2c800eb02c6e30c29ad271de8f5cd0268c83d657f663f4caa0c"
+    },
+    {
+      "utterance_id": "opentts_mykyta_928a854283439157d6b529ab",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 5.26,
+      "sigmos_overall": 4.127281665802002,
+      "audio_sha256": "3e11a4c6805d7426afd3685d5fcefeb7d1d6559f0d17e2a8c06e44de5e182b18"
+    },
+    {
+      "utterance_id": "opentts_mykyta_96570528353bd76f5b06563a",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.22,
+      "sigmos_overall": 4.264142036437988,
+      "audio_sha256": "768526edd836c5211c62653447e3eb6f2c6154d78272c56f74c5d82e2712fd0b"
+    },
+    {
+      "utterance_id": "opentts_mykyta_b77d2f75e7f36bc58db730a6",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.47,
+      "sigmos_overall": 4.259636878967285,
+      "audio_sha256": "b7f74435f16662a616ae9544288972e7c719d8ff3290df38ca1ca29ebaceb2cf"
+    },
+    {
+      "utterance_id": "opentts_mykyta_c2e0cee81baf592550e0f32f",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 4.36,
+      "sigmos_overall": 4.209408760070801,
+      "audio_sha256": "a9066d007d66b64e30159be3ee72dabb884887bc41bd4a233d253170a5d3ef04"
+    },
+    {
+      "utterance_id": "opentts_mykyta_c4332c42487314b2fb1b54b9",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 3.86,
+      "sigmos_overall": 4.0788726806640625,
+      "audio_sha256": "e6f0817820422bf41b07a14a509ae96e852ae009bbbee4e1e576203f03ff7b9c"
+    },
+    {
+      "utterance_id": "opentts_mykyta_cbeb8cad085953d3b3bbb44e",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.7800416666666665,
+      "sigmos_overall": 4.1589555740356445,
+      "audio_sha256": "ec4f8be28f3d7bc05941d1630fd75f1115fdec2ea0521470764a9a8e21ed8354"
+    },
+    {
+      "utterance_id": "opentts_mykyta_ce0aede2e7936444df149a95",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.15,
+      "sigmos_overall": 4.260856628417969,
+      "audio_sha256": "f2873b8c37763f4e828602530ba47ba869d45b3dde7098a887980b66a0256ff3"
+    },
+    {
+      "utterance_id": "opentts_mykyta_d48bf8023db98fb5cb625616",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.85,
+      "sigmos_overall": 4.051331996917725,
+      "audio_sha256": "c7c5dccf866af7ea2e5fef9a3df6baf23d5e743cd5e5f03c4c71766a4bbf1347"
+    },
+    {
+      "utterance_id": "opentts_mykyta_d7dfd1cb1455f52f1937434c",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.02,
+      "sigmos_overall": 4.008406162261963,
+      "audio_sha256": "81f52e520ce7f42e414bab27c44f3f552d71563590504830c841fe9564c3ca3c"
+    },
+    {
+      "utterance_id": "opentts_mykyta_d9e34daf9b38ffa9864f6a32",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.43,
+      "sigmos_overall": 4.023379325866699,
+      "audio_sha256": "3655ec93abd873e9311aa1267e18c53a6e4ced1b5c1648f28e551bb20a358988"
+    },
+    {
+      "utterance_id": "opentts_mykyta_db21f298af377f1a4ffd0742",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.22,
+      "sigmos_overall": 4.016312599182129,
+      "audio_sha256": "d3b2d90b4778b63511beac84cfc4f57f915a0c41bc1050165c3feafd941269af"
+    },
+    {
+      "utterance_id": "opentts_mykyta_df39e01debb083683a445204",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.34,
+      "sigmos_overall": 4.33183479309082,
+      "audio_sha256": "e9c42ebe66b20fcb520059089e4b1a5a73b04aa779efb72c4052e97cad36b33b"
+    },
+    {
+      "utterance_id": "opentts_mykyta_e06ef7dda158fad2da55628f",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 4.180041666666667,
+      "sigmos_overall": 4.115207195281982,
+      "audio_sha256": "a0774ffffeecd7437c8ded41049c71297ebf55afbb35d8be1f4abae12cc16abc"
+    },
+    {
+      "utterance_id": "opentts_mykyta_e38afec20d839326b57be125",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 5.38,
+      "sigmos_overall": 4.0906219482421875,
+      "audio_sha256": "74b50ff1c478ee4d4f9625d76a70086bd4e34c382a1fbadb5828e68a187ac0fa"
+    },
+    {
+      "utterance_id": "opentts_mykyta_f34f23d1f94ff11abe2d5bd9",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 4.81,
+      "sigmos_overall": 4.154701232910156,
+      "audio_sha256": "a34df2c7def513743c08eda92a256d78db206819655205fa672b4daaafe163ec"
+    },
+    {
+      "utterance_id": "opentts_mykyta_f91bb4c8a723cddc84293744",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.09,
+      "sigmos_overall": 4.002904891967773,
+      "audio_sha256": "5a0ea6787a196e165706966821283733c1f0cda25eb20f5e0407c6914085df8f"
+    },
+    {
+      "utterance_id": "opentts_mykyta_f9ed5acc61b26278cfb4894c",
+      "source_id": "opentts_mykyta",
+      "duration_seconds": 2.32,
+      "sigmos_overall": 4.029941558837891,
+      "audio_sha256": "e02ecff6d68a023b702b3a4d836f25daf83ed57c1cc9d7f819caa5af85e8f600"
+    },
+    {
+      "utterance_id": "opentts_tetiana_09fe28ecfd165b98d5a77b4e",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 3.8,
+      "sigmos_overall": 4.060047626495361,
+      "audio_sha256": "7f2862d14763944d67b26acf367f2eb481db4e7b8d223e4bf5abdb274b99f5f7"
+    },
+    {
+      "utterance_id": "opentts_tetiana_0df324444bae88675642f665",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 3.6900416666666667,
+      "sigmos_overall": 4.4618401527404785,
+      "audio_sha256": "00416436697e69310dc2a314f51f9236cc6c39af8299026a946e0b9ee8d0c2bf"
+    },
+    {
+      "utterance_id": "opentts_tetiana_3f722a472f169397bca10c6d",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 2.23,
+      "sigmos_overall": 4.365525245666504,
+      "audio_sha256": "d4034212cdd9dd05927d6b6da4e7922eb22605d8046c4a3b97d6fd6385f6cabe"
+    },
+    {
+      "utterance_id": "opentts_tetiana_4ebaf078229f83a6085f2ed5",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 5.26,
+      "sigmos_overall": 4.082882404327393,
+      "audio_sha256": "976b2b64150a4b4177d567aced882857d074ee3dc90907097c6d1c4a86ccb7b4"
+    },
+    {
+      "utterance_id": "opentts_tetiana_59d3860be628a9d1cc6def6d",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 3.7000416666666665,
+      "sigmos_overall": 4.265937805175781,
+      "audio_sha256": "ebec8e70889e3f0013c1aa417b5b208e63cfa13d1f0520a209615ece6e2d3f40"
+    },
+    {
+      "utterance_id": "opentts_tetiana_601a6655c6d1a950d7e5c01d",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 4.18,
+      "sigmos_overall": 4.000670433044434,
+      "audio_sha256": "a074d9d0eb2c3526e5d72658f75df8cc06bedf2240753200dc893dcf0c4ecf4a"
+    },
+    {
+      "utterance_id": "opentts_tetiana_7640374882a91e87655f22d5",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 2.370041666666667,
+      "sigmos_overall": 4.253653049468994,
+      "audio_sha256": "cf0439e6f37f54347f9f11ff8cc569543658a3dc021bc6942893228f2523cf21"
+    },
+    {
+      "utterance_id": "opentts_tetiana_850532ba5b204fbdeb8af8a2",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 5.03,
+      "sigmos_overall": 4.046049118041992,
+      "audio_sha256": "5aa0cf5026f3f636890394657079d3634ca9509e6df6580347445cd8c41744c2"
+    },
+    {
+      "utterance_id": "opentts_tetiana_8cc0a62d11ef8540f3653597",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 4.73,
+      "sigmos_overall": 4.016348361968994,
+      "audio_sha256": "81b155d6ea6c815035136fbb9bf1a41f9f5c97bb28f35a6cfa9d3fce9e0b0967"
+    },
+    {
+      "utterance_id": "opentts_tetiana_8f7e1fba0bfe915a75ec3b8a",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 4.14,
+      "sigmos_overall": 4.037938594818115,
+      "audio_sha256": "14891354e0054a4de4fae57571a928f841d89b952f6d3a50b3fcf91da698147d"
+    },
+    {
+      "utterance_id": "opentts_tetiana_94da12afb824038d101e312a",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 4.17,
+      "sigmos_overall": 4.0186920166015625,
+      "audio_sha256": "59ec121658ab1399af784989893ab09e9bbbe10754ff3e4e89e3a6a877859ad4"
+    },
+    {
+      "utterance_id": "opentts_tetiana_9681b4e34b2884b47b049488",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 5.65,
+      "sigmos_overall": 4.132168769836426,
+      "audio_sha256": "effdce883c432d91c1d522b5ff1e21de0548acd77f9160f9840536031421a6c4"
+    },
+    {
+      "utterance_id": "opentts_tetiana_a7b409ddcc9e8b119dba5be9",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 4.22,
+      "sigmos_overall": 4.157786846160889,
+      "audio_sha256": "6fdc21b0d10a681ecf66748d06489b38f66904ae3a828870ab28831fb4d1b1b9"
+    },
+    {
+      "utterance_id": "opentts_tetiana_b17fcf24f7c328a8e248c53e",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 6.320041666666667,
+      "sigmos_overall": 4.023473739624023,
+      "audio_sha256": "34e20e06b3437cb865f7242e63f15ad5b606789aed57e64bbe86fa5fa6ffc309"
+    },
+    {
+      "utterance_id": "opentts_tetiana_b5b322a6fc134d2399bac51d",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 6.17,
+      "sigmos_overall": 4.1913862228393555,
+      "audio_sha256": "9f852ba15aea70950b7aad0fb29015faba10922f7917521b49e2f5a5c1bedd2d"
+    },
+    {
+      "utterance_id": "opentts_tetiana_bcb9ea0c7b6c5fa2e9c8682a",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 3.3400416666666666,
+      "sigmos_overall": 4.068970680236816,
+      "audio_sha256": "e44e899bba581aa7e7e542e9c58fbe17c7a1765736a4e8300ae149f0fb7661ab"
+    },
+    {
+      "utterance_id": "opentts_tetiana_c8b96732763fccec585d0d2a",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 3.04,
+      "sigmos_overall": 4.117779731750488,
+      "audio_sha256": "d24fe36ef8eab72efa3aad5cc92de307b350ae9f0d16e40cbb94a3496b350079"
+    },
+    {
+      "utterance_id": "opentts_tetiana_cd409075e7735c538538cbef",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 2.5,
+      "sigmos_overall": 4.180891990661621,
+      "audio_sha256": "e59952d11ffe36e9fa13371c3beee50ad30eaf15ab572592a774d52a5aae6d5a"
+    },
+    {
+      "utterance_id": "opentts_tetiana_d39c7f93b38aad0196caca0f",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 5.44,
+      "sigmos_overall": 4.026189804077148,
+      "audio_sha256": "33b9712d6061d0e9ed8c4d8a1e3d4cbc2ca2e17c437532af6b6cf063316ae234"
+    },
+    {
+      "utterance_id": "opentts_tetiana_da85ea8db3b0bda642bd5951",
+      "source_id": "opentts_tetiana",
+      "duration_seconds": 5.3,
+      "sigmos_overall": 4.001466751098633,
+      "audio_sha256": "8d476a0282b17f363fa19b5089681600d4bed7706eb09cfef5ec80885117890e"
+    },
+    {
+      "utterance_id": "tg_voices_uk_0af66a0590cb842f50d77595",
+      "source_id": "tg_voices_uk",
+      "duration_seconds": 8.68,
+      "sigmos_overall": 4.062821865081787,
+      "audio_sha256": "3ffbeba96ac27c6b37112ca58639bcf17db133043eefd7f8f0ce15a68866a530"
+    },
+    {
+      "utterance_id": "tg_voices_uk_88fb4a959ef3e63e06453433",
+      "source_id": "tg_voices_uk",
+      "duration_seconds": 2.0,
+      "sigmos_overall": 4.227216720581055,
+      "audio_sha256": "17063c0938c606394555087c6279c010fd8f51bf647f3f72794163a7e69e37c8"
+    },
+    {
+      "utterance_id": "tg_voices_uk_8b46eeed91e73185695810bd",
+      "source_id": "tg_voices_uk",
+      "duration_seconds": 2.0200416666666667,
+      "sigmos_overall": 4.045403480529785,
+      "audio_sha256": "19bb356af13efe349872ee2d2207c2fa7cc3bae4a3e7fe83f2cba197933f2ecc"
+    },
+    {
+      "utterance_id": "tg_voices_uk_a58e2b945ebba8c802f50a87",
+      "source_id": "tg_voices_uk",
+      "duration_seconds": 1.68,
+      "sigmos_overall": 4.002401351928711,
+      "audio_sha256": "9a4809200e497793a73979cea9777b9b9351b4150172c59a12b8943c2ecc9568"
+    },
+    {
+      "utterance_id": "tg_voices_uk_c9f006334170716f508a257f",
+      "source_id": "tg_voices_uk",
+      "duration_seconds": 4.92,
+      "sigmos_overall": 4.083702087402344,
+      "audio_sha256": "576de93c84cdd2c88c069cf1cb6965f92224f7997595027e9c17960ff566663f"
+    },
+    {
+      "utterance_id": "ua_ser_5ae8f28f57a5d441e135477a",
+      "source_id": "ua_ser",
+      "duration_seconds": 1.73,
+      "sigmos_overall": 4.403520584106445,
+      "audio_sha256": "8d618f907931938a1d4c54cf0729f6f72f0eb9e7e407c6efa62887bbe00353a2"
+    },
+    {
+      "utterance_id": "ukr_dialects_01ef85f8d078ca647c3f8939",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.86,
+      "sigmos_overall": 4.0970048904418945,
+      "audio_sha256": "e67dafb55a5879699055f6954942e0ffa02b294bff43ea592d1ba7d9a4bdb346"
+    },
+    {
+      "utterance_id": "ukr_dialects_078406ee6b4c0b1cb3fc5e2e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.5,
+      "sigmos_overall": 4.109724998474121,
+      "audio_sha256": "11098c939772ac4a88f54c5fec2c7a3e17275d09264d7adc48ad7f9b13fea107"
+    },
+    {
+      "utterance_id": "ukr_dialects_0873af07fa34de5b8e54a408",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.25,
+      "sigmos_overall": 4.16297721862793,
+      "audio_sha256": "a415b5c2361e5fb149f198d03dc62653cbe6f42e8b0a4a90b439bc5550645d0d"
+    },
+    {
+      "utterance_id": "ukr_dialects_0a14bb60bc0572fedc34c16f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 16.690041666666666,
+      "sigmos_overall": 4.009222984313965,
+      "audio_sha256": "906d506fd8da4eb156dc9e14281e0b155319350f43ad8b3faf9ab0c274c3878c"
+    },
+    {
+      "utterance_id": "ukr_dialects_0a34ff04f43af20f4d8a14be",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.98,
+      "sigmos_overall": 4.081673622131348,
+      "audio_sha256": "0a35916b574998156380314dcc837eaaba86f317ba27c03c7415fd3fa529395c"
+    },
+    {
+      "utterance_id": "ukr_dialects_0b12f3db5f8a4eda80500aba",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.37,
+      "sigmos_overall": 4.274178504943848,
+      "audio_sha256": "9346b732e9a9014f5206b5f54e53cd0f112dd365f7623aafefab7b85f287758b"
+    },
+    {
+      "utterance_id": "ukr_dialects_0c9f5c623f63056a287991d1",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.92,
+      "sigmos_overall": 4.152886390686035,
+      "audio_sha256": "0fd7d7646c26d80e9a900651f7736daa693105c273d821cbf0496b3364379844"
+    },
+    {
+      "utterance_id": "ukr_dialects_0cffdd6ae67c79320034d121",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.17,
+      "sigmos_overall": 4.007338523864746,
+      "audio_sha256": "4ab11f6d496d293bb72fe2f585461817652fb78b383488417f8a8f09a16becd2"
+    },
+    {
+      "utterance_id": "ukr_dialects_0da82e6bd0152bb13647a3f0",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.07,
+      "sigmos_overall": 4.05043888092041,
+      "audio_sha256": "c929b9e21adb2e58c4d17baa812ee42b87b1c0d3041d9efd289adfdbe430b5ff"
+    },
+    {
+      "utterance_id": "ukr_dialects_0dfdb39a7fc82ad09a930879",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.26,
+      "sigmos_overall": 4.1758036613464355,
+      "audio_sha256": "2c88734b807eebbba2e519da725f90adbab98cbd2e0c09128607817a80cc6fd9"
+    },
+    {
+      "utterance_id": "ukr_dialects_0e4248a9f263768f8944350b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.42,
+      "sigmos_overall": 4.128523826599121,
+      "audio_sha256": "694cd21a52ec9f54de0b5fa0930534a546e83068a35ec0072ab24b5a2fc63875"
+    },
+    {
+      "utterance_id": "ukr_dialects_11f8aa0b79831112af0400d3",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.69,
+      "sigmos_overall": 4.04605770111084,
+      "audio_sha256": "15eb444af177848997055e85337f59b1ebbc505b28c44a6357c3dfaaaacdc9aa"
+    },
+    {
+      "utterance_id": "ukr_dialects_11fc733dd4c6d108b47f1066",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.12,
+      "sigmos_overall": 4.044635772705078,
+      "audio_sha256": "82742e12579af018c601b0af533b0934df53a3af58dc5aa0737a5dbd5376327a"
+    },
+    {
+      "utterance_id": "ukr_dialects_14414f8c760489b811c989fb",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.45,
+      "sigmos_overall": 4.254489898681641,
+      "audio_sha256": "4b90bc01abb0dbd4a22b0611d783e2ef125e08d4a918c684b4415b4d143179dd"
+    },
+    {
+      "utterance_id": "ukr_dialects_1a8cc5d2c1438f6230bbe1c2",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.8,
+      "sigmos_overall": 4.2579240798950195,
+      "audio_sha256": "aa1566894eb6e4ee1144c1079c931a2ae3616da0781049c5675a9c6c414cca42"
+    },
+    {
+      "utterance_id": "ukr_dialects_1af47a849193625719f40d71",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.6,
+      "sigmos_overall": 4.015406608581543,
+      "audio_sha256": "bb48a1762bb0874ab3906534f06f274e6035de3902d6cdfc83cbe691dc073c7a"
+    },
+    {
+      "utterance_id": "ukr_dialects_1d3358e3758adf9fb3c81920",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.71,
+      "sigmos_overall": 4.068422317504883,
+      "audio_sha256": "b4712e5a78dc6f05c78316105796e33b6737074419980ca0f808c2917d8b29b8"
+    },
+    {
+      "utterance_id": "ukr_dialects_1df2158f09132322828020c9",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.2,
+      "sigmos_overall": 4.013576507568359,
+      "audio_sha256": "e8f2723acfee79612b775bfed87f48692ea255b10811962fc416e407baca8eea"
+    },
+    {
+      "utterance_id": "ukr_dialects_1f84a5172e091dfd18955765",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.18,
+      "sigmos_overall": 4.0381975173950195,
+      "audio_sha256": "c93b73db4612ed05e583ee9c571e4421dfa6eaa0f809334ed8a405492f576a63"
+    },
+    {
+      "utterance_id": "ukr_dialects_200d616ab5844dae6d30e85f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.63,
+      "sigmos_overall": 4.293890953063965,
+      "audio_sha256": "b5d087429ec52db60f3a919a9ecd32274b331ba5ae3bb5dbc62582c12c7cfafd"
+    },
+    {
+      "utterance_id": "ukr_dialects_229a83f0ff093942c353cac2",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.6,
+      "sigmos_overall": 4.0628252029418945,
+      "audio_sha256": "34105e919c50c033ba800461b4f39b43495b90e638869e58b8874d8f795734a7"
+    },
+    {
+      "utterance_id": "ukr_dialects_25944cf2bee62493c0c9043d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.97,
+      "sigmos_overall": 4.077330589294434,
+      "audio_sha256": "c40a9a059c1e0c911469b69ca3a540778fad32721305ebfd811d3494d4de1912"
+    },
+    {
+      "utterance_id": "ukr_dialects_25c55ed22c1d1852956ee301",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.97,
+      "sigmos_overall": 4.227116584777832,
+      "audio_sha256": "fcedd6428e5d5e8d67cbfdadb4f65434cdb49952a636c2d13c588ca6857f9534"
+    },
+    {
+      "utterance_id": "ukr_dialects_265edcfb2fb3c8c9b7b446f5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.62,
+      "sigmos_overall": 4.0442705154418945,
+      "audio_sha256": "ed87396f009beda3508908c58cd066dcaa475b4440e5180b82addc796607f33f"
+    },
+    {
+      "utterance_id": "ukr_dialects_274571a82fc1775f66f783ca",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.52,
+      "sigmos_overall": 4.126868724822998,
+      "audio_sha256": "878e12150a6cba5b5f4c00f5a715cf3c72493dc0668f86add4434bdd0b318451"
+    },
+    {
+      "utterance_id": "ukr_dialects_27b46d569c8f5343f335ac1e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.03,
+      "sigmos_overall": 4.048300743103027,
+      "audio_sha256": "fbfbfebb979724021172da10979c6e4afdf168c76fdcc424066912ce42553a41"
+    },
+    {
+      "utterance_id": "ukr_dialects_28f556ee5d92c8feb40cf512",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.64,
+      "sigmos_overall": 4.000487327575684,
+      "audio_sha256": "1a5ea79d3d5b1b0fbd4494b3953b4ace1f410585b6ca51747df849697551ebb5"
+    },
+    {
+      "utterance_id": "ukr_dialects_290cdf3fbf57746ae49e6492",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.86,
+      "sigmos_overall": 4.049349784851074,
+      "audio_sha256": "912d798c5821f1244483cc05dc27dd7cc5d44d5c4aa13dcc0995005c81db1fe5"
+    },
+    {
+      "utterance_id": "ukr_dialects_2be42d4aebb9dc7c2968432f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.06,
+      "sigmos_overall": 4.08740234375,
+      "audio_sha256": "c8c15f656557566d69259abbf40d89d8c0d6e2f0df6889128e1a15a193c33a37"
+    },
+    {
+      "utterance_id": "ukr_dialects_2be7207c6ad4d7e896e265df",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.14,
+      "sigmos_overall": 4.408935546875,
+      "audio_sha256": "8303d5ad8b905264dab1c0c6d0786891390f76150c4790946dba26e938588d20"
+    },
+    {
+      "utterance_id": "ukr_dialects_2edbbd5f5104b39387787b30",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.53,
+      "sigmos_overall": 4.0529890060424805,
+      "audio_sha256": "40bae2a570ef3f25851756e13d13019fc445ded6f3d475f53e3aa49ae372a6f4"
+    },
+    {
+      "utterance_id": "ukr_dialects_2f578d6c22e937769e3cc8ce",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 18.700041666666667,
+      "sigmos_overall": 4.087441444396973,
+      "audio_sha256": "24d8716511bef9a68b8fc0a680a14b2e99cf72dc7b61eda675de9baa7795bdbe"
+    },
+    {
+      "utterance_id": "ukr_dialects_2fdd4d7c4aa421b301e6e91c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.83,
+      "sigmos_overall": 4.172957420349121,
+      "audio_sha256": "7d1ef8a9b2d7e44e5ffccfe95cff14a66b45454b8664562d5ade20590ae568f7"
+    },
+    {
+      "utterance_id": "ukr_dialects_305924f0ec51ff9d3717d0e4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.93,
+      "sigmos_overall": 4.007364273071289,
+      "audio_sha256": "faa4533528dc784fd25044793fc45bfc37b129fe8c4fc70d73784d18d78e3840"
+    },
+    {
+      "utterance_id": "ukr_dialects_30a79a6d1037fcfc4b187c8e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.731,
+      "sigmos_overall": 4.936373710632324,
+      "audio_sha256": "2b79869f80bae684430363ff968b71c94e376949a740c34586919be33cad5338"
+    },
+    {
+      "utterance_id": "ukr_dialects_32d96bdfa32ba7030ba2e3fd",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.52,
+      "sigmos_overall": 4.002134799957275,
+      "audio_sha256": "68e0fb560f8e1f2733149fce1ff249568e4f7a810204ad917d074a6c4b28b71e"
+    },
+    {
+      "utterance_id": "ukr_dialects_352fc304d882b1a008ff2b0d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.56,
+      "sigmos_overall": 4.224872589111328,
+      "audio_sha256": "8c3514d8fbc6b8e35587da8944923050a85f1214621819af35784dbb087552fd"
+    },
+    {
+      "utterance_id": "ukr_dialects_35731dcc6db92db7b2fe7a73",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.25,
+      "sigmos_overall": 4.013470649719238,
+      "audio_sha256": "9f1783bc7f44cfa88e1cfecc6bb3f6ed4aadb4452ab4824d7cf0579c807a890a"
+    },
+    {
+      "utterance_id": "ukr_dialects_36d9fd01e03b1d236c9fa6d4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.73,
+      "sigmos_overall": 4.157918453216553,
+      "audio_sha256": "3d1bbcbdbdb7c9346137ad460ccdf4ba723ad151d8c622fc72e0319dc08bf07e"
+    },
+    {
+      "utterance_id": "ukr_dialects_37a5fd65460543b4f27d4e65",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.69,
+      "sigmos_overall": 4.174311637878418,
+      "audio_sha256": "20efa3b41866cda0be4ae4fead2f29823eeeab781f43469bee9c951b79bcab43"
+    },
+    {
+      "utterance_id": "ukr_dialects_383cc28b508894938c7cd701",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 14.320041666666667,
+      "sigmos_overall": 4.2875142097473145,
+      "audio_sha256": "5e080f09ded076ab939d5bc22981bd17dd7a91f2517ae5334ae98afac3fa98c1"
+    },
+    {
+      "utterance_id": "ukr_dialects_38653211e677c7cd22ddf38c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.48,
+      "sigmos_overall": 4.053348541259766,
+      "audio_sha256": "1191798575a84f3df190d8727a422d4f3c3cbc338c2d2a0b747e1f982afa8f80"
+    },
+    {
+      "utterance_id": "ukr_dialects_398f26005f847290d8e8d999",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.55,
+      "sigmos_overall": 4.136216640472412,
+      "audio_sha256": "4e01c279ec70b6682c002c209ea4710cb85ddbc2fb1e4d608d850cc2ad1f0a29"
+    },
+    {
+      "utterance_id": "ukr_dialects_3a6ca8d0fa0cad6a7291441a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.84,
+      "sigmos_overall": 4.001560211181641,
+      "audio_sha256": "55585528a2dffbf7d93ef9486addd3adbb128cc13fee2d6dc29c88d457debd90"
+    },
+    {
+      "utterance_id": "ukr_dialects_3bf126f563cd29d7bcc95ace",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.92,
+      "sigmos_overall": 4.052606105804443,
+      "audio_sha256": "4c543efb4345aaea7866241e77cb62d91cfd5f092d2d4c80044042b830c8d1fb"
+    },
+    {
+      "utterance_id": "ukr_dialects_3e4f4c9b69e1c039352d0598",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.6800416666666667,
+      "sigmos_overall": 4.009707927703857,
+      "audio_sha256": "82e3d7d1362bef4e3ee2fa6d2b51fc7b810539994cdaae64f3aadd9afcfa48f8"
+    },
+    {
+      "utterance_id": "ukr_dialects_3ee2f85367ffa7807712b125",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.21,
+      "sigmos_overall": 4.026790618896484,
+      "audio_sha256": "95074c4d71119d6edf903b0fa46e2a2a33a55b19f53adf47749cfc42261bb5c4"
+    },
+    {
+      "utterance_id": "ukr_dialects_3fc8aefe6aa9ffaff56a0bfd",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.93,
+      "sigmos_overall": 4.112851619720459,
+      "audio_sha256": "9693076ff9435902d42080a29b40ca7d0caf0ec6d1458bea9356819427d38044"
+    },
+    {
+      "utterance_id": "ukr_dialects_40f0b7d3cde28aed771469b2",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.74,
+      "sigmos_overall": 4.070538520812988,
+      "audio_sha256": "3fd28e2a7964470a5e241709329869caec8ab9a96cc8f3a4277cd6f95d969c52"
+    },
+    {
+      "utterance_id": "ukr_dialects_40fe166453f3acc0752af49d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.47,
+      "sigmos_overall": 4.009058952331543,
+      "audio_sha256": "b298b68ab154399cdcb16266209572290b8604695d59ba3842d6e0acd41db0fc"
+    },
+    {
+      "utterance_id": "ukr_dialects_41454eccacf5497dc4a2b772",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.02,
+      "sigmos_overall": 4.012519836425781,
+      "audio_sha256": "a8e9373ca0e931806284e5e97e8876bb0aa742d2e0faac2f33bec36242d5fa8b"
+    },
+    {
+      "utterance_id": "ukr_dialects_415bb99dd0024b1c6dab0ead",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 19.01,
+      "sigmos_overall": 4.076585292816162,
+      "audio_sha256": "0bc6ce8add1a1a9ec1b3379652297a30e6800fc64014e3b0f56e558a6979fb5d"
+    },
+    {
+      "utterance_id": "ukr_dialects_435d6b83fd51d2e2bc48034e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.94,
+      "sigmos_overall": 4.080760478973389,
+      "audio_sha256": "a26c83de4ad15a07357743b467a52eced5a6c6e27230be3ad13de7c3042355c4"
+    },
+    {
+      "utterance_id": "ukr_dialects_4367f1bd03d7a39f28def432",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.46,
+      "sigmos_overall": 4.058382987976074,
+      "audio_sha256": "f75aeb989675924827daea49e6f029732fd1c860c6adbf8afb1449c20950a436"
+    },
+    {
+      "utterance_id": "ukr_dialects_44d8b1fc0e5335d0ef6025ad",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.82,
+      "sigmos_overall": 4.1344428062438965,
+      "audio_sha256": "873883a548d3b5f1fd3bcc25a1ad506b1fd7c6dad5ceabcdefd0cb0e99b1c276"
+    },
+    {
+      "utterance_id": "ukr_dialects_47864cacb8d035761f7ffe50",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.71,
+      "sigmos_overall": 4.032632827758789,
+      "audio_sha256": "d6637acf73a116fffb0730c1f9d53d7ab7d6eebc0695c7b140bec16425d52631"
+    },
+    {
+      "utterance_id": "ukr_dialects_4825b4f4731621c262b1003f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.92,
+      "sigmos_overall": 4.1846113204956055,
+      "audio_sha256": "14a71846db49dc94641c610dca8cc26a7e420f9b7c3530fd07beb9e876b20dbe"
+    },
+    {
+      "utterance_id": "ukr_dialects_482a1bb5941972f033b0a947",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.25,
+      "sigmos_overall": 4.0014448165893555,
+      "audio_sha256": "d533c980cd72cf0d5316760d73e537374ae8b8337ceab17eb9bb2603a90ebaab"
+    },
+    {
+      "utterance_id": "ukr_dialects_488ff4d0efa7f33ee7fda87a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.85,
+      "sigmos_overall": 4.000201225280762,
+      "audio_sha256": "44c1e22c9d74f5117a55f5ad0ea1def82b0a71b8025556a75a393e1495097f57"
+    },
+    {
+      "utterance_id": "ukr_dialects_4d2438b62a296e774bb8c967",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.73,
+      "sigmos_overall": 4.234158992767334,
+      "audio_sha256": "83f30a9b657f0714087a0f8e324a43f03863cef262a52f14fe8afeb464c3f7fd"
+    },
+    {
+      "utterance_id": "ukr_dialects_4e5440adddcfdf5a7368d976",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.84,
+      "sigmos_overall": 4.081572532653809,
+      "audio_sha256": "311bd86fa29f2ababa421ab83a0683038c855fc96e188db2db9b4d5a6e45d936"
+    },
+    {
+      "utterance_id": "ukr_dialects_4f1cc0af3da6e29cdb703650",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.899,
+      "sigmos_overall": 4.132699966430664,
+      "audio_sha256": "b15b1d548fb0e9c1fd637d6814a908a4bbf4ed9bd379d82684bd6e6b565bcbcc"
+    },
+    {
+      "utterance_id": "ukr_dialects_513cc9da36b149f6722c0189",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.12,
+      "sigmos_overall": 4.098441123962402,
+      "audio_sha256": "3b180b0a0d8b17b9560177cf44110d7fcfd74e4513ba34fdee6dc32d7bda946d"
+    },
+    {
+      "utterance_id": "ukr_dialects_52897cfb238dcb90a033045f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.0,
+      "sigmos_overall": 4.046326637268066,
+      "audio_sha256": "6216072c2cae12a7e3d24c5bad103e77e15b4e15e7e4d3c57f1ae98fafb89128"
+    },
+    {
+      "utterance_id": "ukr_dialects_52ec28b96f356cef51cf78d4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.15,
+      "sigmos_overall": 4.160573959350586,
+      "audio_sha256": "52755fca8c0113c4996b991bddb25eea86c6315227055f43fcf71b1b8f5bc7df"
+    },
+    {
+      "utterance_id": "ukr_dialects_56aeefc2ed9f454c58530104",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.02,
+      "sigmos_overall": 4.196393966674805,
+      "audio_sha256": "32f0540153f051d099a0957cefa7e0c45d9a662130b081900d0730420f5a8f66"
+    },
+    {
+      "utterance_id": "ukr_dialects_57a7ffea1de63a3fa0a45ef5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.01,
+      "sigmos_overall": 4.356803894042969,
+      "audio_sha256": "1e3ff11877c8c37a60f74cf79da6b38bf02af90d1008675f28d4b766a183a6a0"
+    },
+    {
+      "utterance_id": "ukr_dialects_5875a1951ba5d1cdeea2b93e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.5500416666666665,
+      "sigmos_overall": 4.161741256713867,
+      "audio_sha256": "557b6f3d08839a8047fcb7ffaf2313231fe3d065d4d327901ed966236e88a755"
+    },
+    {
+      "utterance_id": "ukr_dialects_5cca09648ce27560a23f3bd8",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.0,
+      "sigmos_overall": 4.176304817199707,
+      "audio_sha256": "0f82a64f8a773f0e16da4695f3b92e14a96d8cb0d0eee750ae1468605764195e"
+    },
+    {
+      "utterance_id": "ukr_dialects_5cd52f66d5b72ddfca9e404a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.2000416666666665,
+      "sigmos_overall": 4.779659748077393,
+      "audio_sha256": "4d6d9b3f30e058b29abc5039d1fe5d3425a292e094676007153dd27464a7dc65"
+    },
+    {
+      "utterance_id": "ukr_dialects_5d6ee6f16044388bd92ceb84",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.81,
+      "sigmos_overall": 4.085262298583984,
+      "audio_sha256": "80b8ef5e5d4262e7bbd6b2919e2cc8bb0f7bee75d2cf764458a88b5e67a1766f"
+    },
+    {
+      "utterance_id": "ukr_dialects_5f19bd1c678cebc76afaf856",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.84,
+      "sigmos_overall": 4.017024993896484,
+      "audio_sha256": "a11ed425fc3472863206aaf361aefaab9da09f88dfa6ae34fd5944ed76621680"
+    },
+    {
+      "utterance_id": "ukr_dialects_5f5569d30279679c87fdf8b2",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.96,
+      "sigmos_overall": 4.117500305175781,
+      "audio_sha256": "461858438e17f5d4946aa190571b76e593a1540adef33d0864b084b7e9e593a4"
+    },
+    {
+      "utterance_id": "ukr_dialects_5f8d94ee3e6a72662eab323c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.33,
+      "sigmos_overall": 4.133813858032227,
+      "audio_sha256": "c275b379d2cf1c069d8036710a82308a3351327b5bb8a3303f29b8b3b7ef4d93"
+    },
+    {
+      "utterance_id": "ukr_dialects_5fd39e45dc092112d4c7b028",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.79,
+      "sigmos_overall": 4.113960266113281,
+      "audio_sha256": "aede48ed9dcb083c6a8bae4b2004f23ec0cb29f9d0b69125bd03a5c515ba2688"
+    },
+    {
+      "utterance_id": "ukr_dialects_61d34ede2a09ba7d63809cd6",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.21,
+      "sigmos_overall": 4.132208824157715,
+      "audio_sha256": "6a4a12f86bc2962db34950f7537785933d2ff8062be1b562b6319c002786ad32"
+    },
+    {
+      "utterance_id": "ukr_dialects_63857ad98ddbe8eace42b9ec",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.0,
+      "sigmos_overall": 4.148231029510498,
+      "audio_sha256": "667e90f83401c4b6b0057ebdc1862d777cd1d87ce3faa9ff24a21c975fd87aeb"
+    },
+    {
+      "utterance_id": "ukr_dialects_66418f4cbc2fed1d72887fc6",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.06,
+      "sigmos_overall": 4.032563209533691,
+      "audio_sha256": "2b8e19d370ef293267b3ba31d653889837fd3fb8dd7b588b4c19057a6ba99b48"
+    },
+    {
+      "utterance_id": "ukr_dialects_672d5bec423c5b38e29f5e22",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.9,
+      "sigmos_overall": 4.002451419830322,
+      "audio_sha256": "5c3b0b7dd2bfacdbcc4b61e7901bef76863f07599eba6eec0884d1364c5d84e6"
+    },
+    {
+      "utterance_id": "ukr_dialects_6ad4243c34b407b982f58791",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.73,
+      "sigmos_overall": 4.283536911010742,
+      "audio_sha256": "b57e38bfda0b8b5789794cf8ad055a250f1454667e44d719a5788e76a0f5b735"
+    },
+    {
+      "utterance_id": "ukr_dialects_6b300972b9439cd3b8127dd0",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.21,
+      "sigmos_overall": 4.126222610473633,
+      "audio_sha256": "5b385b8919e048ab42e69a0f2321defc825df13a891dcd4d68da32b5bde8ce2d"
+    },
+    {
+      "utterance_id": "ukr_dialects_6bb595771175c108a9685194",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.131,
+      "sigmos_overall": 4.17484188079834,
+      "audio_sha256": "44448ebdbc6e430aaa6dec173ad549242f5b00050c07f6b832818b28990e1681"
+    },
+    {
+      "utterance_id": "ukr_dialects_6da61759d6867c36b7d9ce5f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.359,
+      "sigmos_overall": 4.180147171020508,
+      "audio_sha256": "e4f3fc54ef9ad67f0fb1533709da6ece42f875d1850f9e4333ca57b0f4782005"
+    },
+    {
+      "utterance_id": "ukr_dialects_6f875485ce0e00fad7e6d8c4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.52,
+      "sigmos_overall": 4.053418159484863,
+      "audio_sha256": "037fea5959c4b5ef4691096756f61f4f915a704cf7c1efe1439b6f2295164927"
+    },
+    {
+      "utterance_id": "ukr_dialects_6fa210c4fae3b4a40e08c9de",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 16.160041666666668,
+      "sigmos_overall": 4.068297863006592,
+      "audio_sha256": "9e150aee6ece5c4ab1c951415d1285e68aefebc521b9a4d518c9920ca4ff452b"
+    },
+    {
+      "utterance_id": "ukr_dialects_707685fbd0b23dc016893e4c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.83,
+      "sigmos_overall": 4.019551753997803,
+      "audio_sha256": "da4dc448503568297685b2e9f30de63158a879d27d99731151bed336f8072d46"
+    },
+    {
+      "utterance_id": "ukr_dialects_71bb6d6b2cc6a44d4d3f28e7",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.89,
+      "sigmos_overall": 4.189465045928955,
+      "audio_sha256": "1a570bc62c57ffb2b67f1df9d8a811564dbdd28b74e5b4c8a9ad322cc3eca450"
+    },
+    {
+      "utterance_id": "ukr_dialects_74720e93f42f211d495e9a86",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.9,
+      "sigmos_overall": 4.040853500366211,
+      "audio_sha256": "4150fe7a61b2618dc3aeaa12599493fcc63d02449eebcbda0298a0b287535b49"
+    },
+    {
+      "utterance_id": "ukr_dialects_74da1105153868ab58130faa",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.57,
+      "sigmos_overall": 4.028303146362305,
+      "audio_sha256": "adeeb00e4dbe52971aec0dfbacb33324ab1b837383e8b74e502f9175cfeb0582"
+    },
+    {
+      "utterance_id": "ukr_dialects_76287ee2cd50194ffa2a78b7",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.0200416666666667,
+      "sigmos_overall": 4.2917938232421875,
+      "audio_sha256": "1941933690b335c3f5d5ba9dbaf2edeeaa63129943dc3d6323d0353443db5758"
+    },
+    {
+      "utterance_id": "ukr_dialects_7753a8c89dfff08737c3028c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 18.34,
+      "sigmos_overall": 4.023954391479492,
+      "audio_sha256": "b4e138a81d186c457797203af56a1adbe285bca45834be6a8cbab90a8c6da203"
+    },
+    {
+      "utterance_id": "ukr_dialects_7a351ca7b7ea42b2a5fae7d4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.22,
+      "sigmos_overall": 4.037921905517578,
+      "audio_sha256": "6d399a5f48e50fadd14af2b0606f48a32039b4e34eca6e10960700fd8a3ef0be"
+    },
+    {
+      "utterance_id": "ukr_dialects_7b11fc4ffebb661bfd31bd68",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.98,
+      "sigmos_overall": 4.0616679191589355,
+      "audio_sha256": "03d428bc0dd06d0cdf227ba0fb808b904fa6a27d29e8d5db2a9f1c03d682caf3"
+    },
+    {
+      "utterance_id": "ukr_dialects_7b245db281e8f3f27348315e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.27,
+      "sigmos_overall": 4.242606163024902,
+      "audio_sha256": "f94c5ab2aaf0fde0943af899fdaa93383183c0cf2a2dc9b8d7015215ae0c3ca7"
+    },
+    {
+      "utterance_id": "ukr_dialects_7be219213007ec55f1908714",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.26,
+      "sigmos_overall": 4.108009338378906,
+      "audio_sha256": "6c6bd881917e2c68a1d99f7dafa91ee7727859fa8157bf975354c5df1a27fc21"
+    },
+    {
+      "utterance_id": "ukr_dialects_7dcc04821d00aa0e2097c068",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.4,
+      "sigmos_overall": 4.129542350769043,
+      "audio_sha256": "c2c9ecfc8ffe821e5e640544bbb5989b5ec07de947af405cd3b4fe5c04db5675"
+    },
+    {
+      "utterance_id": "ukr_dialects_7e4125ad72a5cbc03e105223",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.86,
+      "sigmos_overall": 4.021622657775879,
+      "audio_sha256": "7f656eeb1cc877460602368aa9780608e70a9d7a080cbe84ce9c1876789d3874"
+    },
+    {
+      "utterance_id": "ukr_dialects_7e8ed1573f403badd6aef981",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.81,
+      "sigmos_overall": 4.225359916687012,
+      "audio_sha256": "3acaf772f8ecbf9d097e55ecd990cd176abbc615e90960ef2a7df5a669abf704"
+    },
+    {
+      "utterance_id": "ukr_dialects_7fc5860906c33da75fe20290",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 15.78,
+      "sigmos_overall": 4.015857696533203,
+      "audio_sha256": "d70f883fc143c41a10d6cc29a9d8167920b7e5972c6359f2670a6299f0f748b1"
+    },
+    {
+      "utterance_id": "ukr_dialects_81462abdf65fb374678d3f8f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.47,
+      "sigmos_overall": 4.035323143005371,
+      "audio_sha256": "94a56602a8c6fe23cac976305f8bd06fd9353dc5f2943e683a82db1d838233a7"
+    },
+    {
+      "utterance_id": "ukr_dialects_82775a3b59b4c02094edf6e8",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.4400416666666667,
+      "sigmos_overall": 4.014707088470459,
+      "audio_sha256": "703765bf04d157895d41e595c75e569aa94a25058533a10559f1935ebe02ca4d"
+    },
+    {
+      "utterance_id": "ukr_dialects_82fff6e059eb11289e1aa805",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 14.56,
+      "sigmos_overall": 4.224834442138672,
+      "audio_sha256": "d37330e9b1213a60280459bf0115028cc46ffb9a3506b17ab3d759e9ab5cb0c8"
+    },
+    {
+      "utterance_id": "ukr_dialects_83ab2af54e7f0f7e583f1e4b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.56,
+      "sigmos_overall": 4.086377143859863,
+      "audio_sha256": "4e0bf10446529a406f37ea2b9f1419b9d8460d252fb2be6ec897213953d2efef"
+    },
+    {
+      "utterance_id": "ukr_dialects_84b7b40974e7fbbe905072ec",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.860041666666667,
+      "sigmos_overall": 4.0064263343811035,
+      "audio_sha256": "78ff658e8a104f815bc977c59bfc44cafa8b29291f043e6b528c1ece69481308"
+    },
+    {
+      "utterance_id": "ukr_dialects_8554a5894f2816cc6f28fe6e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.03,
+      "sigmos_overall": 4.105101585388184,
+      "audio_sha256": "00f5b53fe63dff36c41650ee5c57c7e7e36c4733244d677f57e7b230a0c91545"
+    },
+    {
+      "utterance_id": "ukr_dialects_85e7fdb97f18b1f9ff1ad9fe",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.29,
+      "sigmos_overall": 4.026470184326172,
+      "audio_sha256": "09410babb91b7e5066b3a3637bcca8219fafd08a67f88f82280b8ad3c8890c6e"
+    },
+    {
+      "utterance_id": "ukr_dialects_88f6e21e176f049d651b6416",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.4700416666666665,
+      "sigmos_overall": 4.187168121337891,
+      "audio_sha256": "3d5a69bc7409a6222612128ae3a92391d2298a74904b71161ff7fa0e99c9bd68"
+    },
+    {
+      "utterance_id": "ukr_dialects_89a405f4596f89149f9a954b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 19.16,
+      "sigmos_overall": 4.037137985229492,
+      "audio_sha256": "47e0824c4854f56d38b7ba782077b7b846991b2c7c03cc9025fe33d2e512eef0"
+    },
+    {
+      "utterance_id": "ukr_dialects_89e423633c07036186fd5b62",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 15.2,
+      "sigmos_overall": 4.000942230224609,
+      "audio_sha256": "48af2ff206e4a9c2810785a20639f303cacc7188ac54df1fe97c90a20c3e6e39"
+    },
+    {
+      "utterance_id": "ukr_dialects_8ac2e906b717043209284046",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.03,
+      "sigmos_overall": 4.122547149658203,
+      "audio_sha256": "d4c643c0feaa66f5abb54321da6fa2ebde6404b2695663baf44e703e3e3e1a7e"
+    },
+    {
+      "utterance_id": "ukr_dialects_8cc7289b7bedafc03f441dfc",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.619,
+      "sigmos_overall": 4.242884635925293,
+      "audio_sha256": "48b305e7676d1de57791d67564fc1b4312c462e4c875594dbc96da9167967e2c"
+    },
+    {
+      "utterance_id": "ukr_dialects_8d8366a6aec0993841ee5bb3",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.25,
+      "sigmos_overall": 4.0136260986328125,
+      "audio_sha256": "1ac0a98b6164bba1eb368b4c36ed5c70c083383ec6e69b03dd40d73bd3fb0c1f"
+    },
+    {
+      "utterance_id": "ukr_dialects_8f6d21f142714db803ebc6eb",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.83,
+      "sigmos_overall": 4.321474552154541,
+      "audio_sha256": "6f298d3f3fb4c4e7177074b8665dbe0a0a9c3e47d65a6d098007ed918ea73f14"
+    },
+    {
+      "utterance_id": "ukr_dialects_90a64676298d90874519585d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.06,
+      "sigmos_overall": 4.0316057205200195,
+      "audio_sha256": "9087091cc9d3c506609ee381160e597eeb18b19e4a345812b46772b66bbc8ac1"
+    },
+    {
+      "utterance_id": "ukr_dialects_92a6c0234fc897846b22320e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.7,
+      "sigmos_overall": 4.021479606628418,
+      "audio_sha256": "7562232e28fc7309af417e8423bbc898511f6166595bfd982ea94cb0f1b23965"
+    },
+    {
+      "utterance_id": "ukr_dialects_93a89c085070135832838bc8",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.83,
+      "sigmos_overall": 4.146455764770508,
+      "audio_sha256": "611b7e286c11a28cb2b000694ba2ad8b204369256c6aa21b3cb418e5f32cd60d"
+    },
+    {
+      "utterance_id": "ukr_dialects_98578394dcd2a66dad332776",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 16.43,
+      "sigmos_overall": 4.079340934753418,
+      "audio_sha256": "6dabc0a1cc63599bf97efe3ffe218fce3e93a596d5b33c8dc24c836d792591f6"
+    },
+    {
+      "utterance_id": "ukr_dialects_994dc449e7d158c23dca1c3e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 15.83,
+      "sigmos_overall": 4.23356819152832,
+      "audio_sha256": "684eadab2aed1a98ac338119caa8a9667df1640f976cbb0a7d8961421eea7616"
+    },
+    {
+      "utterance_id": "ukr_dialects_9aed4b74a7eceb812e508f82",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.57,
+      "sigmos_overall": 4.0171685218811035,
+      "audio_sha256": "4bafc3098bb027508bd9710863d671cff32cbd6cc8b5ced77a98b161d252b1c0"
+    },
+    {
+      "utterance_id": "ukr_dialects_9cc004fbf9f2334c789f1a20",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.19,
+      "sigmos_overall": 4.015869140625,
+      "audio_sha256": "a23a457e12be2de6b62672da59e75a563c9bdb72fca245bd001227502412f5e8"
+    },
+    {
+      "utterance_id": "ukr_dialects_9cc4a323eaa2c5f24ce14bf3",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 17.610041666666667,
+      "sigmos_overall": 4.012415409088135,
+      "audio_sha256": "bdbf33fc58bbc4d395dec77ff3d0a0e64cfed77166ad2eb4c441f84388ae4b3d"
+    },
+    {
+      "utterance_id": "ukr_dialects_a4c7f2f2bbfc94d7fcc38097",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.39,
+      "sigmos_overall": 4.126334190368652,
+      "audio_sha256": "91074d97ebb1fe742218b4ae4d6b39dd24e7147cfd2f89c1c3411171c85ae1ab"
+    },
+    {
+      "utterance_id": "ukr_dialects_a570ce62d1f5c708b3937d33",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.03,
+      "sigmos_overall": 4.074167728424072,
+      "audio_sha256": "a44ae369dccd5388c5c4531eec125cbc0721e610320cf784df80743e74e866c2"
+    },
+    {
+      "utterance_id": "ukr_dialects_a7c4c55e9467dfa598604447",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 14.47,
+      "sigmos_overall": 4.123805046081543,
+      "audio_sha256": "24122694a322adf38a83d043a8daac1890fae4ef0555638320a0d7942b5b5321"
+    },
+    {
+      "utterance_id": "ukr_dialects_ab7d3aee02b4abcafae8d19d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.26,
+      "sigmos_overall": 4.102845191955566,
+      "audio_sha256": "322699b1f6e654d917ea6d91246c63bd5c61854bd44712fcf0c9e49f97469fdf"
+    },
+    {
+      "utterance_id": "ukr_dialects_ae05d9f9ba8566691aaf732f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.28,
+      "sigmos_overall": 4.180680274963379,
+      "audio_sha256": "07b8177db2d1f4b649d44d9c6dad28675f87a09672df9a33ff6345c669e4694c"
+    },
+    {
+      "utterance_id": "ukr_dialects_aeda8fd733bea031bccbd77d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.27,
+      "sigmos_overall": 4.0021491050720215,
+      "audio_sha256": "a6d2e75b4571544970bf40dafa32bafdf2282da2b8e124203e7674e9be8b130a"
+    },
+    {
+      "utterance_id": "ukr_dialects_af2773627c2d5464266f05c9",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.04,
+      "sigmos_overall": 4.02761697769165,
+      "audio_sha256": "dfafb479aad06e609dfa2cf34d7ef4ec55d3740a0992c8e1458571f015cd4bd4"
+    },
+    {
+      "utterance_id": "ukr_dialects_b00faccca23ac07cef7d137b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.27,
+      "sigmos_overall": 4.231259346008301,
+      "audio_sha256": "783753b3822baec24a2fb2cf9e7b1e137d1e5f7bc4fb93ee0c2d8e2130185f08"
+    },
+    {
+      "utterance_id": "ukr_dialects_b0fde812ba27b8639bfe155b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.14,
+      "sigmos_overall": 4.124260425567627,
+      "audio_sha256": "bb0fa68a53dc38960ab5d07bc8d6d54d03171ade28da53d7e83d5d92c7ec68c9"
+    },
+    {
+      "utterance_id": "ukr_dialects_b17ae450fd86c40cecb48a65",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.26,
+      "sigmos_overall": 4.080290794372559,
+      "audio_sha256": "ea992f73756f90c31af011ec4a98f1e9e3779d38e80272d3babfab9f48aabbef"
+    },
+    {
+      "utterance_id": "ukr_dialects_b27f019ad81954bca2790afa",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.55,
+      "sigmos_overall": 4.021040916442871,
+      "audio_sha256": "a6f7a507437291489aac835b8f9d70b5daf30727f35b60a127507940dd537fab"
+    },
+    {
+      "utterance_id": "ukr_dialects_b41c68613758b3923c7c1262",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.42,
+      "sigmos_overall": 4.016158580780029,
+      "audio_sha256": "fc92165a6a854ae62e172008bf544ba5915c2bcbda839919fe2d979723db043e"
+    },
+    {
+      "utterance_id": "ukr_dialects_b5f94d434ee6f0ef323be4e1",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.02,
+      "sigmos_overall": 4.109769821166992,
+      "audio_sha256": "d274ec02c3656c3e146987af240169de9c56f6276ede435e20b2177081aafabc"
+    },
+    {
+      "utterance_id": "ukr_dialects_b600498ec9cdcb7bc032fde3",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.88,
+      "sigmos_overall": 4.264004707336426,
+      "audio_sha256": "4f2ee2a736980c65ad4739dd4c2fae9d609d7789bbfef8d6bb8adee87a8e1003"
+    },
+    {
+      "utterance_id": "ukr_dialects_b69df0b96af8c280153342dc",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.76,
+      "sigmos_overall": 4.053827285766602,
+      "audio_sha256": "2a6856664115f892c3a4eaf6f3e073beaae139527b79f0ef2a0568394178cb6e"
+    },
+    {
+      "utterance_id": "ukr_dialects_b75a79d9a675149df3d41351",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.21,
+      "sigmos_overall": 4.2530412673950195,
+      "audio_sha256": "cd0e58b3b1c8ba30e53a45ad15f9aa6ec7e82f945a6731bbe9c3a3402172fd70"
+    },
+    {
+      "utterance_id": "ukr_dialects_b97307aa84fed49e622cafe9",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.33,
+      "sigmos_overall": 4.079612731933594,
+      "audio_sha256": "88ce35e53eb0405f764fa031df1d8b5f526befb267dbe875edf09f9b2976cd89"
+    },
+    {
+      "utterance_id": "ukr_dialects_bba36c3ed9011c119702dfc0",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.4,
+      "sigmos_overall": 4.015225410461426,
+      "audio_sha256": "23dcce152be804ad3e51f565ccbe3de66f0c6c94d0949f08f6ffb700980be925"
+    },
+    {
+      "utterance_id": "ukr_dialects_bc4f45a60ff04ab3709e2de1",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.53,
+      "sigmos_overall": 4.1523261070251465,
+      "audio_sha256": "1ec5017c26a38402d912987b7e7629bede9f74f065c0f8f9b5aa6024bc28e379"
+    },
+    {
+      "utterance_id": "ukr_dialects_bf261f01e6f38ac18dd89c1d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 17.26,
+      "sigmos_overall": 4.025901794433594,
+      "audio_sha256": "f5ce5f8f185068ba97b99e42a3a74a3c499598417a87cdc777cf46b8b4ccdf7a"
+    },
+    {
+      "utterance_id": "ukr_dialects_bfa0d937e826426c2c5fb2f5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.86,
+      "sigmos_overall": 4.014378547668457,
+      "audio_sha256": "37f27583c3c40da08ed0176ab8eac6df46ed20a029438aa2f78083b50c14a084"
+    },
+    {
+      "utterance_id": "ukr_dialects_c057c3a90ff8394d838f7ba7",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.3000416666666665,
+      "sigmos_overall": 4.276710510253906,
+      "audio_sha256": "87d243f6d10714604a19c307e0c953c77a0ef262fb58160bd2cdaebd6c4555f1"
+    },
+    {
+      "utterance_id": "ukr_dialects_c2f5ac7d19dcf8f12e1bfbb5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 16.220041666666667,
+      "sigmos_overall": 4.063006401062012,
+      "audio_sha256": "cd81f33ccc979001fc0eca1e0e0d4b4e8e36b02c614d7e3ee48e7ef9e01c32c2"
+    },
+    {
+      "utterance_id": "ukr_dialects_c3f5d0ec6ba0ded281959cca",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.26,
+      "sigmos_overall": 4.433717250823975,
+      "audio_sha256": "451b66e6dc817af36327838bbb577f446db00016a15e27ac7e011a719b91192c"
+    },
+    {
+      "utterance_id": "ukr_dialects_c49616b50399869b8b754b62",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.8,
+      "sigmos_overall": 4.020754814147949,
+      "audio_sha256": "b4d386477f0a8c0188c715ac0101ac90bb652e06d21f764f6ad526904529b1b4"
+    },
+    {
+      "utterance_id": "ukr_dialects_c52c351a8f797c9caff89f27",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.15,
+      "sigmos_overall": 4.078188896179199,
+      "audio_sha256": "b8f57b755d2e7d87482333a7c3cef48ab661021322da731a81ee2a0d1fce461a"
+    },
+    {
+      "utterance_id": "ukr_dialects_c5857837eb0fe61da03df4be",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.539,
+      "sigmos_overall": 4.161395072937012,
+      "audio_sha256": "f3d2e6bf3368f141743e8eaeea4888903adf7bd944ff10cd73ac9c57575f8de4"
+    },
+    {
+      "utterance_id": "ukr_dialects_c5859a1e326523dd80827a8a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.16,
+      "sigmos_overall": 4.030207633972168,
+      "audio_sha256": "a166f242c615bf479e652889cff199471c9d6d2af4d3f2498b8ffa82b4dc121a"
+    },
+    {
+      "utterance_id": "ukr_dialects_c59e16f74c2faf96f21e9a88",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.53,
+      "sigmos_overall": 4.025627136230469,
+      "audio_sha256": "e26dc77a73753172d8a798212acbb18a5c640bd430539e13f1baa25d52e7a8cc"
+    },
+    {
+      "utterance_id": "ukr_dialects_c65e7653a7746df82318b486",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.06,
+      "sigmos_overall": 4.2380290031433105,
+      "audio_sha256": "8278631bb99eaea1c723be02a17a3381410ab7b99081c99a1446129fbae4ff6c"
+    },
+    {
+      "utterance_id": "ukr_dialects_c790008becdc62fd2d2e6022",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 12.59,
+      "sigmos_overall": 4.047281265258789,
+      "audio_sha256": "330ce057f72dad038cf62841fc99fd8885bc5f28c0d4ff935c58cd01c65cc192"
+    },
+    {
+      "utterance_id": "ukr_dialects_c9706353299bddc3de93eb47",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.87,
+      "sigmos_overall": 4.014348983764648,
+      "audio_sha256": "c798c712aaec819e0bdf6d3da72d9a8a5951f8078f317814f7f64b32430d9994"
+    },
+    {
+      "utterance_id": "ukr_dialects_c9c6de90672efca7933b532f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.5,
+      "sigmos_overall": 4.072580337524414,
+      "audio_sha256": "5e02a646d07533735ebaef845923fcb3b9bb530a5d05708c6bd4d328a99a7b28"
+    },
+    {
+      "utterance_id": "ukr_dialects_ca7e66394252aff1d36322db",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.94,
+      "sigmos_overall": 4.286819934844971,
+      "audio_sha256": "3516693ef0c5f8dbe52e267aecf1a0bbf7ecd4aadb260125c4069bf9e8822edb"
+    },
+    {
+      "utterance_id": "ukr_dialects_caa0d1ca5a7a9fa649a857e3",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.120041666666666,
+      "sigmos_overall": 4.161696910858154,
+      "audio_sha256": "da8c19aafd40da89a6494c1d939a8de2739eb627d6adab891cb1abfaeef877b1"
+    },
+    {
+      "utterance_id": "ukr_dialects_ce8cd401217e57f692c98d5d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.62,
+      "sigmos_overall": 4.018057823181152,
+      "audio_sha256": "f31a4bf2064062aefca35f1fa4b644671e9ac01e4f7230fe951943cd9c46d52a"
+    },
+    {
+      "utterance_id": "ukr_dialects_cf858af083a2adcc8705b369",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.9600416666666667,
+      "sigmos_overall": 4.020717144012451,
+      "audio_sha256": "5cccb659ab4c3f421dfc5a103f0f9d46ca1914853f1e755601299c28c34b791d"
+    },
+    {
+      "utterance_id": "ukr_dialects_cfefafdd2b6aca1ee732f9fc",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 4.37,
+      "sigmos_overall": 4.020008563995361,
+      "audio_sha256": "bc69bb33fcb4bca2a468261391f6a8c3cef5b6ae262c8b5eb2be38b20ec1203d"
+    },
+    {
+      "utterance_id": "ukr_dialects_d0106f19921b139edec94a66",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.05,
+      "sigmos_overall": 4.025712966918945,
+      "audio_sha256": "e4e29b44f4f8d47c6d2d96cebe0bbe5de1966bf935fdd092b4c9fb9b1dbf49e7"
+    },
+    {
+      "utterance_id": "ukr_dialects_d03c4785b97a073c3ae89a18",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.85,
+      "sigmos_overall": 4.091490745544434,
+      "audio_sha256": "4a5195a5099cc50a7c5ce5d355b99e8eec70d1ac886a37acf713d9934945a432"
+    },
+    {
+      "utterance_id": "ukr_dialects_d05c10039940f16d0f709fef",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.31,
+      "sigmos_overall": 4.154997825622559,
+      "audio_sha256": "2c097a8211b3e8e6735d69e4c5170b19bb0173495f51608faf6a327374c8a192"
+    },
+    {
+      "utterance_id": "ukr_dialects_d21ec6cf06681cf7ceab718a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 17.170041666666666,
+      "sigmos_overall": 4.030447006225586,
+      "audio_sha256": "d2c9f4957208f803a31687b1ddf8ebed3962959072d99627423ab99eb4be90a4"
+    },
+    {
+      "utterance_id": "ukr_dialects_d399bc0e0a7728aaee3c6c0c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.86,
+      "sigmos_overall": 4.088648319244385,
+      "audio_sha256": "4681ffb024524a33a5a0852492c8679deabc869ded6245c9dce5a1dd939bd2cf"
+    },
+    {
+      "utterance_id": "ukr_dialects_d52ff05c1ce51f086028b65f",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.33,
+      "sigmos_overall": 4.025552749633789,
+      "audio_sha256": "e2ffbda8f954481a556a8280b36256875a7a66e90b8610f27f63aaffc5f74844"
+    },
+    {
+      "utterance_id": "ukr_dialects_d73325df219fb4726bd3337a",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.13,
+      "sigmos_overall": 4.055896759033203,
+      "audio_sha256": "6fcad86f9087900ba7a8bc1d66b21bb574ddb82709c44cdcd0fed4be943eb364"
+    },
+    {
+      "utterance_id": "ukr_dialects_d75467c0fbea1118a117369e",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.1,
+      "sigmos_overall": 4.0143938064575195,
+      "audio_sha256": "34dcdad9362992d8bdada00daf7c53699e1abb7b62fd88f69a0027a96a6492b6"
+    },
+    {
+      "utterance_id": "ukr_dialects_d80edac579e55056131bc9c4",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.31,
+      "sigmos_overall": 4.033093452453613,
+      "audio_sha256": "2d9d703a6c6b11738d03640a82cdce0180ad7e546c05e5cf8fc57c62403ad638"
+    },
+    {
+      "utterance_id": "ukr_dialects_da83e9da485bc0b1ab44505b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.49,
+      "sigmos_overall": 4.023699760437012,
+      "audio_sha256": "0a5235b746c9ca6b889a08feb90988eb42d3a89d9838ec4b1a5236d1c003ba85"
+    },
+    {
+      "utterance_id": "ukr_dialects_dcb14ce973646dbaef34ff98",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 13.85,
+      "sigmos_overall": 4.070951461791992,
+      "audio_sha256": "93b2d12e7f2705b66453dd266c390bb6c02510709236aaf9725037e69c38a96b"
+    },
+    {
+      "utterance_id": "ukr_dialects_dffd36cdbe7bd028651997e5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.720041666666667,
+      "sigmos_overall": 4.232026100158691,
+      "audio_sha256": "eec0d5aece5b80f2216f34b4130f73f797157df9ede54bbb1a89c90ff87b4a9e"
+    },
+    {
+      "utterance_id": "ukr_dialects_e45b65f137c3a37e99090183",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 19.270083333333332,
+      "sigmos_overall": 4.023972511291504,
+      "audio_sha256": "7c9fe87bdffe40d5323f7e17dd633f64f00895794612960173ece9dbf8d9885f"
+    },
+    {
+      "utterance_id": "ukr_dialects_e773985cc556a22f56b05bf0",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.53,
+      "sigmos_overall": 4.064014434814453,
+      "audio_sha256": "9795f04412affa7478be4de49aea6b95119b819ef24bc3a200dfb58033de78c4"
+    },
+    {
+      "utterance_id": "ukr_dialects_e9ee784a03309f4164074893",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.75,
+      "sigmos_overall": 4.039186477661133,
+      "audio_sha256": "223edfccd88ed52a7a54b5df104f84bfd7f44dfb1b5525d43e724b65dce9c5cf"
+    },
+    {
+      "utterance_id": "ukr_dialects_eb6c7699f01df98baba8e737",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.5,
+      "sigmos_overall": 4.163294792175293,
+      "audio_sha256": "163c270be965c24431b13338ceedb2408aa44132238c58df4f4feb591dfbc7b5"
+    },
+    {
+      "utterance_id": "ukr_dialects_ec42fe0f013fc0105595f9af",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.37,
+      "sigmos_overall": 4.098745346069336,
+      "audio_sha256": "2d119f90286421dab517640e5b885e2b5f66a0ef300acc43ad90580e1259f589"
+    },
+    {
+      "utterance_id": "ukr_dialects_ecdc5f9b526e7ce8cbe2044c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 10.0,
+      "sigmos_overall": 4.073909759521484,
+      "audio_sha256": "3652d85a839ff29da6ffd7e20354a112f5214fd6908afa3279b136f00a2ad047"
+    },
+    {
+      "utterance_id": "ukr_dialects_ef77834c66a33dea9ff5d81b",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.7000416666666665,
+      "sigmos_overall": 4.017494201660156,
+      "audio_sha256": "0b22390c70d2ba804958ade3be223a036e941a3662599fb484204aefdddd0d2b"
+    },
+    {
+      "utterance_id": "ukr_dialects_f05ccea1c9154b85a15c39c7",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.92,
+      "sigmos_overall": 4.021288871765137,
+      "audio_sha256": "1888ab891d48a81f029dd401e9f2ca94f437f503eb40333293d1f9d50dccafb6"
+    },
+    {
+      "utterance_id": "ukr_dialects_f076d403a12f263fa95e315d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 6.34,
+      "sigmos_overall": 4.041924476623535,
+      "audio_sha256": "bbdbefe8072e6d340f2d9ce917b9873713486eaf1532e1746fc312a4fd7d96d4"
+    },
+    {
+      "utterance_id": "ukr_dialects_f0892116579007fe0dc81f86",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.15,
+      "sigmos_overall": 4.017686367034912,
+      "audio_sha256": "2cc2f9455c049a82d1a37ceb138b88ec6d16179db7316ef8a4b5f0fdc1a1c0e4"
+    },
+    {
+      "utterance_id": "ukr_dialects_f100bbb538b0243a2bd1dc22",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.53,
+      "sigmos_overall": 4.8379740715026855,
+      "audio_sha256": "4bf1e456db58017650d76676008284ce570180a5a8c6f4ff027f4cba4d86e3d4"
+    },
+    {
+      "utterance_id": "ukr_dialects_f183f394a7dc0109e97f1f3d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.86,
+      "sigmos_overall": 4.022933006286621,
+      "audio_sha256": "7e313096bc7b4c0277d18b19665b2e975c4073aa8107af0953c08e9d81445ae4"
+    },
+    {
+      "utterance_id": "ukr_dialects_f24e1c37549a2fbdede12bbd",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.680041666666667,
+      "sigmos_overall": 4.134768486022949,
+      "audio_sha256": "858be4616da4148d56153754c2362e98c8b92a8aebc1c24b2b7fde8d907a5f6a"
+    },
+    {
+      "utterance_id": "ukr_dialects_f48c491c6eea66480ef861d8",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 1.48,
+      "sigmos_overall": 4.0312652587890625,
+      "audio_sha256": "2061a42a3d6c9b5439574ad49d4de086865c7ecf54d92c7970213f3da6dd0ac8"
+    },
+    {
+      "utterance_id": "ukr_dialects_f4dc3d5cac222527aaf731a5",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.73,
+      "sigmos_overall": 4.038421630859375,
+      "audio_sha256": "232a53d23a6142a25c98f54000a3a80886c437b83d525adb6dc461206ee418a4"
+    },
+    {
+      "utterance_id": "ukr_dialects_f4e0afe4c20062770102c414",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 5.2,
+      "sigmos_overall": 4.0094146728515625,
+      "audio_sha256": "202f3f9b315a6eeb58a869894d3fa53e3977a5490d952db04f737adb230f0001"
+    },
+    {
+      "utterance_id": "ukr_dialects_f4e9138afb5f322865897055",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 11.83,
+      "sigmos_overall": 4.232919216156006,
+      "audio_sha256": "2420bd4b1b8320c0598677d2dd8bd309fc3d4052da7a08b0d47021f1ab8d68ca"
+    },
+    {
+      "utterance_id": "ukr_dialects_f5cf397c8d69d132df3c837c",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 2.21,
+      "sigmos_overall": 4.186991214752197,
+      "audio_sha256": "675a8c31336ce6ef3ded57276854769109109c056e21fe7bb9d25ff5cc48ec1f"
+    },
+    {
+      "utterance_id": "ukr_dialects_f66c370d6c052b747b2ddd55",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 8.17,
+      "sigmos_overall": 4.021003723144531,
+      "audio_sha256": "c43e9b255ff913bab80f9568556d1783378ca4e08b0917cba2677915df156769"
+    },
+    {
+      "utterance_id": "ukr_dialects_f83fdaf3320246423d914a3d",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 17.040041666666667,
+      "sigmos_overall": 4.06781005859375,
+      "audio_sha256": "8174380a01a92ba48819d1aef741304c31f3f1d52d978e5d27625f72e97506ef"
+    },
+    {
+      "utterance_id": "ukr_dialects_f85b4be798b3b3aa4ef44211",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 15.3,
+      "sigmos_overall": 4.113254070281982,
+      "audio_sha256": "f178f4ab8a77cc10404cf7045c2024119d3e055307ec3b8fe0d78a8ba97f319e"
+    },
+    {
+      "utterance_id": "ukr_dialects_f897b7424bab2a4bfea548ca",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 7.4,
+      "sigmos_overall": 4.233745574951172,
+      "audio_sha256": "027a9a794202b4fac248877b64822a980408f619d75ae3bb1e9edec7c87196b3"
+    },
+    {
+      "utterance_id": "ukr_dialects_fada7ea61eff6fe031d5e538",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 3.59,
+      "sigmos_overall": 4.1418867111206055,
+      "audio_sha256": "6e35fdf7b5f4a1612f77242ee707a36f180532d59dc113c895520ccf87f83792"
+    },
+    {
+      "utterance_id": "ukr_dialects_fe6fd5556542fdeab7da0d09",
+      "source_id": "ukr_dialects",
+      "duration_seconds": 9.591,
+      "sigmos_overall": 4.138556480407715,
+      "audio_sha256": "e3bd0bbca520dae78c05909cd22b7c0cf9d0dde5d7583d2638d60896f60237c3"
+    }
+  ],
+  "start_step": 284000,
+  "end_step": 334000,
+  "additional_updates": 50000,
+  "normalization": "preserve V12 statistics and token vocabulary",
+  "selection_sha256": "68827c5ad5050020fca6a6ac02400fb62e1afd9ff0b03f2e426664b1ce1f4b6b"
+}

@@ -254,6 +254,89 @@ updates/hour, the additional training takes about **41 hours 40 minutes**, plus
 preparation and final evaluation. This is a new continuation; the completed
 120K results below remain the last evaluated checkpoint until it finishes.
 
+### Scheduled continuation to 284K, then a ≥4.0 training subset to 334K
+
+The next authorized stages run after the existing 220K job and its evaluation:
+
+```bash
+TO_284K=$(sbatch --parsable \
+  --dependency="afterok:${TRAIN_220K_JOB_ID:?Set the current 220K job ID}" \
+  training/slurm/quality_v12_continue_284k.sbatch)
+sbatch --dependency="afterok:${TO_284K}" training/slurm/quality_v13_ge4_334k.sbatch
+```
+
+The first job continues the existing V12 experiment from **220K to 284K**,
+preserving full optimizer and scheduler state, then evaluates 284K against
+220K and the original recordings. Its V12 W&B metrics run remains unchanged.
+The second job requires successful completion of that training and evaluation,
+audits the complete 284K checkpoint and scheduler, and trains **50K additional
+updates, ending at 334K total**. It copies the complete checkpoint into the
+separate `training/exp_quality_v13/tts_jets_quality_v13_ge4_334k` experiment,
+preserving both optimizers, reporter and learning-rate schedule. It does not
+reset or warm-restart the scheduler. The final 334K full-state audit includes
+both optimizer counters and scheduler epoch 334.
+
+V13 filters only the training split by the **processed waveform's overall
+SigMOS ≥4.0**, inclusively. It uses the stored score only when its output hash
+matches the existing training recording. From 10,187 V12 training items,
+**365 remain, totaling 0.63069 hours (37.84 minutes)**. Counts by source:
+
+| Source | Retained training items |
+| --- | ---: |
+| Common Voice | 93 |
+| FLEURS | 13 |
+| OpenTTS Lada | 1 |
+| OpenTTS Mykyta | 37 |
+| OpenTTS Tetiana | 20 |
+| Telegram voices | 5 |
+| UA SER | 1 |
+| Ukrainian dialects | 195 |
+
+This is a substantially smaller corpus; 50K additional updates may overfit.
+The **196 development and 1,688 evaluation recordings stay unchanged**, so
+validation and the same fixed 88-item quality panel remain comparable. No
+held-out recording enters training. The selected IDs, scores, audio hashes
+and counts are in `training/reports/quality_v13_selection.json`.
+
+`training/scripts/prepare_quality_v13.py` prepares isolated manifests and raw,
+speaker-embedding and feature indexes under `training/data/quality_v13`,
+`training/dump_quality_v13` and `training/exp_quality_v13`. It reuses the exact
+V12 waveforms and feature arrays without modifying or deleting the parent
+corpus. Token vocabulary and normalization statistics remain identical, keeping
+the resumed model's input scaling intact. Historical `quality_v12_*` split
+names are retained inside these isolated roots for evaluator compatibility.
+Preparation seals all new indexes and manifests and rejects changes on resume;
+the launch also reaudits the parent dataset and every sealed parent artifact.
+Pre-staging these indexes does not switch the active V12 training inputs.
+
+The filtered stage opens a separate metrics-only W&B run in `ukrainian-tts`,
+named `quality-v13-mfa-ge4-284k-to334k`, so the dataset change is visible.
+No models or audio are uploaded. The final checkpoint is evaluated against
+the unchanged originals and V12 284K outputs, with all existing quality metrics,
+ASR metrics, speaker similarity and segment diagnostics. Selection remains
+report-only and excludes HNR rejection. Each stage retains 60-second resource
+and activity checks plus the available-memory guard. Failed prerequisites
+block dependent jobs rather than starting a fresh model.
+
+Preflight checks cover threshold inclusivity, score-to-waveform binding,
+held-out rejection, index completeness and scheduler continuation. The staged
+subset passed checks of all 365 training IDs, unchanged dev/eval manifests,
+all speaker embeddings, readable pitch/energy arrays and identical normalization
+statistics. The 365-item transcript set still covers all 33 Ukrainian letters.
+An ESPnet model/optimizer dry run passed, and its actual data iterator produced
+a valid first batch for epoch 285 with exactly 1,000 batches per epoch. Twelve
+focused filtering, milestone and scheduler tests passed. Re-run selection
+inspection without preparing data with:
+
+```bash
+training/.venv/bin/python -m training.scripts.prepare_quality_v13 --preview-only
+```
+
+At the measured V12 rate of approximately 2,413 steps/hour, the 220K → 284K
+extension takes about **26.5 hours**. The next 50K updates would take about
+**20.7 hours at that same rate**, but throughput must be remeasured on the
+filtered subset. Evaluation and preparation add overhead to both stages.
+
 | Checkpoint | Median SigMOS overall | Median Audiobox PQ | Median Whisper CER / WER | Median Parakeet CER / WER | Median ECAPA similarity |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Original recordings | 3.0472 | 7.0241 | 0.0000 / 0.0871 | 0.0000 / 0.0000 | 1.0000 |
