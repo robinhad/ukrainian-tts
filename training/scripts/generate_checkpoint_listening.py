@@ -75,6 +75,8 @@ def page(rows, step, embedded=False, output=None):
                            'A dash means unavailable or inapplicable. Later checkpoints are shown when evaluated.</p></section>')
         from training.scripts.listening_comparison import comparison_plots
         comparison_html += comparison_plots(comparison)
+        from training.scripts.forecast_listening_quality import forecast, forecast_html
+        comparison_html += forecast_html(forecast(comparison))
     cards = []
     for index, row in enumerate(rows, 1):
         players = []
@@ -135,6 +137,10 @@ def write_pages(output, rows, step):
             shutil.copyfile(comparison_source, output / 'checkpoint_comparison.json')
     output.joinpath('index.html').write_text(page(rows, step, output=output))
     output.joinpath('preview.html').write_text(page(rows, step, True, output))
+    if (output / 'checkpoint_comparison.json').exists():
+        from training.scripts.forecast_listening_quality import forecast
+        result = forecast(json.loads((output / 'checkpoint_comparison.json').read_text()))
+        output.joinpath('quality_forecast.json').write_text(json.dumps(result, indent=2, allow_nan=False) + '\n')
     with zipfile.ZipFile(output / 'listening_set.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(output.rglob('*')):
             if path.is_file() and path.suffix != '.zip':

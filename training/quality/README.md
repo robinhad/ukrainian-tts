@@ -365,6 +365,22 @@ snapshot through 164K is stored in
 when their listening item IDs match; it is a measured snapshot, not an
 automatic evaluation of subsequent checkpoints.
 
+The latest page includes conditional step forecasts for reaching the original
+and processed reference medians on the same ten listening items. It compares
+ordinary least-squares linear trends using all scored checkpoints and the
+latest four, plus a logarithmic trend using all checkpoints. The independent
+variable is optimizer steps, not training mel loss. Forecast totals and
+additional steps are anchored to the latest scored checkpoint (164K in the
+current snapshot), not the live training position. At 164K the all-checkpoint
+linear fit estimates approximately **247K total** for the original median
+and **284K** for the processed median; the logarithmic fit instead estimates
+**628K** and **1,041K**. This spread is model sensitivity, not a confidence
+interval. The small subset fluctuates, errors across checkpoints are correlated,
+and a quality plateau could prevent reaching either target. Forecasts are
+report-only and do not change the 220K training target. Exact fits are bundled
+as `quality_forecast.json` and exported to
+`training/reports/quality_v12_listening_164k_forecast.json`.
+
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page
 inside a SLURM GPU allocation, without resynthesizing audio:
