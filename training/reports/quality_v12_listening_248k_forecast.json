@@ -1,0 +1,73 @@
+{
+  "metric": "sigmos_overall",
+  "sample_count": 10,
+  "latest_scored_step": 248000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 22,
+      "first_step": 25000,
+      "last_step": 248000,
+      "slope": 0.0020492207659017253,
+      "intercept": 2.3108794954582352,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 383950.6488600024,
+          "additional_steps": 135950.6488600024
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 453512.5667378152,
+          "additional_steps": 205512.5667378152
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 230000,
+      "last_step": 248000,
+      "slope": -0.001068465106052243,
+      "intercept": 3.048346519301598,
+      "targets": {
+        "original": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        },
+        "processed": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 22,
+      "first_step": 25000,
+      "last_step": 248000,
+      "slope": 0.24025511741540756,
+      "intercept": 1.4499625251068227,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 951648.4578659355,
+          "additional_steps": 703648.4578659355
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 1722468.7660150405,
+          "additional_steps": 1474468.7660150405
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+}
