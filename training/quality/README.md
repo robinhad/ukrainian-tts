@@ -111,6 +111,33 @@ with overall SigMOS median **3.11425** and population standard deviation
 **0.35369**. The decoded, untrimmed inputs total 126.38546 hours; this differs
 from historical energy-trimmed corpus durations.
 
+Full-corpus per-source distributions are available as
+[PNG](../reports/quality_v12_full_source_sigmos_full.png) and
+[PDF](../reports/quality_v12_full_source_sigmos_full.pdf), with a separate
+[training-selection PNG](../reports/quality_v12_full_source_sigmos_train.png)
+and [PDF](../reports/quality_v12_full_source_sigmos_train.pdf).
+Every source panel includes recording count, summed processed hours and
+median overall SigMOS. These use all **80,751** scored recordings, not the
+800-item balanced pilot. Full-corpus hours total **103.61172**; the exact
+training selection totals **16.50494** hours across **10,187** recordings.
+The full chart includes held-out evaluation; the training chart excludes
+development and evaluation and verifies each selected ID, source and duration
+against the training manifest. Histograms give percentages of recordings
+within each source in 0.1-point bins. Axes are shared within each figure;
+the training figure zooms to ≥3.5 and uses its own percentage scale.
+The full corpus has **10,608/80,751 (13.14%)** recordings scoring ≥3.5,
+including passing held-out recordings that are not eligible for training.
+
+Reproduce both figures, source summary CSV/JSON and histogram-bin CSV with:
+
+```bash
+training/.venv/bin/python -m training.scripts.plot_full_source_sigmos
+```
+
+The `quality_v12_full_source_sigmos_summary.json` report records exact
+statistics and hashes of the source scores and training manifest. All hours
+refer to processed audio duration, not repeated training exposure.
+
 The ≥3.5 threshold retains **10,383 train/dev items (16.84018 hours)**:
 10,187 training items and 196 development items. Their overall SigMOS median
 is **3.63166**, mean **3.67003**, and population standard deviation **0.14717**.
