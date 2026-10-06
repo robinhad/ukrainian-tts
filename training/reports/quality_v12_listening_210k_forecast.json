@@ -1,0 +1,73 @@
+{
+  "metric": "sigmos_overall",
+  "sample_count": 10,
+  "latest_scored_step": 210000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 15,
+      "first_step": 25000,
+      "last_step": 210000,
+      "slope": 0.0023408266983805963,
+      "intercept": 2.2805536741496266,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 349075.5913708868,
+          "additional_steps": 139075.59137088677
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 409971.90921012725,
+          "additional_steps": 199971.90921012725
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 183000,
+      "last_step": 210000,
+      "slope": -0.011251852688965967,
+      "intercept": 4.8696973999341315,
+      "targets": {
+        "original": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        },
+        "processed": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 15,
+      "first_step": 25000,
+      "last_step": 210000,
+      "slope": 0.23514758163294608,
+      "intercept": 1.4729959475223873,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 1001452.2370010511,
+          "additional_steps": 791452.2370010511
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 1836123.4951891953,
+          "additional_steps": 1626123.4951891953
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+}

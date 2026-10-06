@@ -11,7 +11,7 @@
     "ua_ser_be37bb89df5984c587d20c82",
     "ukr_dialects_d2ba80d943e6a61f32205558"
   ],
-  "through_step": 192000,
+  "through_step": 210000,
   "rows": [
     {
       "label": "Original source audio",
@@ -107,6 +107,12 @@
       "label": "192K",
       "train_mel": 37.50468444824219,
       "sigmos_10": 2.6342592239379883,
+      "sigmos_88": null
+    },
+    {
+      "label": "210K",
+      "train_mel": 37.372013092041016,
+      "sigmos_10": 2.5450903177261353,
       "sigmos_88": null
     }
   ]
