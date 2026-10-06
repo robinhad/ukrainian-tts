@@ -11,7 +11,7 @@
     "ua_ser_be37bb89df5984c587d20c82",
     "ukr_dialects_d2ba80d943e6a61f32205558"
   ],
-  "through_step": 210000,
+  "through_step": 222000,
   "rows": [
     {
       "label": "Original source audio",
@@ -110,9 +110,27 @@
       "sigmos_88": null
     },
     {
+      "label": "200K",
+      "train_mel": 37.49746322631836,
+      "sigmos_10": 2.681042432785034,
+      "sigmos_88": 2.7740098237991333
+    },
+    {
       "label": "210K",
       "train_mel": 37.372013092041016,
       "sigmos_10": 2.5450903177261353,
+      "sigmos_88": null
+    },
+    {
+      "label": "220K",
+      "train_mel": 37.172088623046875,
+      "sigmos_10": 2.7199493646621704,
+      "sigmos_88": 2.7569597959518433
+    },
+    {
+      "label": "222K",
+      "train_mel": 36.988975524902344,
+      "sigmos_10": 2.7224204540252686,
       "sigmos_88": null
     }
   ]

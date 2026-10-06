@@ -1,0 +1,73 @@
+{
+  "metric": "sigmos_overall",
+  "sample_count": 10,
+  "latest_scored_step": 222000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 18,
+      "first_step": 25000,
+      "last_step": 222000,
+      "slope": 0.0020916707957165993,
+      "intercept": 2.305687501569852,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 378640.67244023836,
+          "additional_steps": 156640.67244023836
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 446790.8454612888,
+          "additional_steps": 224790.84546128882
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 200000,
+      "last_step": 222000,
+      "slope": 0.003417555387918038,
+      "intercept": 1.9391863446731104,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 338982.88747742365,
+          "additional_steps": 116982.88747742365
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 380693.3238715516,
+          "additional_steps": 158693.3238715516
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 18,
+      "first_step": 25000,
+      "last_step": 222000,
+      "slope": 0.22864445135164405,
+      "intercept": 1.5003794129634223,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 1081338.0218105789,
+          "additional_steps": 859338.0218105789
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 2017070.7029044775,
+          "additional_steps": 1795070.7029044775
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+}

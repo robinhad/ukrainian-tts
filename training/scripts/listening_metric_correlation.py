@@ -100,8 +100,11 @@ def plot(report):
     x = lambda v: 85 + (v - xmin) / (xmax - xmin) * 570
     y = lambda v: 365 - (v - ymin) / (ymax - ymin) * 275
     variance = report['selected_metric'] == 'valid_generator_var_loss'
-    title = 'Lower validation variance loss tracks higher SigMOS' if variance else 'The strongest observed loss–SigMOS relationship'
-    axis = 'Validation variance loss (epoch mean)' if variance else 'Selected loss (epoch mean)'
+    energy = report['selected_metric'] == 'train_generator_var_energy_loss'
+    title = ('Lower validation variance loss tracks higher SigMOS' if variance else
+             'Lower training energy loss tracks higher SigMOS' if energy else 'The strongest observed loss–SigMOS relationship')
+    axis = ('Validation variance loss (epoch mean)' if variance else
+            'Training energy-prediction loss (epoch mean)' if energy else 'Selected loss (epoch mean)')
     parts = ['<svg class="correlation-plot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 460" '
              'role="img" aria-label="Selected loss versus median SigMOS; exact values in the checkpoint table below.">',
              f'<text x="85" y="35" class="corr-title">{title}</text>',
@@ -124,7 +127,7 @@ def plot(report):
         parts.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="4" class="corr-point{accent}"><title>{title}</title></circle>')
         if p['step'] in labeled:
             dx = -45 if px > 580 else 10
-            dy = 25 if latest else -14
+            dy = -20 if latest else -14
             parts.append(f'<text x="{px+dx:.2f}" y="{py+dy:.2f}" class="corr-label{accent}">{html.escape(p["label"])}</text>')
     parts.extend([f'<text x="370" y="435" text-anchor="middle">{axis}</text>',
                   '<text transform="translate(28 230) rotate(-90)" text-anchor="middle">Median synthesized SigMOS</text>', '</svg>'])
@@ -153,8 +156,8 @@ def correlation_html(output, comparison, embedded=False):
         if embedded:
             url = 'data:application/octet-stream;base64,' + base64.b64encode((Path(output)/filename).read_bytes()).decode()
         links.append(f'<a download="{filename}" href="{url}">{filename}</a>')
-    meaning = ('This validation loss combines duration, pitch and energy prediction losses. '
-               if report['selected_metric'] == 'valid_generator_var_loss' else '')
+    meaning = {'valid_generator_var_loss': 'This validation loss combines duration, pitch and energy prediction losses. ',
+               'train_generator_var_energy_loss': 'This measures energy-prediction error on the training split. '}.get(report['selected_metric'], '')
     return f'''<section aria-label="Metric correlation with SigMOS"><h2>Which logged loss tracks SigMOS most closely?</h2>
 <p><strong>{name}</strong>: Pearson <strong>r = {selected['pearson_r']:.3f}</strong>, Spearman ρ = {fmt(selected['spearman_rho'])},
 across {len(report['points'])} checkpoints. {meaning}Selected by largest absolute Pearson correlation among {report['ranked_count']} logged training/validation losses,
