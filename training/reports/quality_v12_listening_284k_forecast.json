@@ -1,0 +1,150 @@
+{
+  "metric": "sigmos_overall",
+  "statistic": "median",
+  "current_score": 2.935607433319092,
+  "sample_count": 10,
+  "latest_scored_step": 284000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 25,
+      "first_step": 25000,
+      "last_step": 284000,
+      "slope": 0.0019605144039049798,
+      "intercept": 2.3228415356203103,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 395221.5811421488,
+          "additional_steps": 111221.58114214882
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 467930.9304574285,
+          "additional_steps": 183930.9304574285
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 248000,
+      "last_step": 284000,
+      "slope": 0.00024283267139045263,
+      "intercept": 2.7768184127432685,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 1321324.3654697961,
+          "additional_steps": 1037324.3654697961
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 1908344.7438024993,
+          "additional_steps": 1624344.7438024993
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 25,
+      "first_step": 25000,
+      "last_step": 284000,
+      "slope": 0.24980539154171327,
+      "intercept": 1.406948292375509,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 869737.9617180421,
+          "additional_steps": 585737.9617180421
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 1538906.0426299768,
+          "additional_steps": 1254906.0426299768
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target.",
+  "lower_bound": {
+    "metric": "sigmos_overall",
+    "statistic": "p05",
+    "current_score": 2.206846904754639,
+    "sample_count": 10,
+    "latest_scored_step": 284000,
+    "targets": {
+      "original": 1.9142779231071472,
+      "processed": 2.579042303562164
+    },
+    "scenarios": [
+      {
+        "method": "Linear, all checkpoints",
+        "checkpoint_count": 25,
+        "first_step": 25000,
+        "last_step": 284000,
+        "slope": 0.0025783323443987344,
+        "intercept": 1.7052554111687654,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0
+          },
+          "processed": {
+            "status": "extrapolated",
+            "total_steps": 338896.14513491484,
+            "additional_steps": 54896.14513491484
+          }
+        }
+      },
+      {
+        "method": "Linear, latest four",
+        "checkpoint_count": 4,
+        "first_step": 248000,
+        "last_step": 284000,
+        "slope": 0.0007908557684680522,
+        "intercept": 2.0324080614338205,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0
+          },
+          "processed": {
+            "status": "extrapolated",
+            "total_steps": 691193.3426081165,
+            "additional_steps": 407193.34260811645
+          }
+        }
+      },
+      {
+        "method": "Logarithmic, all checkpoints",
+        "checkpoint_count": 25,
+        "first_step": 25000,
+        "last_step": 284000,
+        "slope": 0.3613487022273296,
+        "intercept": 0.3341331301112836,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0
+          },
+          "processed": {
+            "status": "extrapolated",
+            "total_steps": 498988.98479887116,
+            "additional_steps": 214988.98479887116
+          }
+        }
+      }
+    ],
+    "selection_mode": "report_only",
+    "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+  }
+}
