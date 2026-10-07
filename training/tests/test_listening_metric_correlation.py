@@ -80,3 +80,19 @@ def test_score_dispersion_rejects_wrong_panel_nonfinite_or_mismatched_median(val
     c['rows'][1]['sigmos_10_values'] = values
     with pytest.raises(ValueError, match='Per-item SigMOS'):
         analyze(c, epochs)
+
+
+def test_reference_dispersion_is_separate_from_checkpoint_correlations():
+    c, epochs = fixture()
+    before = analyze(c, epochs)
+    c['listening_ids'] = ['first', 'second', 'third']
+    c['rows'][0]['sigmos_10_values'] = [3., 4., 5.]
+    result = analyze(c, epochs)
+    assert result['ranking'] == before['ranking']
+    assert len(result['points']) == 5
+    ref = result['references'][0]
+    assert ref['sigmos_stddev'] == pytest.approx(np.sqrt(2/3))
+    svg = plot(result)
+    assert 'References · same 10 items' in svg
+    assert '4.000 ± 0.816' in svg
+    assert 'Original reference: median' in svg

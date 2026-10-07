@@ -47,12 +47,14 @@ def page(rows, step, embedded=False, output=None):
                ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
                ('sigmos_loudness', 'Loudness'), ('sigmos_reverb', 'Reverberation')]
     summaries = []
-    for role, label in [('synthesis', 'Synthesized audio'), ('processed', 'Processed reference')]:
+    for role, label in [('synthesis', 'Synthesized audio'), ('reference', 'Original reference'), ('processed', 'Processed reference')]:
         if rows and all(row.get('quality', {}).get(role) for row in rows):
             summaries.append(f'<table class="scores" style="max-width:420px">'
                              f'<caption>{label} medians · {len(rows)} files on this page</caption><tbody>' + ''.join(
                 f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"][role][metric] for row in rows]):.3f}</td></tr>'
-                for metric, name in metrics) + '</tbody></table>')
+                for metric, name in metrics) +
+                f'<tr><th scope="row">SigMOS overall SD · across files</th><td>{np.std([row["quality"][role]["sigmos_overall"] for row in rows], ddof=0):.3f}</td></tr>' +
+                '</tbody></table>')
     quality_summary = '<div class="players">' + ''.join(summaries) + '</div>' if summaries else ''
     comparison_html = ''
     comparison_path = output / 'checkpoint_comparison.json' if output else None
@@ -62,18 +64,21 @@ def page(rows, step, embedded=False, output=None):
             raise ValueError('Checkpoint comparison does not match listening items')
         def formatted(value):
             return '—' if value is None else f'{value:.3f}'
+        from training.scripts.listening_metric_correlation import score_stddev
         comparison_rows = ''.join(
             '<tr><th scope="row">' + html.escape(item['label']) + '</th>' + ''.join(
-                f'<td>{formatted(item[key])}</td>' for key in ('train_mel', 'sigmos_10', 'sigmos_88')) + '</tr>'
+                f'<td>{formatted(item[key])}</td>' for key in ('train_mel', 'sigmos_10', 'sigmos_88')) +
+                f'<td>{formatted(score_stddev(item, comparison["listening_ids"]))}</td></tr>'
             for item in comparison['rows'])
         comparison_html = ('<section aria-label="Checkpoint quality comparison"><div style="overflow-x:auto">'
                            '<table class="scores comparison"><caption>SigMOS versus training mel loss</caption>'
                            '<thead><tr><th scope="col">Audio / checkpoint</th><th scope="col">Train mel ↓</th>'
                            '<th scope="col">Median SigMOS<br>Same 10 items ↑</th>'
-                           '<th scope="col">Median SigMOS<br>Full 88 items ↑</th></tr></thead>'
+                           '<th scope="col">Median SigMOS<br>Full 88 items ↑</th><th scope="col">SigMOS SD<br>Same 10 items</th></tr></thead>'
                            f'<tbody>{comparison_rows}</tbody></table></div>'
                            '<p>Training mel is the epoch mean; SigMOS is median overall MOS. '
                            'Original and processed references use the same held-out items, without the ≥3.5 filter. '
+                           'SD is the population standard deviation across those ten files (ddof=0), not a confidence interval. '
                            'A dash means unavailable or inapplicable. Later checkpoints are shown when evaluated.</p></section>')
         from training.scripts.listening_comparison import comparison_plots
         comparison_html += comparison_plots(comparison)

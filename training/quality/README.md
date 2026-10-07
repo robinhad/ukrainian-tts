@@ -544,7 +544,13 @@ the exact SD. All 23 checkpoints through 269K have measured per-item scores;
 missing values in older snapshots omit the bar rather than imply zero spread.
 The comparison JSON preserves `sigmos_10_values` and corresponding audio
 hashes in `listening_ids` order. Include these arrays when adding checkpoints;
-the analysis checks their count, finiteness and agreement with the median. The
+the analysis checks their count, finiteness and agreement with the median.
+Original and processed reference SDs use the same ten listening IDs: **0.58386**
+and **0.40407**, respectively. Their medians remain **3.09768** and **3.24023**.
+The energy plot shows both references as separate diamond markers with ±1 SD
+on the shared vertical scale; references have no energy-loss coordinate and
+are excluded from all correlation fits. Reference SDs also appear in the
+quality summaries and comparison table, with exact values in the JSON export. The
 ranking is exploratory: the winner is selected and assessed on the same
 observations from a single training run. Removing a linear step trend from
 both variables gives partial **r = −0.34331**; steps alone have

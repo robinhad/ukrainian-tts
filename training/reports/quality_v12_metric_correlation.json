@@ -12,7 +12,7 @@
     "ua_ser_be37bb89df5984c587d20c82",
     "ukr_dialects_d2ba80d943e6a61f32205558"
   ],
-  "comparison_sha256": "c03d201a38230835e81481aedd1a4f1d3cad7b7be419e0057a036b55a94038ac",
+  "comparison_sha256": "d5590d0f9e0ec46cbbb2caad4582f74f4eea4bc91b59c0f10030ce4e42bf49e8",
   "target": "Median synthesized SigMOS overall on the same 10 listening items",
   "selection": "Largest absolute Pearson correlation; complete matched-checkpoint cases only",
   "candidate_scope": "All logged training/validation losses; excludes time, LR, memory, step counters and SigMOS components",
@@ -439,6 +439,18 @@
       "sigmos_10": 2.8906400203704834,
       "sigmos_88": null,
       "sigmos_stddev": 0.4419143020570677
+    }
+  ],
+  "references": [
+    {
+      "label": "Original source audio",
+      "sigmos_10": 3.0976791381835938,
+      "sigmos_stddev": 0.5838610861895319
+    },
+    {
+      "label": "Processed source audio",
+      "sigmos_10": 3.2402268648147583,
+      "sigmos_stddev": 0.4040745879036145
     }
   ],
   "step_pearson_r": 0.7633074855665736,

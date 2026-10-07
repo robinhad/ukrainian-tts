@@ -22,6 +22,17 @@ def correlation(x, y):
     return float(np.corrcoef(x, y)[0, 1])
 
 
+def score_stddev(row, listening_ids):
+    values = row.get('sigmos_10_values')
+    if values is None:
+        return None
+    values = np.asarray(values, dtype=float)
+    if (values.shape != (len(listening_ids),) or not np.isfinite(values).all() or
+            not np.isclose(np.median(values), row['sigmos_10'], atol=1e-7, rtol=0)):
+        raise ValueError('Per-item SigMOS values must match the listening panel and median')
+    return float(values.std(ddof=0))
+
+
 def analyze(comparison, epochs):
     checkpoints = [r for r in comparison['rows'] if r['train_mel'] is not None and r['sigmos_10'] is not None]
     steps = [int(r['label'].removesuffix('K')) * 1000 for r in checkpoints]
@@ -55,15 +66,10 @@ def analyze(comparison, epochs):
                'train_mel': r['train_mel'], 'sigmos_10': r['sigmos_10'], 'sigmos_88': r.get('sigmos_88')}
               for s, r in zip(steps, checkpoints)]
     for point, row in zip(points, checkpoints):
-        values = row.get('sigmos_10_values')
-        point['sigmos_stddev'] = None
-        if values is not None:
-            values = np.asarray(values, dtype=float)
-            if (values.shape != (len(comparison['listening_ids']),) or
-                    not np.isfinite(values).all() or
-                    not np.isclose(np.median(values), row['sigmos_10'], atol=1e-7, rtol=0)):
-                raise ValueError('Per-item SigMOS values must match the listening panel and median')
-            point['sigmos_stddev'] = float(values.std(ddof=0))
+        point['sigmos_stddev'] = score_stddev(row, comparison['listening_ids'])
+    references = [{'label': row['label'], 'sigmos_10': row['sigmos_10'],
+                   'sigmos_stddev': score_stddev(row, comparison['listening_ids'])}
+                  for row in comparison['rows'] if row['train_mel'] is None]
     panel = [r for r in points if r['sigmos_88'] is not None]
     return {'through_step': max(steps), 'listening_ids': comparison['listening_ids'],
             'comparison_sha256': hashlib.sha256(json.dumps(comparison, sort_keys=True).encode()).hexdigest(),
@@ -72,6 +78,7 @@ def analyze(comparison, epochs):
             'candidate_scope': 'All logged training/validation losses; excludes time, LR, memory, step counters and SigMOS components',
             'candidate_count': len(candidates), 'ranked_count': len(ranking), 'excluded_metrics': excluded,
             'selected_metric': winner, 'ranking': ranking, 'points': points,
+            'references': references,
             'step_pearson_r': correlation(steps, y),
             'panel88': {'count': len(panel), 'pearson_r': correlation([r['metric_value'] for r in panel], [r['sigmos_88'] for r in panel])},
             'selection_mode': 'report_only',
@@ -106,9 +113,10 @@ def collect_epochs(events, comparison):
 
 def plot(report):
     points = report['points']
+    references = [r for r in report.get('references', []) if r['sigmos_stddev'] is not None]
     xmin, xmax = min(r['metric_value'] for r in points), max(r['metric_value'] for r in points)
-    ymin = min(r['sigmos_10'] - (r.get('sigmos_stddev') or 0) for r in points)
-    ymax = max(r['sigmos_10'] + (r.get('sigmos_stddev') or 0) for r in points)
+    ymin = min(r['sigmos_10'] - (r.get('sigmos_stddev') or 0) for r in points + references)
+    ymax = max(r['sigmos_10'] + (r.get('sigmos_stddev') or 0) for r in points + references)
     x = lambda v: 85 + (v - xmin) / (xmax - xmin) * 570
     y = lambda v: 365 - (v - ymin) / (ymax - ymin) * 275
     variance = report['selected_metric'] == 'valid_generator_var_loss'
@@ -117,14 +125,27 @@ def plot(report):
              'Lower training energy loss tracks higher SigMOS' if energy else 'The strongest observed loss–SigMOS relationship')
     axis = ('Validation variance loss (epoch mean)' if variance else
             'Training energy-prediction loss (epoch mean)' if energy else 'Selected loss (epoch mean)')
-    parts = ['<svg class="correlation-plot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 460" '
-             'role="img" aria-label="Selected loss versus median SigMOS, with vertical bars showing plus or minus one standard deviation across listening items; exact values in the checkpoint table below.">',
+    width = 980 if references else 750
+    parts = [f'<svg class="correlation-plot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} 460" '
+             'role="img" aria-label="Selected loss versus median SigMOS, with vertical bars showing plus or minus one standard deviation across listening items; reference markers use the same vertical scale; exact values in the tables below.">',
              f'<text x="85" y="35" class="corr-title">{title}</text>',
              '<path d="M85 90V365H655" fill="none" class="plot-axis"/>']
     for tick in np.linspace(xmin, xmax, 4):
         parts.append(f'<text x="{x(tick):.2f}" y="392" text-anchor="middle">{tick:.3f}</text>')
     for tick in np.linspace(ymin, ymax, 4):
         parts.append(f'<text x="72" y="{y(tick)+5:.2f}" text-anchor="end">{tick:.2f}</text>')
+    for i, ref in enumerate(references):
+        px = 750 + i * 145
+        median, sd = ref['sigmos_10'], ref['sigmos_stddev']
+        lo, hi, center = y(median-sd), y(median+sd), y(median)
+        label = html.escape(ref['label'].replace(' source audio', ''))
+        detail = f'{label} reference: median {median:.5f}; SD {sd:.5f}; same 10 items'
+        parts.extend([f'<text x="{px}" y="70" text-anchor="middle">{label}</text>',
+                      f'<path class="corr-error" d="M{px} {lo:.2f}V{hi:.2f}M{px-5} {lo:.2f}H{px+5}M{px-5} {hi:.2f}H{px+5}"/>',
+                      f'<path class="corr-point" tabindex="0" aria-label="{detail}" d="M{px} {center-5:.2f}l5 5l-5 5l-5 -5Z"><title>{detail}</title></path>',
+                      f'<text x="{px}" y="392" text-anchor="middle">{median:.3f} ± {sd:.3f}</text>'])
+    if references:
+        parts.append('<text x="820" y="435" text-anchor="middle">References · same 10 items</text>')
     slope, intercept = np.polyfit([r['metric_value'] for r in points], [r['sigmos_10'] for r in points], 1)
     # Clip the fitted line to the observed range frame.
     parts.extend(['<defs><clipPath id="correlation-fit-clip"><rect x="85" y="90" width="570" height="275"/></clipPath></defs>',
@@ -185,7 +206,7 @@ across {len(report['points'])} checkpoints. {meaning}Selected by largest absolut
 using the same {len(report['listening_ids'])} synthesized listening items at every checkpoint. Training mel: r = {fmt(mel)}.
 Negative correlation means lower loss accompanies higher SigMOS. Latest selected-loss value: {report['points'][-1]['metric_value']:.5f}.</p>
 <style>.correlation-plot{{width:100%;max-width:900px;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.correlation-plot text{{fill:currentColor;font-size:18px}}.correlation-plot .corr-title{{font-size:23px}}.corr-point{{fill:#666}}.corr-error{{fill:none;stroke:#888;stroke-width:1}}.corr-error-latest{{stroke:#a63e25;stroke-width:1.5}}.correlation-plot .corr-latest{{fill:#a63e25}}@media(prefers-color-scheme:dark){{.correlation-plot{{background:#151515;color:#ddd}}.corr-point{{fill:#aaa}}.corr-error{{stroke:#999}}.corr-error-latest{{stroke:#e5a084}}.correlation-plot .corr-latest{{fill:#e5a084}}}}@media(max-width:600px){{.correlation-plot text{{font-size:24px}}.correlation-plot .corr-label:not(.corr-latest){{display:none}}}}</style>
-{plot(report)}<p>Vertical bars: median ± one population standard deviation across the ten synthesized recordings (ddof=0). This shows item-to-item spread, not uncertainty in the median or a confidence interval. Missing per-item scores have no error bar. Dashed line: fitted linear relationship. Latest checkpoint highlighted; earliest and highest-SigMOS checkpoints labeled. All values appear below.</p>
+{plot(report)}<p>Vertical bars: median ± one population standard deviation across the ten recordings in each group (ddof=0). This shows item-to-item spread, not uncertainty in the median or a confidence interval. Missing per-item scores have no error bar. Dashed line: fitted linear relationship. Reference diamonds at right show original and processed audio on the same vertical scale; their position is categorical, with no energy-loss value. Latest checkpoint highlighted; earliest and highest-SigMOS checkpoints labeled. Exact values appear in the page’s tables.</p>
 <p>Exploratory ranking, not a validated replacement for audio evaluation. These checkpoints come from one run, and the same observations select and assess the winner.
 Training steps alone correlate at r = {report['step_pearson_r']:.3f}; after removing a linear step trend from both variables,
 the selected loss has partial r = {fmt(selected['partial_r_controlling_steps'])}.
