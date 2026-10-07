@@ -54,6 +54,16 @@ def analyze(comparison, epochs):
     points = [{'step': s, 'label': r['label'], 'metric_value': lookup[s][winner],
                'train_mel': r['train_mel'], 'sigmos_10': r['sigmos_10'], 'sigmos_88': r.get('sigmos_88')}
               for s, r in zip(steps, checkpoints)]
+    for point, row in zip(points, checkpoints):
+        values = row.get('sigmos_10_values')
+        point['sigmos_stddev'] = None
+        if values is not None:
+            values = np.asarray(values, dtype=float)
+            if (values.shape != (len(comparison['listening_ids']),) or
+                    not np.isfinite(values).all() or
+                    not np.isclose(np.median(values), row['sigmos_10'], atol=1e-7, rtol=0)):
+                raise ValueError('Per-item SigMOS values must match the listening panel and median')
+            point['sigmos_stddev'] = float(values.std(ddof=0))
     panel = [r for r in points if r['sigmos_88'] is not None]
     return {'through_step': max(steps), 'listening_ids': comparison['listening_ids'],
             'comparison_sha256': hashlib.sha256(json.dumps(comparison, sort_keys=True).encode()).hexdigest(),
@@ -65,6 +75,7 @@ def analyze(comparison, epochs):
             'step_pearson_r': correlation(steps, y),
             'panel88': {'count': len(panel), 'pearson_r': correlation([r['metric_value'] for r in panel], [r['sigmos_88'] for r in panel])},
             'selection_mode': 'report_only',
+            'error_bars': 'Median ± one population standard deviation of the fixed listening-item scores (ddof=0); dispersion, not a confidence interval',
             'caveat': 'Exploratory maximum over multiple metrics on correlated checkpoints from one run. '
                       'The same observations select and assess the winner. Not an independently validated predictor. '
                       'Partial r removes a linear step trend only; the 88-item panel overlaps the listening subset.'}
@@ -96,7 +107,8 @@ def collect_epochs(events, comparison):
 def plot(report):
     points = report['points']
     xmin, xmax = min(r['metric_value'] for r in points), max(r['metric_value'] for r in points)
-    ymin, ymax = min(r['sigmos_10'] for r in points), max(r['sigmos_10'] for r in points)
+    ymin = min(r['sigmos_10'] - (r.get('sigmos_stddev') or 0) for r in points)
+    ymax = max(r['sigmos_10'] + (r.get('sigmos_stddev') or 0) for r in points)
     x = lambda v: 85 + (v - xmin) / (xmax - xmin) * 570
     y = lambda v: 365 - (v - ymin) / (ymax - ymin) * 275
     variance = report['selected_metric'] == 'valid_generator_var_loss'
@@ -106,7 +118,7 @@ def plot(report):
     axis = ('Validation variance loss (epoch mean)' if variance else
             'Training energy-prediction loss (epoch mean)' if energy else 'Selected loss (epoch mean)')
     parts = ['<svg class="correlation-plot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 460" '
-             'role="img" aria-label="Selected loss versus median SigMOS; exact values in the checkpoint table below.">',
+             'role="img" aria-label="Selected loss versus median SigMOS, with vertical bars showing plus or minus one standard deviation across listening items; exact values in the checkpoint table below.">',
              f'<text x="85" y="35" class="corr-title">{title}</text>',
              '<path d="M85 90V365H655" fill="none" class="plot-axis"/>']
     for tick in np.linspace(xmin, xmax, 4):
@@ -119,12 +131,21 @@ def plot(report):
                   f'<path d="M85 {y(slope*xmin+intercept):.2f}L655 {y(slope*xmax+intercept):.2f}" '
                   'class="plot-reference" stroke-dasharray="5 5" clip-path="url(#correlation-fit-clip)"/>'])
     labeled = {min(p['step'] for p in points), max(p['step'] for p in points), max(points, key=lambda r:r['sigmos_10'])['step']}
+    # Draw spread behind all point markers so overlapping bars do not hide medians.
+    for p in points:
+        sd = p.get('sigmos_stddev')
+        if sd is not None:
+            px, lo, hi = x(p['metric_value']), y(p['sigmos_10']-sd), y(p['sigmos_10']+sd)
+            accent = ' corr-error-latest' if p['step'] == report['through_step'] else ''
+            parts.append(f'<path class="corr-error{accent}" d="M{px:.2f} {lo:.2f}V{hi:.2f}'
+                         f'M{px-3:.2f} {lo:.2f}H{px+3:.2f}M{px-3:.2f} {hi:.2f}H{px+3:.2f}"/>')
     for p in points:
         px, py = x(p['metric_value']), y(p['sigmos_10'])
         latest = p['step'] == report['through_step']
         accent = ' corr-latest' if latest else ''
-        title = html.escape(f"{p['label']}: loss {p['metric_value']:.5f}; SigMOS {p['sigmos_10']:.5f}")
-        parts.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="4" class="corr-point{accent}"><title>{title}</title></circle>')
+        spread = f"; SD {p['sigmos_stddev']:.5f}" if p.get('sigmos_stddev') is not None else '; SD unavailable'
+        title = html.escape(f"{p['label']}: loss {p['metric_value']:.5f}; median SigMOS {p['sigmos_10']:.5f}{spread}")
+        parts.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="4" tabindex="0" aria-label="{title}" class="corr-point{accent}"><title>{title}</title></circle>')
         if p['step'] in labeled:
             dx = -45 if px > 580 else 10
             dy = -20 if latest else -14
@@ -149,7 +170,7 @@ def correlation_html(output, comparison, embedded=False):
     ranking = ''.join(f'<tr><th scope="row">{html.escape(r["metric"])}</th><td>{r["pearson_r"]:.3f}</td>'
                       f'<td>{fmt(r["spearman_rho"])}</td><td>{fmt(r["partial_r_controlling_steps"])}</td></tr>' for r in report['ranking'])
     values = ''.join(f'<tr><th scope="row">{r["label"]}</th><td>{r["metric_value"]:.5f}</td>'
-                     f'<td>{r["train_mel"]:.3f}</td><td>{r["sigmos_10"]:.3f}</td></tr>' for r in report['points'])
+                     f'<td>{r["train_mel"]:.3f}</td><td>{r["sigmos_10"]:.3f}</td><td>{fmt(r.get("sigmos_stddev"))}</td></tr>' for r in report['points'])
     links = []
     for filename in ['metric_correlation.json', 'metric_correlation_rankings.csv', 'metric_correlation_points.csv']:
         url = filename
@@ -163,14 +184,14 @@ def correlation_html(output, comparison, embedded=False):
 across {len(report['points'])} checkpoints. {meaning}Selected by largest absolute Pearson correlation among {report['ranked_count']} logged training/validation losses,
 using the same {len(report['listening_ids'])} synthesized listening items at every checkpoint. Training mel: r = {fmt(mel)}.
 Negative correlation means lower loss accompanies higher SigMOS. Latest selected-loss value: {report['points'][-1]['metric_value']:.5f}.</p>
-<style>.correlation-plot{{width:100%;max-width:900px;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.correlation-plot text{{fill:currentColor;font-size:18px}}.correlation-plot .corr-title{{font-size:23px}}.corr-point{{fill:#666}}.correlation-plot .corr-latest{{fill:#a63e25}}@media(prefers-color-scheme:dark){{.correlation-plot{{background:#151515;color:#ddd}}.corr-point{{fill:#aaa}}.correlation-plot .corr-latest{{fill:#e5a084}}}}@media(max-width:600px){{.correlation-plot text{{font-size:24px}}.correlation-plot .corr-label:not(.corr-latest){{display:none}}}}</style>
-{plot(report)}<p>Dashed line: fitted linear relationship. Latest checkpoint highlighted; earliest and highest-SigMOS checkpoints labeled. All values appear below.</p>
+<style>.correlation-plot{{width:100%;max-width:900px;background:#fffff8;color:#111;font-family:Palatino,Georgia,serif}}.correlation-plot text{{fill:currentColor;font-size:18px}}.correlation-plot .corr-title{{font-size:23px}}.corr-point{{fill:#666}}.corr-error{{fill:none;stroke:#888;stroke-width:1}}.corr-error-latest{{stroke:#a63e25;stroke-width:1.5}}.correlation-plot .corr-latest{{fill:#a63e25}}@media(prefers-color-scheme:dark){{.correlation-plot{{background:#151515;color:#ddd}}.corr-point{{fill:#aaa}}.corr-error{{stroke:#999}}.corr-error-latest{{stroke:#e5a084}}.correlation-plot .corr-latest{{fill:#e5a084}}}}@media(max-width:600px){{.correlation-plot text{{font-size:24px}}.correlation-plot .corr-label:not(.corr-latest){{display:none}}}}</style>
+{plot(report)}<p>Vertical bars: median ± one population standard deviation across the ten synthesized recordings (ddof=0). This shows item-to-item spread, not uncertainty in the median or a confidence interval. Missing per-item scores have no error bar. Dashed line: fitted linear relationship. Latest checkpoint highlighted; earliest and highest-SigMOS checkpoints labeled. All values appear below.</p>
 <p>Exploratory ranking, not a validated replacement for audio evaluation. These checkpoints come from one run, and the same observations select and assess the winner.
 Training steps alone correlate at r = {report['step_pearson_r']:.3f}; after removing a linear step trend from both variables,
 the selected loss has partial r = {fmt(selected['partial_r_controlling_steps'])}.
 On the overlapping 88-item panel: r = {fmt(report['panel88']['pearson_r'])}, n = {report['panel88']['count']} checkpoints; this is not independent validation.
 Metrics remain report-only; no training or checkpoint-selection settings change.</p>
-<details open><summary>Selected metric by checkpoint</summary><div style="overflow-x:auto"><table class="scores comparison"><thead><tr><th>Checkpoint</th><th>Selected loss</th><th>Train mel</th><th>Median SigMOS · 10 items</th></tr></thead><tbody>{values}</tbody></table></div></details>
+<details open><summary>Selected metric by checkpoint</summary><div style="overflow-x:auto"><table class="scores comparison"><thead><tr><th>Checkpoint</th><th>Selected loss</th><th>Train mel</th><th>Median SigMOS · 10 items</th><th>SigMOS SD · 10 items</th></tr></thead><tbody>{values}</tbody></table></div></details>
 <details><summary>All {report['ranked_count']} loss correlations, ranked by |Pearson r|</summary><div style="overflow-x:auto"><table class="scores comparison"><thead><tr><th>Metric</th><th>Pearson r</th><th>Spearman ρ</th><th>Partial r · steps</th></tr></thead><tbody>{ranking}</tbody></table></div></details>
 <p>{' · '.join(links)}</p></section>'''
 

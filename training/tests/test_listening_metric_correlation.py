@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pytest
 
-from training.scripts.listening_metric_correlation import analyze, correlation, correlation_html
+from training.scripts.listening_metric_correlation import analyze, correlation, correlation_html, plot
 
 
 def fixture():
@@ -53,3 +53,30 @@ def test_html_rejects_changed_comparison_scores(tmp_path):
     c['rows'][-1]['sigmos_10'] += .1
     with pytest.raises(ValueError, match='does not match'):
         correlation_html(tmp_path, c)
+
+
+def test_score_dispersion_uses_matched_items_and_preserves_correlations():
+    c, epochs = fixture()
+    baseline = analyze(c, epochs)
+    c['listening_ids'] = ['first', 'second', 'third']
+    for row in c['rows'][1:]:
+        row['sigmos_10_values'] = [row['sigmos_10'] - .5, row['sigmos_10'], row['sigmos_10'] + .5]
+    result = analyze(c, epochs)
+    assert result['ranking'] == baseline['ranking']
+    assert all(p['sigmos_stddev'] == pytest.approx(np.sqrt(1/6)) for p in result['points'])
+    svg = plot(result)
+    assert svg.count('<path class="corr-error') == 5
+    assert svg.count('tabindex="0"') == 5
+    assert 'SD 0.40825' in svg
+    # Missing measurements stay missing instead of implying zero dispersion.
+    del c['rows'][1]['sigmos_10_values']
+    assert analyze(c, epochs)['points'][0]['sigmos_stddev'] is None
+
+
+@pytest.mark.parametrize('values', [[2.0], [1., 2., float('nan')], [1., 1., 1.]])
+def test_score_dispersion_rejects_wrong_panel_nonfinite_or_mismatched_median(values):
+    c, epochs = fixture()
+    c['listening_ids'] = ['first', 'second', 'third']
+    c['rows'][1]['sigmos_10_values'] = values
+    with pytest.raises(ValueError, match='Per-item SigMOS'):
+        analyze(c, epochs)

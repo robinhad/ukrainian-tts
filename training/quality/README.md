@@ -536,7 +536,15 @@ of receiving a different sample size. Runtime, learning rate, step counters,
 memory and SigMOS's own component scores are outside the candidate set.
 
 The page adds a scatter plot, a fitted line, the selected loss at every
-checkpoint, and a collapsible full ranking with JSON/CSV downloads. The
+checkpoint, and a collapsible full ranking with JSON/CSV downloads. Vertical error
+bars show the median ± one population standard deviation (ddof=0) of the
+ten synthesized SigMOS scores at each checkpoint. These describe item-to-item
+spread, not a confidence interval for the median. The table and CSV include
+the exact SD. All 23 checkpoints through 269K have measured per-item scores;
+missing values in older snapshots omit the bar rather than imply zero spread.
+The comparison JSON preserves `sigmos_10_values` and corresponding audio
+hashes in `listening_ids` order. Include these arrays when adding checkpoints;
+the analysis checks their count, finiteness and agreement with the median. The
 ranking is exploratory: the winner is selected and assessed on the same
 observations from a single training run. Removing a linear step trend from
 both variables gives partial **r = −0.34331**; steps alone have

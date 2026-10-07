@@ -12,7 +12,7 @@
     "ua_ser_be37bb89df5984c587d20c82",
     "ukr_dialects_d2ba80d943e6a61f32205558"
   ],
-  "comparison_sha256": "9cbaa277cd02074562a5e518aebf1cd864511efb076232254a2726a5e8a7f075",
+  "comparison_sha256": "c03d201a38230835e81481aedd1a4f1d3cad7b7be419e0057a036b55a94038ac",
   "target": "Median synthesized SigMOS overall on the same 10 listening items",
   "selection": "Largest absolute Pearson correlation; complete matched-checkpoint cases only",
   "candidate_scope": "All logged training/validation losses; excludes time, LR, memory, step counters and SigMOS components",
@@ -239,7 +239,8 @@
       "metric_value": 0.3364505469799042,
       "train_mel": 45.502197265625,
       "sigmos_10": 2.237205982208252,
-      "sigmos_88": 1.9661037921905518
+      "sigmos_88": 1.9661037921905518,
+      "sigmos_stddev": 0.4126320539213201
     },
     {
       "step": 50000,
@@ -247,7 +248,8 @@
       "metric_value": 0.2975422143936157,
       "train_mel": 42.63134002685547,
       "sigmos_10": 2.3567980527877808,
-      "sigmos_88": 2.359222650527954
+      "sigmos_88": 2.359222650527954,
+      "sigmos_stddev": 0.369705950039207
     },
     {
       "step": 75000,
@@ -255,7 +257,8 @@
       "metric_value": 0.2721203565597534,
       "train_mel": 41.49159240722656,
       "sigmos_10": 2.5460764169692993,
-      "sigmos_88": 2.4934855699539185
+      "sigmos_88": 2.4934855699539185,
+      "sigmos_stddev": 0.4935435733649066
     },
     {
       "step": 100000,
@@ -263,7 +266,8 @@
       "metric_value": 0.2556450664997101,
       "train_mel": 39.972877502441406,
       "sigmos_10": 2.3617604970932007,
-      "sigmos_88": 2.5348758697509766
+      "sigmos_88": 2.5348758697509766,
+      "sigmos_stddev": 0.37113935420957245
     },
     {
       "step": 120000,
@@ -271,7 +275,8 @@
       "metric_value": 0.24538587033748627,
       "train_mel": 39.38511276245117,
       "sigmos_10": 2.597976326942444,
-      "sigmos_88": 2.5957366228103638
+      "sigmos_88": 2.5957366228103638,
+      "sigmos_stddev": 0.3119054031504083
     },
     {
       "step": 127000,
@@ -279,7 +284,8 @@
       "metric_value": 0.24165759980678558,
       "train_mel": 39.24536895751953,
       "sigmos_10": 2.7086492776870728,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.2521249321104174
     },
     {
       "step": 131000,
@@ -287,7 +293,8 @@
       "metric_value": 0.23914577066898346,
       "train_mel": 39.14529037475586,
       "sigmos_10": 2.7092007398605347,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.4136415253312606
     },
     {
       "step": 154000,
@@ -295,7 +302,8 @@
       "metric_value": 0.23062147200107574,
       "train_mel": 38.44502639770508,
       "sigmos_10": 2.561514377593994,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.37538767667215905
     },
     {
       "step": 164000,
@@ -303,7 +311,8 @@
       "metric_value": 0.2254761904478073,
       "train_mel": 38.193214416503906,
       "sigmos_10": 2.9215214252471924,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.36266397239227993
     },
     {
       "step": 170000,
@@ -311,7 +320,8 @@
       "metric_value": 0.22363895177841187,
       "train_mel": 38.035484313964844,
       "sigmos_10": 2.5611826181411743,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.3534465283455868
     },
     {
       "step": 171000,
@@ -319,7 +329,8 @@
       "metric_value": 0.22252321243286133,
       "train_mel": 38.040645599365234,
       "sigmos_10": 2.701007604598999,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.43389474531639005
     },
     {
       "step": 183000,
@@ -327,7 +338,8 @@
       "metric_value": 0.22072818875312805,
       "train_mel": 37.79191207885742,
       "sigmos_10": 2.90705406665802,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.34701330306712097
     },
     {
       "step": 189000,
@@ -335,7 +347,8 @@
       "metric_value": 0.218755304813385,
       "train_mel": 37.65989685058594,
       "sigmos_10": 2.683452010154724,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.3137463832540239
     },
     {
       "step": 192000,
@@ -343,7 +356,8 @@
       "metric_value": 0.21809716522693634,
       "train_mel": 37.50468444824219,
       "sigmos_10": 2.6342592239379883,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.2842724534645952
     },
     {
       "step": 200000,
@@ -351,7 +365,8 @@
       "metric_value": 0.21510328352451324,
       "train_mel": 37.49746322631836,
       "sigmos_10": 2.681042432785034,
-      "sigmos_88": 2.7740098237991333
+      "sigmos_88": 2.7740098237991333,
+      "sigmos_stddev": 0.4316444363182855
     },
     {
       "step": 210000,
@@ -359,7 +374,8 @@
       "metric_value": 0.21316379308700562,
       "train_mel": 37.372013092041016,
       "sigmos_10": 2.5450903177261353,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.3414631910733494
     },
     {
       "step": 220000,
@@ -367,7 +383,8 @@
       "metric_value": 0.20925581455230713,
       "train_mel": 37.172088623046875,
       "sigmos_10": 2.7199493646621704,
-      "sigmos_88": 2.7569597959518433
+      "sigmos_88": 2.7569597959518433,
+      "sigmos_stddev": 0.3486310582680103
     },
     {
       "step": 222000,
@@ -375,7 +392,8 @@
       "metric_value": 0.2086469680070877,
       "train_mel": 36.988975524902344,
       "sigmos_10": 2.7224204540252686,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.3050315854545113
     },
     {
       "step": 230000,
@@ -383,7 +401,8 @@
       "metric_value": 0.2072495073080063,
       "train_mel": 36.74689865112305,
       "sigmos_10": 2.855764389038086,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.40459482541638764
     },
     {
       "step": 235000,
@@ -391,7 +410,8 @@
       "metric_value": 0.20622111856937408,
       "train_mel": 36.65452575683594,
       "sigmos_10": 2.761652946472168,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.287251866822883
     },
     {
       "step": 240000,
@@ -399,7 +419,8 @@
       "metric_value": 0.20487859845161438,
       "train_mel": 36.650482177734375,
       "sigmos_10": 2.7301509380340576,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.2145887225244207
     },
     {
       "step": 248000,
@@ -407,7 +428,8 @@
       "metric_value": 0.20397251844406128,
       "train_mel": 36.69501876831055,
       "sigmos_10": 2.8275705575942993,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.4034712458232828
     },
     {
       "step": 269000,
@@ -415,7 +437,8 @@
       "metric_value": 0.20095279812812805,
       "train_mel": 36.42142868041992,
       "sigmos_10": 2.8906400203704834,
-      "sigmos_88": null
+      "sigmos_88": null,
+      "sigmos_stddev": 0.4419143020570677
     }
   ],
   "step_pearson_r": 0.7633074855665736,
@@ -424,5 +447,6 @@
     "pearson_r": -0.9786908364774318
   },
   "selection_mode": "report_only",
+  "error_bars": "Median \u00b1 one population standard deviation of the fixed listening-item scores (ddof=0); dispersion, not a confidence interval",
   "caveat": "Exploratory maximum over multiple metrics on correlated checkpoints from one run. The same observations select and assess the winner. Not an independently validated predictor. Partial r removes a linear step trend only; the 88-item panel overlaps the listening subset."
 }
