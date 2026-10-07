@@ -86,6 +86,8 @@ def page(rows, step, embedded=False, output=None):
         comparison_html += correlation_html(output, comparison, embedded)
         from training.scripts.forecast_listening_quality import forecast, forecast_html
         comparison_html += forecast_html(forecast(comparison))
+    forecast_link = ('<p><a href="#source-quality-forecast">Predicted steps to source quality · median and P05 lower bound</a></p>'
+                     if comparison_html else '')
     cards = []
     for index, row in enumerate(rows, 1):
         players = []
@@ -134,7 +136,7 @@ audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-tem
 <p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
 This is a saved training checkpoint. Speaker conditioning uses the processed reference.
 References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{training_stats}{quality_note}{quality_summary}{comparison_html}</header>
+Generated audio is presented without enhancement or loudness normalization.</p>{forecast_link}{training_stats}{quality_note}{quality_summary}{comparison_html}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 

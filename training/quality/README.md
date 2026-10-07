@@ -580,8 +580,21 @@ The collector keeps the last TensorBoard loss event at each matching step
 comparison. The rendered analysis is bound to the complete comparison's
 hash; stale correlations are rejected when its values change.
 
-The latest page includes conditional step forecasts for reaching the original
-and processed reference medians on the same ten listening items. It compares
+The latest page includes a source-quality prediction section, linked near the
+page header, for reaching the original and processed reference medians and
+P05 lower bounds on the same ten listening items. A summary table shows the
+current score, processed-reference target, total predicted step and additional
+steps under the all-checkpoint linear fit. At 281K this predicts **478K** for
+the processed median (**+197K**) and **322K** for processed P05 (**+41K**).
+P05 is fitted independently using the linearly interpolated 5th percentile
+at each checkpoint: the recent-four fit has no positive trend, while the
+logarithmic fit predicts **470K**. The original-reference P05 was first
+exceeded at 120K; an observed crossing does not promise sustained quality.
+The target is the matched listening subset, not a corpus-wide statistic.
+Complete per-item measurements are required for lower-bound predictions;
+older snapshots without those values show that prediction as unavailable.
+Both forecast sets are saved in `quality_forecast.json` (`lower_bound` for
+P05) and included in the standalone page and ZIP. It compares
 ordinary least-squares linear trends using all scored checkpoints and the
 latest four, plus a logarithmic trend using all checkpoints. The independent
 variable is optimizer steps, not training mel loss. Forecast totals and
