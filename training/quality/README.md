@@ -281,9 +281,36 @@ updates/hour, the additional training takes about **41 hours 40 minutes**, plus
 preparation and final evaluation. This is a new continuation; the completed
 120K results below remain the last evaluated checkpoint until it finishes.
 
-### Scheduled continuation to 284K, then a ≥4.0 training subset to 334K
+### Current schedule: same ≥3.5 dataset through 478K
 
-The next authorized stages run after the existing 220K job and its evaluation:
+The ≥4.0 filtered-data continuation was cancelled before it started. The
+replacement continues **284K → 478K total steps (194K additional updates)**
+on the existing V12 **≥3.5 overall SigMOS** training split: **10,187 recordings,
+16.50494 hours**. Development and evaluation splits remain unchanged.
+Submit after successful completion of the 284K training and evaluation job:
+
+```bash
+sbatch --dependency="afterok:${TRAIN_284K_JOB_ID:?Set the 284K training job ID}" \
+  training/slurm/quality_v12_continue_478k.sbatch
+```
+
+The shared continuation entry point verifies the sealed dataset, audits the
+full 284K checkpoint and scheduler epoch, and preserves a copy before resuming
+the same experiment through epoch 478. Both optimizers, the learning-rate
+scheduler, TensorBoard history and existing W&B run identity continue.
+W&B project `ukrainian-tts` receives metrics only; model uploads stay disabled.
+The final 478K milestone is preserved, audited and evaluated against 284K and
+the original recordings. The job retains the existing GPU/CPU allocation and
+60-second resource supervision. Nothing is scheduled beyond 478K.
+At approximately 2,400 updates/hour, this 194K extension takes **about 81 hours**,
+plus preparation and checkpoint-evaluation overhead.
+
+### Superseded plan: ≥4.0 training subset to 334K
+
+The following documents the earlier filtered-data experiment, which was
+prepared but cancelled before training. It is **not the current schedule**.
+Its original submission procedure was:
+
 
 ```bash
 TO_284K=$(sbatch --parsable \
@@ -607,8 +634,8 @@ and **478K** for the processed median; the logarithmic fit instead estimates
 interval. The small subset fluctuates, errors across checkpoints are correlated,
 and a quality plateau could prevent reaching either target. Forecasts are
 report-only and do not change the scheduled training stages. They assume
-unchanged training data; the planned ≥4.0 subset switch requires a new trend
-assessment. Exact fits are bundled
+unchanged training data, consistent with the current continuation through
+478K; any future dataset change requires a new trend assessment. Exact fits are bundled
 as `quality_forecast.json` and exported to
 `training/reports/quality_v12_listening_281k_forecast.json`.
 
