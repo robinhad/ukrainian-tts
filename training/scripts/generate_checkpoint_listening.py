@@ -53,7 +53,7 @@ def page(rows, step, embedded=False, output=None):
                              f'<caption>{label} medians · {len(rows)} files on this page</caption><tbody>' + ''.join(
                 f'<tr><th scope="row">{name}</th><td>{np.median([row["quality"][role][metric] for row in rows]):.3f}</td></tr>'
                 for metric, name in metrics) +
-                f'<tr><th scope="row">SigMOS overall SD · across files</th><td>{np.std([row["quality"][role]["sigmos_overall"] for row in rows], ddof=0):.3f}</td></tr>' +
+                ''.join(f'<tr><th scope="row">SigMOS overall {label}</th><td>{np.quantile([row["quality"][role]["sigmos_overall"] for row in rows], q, method="linear"):.3f}</td></tr>' for label, q in [('P05', .05), ('P95', .95)]) +
                 '</tbody></table>')
     quality_summary = '<div class="players">' + ''.join(summaries) + '</div>' if summaries else ''
     comparison_html = ''
@@ -64,21 +64,21 @@ def page(rows, step, embedded=False, output=None):
             raise ValueError('Checkpoint comparison does not match listening items')
         def formatted(value):
             return '—' if value is None else f'{value:.3f}'
-        from training.scripts.listening_metric_correlation import score_stddev
+        from training.scripts.listening_metric_correlation import score_interval
         comparison_rows = ''.join(
             '<tr><th scope="row">' + html.escape(item['label']) + '</th>' + ''.join(
                 f'<td>{formatted(item[key])}</td>' for key in ('train_mel', 'sigmos_10', 'sigmos_88')) +
-                f'<td>{formatted(score_stddev(item, comparison["listening_ids"]))}</td></tr>'
+                f'<td>{formatted(score_interval(item, comparison["listening_ids"])["sigmos_p05"])}–{formatted(score_interval(item, comparison["listening_ids"])["sigmos_p95"])}</td></tr>'
             for item in comparison['rows'])
         comparison_html = ('<section aria-label="Checkpoint quality comparison"><div style="overflow-x:auto">'
                            '<table class="scores comparison"><caption>SigMOS versus training mel loss</caption>'
                            '<thead><tr><th scope="col">Audio / checkpoint</th><th scope="col">Train mel ↓</th>'
                            '<th scope="col">Median SigMOS<br>Same 10 items ↑</th>'
-                           '<th scope="col">Median SigMOS<br>Full 88 items ↑</th><th scope="col">SigMOS SD<br>Same 10 items</th></tr></thead>'
+                           '<th scope="col">Median SigMOS<br>Full 88 items ↑</th><th scope="col">SigMOS P05–P95<br>Same 10 items</th></tr></thead>'
                            f'<tbody>{comparison_rows}</tbody></table></div>'
                            '<p>Training mel is the epoch mean; SigMOS is median overall MOS. '
                            'Original and processed references use the same held-out items, without the ≥3.5 filter. '
-                           'SD is the population standard deviation across those ten files (ddof=0), not a confidence interval. '
+                           'P05–P95 is the central 90% score range across those ten files (linearly interpolated percentiles), not a confidence interval. '
                            'A dash means unavailable or inapplicable. Later checkpoints are shown when evaluated.</p></section>')
         from training.scripts.listening_comparison import comparison_plots
         comparison_html += comparison_plots(comparison)

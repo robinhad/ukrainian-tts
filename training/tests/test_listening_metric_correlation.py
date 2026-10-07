@@ -63,14 +63,15 @@ def test_score_dispersion_uses_matched_items_and_preserves_correlations():
         row['sigmos_10_values'] = [row['sigmos_10'] - .5, row['sigmos_10'], row['sigmos_10'] + .5]
     result = analyze(c, epochs)
     assert result['ranking'] == baseline['ranking']
-    assert all(p['sigmos_stddev'] == pytest.approx(np.sqrt(1/6)) for p in result['points'])
+    assert all(p['sigmos_p05'] == pytest.approx(p['sigmos_10'] - .45) and
+               p['sigmos_p95'] == pytest.approx(p['sigmos_10'] + .45) for p in result['points'])
     svg = plot(result)
     assert svg.count('<path class="corr-error') == 5
     assert svg.count('tabindex="0"') == 5
-    assert 'SD 0.40825' in svg
+    assert 'P05 1.55000; P95 2.45000' in svg
     # Missing measurements stay missing instead of implying zero dispersion.
     del c['rows'][1]['sigmos_10_values']
-    assert analyze(c, epochs)['points'][0]['sigmos_stddev'] is None
+    assert analyze(c, epochs)['points'][0]['sigmos_p05'] is None
 
 
 @pytest.mark.parametrize('values', [[2.0], [1., 2., float('nan')], [1., 1., 1.]])
@@ -91,8 +92,15 @@ def test_reference_dispersion_is_separate_from_checkpoint_correlations():
     assert result['ranking'] == before['ranking']
     assert len(result['points']) == 5
     ref = result['references'][0]
-    assert ref['sigmos_stddev'] == pytest.approx(np.sqrt(2/3))
+    assert ref['sigmos_p05'] == pytest.approx(3.1)
+    assert ref['sigmos_p95'] == pytest.approx(4.9)
     svg = plot(result)
     assert 'References · same 10 items' in svg
-    assert '4.000 ± 0.816' in svg
+    assert '3.100–4.900' in svg
     assert 'Original reference: median' in svg
+
+
+def test_percentile_bars_preserve_asymmetry_around_median():
+    from training.scripts.listening_metric_correlation import score_interval
+    row = {'sigmos_10': 2., 'sigmos_10_values': [1., 2., 5.]}
+    assert score_interval(row, ['a', 'b', 'c']) == pytest.approx({'sigmos_p05': 1.1, 'sigmos_p95': 4.7})

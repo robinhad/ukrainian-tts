@@ -39,7 +39,11 @@ def test_quality_is_bound_to_audio_roles_and_portable(tmp_path):
     assert [r['audio_sha256'] for r in results] == [row['audio_sha256'][role] for role in ROLES]
     html = (tmp_path / 'preview.html').read_text()
     assert html.count('SigMOS overall</th>') == 6  # Three summaries and three players.
-    assert html.count('SigMOS overall SD · across files</th><td>0.000</td>') == 3
+    assert html.count('SigMOS overall P05</th>') == 3
+    assert html.count('SigMOS overall P95</th>') == 3
+    for score in ['0.100', '0.200', '0.300']:
+        assert f'SigMOS overall P05</th><td>{score}</td>' in html
+        assert f'SigMOS overall P95</th><td>{score}</td>' in html
     assert 'Original reference medians' in html
     for score in ['0.100', '0.200', '0.300']:
         assert f'<td>{score}</td>' in html

@@ -537,21 +537,21 @@ memory and SigMOS's own component scores are outside the candidate set.
 
 The page adds a scatter plot, a fitted line, the selected loss at every
 checkpoint, and a collapsible full ranking with JSON/CSV downloads. Vertical error
-bars show the median ± one population standard deviation (ddof=0) of the
-ten synthesized SigMOS scores at each checkpoint. These describe item-to-item
-spread, not a confidence interval for the median. The table and CSV include
-the exact SD. All 23 checkpoints through 269K have measured per-item scores;
-missing values in older snapshots omit the bar rather than imply zero spread.
+bars show the **5th–95th percentiles** of the ten synthesized SigMOS scores at
+each checkpoint, using linear interpolation. Markers stay at the median.
+These bounds describe the central 90% score range, not a confidence interval.
+The table and CSV include both bounds. All 23 checkpoints through 269K have
+measured per-item scores; missing values in older snapshots omit the bar.
 The comparison JSON preserves `sigmos_10_values` and corresponding audio
 hashes in `listening_ids` order. Include these arrays when adding checkpoints;
 the analysis checks their count, finiteness and agreement with the median.
-Original and processed reference SDs use the same ten listening IDs: **0.58386**
-and **0.40407**, respectively. Their medians remain **3.09768** and **3.24023**.
-The energy plot shows both references as separate diamond markers with ±1 SD
-on the shared vertical scale; references have no energy-loss coordinate and
-are excluded from all correlation fits. Reference SDs also appear in the
-quality summaries and comparison table, with exact values in the JSON export. The
-ranking is exploratory: the winner is selected and assessed on the same
+Original and processed reference intervals use the same ten listening IDs.
+The energy plot shows both references as separate diamond markers with their
+P05–P95 bounds on the shared vertical scale; references have no energy-loss
+coordinate and are excluded from correlation fits. The quality summaries and
+comparison table also show these bounds, with exact values in the JSON export.
+
+The ranking is exploratory: the winner is selected and assessed on the same
 observations from a single training run. Removing a linear step trend from
 both variables gives partial **r = −0.34331**; steps alone have
 **r = 0.76331** with SigMOS. The overlapping 88-item panel yields
