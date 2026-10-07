@@ -84,9 +84,10 @@ def page(rows, step, embedded=False, output=None):
         comparison_html += comparison_plots(comparison)
         from training.scripts.listening_metric_correlation import correlation_html
         comparison_html += correlation_html(output, comparison, embedded)
-        from training.scripts.forecast_listening_quality import forecast, forecast_html
-        comparison_html += forecast_html(forecast(comparison))
-    forecast_link = ('<p><a href="#source-quality-forecast">Predicted steps to source quality · median and P05 lower bound</a></p>'
+        from training.scripts.forecast_listening_quality import forecast_html
+        from training.scripts.listening_eta import forecast_for_output
+        comparison_html += forecast_html(forecast_for_output(comparison, output))
+    forecast_link = ('<p><a href="#source-quality-forecast">Predicted steps and Kyiv ETAs · source quality and scheduled finish</a></p>'
                      if comparison_html else '')
     cards = []
     for index, row in enumerate(rows, 1):
@@ -150,8 +151,8 @@ def write_pages(output, rows, step):
     output.joinpath('index.html').write_text(page(rows, step, output=output))
     output.joinpath('preview.html').write_text(page(rows, step, True, output))
     if (output / 'checkpoint_comparison.json').exists():
-        from training.scripts.forecast_listening_quality import forecast
-        result = forecast(json.loads((output / 'checkpoint_comparison.json').read_text()))
+        from training.scripts.listening_eta import forecast_for_output
+        result = forecast_for_output(json.loads((output / 'checkpoint_comparison.json').read_text()), output)
         output.joinpath('quality_forecast.json').write_text(json.dumps(result, indent=2, allow_nan=False) + '\n')
     with zipfile.ZipFile(output / 'listening_set.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(output.rglob('*')):
@@ -234,6 +235,9 @@ def main():
     del model
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
+    from training.scripts.listening_eta import capture
+    timing = capture(args.config.parent / 'train.log')
+    (args.output / 'training_eta.json').write_text(json.dumps(timing, indent=2, allow_nan=False) + '\n')
     if not args.skip_quality:
         from training.scripts.score_checkpoint_listening import score_listening
         score_listening(args.output, args.quality_config)

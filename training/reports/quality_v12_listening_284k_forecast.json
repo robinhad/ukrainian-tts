@@ -20,12 +20,24 @@
         "original": {
           "status": "extrapolated",
           "total_steps": 395221.5811421488,
-          "additional_steps": 111221.58114214882
+          "additional_steps": 111221.58114214882,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-09T17:45:50.979282+03:00",
+            "remaining_hours": 48.30502672111111,
+            "beyond_schedule": false
+          }
         },
         "processed": {
           "status": "extrapolated",
           "total_steps": 467930.9304574285,
-          "additional_steps": 183930.9304574285
+          "additional_steps": 183930.9304574285,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-11T01:25:15.613399+03:00",
+            "remaining_hours": 79.96186953138888,
+            "beyond_schedule": false
+          }
         }
       }
     },
@@ -40,12 +52,24 @@
         "original": {
           "status": "extrapolated",
           "total_steps": 1321324.3654697961,
-          "additional_steps": 1037324.3654697961
+          "additional_steps": 1037324.3654697961,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-26T11:58:44.483437+02:00",
+            "remaining_hours": 451.5198889863889,
+            "beyond_schedule": true
+          }
         },
         "processed": {
           "status": "extrapolated",
           "total_steps": 1908344.7438024993,
-          "additional_steps": 1624344.7438024993
+          "additional_steps": 1624344.7438024993,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-11-06T03:33:40.224436+02:00",
+            "remaining_hours": 707.1020392638889,
+            "beyond_schedule": true
+          }
         }
       }
     },
@@ -60,12 +84,24 @@
         "original": {
           "status": "extrapolated",
           "total_steps": 869737.9617180421,
-          "additional_steps": 585737.9617180421
+          "additional_steps": 585737.9617180421,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-18T08:21:47.954197+03:00",
+            "remaining_hours": 254.90418641972224,
+            "beyond_schedule": true
+          }
         },
         "processed": {
           "status": "extrapolated",
           "total_steps": 1538906.0426299768,
-          "additional_steps": 1254906.0426299768
+          "additional_steps": 1254906.0426299768,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-30T10:42:42.004218+02:00",
+            "remaining_hours": 546.2525336477778,
+            "beyond_schedule": true
+          }
         }
       }
     }
@@ -94,12 +130,21 @@
           "original": {
             "status": "observed",
             "total_steps": 120000,
-            "additional_steps": 0
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
           },
           "processed": {
             "status": "extrapolated",
             "total_steps": 338896.14513491484,
-            "additional_steps": 54896.14513491484
+            "additional_steps": 54896.14513491484,
+            "eta": {
+              "status": "projected",
+              "eta_kyiv": "2026-10-08T17:14:26.490884+03:00",
+              "remaining_hours": 23.781557721666665,
+              "beyond_schedule": false
+            }
           }
         }
       },
@@ -114,12 +159,21 @@
           "original": {
             "status": "observed",
             "total_steps": 120000,
-            "additional_steps": 0
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
           },
           "processed": {
             "status": "extrapolated",
             "total_steps": 691193.3426081165,
-            "additional_steps": 407193.34260811645
+            "additional_steps": 407193.34260811645,
+            "eta": {
+              "status": "projected",
+              "eta_kyiv": "2026-10-15T02:37:37.118204+03:00",
+              "remaining_hours": 177.1678430883333,
+              "beyond_schedule": true
+            }
           }
         }
       },
@@ -134,17 +188,44 @@
           "original": {
             "status": "observed",
             "total_steps": 120000,
-            "additional_steps": 0
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
           },
           "processed": {
             "status": "extrapolated",
             "total_steps": 498988.98479887116,
-            "additional_steps": 214988.98479887116
+            "additional_steps": 214988.98479887116,
+            "eta": {
+              "status": "projected",
+              "eta_kyiv": "2026-10-11T14:56:36.007774+03:00",
+              "remaining_hours": 93.48420130222223,
+              "beyond_schedule": true
+            }
           }
         }
       }
     ],
     "selection_mode": "report_only",
     "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+  },
+  "timing": {
+    "captured_at": "2026-10-07T14:27:32.883086+00:00",
+    "timezone": "Europe/Kyiv",
+    "scheduled_end_step": 478000,
+    "status": "measured",
+    "assumption": "Continuous training at the recent measured rate; excludes pauses, preparation and evaluation overhead",
+    "observed_at": "2026-10-07T14:27:25.471000+00:00",
+    "current_step": 284270,
+    "seconds_per_step": 1.5674,
+    "steps_per_hour": 2296.7972438433076,
+    "measurement_age_seconds": 7.412086
+  },
+  "scheduled_finish": {
+    "status": "projected",
+    "eta_kyiv": "2026-10-11T05:48:17.873000+03:00",
+    "remaining_hours": 84.34583053166666,
+    "beyond_schedule": false
   }
 }

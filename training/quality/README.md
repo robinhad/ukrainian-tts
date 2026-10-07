@@ -622,7 +622,37 @@ The target is the matched listening subset, not a corpus-wide statistic.
 Complete per-item measurements are required for lower-bound predictions;
 older snapshots without those values show that prediction as unavailable.
 Both forecast sets are saved in `quality_forecast.json` (`lower_bound` for
-P05) and included in the standalone page and ZIP. It compares
+P05) and included in the standalone page and ZIP.
+
+Calendar ETAs use a **timestamped training-rate snapshot**, with all dates in
+**Europe/Kyiv** (including daylight-saving transitions). They start from the
+latest logged training step and its timestamp, rather than the older scored
+checkpoint. The page shows remaining hours, the measurement time/rate, and the
+scheduled training finish. Forecasts beyond the scheduled target are explicitly
+hypothetical. Already reached steps are distinguished from measured quality
+crossings. ETAs assume continuous training and exclude preparation/evaluation
+overhead. Progress older than five minutes produces no calendar estimate.
+These are saved estimates, not a live countdown.
+
+New listening generation captures `train.log` and `target_iterations.txt`
+beside the supplied experiment configuration. Refresh an existing page's ETAs
+without regenerating audio or rerunning quality models with:
+
+```bash
+training/.venv/bin/python -m training.scripts.listening_eta \
+  --output training/quality_runs/v12/listening_284k \
+  --log training/exp_quality_v12/tts_jets_quality_v12_50k/train.log \
+  --scheduled-end-step 478000
+```
+
+`training_eta.json` contains only portable timing/rate values. It is included
+in the ZIP, and `quality_forecast.json` embeds the snapshot plus target ETAs.
+Regenerating HTML from an existing snapshot preserves its timestamp; use the
+command above to refresh it. The current portable exports are
+`quality_v12_listening_284k_eta.json` and `quality_v12_listening_284k_forecast.json`
+in `training/reports`.
+
+The forecast compares
 ordinary least-squares linear trends using all scored checkpoints and the
 latest four, plus a logarithmic trend using all checkpoints. The independent
 variable is optimizer steps, not training mel loss. Forecast totals and
