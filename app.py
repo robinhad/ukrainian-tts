@@ -66,7 +66,7 @@ def tts(text: str, voice: str):
     }
 
     speaker_name = voice_mapping[voice]
-    text_limit = 2000
+    text_limit = int(getenv("TEXT_LIMIT", 2000))
     text = (
         text if len(text) < text_limit else text[0:text_limit]
     )  # mitigate crashes on hf space
@@ -104,7 +104,7 @@ iface = gr.Interface(
         gr.components.Textbox(label="Наголошений текст"),
     ],
     title="🤖💬🇺🇦 - ESPNET",
-    description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною).",
+    description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною)." + f"Демо обмежене до {getenv('TEXT_LIMIT', 2000)} символів",
     article=article,
     examples=[
         [
