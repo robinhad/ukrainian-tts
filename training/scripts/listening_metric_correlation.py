@@ -171,6 +171,16 @@ def plot(report):
         if p['step'] in labeled:
             dx = -45 if px > 580 else 10
             dy = -20 if latest else -14
+            # Separate the latest label from nearby labeled checkpoints.
+            if latest:
+                others = [(x(q['metric_value']) + (-45 if x(q['metric_value']) > 580 else 10),
+                           y(q['sigmos_10']) - 14)
+                          for q in points if q['step'] in labeled and q['step'] != p['step']]
+                while any(abs(px + dx - ox) < 55 and abs(py + dy - oy) < 24 for ox, oy in others):
+                    dy -= 24
+                if dy < -20:
+                    parts.append(f'<path d="M{px:.2f} {py:.2f}L{px+dx:.2f} {py+dy+4:.2f}" '
+                                 'class="plot-axis" fill="none"/>')
             parts.append(f'<text x="{px+dx:.2f}" y="{py+dy:.2f}" class="corr-label{accent}">{html.escape(p["label"])}</text>')
     parts.extend([f'<text x="370" y="435" text-anchor="middle">{axis}</text>',
                   '<text transform="translate(28 230) rotate(-90)" text-anchor="middle">Median synthesized SigMOS</text>', '</svg>'])
