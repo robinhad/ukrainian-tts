@@ -104,7 +104,8 @@ iface = gr.Interface(
         gr.components.Textbox(label="Наголошений текст"),
     ],
     title="🤖💬🇺🇦 - ESPNET",
-    description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною)." + f"Демо обмежене до {getenv('TEXT_LIMIT', 2000)} символів",
+    description="Україномовний🇺🇦 TTS за допомогою ESPNET (щоб вручну поставити наголос, використовуйте + перед голосною)."
+    + f"Демо обмежене до {getenv('TEXT_LIMIT', 2000)} символів",
     article=article,
     examples=[
         [
