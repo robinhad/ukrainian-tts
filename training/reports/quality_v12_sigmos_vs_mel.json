@@ -11,7 +11,7 @@
     "ua_ser_be37bb89df5984c587d20c82",
     "ukr_dialects_d2ba80d943e6a61f32205558"
   ],
-  "through_step": 352000,
+  "through_step": 364000,
   "rows": [
     {
       "label": "Original source audio",
@@ -1031,6 +1031,36 @@
         "5bd76c6b6f81ed4349f91e8f9b792f57da2b0eeae2c89bd5bd1a1be2ad41b047",
         "36a0c7b85d2a19e8a781e87079c8b548ef9ff991d0951d2f715dcd574bce3a5f",
         "c6403eafe42bcc7ce0baf7d04877ab86bd10368115f5d109e09ce841eb43caa3"
+      ]
+    },
+    {
+      "label": "364K",
+      "train_mel": 35.1446533203125,
+      "sigmos_10": 2.6348594427108765,
+      "sigmos_88": null,
+      "sigmos_10_values": [
+        2.897881507873535,
+        3.106180191040039,
+        2.0292603969573975,
+        2.465343475341797,
+        2.616492509841919,
+        3.7375471591949463,
+        3.035923480987549,
+        2.653226375579834,
+        2.5771028995513916,
+        2.099304676055908
+      ],
+      "sigmos_10_audio_sha256": [
+        "011570d0d0ec2aa72072ade016c2fd77c78f3ba4dcdb3e570417e6f889fa4568",
+        "385e0626d5d4d3b74dd0633a4e1fde856a41f30560ec18a78a8d40f22a73cee9",
+        "fcb47de2f71f72ac079ab01507aff615855ab88e2eb7bdbd1f51530404843cac",
+        "13f669d613c11eefc1a0ca0d2ec88fda2b665120df72db6968b60ff79fcf8877",
+        "957d2c524db49cd2b49562741a3f024438e58370cf1cc752e4c657c62ddafaad",
+        "e1b4f4f4b168d1801b5aa2fb5ed63a1ddcd0f948af0bde7d115795573b667e24",
+        "e82cb7c5d0071468d919c4096b78d3fa9c1a295f81d2bf550f5c386b6106808f",
+        "dbd2bf9149845d424cf86424ce33984e85f5945ad2d8e61337ad53ed2cfb0fea",
+        "6663c4a9445e6b2f0508f15bd712180ef9e2112d8ea105a09cb179a149beb68d",
+        "7cf25bdab23fb338ce48a2e22582e106e2d6c751617e46831ad9233e24788c30"
       ]
     }
   ],

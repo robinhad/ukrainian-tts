@@ -1,0 +1,222 @@
+{
+  "metric": "sigmos_overall",
+  "statistic": "median",
+  "current_score": 2.6348594427108765,
+  "sample_count": 10,
+  "latest_scored_step": 364000,
+  "targets": {
+    "original": 3.0976791381835938,
+    "processed": 3.2402268648147583
+  },
+  "scenarios": [
+    {
+      "method": "Linear, all checkpoints",
+      "checkpoint_count": 33,
+      "first_step": 25000,
+      "last_step": 364000,
+      "slope": 0.0012146232290682311,
+      "intercept": 2.4316614191038743,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 548332.7694882295,
+          "additional_steps": 184332.76948822953,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-12T06:50:48.940045+03:00",
+            "remaining_hours": 76.03760799888889,
+            "beyond_schedule": true
+          }
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 665692.39444824,
+          "additional_steps": 301692.39444824005,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-14T07:23:29.157573+03:00",
+            "remaining_hours": 124.58211286777778,
+            "beyond_schedule": true
+          }
+        }
+      }
+    },
+    {
+      "method": "Linear, latest four",
+      "checkpoint_count": 4,
+      "first_step": 337000,
+      "last_step": 364000,
+      "slope": -0.011175679686941062,
+      "intercept": 6.750555135314281,
+      "targets": {
+        "original": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null,
+          "eta": {
+            "status": "no_positive_trend"
+          }
+        },
+        "processed": {
+          "status": "no_positive_trend",
+          "total_steps": null,
+          "additional_steps": null,
+          "eta": {
+            "status": "no_positive_trend"
+          }
+        }
+      }
+    },
+    {
+      "method": "Logarithmic, all checkpoints",
+      "checkpoint_count": 33,
+      "first_step": 25000,
+      "last_step": 364000,
+      "slope": 0.21268247841479443,
+      "intercept": 1.577549843707793,
+      "targets": {
+        "original": {
+          "status": "extrapolated",
+          "total_steps": 1270812.8085834584,
+          "additional_steps": 906812.8085834584,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-10-24T17:41:33.966262+03:00",
+            "remaining_hours": 374.88344861472217,
+            "beyond_schedule": true
+          }
+        },
+        "processed": {
+          "status": "extrapolated",
+          "total_steps": 2484059.1749945316,
+          "additional_steps": 2120059.1749945316,
+          "eta": {
+            "status": "projected",
+            "eta_kyiv": "2026-11-14T14:32:19.130484+02:00",
+            "remaining_hours": 876.7293275652778,
+            "beyond_schedule": true
+          }
+        }
+      }
+    }
+  ],
+  "selection_mode": "report_only",
+  "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target.",
+  "lower_bound": {
+    "metric": "sigmos_overall",
+    "statistic": "p05",
+    "current_score": 2.0607803225517274,
+    "sample_count": 10,
+    "latest_scored_step": 364000,
+    "targets": {
+      "original": 1.9142779231071472,
+      "processed": 2.579042303562164
+    },
+    "scenarios": [
+      {
+        "method": "Linear, all checkpoints",
+        "checkpoint_count": 33,
+        "first_step": 25000,
+        "last_step": 364000,
+        "slope": 0.0013761624604263778,
+        "intercept": 1.8831985347172415,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
+          },
+          "processed": {
+            "status": "extrapolated",
+            "total_steps": 505640.7138364526,
+            "additional_steps": 141640.71383645257,
+            "eta": {
+              "status": "projected",
+              "eta_kyiv": "2026-10-11T13:11:16.199974+03:00",
+              "remaining_hours": 58.378513534722224,
+              "beyond_schedule": true
+            }
+          }
+        }
+      },
+      {
+        "method": "Linear, latest four",
+        "checkpoint_count": 4,
+        "first_step": 337000,
+        "last_step": 364000,
+        "slope": -0.011776706426503173,
+        "intercept": 6.386274272769488,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
+          },
+          "processed": {
+            "status": "no_positive_trend",
+            "total_steps": null,
+            "additional_steps": null,
+            "eta": {
+              "status": "no_positive_trend"
+            }
+          }
+        }
+      },
+      {
+        "method": "Logarithmic, all checkpoints",
+        "checkpoint_count": 33,
+        "first_step": 25000,
+        "last_step": 364000,
+        "slope": 0.2791619486032431,
+        "intercept": 0.7149115520215477,
+        "targets": {
+          "original": {
+            "status": "observed",
+            "total_steps": 120000,
+            "additional_steps": 0,
+            "eta": {
+              "status": "observed"
+            }
+          },
+          "processed": {
+            "status": "extrapolated",
+            "total_steps": 794407.1744613482,
+            "additional_steps": 430407.1744613482,
+            "eta": {
+              "status": "projected",
+              "eta_kyiv": "2026-10-16T12:37:58.336490+03:00",
+              "remaining_hours": 177.82355145583333,
+              "beyond_schedule": true
+            }
+          }
+        }
+      }
+    ],
+    "selection_mode": "report_only",
+    "uncertainty": "Model sensitivity, not confidence intervals; checkpoint errors are correlated. Assumes continued improvement; a plateau may prevent reaching either target."
+  },
+  "timing": {
+    "captured_at": "2026-10-08T23:48:33.551249+00:00",
+    "timezone": "Europe/Kyiv",
+    "scheduled_end_step": 478000,
+    "status": "measured",
+    "assumption": "Continuous training at the recent measured rate; excludes pauses, preparation and evaluation overhead",
+    "observed_at": "2026-10-08T23:48:23.563000+00:00",
+    "current_step": 364500,
+    "seconds_per_step": 1.4891,
+    "steps_per_hour": 2417.5676583171044,
+    "measurement_age_seconds": 9.988249
+  },
+  "scheduled_finish": {
+    "status": "projected",
+    "eta_kyiv": "2026-10-11T01:45:16.413000+03:00",
+    "remaining_hours": 46.94523937527777,
+    "beyond_schedule": false
+  }
+}
