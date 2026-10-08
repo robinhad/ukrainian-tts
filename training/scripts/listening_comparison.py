@@ -49,7 +49,7 @@ def comparison_plots(comparison):
                       '171K': (40, -12), '183K': (10, 12),
                       '192K': (10, 30), '210K': (10, 36),
                       '200K': (35, 22) if metric == 'sigmos_10' else (10, -12),
-                      '220K': (10, 22)}.get(row['label'], (10, -12))
+                      '220K': (10, 22), '337K': (10, 25)}.get(row['label'], (10, -12))
             if abs(dx) > 15 or abs(dy) > 20:
                 edge = px + dx - 3 if dx > 0 else px + dx + len(label) * 8 + 3
                 parts.append(f'<path d="M{px:.2f} {py:.2f}L{edge:.2f} {py+dy-5:.2f}" '
