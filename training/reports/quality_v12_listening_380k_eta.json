@@ -1,0 +1,12 @@
+{
+  "captured_at": "2026-10-09T06:36:11.967621+00:00",
+  "timezone": "Europe/Kyiv",
+  "scheduled_end_step": 478000,
+  "status": "measured",
+  "assumption": "Continuous training at the recent measured rate; excludes pauses, preparation and evaluation overhead",
+  "observed_at": "2026-10-09T06:35:59.813000+00:00",
+  "current_step": 380830,
+  "seconds_per_step": 1.526,
+  "steps_per_hour": 2359.1087811271295,
+  "measurement_age_seconds": 12.154621
+}
