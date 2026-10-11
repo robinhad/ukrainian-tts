@@ -1,0 +1,9 @@
+{
+  "captured_at": "2026-10-11T09:50:50.682446+00:00",
+  "timezone": "Europe/Kyiv",
+  "scheduled_end_step": 478000,
+  "status": "completed",
+  "assumption": "Scheduled training completed; future quality crossings have no calendar ETA",
+  "current_step": 478000,
+  "completed_at": "2026-10-10T23:00:26.520000+00:00"
+}

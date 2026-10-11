@@ -483,10 +483,11 @@ normalization. The frozen checkpoint hash is recorded in
 `training/reports/quality_v12_listening_394k.json`,
 `training/reports/quality_v12_listening_418k.json`,
 `training/reports/quality_v12_listening_423k.json`,
-`training/reports/quality_v12_listening_434k.json` and
-`training/reports/quality_v12_listening_446k.json`.
+`training/reports/quality_v12_listening_434k.json`,
+`training/reports/quality_v12_listening_446k.json` and
+`training/reports/quality_v12_listening_478k.json`.
 
-Open `training/quality_runs/v12/listening_446k/preview.html` for the latest standalone page
+Open `training/quality_runs/v12/listening_478k/preview.html` for the latest standalone page
 with embedded audio, or `index.html` beside its `audio/` folder. The complete
 portable package is `listening_set.zip` in the same directory. Audio and model
 files remain local. To regenerate inside a SLURM allocation, provide an empty
@@ -496,24 +497,30 @@ output directory and an immutable copy/link of the selected epoch checkpoint:
 source training/activate.sh
 export UKTTS_ESPEAK_DATA_HASH_FILE="$PWD/training/quality_runs/v10/frontend/ESPEAK_NG_DATA_HASH"
 python -m training.scripts.generate_checkpoint_listening \
-  --checkpoint training/quality_runs/v12/snapshots/446k.pth \
+  --checkpoint training/quality_runs/v12/snapshots/478k.pth \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
   --manifest training/data/quality_v12/manifests/quality_v12_eval.parquet \
   --panel training/quality_runs/v10/panels/heldout.jsonl \
   --xvector training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp \
-  --output training/quality_runs/v12/listening_446k --step 446000 --count 10
+  --output training/quality_runs/v12/listening_478k --step 478000 --count 10
 ```
 
-At 446K, the ten synthesized files have median overall SigMOS **2.74155**
-and Audiobox PQ **7.43278**. Epoch-mean training mel loss is **34.43864**.
+At 478K, the ten synthesized files have median overall SigMOS **2.89118**
+and Audiobox PQ **7.44548**. Epoch-mean training mel loss is **34.16060**.
+Training completed on **11 October 2026 at 02:00 Kyiv**, and the final
+88-item evaluation completed at approximately **02:04 Kyiv** with zero errors.
+Its median SigMOS is **2.94423**, and median Audiobox PQ is **7.48047**.
+All 88 generated audio hashes and matched reference IDs/hashes were checked;
+portable provenance is in `training/reports/quality_v12_milestone_478k_scores.jsonl`.
+
 The fixed processed-reference median remains **3.24023**. Synthesized
-P05–P95 is **2.53282–3.18027**; the processed-reference range is
+P05–P95 is **2.27848–3.36236**; the processed-reference range is
 **2.57904–3.75525**.
 
 Validation checked all 30 waveform hashes and finite/nonzero audio, all audio
 references in both HTML pages (including embedded bytes), and ZIP integrity.
 
-The 127K, 131K, 154K, 164K, 170K, 171K, 183K, 189K, 192K, 210K, 222K, 230K, 235K, 240K, 248K, 269K, 281K, 284K, 292K, 306K, 325K, 331K, 337K, 344K, 352K, 364K, 380K, 394K, 418K, 423K, 434K and 446K listening pages also display whole-file **SigMOS overall, speech,
+The 127K, 131K, 154K, 164K, 170K, 171K, 183K, 189K, 192K, 210K, 222K, 230K, 235K, 240K, 248K, 269K, 281K, 284K, 292K, 306K, 325K, 331K, 337K, 344K, 352K, 364K, 380K, 394K, 418K, 423K, 434K, 446K and 478K listening pages also display whole-file **SigMOS overall, speech,
 noise, coloration, discontinuity, loudness and reverberation**, plus **Audiobox
 PQ**, beneath each generated/original/processed player. These are predictions
 for the exact saved WAV bytes, not human ratings. The model adapters use their
@@ -547,7 +554,7 @@ existing page without resynthesis or MOS inference with:
 
 ```bash
 training/.venv/bin/python -m training.scripts.listening_dataset_stats \
-  --output training/quality_runs/v12/listening_446k \
+  --output training/quality_runs/v12/listening_478k \
   --manifest training/data/quality_v12/manifests/quality_v12_train.parquet \
   --config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml
 ```
@@ -558,7 +565,7 @@ the full 88-item panel. Original and processed reference medians are shown
 as horizontal baselines. Selected checkpoints are labeled to keep crowded
 clusters readable; every point has a tooltip and an exact table row. Unavailable evaluations
 remain blank in the table and are omitted from the plots. The comparison
-snapshot through 446K is stored in
+snapshot through 478K is stored in
 `training/reports/quality_v12_sigmos_vs_mel.json` and bundled as
 `checkpoint_comparison.json`. It is included in newly generated pages only
 when their listening item IDs match; it is a measured snapshot, not an
@@ -576,12 +583,12 @@ IDs were checked. Its portable per-file provenance is saved in
 `training/reports/quality_v12_milestone_284k_scores.jsonl`. The independently
 generated ten-item listening scores retain their own exact audio hashes.
 
-The 446K page also ranks **30 logged training/validation losses** against
-median synthesized overall SigMOS on the same ten items at **39 checkpoints
-(25K–446K)**. The winner by absolute Pearson correlation is
-`train_generator_g_loss`: **r = −0.71965**, Spearman **ρ = −0.59150**.
-This is the aggregate generator training loss; its 446K value is
-**48.57783**. Training mel has **r = −0.70875** on exactly
+The 478K page also ranks **30 logged training/validation losses** against
+median synthesized overall SigMOS on the same ten items at **40 checkpoints
+(25K–478K)**. The winner by absolute Pearson correlation is
+`train_generator_g_loss`: **r = −0.72714**, Spearman **ρ = −0.60356**.
+This is the aggregate generator training loss; its 478K value is
+**48.49185**. Training mel has **r = −0.71725** on exactly
 the same checkpoints. Constant/incomplete candidates are excluded instead
 of receiving a different sample size. Runtime, learning rate, step counters,
 memory and SigMOS's own component scores are outside the candidate set.
@@ -591,7 +598,7 @@ checkpoint, and a collapsible full ranking with JSON/CSV downloads. Vertical err
 bars show the **5th–95th percentiles** of the ten synthesized SigMOS scores at
 each checkpoint, using linear interpolation. Markers stay at the median.
 These bounds describe the central 90% score range, not a confidence interval.
-The table and CSV include both bounds. All 39 checkpoints through 446K have
+The table and CSV include both bounds. All 40 checkpoints through 478K have
 measured per-item scores; missing values in older snapshots omit the bar.
 The comparison JSON preserves `sigmos_10_values` and corresponding audio
 hashes in `listening_ids` order. Include these arrays when adding checkpoints;
@@ -604,9 +611,9 @@ comparison table also show these bounds, with exact values in the JSON export.
 
 The ranking is exploratory: the winner is selected and assessed on the same
 observations from a single training run. Removing a linear step trend from
-both variables gives partial **r = −0.48274**; steps alone have
-**r = 0.61172** with SigMOS. The overlapping 88-item panel yields
-**r = −0.98454 across only eight checkpoints**, not independent validation.
+both variables gives partial **r = −0.48128**; steps alone have
+**r = 0.62282** with SigMOS. The overlapping 88-item panel yields
+**r = −0.98714 across only nine checkpoints**, not independent validation.
 No checkpoint selection, scheduler or training behavior changes.
 
 Portable inputs and results are stored as
@@ -616,9 +623,9 @@ page's checkpoint comparison, refresh this analysis and rebuild its bundle:
 
 ```bash
 training/.venv/bin/python -m training.scripts.listening_metric_correlation \
-  --comparison training/quality_runs/v12/listening_446k/checkpoint_comparison.json \
+  --comparison training/quality_runs/v12/listening_478k/checkpoint_comparison.json \
   --events training/exp_quality_v12/tts_jets_quality_v12_50k/tensorboard \
-  --output training/quality_runs/v12/listening_446k
+  --output training/quality_runs/v12/listening_478k
 ```
 
 For exact replay, replace `--events ...` with
@@ -632,11 +639,11 @@ The latest page includes a source-quality prediction section, linked near the
 page header, for reaching the original and processed reference medians and
 P05 lower bounds on the same ten listening items. A summary table shows the
 current score, processed-reference target, total predicted step and additional
-steps under the all-checkpoint linear fit. At 446K this predicts **785K** for
-the processed median (**+339K**) and **553K** for processed P05 (**+107K**).
+steps under the all-checkpoint linear fit. At 478K this predicts **799K** for
+the processed median (**+321K**) and **582K** for processed P05 (**+104K**).
 P05 is fitted independently using the linearly interpolated 5th percentile
-at each checkpoint: the recent-four fit predicts **455K**, while the
-logarithmic fit predicts **826K**. The original-reference P05 was first
+at each checkpoint: the recent-four fit has no positive trend and gives no
+crossing estimate, while the logarithmic fit predicts **872K**. The original-reference P05 was first
 exceeded at 120K; an observed crossing does not promise sustained quality.
 The target is the matched listening subset, not a corpus-wide statistic.
 Complete per-item measurements are required for lower-bound predictions;
@@ -652,7 +659,11 @@ scheduled training finish. Forecasts beyond the scheduled target are explicitly
 hypothetical. Already reached steps are distinguished from measured quality
 crossings. ETAs assume continuous training and exclude preparation/evaluation
 overhead. Progress older than five minutes produces no calendar estimate.
-These are saved estimates, not a live countdown.
+These are saved estimates, not a live countdown. When the trainer reports
+completion and reaches the scheduled target, the page shows the actual
+completion timestamp, zero remaining training, and no future calendar ETAs.
+The 478K page records completed training; quality step forecasts are
+hypothetical and require a separately scheduled continuation.
 
 New listening generation captures `train.log` and `target_iterations.txt`
 beside the supplied experiment configuration. Refresh an existing page's ETAs
@@ -660,7 +671,7 @@ without regenerating audio or rerunning quality models with:
 
 ```bash
 training/.venv/bin/python -m training.scripts.listening_eta \
-  --output training/quality_runs/v12/listening_446k \
+  --output training/quality_runs/v12/listening_478k \
   --log training/exp_quality_v12/tts_jets_quality_v12_50k/train.log \
   --scheduled-end-step 478000
 ```
@@ -669,26 +680,26 @@ training/.venv/bin/python -m training.scripts.listening_eta \
 in the ZIP, and `quality_forecast.json` embeds the snapshot plus target ETAs.
 Regenerating HTML from an existing snapshot preserves its timestamp; use the
 command above to refresh it. The current portable exports are
-`quality_v12_listening_446k_eta.json` and `quality_v12_listening_446k_forecast.json`
+`quality_v12_listening_478k_eta.json` and `quality_v12_listening_478k_forecast.json`
 in `training/reports`.
 
 The forecast compares
 ordinary least-squares linear trends using all scored checkpoints and the
 latest four, plus a logarithmic trend using all checkpoints. The independent
 variable is optimizer steps, not training mel loss. Forecast totals and
-additional steps are anchored to the latest scored checkpoint (446K in the
-current snapshot), not the live training position. At 446K the all-checkpoint
-linear fit estimates approximately **639K total** for the original median
-and **785K** for the processed median; the logarithmic fit instead estimates
-**1,390K** and **2,790K**. The latest-four linear fit has no positive trend and gives no
-crossing estimate for either reference. This spread is model sensitivity, not a confidence
+additional steps are anchored to the latest scored checkpoint (478K in the
+current snapshot), not the live training position. At 478K the all-checkpoint
+linear fit estimates approximately **649K total** for the original median
+and **799K** for the processed median; the logarithmic fit instead estimates
+**1,380K** and **2,764K**. The latest-four linear fit predicts **2,153K**
+and **3,112K**, respectively. This spread is model sensitivity, not a confidence
 interval. The small subset fluctuates, errors across checkpoints are correlated,
 and a quality plateau could prevent reaching either target. Forecasts are
 report-only and do not change the scheduled training stages. They assume
-unchanged training data, consistent with the current continuation through
-478K; any future dataset change requires a new trend assessment. Exact fits are bundled
+unchanged training data if training resumes beyond the completed 478K run;
+any future dataset change requires a new trend assessment. Exact fits are bundled
 as `quality_forecast.json` and exported to
-`training/reports/quality_v12_listening_446k_forecast.json`.
+`training/reports/quality_v12_listening_478k_forecast.json`.
 
 New listening generation includes these scores by default (`--skip-quality`
 explicitly omits them). To add or refresh scores on an existing listening page
@@ -697,7 +708,7 @@ inside a SLURM GPU allocation, without resynthesizing audio:
 ```bash
 source training/activate.sh
 python -m training.scripts.score_checkpoint_listening \
-  --output training/quality_runs/v12/listening_446k \
+  --output training/quality_runs/v12/listening_478k \
   --config training/conf/quality.yaml
 ```
 

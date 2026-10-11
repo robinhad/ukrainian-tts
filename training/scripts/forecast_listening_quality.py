@@ -72,6 +72,11 @@ def forecast(comparison, statistic='median'):
 
 def forecast_html(result):
     def eta_text(value):
+        if value.get('status') == 'completed':
+            stamp = datetime.fromisoformat(value['completed_at_kyiv'])
+            return f'Completed {stamp:%d %b %Y, %H:%M} Kyiv · no remaining training'
+        if value.get('status') == 'training_completed':
+            return 'No ETA: scheduled training has completed'
         if value.get('status') == 'step_reached':
             return 'Step already reached; quality still needs evaluation'
         if value.get('status') != 'projected':
@@ -114,7 +119,10 @@ def forecast_html(result):
     if timing:
         stamp = datetime.fromisoformat(timing['captured_at']).astimezone(ZoneInfo('Europe/Kyiv'))
         timing_note = f'<p><strong>ETA snapshot: {stamp:%d %b %Y, %H:%M} Kyiv.</strong> '
-        if timing['status'] == 'measured':
+        if timing['status'] == 'completed':
+            timing_note += (f'Training completed at {timing["current_step"]:,} steps. '
+                            'Further quality projections are conditional on additional training; no future calendar ETAs are shown. ')
+        elif timing['status'] == 'measured':
             timing_note += (f'Training was at {timing["current_step"]:,} steps, '
                             f'averaging {timing["steps_per_hour"]:,.0f} steps/hour over the latest log window. ')
         else:

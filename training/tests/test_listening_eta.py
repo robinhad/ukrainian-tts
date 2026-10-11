@@ -56,3 +56,30 @@ def test_eta_export_and_html_label_hypothetical_forecasts():
     assert 'ETA snapshot:' in text and 'Kyiv' in text and '478,000 steps' in text
     assert 'hypothetical, beyond scheduled training' in text
     assert 'not a live countdown' in text
+
+
+def test_completed_training_has_actual_finish_and_no_future_eta(tmp_path):
+    log = tmp_path / 'train.log'
+    progress = ('2026-10-10 22:59:00,000 478epoch:train:981-990batch\n'
+                '2026-10-10 23:00:00,000 478epoch:train:991-1000batch\n')
+    log.write_text(progress)
+    now = datetime(2026, 10, 11, 12, tzinfo=timezone.utc)
+    # Reaching the target without the trainer's finish marker is insufficient.
+    assert capture(log, 478000, now)['status'] == 'stale'
+    log.write_text(progress + '2026-10-10 23:00:26,520 (trainer:528) INFO: '
+                   'The training was finished at 478 epochs\n')
+    s = capture(log, 478000, now)
+    assert s['status'] == 'completed' and s['current_step'] == 478000
+    assert target_eta(478000, s)['completed_at_kyiv'] == '2026-10-11T02:00:26.520000+03:00'
+    assert target_eta(500000, s) == {'status': 'training_completed'}
+    assert target_eta(400000, s)['status'] == 'step_reached'
+    assert capture(log, 500000, now)['status'] == 'stale'
+    c = {'listening_ids': ['item'], 'rows': [
+        {'label': 'Original source audio', 'train_mel': None, 'sigmos_10': 3.},
+        {'label': 'Processed source audio', 'train_mel': None, 'sigmos_10': 3.5},
+        *[{'label': f'{step}K', 'train_mel': 40., 'sigmos_10': 2+step/1000}
+          for step in [100, 200, 300, 478]]]}
+    text = forecast_html(attach(forecast(c), s))
+    assert 'Completed 11 Oct 2026, 02:00 Kyiv' in text
+    assert 'No ETA: scheduled training has completed' in text
+    assert '478,000 steps' in text

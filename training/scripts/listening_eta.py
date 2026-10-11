@@ -6,6 +6,7 @@ import copy
 from datetime import datetime, timedelta, timezone
 import json
 import math
+import re
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -27,6 +28,17 @@ def capture(log, scheduled_end_step=None, now=None):
         stream.seek(max(0, log.stat().st_size - 1500000))
         text = stream.read().decode(errors='replace')
     parsed = parse_log(text, 1000)
+    finished = list(re.finditer(
+        r'(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+)[^\n]*'
+        r'The training was finished at (?P<epochs>\d+) epochs', text))
+    if (finished and scheduled_end_step and
+            parsed['total_iterations'] >= scheduled_end_step and
+            int(finished[-1]['epochs']) * 1000 >= scheduled_end_step):
+        stamp = datetime.strptime(finished[-1]['timestamp'], '%Y-%m-%d %H:%M:%S,%f').replace(tzinfo=timezone.utc)
+        result.update(status='completed', current_step=parsed['total_iterations'],
+                      completed_at=stamp.isoformat(),
+                      assumption='Scheduled training completed; future quality crossings have no calendar ETA')
+        return result
     matches = list(TIMED_PROGRESS_RE.finditer(text))
     speed = parsed['observed_seconds_per_iteration']
     if not matches or not speed or not math.isfinite(speed) or speed <= 0:
@@ -41,6 +53,13 @@ def capture(log, scheduled_end_step=None, now=None):
 
 
 def target_eta(target, snapshot):
+    if snapshot.get('status') == 'completed':
+        if target == snapshot.get('scheduled_end_step'):
+            return {'status': 'completed', 'remaining_hours': 0,
+                    'completed_at_kyiv': datetime.fromisoformat(snapshot['completed_at']).astimezone(ZoneInfo('Europe/Kyiv')).isoformat()}
+        if target <= snapshot['current_step']:
+            return {'status': 'step_reached', 'remaining_hours': 0}
+        return {'status': 'training_completed'}
     if snapshot.get('status') != 'measured':
         return {'status': 'unavailable'}
     if target <= snapshot['current_step']:
