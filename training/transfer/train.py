@@ -40,17 +40,30 @@ def main():
     for key in ('bundle', 'train', 'valid', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
     parser.add_argument('--write-config-only', action='store_true')
+    parser.add_argument('--steps', type=int, default=50000)
+    parser.add_argument('--batch-size', type=int, default=4)
+    parser.add_argument('--external-metrics', action='store_true',
+                        help='Use the repository numeric-only TensorBoard-to-W&B supervisor')
     args = parser.parse_args()
+    if args.steps <= 0 or args.steps % 1000:
+        parser.error('--steps must be a positive multiple of 1000')
+    if args.batch_size <= 0:
+        parser.error('--batch-size must be positive')
     # Never silently resume or overwrite an earlier run/optimizer.
     if args.output.exists():
         raise ValueError('Use a new output directory for fresh optimizer fine-tuning')
     config = training_config(args.bundle, args.train, args.valid, args.output)
+    config.update(max_epoch=args.steps // 1000, num_iters_per_epoch=1000,
+                  batch_size=args.batch_size, keep_nbest_models=[3],
+                  num_att_plot=0, log_interval=10, use_tensorboard=True)
+    if args.external_metrics:
+        config['use_wandb'] = False
     args.output.mkdir(parents=True)
     config_path = args.output / 'finetune.yaml'
     config_path.write_text(yaml.safe_dump(config, allow_unicode=True))
     GANTTSTask.get_parser().parse_args(['--config', str(config_path)])
     if not args.write_config_only:
-        GANTTSTask.main(['--config', str(config_path)])
+        GANTTSTask.main(cmd=['--config', str(config_path)])
 
 
 if __name__ == '__main__':

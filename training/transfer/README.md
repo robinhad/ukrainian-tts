@@ -156,6 +156,33 @@ Use a fresh output directory. This entrypoint intentionally refuses to resume an
 existing optimizer. A later continuation should be designed separately from
 initial transfer.
 
+### Authorized 20K-step run
+
+The SLURM launcher prepares the existing V12 ≥3.5 non-VOA train/dev manifests,
+then fine-tunes for 20,000 generator/discriminator iterations (20 × 1000).
+It uses batch size 8, fresh optimizers at 2e-5, and keeps three best checkpoints.
+It sends only numeric TensorBoard metrics to the `ukrainian-tts` W&B project
+through the existing metrics supervisor; native ESPnet W&B uploads are disabled.
+Resource telemetry and progress/ETA in Europe/Kyiv are recorded every 60 seconds.
+The memory guard stops the process if the configured unified-memory reserve is
+breached; monitoring reports errors but does not silently restart a failed run.
+
+Submit **from the repository root**:
+
+```bash
+sbatch --job-name=jets-phonetic-transfer-20k --gres=gpu:1 \
+  --cpus-per-task=8 --mem=96G --time=2-00:00:00 \
+  --output=training/quality_runs/phonetic_transfer/slurm-%j.log \
+  training/scripts/run_phonetic_transfer.sh
+```
+
+`STEPS`, `BATCH_SIZE`, `TRANSFER_ROOT`, and `TTS_EXP` can be supplied through the
+environment. Default output is `training/exp/phonetic_transfer_20k`; runtime logs
+and monitoring records are under `training/quality_runs/phonetic_transfer/run_20000`.
+For direct invocations, `training.transfer.train --steps 20000 --batch-size 8`
+sets the same iteration budget. `--external-metrics` is intended for use under
+the numeric-only W&B supervisor.
+
 ## Smoke tests and inference
 
 ```bash

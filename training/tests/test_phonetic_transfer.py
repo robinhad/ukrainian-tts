@@ -84,6 +84,47 @@ def test_snapshot_rejects_inventory_change(tmp_path):
         frontend.verify(path)
 
 
+def test_monitor_reports_progress_rate_and_kyiv_eta(tmp_path):
+    from datetime import datetime
+    from training.transfer.monitor import snapshot
+    log = tmp_path / 'train.log'
+    log.write_text('2026-10-20 10:00:00,000 INFO: 1epoch:train:1-10batch\n'
+                   '2026-10-20 10:00:20,000 INFO: 1epoch:train:11-20batch: generator_loss=10.5\n')
+    status = snapshot(log, 20000)
+    assert status['completed_steps'] == 20
+    assert status['seconds_per_step'] == 2
+    assert status['metrics']['generator_loss'] == 10.5
+    elapsed = datetime.fromisoformat(status['eta_kyiv']) - datetime.fromisoformat(status['timestamp_kyiv'])
+    assert elapsed.total_seconds() == 39960
+
+
+def test_launcher_uses_espnet_cmd_keyword_and_exact_step_budget(tmp_path, monkeypatch):
+    import sys
+    import yaml
+    from espnet2.tasks.gan_tts import GANTTSTask
+    from training.transfer import train
+    output = tmp_path / 'run'
+    monkeypatch.setattr(train, 'training_config', lambda *args: {
+        'token_list': ['<blank>', '<unk>', '<sos/eos>'],
+        'output_dir': str(output), 'resume': False,
+    })
+    captured = {}
+
+    # ESPnet's first positional argument is Namespace, not CLI arguments.
+    def launch(*, cmd):
+        captured.update(yaml.safe_load(Path(cmd[1]).read_text()))
+
+    monkeypatch.setattr(GANTTSTask, 'main', launch)
+    monkeypatch.setattr(sys, 'argv', ['train', '--bundle', str(tmp_path),
+                        '--train', str(tmp_path), '--valid', str(tmp_path),
+                        '--output', str(output), '--steps', '20000',
+                        '--batch-size', '8', '--external-metrics'])
+    train.main()
+    assert captured['max_epoch'] * captured['num_iters_per_epoch'] == 20000
+    assert captured['batch_size'] == 8
+    assert captured['resume'] is False and captured['use_wandb'] is False
+
+
 @pytest.mark.parametrize('format', ['jsonl', 'parquet'])
 def test_preparation_resampling_and_training_contract(tmp_path, format):
     import numpy as np
