@@ -1,0 +1,61 @@
+{
+  "model_kind": "phonetic_transfer",
+  "checkpoint_step": 5000,
+  "checkpoint_sha256": "892a8bab764044b37ffc0aa444383dbd889688283cafa29eb3171c9b360d4ca4",
+  "frontend_sha256": "cd2fc12fe5a3fe2d03525c19e17177c82cbb7b7a414b8500f57d3079ddb27563",
+  "sample_count": 10,
+  "sample_rate": 22050,
+  "speaker_id": "tetiana",
+  "source_id": "opentts_tetiana",
+  "train_items": 553,
+  "train_hours": 0.657820625,
+  "seed": 777,
+  "selection": "fixed seeded held-out evaluation texts; no quality-based selection",
+  "speaker_conditioning": "none; single learned voice",
+  "postprocessing": "none; synthesis PCM24 serialization only",
+  "attention_backend": "flash2",
+  "quality": {
+    "status": "complete",
+    "waveforms_scored": 30,
+    "scope": "whole_file",
+    "selection_mode": "report_only",
+    "audio_policy": "exact saved WAV; mono channel mean; no normalization",
+    "models": {
+      "sigmos": {
+        "code_sha256": "e6883ee45d29b3f7e81b393e5e33aa1db9e7f18137e0bab8fdd49f1f2447ca27",
+        "model_sha256": "f939dcc1945055a435565b4369e27dafd0f87df3cea4e2ff6eb81225e52cc53b",
+        "placement": {
+          "CPUExecutionProvider:Concat": 2,
+          "CPUExecutionProvider:Equal": 1,
+          "CPUExecutionProvider:Gather": 3,
+          "CPUExecutionProvider:Slice": 1,
+          "CPUExecutionProvider:Unsqueeze": 1,
+          "CUDAExecutionProvider:Add": 5,
+          "CUDAExecutionProvider:Concat": 1,
+          "CUDAExecutionProvider:ConstantOfShape": 1,
+          "CUDAExecutionProvider:Conv": 8,
+          "CUDAExecutionProvider:Elu": 4,
+          "CUDAExecutionProvider:GRU": 1,
+          "CUDAExecutionProvider:Gemm": 2,
+          "CUDAExecutionProvider:GlobalMaxPool": 1,
+          "CUDAExecutionProvider:If": 1,
+          "CUDAExecutionProvider:LeakyRelu": 5,
+          "CUDAExecutionProvider:MaxPool": 4,
+          "CUDAExecutionProvider:Mul": 1,
+          "CUDAExecutionProvider:ReduceMean": 1,
+          "CUDAExecutionProvider:Reshape": 2,
+          "CUDAExecutionProvider:Shape": 3,
+          "CUDAExecutionProvider:Sigmoid": 1,
+          "CUDAExecutionProvider:Squeeze": 1,
+          "CUDAExecutionProvider:Transpose": 4
+        }
+      },
+      "audiobox_sha256": "a4931a7a01c3e6733352e9d85371835f03bf9135f8b31e1583c23538811d4a32",
+      "model_devices": {
+        "backend.0": [
+          "cuda:0"
+        ]
+      }
+    }
+  }
+}

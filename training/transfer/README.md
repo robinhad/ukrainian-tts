@@ -327,3 +327,39 @@ For later trained weights, use the same bundle with
 The wrapper strictly loads the entire generator/discriminator state. An English
 model with initialized Ukrainian rows is not yet a Ukrainian speech model;
 intelligibility must be evaluated after fine-tuning.
+
+## Single-voice listening page
+
+The transfer checkpoint uses a different rate and frontend from the older
+multi-speaker run. Generate its listening set with the transfer entrypoint:
+
+```bash
+source training/activate.sh
+TRANSFER_ROOT=training/quality_runs/phonetic_transfer
+export UKTTS_ESPEAK_DATA_HASH_FILE="$TRANSFER_ROOT/frontend/ESPEAK_NG_DATA_HASH"
+# Use a normal GPU allocation when idle, or share your running training
+# allocation briefly by supplying its ID in TRAINING_JOB_ID.
+srun --jobid="$TRAINING_JOB_ID" --overlap --gres=gpu:1 --cpus-per-task=2 --mem=16G \
+  python -m training.transfer.listening \
+  --bundle "$TRANSFER_ROOT/converted" \
+  --checkpoint training/exp/phonetic_transfer_tetiana_20000/latest.pth \
+  --voice-data "$TRANSFER_ROOT/voices/tetiana" \
+  --evaluation training/data/quality_v12/manifests/quality_v12_eval.parquet \
+  --originals training/data/quality_v10_raw/frontend/quality_v10_eval.parquet \
+  --output "$TRANSFER_ROOT/voices/tetiana"
+```
+
+This pins the resolved epoch checkpoint, selects ten evaluation texts with seed
+777, checks source/speaker identity and exclusion from train/dev, verifies audio
+hashes, and uses the training frontend and FlashAttention inference path.
+Outputs are placed in `listening_<step>/`: `preview.html` embeds all audio for
+standalone listening, `index.html` uses relative WAV paths, and
+`listening_set.zip` contains the complete set. Existing outputs are protected
+against accidental mixing. Audio, references, selection, hashes, per-file
+SigMOS/Audiobox PQ and medians are included. Quality scoring is report-only;
+samples are never selected by their score. The generated waveform is not
+enhanced, trimmed, or normalized. No reference speaker embedding is used.
+
+The initial 5,000-step page has median synthesized SigMOS 3.209, versus 3.470
+for the same ten original references and 3.504 for their processed references.
+These are model-predicted scores, not human listening judgments.

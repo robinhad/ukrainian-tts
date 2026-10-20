@@ -42,6 +42,25 @@ def select(panel, count):
 def page(rows, step, embedded=False, output=None):
     from training.scripts.listening_dataset_stats import stats_html
     training_stats = stats_html(output, embedded) if output else ''
+    report_path = output / 'report.json' if output else None
+    report = json.loads(report_path.read_text()) if report_path and report_path.exists() else {}
+    introduction = (f'{len(rows)} held-out texts across {len(set(r["source_id"] for r in rows))} sources. '
+                    'Selected before synthesis with a fixed seed. This is a saved training checkpoint. '
+                    'Speaker conditioning uses the processed reference. '
+                    'References belong to the unfiltered evaluation set; they were not used to train the model. '
+                    'Generated audio is presented without enhancement or loudness normalization.')
+    if report.get('model_kind') == 'phonetic_transfer':
+        introduction = (
+            f'{len(rows)} fixed held-out texts · voice: {html.escape(report["speaker_id"].title())} · '
+            f'{report["sample_rate"]:,} Hz synthesis. English→Ukrainian JETS phonetic transfer, '
+            'using the same stressed eSpeak frontend as training. '
+            'This is a single-voice model; reference audio is for comparison only. '
+            'These evaluation recordings were excluded from both training and development. '
+            'Original references are unprocessed 24 kHz recordings; processed references use '
+            'the training processing method, resampled to the model rate. '
+            'Generated audio has no enhancement, trimming or loudness normalization. '
+            f'Training set: {report["train_items"]} recordings, '
+            f'{report["train_hours"] * 60:.1f} minutes, one voice.')
     metrics = [('sigmos_overall', 'SigMOS overall'), ('audiobox_pq', 'Audiobox PQ'),
                ('sigmos_speech', 'Speech'), ('sigmos_noise', 'Noise'),
                ('sigmos_coloration', 'Coloration'), ('sigmos_discontinuity', 'Discontinuity'),
@@ -134,10 +153,7 @@ header p{{max-width:850px;line-height:1.6;color:#545e56}}article{{padding:24px 0
 audio{{width:100%}}a{{color:#226342}}@media(max-width:740px){{.players{{grid-template-columns:1fr}}body{{margin:24px auto}}}}
 @media(prefers-color-scheme:dark){{:root{{background:#151b17;color:#ebefea}}header p,.meta{{color:#acb9ad}}article{{border-color:#354036}}a{{color:#9ad5ab}}}}
 </style><header><h1>Ukrainian TTS · {step:,} steps</h1>
-<p>{len(rows)} held-out texts across {len(set(r['source_id'] for r in rows))} sources. Selected before synthesis with a fixed seed.
-This is a saved training checkpoint. Speaker conditioning uses the processed reference.
-References belong to the unfiltered evaluation set; they were not used to train the model.
-Generated audio is presented without enhancement or loudness normalization.</p>{forecast_link}{training_stats}{quality_note}{quality_summary}{comparison_html}</header>
+<p>{introduction}</p>{forecast_link}{training_stats}{quality_note}{quality_summary}{comparison_html}</header>
 {''.join(cards)}<script>document.addEventListener('play',e=>{{if(e.target.tagName==='AUDIO')
 document.querySelectorAll('audio').forEach(a=>{{if(a!==e.target)a.pause()}})}},true)</script></html>'''
 
