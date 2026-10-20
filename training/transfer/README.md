@@ -622,3 +622,22 @@ memory guard. Check `progress.jsonl`, `runtime/command.log`, and the SLURM state
 for failures. The main continuation and the two experiment outputs are separate.
 The reproducibility metadata and disposable GPU smoke results are saved in
 `training/reports/phonetic_transfer_rhotic_ab_initial.json`.
+
+After an evaluation finishes, build a standalone before/after listening page:
+
+```bash
+python -m training.transfer.rhotic_listening \
+  --root "$TRANSFER_ROOT/rhotic_ab/kept_r" --step 2000
+```
+
+The resulting `listening_2000/preview.html` embeds 39 players: the processed
+reference, initial checkpoint, and final checkpoint for each of 13 development
+texts. It includes transcripts, per-file MOS and rhotic labels, and an aggregate
+table across evaluation stages. Audio hashes, matched IDs, frontend tokens and
+unchanged references are checked before rendering. Only one player runs at once.
+
+Arm A completed 2,000 steps successfully. Median SigMOS changed from 3.2782 to
+3.3503; median Audiobox PQ changed from 7.5658 to 7.5220. Exact recognized `r`
+remained 9/30, with 18/30 recognized as `l`. This short run has not established
+a pronunciation improvement. Its final report is
+`training/reports/phonetic_transfer_rhotic_ab_kept_r_final.json`.
