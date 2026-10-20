@@ -1,0 +1,33 @@
+{
+  "generator": {
+    "loss": 82.5938949584961,
+    "gradient_tensors": 531
+  },
+  "discriminator": {
+    "loss": 2.4781570434570312,
+    "gradient_tensors": 106
+  },
+  "strict_load": true,
+  "trainer_init_load": true,
+  "frontend_ids_identical": true,
+  "prepared_data_iterator": true,
+  "all_parameters_trainable": true,
+  "fresh_optimizers": true,
+  "optimizer_steps": 0,
+  "explicit_lexical_stress": true,
+  "inference_samples": 74496,
+  "sample_rate": 22050,
+  "input_phones": 44,
+  "input_samples": 74310,
+  "learning_rate": 2e-05,
+  "flash_attention_calls": {
+    "tts.generator.encoder.encoders.0.self_attn": 2,
+    "tts.generator.encoder.encoders.1.self_attn": 2,
+    "tts.generator.encoder.encoders.2.self_attn": 2,
+    "tts.generator.encoder.encoders.3.self_attn": 2,
+    "tts.generator.decoder.encoders.0.self_attn": 2,
+    "tts.generator.decoder.encoders.1.self_attn": 2,
+    "tts.generator.decoder.encoders.2.self_attn": 2,
+    "tts.generator.decoder.encoders.3.self_attn": 2
+  }
+}

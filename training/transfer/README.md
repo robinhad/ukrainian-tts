@@ -410,7 +410,8 @@ export TTS_EXP=training/exp/phonetic_transfer_tetiana_stats_20000
 export SPEAKER=tetiana SOURCE_ID=opentts_tetiana
 export RUN_TAG=tetiana_20000 STEPS=20000 BATCH_SIZE=8
 export RESUME=1 FLASH_ATTENTION=1
-sbatch --ntasks=1 --cpus-per-task=8 --mem=96G --time=48:00:00 \
+sbatch --gres=gpu:1 --ntasks=1 --cpus-per-task=8 --mem=96G --time=48:00:00 \
+  --output="$TRANSFER_ROOT/slurm-tetiana-stats-%j.log" \
   training/scripts/run_phonetic_transfer.sh
 ```
 
@@ -422,6 +423,19 @@ the new phase. The transfer launcher handles sparse validation phases in the
 ESPnet reporter. Original checkpoints and their bundle remain unchanged.
 Scalar history continues in the same metrics-only W&B run.
 
+Applied on 2026-10-20 at step 6,000. An independent recursive comparison
+confirmed 533 unchanged model tensors, exactly six changed buffers, identical
+optimizer/scaler/scheduler state, Adam counters of 6,000 and scheduler epochs
+of 6. The audit is in
+[`phonetic_transfer_tetiana_statistics_migration.json`](../reports/phonetic_transfer_tetiana_statistics_migration.json).
+The migrated checkpoint passed strict loading, the prepared-data iterator,
+shared frontend IDs, finite generator/discriminator backward passes and finite
+synthesis with FlashAttention:
+[`phonetic_transfer_tetiana_stats_6000_smoke.json`](../reports/phonetic_transfer_tetiana_stats_6000_smoke.json).
+Smoke-test optimizers are temporary and take zero steps; the training
+continuation restores the original optimizer states. A numeric
+`train/normalization_phase=1` marker at step 6,000 marks the change in W&B.
+
 For inference, listening-page generation and smoke tests, pair new checkpoints
 with `converted_tetiana_stats`; use `converted` for pre-migration checkpoints.
 Strict loading and resume reject mismatched statistics, allowing only FP32
@@ -430,7 +444,7 @@ same verified Ukrainian phoneme frontend.
 
 ```bash
 python -m pytest training/tests/test_transfer_statistics.py -q
-srun --ntasks=1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
+srun --gres=gpu:1 --ntasks=1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
   python -m training.transfer.smoke \
   --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
   --checkpoint "$TTS_EXP/latest.pth" \

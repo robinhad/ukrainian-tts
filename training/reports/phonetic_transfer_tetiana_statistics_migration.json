@@ -1,0 +1,33 @@
+{
+  "checkpoint_step": 6000,
+  "changed_buffers": [
+    "energy_normalize.mean",
+    "energy_normalize.std",
+    "normalize.mean",
+    "normalize.std",
+    "pitch_normalize.mean",
+    "pitch_normalize.std"
+  ],
+  "source_checkpoint_sha256": "2e0dbc5e7fb4268faf8df7b15f754de3d7eaba3caedb6e97af549625f2f9126c",
+  "checkpoint_sha256": "f6596c127fd560166f8bacd45d6efef5d7eb91be2fa28e8b54d096c9a60c4681",
+  "normalization_sha256": "8fd43828b3169d818f6ca4ae8e087c396df14dcd71209ec803b8b307b57bf277",
+  "trainable_weights_changed": false,
+  "optimizer_scheduler_preserved": true,
+  "training_step_preserved": true,
+  "validation_history_phase": "valid_previous_normalization",
+  "checkpoint_ranking": "new normalization phase only",
+  "unchanged_model_tensors": 533,
+  "verified_optimizer_steps": [
+    [
+      6000
+    ],
+    [
+      6000
+    ]
+  ],
+  "verified_scheduler_epochs": [
+    6,
+    6
+  ],
+  "verification": "Exact recursive comparison of tensors and metadata against the preserved source checkpoint"
+}
