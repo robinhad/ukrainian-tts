@@ -1,0 +1,351 @@
+{
+  "recognizer": "facebook/wav2vec2-xlsr-53-espeak-cv-ft",
+  "recognizer_revision": "2c733782da5604684829819a5eb744c193fe9398",
+  "method": "Greedy unconstrained phone recognition; token Levenshtein alignment; all conditions use identical expected phones",
+  "limitation": "Automatic phone labels are not human listening judgments; observed interventions do not replace a randomized retraining comparison of initializers",
+  "checkpoint_history": {
+    "transfer_5000": {
+      "files": 10,
+      "r_counts": {
+        "l": 15,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 16
+      }
+    },
+    "transfer_7000": {
+      "files": 10,
+      "r_counts": {
+        "l": 14,
+        "<deleted>": 1,
+        "o": 1
+      },
+      "l_counts": {
+        "l": 16
+      }
+    },
+    "transfer_9000": {
+      "files": 10,
+      "r_counts": {
+        "l": 14,
+        "<deleted>": 1,
+        "o": 1
+      },
+      "l_counts": {
+        "l": 16
+      }
+    },
+    "transfer_15000": {
+      "files": 10,
+      "r_counts": {
+        "l": 13,
+        "r": 1,
+        "<deleted>": 1,
+        "o": 1
+      },
+      "l_counts": {
+        "l": 15,
+        "<deleted>": 1
+      }
+    },
+    "transfer_18000": {
+      "files": 10,
+      "r_counts": {
+        "r": 2,
+        "l": 12,
+        "<deleted>": 1,
+        "o": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "reference": {
+      "files": 10,
+      "r_counts": {
+        "r": 16
+      },
+      "l_counts": {
+        "l": 16
+      }
+    },
+    "processed": {
+      "files": 10,
+      "r_counts": {
+        "r": 16
+      },
+      "l_counts": {
+        "ɭ": 1,
+        "l": 15
+      }
+    },
+    "transfer_42000": {
+      "files": 10,
+      "r_counts": {
+        "l": 10,
+        "e": 1,
+        "a": 1,
+        "r": 2,
+        "<deleted>": 1,
+        "ʌ": 1
+      },
+      "l_counts": {
+        "l": 14,
+        "r": 2
+      }
+    }
+  },
+  "heldout_interventions": {
+    "baseline_43k": {
+      "files": 10,
+      "r_counts": {
+        "l": 11,
+        "e": 1,
+        "o": 1,
+        "r": 2,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_input_as_l": {
+      "files": 10,
+      "r_counts": {
+        "l": 11,
+        "e": 1,
+        "o": 1,
+        "r": 2,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_contrast_4": {
+      "files": 10,
+      "r_counts": {
+        "l": 11,
+        "e": 1,
+        "o": 1,
+        "r": 3
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_contrast_8": {
+      "files": 10,
+      "r_counts": {
+        "l": 11,
+        "e": 1,
+        "r": 4
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_contrast_16": {
+      "files": 10,
+      "r_counts": {
+        "l": 11,
+        "e": 1,
+        "a": 1,
+        "r": 2,
+        "v": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_duration_2": {
+      "files": 10,
+      "r_counts": {
+        "l": 8,
+        "e": 3,
+        "r": 3,
+        "<deleted>": 1,
+        "v": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 2,
+        "i": 1
+      }
+    },
+    "r_initial_english_R": {
+      "files": 10,
+      "r_counts": {
+        "ɹ": 13,
+        "r": 2,
+        "i": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "r": 1,
+        "ɹ": 1,
+        "i": 1
+      }
+    },
+    "scratch_478k": {
+      "files": 10,
+      "r_counts": {
+        "r": 16
+      },
+      "l_counts": {
+        "l": 16
+      }
+    },
+    "scratch_r_input_as_l": {
+      "files": 10,
+      "r_counts": {
+        "e": 3,
+        "l": 12,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 16
+      }
+    }
+  },
+  "training_interventions": {
+    "training_reference": {
+      "files": 12,
+      "r_counts": {
+        "r": 24
+      },
+      "l_counts": {
+        "l": 15
+      }
+    },
+    "baseline_43k": {
+      "files": 12,
+      "r_counts": {
+        "r": 10,
+        "l": 13,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 14,
+        "r": 1
+      }
+    },
+    "reference_conditioning": {
+      "files": 12,
+      "r_counts": {
+        "r": 12,
+        "l": 10,
+        "u": 1,
+        "<deleted>": 1
+      },
+      "l_counts": {
+        "l": 13,
+        "<deleted>": 1,
+        "r": 1
+      }
+    },
+    "r_contrast_8": {
+      "files": 12,
+      "r_counts": {
+        "r": 10,
+        "l": 14
+      },
+      "l_counts": {
+        "l": 14,
+        "r": 1
+      }
+    }
+  },
+  "embeddings": {
+    "initial_transfer": {
+      "r_l_cosine": 0.9999999403953552,
+      "r_l_l2": 0.0,
+      "r_norm": 21.135238647460938,
+      "checkpoint_sha256": "5350eab343fa1e904110aa95d456a827323374d00fd9bc0f60e96081cbff39f6"
+    },
+    "transfer_43k": {
+      "r_l_cosine": 0.9992454051971436,
+      "r_l_l2": 0.8224648833274841,
+      "r_norm": 21.1207332611084,
+      "checkpoint_sha256": "24329ba3c7151332aada78a57a99f5b89613ef4927018e09070cc602e7b4a07f"
+    },
+    "scratch_478k": {
+      "r_l_cosine": -0.029459506273269653,
+      "r_l_l2": 25.46466636657715,
+      "r_norm": 18.32377815246582,
+      "checkpoint_sha256": "8235512d10c0b7011fe130f40abbf09e8fbfe612b81c763b2b179e393d49d3a6"
+    }
+  },
+  "r_durations": {
+    "baseline_43k": {
+      "count": 16,
+      "median_ms": 69.65986394557822,
+      "min_ms": 58.049886621315196,
+      "max_ms": 92.87981859410431
+    },
+    "r_contrast_16": {
+      "count": 16,
+      "median_ms": 69.65986394557822,
+      "min_ms": 58.049886621315196,
+      "max_ms": 92.87981859410431
+    },
+    "r_contrast_4": {
+      "count": 16,
+      "median_ms": 69.65986394557822,
+      "min_ms": 58.049886621315196,
+      "max_ms": 92.87981859410431
+    },
+    "r_contrast_8": {
+      "count": 16,
+      "median_ms": 69.65986394557822,
+      "min_ms": 58.049886621315196,
+      "max_ms": 92.87981859410431
+    },
+    "r_duration_2": {
+      "count": 16,
+      "median_ms": 139.31972789115645,
+      "min_ms": 116.09977324263039,
+      "max_ms": 185.75963718820861
+    },
+    "r_initial_english_R": {
+      "count": 16,
+      "median_ms": 81.26984126984127,
+      "min_ms": 46.439909297052154,
+      "max_ms": 116.09977324263039
+    },
+    "r_input_as_l": {
+      "count": 16,
+      "median_ms": 69.65986394557822,
+      "min_ms": 58.049886621315196,
+      "max_ms": 92.87981859410431
+    },
+    "scratch_478k": {
+      "count": 16,
+      "median_ms": 64.0,
+      "min_ms": 53.333333333333336,
+      "max_ms": 330.6666666666667
+    },
+    "scratch_r_input_as_l": {
+      "count": 16,
+      "median_ms": 74.66666666666667,
+      "min_ms": 64.0,
+      "max_ms": 224.0
+    }
+  },
+  "exact_unchanged_no_r_waveforms": 21,
+  "conclusion": "Transfer checkpoint fails to distinguish r from l on this panel; both rows began as identical copies of donor L and remain almost collinear. Source audio and preprocessing retain r. Duration/reference-conditioning changes do not resolve the confusion.",
+  "running_training_modified": false
+}

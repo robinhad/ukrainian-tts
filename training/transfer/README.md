@@ -473,3 +473,84 @@ srun --gres=gpu:1 --ntasks=1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
   --pairs "$TRANSFER_ROOT/smoke_pair.jsonl" \
   --device cuda --flash-attention --output "$TRANSFER_ROOT/statistics_smoke.json"
 ```
+
+## Rhotic diagnostic: transfer confuses r and l
+
+The 2026-10-21 investigation used the fixed ten-item Tetiana listening panel
+(seven sentences contain 16 `r` positions), plus twelve fixed training items
+containing 24 `r` positions. Independent, unconstrained phoneme recognition used
+[Facebook Wav2Vec2 XLSR phoneme recognition](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft)
+at revision `2c733782da5604684829819a5eb744c193fe9398`. Audio was resampled to
+16 kHz for this recognizer. Greedy output phones were aligned to the same
+expected phone sequence in every condition; no transcript-constrained decoder
+or language model was used. These labels are diagnostic evidence, not a human
+pronunciation score. Full counts, hashes and per-file phone outputs are in
+[`phonetic_transfer_rhotic_diagnostic.json`](../reports/phonetic_transfer_rhotic_diagnostic.json)
+and the adjacent `phonetic_transfer_rhotic_{history,interventions,training}.jsonl`.
+
+| Held-out condition | Recognized r | Recognized l | Other/deleted |
+|---|---:|---:|---:|
+| Original recordings | 16 | 0 | 0 |
+| Processed recordings | 16 | 0 | 0 |
+| Ukrainian model trained from scratch, 478K | 16 | 0 | 0 |
+| Transfer, 43K | 2 | 11 | 3 |
+| Transfer, input r IDs replaced with l | 2 | 11 | 3 |
+| Scratch model, input r IDs replaced with l | 0 | 12 | 4 |
+| Transfer, r/l embedding difference multiplied by 8 | 4 | 11 | 1 |
+| Transfer, predicted r duration doubled | 3 | 8 | 5 |
+
+The mapping initialized **both `r` and `l` from the same donor `L` vector**.
+The rows have separate storage, but began numerically identical. At 43K their
+cosine similarity is still **0.999245** (L2 distance 0.822); the scratch model's
+similarity is -0.029460 (distance 25.465). Replacing input `r` with `l` in the
+transfer model preserves the recognizer's outcome at **all 16 individual r
+positions**. The same intervention in the scratch model changes its correct
+`r` pronunciation. This identifies weak learned r/l distinction as the current
+failure mechanism, consistent with the initialization collision. The relative
+roles of initialization, learning rate and training data would require a
+controlled retraining comparison to separate causally.
+
+The problem is present before the 6K normalization migration: the 5K transfer
+outputs contain zero recognized `r`, fifteen `l` and one deletion. It also
+occurs on training items: references contain 24/24 recognized `r`, ordinary
+transfer synthesis 10/24, and synthesis conditioned on reference-derived
+alignment durations, pitch and energy 12/24. Thus source preprocessing and
+predicted duration alone do not explain the failure. Median predicted `r`
+duration is 69.66 ms for transfer and 64 ms for the scratch model on this panel.
+
+Simply replacing the trained r vector with the donor-initialized English `R`
+row is not a fix: thirteen of sixteen positions become English-like `ɹ`.
+Embedding extrapolation is also not a validated fix. All interventions were
+in memory on a pinned 43K checkpoint; no optimizer steps or model saves were
+performed. Twenty-one no-r control waveforms remained exactly unchanged.
+The running training job and frontend were not modified.
+
+Reproduce in a GPU allocation (or use `srun --jobid=... --overlap --ntasks=1`
+to share the current allocation). Pin a copy of the checkpoint outside the
+trainer's pruning directory first. The diagnostic root contains a local
+`baseline_manifest.jsonl` with `id`, `condition`, `audio_path`, and
+`expected_phones` from the saved listening selections. Runtime paths and audio
+remain untracked.
+
+```bash
+python -m training.transfer.rhotic_diagnostic --manifest "$DIAGNOSTIC_ROOT/baseline_manifest.jsonl" \
+  --output "$DIAGNOSTIC_ROOT/baseline_scores.jsonl"
+python -m training.transfer.rhotic_probes \
+  --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
+  --checkpoint "$DIAGNOSTIC_ROOT/43epoch.pth" \
+  --panel "$TRANSFER_ROOT/voices/tetiana/listening_42000" \
+  --output "$DIAGNOSTIC_ROOT/probes" \
+  --old-config training/exp_quality_v12/tts_jets_quality_v12_50k/config.yaml \
+  --old-checkpoint training/exp_quality_v12/tts_jets_quality_v12_50k/478epoch.pth \
+  --xvectors training/dump_quality_v12/xvector/quality_v12_eval/xvector.scp
+python -m training.transfer.rhotic_diagnostic --manifest "$DIAGNOSTIC_ROOT/probes/manifest.jsonl" \
+  --output "$DIAGNOSTIC_ROOT/probes/scores.jsonl"
+```
+
+For training-set probes, use a new output directory and add
+`--train-data "$TRANSFER_ROOT/voices/tetiana/train"`, omitting the three old-model
+arguments. Score that manifest into `train_probes/scores.jsonl`.
+`python -m training.transfer.rhotic_report --help` describes the final aggregation;
+it writes `index.html` and standalone `preview.html` with 56 listening players.
+The tests in `training/tests/test_rhotic_diagnostic.py` check phone boundaries,
+rhotic distinctions, insertions/deletions and r/l count separation.
