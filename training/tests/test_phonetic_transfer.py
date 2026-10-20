@@ -162,6 +162,39 @@ def test_preparation_resampling_and_training_contract(tmp_path, format):
     assert config['resume'] is False and config['freeze_param'] == []
     assert config['init_param'] == [str((bundle / 'model.pth').resolve())]
     assert config['train_shape_file'] == [str((prepared / 'text').resolve())]
+    with pytest.raises(ValueError, match='single voice'):
+        training_config(bundle, prepared, prepared, tmp_path / 'run', speaker='tetiana')
     (prepared / 'text').write_text('sample corrupted\n')
     with pytest.raises(ValueError, match='modified'):
         training_config(bundle, prepared, prepared, tmp_path / 'run')
+
+
+def test_select_voice_qualifies_source_and_preserves_split(tmp_path):
+    import pandas as pd
+    from training.transfer.convert import sha256
+    from training.transfer.select_voice import select_voice
+    manifests = tmp_path / 'manifests'
+    prepared = tmp_path / 'prepared'
+    manifests.mkdir()
+    for split in ('train', 'dev'):
+        directory = prepared / split
+        directory.mkdir(parents=True)
+        ids = [split + '-wanted', split + '-other-source', split + '-other-speaker']
+        pd.DataFrame(dict(
+            utterance_id=ids, speaker_id=['tetiana', 'tetiana', 'mykyta'],
+            source_id=['opentts_tetiana', 'other', 'opentts_mykyta'],
+            audio_sha256=ids, duration=[10., 20., 30.],
+        )).to_parquet(manifests / f'quality_v12_{split}.parquet')
+        (directory / 'text').write_text(''.join(f'{uid} a b\n' for uid in ids))
+        (directory / 'wav.scp').write_text(''.join(f'{uid} original/{uid}.wav\n' for uid in ids))
+        (directory / 'metadata.json').write_text(json.dumps(dict(
+            items=3, frontend_sha256='fixed', sample_rate=22050,
+            text_sha256=sha256(directory / 'text'), wav_scp_sha256=sha256(directory / 'wav.scp'))))
+    output = tmp_path / 'selected'
+    select_voice(manifests, prepared, output, 'tetiana', 'opentts_tetiana')
+    for split in ('train', 'dev'):
+        assert (output / split / 'text').read_text() == f'{split}-wanted a b\n'
+        assert (output / split / 'wav.scp').read_text() == f'{split}-wanted original/{split}-wanted.wav\n'
+        metadata = json.loads((output / split / 'metadata.json').read_text())
+        assert metadata['items'] == 1 and metadata['speaker_id'] == 'tetiana'
+        assert metadata['source_id'] == 'opentts_tetiana'

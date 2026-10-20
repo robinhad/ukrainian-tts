@@ -9,12 +9,19 @@ from .convert import sha256
 from .frontend import TransferFrontend
 
 
-def training_config(bundle, train, valid, output):
+def training_config(bundle, train, valid, output, speaker=None):
     config = yaml.safe_load((bundle / 'config.yaml').read_text())
     frontend = TransferFrontend(config['token_list'])
     frontend.verify(bundle / 'frontend.json')
+    selected_source = None
     for split, directory in [('train', train), ('valid', valid)]:
         metadata = json.loads((directory / 'metadata.json').read_text())
+        if speaker is not None:
+            if metadata.get('speaker_id') != speaker or not metadata.get('source_id'):
+                raise ValueError('Prepared split does not match the requested single voice')
+            if selected_source is not None and metadata['source_id'] != selected_source:
+                raise ValueError('Train/validation voice sources differ')
+            selected_source = metadata['source_id']
         if (metadata['frontend_sha256'] != sha256(bundle / 'frontend.json') or
                 metadata['sample_rate'] != config['feats_extract_conf']['fs']):
             raise ValueError('Prepared data frontend/audio settings mismatch')
@@ -42,6 +49,7 @@ def main():
     parser.add_argument('--write-config-only', action='store_true')
     parser.add_argument('--steps', type=int, default=50000)
     parser.add_argument('--batch-size', type=int, default=4)
+    parser.add_argument('--speaker', help='Require matching single-voice train and validation metadata')
     parser.add_argument('--external-metrics', action='store_true',
                         help='Use the repository numeric-only TensorBoard-to-W&B supervisor')
     args = parser.parse_args()
@@ -52,7 +60,7 @@ def main():
     # Never silently resume or overwrite an earlier run/optimizer.
     if args.output.exists():
         raise ValueError('Use a new output directory for fresh optimizer fine-tuning')
-    config = training_config(args.bundle, args.train, args.valid, args.output)
+    config = training_config(args.bundle, args.train, args.valid, args.output, args.speaker)
     config.update(max_epoch=args.steps // 1000, num_iters_per_epoch=1000,
                   batch_size=args.batch_size, keep_nbest_models=[3],
                   num_att_plot=0, log_interval=10, use_tensorboard=True)

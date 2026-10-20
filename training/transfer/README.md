@@ -177,11 +177,49 @@ sbatch --job-name=jets-phonetic-transfer-20k --gres=gpu:1 \
 ```
 
 `STEPS`, `BATCH_SIZE`, `TRANSFER_ROOT`, and `TTS_EXP` can be supplied through the
-environment. Default output is `training/exp/phonetic_transfer_20k`; runtime logs
+environment. Default output is `training/exp/phonetic_transfer_20000`; runtime logs
 and monitoring records are under `training/quality_runs/phonetic_transfer/run_20000`.
 For direct invocations, `training.transfer.train --steps 20000 --batch-size 8`
 sets the same iteration budget. `--external-metrics` is intended for use under
 the numeric-only W&B supervisor.
+
+### Single-voice replacement: Tetiana
+
+The mixed-speaker attempt was stopped at the user's request. Its replacement
+starts again from the converted English checkpoint with fresh optimizers for
+the full 20,000 steps. No mixed-speaker training updates are carried forward.
+
+The selected voice is [Tetiana](https://huggingface.co/datasets/speech-uk/opentts-tetiana),
+the named speaker with the greatest retained duration in the current V12 train
+manifest. Selection requires **both** `speaker_id=tetiana` and
+`source_id=opentts_tetiana`; a dataset label or an anonymous per-file identifier
+is not treated as proof of a shared speaker.
+
+| Split | Recordings | Duration |
+|---|---:|---:|
+| Train | 553 | 39.47 minutes |
+| Validation | 13 | 0.91 minutes |
+| Existing evaluation split, excluded from training | 37 | 2.60 minutes |
+
+The existing processing and SigMOS ≥3.5 filter are retained. The selector keeps
+the original train/dev split, rejects overlapping IDs/audio hashes, and reuses
+the already resampled audio. Single-voice metadata is checked again at training
+startup. This is a small adaptation set; evaluate the held-out voice samples
+before judging the final checkpoint.
+
+```bash
+sbatch --job-name=jets-tetiana-transfer-20k --gres=gpu:1 \
+  --cpus-per-task=8 --mem=96G --time=2-00:00:00 \
+  --export=ALL,SPEAKER=tetiana,SOURCE_ID=opentts_tetiana,STEPS=20000 \
+  --output=training/quality_runs/phonetic_transfer/slurm-tetiana-%j.log \
+  training/scripts/run_phonetic_transfer.sh
+```
+
+This writes to `training/exp/phonetic_transfer_tetiana_20000`, with separate
+`run_tetiana_20000` monitoring and `wandb_tetiana_20000` numeric-metrics state.
+The reproducible subset command is `python -m training.transfer.select_voice`;
+its `selection.json` records the selected speaker, source, counts, and hours.
+`RUN_TAG` can override the log/metrics namespace for a new experiment.
 
 ## Smoke tests and inference
 
