@@ -49,6 +49,8 @@ def load_strict(bundle, device='cpu', checkpoint=None):
     args = argparse.Namespace(**config)
     model = GANTTSTask.build_model(args)
     state = torch.load(checkpoint or Path(bundle) / 'model.pth', map_location='cpu', weights_only=True)
+    from .statistics import validate_buffers
+    validate_buffers(state, config)
     model.load_state_dict(state, strict=True)
     return model.to(device), args
 

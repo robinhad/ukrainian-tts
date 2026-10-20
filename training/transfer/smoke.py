@@ -13,18 +13,19 @@ from .prepare import prepare, read_audio
 from .train import training_config
 
 
-def smoke(bundle, pairs, device, output, flash_attention=False):
+def smoke(bundle, pairs, device, output, flash_attention=False, checkpoint=None):
     from espnet2.tasks.gan_tts import GANTTSTask
     from espnet2.train.distributed_utils import DistributedOption
     from espnet2.torch_utils.load_pretrained_model import load_pretrained_model
     torch.set_num_threads(4)
     torch.manual_seed(777)
-    model, args = load_strict(bundle, device)
-    state = torch.load(bundle / 'model.pth', map_location='cpu', weights_only=True)
+    checkpoint = checkpoint or bundle / 'model.pth'
+    model, args = load_strict(bundle, device, checkpoint)
+    state = torch.load(checkpoint, map_location='cpu', weights_only=True)
     assert set(model.state_dict()) == set(state)
     assert all(torch.equal(v.cpu(), state[k]) for k, v in model.state_dict().items())
     # Exercise the actual trainer's init_param loader, not only strict inference.
-    load_pretrained_model(str(bundle / 'model.pth'), model, ignore_init_mismatch=False)
+    load_pretrained_model(str(checkpoint), model, ignore_init_mismatch=False)
     assert all(torch.equal(v.cpu(), state[k]) for k, v in model.state_dict().items())
     frontend = TransferFrontend(args.token_list)
     frontend.verify(bundle / 'frontend.json')
@@ -102,8 +103,9 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--device', default='cpu')
     parser.add_argument('--flash-attention', action='store_true')
+    parser.add_argument('--checkpoint', type=Path, help='Smoke a trained weights-only checkpoint')
     args = parser.parse_args()
-    smoke(args.bundle, args.pairs, args.device, args.output, args.flash_attention)
+    smoke(args.bundle, args.pairs, args.device, args.output, args.flash_attention, args.checkpoint)
 
 
 if __name__ == '__main__':

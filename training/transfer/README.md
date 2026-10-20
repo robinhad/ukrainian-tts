@@ -363,3 +363,77 @@ enhanced, trimmed, or normalized. No reference speaker embedding is used.
 The initial 5,000-step page has median synthesized SigMOS 3.209, versus 3.470
 for the same ten original references and 3.504 for their processed references.
 These are model-predicted scores, not human listening judgments.
+
+## Recalculate statistics for the selected voice
+
+The initial transfer used the donor's normalization. The Tetiana continuation
+uses statistics recalculated from all 553 prepared **training** recordings
+(39.469 minutes, 204,253 frames); development and evaluation are excluded.
+Mel, continuous log-F0 and energy come from ESPnet's actual `collect_feats`
+path, with the same 22,050 Hz audio, FFT, hop, mel range and pitch settings.
+Moments are accumulated in float64, weighted by real frames, excluding padding.
+This changes normalization, not audio files or extraction settings.
+
+| Feature | Donor mean | Tetiana mean | Donor std | Tetiana std |
+|---|---:|---:|---:|---:|
+| Continuous log-F0 | 5.293362 | 5.169609 | 0.246970 | 0.258810 |
+| Energy | 21.824111 | 12.286066 | 19.813511 | 12.421743 |
+
+All 80 mel means/stds, counts, input hashes and extraction provenance are in
+[`phonetic_transfer_tetiana_statistics.json`](../reports/phonetic_transfer_tetiana_statistics.json).
+These are feature units, not Hz or dB loudness. Changing normalization during
+fine-tuning changes the targets seen by learned predictors; quality improvement
+must be measured, not assumed.
+
+```bash
+source training/activate.sh
+TRANSFER_ROOT=training/quality_runs/phonetic_transfer
+export UKTTS_ESPEAK_DATA_HASH_FILE="$TRANSFER_ROOT/frontend/ESPEAK_NG_DATA_HASH"
+srun --jobid="$TRAINING_JOB_ID" --overlap --ntasks=1 --cpus-per-task=2 \
+  python -m training.transfer.statistics collect \
+  --bundle "$TRANSFER_ROOT/converted" \
+  --voice-data "$TRANSFER_ROOT/voices/tetiana" \
+  --output "$TRANSFER_ROOT/converted_tetiana_stats" --device cuda
+```
+
+Use a new bundle directory. After stopping the trainer at a completed epoch
+checkpoint, explicitly migrate its state into a new experiment directory:
+
+```bash
+python -m training.transfer.statistics migrate \
+  --source training/exp/phonetic_transfer_tetiana_20000 \
+  --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
+  --output training/exp/phonetic_transfer_tetiana_stats_20000
+
+export TRANSFER_BUNDLE="$TRANSFER_ROOT/converted_tetiana_stats"
+export TTS_EXP=training/exp/phonetic_transfer_tetiana_stats_20000
+export SPEAKER=tetiana SOURCE_ID=opentts_tetiana
+export RUN_TAG=tetiana_20000 STEPS=20000 BATCH_SIZE=8
+export RESUME=1 FLASH_ATTENTION=1
+sbatch --ntasks=1 --cpus-per-task=8 --mem=96G --time=48:00:00 \
+  training/scripts/run_phonetic_transfer.sh
+```
+
+Migration replaces exactly six normalization buffers in the checkpoint.
+Learned weights, both optimizer states, schedulers and accumulated training
+step count remain intact. Previous validation history is archived under
+`valid_previous_normalization`; best-checkpoint ranking and averaging use only
+the new phase. The transfer launcher handles sparse validation phases in the
+ESPnet reporter. Original checkpoints and their bundle remain unchanged.
+Scalar history continues in the same metrics-only W&B run.
+
+For inference, listening-page generation and smoke tests, pair new checkpoints
+with `converted_tetiana_stats`; use `converted` for pre-migration checkpoints.
+Strict loading and resume reject mismatched statistics, allowing only FP32
+roundoff from published averaged checkpoints. Training and inference keep the
+same verified Ukrainian phoneme frontend.
+
+```bash
+python -m pytest training/tests/test_transfer_statistics.py -q
+srun --ntasks=1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
+  python -m training.transfer.smoke \
+  --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
+  --checkpoint "$TTS_EXP/latest.pth" \
+  --pairs "$TRANSFER_ROOT/smoke_pair.jsonl" \
+  --device cuda --flash-attention --output "$TRANSFER_ROOT/statistics_smoke.json"
+```

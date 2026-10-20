@@ -7,6 +7,7 @@ ROOT="${SLURM_SUBMIT_DIR:?Submit from the repository root}/training"
 cd "$ROOT/.."
 source "$ROOT/activate.sh"
 TRANSFER_ROOT=${TRANSFER_ROOT:-training/quality_runs/phonetic_transfer}
+TRANSFER_BUNDLE=${TRANSFER_BUNDLE:-$TRANSFER_ROOT/converted}
 STEPS=${STEPS:-20000}
 BATCH_SIZE=${BATCH_SIZE:-8}
 SPEAKER=${SPEAKER:-}
@@ -18,7 +19,7 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 export UKTTS_CUDA_CACHE_INTERVAL=10
 for split in train dev; do
     if [[ ! -f "$TRANSFER_ROOT/$split/metadata.json" ]]; then
-        python -m training.transfer.prepare --bundle "$TRANSFER_ROOT/converted" \
+        python -m training.transfer.prepare --bundle "$TRANSFER_BUNDLE" \
             --pairs "training/data/quality_v12/manifests/quality_v12_$split.parquet" \
             --output "$TRANSFER_ROOT/$split"
     fi
@@ -44,7 +45,7 @@ python -m training.quality.supervise \
     -- python -m training.quality.wandb_metrics \
     --events "$TTS_EXP/tensorboard" --state "$TRANSFER_ROOT/wandb_${RUN_TAG}/state.json" \
     --project ukrainian-tts --name "jets-english-ukrainian-phonetic-${RUN_TAG}" \
-    -- python -m training.transfer.train --bundle "$TRANSFER_ROOT/converted" \
+    -- python -m training.transfer.train --bundle "$TRANSFER_BUNDLE" \
     --train "$DATA_ROOT/train" --valid "$DATA_ROOT/dev" \
     --output "$TTS_EXP" --steps "$STEPS" --batch-size "$BATCH_SIZE" \
     --external-metrics "${VOICE_ARGS[@]}" "${BACKEND_ARGS[@]}" &

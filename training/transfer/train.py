@@ -56,6 +56,8 @@ def validate_resume(output, config):
     state = torch.load(checkpoint, map_location='cpu', weights_only=False)
     if not all(key in state for key in ('model', 'reporter', 'optimizers', 'schedulers')):
         raise ValueError('Resume requires a full trainer checkpoint')
+    from .statistics import validate_buffers
+    validate_buffers(state['model'], config)
     epoch = state['reporter']['epoch']
     if not 0 < epoch < config['max_epoch']:
         raise ValueError('Resume target must exceed the saved epoch')
@@ -65,6 +67,8 @@ def validate_resume(output, config):
 
 def main():
     from espnet2.tasks.gan_tts import GANTTSTask
+    from .statistics import enable_phase_history
+    enable_phase_history()
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ('bundle', 'train', 'valid', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
