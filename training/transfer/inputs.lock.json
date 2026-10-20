@@ -1,0 +1,43 @@
+{
+  "donor": "imdanboy/jets",
+  "donor_revision": "1db95c26516c44e6789bf06417c51e89400b190b",
+  "donor_model_card_license": "CC-BY-4.0",
+  "phoible_revision": "862bec9af5db42e3c9ceedeaa378bf4c6fa0ec8b",
+  "files": [
+    {
+      "path": "donor/README.md",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/README.md",
+      "sha256": "1fdbbd7ed469f60c3e5edc137082c723ec910527263e6ff335cc1f7c7fbe351a"
+    },
+    {
+      "path": "donor/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/energy_stats.npz",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/energy_stats.npz",
+      "sha256": "103960d5cc322251551d7ad8586cbcd0c32bb7d231641ec826e6fae32791dc6c"
+    },
+    {
+      "path": "donor/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/feats_stats.npz",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/feats_stats.npz",
+      "sha256": "7501a8667bec2665e20c0db68fba1a039c023c3abe0b52abca7f0c32dfb76cf3"
+    },
+    {
+      "path": "donor/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/pitch_stats.npz",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/exp/tts_stats_raw_phn_tacotron_g2p_en_no_space/train/pitch_stats.npz",
+      "sha256": "536a46c2fa80bc9fd769c0fd109fd84c0cb1d033195fd08bf68f73e2dfcec97a"
+    },
+    {
+      "path": "donor/exp/tts_train_jets_raw_phn_tacotron_g2p_en_no_space/config.yaml",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/exp/tts_train_jets_raw_phn_tacotron_g2p_en_no_space/config.yaml",
+      "sha256": "a0e2ca06aa04c7535544a843591d2ae6b1bfd7dccbfbe9d2c5cf0cf28ee8d2cf"
+    },
+    {
+      "path": "donor/exp/tts_train_jets_raw_phn_tacotron_g2p_en_no_space/train.total_count.ave_5best.pth",
+      "url": "https://huggingface.co/imdanboy/jets/resolve/1db95c26516c44e6789bf06417c51e89400b190b/exp/tts_train_jets_raw_phn_tacotron_g2p_en_no_space/train.total_count.ave_5best.pth",
+      "sha256": "5703509bc14fc32a4a1b1326c6579589a07cbeb02a99ff3683e9be88722546c6"
+    },
+    {
+      "path": "phoible-segments-features.tsv",
+      "url": "https://raw.githubusercontent.com/phoible/dev/862bec9af5db42e3c9ceedeaa378bf4c6fa0ec8b/raw-data/FEATURES/phoible-segments-features.tsv",
+      "sha256": "737e765e836ad6a54b5fe8c665249bdded4d716ba6b7aea711eb8e5093ba284a"
+    }
+  ]
+}

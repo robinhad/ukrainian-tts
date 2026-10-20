@@ -1,0 +1,23 @@
+{
+  "generator": {
+    "loss": 104.47040557861328,
+    "gradient_tensors": 531
+  },
+  "discriminator": {
+    "loss": 2.1622238159179688,
+    "gradient_tensors": 106
+  },
+  "strict_load": true,
+  "trainer_init_load": true,
+  "frontend_ids_identical": true,
+  "prepared_data_iterator": true,
+  "all_parameters_trainable": true,
+  "fresh_optimizers": true,
+  "optimizer_steps": 0,
+  "explicit_lexical_stress": true,
+  "inference_samples": 88064,
+  "sample_rate": 22050,
+  "input_phones": 44,
+  "input_samples": 74310,
+  "learning_rate": 2e-05
+}

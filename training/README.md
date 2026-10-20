@@ -1,5 +1,9 @@
 # Ukrainian JETS training
 
+For English-checkpoint transfer with Ukrainian phonetic embedding initialization,
+see [English → Ukrainian transfer](transfer/README.md). Conversion and smoke tests
+do not launch training.
+
 For the next non-VOA iteration and report-only processing/checkpoint metrics,
 see [quality evaluation](quality/README.md). This adds SigMOS, Audiobox PQ,
 Whisper CER/WER, ECAPA similarity, and local signal diagnostics to the existing

@@ -1,0 +1,1719 @@
+{
+  "source_checkpoint_sha256": "5703509bc14fc32a4a1b1326c6579589a07cbeb02a99ff3683e9be88722546c6",
+  "source_config_sha256": "a0e2ca06aa04c7535544a843591d2ae6b1bfd7dccbfbe9d2c5cf0cf28ee8d2cf",
+  "features_sha256": "737e765e836ad6a54b5fe8c665249bdded4d716ba6b7aea711eb8e5093ba284a",
+  "seed": 777,
+  "max_feature_distance": 0.15,
+  "minimum_feature_coverage": 0.9,
+  "distance": "Unweighted categorical mismatch over known PHOIBLE articulatory features; same syllabicity required",
+  "tie_break": "Exact IPA, feature distance, matching stress, source token ID",
+  "random_initialization": "Independent normal rows, zero mean and donor embedding standard deviation",
+  "source_rows": 78,
+  "target_rows": 100,
+  "embedding_dimension": 256,
+  "unchanged_tensors": 538,
+  "sample_rate": 22050,
+  "counts": {
+    "semantic": 13,
+    "phoible": 32,
+    "equivalent": 41,
+    "random": 14
+  },
+  "mappings": [
+    {
+      "target_id": 0,
+      "target_token": "<blank>",
+      "target_ipa": null,
+      "source_id": 0,
+      "source_token": "<blank>",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 1,
+      "target_token": "<unk>",
+      "target_ipa": null,
+      "source_id": 1,
+      "source_token": "<unk>",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 2,
+      "target_token": "a",
+      "target_ipa": "a",
+      "source_id": 60,
+      "source_token": "AE0",
+      "source_ipa": "æ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 3,
+      "target_token": "ˈa",
+      "target_ipa": "ˈa",
+      "source_id": 18,
+      "source_token": "AE1",
+      "source_ipa": "ˈæ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 4,
+      "target_token": "j",
+      "target_ipa": "j",
+      "source_id": 41,
+      "source_token": "Y",
+      "source_ipa": "j",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 5,
+      "target_token": "n",
+      "target_ipa": "n",
+      "source_id": 3,
+      "source_token": "N",
+      "source_ipa": "n",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 6,
+      "target_token": "ˈo",
+      "target_ipa": "ˈo",
+      "source_id": 34,
+      "source_token": "OW1",
+      "source_ipa": "ˈoʊ",
+      "method": "phoible",
+      "distance": 0.0,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 7,
+      "target_token": "s",
+      "target_ipa": "s",
+      "source_id": 6,
+      "source_token": "S",
+      "source_ipa": "s",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 8,
+      "target_token": "o",
+      "target_ipa": "o",
+      "source_id": 46,
+      "source_token": "OW0",
+      "source_ipa": "oʊ",
+      "method": "phoible",
+      "distance": 0.0,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 9,
+      "target_token": "t̪",
+      "target_ipa": "t̪",
+      "source_id": 4,
+      "source_token": "T",
+      "source_ipa": "t",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 10,
+      "target_token": "β",
+      "target_ipa": "β",
+      "source_id": 20,
+      "source_token": "V",
+      "source_ipa": "v",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 11,
+      "target_token": "ɪ",
+      "target_ipa": "ɪ",
+      "source_id": 13,
+      "source_token": "IH0",
+      "source_ipa": "ɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 12,
+      "target_token": "r",
+      "target_ipa": "r",
+      "source_id": 8,
+      "source_token": "L",
+      "source_ipa": "l",
+      "method": "phoible",
+      "distance": 0.05714285714285714,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 13,
+      "target_token": "k",
+      "target_ipa": "k",
+      "source_id": 10,
+      "source_token": "K",
+      "source_ipa": "k",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 14,
+      "target_token": ",",
+      "target_ipa": null,
+      "source_id": 23,
+      "source_token": ",",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 15,
+      "target_token": "d",
+      "target_ipa": "d",
+      "source_id": 5,
+      "source_token": "D",
+      "source_ipa": "d",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 16,
+      "target_token": "iː",
+      "target_ipa": "iː",
+      "source_id": 29,
+      "source_token": "IY0",
+      "source_ipa": "i",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 17,
+      "target_token": "m",
+      "target_ipa": "m",
+      "source_id": 14,
+      "source_token": "M",
+      "source_ipa": "m",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 18,
+      "target_token": "l",
+      "target_ipa": "l",
+      "source_id": 8,
+      "source_token": "L",
+      "source_ipa": "l",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 19,
+      "target_token": "ˈiː",
+      "target_ipa": "ˈiː",
+      "source_id": 27,
+      "source_token": "IY1",
+      "source_ipa": "ˈi",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 20,
+      "target_token": "ˈɛ",
+      "target_ipa": "ˈɛ",
+      "source_id": 15,
+      "source_token": "EH1",
+      "source_ipa": "ˈɛ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 21,
+      "target_token": "u",
+      "target_ipa": "u",
+      "source_id": 53,
+      "source_token": "UW0",
+      "source_ipa": "u",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 22,
+      "target_token": "p",
+      "target_ipa": "p",
+      "source_id": 17,
+      "source_token": "P",
+      "source_ipa": "p",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 23,
+      "target_token": "ˈɪ",
+      "target_ipa": "ˈɪ",
+      "source_id": 12,
+      "source_token": "IH1",
+      "source_ipa": "ˈɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 24,
+      "target_token": "ɛ",
+      "target_ipa": "ɛ",
+      "source_id": 54,
+      "source_token": "EH0",
+      "source_ipa": "ɛ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 25,
+      "target_token": "z",
+      "target_ipa": "z",
+      "source_id": 11,
+      "source_token": "Z",
+      "source_ipa": "z",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 26,
+      "target_token": "b",
+      "target_ipa": "b",
+      "source_id": 25,
+      "source_token": "B",
+      "source_ipa": "b",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 27,
+      "target_token": "tʃ",
+      "target_ipa": "tʃ",
+      "source_id": 39,
+      "source_token": "CH",
+      "source_ipa": "tʃ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 28,
+      "target_token": "ˈu",
+      "target_ipa": "ˈu",
+      "source_id": 28,
+      "source_token": "UW1",
+      "source_ipa": "ˈu",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 29,
+      "target_token": "ʃ",
+      "target_ipa": "ʃ",
+      "source_id": 35,
+      "source_token": "SH",
+      "source_ipa": "ʃ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 30,
+      "target_token": "t",
+      "target_ipa": "t",
+      "source_id": 4,
+      "source_token": "T",
+      "source_ipa": "t",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 31,
+      "target_token": ".",
+      "target_ipa": null,
+      "source_id": 33,
+      "source_token": ".",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 32,
+      "target_token": "h",
+      "target_ipa": "h",
+      "source_id": 26,
+      "source_token": "HH",
+      "source_ipa": "h",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 33,
+      "target_token": "ʎ",
+      "target_ipa": "ʎ",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No English candidate meeting syllabicity, coverage and distance thresholds"
+    },
+    {
+      "target_id": 34,
+      "target_token": "ɲ",
+      "target_ipa": "ɲ",
+      "source_id": 36,
+      "source_token": "NG",
+      "source_ipa": "ŋ",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 35,
+      "target_token": "f",
+      "target_ipa": "f",
+      "source_id": 22,
+      "source_token": "F",
+      "source_ipa": "f",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 36,
+      "target_token": "x",
+      "target_ipa": "x",
+      "source_id": 10,
+      "source_token": "K",
+      "source_ipa": "k",
+      "method": "phoible",
+      "distance": 0.05714285714285714,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 37,
+      "target_token": "ʒ",
+      "target_ipa": "ʒ",
+      "source_id": 58,
+      "source_token": "ZH",
+      "source_ipa": "ʒ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 38,
+      "target_token": "ɡ",
+      "target_ipa": "ɡ",
+      "source_id": 37,
+      "source_token": "G",
+      "source_ipa": "ɡ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 39,
+      "target_token": "—",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No semantically equivalent source punctuation or special token"
+    },
+    {
+      "target_id": 40,
+      "target_token": "\"",
+      "target_ipa": null,
+      "source_id": 67,
+      "source_token": "'",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 41,
+      "target_token": "?",
+      "target_ipa": null,
+      "source_id": 70,
+      "source_token": "?",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 42,
+      "target_token": "sʲ",
+      "target_ipa": "sʲ",
+      "source_id": 6,
+      "source_token": "S",
+      "source_ipa": "s",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 43,
+      "target_token": "d̪",
+      "target_ipa": "d̪",
+      "source_id": 5,
+      "source_token": "D",
+      "source_ipa": "d",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 44,
+      "target_token": ":",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No semantically equivalent source punctuation or special token"
+    },
+    {
+      "target_id": 45,
+      "target_token": "!",
+      "target_ipa": null,
+      "source_id": 72,
+      "source_token": "!",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 46,
+      "target_token": "ɣ",
+      "target_ipa": "ɣ",
+      "source_id": 37,
+      "source_token": "G",
+      "source_ipa": "ɡ",
+      "method": "phoible",
+      "distance": 0.05714285714285714,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 47,
+      "target_token": "dʒ",
+      "target_ipa": "dʒ",
+      "source_id": 40,
+      "source_token": "JH",
+      "source_ipa": "dʒ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 48,
+      "target_token": "ˌiː",
+      "target_ipa": "ˌiː",
+      "source_id": 64,
+      "source_token": "IY2",
+      "source_ipa": "ˌi",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 49,
+      "target_token": "tʲ",
+      "target_ipa": "tʲ",
+      "source_id": 4,
+      "source_token": "T",
+      "source_ipa": "t",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 50,
+      "target_token": "ˌɛ",
+      "target_ipa": "ˌɛ",
+      "source_id": 45,
+      "source_token": "EH2",
+      "source_ipa": "ˌɛ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 51,
+      "target_token": "(uk)",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Language marker or tokenization artifact; no reliable sound mapping"
+    },
+    {
+      "target_id": 52,
+      "target_token": "(en)",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Language marker or tokenization artifact; no reliable sound mapping"
+    },
+    {
+      "target_id": 53,
+      "target_token": "ˈaɪ",
+      "target_ipa": "ˈaɪ",
+      "source_id": 32,
+      "source_token": "AY1",
+      "source_ipa": "ˈaɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 54,
+      "target_token": "ə",
+      "target_ipa": "ə",
+      "source_id": 2,
+      "source_token": "AH0",
+      "source_ipa": "ə",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 55,
+      "target_token": "ˈe",
+      "target_ipa": "ˈe",
+      "source_id": 31,
+      "source_token": "EY1",
+      "source_ipa": "ˈeɪ",
+      "method": "phoible",
+      "distance": 0.0,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 56,
+      "target_token": "v",
+      "target_ipa": "v",
+      "source_id": 20,
+      "source_token": "V",
+      "source_ipa": "v",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 57,
+      "target_token": "e",
+      "target_ipa": "e",
+      "source_id": 56,
+      "source_token": "EY0",
+      "source_ipa": "eɪ",
+      "method": "phoible",
+      "distance": 0.0,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 58,
+      "target_token": "«",
+      "target_ipa": null,
+      "source_id": 67,
+      "source_token": "'",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 59,
+      "target_token": "ɬ",
+      "target_ipa": "ɬ",
+      "source_id": 6,
+      "source_token": "S",
+      "source_ipa": "s",
+      "method": "phoible",
+      "distance": 0.05714285714285714,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 60,
+      "target_token": "»",
+      "target_ipa": null,
+      "source_id": 67,
+      "source_token": "'",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 61,
+      "target_token": "dʲ",
+      "target_ipa": "dʲ",
+      "source_id": 5,
+      "source_token": "D",
+      "source_ipa": "d",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 62,
+      "target_token": "ˌa",
+      "target_ipa": "ˌa",
+      "source_id": 50,
+      "source_token": "AE2",
+      "source_ipa": "ˌæ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 63,
+      "target_token": "ˌɪ",
+      "target_ipa": "ˌɪ",
+      "source_id": 49,
+      "source_token": "IH2",
+      "source_ipa": "ˌɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 64,
+      "target_token": "rʲ",
+      "target_ipa": "rʲ",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No English candidate meeting syllabicity, coverage and distance thresholds"
+    },
+    {
+      "target_id": 65,
+      "target_token": "zʲ",
+      "target_ipa": "zʲ",
+      "source_id": 11,
+      "source_token": "Z",
+      "source_ipa": "z",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 66,
+      "target_token": ";",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No semantically equivalent source punctuation or special token"
+    },
+    {
+      "target_id": 67,
+      "target_token": "ɹ",
+      "target_ipa": "ɹ",
+      "source_id": 7,
+      "source_token": "R",
+      "source_ipa": "ɹ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 68,
+      "target_token": "”",
+      "target_ipa": null,
+      "source_id": 67,
+      "source_token": "'",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 69,
+      "target_token": "…",
+      "target_ipa": null,
+      "source_id": 76,
+      "source_token": "..",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 70,
+      "target_token": "ˌu",
+      "target_ipa": "ˌu",
+      "source_id": 61,
+      "source_token": "UW2",
+      "source_ipa": "ˌu",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 71,
+      "target_token": "tʃʲ",
+      "target_ipa": "tʃʲ",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Target IPA absent from pinned PHOIBLE and no equivalent English sound"
+    },
+    {
+      "target_id": 72,
+      "target_token": "(",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No semantically equivalent source punctuation or special token"
+    },
+    {
+      "target_id": 73,
+      "target_token": "en",
+      "target_ipa": "en",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Target IPA absent from pinned PHOIBLE and no equivalent English sound"
+    },
+    {
+      "target_id": 74,
+      "target_token": ")",
+      "target_ipa": null,
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "No semantically equivalent source punctuation or special token"
+    },
+    {
+      "target_id": 75,
+      "target_token": "ˌo",
+      "target_ipa": "ˌo",
+      "source_id": 59,
+      "source_token": "OW2",
+      "source_ipa": "ˌoʊ",
+      "method": "phoible",
+      "distance": 0.0,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 76,
+      "target_token": "ˈəʊ",
+      "target_ipa": "ˈəʊ",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Target IPA absent from pinned PHOIBLE and no equivalent English sound"
+    },
+    {
+      "target_id": 77,
+      "target_token": "i",
+      "target_ipa": "i",
+      "source_id": 29,
+      "source_token": "IY0",
+      "source_ipa": "i",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 78,
+      "target_token": "ˌeɪ",
+      "target_ipa": "ˌeɪ",
+      "source_id": 47,
+      "source_token": "EY2",
+      "source_ipa": "ˌeɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 79,
+      "target_token": "kʲ",
+      "target_ipa": "kʲ",
+      "source_id": 10,
+      "source_token": "K",
+      "source_ipa": "k",
+      "method": "phoible",
+      "distance": 0.05714285714285714,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 80,
+      "target_token": "“",
+      "target_ipa": null,
+      "source_id": 67,
+      "source_token": "'",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    },
+    {
+      "target_id": 81,
+      "target_token": "ˈɒ",
+      "target_ipa": "ˈɒ",
+      "source_id": 34,
+      "source_token": "OW1",
+      "source_ipa": "ˈoʊ",
+      "method": "phoible",
+      "distance": 0.030303030303030304,
+      "coverage": 0.9428571428571428,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 82,
+      "target_token": "ˌəʊ",
+      "target_ipa": "ˌəʊ",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Target IPA absent from pinned PHOIBLE and no equivalent English sound"
+    },
+    {
+      "target_id": 83,
+      "target_token": "ˈeɪ",
+      "target_ipa": "ˈeɪ",
+      "source_id": 31,
+      "source_token": "EY1",
+      "source_ipa": "ˈeɪ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 84,
+      "target_token": "əl",
+      "target_ipa": "əl",
+      "source_id": null,
+      "source_token": null,
+      "source_ipa": null,
+      "method": "random",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Target IPA absent from pinned PHOIBLE and no equivalent English sound"
+    },
+    {
+      "target_id": 85,
+      "target_token": "bʲ",
+      "target_ipa": "bʲ",
+      "source_id": 25,
+      "source_token": "B",
+      "source_ipa": "b",
+      "method": "phoible",
+      "distance": 0.14285714285714285,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 86,
+      "target_token": "ɜː",
+      "target_ipa": "ɜː",
+      "source_id": 2,
+      "source_token": "AH0",
+      "source_ipa": "ə",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 87,
+      "target_token": "ŋ",
+      "target_ipa": "ŋ",
+      "source_id": 36,
+      "source_token": "NG",
+      "source_ipa": "ŋ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 88,
+      "target_token": "uː",
+      "target_ipa": "uː",
+      "source_id": 53,
+      "source_token": "UW0",
+      "source_ipa": "u",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 89,
+      "target_token": "ˈɔː",
+      "target_ipa": "ˈɔː",
+      "source_id": 30,
+      "source_token": "AO1",
+      "source_ipa": "ˈɔ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 90,
+      "target_token": "ð",
+      "target_ipa": "ð",
+      "source_id": 9,
+      "source_token": "DH",
+      "source_ipa": "ð",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 91,
+      "target_token": "ˈuː",
+      "target_ipa": "ˈuː",
+      "source_id": 28,
+      "source_token": "UW1",
+      "source_ipa": "ˈu",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 92,
+      "target_token": "θ",
+      "target_ipa": "θ",
+      "source_id": 43,
+      "source_token": "TH",
+      "source_ipa": "θ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 93,
+      "target_token": "ˈʌ",
+      "target_ipa": "ˈʌ",
+      "source_id": 19,
+      "source_token": "AH1",
+      "source_ipa": "ˈʌ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 94,
+      "target_token": "ˈɑː",
+      "target_ipa": "ˈɑː",
+      "source_id": 24,
+      "source_token": "AA1",
+      "source_ipa": "ˈɑ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 95,
+      "target_token": "w",
+      "target_ipa": "w",
+      "source_id": 16,
+      "source_token": "W",
+      "source_ipa": "w",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 96,
+      "target_token": "ˈaʊ",
+      "target_ipa": "ˈaʊ",
+      "source_id": 42,
+      "source_token": "AW1",
+      "source_ipa": "ˈaʊ",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Same broad IPA sound"
+    },
+    {
+      "target_id": 97,
+      "target_token": "ˈɛː",
+      "target_ipa": "ˈɛː",
+      "source_id": 15,
+      "source_token": "EH1",
+      "source_ipa": "ˈɛ",
+      "method": "phoible",
+      "distance": 0.02857142857142857,
+      "coverage": 1.0,
+      "stress_match": true,
+      "reason": "Nearest articulatory features"
+    },
+    {
+      "target_id": 98,
+      "target_token": "ˈə",
+      "target_ipa": "ˈə",
+      "source_id": 2,
+      "source_token": "AH0",
+      "source_ipa": "ə",
+      "method": "equivalent",
+      "distance": 0.0,
+      "coverage": 1.0,
+      "stress_match": false,
+      "reason": "Same broad IPA sound; English stress differs (independent target row)"
+    },
+    {
+      "target_id": 99,
+      "target_token": "<sos/eos>",
+      "target_ipa": null,
+      "source_id": 77,
+      "source_token": "<sos/eos>",
+      "source_ipa": null,
+      "method": "semantic",
+      "distance": null,
+      "coverage": null,
+      "stress_match": null,
+      "reason": "Special token or punctuation by meaning"
+    }
+  ],
+  "compatibility_adjustments": [
+    "Scale discriminator normalization disabled to match actual donor weights (ESPnet issue #5240)"
+  ],
+  "source_inventory": [
+    {
+      "source_id": 0,
+      "token": "<blank>",
+      "ipa": null
+    },
+    {
+      "source_id": 1,
+      "token": "<unk>",
+      "ipa": null
+    },
+    {
+      "source_id": 2,
+      "token": "AH0",
+      "ipa": "ə"
+    },
+    {
+      "source_id": 3,
+      "token": "N",
+      "ipa": "n"
+    },
+    {
+      "source_id": 4,
+      "token": "T",
+      "ipa": "t"
+    },
+    {
+      "source_id": 5,
+      "token": "D",
+      "ipa": "d"
+    },
+    {
+      "source_id": 6,
+      "token": "S",
+      "ipa": "s"
+    },
+    {
+      "source_id": 7,
+      "token": "R",
+      "ipa": "ɹ"
+    },
+    {
+      "source_id": 8,
+      "token": "L",
+      "ipa": "l"
+    },
+    {
+      "source_id": 9,
+      "token": "DH",
+      "ipa": "ð"
+    },
+    {
+      "source_id": 10,
+      "token": "K",
+      "ipa": "k"
+    },
+    {
+      "source_id": 11,
+      "token": "Z",
+      "ipa": "z"
+    },
+    {
+      "source_id": 12,
+      "token": "IH1",
+      "ipa": "ˈɪ"
+    },
+    {
+      "source_id": 13,
+      "token": "IH0",
+      "ipa": "ɪ"
+    },
+    {
+      "source_id": 14,
+      "token": "M",
+      "ipa": "m"
+    },
+    {
+      "source_id": 15,
+      "token": "EH1",
+      "ipa": "ˈɛ"
+    },
+    {
+      "source_id": 16,
+      "token": "W",
+      "ipa": "w"
+    },
+    {
+      "source_id": 17,
+      "token": "P",
+      "ipa": "p"
+    },
+    {
+      "source_id": 18,
+      "token": "AE1",
+      "ipa": "ˈæ"
+    },
+    {
+      "source_id": 19,
+      "token": "AH1",
+      "ipa": "ˈʌ"
+    },
+    {
+      "source_id": 20,
+      "token": "V",
+      "ipa": "v"
+    },
+    {
+      "source_id": 21,
+      "token": "ER0",
+      "ipa": "ɚ"
+    },
+    {
+      "source_id": 22,
+      "token": "F",
+      "ipa": "f"
+    },
+    {
+      "source_id": 23,
+      "token": ",",
+      "ipa": null
+    },
+    {
+      "source_id": 24,
+      "token": "AA1",
+      "ipa": "ˈɑ"
+    },
+    {
+      "source_id": 25,
+      "token": "B",
+      "ipa": "b"
+    },
+    {
+      "source_id": 26,
+      "token": "HH",
+      "ipa": "h"
+    },
+    {
+      "source_id": 27,
+      "token": "IY1",
+      "ipa": "ˈi"
+    },
+    {
+      "source_id": 28,
+      "token": "UW1",
+      "ipa": "ˈu"
+    },
+    {
+      "source_id": 29,
+      "token": "IY0",
+      "ipa": "i"
+    },
+    {
+      "source_id": 30,
+      "token": "AO1",
+      "ipa": "ˈɔ"
+    },
+    {
+      "source_id": 31,
+      "token": "EY1",
+      "ipa": "ˈeɪ"
+    },
+    {
+      "source_id": 32,
+      "token": "AY1",
+      "ipa": "ˈaɪ"
+    },
+    {
+      "source_id": 33,
+      "token": ".",
+      "ipa": null
+    },
+    {
+      "source_id": 34,
+      "token": "OW1",
+      "ipa": "ˈoʊ"
+    },
+    {
+      "source_id": 35,
+      "token": "SH",
+      "ipa": "ʃ"
+    },
+    {
+      "source_id": 36,
+      "token": "NG",
+      "ipa": "ŋ"
+    },
+    {
+      "source_id": 37,
+      "token": "G",
+      "ipa": "ɡ"
+    },
+    {
+      "source_id": 38,
+      "token": "ER1",
+      "ipa": "ˈɝ"
+    },
+    {
+      "source_id": 39,
+      "token": "CH",
+      "ipa": "tʃ"
+    },
+    {
+      "source_id": 40,
+      "token": "JH",
+      "ipa": "dʒ"
+    },
+    {
+      "source_id": 41,
+      "token": "Y",
+      "ipa": "j"
+    },
+    {
+      "source_id": 42,
+      "token": "AW1",
+      "ipa": "ˈaʊ"
+    },
+    {
+      "source_id": 43,
+      "token": "TH",
+      "ipa": "θ"
+    },
+    {
+      "source_id": 44,
+      "token": "UH1",
+      "ipa": "ˈʊ"
+    },
+    {
+      "source_id": 45,
+      "token": "EH2",
+      "ipa": "ˌɛ"
+    },
+    {
+      "source_id": 46,
+      "token": "OW0",
+      "ipa": "oʊ"
+    },
+    {
+      "source_id": 47,
+      "token": "EY2",
+      "ipa": "ˌeɪ"
+    },
+    {
+      "source_id": 48,
+      "token": "AO0",
+      "ipa": "ɔ"
+    },
+    {
+      "source_id": 49,
+      "token": "IH2",
+      "ipa": "ˌɪ"
+    },
+    {
+      "source_id": 50,
+      "token": "AE2",
+      "ipa": "ˌæ"
+    },
+    {
+      "source_id": 51,
+      "token": "AY2",
+      "ipa": "ˌaɪ"
+    },
+    {
+      "source_id": 52,
+      "token": "AA2",
+      "ipa": "ˌɑ"
+    },
+    {
+      "source_id": 53,
+      "token": "UW0",
+      "ipa": "u"
+    },
+    {
+      "source_id": 54,
+      "token": "EH0",
+      "ipa": "ɛ"
+    },
+    {
+      "source_id": 55,
+      "token": "OY1",
+      "ipa": "ˈɔɪ"
+    },
+    {
+      "source_id": 56,
+      "token": "EY0",
+      "ipa": "eɪ"
+    },
+    {
+      "source_id": 57,
+      "token": "AO2",
+      "ipa": "ˌɔ"
+    },
+    {
+      "source_id": 58,
+      "token": "ZH",
+      "ipa": "ʒ"
+    },
+    {
+      "source_id": 59,
+      "token": "OW2",
+      "ipa": "ˌoʊ"
+    },
+    {
+      "source_id": 60,
+      "token": "AE0",
+      "ipa": "æ"
+    },
+    {
+      "source_id": 61,
+      "token": "UW2",
+      "ipa": "ˌu"
+    },
+    {
+      "source_id": 62,
+      "token": "AH2",
+      "ipa": "ˌʌ"
+    },
+    {
+      "source_id": 63,
+      "token": "AY0",
+      "ipa": "aɪ"
+    },
+    {
+      "source_id": 64,
+      "token": "IY2",
+      "ipa": "ˌi"
+    },
+    {
+      "source_id": 65,
+      "token": "AW2",
+      "ipa": "ˌaʊ"
+    },
+    {
+      "source_id": 66,
+      "token": "AA0",
+      "ipa": "ɑ"
+    },
+    {
+      "source_id": 67,
+      "token": "'",
+      "ipa": null
+    },
+    {
+      "source_id": 68,
+      "token": "ER2",
+      "ipa": "ˌɝ"
+    },
+    {
+      "source_id": 69,
+      "token": "UH2",
+      "ipa": "ˌʊ"
+    },
+    {
+      "source_id": 70,
+      "token": "?",
+      "ipa": null
+    },
+    {
+      "source_id": 71,
+      "token": "OY2",
+      "ipa": "ˌɔɪ"
+    },
+    {
+      "source_id": 72,
+      "token": "!",
+      "ipa": null
+    },
+    {
+      "source_id": 73,
+      "token": "AW0",
+      "ipa": "aʊ"
+    },
+    {
+      "source_id": 74,
+      "token": "UH0",
+      "ipa": "ʊ"
+    },
+    {
+      "source_id": 75,
+      "token": "OY0",
+      "ipa": "ɔɪ"
+    },
+    {
+      "source_id": 76,
+      "token": "..",
+      "ipa": null
+    },
+    {
+      "source_id": 77,
+      "token": "<sos/eos>",
+      "ipa": null
+    }
+  ]
+}

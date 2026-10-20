@@ -1,0 +1,101 @@
+target_id,target_token,target_ipa,source_id,source_token,source_ipa,method,distance,coverage,stress_match,reason
+0,<blank>,,0,<blank>,,semantic,,,,Special token or punctuation by meaning
+1,<unk>,,1,<unk>,,semantic,,,,Special token or punctuation by meaning
+2,a,a,60,AE0,æ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+3,ˈa,ˈa,18,AE1,ˈæ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+4,j,j,41,Y,j,equivalent,0.0,1.0,True,Same broad IPA sound
+5,n,n,3,N,n,equivalent,0.0,1.0,True,Same broad IPA sound
+6,ˈo,ˈo,34,OW1,ˈoʊ,phoible,0.0,0.9428571428571428,True,Nearest articulatory features
+7,s,s,6,S,s,equivalent,0.0,1.0,True,Same broad IPA sound
+8,o,o,46,OW0,oʊ,phoible,0.0,0.9428571428571428,True,Nearest articulatory features
+9,t̪,t̪,4,T,t,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+10,β,β,20,V,v,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+11,ɪ,ɪ,13,IH0,ɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+12,r,r,8,L,l,phoible,0.05714285714285714,1.0,True,Nearest articulatory features
+13,k,k,10,K,k,equivalent,0.0,1.0,True,Same broad IPA sound
+14,",",,23,",",,semantic,,,,Special token or punctuation by meaning
+15,d,d,5,D,d,equivalent,0.0,1.0,True,Same broad IPA sound
+16,iː,iː,29,IY0,i,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+17,m,m,14,M,m,equivalent,0.0,1.0,True,Same broad IPA sound
+18,l,l,8,L,l,equivalent,0.0,1.0,True,Same broad IPA sound
+19,ˈiː,ˈiː,27,IY1,ˈi,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+20,ˈɛ,ˈɛ,15,EH1,ˈɛ,equivalent,0.0,1.0,True,Same broad IPA sound
+21,u,u,53,UW0,u,equivalent,0.0,1.0,True,Same broad IPA sound
+22,p,p,17,P,p,equivalent,0.0,1.0,True,Same broad IPA sound
+23,ˈɪ,ˈɪ,12,IH1,ˈɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+24,ɛ,ɛ,54,EH0,ɛ,equivalent,0.0,1.0,True,Same broad IPA sound
+25,z,z,11,Z,z,equivalent,0.0,1.0,True,Same broad IPA sound
+26,b,b,25,B,b,equivalent,0.0,1.0,True,Same broad IPA sound
+27,tʃ,tʃ,39,CH,tʃ,equivalent,0.0,1.0,True,Same broad IPA sound
+28,ˈu,ˈu,28,UW1,ˈu,equivalent,0.0,1.0,True,Same broad IPA sound
+29,ʃ,ʃ,35,SH,ʃ,equivalent,0.0,1.0,True,Same broad IPA sound
+30,t,t,4,T,t,equivalent,0.0,1.0,True,Same broad IPA sound
+31,.,,33,.,,semantic,,,,Special token or punctuation by meaning
+32,h,h,26,HH,h,equivalent,0.0,1.0,True,Same broad IPA sound
+33,ʎ,ʎ,,,,random,,,,"No English candidate meeting syllabicity, coverage and distance thresholds"
+34,ɲ,ɲ,36,NG,ŋ,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+35,f,f,22,F,f,equivalent,0.0,1.0,True,Same broad IPA sound
+36,x,x,10,K,k,phoible,0.05714285714285714,1.0,True,Nearest articulatory features
+37,ʒ,ʒ,58,ZH,ʒ,equivalent,0.0,1.0,True,Same broad IPA sound
+38,ɡ,ɡ,37,G,ɡ,equivalent,0.0,1.0,True,Same broad IPA sound
+39,—,,,,,random,,,,No semantically equivalent source punctuation or special token
+40,"""",,67,',,semantic,,,,Special token or punctuation by meaning
+41,?,,70,?,,semantic,,,,Special token or punctuation by meaning
+42,sʲ,sʲ,6,S,s,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+43,d̪,d̪,5,D,d,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+44,:,,,,,random,,,,No semantically equivalent source punctuation or special token
+45,!,,72,!,,semantic,,,,Special token or punctuation by meaning
+46,ɣ,ɣ,37,G,ɡ,phoible,0.05714285714285714,1.0,True,Nearest articulatory features
+47,dʒ,dʒ,40,JH,dʒ,equivalent,0.0,1.0,True,Same broad IPA sound
+48,ˌiː,ˌiː,64,IY2,ˌi,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+49,tʲ,tʲ,4,T,t,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+50,ˌɛ,ˌɛ,45,EH2,ˌɛ,equivalent,0.0,1.0,True,Same broad IPA sound
+51,(uk),,,,,random,,,,Language marker or tokenization artifact; no reliable sound mapping
+52,(en),,,,,random,,,,Language marker or tokenization artifact; no reliable sound mapping
+53,ˈaɪ,ˈaɪ,32,AY1,ˈaɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+54,ə,ə,2,AH0,ə,equivalent,0.0,1.0,True,Same broad IPA sound
+55,ˈe,ˈe,31,EY1,ˈeɪ,phoible,0.0,0.9428571428571428,True,Nearest articulatory features
+56,v,v,20,V,v,equivalent,0.0,1.0,True,Same broad IPA sound
+57,e,e,56,EY0,eɪ,phoible,0.0,0.9428571428571428,True,Nearest articulatory features
+58,«,,67,',,semantic,,,,Special token or punctuation by meaning
+59,ɬ,ɬ,6,S,s,phoible,0.05714285714285714,1.0,True,Nearest articulatory features
+60,»,,67,',,semantic,,,,Special token or punctuation by meaning
+61,dʲ,dʲ,5,D,d,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+62,ˌa,ˌa,50,AE2,ˌæ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+63,ˌɪ,ˌɪ,49,IH2,ˌɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+64,rʲ,rʲ,,,,random,,,,"No English candidate meeting syllabicity, coverage and distance thresholds"
+65,zʲ,zʲ,11,Z,z,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+66,;,,,,,random,,,,No semantically equivalent source punctuation or special token
+67,ɹ,ɹ,7,R,ɹ,equivalent,0.0,1.0,True,Same broad IPA sound
+68,”,,67,',,semantic,,,,Special token or punctuation by meaning
+69,…,,76,..,,semantic,,,,Special token or punctuation by meaning
+70,ˌu,ˌu,61,UW2,ˌu,equivalent,0.0,1.0,True,Same broad IPA sound
+71,tʃʲ,tʃʲ,,,,random,,,,Target IPA absent from pinned PHOIBLE and no equivalent English sound
+72,(,,,,,random,,,,No semantically equivalent source punctuation or special token
+73,en,en,,,,random,,,,Target IPA absent from pinned PHOIBLE and no equivalent English sound
+74,),,,,,random,,,,No semantically equivalent source punctuation or special token
+75,ˌo,ˌo,59,OW2,ˌoʊ,phoible,0.0,0.9428571428571428,True,Nearest articulatory features
+76,ˈəʊ,ˈəʊ,,,,random,,,,Target IPA absent from pinned PHOIBLE and no equivalent English sound
+77,i,i,29,IY0,i,equivalent,0.0,1.0,True,Same broad IPA sound
+78,ˌeɪ,ˌeɪ,47,EY2,ˌeɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+79,kʲ,kʲ,10,K,k,phoible,0.05714285714285714,1.0,True,Nearest articulatory features
+80,“,,67,',,semantic,,,,Special token or punctuation by meaning
+81,ˈɒ,ˈɒ,34,OW1,ˈoʊ,phoible,0.030303030303030304,0.9428571428571428,True,Nearest articulatory features
+82,ˌəʊ,ˌəʊ,,,,random,,,,Target IPA absent from pinned PHOIBLE and no equivalent English sound
+83,ˈeɪ,ˈeɪ,31,EY1,ˈeɪ,equivalent,0.0,1.0,True,Same broad IPA sound
+84,əl,əl,,,,random,,,,Target IPA absent from pinned PHOIBLE and no equivalent English sound
+85,bʲ,bʲ,25,B,b,phoible,0.14285714285714285,1.0,True,Nearest articulatory features
+86,ɜː,ɜː,2,AH0,ə,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+87,ŋ,ŋ,36,NG,ŋ,equivalent,0.0,1.0,True,Same broad IPA sound
+88,uː,uː,53,UW0,u,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+89,ˈɔː,ˈɔː,30,AO1,ˈɔ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+90,ð,ð,9,DH,ð,equivalent,0.0,1.0,True,Same broad IPA sound
+91,ˈuː,ˈuː,28,UW1,ˈu,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+92,θ,θ,43,TH,θ,equivalent,0.0,1.0,True,Same broad IPA sound
+93,ˈʌ,ˈʌ,19,AH1,ˈʌ,equivalent,0.0,1.0,True,Same broad IPA sound
+94,ˈɑː,ˈɑː,24,AA1,ˈɑ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+95,w,w,16,W,w,equivalent,0.0,1.0,True,Same broad IPA sound
+96,ˈaʊ,ˈaʊ,42,AW1,ˈaʊ,equivalent,0.0,1.0,True,Same broad IPA sound
+97,ˈɛː,ˈɛː,15,EH1,ˈɛ,phoible,0.02857142857142857,1.0,True,Nearest articulatory features
+98,ˈə,ˈə,2,AH0,ə,equivalent,0.0,1.0,False,Same broad IPA sound; English stress differs (independent target row)
+99,<sos/eos>,,77,<sos/eos>,,semantic,,,,Special token or punctuation by meaning
