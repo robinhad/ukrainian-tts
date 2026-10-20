@@ -436,6 +436,28 @@ Smoke-test optimizers are temporary and take zero steps; the training
 continuation restores the original optimizer states. A numeric
 `train/normalization_phase=1` marker at step 6,000 marks the change in W&B.
 
+On 2026-10-20, a further 30,000 steps were scheduled after successful completion
+of the 20,000-step run, for **50,000 total steps**. The continuation uses the
+same Tetiana data, recalculated statistics bundle, experiment directory,
+FlashAttention, batch size and metrics-only W&B stream. It restores the final
+trainer checkpoint, including both optimizer states and scheduler clocks.
+Keep `RUN_TAG=tetiana_20000` and the existing `TTS_EXP` despite the larger target;
+those names identify the ongoing run. With the exports above, submit:
+
+```bash
+STEPS=50000 sbatch --dependency="afterok:$CURRENT_TRAINING_JOB_ID" \
+  --kill-on-invalid-dep=yes --gres=gpu:1 --ntasks=1 --cpus-per-task=8 \
+  --mem=96G --time=48:00:00 \
+  --output="$TRANSFER_ROOT/slurm-tetiana-to50k-%j.log" \
+  training/scripts/run_phonetic_transfer.sh
+```
+
+The dependency prevents two trainers from writing to the same experiment.
+The 50K resume configuration was checked against the saved 18K state: both Adam
+counters were 18,000, both scheduler epochs were 18, and normalization matched
+the recalculated bundle. At approximately 0.893 seconds/step, the additional
+30K steps take about 7 hours 27 minutes, excluding startup and checkpoint overhead.
+
 For inference, listening-page generation and smoke tests, pair new checkpoints
 with `converted_tetiana_stats`; use `converted` for pre-migration checkpoints.
 Strict loading and resume reject mismatched statistics, allowing only FP32
