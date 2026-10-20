@@ -25,6 +25,9 @@ for split in train dev; do
 done
 DATA_ROOT="$TRANSFER_ROOT"
 VOICE_ARGS=()
+BACKEND_ARGS=()
+[[ ${FLASH_ATTENTION:-0} == 1 ]] && BACKEND_ARGS+=(--flash-attention)
+[[ ${RESUME:-0} == 1 ]] && BACKEND_ARGS+=(--resume)
 if [[ -n "$SPEAKER" ]]; then
     : "${SOURCE_ID:?A single-voice run requires a source-qualified speaker}"
     DATA_ROOT="$TRANSFER_ROOT/voices/$SPEAKER"
@@ -44,7 +47,7 @@ python -m training.quality.supervise \
     -- python -m training.transfer.train --bundle "$TRANSFER_ROOT/converted" \
     --train "$DATA_ROOT/train" --valid "$DATA_ROOT/dev" \
     --output "$TTS_EXP" --steps "$STEPS" --batch-size "$BATCH_SIZE" \
-    --external-metrics "${VOICE_ARGS[@]}" &
+    --external-metrics "${VOICE_ARGS[@]}" "${BACKEND_ARGS[@]}" &
 SUPERVISOR_PID=$!
 python -m training.transfer.monitor --pid "$SUPERVISOR_PID" \
     --log "$TRANSFER_ROOT/run_${RUN_TAG}/command.log" --steps "$STEPS" \

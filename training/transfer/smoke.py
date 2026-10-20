@@ -13,7 +13,7 @@ from .prepare import prepare, read_audio
 from .train import training_config
 
 
-def smoke(bundle, pairs, device, output):
+def smoke(bundle, pairs, device, output, flash_attention=False):
     from espnet2.tasks.gan_tts import GANTTSTask
     from espnet2.train.distributed_utils import DistributedOption
     from espnet2.torch_utils.load_pretrained_model import load_pretrained_model
@@ -57,6 +57,9 @@ def smoke(bundle, pairs, device, output):
     optimized = {id(p) for optim in optimizers for group in optim.param_groups for p in group['params']}
     assert optimized == {id(p) for p in model.parameters() if p.requires_grad}
     model.train()
+    if flash_attention:
+        from .attention import enable_flash_attention
+        flash_modules = enable_flash_attention(model)
     results = {}
     for name, generator in [('generator', True), ('discriminator', False)]:
         model.zero_grad(set_to_none=True)
@@ -83,6 +86,11 @@ def smoke(bundle, pairs, device, output):
                    explicit_lexical_stress=True, inference_samples=wav.numel(),
                    sample_rate=args.feats_extract_conf['fs'], input_phones=len(ids),
                    input_samples=len(audio), learning_rate=args.optim_conf['lr'])
+    if flash_attention:
+        counts = {name: module.flash_calls for name, module in model.named_modules()
+                  if hasattr(module, 'flash_calls')}
+        assert len(counts) == len(flash_modules) and all(count > 0 for count in counts.values())
+        results['flash_attention_calls'] = counts
     output.write_text(json.dumps(results, indent=2) + '\n')
     print(json.dumps(results, indent=2))
 
@@ -93,8 +101,9 @@ def main():
     parser.add_argument('--pairs', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--device', default='cpu')
+    parser.add_argument('--flash-attention', action='store_true')
     args = parser.parse_args()
-    smoke(args.bundle, args.pairs, args.device, args.output)
+    smoke(args.bundle, args.pairs, args.device, args.output, args.flash_attention)
 
 
 if __name__ == '__main__':

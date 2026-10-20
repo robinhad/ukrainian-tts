@@ -12,7 +12,15 @@ from training.scripts.training_status import parse_log
 
 def snapshot(log, steps):
     now = dt.datetime.now(ZoneInfo('Europe/Kyiv'))
-    progress = parse_log(log.read_text(errors='replace') if log.exists() else '', 1000)
+    text = log.read_text(errors='replace') if log.exists() else ''
+    progress = parse_log(text, 1000)
+    # A restart appends to the same log. Do not extrapolate its installation/
+    # scheduler downtime, or the old attention backend's speed, into the ETA.
+    marker = 'The training was resumed using'
+    if marker in text:
+        current = parse_log(text.rsplit(marker, 1)[1], 1000)
+        progress['observed_seconds_per_iteration'] = current['observed_seconds_per_iteration']
+        progress['error_matches'] = current['error_matches']
     completed = progress['total_iterations'] or 0
     seconds_per_step = progress['observed_seconds_per_iteration']
     eta = (now + dt.timedelta(seconds=max(0, steps - completed) * seconds_per_step)

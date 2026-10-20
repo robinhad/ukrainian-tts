@@ -1,4 +1,4 @@
-"""Explicit full-model fine-tuning entrypoint; weights-only initialization."""
+"""Full-model fine-tuning with explicit fresh initialization or stateful resume."""
 import argparse
 import json
 from pathlib import Path
@@ -41,6 +41,28 @@ def training_config(bundle, train, valid, output, speaker=None):
     return config
 
 
+def validate_resume(output, config):
+    """Fail closed instead of ESPnet's implicit fresh start on missing state."""
+    import torch
+    checkpoint = output / 'checkpoint.pth'
+    previous = yaml.safe_load((output / 'finetune.yaml').read_text())
+    allowed = {'resume', 'init_param', 'max_epoch', 'transfer_attention_backend'}
+    changed = [key for key in set(previous) | set(config)
+               if key not in allowed and previous.get(key) != config.get(key)]
+    if changed:
+        raise ValueError(f'Resume would change training/data settings: {changed}')
+    if not checkpoint.is_file():
+        raise ValueError('Resume requires a complete checkpoint.pth with optimizer state')
+    state = torch.load(checkpoint, map_location='cpu', weights_only=False)
+    if not all(key in state for key in ('model', 'reporter', 'optimizers', 'schedulers')):
+        raise ValueError('Resume requires a full trainer checkpoint')
+    epoch = state['reporter']['epoch']
+    if not 0 < epoch < config['max_epoch']:
+        raise ValueError('Resume target must exceed the saved epoch')
+    config.update(resume=True, init_param=[])
+    return epoch
+
+
 def main():
     from espnet2.tasks.gan_tts import GANTTSTask
     parser = argparse.ArgumentParser(description=__doc__)
@@ -50,6 +72,9 @@ def main():
     parser.add_argument('--steps', type=int, default=50000)
     parser.add_argument('--batch-size', type=int, default=4)
     parser.add_argument('--speaker', help='Require matching single-voice train and validation metadata')
+    parser.add_argument('--flash-attention', action='store_true')
+    parser.add_argument('--resume', action='store_true',
+                        help='Resume all trainer state; --steps remains the total target')
     parser.add_argument('--external-metrics', action='store_true',
                         help='Use the repository numeric-only TensorBoard-to-W&B supervisor')
     args = parser.parse_args()
@@ -58,7 +83,7 @@ def main():
     if args.batch_size <= 0:
         parser.error('--batch-size must be positive')
     # Never silently resume or overwrite an earlier run/optimizer.
-    if args.output.exists():
+    if args.output.exists() and not args.resume:
         raise ValueError('Use a new output directory for fresh optimizer fine-tuning')
     config = training_config(args.bundle, args.train, args.valid, args.output, args.speaker)
     config.update(max_epoch=args.steps // 1000, num_iters_per_epoch=1000,
@@ -66,12 +91,19 @@ def main():
                   num_att_plot=0, log_interval=10, use_tensorboard=True)
     if args.external_metrics:
         config['use_wandb'] = False
-    args.output.mkdir(parents=True)
-    config_path = args.output / 'finetune.yaml'
+    task = GANTTSTask
+    if args.flash_attention:
+        from .attention import flash_task
+        task = flash_task()
+        config['transfer_attention_backend'] = 'flash2'
+    if args.resume:
+        validate_resume(args.output, config)
+    args.output.mkdir(parents=True, exist_ok=args.resume)
+    config_path = args.output / ('finetune-resume.yaml' if args.resume else 'finetune.yaml')
     config_path.write_text(yaml.safe_dump(config, allow_unicode=True))
-    GANTTSTask.get_parser().parse_args(['--config', str(config_path)])
+    task.get_parser().parse_args(['--config', str(config_path)])
     if not args.write_config_only:
-        GANTTSTask.main(cmd=['--config', str(config_path)])
+        task.main(cmd=['--config', str(config_path)])
 
 
 if __name__ == '__main__':

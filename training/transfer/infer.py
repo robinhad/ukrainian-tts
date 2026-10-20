@@ -9,10 +9,13 @@ from .convert import load_strict
 from .frontend import TransferFrontend
 
 
-def synthesize(bundle, text, checkpoint=None, device='cpu'):
+def synthesize(bundle, text, checkpoint=None, device='cpu', flash_attention=False):
     # TTSTask's inference wrapper allows non-strict loads; explicitly use the
     # GAN training task and strict state loading instead, then JETS inference.
     model, args = load_strict(bundle, device, checkpoint)
+    if flash_attention:
+        from .attention import enable_flash_attention
+        enable_flash_attention(model)
     frontend = TransferFrontend(args.token_list)
     frontend.verify(bundle / 'frontend.json')
     _, ids = frontend.encode(text)
@@ -29,8 +32,10 @@ def main():
     parser.add_argument('--text', required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--device', default='cpu')
+    parser.add_argument('--flash-attention', action='store_true')
     args = parser.parse_args()
-    waveform, sample_rate = synthesize(args.bundle, args.text, args.checkpoint, args.device)
+    waveform, sample_rate = synthesize(args.bundle, args.text, args.checkpoint, args.device,
+                                      args.flash_attention)
     sf.write(args.output, waveform, sample_rate)
 
 

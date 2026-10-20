@@ -221,6 +221,66 @@ The reproducible subset command is `python -m training.transfer.select_voice`;
 its `selection.json` records the selected speaker, source, counts, and hours.
 `RUN_TAG` can override the log/metrics namespace for a new experiment.
 
+## FlashAttention training and checkpoint resume
+
+Install FlashAttention-2 after the normal training bootstrap. The installer
+defaults to the official
+[prebuilt 2.8.3 wheel, release v2.8.3.post1](https://github.com/Dao-AILab/flash-attention/releases/tag/v2.8.3.post1)
+for Linux ARM64, Python 3.12, Torch 2.9, CUDA 13 and CXX11 ABI, pinned by SHA256.
+It checks this environment and installs without changing Torch or dependencies.
+Other environments must select a matching wheel or explicitly opt into a
+source build (`FLASH_ATTN_BUILD_SOURCE=1`), which requires CUDA/Ninja and builds
+upstream 2.8.3.post2.
+
+```bash
+bash training/scripts/install_flash_attention.sh
+source training/activate.sh
+export UKTTS_ESPEAK_DATA_HASH_FILE=training/quality_runs/phonetic_transfer/frontend/ESPEAK_NG_DATA_HASH
+srun --gres=gpu:1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
+  env UKTTS_TEST_FLASH=1 python -m pytest training/tests/test_transfer_attention.py -q
+srun --gres=gpu:1 --cpus-per-task=4 --mem=32G --time=00:15:00 \
+  python -m training.transfer.smoke --bundle "$TRANSFER_ROOT/converted" \
+  --pairs smoke_pair.jsonl --device cuda --flash-attention \
+  --output "$TRANSFER_ROOT/flash_smoke.json"
+```
+
+Set `FLASH_ATTENTION=1` on the SLURM launcher for new runs. For an existing
+experiment, stop its current job after a complete epoch checkpoint has been
+saved, then submit with the same experiment, voice, step target, and metrics
+namespace, plus `RESUME=1,FLASH_ATTENTION=1`. Never run two trainers against
+the same output directory.
+
+```bash
+sbatch --job-name=jets-tetiana-transfer-flash --gres=gpu:1 \
+  --cpus-per-task=8 --mem=96G --time=2-00:00:00 \
+  --export=ALL,SPEAKER=tetiana,SOURCE_ID=opentts_tetiana,STEPS=20000,RESUME=1,FLASH_ATTENTION=1 \
+  --output=training/quality_runs/phonetic_transfer/slurm-tetiana-flash-%j.log \
+  training/scripts/run_phonetic_transfer.sh
+```
+
+`--steps` remains the **total** target. Resume restores the model, both
+optimizers, both schedulers and the step/epoch reporter from `checkpoint.pth`;
+it fails if state is absent or data/training settings change. The original
+`finetune.yaml` is preserved, and resume writes `finetune-resume.yaml`.
+The same W&B metrics stream and minute-by-minute Kyiv ETA monitor continue.
+
+The adapter replaces computation in the donor's eight plain transformer
+attention modules without changing parameter names or shapes. Only Q/K/V inputs
+to the fused operation use BF16; projections, model parameters, optimizer state
+and GAN losses stay FP32. Training retains 0.2 attention dropout. Padding masks
+remove keys only: padded query outputs are retained because subsequent
+convolutions can consume them. Inference uses zero attention dropout. CUDA
+errors fail the run instead of silently reverting to unfused attention.
+Each module logs its first successful FlashAttention call.
+
+The CUDA tests compare outputs and gradients with ESPnet attention, including
+padded query positions, check parameter identity, exercise training dropout,
+and require actual FlashAttention forward/backward kernels in a CUDA profile.
+The full-model smoke additionally checks both GAN backward passes and synthesis.
+Weights remain loadable by the ordinary CPU/GPU inference path; add
+`--flash-attention --device cuda` to `training.transfer.infer` to use the same
+accelerated attention path. Both paths retain the identical Ukrainian frontend.
+
 ## Smoke tests and inference
 
 ```bash
