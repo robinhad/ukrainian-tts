@@ -281,6 +281,22 @@ Weights remain loadable by the ordinary CPU/GPU inference path; add
 `--flash-attention --device cuda` to `training.transfer.infer` to use the same
 accelerated attention path. Both paths retain the identical Ukrainian frontend.
 
+Validation on 2026-10-20: the official ARM64 wheel passed both attention CUDA
+tests (padded/unpadded outputs and gradients, dropout, profiled forward/backward
+kernels), both resume/ETA tests, and the 20 existing transfer/frontend/metrics
+tests. The full JETS smoke passed both GAN backward passes and inference; its
+sanitized results are in
+[`phonetic_transfer_flash_smoke.json`](../reports/phonetic_transfer_flash_smoke.json).
+The Tetiana run resumed at step 1,000 with both Adam counters at 1,000 and both
+scheduler epochs at 1. All eight attention modules confirmed successful
+training calls with dropout 0.2.
+
+Early observed throughput was 0.8955 seconds/step over resumed steps
+1,011–1,100, versus 0.913 seconds/step for the initial 1,000-step epoch:
+about 2% faster. This is an end-to-end observation across different batches,
+not a controlled attention benchmark; the earlier epoch also overlapped CPU
+compilation. FlashAttention does not accelerate the entire GAN pipeline.
+
 ## Smoke tests and inference
 
 ```bash
