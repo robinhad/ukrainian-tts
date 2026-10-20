@@ -554,3 +554,71 @@ arguments. Score that manifest into `train_probes/scores.jsonl`.
 it writes `index.html` and standalone `preview.html` with 56 listening players.
 The tests in `training/tests/test_rhotic_diagnostic.py` check phone boundaries,
 rhotic distinctions, insertions/deletions and r/l count separation.
+
+### Controlled r-embedding adaptation
+
+The next experiment branches from the pinned **43K weights**, with two separate
+2,000-step runs. Arm `kept_r` keeps every trained tensor. Arm `english_r` changes
+only the Ukrainian `r` embedding row to the original English donor `R` vector
+(stored as `ɹ` in the converted inventory). This is an initialization experiment:
+English `ɹ` is not the desired Ukrainian pronunciation.
+
+Both arms use fresh AdamW optimizers, because the pinned checkpoint contains
+weights only. All model parameters remain trainable. The entire text embedding
+matrix has learning rate **0.0002**; the remaining generator parameters and the
+discriminator use **0.00002**. Optimizer groups are disjoint and cover every
+trainable parameter. Scheduler decay preserves the previous rate per 1,000 steps.
+Both arms use seed 777, batch size 8, FlashAttention, the same 553 Tetiana training
+recordings, and the same frontend, 22.05 kHz audio settings and recalculated
+normalization statistics. This comparison isolates initialization **under the
+higher embedding learning rate**; it does not independently measure the effect
+of raising that rate versus keeping it unchanged.
+
+Every 500 steps the runner saves a checkpoint, synthesizes all 13 development
+texts, and measures independent phoneme recognition, SigMOS and Audiobox PQ
+against the processed reference recordings. Each arm starts with a step-zero
+baseline. Outputs include per-file JSONL, aggregate JSON and a standalone audio
+page at `evaluation_STEP/preview.html`. Numeric training and evaluation metrics
+go to separate W&B runs in `ukrainian-tts`; no model files are uploaded. The
+runner restores optimizer and scheduler state between evaluation stages. A
+failed stage stops that arm and preserves its diagnostic files.
+
+Initial development-set measurements, before additional training:
+
+| Arm | Exact r / 30 | r recognized as l / 30 | Median SigMOS | Median Audiobox PQ |
+|---|---:|---:|---:|---:|
+| Kept trained r | 9 | 18 | 3.2782 | 7.5658 |
+| English R initialization | 3 | 0 | 3.3847 | 7.5537 |
+| Processed reference | 29 | 0 | 3.3819 | 7.7570 |
+
+The English-initialized arm has 19/30 `ɹ` outcomes. The reference's remaining
+rhotic is recognized as `rʲ`. These are recognizer labels, not human listening
+ratings; a higher MOS alone does not establish correct Ukrainian pronunciation.
+This panel differs from the earlier ten-item diagnostic panel.
+
+Prepare once, then run each arm in a GPU allocation:
+
+```bash
+python -m training.transfer.rhotic_ab prepare \
+  --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
+  --donor-bundle "$TRANSFER_ROOT/converted" \
+  --checkpoint "$DIAGNOSTIC_ROOT/43epoch.pth" \
+  --voice-data "$TRANSFER_ROOT/voices/tetiana" \
+  --output "$TRANSFER_ROOT/rhotic_ab"
+
+python -m training.transfer.rhotic_ab smoke --root "$TRANSFER_ROOT/rhotic_ab/kept_r"
+python -m training.transfer.rhotic_ab evaluate --root "$TRANSFER_ROOT/rhotic_ab/kept_r" --step 0
+# Repeat smoke and baseline evaluation for english_r.
+
+sbatch --gres=gpu:1 --ntasks=1 --cpus-per-task=8 --mem=96G --time=04:00:00 \
+  --export=ALL,ARM_ROOT="$TRANSFER_ROOT/rhotic_ab/kept_r" \
+  training/scripts/run_rhotic_ab.sh
+# Submit english_r with its own ARM_ROOT; use dependencies to serialize GPU jobs.
+```
+
+Submit from the repository root with its configured training environment. The
+wrapper records progress and Kyiv ETA every minute and applies the existing
+memory guard. Check `progress.jsonl`, `runtime/command.log`, and the SLURM state
+for failures. The main continuation and the two experiment outputs are separate.
+The reproducibility metadata and disposable GPU smoke results are saved in
+`training/reports/phonetic_transfer_rhotic_ab_initial.json`.

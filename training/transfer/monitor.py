@@ -10,15 +10,15 @@ from zoneinfo import ZoneInfo
 from training.scripts.training_status import parse_log
 
 
-def snapshot(log, steps):
+def snapshot(log, steps, iterations_per_epoch=1000):
     now = dt.datetime.now(ZoneInfo('Europe/Kyiv'))
     text = log.read_text(errors='replace') if log.exists() else ''
-    progress = parse_log(text, 1000)
+    progress = parse_log(text, iterations_per_epoch)
     # A restart appends to the same log. Do not extrapolate its installation/
     # scheduler downtime, or the old attention backend's speed, into the ETA.
     marker = 'The training was resumed using'
     if marker in text:
-        current = parse_log(text.rsplit(marker, 1)[1], 1000)
+        current = parse_log(text.rsplit(marker, 1)[1], iterations_per_epoch)
         progress['observed_seconds_per_iteration'] = current['observed_seconds_per_iteration']
         progress['error_matches'] = current['error_matches']
     completed = progress['total_iterations'] or 0
@@ -37,6 +37,7 @@ def main():
     parser.add_argument('--log', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--steps', type=int, required=True)
+    parser.add_argument('--iterations-per-epoch', type=int, default=1000)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     while True:
@@ -45,7 +46,7 @@ def main():
             alive = True
         except ProcessLookupError:
             alive = False
-        status = snapshot(args.log, args.steps)
+        status = snapshot(args.log, args.steps, args.iterations_per_epoch)
         status['supervisor_alive'] = alive
         with args.output.open('a') as stream:
             stream.write(json.dumps(status) + '\n')

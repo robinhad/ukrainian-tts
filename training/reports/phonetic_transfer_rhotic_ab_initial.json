@@ -1,0 +1,214 @@
+{
+  "weight_comparison": {
+    "model_tensors": 539,
+    "arm_a_equals_43000": true,
+    "arm_b_changed_keys": [
+      "tts.generator.encoder.embed.0.weight"
+    ],
+    "arm_b_changed_tokens": [
+      "r"
+    ]
+  },
+  "arms": [
+    {
+      "experiment": {
+        "arm": "kept_r",
+        "base_step": 43000,
+        "additional_steps": 2000,
+        "seed": 777,
+        "batch_size": 8,
+        "evaluation_interval": 500,
+        "fresh_optimizers": true,
+        "embedding_lr": 0.0002,
+        "backbone_lr": 2e-05,
+        "discriminator_lr": 2e-05,
+        "source_checkpoint_sha256": "24329ba3c7151332aada78a57a99f5b89613ef4927018e09070cc602e7b4a07f",
+        "initial_sha256": "d8db633092479dc91bde5ecbd28d92eff7a1570127ff1a5ec996ec57c518607d",
+        "donor_sha256": "1239197eedd70174c8762ebaf42b3c7311f9408deda1d387ed3cc6e0afae11f4",
+        "frontend_sha256": "cd2fc12fe5a3fe2d03525c19e17177c82cbb7b7a414b8500f57d3079ddb27563",
+        "only_changed_row": null
+      },
+      "smoke": {
+        "arm": "kept_r",
+        "losses": [
+          52.51376724243164,
+          1.9092631340026855
+        ],
+        "learning_rates": [
+          2e-05,
+          0.0002,
+          2e-05
+        ],
+        "optimizer_steps": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "embedding_updated": true,
+        "initial_checkpoint_unchanged": true,
+        "disposable_model": true,
+        "model_saved": false
+      },
+      "baseline": {
+        "arm": "kept_r",
+        "additional_steps": 0,
+        "base_step": 43000,
+        "checkpoint_sha256": "d8db633092479dc91bde5ecbd28d92eff7a1570127ff1a5ec996ec57c518607d",
+        "split": "development; 13 items; no training items",
+        "phone_counts": {
+          "synthesis": {
+            "files": 13,
+            "r_counts": {
+              "r": 9,
+              "l": 18,
+              "v": 1,
+              "<deleted>": 2
+            },
+            "l_counts": {
+              "l": 10,
+              "r": 3,
+              "i": 1
+            }
+          },
+          "reference": {
+            "files": 13,
+            "r_counts": {
+              "r": 29,
+              "rʲ": 1
+            },
+            "l_counts": {
+              "l": 14
+            }
+          }
+        },
+        "metrics": {
+          "synthesis_r_exact_rate": 0.3,
+          "synthesis_r_as_l_rate": 0.6,
+          "synthesis_l_exact_rate": 0.7142857142857143,
+          "reference_r_exact_rate": 0.9666666666666667,
+          "reference_r_as_l_rate": 0.0,
+          "reference_l_exact_rate": 1.0,
+          "synthesis_sigmos_overall_median": 3.2781553268432617,
+          "synthesis_audiobox_pq_median": 7.565794467926025,
+          "reference_sigmos_overall_median": 3.381923198699951,
+          "reference_audiobox_pq_median": 7.757023811340332
+        }
+      }
+    },
+    {
+      "experiment": {
+        "arm": "english_r",
+        "base_step": 43000,
+        "additional_steps": 2000,
+        "seed": 777,
+        "batch_size": 8,
+        "evaluation_interval": 500,
+        "fresh_optimizers": true,
+        "embedding_lr": 0.0002,
+        "backbone_lr": 2e-05,
+        "discriminator_lr": 2e-05,
+        "source_checkpoint_sha256": "24329ba3c7151332aada78a57a99f5b89613ef4927018e09070cc602e7b4a07f",
+        "initial_sha256": "eff1f790c41271a801ae63732b96c53e0475ab87c53dbb8f94ecf42ab7569d8b",
+        "donor_sha256": "1239197eedd70174c8762ebaf42b3c7311f9408deda1d387ed3cc6e0afae11f4",
+        "frontend_sha256": "cd2fc12fe5a3fe2d03525c19e17177c82cbb7b7a414b8500f57d3079ddb27563",
+        "only_changed_row": "r"
+      },
+      "smoke": {
+        "arm": "english_r",
+        "losses": [
+          52.88429260253906,
+          1.9765870571136475
+        ],
+        "learning_rates": [
+          2e-05,
+          0.0002,
+          2e-05
+        ],
+        "optimizer_steps": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "embedding_updated": true,
+        "initial_checkpoint_unchanged": true,
+        "disposable_model": true,
+        "model_saved": false
+      },
+      "baseline": {
+        "arm": "english_r",
+        "additional_steps": 0,
+        "base_step": 43000,
+        "checkpoint_sha256": "eff1f790c41271a801ae63732b96c53e0475ab87c53dbb8f94ecf42ab7569d8b",
+        "split": "development; 13 items; no training items",
+        "phone_counts": {
+          "synthesis": {
+            "files": 13,
+            "r_counts": {
+              "r": 3,
+              "i": 1,
+              "ɹ": 19,
+              "ɾ": 1,
+              "v": 1,
+              "e": 1,
+              "<deleted>": 4
+            },
+            "l_counts": {
+              "l": 10,
+              "r": 3,
+              "i": 1
+            }
+          },
+          "reference": {
+            "files": 13,
+            "r_counts": {
+              "r": 29,
+              "rʲ": 1
+            },
+            "l_counts": {
+              "l": 14
+            }
+          }
+        },
+        "metrics": {
+          "synthesis_r_exact_rate": 0.1,
+          "synthesis_r_as_l_rate": 0.0,
+          "synthesis_l_exact_rate": 0.7142857142857143,
+          "reference_r_exact_rate": 0.9666666666666667,
+          "reference_r_as_l_rate": 0.0,
+          "reference_l_exact_rate": 1.0,
+          "synthesis_sigmos_overall_median": 3.384676933288574,
+          "synthesis_audiobox_pq_median": 7.5536980628967285,
+          "reference_sigmos_overall_median": 3.381923198699951,
+          "reference_audiobox_pq_median": 7.757023811340332
+        }
+      }
+    }
+  ],
+  "trainer_resume_smoke": {
+    "completed_epochs": 2,
+    "iterations_per_epoch": 1,
+    "learning_rates": [
+      [
+        1.99975e-05,
+        0.00019997500000000002
+      ],
+      [
+        1.99975e-05
+      ]
+    ],
+    "optimizer_steps": [
+      [
+        2
+      ],
+      [
+        2
+      ]
+    ]
+  }
+}
