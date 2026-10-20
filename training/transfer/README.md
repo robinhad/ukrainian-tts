@@ -339,7 +339,7 @@ TRANSFER_ROOT=training/quality_runs/phonetic_transfer
 export UKTTS_ESPEAK_DATA_HASH_FILE="$TRANSFER_ROOT/frontend/ESPEAK_NG_DATA_HASH"
 # Use a normal GPU allocation when idle, or share your running training
 # allocation briefly by supplying its ID in TRAINING_JOB_ID.
-srun --jobid="$TRAINING_JOB_ID" --overlap --gres=gpu:1 --cpus-per-task=2 --mem=16G \
+srun --jobid="$TRAINING_JOB_ID" --overlap --ntasks=1 --gres=gpu:1 --cpus-per-task=2 --mem=16G \
   python -m training.transfer.listening \
   --bundle "$TRANSFER_ROOT/converted" \
   --checkpoint training/exp/phonetic_transfer_tetiana_20000/latest.pth \
