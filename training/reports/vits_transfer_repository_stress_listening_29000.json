@@ -1,0 +1,71 @@
+{
+  "step": 29000,
+  "checkpoint_sha256": "694ed10a04f6a0506f29cdb66ca65b933e34c43cdf77a7c64c45b48f4de207f4",
+  "files": 13,
+  "text_frontend": "repository_dictionary_with_model_fallback",
+  "reference_policy": "Fixed processed dev recordings resampled to 22050 Hz; filtering used scores at 24000 Hz",
+  "conditioning": "512D vector extracted from each reference recording; no reference durations or acoustic features passed",
+  "phone_counts": {
+    "synthesis": {
+      "files": 13,
+      "r_counts": {
+        "r": 10,
+        "<deleted>": 7,
+        "l": 3,
+        "ə": 1,
+        "e": 1,
+        "a": 2,
+        "j": 1,
+        "v": 2,
+        "ɹ": 3,
+        "y": 1,
+        "oː": 1,
+        "h": 1,
+        "t": 3,
+        "i": 1,
+        "ð": 1
+      },
+      "l_counts": {
+        "l": 10,
+        "v": 1,
+        "aː": 1,
+        "<deleted>": 1
+      }
+    },
+    "reference": {
+      "files": 13,
+      "r_counts": {
+        "r": 36,
+        "<deleted>": 2
+      },
+      "l_counts": {
+        "l": 12,
+        "<deleted>": 1
+      }
+    }
+  },
+  "metrics": {
+    "synthesis_sigmos_overall_median": 3.1345221996307373,
+    "synthesis_sigmos_speech_median": 3.4475529193878174,
+    "synthesis_sigmos_noise_median": 4.19366455078125,
+    "synthesis_sigmos_coloration_median": 3.5424489974975586,
+    "synthesis_sigmos_discontinuity_median": 3.9032020568847656,
+    "synthesis_audiobox_pq_median": 7.418610572814941,
+    "synthesis_r_exact_rate": 0.2631578947368421,
+    "synthesis_l_exact_rate": 0.7692307692307693,
+    "reference_sigmos_overall_median": 3.383582592010498,
+    "reference_sigmos_speech_median": 3.7629892826080322,
+    "reference_sigmos_noise_median": 4.349925994873047,
+    "reference_sigmos_coloration_median": 3.773832321166992,
+    "reference_sigmos_discontinuity_median": 4.002619743347168,
+    "reference_audiobox_pq_median": 7.672424793243408,
+    "reference_r_exact_rate": 0.9473684210526315,
+    "reference_l_exact_rate": 0.9230769230769231
+  },
+  "validation": {
+    "embedded_players_decoded": 26,
+    "sample_rate": 22050,
+    "all_finite": true,
+    "stress_panel_identical_to_10000": true
+  }
+}
