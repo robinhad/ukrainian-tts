@@ -1,0 +1,1607 @@
+{
+  "arm": "english_r",
+  "additional_steps": 36000,
+  "base_step": 0,
+  "files": 13,
+  "players": 39,
+  "history": [
+    {
+      "arm": "english_r",
+      "additional_steps": 0,
+      "base_step": 0,
+      "checkpoint_sha256": "2ecfa2a6eb0c4b1409407ec9f11e56ebc5d2be7dda46c38f52286c1b5ff1f435",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "ɹ": 20,
+            "ə": 1,
+            "oː": 2,
+            "<deleted>": 2,
+            "ɪ": 1,
+            "ɛ": 1,
+            "uː": 1,
+            "eɪ": 1,
+            "i": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.0,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.6822597980499268,
+        "synthesis_audiobox_pq_median": 7.068925380706787,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 1000,
+      "base_step": 0,
+      "checkpoint_sha256": "81c714fad414a25f2bf9dec9e88e177dfb45ac40be9c395c22fc9514e943449b",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 5,
+            "i": 1,
+            "ɹ": 18,
+            "<deleted>": 3,
+            "e": 1,
+            "oː": 2
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.16666666666666666,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.015810489654541,
+        "synthesis_audiobox_pq_median": 6.317089080810547,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 2000,
+      "base_step": 0,
+      "checkpoint_sha256": "42962f0b72aca31c17ceb9b14778fc1c20036e656fe0f480b0d8ebf78da6eedb",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 5,
+            "i": 1,
+            "ɹ": 15,
+            "<deleted>": 6,
+            "e": 1,
+            "o": 1,
+            "eː": 1
+          },
+          "l_counts": {
+            "l": 13,
+            "t": 1
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.16666666666666666,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 0.9285714285714286,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.1090312004089355,
+        "synthesis_audiobox_pq_median": 6.791668891906738,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 3000,
+      "base_step": 0,
+      "checkpoint_sha256": "053b66000098e26a87a606a9250e8ad10b49c8cdc161281e030673117fdfe3ba",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "ɹ": 12,
+            "i": 1,
+            "<deleted>": 4,
+            "r": 11,
+            "e": 1,
+            "oː": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.36666666666666664,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.2195827960968018,
+        "synthesis_audiobox_pq_median": 7.115942001342773,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 4000,
+      "base_step": 0,
+      "checkpoint_sha256": "093dabae6a4b234295e9faac17299cf5b7614fab1929ff16b601ff2f1ad56f6d",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "ɹ": 12,
+            "i": 1,
+            "<deleted>": 5,
+            "r": 11,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.36666666666666664,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.2454748153686523,
+        "synthesis_audiobox_pq_median": 7.204984664916992,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 5000,
+      "base_step": 0,
+      "checkpoint_sha256": "851578de905d0748e68f4076aca88cea15979f3337e6ee4b46c167d998c44a6e",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "ɹ": 12,
+            "i": 1,
+            "ɾ": 1,
+            "r": 13,
+            "<deleted>": 2,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.43333333333333335,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.153458833694458,
+        "synthesis_audiobox_pq_median": 7.338744163513184,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 6000,
+      "base_step": 0,
+      "checkpoint_sha256": "7337d29044ad56c573f3508301a0a71cfa5ca4f6193f72bdd4933e4459a20b07",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "ɹ": 10,
+            "l": 3,
+            "ɾ": 1,
+            "r": 14,
+            "<deleted>": 2
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.4666666666666667,
+        "synthesis_r_as_l_rate": 0.1,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.091456174850464,
+        "synthesis_audiobox_pq_median": 7.353092193603516,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 7000,
+      "base_step": 0,
+      "checkpoint_sha256": "57ca054d1569fccf122ae2ba6f9f108581dafe7c591833f7d0da2567de689f62",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 13,
+            "i": 1,
+            "ɹ": 8,
+            "l": 2,
+            "ɾ": 2,
+            "v": 1,
+            "<deleted>": 2,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.43333333333333335,
+        "synthesis_r_as_l_rate": 0.06666666666666667,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.253023862838745,
+        "synthesis_audiobox_pq_median": 7.443098545074463,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 8000,
+      "base_step": 0,
+      "checkpoint_sha256": "6c7797e5423cd58ca5f7f4082722529c7a6030609230c5a67cc297b85686949b",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 18,
+            "l": 5,
+            "ɹ": 4,
+            "ɾ": 1,
+            "aɪ": 1,
+            "<deleted>": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.6,
+        "synthesis_r_as_l_rate": 0.16666666666666666,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3839917182922363,
+        "synthesis_audiobox_pq_median": 7.43985652923584,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 9000,
+      "base_step": 0,
+      "checkpoint_sha256": "3daa9027388bb692693557a92122b557f31fb63efb95d2a5e68eb9accdb5054c",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 15,
+            "l": 7,
+            "ɹ": 4,
+            "<deleted>": 3,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.5,
+        "synthesis_r_as_l_rate": 0.23333333333333334,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.2232792377471924,
+        "synthesis_audiobox_pq_median": 7.450207710266113,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 10000,
+      "base_step": 0,
+      "checkpoint_sha256": "e5672f7434ede144673bddaf37ad2fd712ec753e129a4fc3a8232988362dc9f9",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 17,
+            "i": 1,
+            "l": 5,
+            "ɹ": 3,
+            "ɾ": 1,
+            "v": 1,
+            "aɪ": 1,
+            "<deleted>": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.5666666666666667,
+        "synthesis_r_as_l_rate": 0.16666666666666666,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.062316417694092,
+        "synthesis_audiobox_pq_median": 7.4477105140686035,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 11000,
+      "base_step": 0,
+      "checkpoint_sha256": "17a99fecf27d0fda8f99211ebe5314659a7dc38fb314fbecc4f99fa7985314c2",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 22,
+            "l": 1,
+            "ɹ": 3,
+            "ɾ": 1,
+            "v": 1,
+            "<deleted>": 1,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.7333333333333333,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.310094118118286,
+        "synthesis_audiobox_pq_median": 7.485274314880371,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 12000,
+      "base_step": 0,
+      "checkpoint_sha256": "d0995903fe1100382e79c3722d9259c321ecd7bbc3efe928b9ce13266e5fba1f",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 19,
+            "l": 5,
+            "ɹ": 3,
+            "ɾ": 1,
+            "v": 1,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.6333333333333333,
+        "synthesis_r_as_l_rate": 0.16666666666666666,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.2361602783203125,
+        "synthesis_audiobox_pq_median": 7.480113506317139,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 13000,
+      "base_step": 0,
+      "checkpoint_sha256": "5357e21f2284fecba5664d9bcf111209c8fbc0755f131e7b9ea101a61aa4a39d",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 24,
+            "l": 3,
+            "ɹ": 1,
+            "v": 1,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.8,
+        "synthesis_r_as_l_rate": 0.1,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.267719030380249,
+        "synthesis_audiobox_pq_median": 7.4716596603393555,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 14000,
+      "base_step": 0,
+      "checkpoint_sha256": "9e193ef3667581228210ebd702dcc3e9e06840f4d38ed1df08624e7dbb1eb41e",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 25,
+            "l": 3,
+            "v": 1,
+            "aɪ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.8333333333333334,
+        "synthesis_r_as_l_rate": 0.1,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.1914262771606445,
+        "synthesis_audiobox_pq_median": 7.469541549682617,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 15000,
+      "base_step": 0,
+      "checkpoint_sha256": "8ed585ad3aa4f9ebf829257577d2ef3d19eff340f22e5f623ed3c06f0cb5727b",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 28,
+            "v": 1,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9333333333333333,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3199667930603027,
+        "synthesis_audiobox_pq_median": 7.474887371063232,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 16000,
+      "base_step": 0,
+      "checkpoint_sha256": "b8afcbdb979a5a1047878511908daa686b780afcdbbe54494b4af22e953c49d6",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 24,
+            "l": 4,
+            "<deleted>": 1,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.8,
+        "synthesis_r_as_l_rate": 0.13333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3856334686279297,
+        "synthesis_audiobox_pq_median": 7.497790336608887,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 17000,
+      "base_step": 0,
+      "checkpoint_sha256": "8bac4cab4f62862ba22be1c7c4f9a202cc6a14da2a31f6ca960d69e21d897d26",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 27,
+            "v": 1,
+            "l": 2
+          },
+          "l_counts": {
+            "l": 13,
+            "i": 1
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9,
+        "synthesis_r_as_l_rate": 0.06666666666666667,
+        "synthesis_l_exact_rate": 0.9285714285714286,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.2972779273986816,
+        "synthesis_audiobox_pq_median": 7.512146472930908,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 18000,
+      "base_step": 0,
+      "checkpoint_sha256": "8879d3aa250b153f3ba8aa6ebc8cdfa296de2c79132b8afcf27449e5f7245931",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 28,
+            "v": 1,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9333333333333333,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.360795736312866,
+        "synthesis_audiobox_pq_median": 7.522952079772949,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 19000,
+      "base_step": 0,
+      "checkpoint_sha256": "dff971e4bb9ba512d978071e31c6d23f0b4f229fa89cdf7578099a7030444e42",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 28,
+            "v": 1,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9333333333333333,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3232059478759766,
+        "synthesis_audiobox_pq_median": 7.489250659942627,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 20000,
+      "base_step": 0,
+      "checkpoint_sha256": "0d52c9c1fce66a3e55cefcc8196016d860e5464ac8b4bd33da15138fe0d0617b",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 27,
+            "l": 2,
+            "ɡ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9,
+        "synthesis_r_as_l_rate": 0.06666666666666667,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3213136196136475,
+        "synthesis_audiobox_pq_median": 7.528963565826416,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 21000,
+      "base_step": 0,
+      "checkpoint_sha256": "b0b9f464836bc8c649aa03e0f8558e966d65482c91488b5ce535708b5fcc3c27",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 27,
+            "l": 3
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9,
+        "synthesis_r_as_l_rate": 0.1,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.33573317527771,
+        "synthesis_audiobox_pq_median": 7.506022930145264,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 22000,
+      "base_step": 0,
+      "checkpoint_sha256": "6dfe7ec24215b38ee0eb0a5d441a01cb283ea26a77ee67553082a97d69472bc8",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 26,
+            "l": 3,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.8666666666666667,
+        "synthesis_r_as_l_rate": 0.1,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.323850631713867,
+        "synthesis_audiobox_pq_median": 7.498771667480469,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 23000,
+      "base_step": 0,
+      "checkpoint_sha256": "c0d5acde3ed75f84897131948cb5785f041aa5c28f3f08e93876617854924723",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 27,
+            "l": 2,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9,
+        "synthesis_r_as_l_rate": 0.06666666666666667,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.48699951171875,
+        "synthesis_audiobox_pq_median": 7.517334938049316,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 24000,
+      "base_step": 0,
+      "checkpoint_sha256": "8892c53d4e86b91631eb9c02c189db2186d83e06e656bcef4e07abb62c748b83",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 28,
+            "l": 1,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9333333333333333,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.332472801208496,
+        "synthesis_audiobox_pq_median": 7.512947082519531,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 25000,
+      "base_step": 0,
+      "checkpoint_sha256": "ada771dab36774424c733ab16ab5c6be09f298d3e2dac32fec50c468f7537e96",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 27,
+            "v": 1,
+            "<deleted>": 1,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3265156745910645,
+        "synthesis_audiobox_pq_median": 7.566328525543213,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 26000,
+      "base_step": 0,
+      "checkpoint_sha256": "fbc835e6c13183d92f407e55260ce4a494ff416d1a2aa00f73cde41c77dc2aab",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.4850006103515625,
+        "synthesis_audiobox_pq_median": 7.547848701477051,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 27000,
+      "base_step": 0,
+      "checkpoint_sha256": "57855baf51440bd3b761fc6917f763d2eb0ef3dd86e6a75dacb78f34e486207b",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.4370946884155273,
+        "synthesis_audiobox_pq_median": 7.582475662231445,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 28000,
+      "base_step": 0,
+      "checkpoint_sha256": "1d16814fb1c2a21fe9b2d93cf3f9767f24672f4cd506d83d9b4a733764a09ee5",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.4119813442230225,
+        "synthesis_audiobox_pq_median": 7.5714874267578125,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 29000,
+      "base_step": 0,
+      "checkpoint_sha256": "a151d5392da96855be07f8d468417a4afe26b748d5dcc8f781430fdc71c9e43a",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.313965082168579,
+        "synthesis_audiobox_pq_median": 7.595922470092773,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 30000,
+      "base_step": 0,
+      "checkpoint_sha256": "b7056fccd97cac335bc29165ced1cfc50392cb5e540939fd092ffdbc9b1a15ac",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 30
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 1.0,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.376847267150879,
+        "synthesis_audiobox_pq_median": 7.561639785766602,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 31000,
+      "base_step": 0,
+      "checkpoint_sha256": "89ed922bea8c7869c5a450dbd5b9b77e586ec940a91481e308d82bc15064e790",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "l": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.03333333333333333,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.4921481609344482,
+        "synthesis_audiobox_pq_median": 7.567618370056152,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 32000,
+      "base_step": 0,
+      "checkpoint_sha256": "893e48920418186d860774c9488e8df8ce7db56c58ed351aed896d95d4799d10",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.248729944229126,
+        "synthesis_audiobox_pq_median": 7.5428361892700195,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 33000,
+      "base_step": 0,
+      "checkpoint_sha256": "2757b122198d6ad426b4a22b104e13c013a81195dda7e606e9df4836181ecb5d",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.4351871013641357,
+        "synthesis_audiobox_pq_median": 7.58087682723999,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 34000,
+      "base_step": 0,
+      "checkpoint_sha256": "522062e4460d79d8ccec56a24f9de489bf75328c7cbb17dae31a454f2a204783",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.372116804122925,
+        "synthesis_audiobox_pq_median": 7.562503814697266,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 35000,
+      "base_step": 0,
+      "checkpoint_sha256": "d2c63dcf7649ca1220bfdd06055f5bbe7b4bceb55fbe909fa9d6b8765e0ec579",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "v": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 0.9666666666666667,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.414456605911255,
+        "synthesis_audiobox_pq_median": 7.576814651489258,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    },
+    {
+      "arm": "english_r",
+      "additional_steps": 36000,
+      "base_step": 0,
+      "checkpoint_sha256": "3cce048657677cab7f4206b9b5219a1c6ef9706c81eaa0296c587945ca0e6ed6",
+      "split": "development; 13 items; no training items",
+      "phone_counts": {
+        "synthesis": {
+          "files": 13,
+          "r_counts": {
+            "r": 30
+          },
+          "l_counts": {
+            "l": 14
+          }
+        },
+        "reference": {
+          "files": 13,
+          "r_counts": {
+            "r": 29,
+            "rʲ": 1
+          },
+          "l_counts": {
+            "l": 14
+          }
+        }
+      },
+      "metrics": {
+        "synthesis_r_exact_rate": 1.0,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.3629722595214844,
+        "synthesis_audiobox_pq_median": 7.603387832641602,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      }
+    }
+  ],
+  "final_checkpoint_sha256": "3cce048657677cab7f4206b9b5219a1c6ef9706c81eaa0296c587945ca0e6ed6",
+  "validation": {
+    "embedded_players_decoded": 39,
+    "sample_rate": 22050,
+    "all_finite": true
+  }
+}
