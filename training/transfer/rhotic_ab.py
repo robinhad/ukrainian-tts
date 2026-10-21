@@ -147,7 +147,8 @@ def train(root, epochs):
     ab_task().main(cmd=['--config', str(path)])
 
 
-def evaluate(root, step):
+def evaluate(root, step, repository_stress=True):
+    from .evaluation_text import evaluation_root, prepare_panel
     from .attention import enable_flash_attention
     from .rhotic_diagnostic import score
     from .rhotic_report import summary
@@ -159,7 +160,9 @@ def evaluate(root, step):
         raise ValueError('Evaluation step is outside the prepared schedule')
     bundle, dev = Path(record['bundle']), Path(record['voice_data']) / 'dev'
     checkpoint = root / ('initial.pth' if step == 0 else f'train/{step // interval}epoch.pth')
-    output = root / f'evaluation_{step}'
+    base = evaluation_root(root, repository_stress)
+    base.mkdir(exist_ok=True)
+    output = base / f'evaluation_{step}'
     output.mkdir(exist_ok=False)
     (output / 'audio').mkdir()
     model, config = load_strict(bundle, 'cuda', checkpoint)
@@ -169,6 +172,16 @@ def evaluate(root, step):
     wavs = dict(line.split(maxsplit=1) for line in (dev / 'wav.scp').read_text().splitlines())
     if texts.keys() != wavs.keys():
         raise ValueError('Development manifest mismatch')
+    panel = None
+    if repository_stress:
+        import pandas as pd
+        selection = pd.read_parquet(dev/'selection.parquet')
+        panel = prepare_panel([dict(id=row.utterance_id,text=row.text_sanitized)
+                               for row in selection.itertuples()], config.token_list, bundle)
+        if {row['id'] for row in panel} != texts.keys():
+            raise ValueError('Stress panel differs from development manifest')
+        texts = {row['id']: ' '.join(row['expected_phones']) for row in panel}
+        (output/'panel.jsonl').write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in panel))
     rows = []
     torch.set_num_threads(2)
     torch.manual_seed(record['seed'])
@@ -209,21 +222,26 @@ def evaluate(root, step):
         for metric in ['sigmos_overall', 'audiobox_pq']:
             metrics[f'{role}_{metric}_median'] = float(np.median([r[metric] for r in quality_rows if r['condition'] == role]))
     result = dict(arm=record['arm'], additional_steps=step, base_step=record['base_step'],
+                  text_frontend='repository_dictionary_with_model_fallback' if repository_stress else 'cached_espeak',
                   checkpoint_sha256=sha256(checkpoint), split='development; 13 items; no training items',
                   phone_counts=counts, metrics=metrics)
     (output / 'summary.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     (output / 'quality.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in quality_rows))
     with SummaryWriter(str(root / 'train/tensorboard/valid' if step else root / 'baseline_events/valid')) as writer:
         for key, value in metrics.items():
-            writer.add_scalar('rhotic/' + key, value, step)
+            writer.add_scalar(('rhotic_repository_stress/' if repository_stress else 'rhotic/') + key, value, step)
     parts = ['<!doctype html><html lang="uk"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">',
              '<title>Rhotic A/B evaluation</title><style>body{max-width:900px;margin:auto;padding:24px;font:18px/1.5 system-ui}audio{width:100%}</style>',
              f'<h1>{record["arm"]}: +{step} кроків від {record["base_step"]}</h1><p>13 validation-записів. Автоматичні фонетичні мітки та MOS — діагностика, не оцінка людини.</p>',
+             '<p>Текстовий фронтенд: '+html.escape(result['text_frontend'])+'</p>',
              '<pre>' + html.escape(json.dumps(metrics, indent=2)) + '</pre>']
     import base64
+    display = {row['id']: row['text'] for row in panel} if panel else {}
+    qualities = {(row['id'],row['condition']): row for row in quality_rows}
     for row in rows:
         src = base64.b64encode(Path(row['audio_path']).read_bytes()).decode()
-        parts.append(f'<p>{html.escape(row["id"])} · {row["condition"]}</p><audio controls preload="none" src="data:audio/wav;base64,{src}"></audio>')
+        q = qualities[row['id'],row['condition']]
+        parts.append(f'<p>{html.escape(display.get(row["id"],row["id"]))} · {row["condition"]}</p><audio controls preload="none" src="data:audio/wav;base64,{src}"></audio><p>SigMOS {q["sigmos_overall"]:.3f} · Audiobox PQ {q["audiobox_pq"]:.3f}</p>')
     (output / 'preview.html').write_text('\n'.join(parts) + '</html>')
     print('RHOTIC_EVALUATION', json.dumps(result, ensure_ascii=False), flush=True)
 
@@ -300,10 +318,11 @@ def main():
             p.add_argument('--epochs', type=int, required=True)
         if command == 'evaluate':
             p.add_argument('--step', type=int, required=True)
+            p.add_argument('--cached-phonemes', action='store_true')
     args = parser.parse_args()
     if args.command == 'prepare': prepare(args)
     elif args.command == 'train': train(args.root, args.epochs)
-    elif args.command == 'evaluate': evaluate(args.root, args.step)
+    elif args.command == 'evaluate': evaluate(args.root, args.step, not args.cached_phonemes)
     elif args.command == 'smoke': smoke(args.root)
     else: run(args.root)
 

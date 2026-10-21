@@ -154,6 +154,23 @@ preserves existing evaluations by refusing to overwrite them.
 Add `--render-only` to rebuild an existing page from its saved audio and metrics
 without synthesis, rescoring, or a GPU allocation.
 
+Evaluation now defaults to the repository's `preprocess_text` followed by
+`sentence_to_stress` (dictionary stress, model fallback). Install additional
+dependencies from `training/transfer/stress-requirements.txt`; importing the
+repository frontend downloads Ukrainian Stanza resources on first use.
+The adapter converts `+vowel` to `vowel` plus combining acute, then encodes it
+with the checkpoint's verified IPA frontend. Punctuation-only gaps that eSpeak
+leaves empty are allowed; missing word phones still fail. Token inventory,
+training manifests, optimizer, audio settings and checkpoint weights are unchanged.
+
+New results are under `repository_stress/evaluation_STEP/preview.html`, with
+original/normalized/stressed text, exact phones and token IDs in `panel.jsonl`.
+The separate comparison JSONL/CSV and `listening_repository_stress` metric namespace
+avoid mixing the two frontend conditions. Pass `--cached-phonemes` to evaluate
+or render the old cached-phone condition. The same stress adapter is now the
+default for `training.transfer.rhotic_ab evaluate` (JETS); its stressed pages
+also live under `repository_stress/evaluation_STEP/preview.html`.
+
 ## Verification
 
 GPU smoke tests exercise both GAN updates, finite gradients, the 10× embedding

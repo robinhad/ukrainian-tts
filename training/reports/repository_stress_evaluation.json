@@ -1,0 +1,136 @@
+{
+  "frontend": "repository preprocess_text -> sentence_to_stress (dictionary + model fallback) -> acute notation -> frozen IPA frontend",
+  "dependencies": {
+    "ukrainian-word-stress": "1.1.0",
+    "ukrainian-accentor": "0.1.1",
+    "stanza": "1.15.0",
+    "num2words": "0.5.14"
+  },
+  "code_sha256": {
+    "ukrainian_tts/formatter.py": "f2143942abbf1d1cbba9e28c6d29fe37350e76c56529c26f64f022abd5b88b51",
+    "ukrainian_tts/stress.py": "fc55410023f4c1090b2e84262a99209a8ade20cf6d1f056f6ff5f8e03028e3a0",
+    "training/transfer/evaluation_text.py": "98de666b5c6ee1050c9091c7401e71bd6f5b4510dc7fb0d22a504a8eb875658b"
+  },
+  "evaluations": [
+    {
+      "model": "vits",
+      "step": 10000,
+      "checkpoint_sha256": "a6ae246efd131a7e34ea8a378fdb4dfa23a7568ff5fdea025d31158e2e07f1c8",
+      "files": 13,
+      "audio_players_verified": 26,
+      "reference_audio_unchanged": true,
+      "before": {
+        "synthesis_sigmos_overall_median": 3.144200563430786,
+        "synthesis_sigmos_speech_median": 3.5553393363952637,
+        "synthesis_sigmos_noise_median": 3.933809995651245,
+        "synthesis_sigmos_coloration_median": 3.5647976398468018,
+        "synthesis_sigmos_discontinuity_median": 3.8385534286499023,
+        "synthesis_audiobox_pq_median": 7.489830017089844,
+        "synthesis_r_exact_rate": 0.21052631578947367,
+        "synthesis_l_exact_rate": 0.6923076923076923,
+        "reference_sigmos_overall_median": 3.383582592010498,
+        "reference_sigmos_speech_median": 3.7629892826080322,
+        "reference_sigmos_noise_median": 4.349925994873047,
+        "reference_sigmos_coloration_median": 3.773832321166992,
+        "reference_sigmos_discontinuity_median": 4.002619743347168,
+        "reference_audiobox_pq_median": 7.672424793243408,
+        "reference_r_exact_rate": 0.9473684210526315,
+        "reference_l_exact_rate": 0.9230769230769231
+      },
+      "after": {
+        "synthesis_sigmos_overall_median": 3.34047794342041,
+        "synthesis_sigmos_speech_median": 3.765920639038086,
+        "synthesis_sigmos_noise_median": 4.013463020324707,
+        "synthesis_sigmos_coloration_median": 3.616262674331665,
+        "synthesis_sigmos_discontinuity_median": 3.8874967098236084,
+        "synthesis_audiobox_pq_median": 7.474843978881836,
+        "synthesis_r_exact_rate": 0.23684210526315788,
+        "synthesis_l_exact_rate": 0.7692307692307693,
+        "reference_sigmos_overall_median": 3.383582592010498,
+        "reference_sigmos_speech_median": 3.7629892826080322,
+        "reference_sigmos_noise_median": 4.349925994873047,
+        "reference_sigmos_coloration_median": 3.773832321166992,
+        "reference_sigmos_discontinuity_median": 4.002619743347168,
+        "reference_audiobox_pq_median": 7.672424793243408,
+        "reference_r_exact_rate": 0.9473684210526315,
+        "reference_l_exact_rate": 0.9230769230769231
+      },
+      "phone_counts_after": {
+        "files": 13,
+        "r_counts": {
+          "h": 3,
+          "<deleted>": 10,
+          "aː": 1,
+          "d": 1,
+          "r": 9,
+          "n": 1,
+          "v": 5,
+          "oː": 1,
+          "ʌ": 1,
+          "ts": 1,
+          "t": 2,
+          "iː": 1,
+          "a": 1,
+          "p": 1
+        },
+        "l_counts": {
+          "l": 10,
+          "v": 1,
+          "aː": 1,
+          "r": 1
+        }
+      },
+      "changed_phone_sequences": 13,
+      "stress_text_examples": [
+        "володи́мир ста́в те́мою ї́х щоде́нних розмо́в.",
+        "прі́ська, ще́ ра́з подя́кувавши, поди́бала ву́лицею."
+      ]
+    },
+    {
+      "model": "jets",
+      "step": 40000,
+      "checkpoint_sha256": "58df27b239329e314af419c7fe82979bce70a331c594e08042dd2988b4b9080a",
+      "files": 13,
+      "audio_players_verified": 26,
+      "reference_audio_unchanged": true,
+      "before": {
+        "synthesis_r_exact_rate": 1.0,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.453474760055542,
+        "synthesis_audiobox_pq_median": 7.551720142364502,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      },
+      "after": {
+        "synthesis_r_exact_rate": 1.0,
+        "synthesis_r_as_l_rate": 0.0,
+        "synthesis_l_exact_rate": 1.0,
+        "reference_r_exact_rate": 0.9666666666666667,
+        "reference_r_as_l_rate": 0.0,
+        "reference_l_exact_rate": 1.0,
+        "synthesis_sigmos_overall_median": 3.295372247695923,
+        "synthesis_audiobox_pq_median": 7.578253746032715,
+        "reference_sigmos_overall_median": 3.381923198699951,
+        "reference_audiobox_pq_median": 7.757023811340332
+      },
+      "phone_counts_after": {
+        "files": 13,
+        "r_counts": {
+          "r": 30
+        },
+        "l_counts": {
+          "l": 14
+        }
+      },
+      "changed_phone_sequences": 13,
+      "stress_text_examples": [
+        "- не́ тя́миш? а́ пра́вда, ти́ не́ бува́в у́ суберльо́вої.",
+        "попереджа́ю, що́ я́ бу́ду обороня́тись, хо́ч би́ й про́ти ва́с."
+      ]
+    }
+  ]
+}

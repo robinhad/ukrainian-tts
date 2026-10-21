@@ -17,10 +17,11 @@ from .convert import sha256
 from .rhotic_diagnostic import score
 from .rhotic_report import summary
 from .vits import load
+from .evaluation_text import evaluation_root, prepare_panel
 from training.scripts.score_checkpoint_listening import QualityModels
 
 
-def evaluate(root, step):
+def evaluate(root, step, repository_stress=True):
     record = json.loads((root/'experiment.json').read_text())
     # Checkpoints are saved every 1K steps; on-demand listening need not wait
     # for the automatic 5K evaluation interval.
@@ -30,13 +31,18 @@ def evaluate(root, step):
     checkpoint = bundle/'model.pth' if step == 0 else root/f'train_model/{step//1000}epoch.pth'
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
-    output = root/f'evaluation_{step}'
+    base = evaluation_root(root, repository_stress)
+    base.mkdir(exist_ok=True)
+    output = base/f'evaluation_{step}'
     output.mkdir(exist_ok=False)
     (output/'audio').mkdir()
     model, config = load(bundle, checkpoint, 'cuda')
     model.eval().requires_grad_(False)
     torch.set_num_threads(4)
     panel = [json.loads(line) for line in (root/'panel.jsonl').read_text().splitlines()]
+    if repository_stress:
+        panel = prepare_panel(panel, config['token_list'], bundle)
+    (output/'panel.jsonl').write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in panel))
     rows = []
     for index, row in enumerate(panel, 1):
         ids = torch.tensor([config['token_list'].index(p) for p in row['expected_phones']], device='cuda')
@@ -84,6 +90,7 @@ def evaluate(root, step):
         row['duration_ratio']=row['duration_seconds']/references[row['id']]['duration_seconds']
     manifest.write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows))
     summary_row=dict(step=step,checkpoint_sha256=sha256(checkpoint),files=len(panel),
+                     text_frontend='repository_dictionary_with_model_fallback' if repository_stress else 'cached_espeak',
                      reference_policy='Fixed processed dev recordings resampled to 22050 Hz; filtering used scores at 24000 Hz',
                      conditioning='512D vector extracted from each reference recording; no reference durations or acoustic features passed',
                      phone_counts=counts,metrics=metrics,quality_model_identity=quality.identity)
@@ -93,28 +100,29 @@ def evaluate(root, step):
         writer=csv.DictWriter(stream,fieldnames=list(quality_rows[0]),lineterminator='\n')
         writer.writeheader();writer.writerows(quality_rows)
     history=[]
-    for path in sorted(root.glob('evaluation_*/summary.json'),key=lambda p:int(p.parent.name.split('_')[-1])):
+    for path in sorted(base.glob('evaluation_*/summary.json'),key=lambda p:int(p.parent.name.split('_')[-1])):
         previous=json.loads(path.read_text())
         history.append(dict(step=previous['step'],**previous['metrics']))
-    (root/'checkpoint_comparison.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in history))
-    with (root/'checkpoint_comparison.csv').open('w') as stream:
+    (base/'checkpoint_comparison.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in history))
+    with (base/'checkpoint_comparison.csv').open('w') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(history[0]),lineterminator='\n')
         writer.writeheader();writer.writerows(history)
     events=root/('train_model/tensorboard/valid' if step else 'baseline_events/valid')
     with SummaryWriter(str(events)) as writer:
-        for key,value in metrics.items():writer.add_scalar('listening/'+key,value,step)
-    render(root, step)
+        for key,value in metrics.items():writer.add_scalar(('listening_repository_stress/' if repository_stress else 'listening/')+key,value,step)
+    render(root, step, repository_stress)
     print('VITS_EVALUATION',json.dumps(summary_row,ensure_ascii=False),flush=True)
 
 
-def render(root, step):
+def render(root, step, repository_stress=True):
     """Rebuild the page from existing audio and metrics without GPU inference."""
-    output = root/f'evaluation_{step}'
+    output = evaluation_root(root, repository_stress)/f'evaluation_{step}'
     summary_row = json.loads((output/'summary.json').read_text())
     if summary_row['step'] != step:
         raise ValueError('Evaluation summary step mismatch')
     metrics = summary_row['metrics']
-    panel = [json.loads(line) for line in (root/'panel.jsonl').read_text().splitlines()]
+    panel_path = output/'panel.jsonl'
+    panel = [json.loads(line) for line in (panel_path if panel_path.exists() else root/'panel.jsonl').read_text().splitlines()]
     rows = [json.loads(line) for line in (output/'manifest.jsonl').read_text().splitlines()]
     quality_rows = [json.loads(line) for line in (output/'quality.jsonl').read_text().splitlines()]
     for row in rows:
@@ -124,6 +132,7 @@ def render(root, step):
            f'<title>Ukrainian VITS · {step:,}</title>',
            '<style>body{max-width:1100px;margin:auto;padding:24px;font:17px/1.5 system-ui}.players{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}audio{width:100%}article{border-top:1px solid #aaa;margin-top:25px}small{display:block}@media(prefers-color-scheme:dark){body{background:#171717;color:#eee}}</style>',
            f'<h1>VITS · {step:,} кроків · декілька голосів</h1>',
+           '<p>Текстовий фронтенд: '+html.escape(summary_row.get('text_frontend','cached_espeak'))+'</p>',
            '<p>Фіксована validation-вибірка. Референс — оброблене аудіо 22,05 кГц; фільтр ≥3,5 застосовувався до версії 24 кГц. MOS і фонетичні мітки — автоматичні оцінки, не висновок слухача.</p>',
            '<pre>'+html.escape(json.dumps(metrics,indent=2))+'</pre>']
     by_audio={(r['id'],r['condition']):r for r in rows}
@@ -144,8 +153,9 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',type=Path,required=True);parser.add_argument('--step',type=int,required=True)
     parser.add_argument('--render-only',action='store_true',help='Rebuild HTML from existing evaluation files')
+    parser.add_argument('--cached-phonemes',action='store_true',help='Use legacy cached eSpeak phones without repository stress marking')
     args=parser.parse_args()
-    (render if args.render_only else evaluate)(args.root,args.step)
+    (render if args.render_only else evaluate)(args.root,args.step,not args.cached_phonemes)
 
 
 if __name__=='__main__':main()
