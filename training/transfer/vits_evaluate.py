@@ -22,10 +22,14 @@ from training.scripts.score_checkpoint_listening import QualityModels
 
 def evaluate(root, step):
     record = json.loads((root/'experiment.json').read_text())
-    if step < 0 or step > record['steps'] or step % record['evaluation_interval']:
-        raise ValueError('Evaluation step outside the prepared schedule')
+    # Checkpoints are saved every 1K steps; on-demand listening need not wait
+    # for the automatic 5K evaluation interval.
+    if step < 0 or step > record['steps'] or step % 1000:
+        raise ValueError('Evaluation step must match a saved 1K checkpoint within the schedule')
     bundle = Path(record['bundle'])
     checkpoint = bundle/'model.pth' if step == 0 else root/f'train_model/{step//1000}epoch.pth'
+    if not checkpoint.is_file():
+        raise FileNotFoundError(checkpoint)
     output = root/f'evaluation_{step}'
     output.mkdir(exist_ok=False)
     (output/'audio').mkdir()
