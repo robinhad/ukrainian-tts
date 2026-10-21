@@ -1,0 +1,288 @@
+{
+  "steps": 50000,
+  "batch_size": 8,
+  "evaluation_interval": 5000,
+  "splits": {
+    "train": {
+      "items": 10187,
+      "hours": 16.50494300925926,
+      "speaker_labels": 8914,
+      "speaker_count_note": "Many labels are per-recording pseudo-identities; not a verified count of people",
+      "sources": {
+        "common_voice_available_uk": {
+          "items": 3822,
+          "hours": 4.189514537037037
+        },
+        "fleurs_uk": {
+          "items": 352,
+          "hours": 1.0916808912037037
+        },
+        "opentts_lada": {
+          "items": 91,
+          "hours": 0.10339460648148148
+        },
+        "opentts_mykyta": {
+          "items": 581,
+          "hours": 0.6116004166666666
+        },
+        "opentts_tetiana": {
+          "items": 553,
+          "hours": 0.657820625
+        },
+        "tg_voices_uk": {
+          "items": 86,
+          "hours": 0.09985001157407407
+        },
+        "ua_ser": {
+          "items": 32,
+          "hours": 0.023286666666666664
+        },
+        "ukr_dialects": {
+          "items": 4670,
+          "hours": 9.727795254629628
+        }
+      },
+      "excluded_vector_ids": [],
+      "hashes": {
+        "text": "51c8710cbc463a65f207eb2397324e431152708559b832ecd80b5fca25878c60",
+        "wav.scp": "f3a978d64dceb4f661298ceaf225b4b2dd962908898c4a0f4e54a2a4caaf77f5",
+        "xvector.scp": "3405b4d4cb31d4fe1c241335f44119cec5a253826cfcd33defbd3890618fb5a6"
+      }
+    },
+    "dev": {
+      "items": 196,
+      "hours": 0.33523881944444445,
+      "speaker_labels": 173,
+      "speaker_count_note": "Many labels are per-recording pseudo-identities; not a verified count of people",
+      "sources": {
+        "common_voice_available_uk": {
+          "items": 63,
+          "hours": 0.06798621527777776
+        },
+        "fleurs_uk": {
+          "items": 10,
+          "hours": 0.028538900462962966
+        },
+        "opentts_lada": {
+          "items": 1,
+          "hours": 0.0013194444444444445
+        },
+        "opentts_mykyta": {
+          "items": 11,
+          "hours": 0.00942222222222222
+        },
+        "opentts_tetiana": {
+          "items": 13,
+          "hours": 0.015236145833333334
+        },
+        "tg_voices_uk": {
+          "items": 3,
+          "hours": 0.0018555787037037037
+        },
+        "ukr_dialects": {
+          "items": 95,
+          "hours": 0.2108803125
+        }
+      },
+      "excluded_vector_ids": [],
+      "hashes": {
+        "text": "dea812521e643c76813d4c96592f03bb0bb266f4b4d3dd0abfe8c1706edaae30",
+        "wav.scp": "3a08867da934b4b572b701ea0acc3c40223773a4cf2ac7cfc7d0cf3e4e9dfd03",
+        "xvector.scp": "53edfa255712302287741ea83b5e01a2fe331a889c195d154200fa37125208f4"
+      }
+    }
+  },
+  "speaker_vectors": {
+    "identity": {
+      "model_sha256": "4f5301f7cb4b8f4dcc01190bfdd8a3cbf4f040a5745d13d2b7f84a1bc2a79a00",
+      "extract_config_sha256": "1a06f508b6609a31ec946c6e33963b1f1bfd4623479abb8f2df53a66fd64d05f",
+      "wav_scp_sha256": {
+        "train": "f3a978d64dceb4f661298ceaf225b4b2dd962908898c4a0f4e54a2a4caaf77f5",
+        "dev": "3a08867da934b4b572b701ea0acc3c40223773a4cf2ac7cfc7d0cf3e4e9dfd03"
+      },
+      "limit": 0
+    },
+    "dimension": 512,
+    "tool": "Kaldi SITW xvector system 1a",
+    "device": "CPU (installed Kaldi build)",
+    "mfcc_sample_rate": 16000,
+    "cmvn": "per-recording centered 300-frame sliding mean; variance unchanged",
+    "corpus_statistics_required": false,
+    "missing_ids": [],
+    "splits": {
+      "train": {
+        "requested": 10187,
+        "extracted": 10187
+      },
+      "dev": {
+        "requested": 196,
+        "extracted": 196
+      }
+    }
+  },
+  "base_step": 0,
+  "initialization": "English donor with Ukrainian phonetic rows and r <- English R",
+  "embedding_lr": 0.0002,
+  "backbone_lr": 2e-05,
+  "fresh_optimizers": true,
+  "feature_statistics": "Not applicable: donor uses unnormalized linear spectra; pitch/energy extractors absent",
+  "speaker_conditioning": "Per-utterance Kaldi SITW x-vector; same extractor for training and inference",
+  "donor_revision": "7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d",
+  "initial_checkpoint_sha256": "59c4d0ac99f27c9be9619b4788abd14e87b3e220702e5b589cabead92b912e1c",
+  "smoke": {
+    "losses": [
+      2.7462916374206543,
+      40.62656021118164
+    ],
+    "elapsed_seconds": 2.3603956470033154,
+    "batch_size": 8,
+    "learning_rates": [
+      2e-05,
+      0.0002,
+      2e-05
+    ],
+    "embedding_updated": true,
+    "finite_inference": true,
+    "model_saved": false,
+    "speaker_vector_dimension": 512,
+    "normalization_modules_absent": true,
+    "different_speaker_vectors_change_synthesis": true
+  },
+  "trainer_resume_smoke": {
+    "completed_epochs": 2,
+    "iterations_per_epoch": 10,
+    "optimizer_steps": [
+      [
+        20
+      ],
+      [
+        20
+      ]
+    ],
+    "learning_rates": [
+      [
+        1.99950003125e-05,
+        0.000199950003125
+      ],
+      [
+        1.99950003125e-05
+      ]
+    ],
+    "scheduler_epochs": [
+      2,
+      2
+    ]
+  },
+  "baseline": {
+    "step": 0,
+    "checkpoint_sha256": "59c4d0ac99f27c9be9619b4788abd14e87b3e220702e5b589cabead92b912e1c",
+    "files": 13,
+    "reference_policy": "Fixed processed dev recordings resampled to 22050 Hz; filtering used scores at 24000 Hz",
+    "conditioning": "512D vector extracted from each reference recording; no reference durations or acoustic features passed",
+    "phone_counts": {
+      "synthesis": {
+        "files": 13,
+        "r_counts": {
+          "s": 1,
+          "ɹ": 17,
+          "f": 1,
+          "ɛ": 2,
+          "t": 2,
+          "<deleted>": 4,
+          "oʊ": 1,
+          "p": 1,
+          "v": 1,
+          "ə": 2,
+          "w": 1,
+          "ð": 1,
+          "ɡ": 1,
+          "r": 1,
+          "oː": 1,
+          "ɚ": 1
+        },
+        "l_counts": {
+          "l": 10,
+          "v": 1,
+          "<deleted>": 2
+        }
+      },
+      "reference": {
+        "files": 13,
+        "r_counts": {
+          "r": 36,
+          "<deleted>": 2
+        },
+        "l_counts": {
+          "l": 12,
+          "<deleted>": 1
+        }
+      }
+    },
+    "metrics": {
+      "synthesis_sigmos_overall_median": 3.2248713970184326,
+      "synthesis_sigmos_speech_median": 3.5862951278686523,
+      "synthesis_sigmos_noise_median": 4.230597496032715,
+      "synthesis_sigmos_coloration_median": 3.521881580352783,
+      "synthesis_sigmos_discontinuity_median": 3.9939942359924316,
+      "synthesis_audiobox_pq_median": 7.282123565673828,
+      "synthesis_r_exact_rate": 0.02631578947368421,
+      "synthesis_l_exact_rate": 0.7692307692307693,
+      "reference_sigmos_overall_median": 3.383582592010498,
+      "reference_sigmos_speech_median": 3.7629892826080322,
+      "reference_sigmos_noise_median": 4.349925994873047,
+      "reference_sigmos_coloration_median": 3.773832321166992,
+      "reference_sigmos_discontinuity_median": 4.002619743347168,
+      "reference_audiobox_pq_median": 7.672424793243408,
+      "reference_r_exact_rate": 0.9473684210526315,
+      "reference_l_exact_rate": 0.9230769230769231
+    },
+    "quality_model_identity": {
+      "sigmos": {
+        "code_sha256": "e6883ee45d29b3f7e81b393e5e33aa1db9e7f18137e0bab8fdd49f1f2447ca27",
+        "model_sha256": "f939dcc1945055a435565b4369e27dafd0f87df3cea4e2ff6eb81225e52cc53b",
+        "placement": {
+          "CPUExecutionProvider:Concat": 2,
+          "CPUExecutionProvider:Equal": 1,
+          "CPUExecutionProvider:Gather": 3,
+          "CPUExecutionProvider:Slice": 1,
+          "CPUExecutionProvider:Unsqueeze": 1,
+          "CUDAExecutionProvider:Add": 5,
+          "CUDAExecutionProvider:Concat": 1,
+          "CUDAExecutionProvider:ConstantOfShape": 1,
+          "CUDAExecutionProvider:Conv": 8,
+          "CUDAExecutionProvider:Elu": 4,
+          "CUDAExecutionProvider:GRU": 1,
+          "CUDAExecutionProvider:Gemm": 2,
+          "CUDAExecutionProvider:GlobalMaxPool": 1,
+          "CUDAExecutionProvider:If": 1,
+          "CUDAExecutionProvider:LeakyRelu": 5,
+          "CUDAExecutionProvider:MaxPool": 4,
+          "CUDAExecutionProvider:Mul": 1,
+          "CUDAExecutionProvider:ReduceMean": 1,
+          "CUDAExecutionProvider:Reshape": 2,
+          "CUDAExecutionProvider:Shape": 3,
+          "CUDAExecutionProvider:Sigmoid": 1,
+          "CUDAExecutionProvider:Squeeze": 1,
+          "CUDAExecutionProvider:Transpose": 4
+        }
+      },
+      "audiobox_sha256": "a4931a7a01c3e6733352e9d85371835f03bf9135f8b31e1583c23538811d4a32",
+      "model_devices": {
+        "backend.0": [
+          "cuda:0"
+        ]
+      }
+    }
+  },
+  "inference_cli": {
+    "finite_audio": true,
+    "sample_rate": 22050,
+    "duration_seconds": 3.4017233560090703,
+    "frontend_shared": true
+  },
+  "listening_validation": {
+    "embedded_wavs": 26,
+    "all_finite": true
+  },
+  "tests": "30 targeted unit/regression tests passed; real GPU training, resume and inference passed"
+}

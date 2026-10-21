@@ -7,8 +7,8 @@ from urllib.request import urlopen
 from .convert import sha256
 
 
-def download(output):
-    lock = json.loads(Path(__file__).with_name('inputs.lock.json').read_text())
+def download(output, lock_path=None):
+    lock = json.loads((lock_path or Path(__file__).with_name('inputs.lock.json')).read_text())
     for entry in lock['files']:
         destination = output / entry['path']
         if destination.exists() and sha256(destination) == entry['sha256']:
@@ -28,7 +28,9 @@ def download(output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
-    download(parser.parse_args().output)
+    parser.add_argument('--lock', type=Path)
+    args = parser.parse_args()
+    download(args.output, args.lock)
 
 
 if __name__ == '__main__':

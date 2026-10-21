@@ -1,0 +1,33 @@
+{
+  "donor": "espnet/kan-bayashi_libritts_xvector_vits",
+  "donor_revision": "7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d",
+  "donor_model_card_license": "CC-BY-4.0",
+  "speaker_encoder": "Kaldi SITW Xvector system 1a",
+  "files": [
+    {
+      "path": "donor/README.md",
+      "url": "https://huggingface.co/espnet/kan-bayashi_libritts_xvector_vits/resolve/7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d/README.md",
+      "sha256": "00f3ea925d5077f46488c1d0c847a176400a062292be9ebc1bdfe470e3a286fb"
+    },
+    {
+      "path": "donor/exp/tts_train_xvector_vits_raw_phn_tacotron_g2p_en_no_space/config.yaml",
+      "url": "https://huggingface.co/espnet/kan-bayashi_libritts_xvector_vits/resolve/7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d/exp/tts_train_xvector_vits_raw_phn_tacotron_g2p_en_no_space/config.yaml",
+      "sha256": "621b862c68073a659c61e1150801b088eeb506430de0fdbb3e32205b386e11aa"
+    },
+    {
+      "path": "donor/exp/tts_train_xvector_vits_raw_phn_tacotron_g2p_en_no_space/train.total_count.ave_10best.pth",
+      "url": "https://huggingface.co/espnet/kan-bayashi_libritts_xvector_vits/resolve/7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d/exp/tts_train_xvector_vits_raw_phn_tacotron_g2p_en_no_space/train.total_count.ave_10best.pth",
+      "sha256": "05eb282aa88c7dfad30305cbb614589ebd9f0aec078fa6bf13befd5a5660ffff"
+    },
+    {
+      "path": "donor/meta.yaml",
+      "url": "https://huggingface.co/espnet/kan-bayashi_libritts_xvector_vits/resolve/7dafeb68248a94cf9c3c2b3e53bde5c2e5c7694d/meta.yaml",
+      "sha256": "85987afa9b8daf3acf0a0cc21c9698edce31a2c82aed53a67bbc96701f7ce536"
+    },
+    {
+      "path": "kaldi/0008_sitw_v2_1a.tar.gz",
+      "url": "https://kaldi-asr.org/models/8/0008_sitw_v2_1a.tar.gz",
+      "sha256": "1b040684ed01dfddb513174054166bc4a26060fd0efae2413d58ae0c7a4ae8a6"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # English → Ukrainian JETS phonetic transfer
 
+For the separate multi-speaker LibriTTS VITS transfer, see [VITS.md](VITS.md).
+
 This is a separate weights-only transfer path. It does not resume the Ukrainian
 478K run, change its listening page, or launch training during conversion/tests.
 The inspected Ukrainian checkpoint has a 100×256 text embedding and 549 tensors;

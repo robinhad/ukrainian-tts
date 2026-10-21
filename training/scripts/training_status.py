@@ -32,6 +32,9 @@ TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+")
 TRAIN_METRIC_NAMES = (
     "generator_loss",
     "generator_g_mel_loss",
+    "generator_mel_loss",
+    "generator_kl_loss",
+    "generator_dur_loss",
     "generator_align_loss",
     "discriminator_loss",
     "train_time",
