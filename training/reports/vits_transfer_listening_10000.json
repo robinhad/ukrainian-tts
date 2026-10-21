@@ -1,0 +1,69 @@
+{
+  "step": 10000,
+  "checkpoint_sha256": "a6ae246efd131a7e34ea8a378fdb4dfa23a7568ff5fdea025d31158e2e07f1c8",
+  "files": 13,
+  "reference_policy": "Fixed processed dev recordings resampled to 22050 Hz; filtering used scores at 24000 Hz",
+  "conditioning": "512D vector extracted from each reference recording; no reference durations or acoustic features passed",
+  "phone_counts": {
+    "synthesis": {
+      "files": 13,
+      "r_counts": {
+        "f": 1,
+        "<deleted>": 8,
+        "r": 8,
+        "aː": 1,
+        "d": 2,
+        "n": 4,
+        "v": 3,
+        "i": 1,
+        "b": 1,
+        "e": 2,
+        "ɹ": 1,
+        "y": 1,
+        "h": 1,
+        "t": 4
+      },
+      "l_counts": {
+        "l": 9,
+        "v": 1,
+        "aɪ": 1,
+        "aː": 1,
+        "r": 1
+      }
+    },
+    "reference": {
+      "files": 13,
+      "r_counts": {
+        "r": 36,
+        "<deleted>": 2
+      },
+      "l_counts": {
+        "l": 12,
+        "<deleted>": 1
+      }
+    }
+  },
+  "metrics": {
+    "synthesis_sigmos_overall_median": 3.144200563430786,
+    "synthesis_sigmos_speech_median": 3.5553393363952637,
+    "synthesis_sigmos_noise_median": 3.933809995651245,
+    "synthesis_sigmos_coloration_median": 3.5647976398468018,
+    "synthesis_sigmos_discontinuity_median": 3.8385534286499023,
+    "synthesis_audiobox_pq_median": 7.489830017089844,
+    "synthesis_r_exact_rate": 0.21052631578947367,
+    "synthesis_l_exact_rate": 0.6923076923076923,
+    "reference_sigmos_overall_median": 3.383582592010498,
+    "reference_sigmos_speech_median": 3.7629892826080322,
+    "reference_sigmos_noise_median": 4.349925994873047,
+    "reference_sigmos_coloration_median": 3.773832321166992,
+    "reference_sigmos_discontinuity_median": 4.002619743347168,
+    "reference_audiobox_pq_median": 7.672424793243408,
+    "reference_r_exact_rate": 0.9473684210526315,
+    "reference_l_exact_rate": 0.9230769230769231
+  },
+  "validation": {
+    "embedded_players_decoded": 26,
+    "sample_rate": 22050,
+    "all_finite": true
+  }
+}

@@ -151,6 +151,8 @@ training.transfer.vits_evaluate --root RUN --step STEP` within a GPU allocation.
 Any saved 1K-step checkpoint can be evaluated; automatic evaluations remain
 every 5K steps. The evaluator requires a new `evaluation_STEP` directory and
 preserves existing evaluations by refusing to overwrite them.
+Add `--render-only` to rebuild an existing page from its saved audio and metrics
+without synthesis, rescoring, or a GPU allocation.
 
 ## Verification
 

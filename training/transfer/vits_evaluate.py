@@ -103,6 +103,23 @@ def evaluate(root, step):
     events=root/('train_model/tensorboard/valid' if step else 'baseline_events/valid')
     with SummaryWriter(str(events)) as writer:
         for key,value in metrics.items():writer.add_scalar('listening/'+key,value,step)
+    render(root, step)
+    print('VITS_EVALUATION',json.dumps(summary_row,ensure_ascii=False),flush=True)
+
+
+def render(root, step):
+    """Rebuild the page from existing audio and metrics without GPU inference."""
+    output = root/f'evaluation_{step}'
+    summary_row = json.loads((output/'summary.json').read_text())
+    if summary_row['step'] != step:
+        raise ValueError('Evaluation summary step mismatch')
+    metrics = summary_row['metrics']
+    panel = [json.loads(line) for line in (root/'panel.jsonl').read_text().splitlines()]
+    rows = [json.loads(line) for line in (output/'manifest.jsonl').read_text().splitlines()]
+    quality_rows = [json.loads(line) for line in (output/'quality.jsonl').read_text().splitlines()]
+    for row in rows:
+        if sha256(Path(row['audio_path'])) != row['audio_sha256']:
+            raise ValueError('Listening audio hash mismatch')
     parts=['<!doctype html><html lang="uk"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
            f'<title>Ukrainian VITS · {step:,}</title>',
            '<style>body{max-width:1100px;margin:auto;padding:24px;font:17px/1.5 system-ui}.players{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}audio{width:100%}article{border-top:1px solid #aaa;margin-top:25px}small{display:block}@media(prefers-color-scheme:dark){body{background:#171717;color:#eee}}</style>',
@@ -120,13 +137,15 @@ def evaluate(root, step):
         parts.append('</div></article>')
     parts.append('<script>document.addEventListener("play",e=>{if(e.target.tagName==="AUDIO")document.querySelectorAll("audio").forEach(a=>{if(a!==e.target)a.pause()})},true)</script></html>')
     (output/'preview.html').write_text('\n'.join(parts))
-    print('VITS_EVALUATION',json.dumps(summary_row,ensure_ascii=False),flush=True)
+    print('VITS_LISTENING', str(output/'preview.html'), flush=True)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',type=Path,required=True);parser.add_argument('--step',type=int,required=True)
-    args=parser.parse_args();evaluate(args.root,args.step)
+    parser.add_argument('--render-only',action='store_true',help='Rebuild HTML from existing evaluation files')
+    args=parser.parse_args()
+    (render if args.render_only else evaluate)(args.root,args.step)
 
 
 if __name__=='__main__':main()
