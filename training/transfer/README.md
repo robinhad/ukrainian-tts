@@ -641,3 +641,42 @@ Arm A completed 2,000 steps successfully. Median SigMOS changed from 3.2782 to
 remained 9/30, with 18/30 recognized as `l`. This short run has not established
 a pronunciation improvement. Its final report is
 `training/reports/phonetic_transfer_rhotic_ab_kept_r_final.json`.
+
+### Fresh English donor with R initialization, 40K
+
+The next authorized run starts from the original converted English donor, before
+any Ukrainian training, and initializes Ukrainian `r` from English `R` (`ɹ`).
+All other Ukrainian rows retain the original conversion's mappings/random
+initializations. The speaker is Tetiana. The training-only Tetiana mel, pitch and
+energy normalizers are applied from step zero. The preparer verifies that all
+non-normalizer tensors exactly match the converted English donor before changing
+the `r` row; a Ukrainian-trained checkpoint cannot be labeled as a fresh donor.
+
+The run has 40,000 steps, batch size 8, seed 777, FlashAttention, fresh optimizers,
+and full-model fine-tuning. Embeddings start at LR 0.0002; the remaining generator
+and discriminator use 0.00002. Exponential decay is 0.999875 per 1,000 steps.
+Every 1,000 steps it saves weights and evaluates the fixed 13 development texts
+for rhotic recognition, SigMOS and Audiobox PQ. The step-zero baseline is scored
+before training. Only numeric metrics go to W&B; progress and Kyiv ETA are
+recorded every minute. Keep the prepared runtime directory separate from A/B.
+
+```bash
+python -m training.transfer.rhotic_ab prepare \
+  --bundle "$TRANSFER_ROOT/converted_tetiana_stats" \
+  --donor-bundle "$TRANSFER_ROOT/converted" \
+  --checkpoint "$TRANSFER_ROOT/converted_tetiana_stats/model.pth" \
+  --voice-data "$TRANSFER_ROOT/voices/tetiana" \
+  --output "$TRANSFER_ROOT/english_r_fresh_40000" \
+  --arm english_r --base-step 0 --steps 40000 --evaluation-interval 1000
+export ARM_ROOT="$TRANSFER_ROOT/english_r_fresh_40000/english_r"
+python -m training.transfer.rhotic_ab smoke --root "$ARM_ROOT"
+python -m training.transfer.rhotic_ab evaluate --root "$ARM_ROOT" --step 0
+sbatch --gres=gpu:1 --ntasks=1 --cpus-per-task=8 --mem=96G --time=24:00:00 \
+  --export=ALL,ARM_ROOT="$ARM_ROOT",WANDB_RUN_NAME=jets-english-r-fresh-40k \
+  training/scripts/run_rhotic_ab.sh
+```
+
+Use a dependency when another GPU job is running. Generate a before/after
+listening page for any completed evaluation with `rhotic_listening --root
+"$ARM_ROOT" --step STEP`. Fresh-start verification and initialization details are
+in `training/reports/phonetic_transfer_english_r_fresh_40000.json`.

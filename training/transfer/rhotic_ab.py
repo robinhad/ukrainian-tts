@@ -1,4 +1,4 @@
-"""Controlled two-arm embedding adaptation from a pinned weights-only checkpoint."""
+"""Controlled embedding adaptation from donor or pinned Ukrainian weights."""
 import argparse
 import html
 import json
@@ -13,6 +13,12 @@ import yaml
 
 from .convert import EMBEDDING, load_strict, sha256
 from .train import training_config
+
+
+def schedule(steps, interval):
+    if steps <= 0 or interval <= 0 or steps % interval:
+        raise ValueError('Steps must be a positive multiple of the evaluation interval')
+    return range(1, steps // interval + 1)
 
 
 def initialize(state, donor, tokens, arm):
@@ -60,6 +66,9 @@ def ab_task():
 
 def prepare(args):
     from .statistics import validate_buffers, resolve_config
+    epochs = schedule(args.steps, args.evaluation_interval)
+    if args.base_step < 0:
+        raise ValueError('Base step cannot be negative')
     state = torch.load(args.checkpoint, map_location='cpu', weights_only=True)
     donor = torch.load(args.donor_bundle / 'model.pth', map_location='cpu', weights_only=True)
     config = resolve_config(args.bundle)
@@ -71,24 +80,33 @@ def prepare(args):
     row = next(row for row in mapping if row['target_token'] == 'ɹ')
     if row['source_token'] != 'R' or row['method'] != 'equivalent':
         raise ValueError('Expected the original English R embedding')
-    for arm in ['kept_r', 'english_r']:
+    if args.base_step == 0:
+        # A fresh English start may use target-voice normalizers, but must retain
+        # every converted donor model weight before the requested r replacement.
+        normalizers = {f'{name}.{stat}' for name in ['normalize', 'pitch_normalize', 'energy_normalize']
+                       for stat in ['mean', 'std']}
+        if state.keys() != donor.keys() or any(not torch.equal(state[k], donor[k])
+                                              for k in state if k not in normalizers):
+            raise ValueError('Base step zero requires unchanged converted English donor weights')
+    for arm in (['kept_r', 'english_r'] if args.arm == 'both' else [args.arm]):
         root = args.output / arm
         root.mkdir(parents=True, exist_ok=False)
         initial = initialize(state, donor, tokens, arm)
         torch.save(initial, root / 'initial.pth')
         settings = training_config(args.bundle, args.voice_data / 'train', args.voice_data / 'dev', root / 'train', 'tetiana')
         settings.update(init_param=[str((root / 'initial.pth').resolve())],
-                        max_epoch=4, num_iters_per_epoch=500, batch_size=8,
+                        max_epoch=len(epochs), num_iters_per_epoch=args.evaluation_interval, batch_size=8,
                         keep_nbest_models=[4], num_att_plot=0, log_interval=10,
                         use_tensorboard=True, use_wandb=False,
                         transfer_attention_backend='flash2', rhotic_embedding_lr_factor=10.)
         settings['optim_conf']['lr'] = settings['optim2_conf']['lr'] = 2e-5
-        # Same time-based decay as the original 1,000-step epoch, applied twice.
+        # Preserve the donor recipe's decay per 1,000 optimizer steps.
         for key in ['scheduler_conf', 'scheduler2_conf']:
-            settings[key]['gamma'] = settings[key]['gamma'] ** .5
+            settings[key]['gamma'] = settings[key]['gamma'] ** (args.evaluation_interval / 1000)
         (root / 'settings.yaml').write_text(yaml.safe_dump(settings, allow_unicode=True))
-        record = dict(arm=arm, base_step=43000, additional_steps=2000, seed=settings['seed'],
-                      batch_size=8, evaluation_interval=500, fresh_optimizers=True,
+        record = dict(arm=arm, base_step=args.base_step, additional_steps=args.steps, seed=settings['seed'],
+                      initialization_origin='converted English donor' if args.base_step == 0 else 'trained Ukrainian checkpoint',
+                      batch_size=8, evaluation_interval=args.evaluation_interval, fresh_optimizers=True,
                       embedding_lr=2e-4, backbone_lr=2e-5, discriminator_lr=2e-5,
                       source_checkpoint_sha256=sha256(args.checkpoint), initial_sha256=sha256(root / 'initial.pth'),
                       donor_sha256=sha256(args.donor_bundle / 'model.pth'),
@@ -104,6 +122,8 @@ def prepare(args):
 def train(root, epochs):
     from .statistics import validate_buffers
     config = yaml.safe_load((root / 'settings.yaml').read_text())
+    if not 1 <= epochs <= config['max_epoch']:
+        raise ValueError('Epoch is outside the prepared training schedule')
     config['max_epoch'] = epochs
     output = root / 'train'
     if epochs == 1:
@@ -112,7 +132,7 @@ def train(root, epochs):
     else:
         checkpoint = torch.load(output / 'checkpoint.pth', map_location='cpu', weights_only=False)
         if checkpoint['reporter']['epoch'] != epochs - 1:
-            raise ValueError('Expected the preceding 500-step checkpoint')
+            raise ValueError('Expected the preceding evaluation-interval checkpoint')
         validate_buffers(checkpoint['model'], config)
         expected = [[2e-5, 2e-4], [2e-5]]
         for optimizer, rates in zip(checkpoint['optimizers'], expected):
@@ -134,8 +154,11 @@ def evaluate(root, step):
     from training.scripts.score_checkpoint_listening import QualityModels
     from torch.utils.tensorboard import SummaryWriter
     record = json.loads((root / 'experiment.json').read_text())
+    interval = record['evaluation_interval']
+    if step < 0 or step > record['additional_steps'] or step % interval:
+        raise ValueError('Evaluation step is outside the prepared schedule')
     bundle, dev = Path(record['bundle']), Path(record['voice_data']) / 'dev'
-    checkpoint = root / ('initial.pth' if step == 0 else f'train/{step // 500}epoch.pth')
+    checkpoint = root / ('initial.pth' if step == 0 else f'train/{step // interval}epoch.pth')
     output = root / f'evaluation_{step}'
     output.mkdir(exist_ok=False)
     (output / 'audio').mkdir()
@@ -185,7 +208,7 @@ def evaluate(root, step):
     for role in ['synthesis', 'reference']:
         for metric in ['sigmos_overall', 'audiobox_pq']:
             metrics[f'{role}_{metric}_median'] = float(np.median([r[metric] for r in quality_rows if r['condition'] == role]))
-    result = dict(arm=record['arm'], additional_steps=step, base_step=43000,
+    result = dict(arm=record['arm'], additional_steps=step, base_step=record['base_step'],
                   checkpoint_sha256=sha256(checkpoint), split='development; 13 items; no training items',
                   phone_counts=counts, metrics=metrics)
     (output / 'summary.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
@@ -195,7 +218,7 @@ def evaluate(root, step):
             writer.add_scalar('rhotic/' + key, value, step)
     parts = ['<!doctype html><html lang="uk"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">',
              '<title>Rhotic A/B evaluation</title><style>body{max-width:900px;margin:auto;padding:24px;font:18px/1.5 system-ui}audio{width:100%}</style>',
-             f'<h1>{record["arm"]}: +{step} кроків від 43K</h1><p>13 validation-записів. Автоматичні фонетичні мітки та MOS — діагностика, не оцінка людини.</p>',
+             f'<h1>{record["arm"]}: +{step} кроків від {record["base_step"]}</h1><p>13 validation-записів. Автоматичні фонетичні мітки та MOS — діагностика, не оцінка людини.</p>',
              '<pre>' + html.escape(json.dumps(metrics, indent=2)) + '</pre>']
     import base64
     for row in rows:
@@ -207,14 +230,16 @@ def evaluate(root, step):
 
 def run(root):
     # A failed stage stops the arm; checkpoint/evaluation files remain for diagnosis.
-    for epoch in range(1, 5):
+    record = json.loads((root / 'experiment.json').read_text())
+    interval = record['evaluation_interval']
+    for epoch in schedule(record['additional_steps'], interval):
         subprocess.run([sys.executable, '-m', __package__ + '.rhotic_ab', 'train',
                         '--root', str(root), '--epochs', str(epoch)], check=True)
         if epoch == 1 and (root / 'baseline_events').exists():
             import shutil
             shutil.copytree(root / 'baseline_events', root / 'train/tensorboard', dirs_exist_ok=True)
         subprocess.run([sys.executable, '-m', __package__ + '.rhotic_ab', 'evaluate',
-                        '--root', str(root), '--step', str(epoch * 500)], check=True)
+                        '--root', str(root), '--step', str(epoch * interval)], check=True)
 
 
 def smoke(root):
@@ -264,13 +289,17 @@ def main():
     p = subs.add_parser('prepare')
     for key in ['bundle', 'donor-bundle', 'checkpoint', 'voice-data', 'output']:
         p.add_argument('--' + key, type=Path, required=True)
+    p.add_argument('--arm', choices=['both', 'kept_r', 'english_r'], default='both')
+    p.add_argument('--base-step', type=int, default=43000)
+    p.add_argument('--steps', type=int, default=2000)
+    p.add_argument('--evaluation-interval', type=int, default=500)
     for command in ['train', 'evaluate', 'run', 'smoke']:
         p = subs.add_parser(command)
         p.add_argument('--root', type=Path, required=True)
         if command == 'train':
-            p.add_argument('--epochs', type=int, choices=range(1, 5), required=True)
+            p.add_argument('--epochs', type=int, required=True)
         if command == 'evaluate':
-            p.add_argument('--step', type=int, choices=range(0, 2001, 500), required=True)
+            p.add_argument('--step', type=int, required=True)
     args = parser.parse_args()
     if args.command == 'prepare': prepare(args)
     elif args.command == 'train': train(args.root, args.epochs)

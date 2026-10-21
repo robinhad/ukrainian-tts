@@ -22,6 +22,8 @@ def indexed(path):
 
 def render(root, step):
     record = json.loads((root / 'experiment.json').read_text())
+    if step <= 0 or step > record['additional_steps'] or step % record['evaluation_interval']:
+        raise ValueError('Listening step is outside the prepared schedule')
     selection = pd.read_parquet(Path(record['voice_data']) / 'dev/selection.parquet')
     texts = dict(zip(selection.utterance_id, selection.text_sanitized))
     stages = {}
@@ -100,7 +102,7 @@ def render(root, step):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True)
-    parser.add_argument('--step', type=int, default=2000, choices=range(500, 2001, 500))
+    parser.add_argument('--step', type=int, default=2000)
     args = parser.parse_args()
     render(args.root, args.step)
 

@@ -1,0 +1,114 @@
+{
+  "arm": "english_r",
+  "base_step": 0,
+  "additional_steps": 40000,
+  "seed": 777,
+  "initialization_origin": "converted English donor",
+  "batch_size": 8,
+  "evaluation_interval": 1000,
+  "fresh_optimizers": true,
+  "embedding_lr": 0.0002,
+  "backbone_lr": 2e-05,
+  "discriminator_lr": 2e-05,
+  "source_checkpoint_sha256": "5350eab343fa1e904110aa95d456a827323374d00fd9bc0f60e96081cbff39f6",
+  "initial_sha256": "2ecfa2a6eb0c4b1409407ec9f11e56ebc5d2be7dda46c38f52286c1b5ff1f435",
+  "donor_sha256": "1239197eedd70174c8762ebaf42b3c7311f9408deda1d387ed3cc6e0afae11f4",
+  "frontend_sha256": "cd2fc12fe5a3fe2d03525c19e17177c82cbb7b7a414b8500f57d3079ddb27563",
+  "only_changed_row": "r",
+  "verification": {
+    "converted_donor_non_normalizer_tensors_unchanged_before_r_override": true,
+    "normalizer_buffers": [
+      "energy_normalize.mean",
+      "energy_normalize.std",
+      "normalize.mean",
+      "normalize.std",
+      "pitch_normalize.mean",
+      "pitch_normalize.std"
+    ],
+    "changed_embedding_rows": [
+      12
+    ],
+    "r_equals_original_english_R": true,
+    "r_l_cosine": -0.004559209570288658
+  },
+  "mapping_override": {
+    "target_token": "r",
+    "source_token": "R",
+    "source_ipa": "ɹ",
+    "previous_source_token": "L",
+    "method": "explicit rhotic initialization experiment",
+    "remaining_rows": "unchanged original converted donor mapping"
+  },
+  "smoke": {
+    "arm": "english_r",
+    "losses": [
+      135.87918090820312,
+      2.255495071411133
+    ],
+    "learning_rates": [
+      2e-05,
+      0.0002,
+      2e-05
+    ],
+    "optimizer_steps": [
+      [
+        1
+      ],
+      [
+        1
+      ]
+    ],
+    "embedding_updated": true,
+    "initial_checkpoint_unchanged": true,
+    "disposable_model": true,
+    "model_saved": false
+  },
+  "baseline": {
+    "arm": "english_r",
+    "additional_steps": 0,
+    "base_step": 0,
+    "checkpoint_sha256": "2ecfa2a6eb0c4b1409407ec9f11e56ebc5d2be7dda46c38f52286c1b5ff1f435",
+    "split": "development; 13 items; no training items",
+    "phone_counts": {
+      "synthesis": {
+        "files": 13,
+        "r_counts": {
+          "ɹ": 20,
+          "ə": 1,
+          "oː": 2,
+          "<deleted>": 2,
+          "ɪ": 1,
+          "ɛ": 1,
+          "uː": 1,
+          "eɪ": 1,
+          "i": 1
+        },
+        "l_counts": {
+          "l": 14
+        }
+      },
+      "reference": {
+        "files": 13,
+        "r_counts": {
+          "r": 29,
+          "rʲ": 1
+        },
+        "l_counts": {
+          "l": 14
+        }
+      }
+    },
+    "metrics": {
+      "synthesis_r_exact_rate": 0.0,
+      "synthesis_r_as_l_rate": 0.0,
+      "synthesis_l_exact_rate": 1.0,
+      "reference_r_exact_rate": 0.9666666666666667,
+      "reference_r_as_l_rate": 0.0,
+      "reference_l_exact_rate": 1.0,
+      "synthesis_sigmos_overall_median": 3.6822597980499268,
+      "synthesis_audiobox_pq_median": 7.068925380706787,
+      "reference_sigmos_overall_median": 3.381923198699951,
+      "reference_audiobox_pq_median": 7.757023811340332
+    }
+  }
+}

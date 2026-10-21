@@ -1,9 +1,11 @@
 import copy
+import json
 
+import pytest
 import torch
 
 from training.transfer.convert import EMBEDDING
-from training.transfer.rhotic_ab import initialize, regroup_optimizer
+from training.transfer.rhotic_ab import initialize, regroup_optimizer, run, schedule
 from training.transfer.monitor import snapshot
 
 
@@ -46,3 +48,24 @@ def test_monitor_500_step_epochs(tmp_path):
     log = tmp_path / 'train.log'
     log.write_text('2026-10-21 00:00:00,000 INFO: 3epoch:train:1-10batch: train_time=0.9\n')
     assert snapshot(log, 2000, 500)['completed_steps'] == 1010
+
+
+@pytest.mark.parametrize('steps,interval', [(2000, 500), (40000, 1000)])
+def test_runner_respects_prepared_schedule(tmp_path, monkeypatch, steps, interval):
+    (tmp_path / 'experiment.json').write_text(json.dumps({
+        'additional_steps': steps, 'evaluation_interval': interval}))
+    calls = []
+    monkeypatch.setattr('training.transfer.rhotic_ab.subprocess.run',
+                        lambda command, check: calls.append(command))
+    run(tmp_path)
+    assert len(calls) == 2 * steps // interval
+    for epoch in schedule(steps, interval):
+        train, evaluate = calls[2 * (epoch - 1):2 * epoch]
+        assert train[3] == 'train' and train[-2:] == ['--epochs', str(epoch)]
+        assert evaluate[3] == 'evaluate' and evaluate[-2:] == ['--step', str(epoch * interval)]
+
+
+@pytest.mark.parametrize('steps,interval', [(0, 500), (2000, 0), (2001, 500)])
+def test_reject_incomplete_schedule(steps, interval):
+    with pytest.raises(ValueError):
+        schedule(steps, interval)
